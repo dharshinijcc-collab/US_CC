@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useScrollReveal from './useScrollReveal';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import StudioPage from './StudioPage';
@@ -8,6 +8,9 @@ import ContactPage from './ContactPage';
 import PrivacyPolicyPage from './PrivacyPolicyPage';
 import TermsOfUsePage from './TermsOfUsePage';
 import Footer from './components/Footer';
+import { BuilderComponent, builder } from '@builder.io/react';
+import './builder-settings';
+
 
 // Effects & Hooks
 import useCountUp from './hooks/useCountUp';
@@ -37,10 +40,21 @@ export default function App() {
 }
 
 function LandingPage() {
+  const [builderContentJson, setBuilderContentJson] = useState(null);
+
   const [idea, setIdea] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [formMessage, setFormMessage] = useState('');
   const [messageType, setMessageType] = useState('');
+  
+  // Try to fetch builder content
+  React.useEffect(() => {
+    async function fetchContent() {
+      const content = await builder.get('page', { url: window.location.pathname }).promise();
+      setBuilderContentJson(content);
+    }
+    fetchContent();
+  }, []);
   
   useScrollReveal();
 
@@ -492,6 +506,10 @@ function LandingPage() {
             <button className="btn-primary btn-nav" style={{backgroundColor: 'var(--primary-blue)', color: 'var(--white)'}}>Enquire</button>
           </nav>
         </div>
+
+        {/* Builder.io Content Area - CEO can add sections here visually */}
+        <BuilderComponent model="page" content={builderContentJson} />
+
 
         <header className="hero-section" style={{ position: 'relative', paddingTop: '160px', paddingBottom: '80px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <h1 style={{ fontSize: '3.5rem', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}>
