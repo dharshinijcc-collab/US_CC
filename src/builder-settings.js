@@ -1,7 +1,9 @@
 import { builder, Builder } from '@builder.io/react';
 
-// Replace with your actual Public API Key from Builder.io
-builder.init('YOUR_PUBLIC_API_KEY');
+// Securely initialize Builder with your Public API Key
+const BUILDER_API_KEY = process.env.REACT_APP_BUILDER_PUBLIC_KEY || 'YOUR_PUBLIC_API_KEY';
+builder.init(BUILDER_API_KEY);
+
 
 // Custom Components registration
 // This allows your CEO to drag and drop these sections in the Builder.io editor
