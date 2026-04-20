@@ -4,7 +4,6 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 // Effects & Hooks
-import TextReveal from './components/effects/TextReveal';
 import GrainOverlay from './components/effects/GrainOverlay';
 import useMagneticHover from './hooks/useMagneticHover';
 import BorderBeam from './components/effects/BorderBeam';
@@ -23,7 +22,6 @@ export default function ContactPage() {
     setFormData({ ...formData, serviceInterest: service });
   };
   useScrollReveal();
-  const magBtn = useMagneticHover(15);
 
   const handleSubmit = (e) => {
     e.preventDefault();

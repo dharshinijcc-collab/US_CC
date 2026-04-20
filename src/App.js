@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import useScrollReveal from './useScrollReveal';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import StudioPage from './StudioPage';
@@ -16,12 +16,8 @@ import './builder-settings';
 import useCountUp from './hooks/useCountUp';
 import useMagneticHover from './hooks/useMagneticHover';
 
-import ParticleField from './components/effects/ParticleField';
 import SpotlightCursor from './components/effects/SpotlightCursor';
-import TextReveal from './components/effects/TextReveal';
-import TypewriterText from './components/effects/TypewriterText';
 import BorderBeam from './components/effects/BorderBeam';
-import GrainOverlay from './components/effects/GrainOverlay';
 
 export default function App() {
   const location = useLocation();
@@ -55,12 +51,8 @@ function LandingPage() {
     }
     fetchContent();
   }, []);
-  
   useScrollReveal();
 
-  const magBtn1 = useMagneticHover(15);
-  const magBtn2 = useMagneticHover(15);
-  const magBtn3 = useMagneticHover(15);
 
   const statsRef1 = useCountUp(12000, 2000);
   const statsRef2 = useCountUp(450, 2000);

@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-// Effects & Hooks
-
 export default function StudioPage() {
-  const [idea, setIdea] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [formMessage, setFormMessage] = useState('');
-  const [messageType, setMessageType] = useState('');
-
   // 1. State for the 3D Card Stack Carousel
   const [activeStackIndex, setActiveStackIndex] = useState(0);
   // 2. Data array for the Stacked Cards (Exactly matching the text and white styling from your image)
@@ -59,28 +52,8 @@ export default function StudioPage() {
     setActiveStackIndex((prevIndex) => (prevIndex + 1) % stackCards.length);
   };
 
-  const handleIdeaSubmit = async (e) => {
-    e.preventDefault();
-    if (!idea || idea.trim().length < 10) {
-      setFormMessage('Please tell us about your idea (at least 10 characters)');
-      setMessageType('error');
-      return;
-    }
-    setIsLoading(true);
-    setFormMessage('');
-    try {
-      setTimeout(() => {
-        setFormMessage('Thanks for sharing! Our team will review your idea.');
-        setMessageType('success');
-        setIdea('');
-        setIsLoading(false);
-      }, 1000);
-    } catch (error) {
-      setFormMessage('Network error. Please try again later.');
-      setMessageType('error');
-      setIsLoading(false);
-    }
-  };
+
+
 
   return (
     <>
@@ -802,7 +775,6 @@ export default function StudioPage() {
                   <div style={{ position: 'relative', width: '280px', height: '300px' }}>
                     {stackCards.map((card, index) => {
                       const isActive = index === activeStackIndex;
-                      const isPassed = index < activeStackIndex;
                       const isFuture = index > activeStackIndex;
                       
                       let transform = '';
