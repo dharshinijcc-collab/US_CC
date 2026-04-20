@@ -5,8 +5,8 @@ import Footer from './components/Footer';
 
 // Effects & Hooks
 import GrainOverlay from './components/effects/GrainOverlay';
-import useMagneticHover from './hooks/useMagneticHover';
 import BorderBeam from './components/effects/BorderBeam';
+
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({

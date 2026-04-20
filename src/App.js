@@ -14,7 +14,7 @@ import './builder-settings';
 
 // Effects & Hooks
 import useCountUp from './hooks/useCountUp';
-import useMagneticHover from './hooks/useMagneticHover';
+
 
 import SpotlightCursor from './components/effects/SpotlightCursor';
 import BorderBeam from './components/effects/BorderBeam';
