@@ -1,8 +1,7 @@
 import { builder, Builder } from '@builder.io/react';
 
-// Securely initialize Builder with your Public API Key
-const BUILDER_API_KEY = process.env.REACT_APP_BUILDER_PUBLIC_KEY || 'YOUR_PUBLIC_API_KEY';
-builder.init(BUILDER_API_KEY);
+// Replace with your actual Public API Key from Builder.io
+builder.init(process.env.REACT_APP_BUILDER_PUBLIC_KEY || 'YOUR_PUBLIC_API_KEY');
 
 
 // Custom Components registration
