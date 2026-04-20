@@ -232,7 +232,7 @@ export default function ContactPage() {
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 
         /* Hero Section */
-        .hero-section { padding-top: clamp(120px, 12vw, 160px); background-color: var(--bg-base); position: relative; }
+        .hero-section { padding-top: clamp(80px, 8vw, 120px); background-color: var(--bg-base); position: relative; }
         .hero-image-wrap {
           border-radius: 24px;
           overflow: hidden;
@@ -542,7 +542,7 @@ export default function ContactPage() {
           <div className="section-container grid-2 pb-0" style={{ position: 'relative', zIndex: 1 }}>
             <div>
               <div className="hero-eyebrow-pill cc-reveal">CONTACT OUR EXPERTS</div>
-              <TextReveal className="hero-title cc-reveal" text="Let's Build Your Next Product" />
+              <h1 className="hero-title">Let's Build Your Next Product</h1>
               <p className="body-text cc-reveal cc-delay-2" style={{maxWidth: '480px', marginBottom: '40px'}}>
                 Partner with our venture studio to transform your vision into a market-ready digital reality through expert engineering and strategic design.
               </p>
@@ -560,7 +560,7 @@ export default function ContactPage() {
             
             {/* Left Column: Services */}
             <div>
-              <h2 className="section-title cc-slide-left" style={{fontSize: 'clamp(1.75rem, 3vw, 2.25rem)'}}>How can we help?</h2>
+              <h2 className="section-title cc-slide-left" style={{fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', marginTop: 0}}>How can we help?</h2>
               <p className="body-text cc-slide-left cc-delay-1">Select an area of interest to see how we specialize in driving your success.</p>
               
               <div className="services-list">

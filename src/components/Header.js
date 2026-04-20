@@ -224,6 +224,8 @@ export default function Header({ currentPage }) {
                 <Link to="/careers" className="dropdown-item">Careers</Link>
                 <Link to="/faq" className="dropdown-item">FAQ</Link>
                 <Link to="/contact" className="dropdown-item">Contact</Link>
+                <Link to="/privacy" className="dropdown-item">Privacy Policy</Link>
+                <Link to="/terms" className="dropdown-item">Terms of Use</Link>
               </div>
             </div>
           </div>

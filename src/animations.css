@@ -107,37 +107,19 @@
 
 /* ── Scroll-Reveal Base ─────────────────────────────────── */
 .cc-reveal {
-  opacity: 0;
-  transform: translateY(40px) scale(0.97);
-  transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1),
-              transform 0.7s cubic-bezier(0.4,0,0.2,1);
-  will-change: opacity, transform;
+  opacity: 1;
+  transform: none;
 }
 .cc-reveal.cc-visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: none;
 }
-.cc-reveal-left {
-  opacity: 0;
-  transform: translateX(-50px);
-  transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1),
-              transform 0.7s cubic-bezier(0.4,0,0.2,1);
-}
-.cc-reveal-left.cc-visible { opacity: 1; transform: translateX(0); }
-.cc-reveal-right {
-  opacity: 0;
-  transform: translateX(50px);
-  transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1),
-              transform 0.7s cubic-bezier(0.4,0,0.2,1);
-}
-.cc-reveal-right.cc-visible { opacity: 1; transform: translateX(0); }
-.cc-reveal-scale {
-  opacity: 0;
-  transform: scale(0.85);
-  transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1),
-              transform 0.6s cubic-bezier(0.4,0,0.2,1);
-}
-.cc-reveal-scale.cc-visible { opacity: 1; transform: scale(1); }
+.cc-reveal-left { opacity: 1; transform: none; }
+.cc-reveal-left.cc-visible { opacity: 1; transform: none; }
+.cc-reveal-right { opacity: 1; transform: none; }
+.cc-reveal-right.cc-visible { opacity: 1; transform: none; }
+.cc-reveal-scale { opacity: 1; transform: none; }
+.cc-reveal-scale.cc-visible { opacity: 1; transform: none; }
 
 /* Stagger delays */
 .cc-delay-1 { transition-delay: 0.1s !important; }
@@ -157,60 +139,20 @@
 */
 
 /* Slides in from the LEFT */
-.cc-slide-left {
-  opacity: 0;
-  transform: translateX(-110px) translateY(20px) scale(0.94);
-  transition:
-    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
-}
-.cc-slide-left.cc-visible {
-  opacity: 1;
-  transform: translateX(0) translateY(0) scale(1);
-}
+.cc-slide-left { opacity: 1; transform: none; }
+.cc-slide-left.cc-visible { opacity: 1; transform: none; }
 
 /* Slides in from the RIGHT */
-.cc-slide-right {
-  opacity: 0;
-  transform: translateX(110px) translateY(20px) scale(0.94);
-  transition:
-    opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
-}
-.cc-slide-right.cc-visible {
-  opacity: 1;
-  transform: translateX(0) translateY(0) scale(1);
-}
+.cc-slide-right { opacity: 1; transform: none; }
+.cc-slide-right.cc-visible { opacity: 1; transform: none; }
 
-/* Center / middle card — gentle upward reveal with slight scale pop */
-.cc-slide-center {
-  opacity: 0;
-  transform: translateY(50px) scale(0.93);
-  transition:
-    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
-}
-.cc-slide-center.cc-visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
+/* Center card */
+.cc-slide-center { opacity: 1; transform: none; }
+.cc-slide-center.cc-visible { opacity: 1; transform: none; }
 
-/* Gentle upward slide — inner cards in 4-col grids */
-.cc-slide-up-sm {
-  opacity: 0;
-  transform: translateY(40px) scale(0.95);
-  transition:
-    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
-}
-.cc-slide-up-sm.cc-visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
+/* Gentle upward slide */
+.cc-slide-up-sm { opacity: 1; transform: none; }
+.cc-slide-up-sm.cc-visible { opacity: 1; transform: none; }
 
 /* ── 3D Card Effect ─────────────────────────────────────── */
 
@@ -296,17 +238,8 @@
 }
 
 /* ── Blur Reveal ────────────────────────────────────────── */
-.cc-blur-reveal {
-  opacity: 0;
-  filter: blur(8px);
-  transform: translateY(10px);
-  transition: opacity 0.8s ease, filter 0.8s ease, transform 0.8s ease;
-}
-.cc-blur-reveal.cc-visible {
-  opacity: 1;
-  filter: blur(0px);
-  transform: translateY(0);
-}
+.cc-blur-reveal { opacity: 1; filter: none; transform: none; }
+.cc-blur-reveal.cc-visible { opacity: 1; filter: none; transform: none; }
 
 /* ── Progress Bar ───────────────────────────────────────── */
 .cc-progress-bar {
@@ -416,15 +349,8 @@
 }
 
 /* ── Number counter reveal ──────────────────────────────── */
-.cc-stat-reveal {
-  opacity: 0;
-  transition: opacity 0.6s ease, transform 0.6s ease;
-  transform: translateY(20px);
-}
-.cc-stat-reveal.cc-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.cc-stat-reveal { opacity: 1; transform: none; }
+.cc-stat-reveal.cc-visible { opacity: 1; transform: none; }
 
 /* ── Particle dots background ───────────────────────────── */
 .cc-dots-bg {

@@ -356,20 +356,23 @@ export default function StudioPage() {
         }
         .card:hover { 
           transform: perspective(900px) rotateX(-3deg) rotateY(3deg) translateY(-10px);
-          box-shadow: 0 30px 60px -15px rgba(0,0,0,0.13), 0 0 0 1px rgba(0,90,226,0.07);
+          box-shadow: 0 20px 40px -10px rgba(0,0,0,0.4);
+          background-color: var(--bg-dark); 
+          color: var(--white); 
+          border: 1px solid var(--border-dark); 
         }
-        .card-dark { background-color: var(--bg-dark); color: var(--white); border: 1px solid var(--border-dark); }
-        .card-dark:hover { box-shadow: 0 20px 40px -10px rgba(0,0,0,0.4); }
 
-        .card-title { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 800; margin-bottom: 16px; letter-spacing: -0.02em; color: var(--text-black); }
-        .card-dark .card-title { color: var(--white); }
-        .card-desc { font-size: clamp(0.9rem, 1.5vw, 1rem); color: var(--text-muted); line-height: 1.6; margin-bottom: 32px; font-weight: 500; flex-grow: 1; }
-        .card-dark .card-desc { color: #9CA3AF; }
+        .card-title { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 800; margin-bottom: 16px; letter-spacing: -0.02em; color: var(--text-black); transition: color 0.3s;}
+        .card:hover .card-title { color: var(--white); }
+        
+        .card-desc { font-size: clamp(0.9rem, 1.5vw, 1rem); color: var(--text-muted); line-height: 1.6; margin-bottom: 32px; font-weight: 500; flex-grow: 1; transition: color 0.3s;}
+        .card:hover .card-desc { color: #9CA3AF; }
 
-        .icon-circle { width: 48px; height: 48px; border-radius: 12px; background-color: #F0F5FF; color: var(--primary-blue); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
-        .card-dark .icon-circle { background-color: var(--primary-blue); color: var(--white); }
-        .card-link { font-weight: 800; font-size: 0.875rem; color: var(--primary-blue); text-decoration: none; display: inline-flex; align-items: center; gap: 8px;}
-        .card-dark .card-link { color: var(--accent-cyan); }
+        .icon-circle { width: 48px; height: 48px; border-radius: 12px; background-color: #F0F5FF; color: var(--primary-blue); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; transition: background-color 0.3s, color 0.3s;}
+        .card:hover .icon-circle { background-color: var(--primary-blue); color: var(--white); }
+        
+        .card-link { font-weight: 800; font-size: 0.875rem; color: var(--primary-blue); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: color 0.3s;}
+        .card:hover .card-link { color: var(--accent-cyan); }
 
         /* Lists */
         .check-list { list-style: none; padding: 0; margin: 0 0 32px 0; }
@@ -761,7 +764,7 @@ export default function StudioPage() {
                 <button className="card-link" style={{background: 'none', border: 'none', padding: 0, color: 'var(--primary-blue)', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none'}}>Learn more →</button>
               </div>
 
-              <div className="card card-dark" style={{padding: '40px 32px'}}>
+              <div className="card" style={{padding: '40px 32px'}}>
                 <div className="icon-circle">3</div>
                 <h3 className="card-title" style={{fontSize: '1.25rem'}}>Full Build</h3>
                 <p className="card-desc" style={{fontSize: '0.9rem'}}>

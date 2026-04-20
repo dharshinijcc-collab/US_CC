@@ -7,6 +7,7 @@ import FaqPage from './FaqPage';
 import ContactPage from './ContactPage';
 import PrivacyPolicyPage from './PrivacyPolicyPage';
 import TermsOfUsePage from './TermsOfUsePage';
+import Footer from './components/Footer';
 
 // Effects & Hooks
 import useCountUp from './hooks/useCountUp';
@@ -329,18 +330,32 @@ function LandingPage() {
         .features-grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
 
         /* System Cards */
-        .sys-card { background-color: var(--bg-light); border: 1px solid var(--border-light); padding: 48px 40px; border-radius: 24px; transition: transform 0.2s, box-shadow 0.2s; }
-        .sys-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.05); }
-        .sys-card-small { background-color: var(--bg-light); border: 1px solid var(--border-light); padding: 40px 32px; border-radius: 24px; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
-        .sys-card-small:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.05); }
+        .sys-card { background-color: var(--bg-light); border: 1px solid var(--border-light); padding: 48px 40px; border-radius: 24px; transition: all 0.3s ease; }
+        .sys-card:hover { transform: perspective(900px) rotateX(-3deg) rotateY(3deg) translateY(-10px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.4); background-color: var(--bg-dark); color: var(--white); border-color: var(--border-dark); }
+        .sys-card-small { background-color: var(--bg-light); border: 1px solid var(--border-light); padding: 40px 32px; border-radius: 24px; display: flex; flex-direction: column; transition: all 0.3s ease; }
+        .sys-card-small:hover { transform: perspective(900px) rotateX(-3deg) rotateY(3deg) translateY(-10px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.4); background-color: var(--bg-dark); color: var(--white); border-color: var(--border-dark); }
 
         /* Target Audience Elements */
-        .card-icon { width: 56px; height: 56px; background-color: var(--white); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .card-title { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 800; margin-bottom: 16px; color: var(--text-black); letter-spacing: -0.02em; }
-        .card-description { color: var(--text-muted); font-size: clamp(0.9rem, 1.5vw, 1rem); line-height: 1.6; font-weight: 500; margin-bottom: 32px; min-height: 80px; }
+        .card-icon { width: 56px; height: 56px; background-color: var(--white); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 24px; transition: all 0.3s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .sys-card:hover .card-icon { background-color: var(--primary-blue); color: var(--white); }
+        .card-title { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 800; margin-bottom: 16px; color: var(--text-black); letter-spacing: -0.02em; transition: color 0.3s; }
+        .sys-card:hover .card-title { color: var(--white); }
+        .card-description { color: var(--text-muted); font-size: clamp(0.9rem, 1.5vw, 1rem); line-height: 1.6; font-weight: 500; margin-bottom: 32px; min-height: 80px; transition: color 0.3s; }
+        .sys-card:hover .card-description { color: #9CA3AF; }
         .card-features { list-style: none; padding: 0; margin: 0; }
-        .card-features li { display: flex; align-items: center; font-size: clamp(0.9rem, 1.5vw, 1rem); color: var(--text-main); font-weight: 700; margin-bottom: 12px; }
+        .card-features li { display: flex; align-items: center; font-size: clamp(0.9rem, 1.5vw, 1rem); color: var(--text-main); font-weight: 700; margin-bottom: 12px; transition: color 0.3s; }
+        .sys-card:hover .card-features li { color: var(--white); }
         .check-icon { color: var(--primary-blue); margin-right: 12px; font-weight: 800; font-size: 1.2rem; }
+        
+        /* sys-card-small inner hovers */
+        .f-card-icon { transition: all 0.3s; }
+        .sys-card-small:hover .f-card-icon { background-color: var(--primary-blue); color: var(--white); }
+        .f-card-title { transition: color 0.3s; }
+        .sys-card-small:hover .f-card-title { color: var(--white); }
+        .f-card-highlight { transition: color 0.3s; }
+        .sys-card-small:hover .f-card-highlight { color: var(--accent-cyan); }
+        .f-card-desc { transition: color 0.3s; }
+        .sys-card-small:hover .f-card-desc { color: #9CA3AF; }
 
         /* Dark Section Content */
         .dark-grid { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; margin-bottom: 80px; }
@@ -374,19 +389,25 @@ function LandingPage() {
         /* 6-Step Process - Original Design Exact Match */
         .process-wrapper { position: relative; margin-top: 64px; }
         .process-line { position: absolute; top: 24px; left: 8%; right: 8%; height: 1px; border-top: 1px dashed #F3D5C5; z-index: 0; }
-        .process-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 24px; position: relative; z-index: 1; text-align: left; }
+        .process-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 24px; position: relative; z-index: 1; text-align: center; }
         @media(min-width: 768px) { .process-grid { grid-template-columns: repeat(6, 1fr); } }
-        .process-step { display: flex; flex-direction: column; align-items: flex-start; }
+        .process-step { display: flex; flex-direction: column; align-items: center; }
         .step-icon-peach { width: 48px; height: 48px; background-color: var(--peach-bg); border: 1px solid var(--peach-border); color: var(--primary-blue); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
         .step-title { font-weight: 800; font-size: clamp(0.8125rem, 1.5vw, 0.875rem); margin-bottom: 8px; color: var(--text-black); line-height: 1.2;}
         .step-desc { color: var(--text-muted); font-size: clamp(0.75rem, 1.25vw, 0.8125rem); line-height: 1.6; font-weight: 500; }
 
         /* Testimonials */
-        .t-quote { font-style: italic; color: var(--text-muted); font-size: clamp(0.95rem, 2vw, 1.125rem); line-height: 1.6; font-weight: 500; margin-bottom: 40px; flex-grow: 1; }
+        .t-quote { font-style: italic; color: var(--text-muted); font-size: clamp(0.95rem, 2vw, 1.125rem); line-height: 1.6; font-weight: 500; margin-bottom: 40px; flex-grow: 1; transition: color 0.3s; }
+        .sys-card-small:hover .t-quote { color: #9CA3AF; }
+        
         .t-box-author { display: flex; align-items: center; gap: 16px; }
         .t-avatar-light { width: 40px; height: 40px; background-color: var(--border-light); border-radius: 100px; }
-        .t-name-light { font-weight: 800; font-size: clamp(0.875rem, 1.5vw, 1rem); color: var(--text-black); }
-        .t-role-light { color: var(--text-muted); font-size: clamp(0.6875rem, 1vw, 0.8125rem); font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-top: 4px; }
+        
+        .t-name-light { font-weight: 800; font-size: clamp(0.875rem, 1.5vw, 1rem); color: var(--text-black); transition: color 0.3s; }
+        .sys-card-small:hover .t-name-light { color: var(--white); }
+        
+        .t-role-light { color: var(--text-muted); font-size: clamp(0.6875rem, 1vw, 0.8125rem); font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-top: 4px; transition: color 0.3s; }
+        .sys-card-small:hover .t-role-light { color: #9CA3AF; }
 
         /* Founder Quote Box */
         .founder-quote-card { background-color: #F8FAFC; border-radius: 24px; padding: clamp(40px, 6vw, 64px); display: flex; align-items: center; gap: clamp(32px, 5vw, 64px); border: 1px solid #E2E8F0; max-width: 1000px; margin: 64px auto 0; }
@@ -542,7 +563,7 @@ function LandingPage() {
             <p className="section-subtitle text-center cc-reveal cc-delay-2">Using AI to deliver faster.</p>
             
             <div className="cards-grid">
-              <div className="sys-card cc-slide-left cc-delay-1 cc-shine">
+              <div className="sys-card cc-shine">
                 <div className="card-icon">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 </div>
@@ -553,7 +574,7 @@ function LandingPage() {
                   <li><span className="check-icon">&#x2713;</span> Strategic Product Roadmap</li>
                 </ul>
               </div>
-              <div className="sys-card cc-slide-center cc-delay-2 cc-shine">
+              <div className="sys-card cc-shine">
                 <div className="card-icon">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
                 </div>
@@ -564,7 +585,7 @@ function LandingPage() {
                   <li><span className="check-icon">&#x2713;</span> Legacy Modernization</li>
                 </ul>
               </div>
-              <div className="sys-card cc-slide-right cc-delay-3 cc-shine">
+              <div className="sys-card cc-shine">
                 <div className="card-icon">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 1 7 7c0 2-1 3.9-2 5.5-.5.8-1.5 1.5-1.5 2.5v1H8.5v-1c0-1-1-1.7-1.5-2.5C6 12.9 5 11 5 9a7 7 0 0 1 7-7z"></path></svg>
                 </div>
@@ -628,19 +649,27 @@ function LandingPage() {
 
             <div className="stats-row">
               <div className="stat-item">
-                <div ref={statsRef1.ref} className="stat-num">{statsRef1.displayValue || '12k+'}</div>
+                <div ref={statsRef1.ref} className="stat-num">
+                  {statsRef1.displayValue !== null ? statsRef1.displayValue : '0'}
+                </div>
                 <div className="stat-label">HOURS AUTOMATED</div>
               </div>
-              <div className="stat-item cc-reveal cc-delay-2">
-                <div ref={statsRef2.ref} className="stat-num text-accent">${statsRef2.displayValue || '450'}M</div>
+              <div className="stat-item">
+                <div ref={statsRef2.ref} className="stat-num text-accent">
+                  ${statsRef2.displayValue !== null ? statsRef2.displayValue : '0'}M
+                </div>
                 <div className="stat-label">VALUE DELIVERED</div>
               </div>
-              <div className="stat-item cc-reveal cc-delay-3">
-                <div ref={statsRef3.ref} className="stat-num">{statsRef3.displayValue || '3.5'}x</div>
+              <div className="stat-item">
+                <div ref={statsRef3.ref} className="stat-num">
+                  {statsRef3.displayValue !== null ? statsRef3.displayValue : '0'}x
+                </div>
                 <div className="stat-label">FASTER TO MARKET</div>
               </div>
-              <div className="stat-item cc-reveal cc-delay-4">
-                <div ref={statsRef4.ref} className="stat-num">{statsRef4.displayValue || '42'}</div>
+              <div className="stat-item">
+                <div ref={statsRef4.ref} className="stat-num">
+                  {statsRef4.displayValue !== null ? statsRef4.displayValue : '0'}
+                </div>
                 <div className="stat-label">PRODUCTS LAUNCHED</div>
               </div>
             </div>
@@ -650,13 +679,13 @@ function LandingPage() {
         {/* How We Make It Happen */}
         <section className="section-light">
           <div className="section-container">
-            <TextReveal as="h2" className="section-title" text="How We Make It Happen" />
-            <p className="section-subtitle cc-reveal" style={{margin: '0 0 clamp(32px, 5vw, 48px) 0', maxWidth: '800px', textAlign: 'left'}}>
+            <h2 className="section-title">How We Make It Happen</h2>
+            <p className="section-subtitle" style={{margin: '0 0 clamp(32px, 5vw, 48px) 0', maxWidth: '800px', textAlign: 'left'}}>
               We don't just execute tasks — we become your product build partner. With senior product thinking, in-house delivery, and proven systems, we help you move from idea to launch with less risk, less delay, and far more clarity.
             </p>
 
             <div className="features-grid-4">
-              <div className="sys-card-small cc-slide-left cc-delay-1 cc-shine">
+              <div className="sys-card-small cc-shine">
                 <div className="f-card-icon primary-bg">&#x39b;</div>
                 <h4 className="f-card-title">Deep Product &<br/>Development<br/>Expertise</h4>
                 <p className="f-card-highlight">Built by Product Minds, Not Just Coders</p>
@@ -670,7 +699,7 @@ function LandingPage() {
                 <p className="f-card-highlight">Proven Methods. Faster Decisions.</p>
                 <p className="f-card-desc">We use reusable frameworks and tested workflows to speed up execution. We don't reinvent the wheel; we optimize the journey.</p>
               </div>
-              <div className="sys-card-small cc-slide-up-sm cc-delay-3 cc-shine">
+              <div className="sys-card-small cc-shine">
                 <div className="f-card-icon primary-bg">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>
                 </div>
@@ -678,7 +707,7 @@ function LandingPage() {
                 <p className="f-card-highlight">From Ideation to Launch — All in One Place</p>
                 <p className="f-card-desc">Strategy, UX, UI, and dev handled in-house with no fragmented handoffs. Total alignment from day one to launch.</p>
               </div>
-              <div className="sys-card-small cc-slide-right cc-delay-4 cc-shine">
+              <div className="sys-card-small cc-shine">
                 <div className="f-card-icon primary-bg">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                 </div>
@@ -693,7 +722,7 @@ function LandingPage() {
         {/* 6-Step Venture Process Section */}
         <section className="section-grey border-y text-center">
           <div className="section-container">
-            <TextReveal as="h2" className="section-title" text="The 6-Step Venture Process" />
+            <h2 className="section-title text-center">The 6-Step Venture Process</h2>
             <p className="section-subtitle text-center cc-reveal cc-delay-1">A rigorous methodology designed to de-risk startups and accelerate the path to Product-Market Fit.</p>
 
             <div className="process-wrapper">
@@ -724,7 +753,7 @@ function LandingPage() {
             <h2 className="section-title text-center cc-reveal" style={{marginBottom: 'clamp(40px, 6vw, 80px)'}}>The Verdict from Visionaries</h2>
             
             <div className="cards-grid-2">
-              <div className="sys-card-small cc-slide-left cc-delay-1 cc-card-3d cc-shine">
+              <div className="sys-card-small cc-shine">
                 <p className="t-quote">"Crestcode transformed our vague concept into a market-ready platform in under 4 months. Their strategic clarity and technical speed are unmatched."</p>
                 <div className="t-box-author">
                   <div className="t-avatar-light"></div>
@@ -734,7 +763,7 @@ function LandingPage() {
                   </div>
                 </div>
               </div>
-              <div className="sys-card-small cc-slide-right cc-delay-2 cc-card-3d cc-shine">
+              <div className="sys-card-small cc-shine">
                 <p className="t-quote">"They don't just build what you ask for; they build what you actually need to scale. A true partner in every sense of the word."</p>
                 <div className="t-box-author">
                   <div className="t-avatar-light"></div>
@@ -777,37 +806,8 @@ function LandingPage() {
         </section>
 
         {/* Footer */}
-        <footer className="footer">
-          <div className="footer-container">
-            <div>
-              <div className="footer-logo">Crestcode USA</div>
-              <p className="footer-tagline">Building the next generation of digital products and ventures.</p>
-            </div>
-            <div className="footer-links-group">
-              <h5 className="footer-heading">Company</h5>
-              <ul>
-                <li><a href="#about">About Us</a></li>
-                <li><a href="#careers">Careers</a></li>
-                <li><a href="#contact">Contact</a></li>
-              </ul>
-            </div>
-            <div className="footer-links-group">
-              <h5 className="footer-heading">Services</h5>
-              <ul>
-                <li><a href="#mvp">MVP Development</a></li>
-                <li><a href="#design">Product Design</a></li>
-                <li><a href="#consulting">Technical Consulting</a></li>
-              </ul>
-            </div>
-            <div className="footer-links-group">
-               <h5 className="footer-heading">Connect</h5>
-               <div className="social-icons">
-                  <div className="social-icon">in</div>
-                  <div className="social-icon">X</div>
-               </div>
-            </div>
-          </div>
-        </footer>
+        {/* Footer */}
+        <Footer />
       </div>
     </>
   );

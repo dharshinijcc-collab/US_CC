@@ -16,6 +16,11 @@ export default function useScrollReveal() {
       '.cc-reveal-right',
       '.cc-reveal-scale',
       '.cc-stat-reveal',
+      '.cc-slide-left',
+      '.cc-slide-right',
+      '.cc-slide-center',
+      '.cc-slide-up-sm',
+      '.cc-blur-reveal',
     ];
 
     const elements = document.querySelectorAll(revealClasses.join(','));

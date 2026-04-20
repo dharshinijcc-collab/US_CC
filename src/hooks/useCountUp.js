@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from 'react';
  */
 export default function useCountUp(target, duration = 1800) {
   const ref = useRef(null);
-  const [displayValue, setDisplayValue] = useState(0);
+  const [displayValue, setDisplayValue] = useState(null);
   const animated = useRef(false);
 
   useEffect(() => {
