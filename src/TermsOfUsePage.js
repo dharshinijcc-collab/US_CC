@@ -2,10 +2,8 @@ import React from 'react';
 import useScrollReveal from './useScrollReveal';
 import { Link } from 'react-router-dom';
 
-// Effects & Hooks
-
-
-
+import GrainOverlay from './components/effects/GrainOverlay';
+import TextReveal from './components/effects/TextReveal';
 export default function TermsOfUsePage() {
   useScrollReveal();
   return (
