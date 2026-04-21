@@ -6,37 +6,45 @@ export default function StudioPage() {
   const [activeStackIndex, setActiveStackIndex] = useState(0);
   // 2. Data array for the Stacked Cards (Exactly matching the text and white styling from your image)
   const stackCards = [
-    { 
-      id: 0, 
-      title: "1. Building Before Validation", 
+    {
+      id: 0,
+      title: "1. Building Before Validation",
       problemDesc: "We identify high-potential opportunities, validate them through strategy and market fit, and build scalable ventures with the right product, team, and capital.",
       solutionDesc: "Crestcode validates ideas before development begins, tests demand and feasibility early, aligns the solution with real market needs, and ensures execution starts with confidence, not guesswork.",
       icon: <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.989-2.386l-.548-.547z" /></svg>,
       color: "#FF8EBB"
     },
-    { 
-      id: 1, 
-      title: "2. Technical Foundation", 
+    {
+      id: 1,
+      title: "2. Technical Foundation",
       problemDesc: "Startups often suffer from poor technical foundations that prevent scaling and lead to expensive rewrites.",
       solutionDesc: "We build on enterprise-grade architecture from day one, ensuring your product is scalable, secure, and ready for massive growth.",
       icon: <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" /></svg>,
       color: "#5C67FF"
     },
-    { 
-      id: 2, 
-      title: "3. Market Misalignment", 
+    {
+      id: 2,
+      title: "3. Market Misalignment",
       problemDesc: "Most startups fail because they build products no one wants, misinterpreting market signals.",
       solutionDesc: "Our validation process savings crucial runway by preventing premature scaling and ensuring resources are allocated to proven market demands.",
       icon: <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>,
       color: "#99C26D"
     },
-    { 
-      id: 3, 
-      title: "4. Execution Speed", 
+    {
+      id: 3,
+      title: "4. Execution Speed",
       problemDesc: "Fragmented handoffs between design and engineering slow down development and dilute vision.",
       solutionDesc: "Our dedicated pods move 10x faster through total alignment, shared codebases, and repeatable engineering frameworks.",
       icon: <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
       color: "#9C27B0"
+    },
+    {
+      id: 4,
+      title: "5. Capital Efficiency",
+      problemDesc: "Raising too much capital too early leads to dilution and loss of strategic control.",
+      solutionDesc: "We provide the infrastructure and expertise to reach profitability with minimal burn, giving founders total control.",
+      icon: <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.407 2.67 1M12 17V7m0 10c-1.11 0-2.08-.407-2.67-1M12 17V7" /></svg>,
+      color: "#8257e5"
     }
   ];
 
@@ -57,7 +65,8 @@ export default function StudioPage() {
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
 
         :root {
@@ -545,17 +554,17 @@ export default function StudioPage() {
         }
       `}} />
 
-      <div className="studio-page" style={{position:'relative', overflow:'hidden'}}>
+      <div className="studio-page" style={{ position: 'relative', overflow: 'hidden' }}>
         {/* Ambient glow orbs */}
-        <div className="cc-glow-orb cc-glow-orb-blue" style={{width:500,height:500,top:'-150px',right:'-100px',opacity:0.15}} />
-        <div className="cc-glow-orb cc-glow-orb-purple" style={{width:350,height:350,top:'50%',left:'-80px',opacity:0.10}} />
+        <div className="cc-glow-orb cc-glow-orb-blue" style={{ width: 500, height: 500, top: '-150px', right: '-100px', opacity: 0.15 }} />
+        <div className="cc-glow-orb cc-glow-orb-purple" style={{ width: 350, height: 350, top: '50%', left: '-80px', opacity: 0.10 }} />
         {/* Navbar */}
         <div className="navbar-wrapper">
           <nav className="navbar">
             <div className="navbar-brand">Crestcode Product Studio</div>
             <div className="navbar-links">
               <Link to="/">Home</Link>
-              <Link to="/studio" className="active-link" style={{color: 'white', fontWeight: '800'}}>Studio</Link>
+              <Link to="/studio" className="active-link" style={{ color: 'white', fontWeight: '800' }}>Studio</Link>
               <Link to="/">Company</Link>
               <div className="nav-dropdown">
                 <Link to="/studio">Our Model &#x25BC;</Link>
@@ -578,12 +587,12 @@ export default function StudioPage() {
             <div>
               <div className="hero-eyebrow-pill">THE STUDIO ADVANTAGE</div>
               <h1 className="hero-title">
-                Building products through <span className="text-blue" style={{fontWeight: 700}}>repeatable</span> and <span className="text-blue" style={{fontWeight: 700}}>tested</span> methods.
+                Building products through <span className="text-blue" style={{ fontWeight: 700 }}>repeatable</span> and <span className="text-blue" style={{ fontWeight: 700 }}>tested</span> methods.
               </h1>
-              <p className="body-text" style={{marginBottom: '40px', maxWidth: '480px'}}>
+              <p className="body-text" style={{ marginBottom: '40px', maxWidth: '480px' }}>
                 Democratizing product building using AI and simplifying complex processes through intelligent automation. Enabling faster, smarter, and scalable product creation.
               </p>
-              <div style={{display: 'flex', alignItems: 'center', gap: '24px'}} className="cc-reveal">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }} className="cc-reveal">
                 <button className="btn-primary">Learn About Studio Model →</button>
               </div>
             </div>
@@ -599,54 +608,54 @@ export default function StudioPage() {
         </section>
 
         {/* Idea Validation Section */}
-        <div className="validation-wrapper section-base" style={{backgroundColor: 'var(--white)'}}>
+        <div className="validation-wrapper section-base" style={{ backgroundColor: 'var(--white)' }}>
           <div className="validation-card grid-2">
             <div>
               <h2 className="section-title section-title-left title-dark">Idea Validation</h2>
-              <p className="body-text" style={{marginBottom: '40px', color: '#9CA3AF'}}>
+              <p className="body-text" style={{ marginBottom: '40px', color: '#9CA3AF' }}>
                 Get an instant "Build-Ready" score based on our proprietary venture assessment framework.
               </p>
-              <button className="btn-primary" style={{backgroundColor: '#005AE2', boxShadow: '0 8px 32px rgba(0, 90, 226, 0.4)', padding: '12px 32px', borderRadius: '100px'}}>Validate Your Idea</button>
+              <button className="btn-primary" style={{ backgroundColor: '#005AE2', boxShadow: '0 8px 32px rgba(0, 90, 226, 0.4)', padding: '12px 32px', borderRadius: '100px' }}>Validate Your Idea</button>
             </div>
 
             <div className="score-panel">
               <div className="score-header">
-                <span className="score-title-text" style={{color: '#9CA3AF', fontSize: '0.7rem', fontWeight: 700}}>VENTURE READINESS SCORE</span>
-                <span className="score-number" style={{color: '#005AE2', fontSize: '1.5rem', fontWeight: 800}}>84/100</span>
-              </div>
-              
-              <div className="progress-row">
-                <div className="progress-labels">
-                  <span style={{color: '#9CA3AF', fontSize: '0.8rem'}}>Market Fit</span>
-                  <span style={{color: '#9CA3AF', fontSize: '0.8rem'}}>92%</span>
-                </div>
-                <div className="progress-track" style={{backgroundColor: '#2A303C', height: '4px', borderRadius: '2px'}}>
-                  <div className="progress-fill" style={{width: '92%', height: '4px', borderRadius: '2px', backgroundColor: '#005AE2'}}></div>
-                </div>
+                <span className="score-title-text" style={{ color: '#9CA3AF', fontSize: '0.7rem', fontWeight: 700 }}>VENTURE READINESS SCORE</span>
+                <span className="score-number" style={{ color: '#005AE2', fontSize: '1.5rem', fontWeight: 800 }}>84/100</span>
               </div>
 
               <div className="progress-row">
                 <div className="progress-labels">
-                  <span style={{color: '#9CA3AF', fontSize: '0.8rem'}}>Tech Feasibility</span>
-                  <span style={{color: '#9CA3AF', fontSize: '0.8rem'}}>78%</span>
+                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>Market Fit</span>
+                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>92%</span>
                 </div>
-                <div className="progress-track" style={{backgroundColor: '#2A303C', height: '4px', borderRadius: '2px'}}>
-                  <div className="progress-fill" style={{width: '78%', height: '4px', borderRadius: '2px', backgroundColor: '#005AE2'}}></div>
+                <div className="progress-track" style={{ backgroundColor: '#2A303C', height: '4px', borderRadius: '2px' }}>
+                  <div className="progress-fill" style={{ width: '92%', height: '4px', borderRadius: '2px', backgroundColor: '#005AE2' }}></div>
                 </div>
               </div>
 
-              <div className="progress-row" style={{marginBottom: '24px'}}>
+              <div className="progress-row">
                 <div className="progress-labels">
-                  <span style={{color: '#9CA3AF', fontSize: '0.8rem'}}>GTM Strategy</span>
-                  <span style={{color: '#9CA3AF', fontSize: '0.8rem'}}>81%</span>
+                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>Tech Feasibility</span>
+                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>78%</span>
                 </div>
-                <div className="progress-track" style={{backgroundColor: '#2A303C', height: '4px', borderRadius: '2px'}}>
-                  <div className="progress-fill" style={{width: '81%', height: '4px', borderRadius: '2px', backgroundColor: '#005AE2'}}></div>
+                <div className="progress-track" style={{ backgroundColor: '#2A303C', height: '4px', borderRadius: '2px' }}>
+                  <div className="progress-fill" style={{ width: '78%', height: '4px', borderRadius: '2px', backgroundColor: '#005AE2' }}></div>
                 </div>
               </div>
 
-              <div style={{backgroundColor: '#122624', color: '#00E6A0', padding: '12px 16px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '8px'}}>
-                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+              <div className="progress-row" style={{ marginBottom: '24px' }}>
+                <div className="progress-labels">
+                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>GTM Strategy</span>
+                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>81%</span>
+                </div>
+                <div className="progress-track" style={{ backgroundColor: '#2A303C', height: '4px', borderRadius: '2px' }}>
+                  <div className="progress-fill" style={{ width: '81%', height: '4px', borderRadius: '2px', backgroundColor: '#005AE2' }}></div>
+                </div>
+              </div>
+
+              <div style={{ backgroundColor: '#122624', color: '#00E6A0', padding: '12px 16px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" /></svg>
                 High Growth Potential Detected
               </div>
             </div>
@@ -656,55 +665,55 @@ export default function StudioPage() {
         {/* For Founders vs. For Investors Section */}
         <section className="section-base" style={{ position: 'relative' }}>
           <div className="section-container" style={{ position: 'relative', zIndex: 1 }}>
-            <h2 className="section-title">Built for Founders. Designed for<br/>Investors.</h2>
-            <div className="grid-2 grid-2-align-top" style={{marginTop: '64px'}}>
-              
-              <div className="card" style={{position: 'relative', overflow: 'hidden', border: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.05)'}}>
+            <h2 className="section-title">Built for Founders. Designed for<br />Investors.</h2>
+            <div className="grid-2 grid-2-align-top" style={{ marginTop: '64px' }}>
+
+              <div className="card" style={{ position: 'relative', overflow: 'hidden', border: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
                 {/* Decorative Faint Icon Top Right */}
-                <svg style={{position: 'absolute', top: '32px', right: '32px', width: '80px', height: '80px', color: '#F1F5F9'}} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                <svg style={{ position: 'absolute', top: '32px', right: '32px', width: '80px', height: '80px', color: '#F1F5F9' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5L21 3m-7.5 7.5L9 21M13.5 10.5l-3-3m3 3l3 3m-3-3L3 21" />
                 </svg>
-                <h3 className="card-title relative z-10" style={{fontSize: '1.5rem', marginBottom: '24px'}}>For Founders</h3>
-                <p className="card-desc relative z-10" style={{color: '#64748B', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.6'}}>Turn your vision into a venture-backable reality. We provide the infrastructure and talent to build 10x faster while you focus on the market.</p>
-                <ul className="check-list relative z-10" style={{marginBottom: '40px'}}>
-                  <li style={{display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600}}>
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{marginRight: '12px'}}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <h3 className="card-title relative z-10" style={{ fontSize: '1.5rem', marginBottom: '24px' }}>For Founders</h3>
+                <p className="card-desc relative z-10" style={{ color: '#64748B', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.6' }}>Turn your vision into a venture-backable reality. We provide the infrastructure and talent to build 10x faster while you focus on the market.</p>
+                <ul className="check-list relative z-10" style={{ marginBottom: '40px' }}>
+                  <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     Fractional C-Suite Support
                   </li>
-                  <li style={{display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600}}>
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{marginRight: '12px'}}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     Elite Dev & Design Squads
                   </li>
-                  <li style={{display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600}}>
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{marginRight: '12px'}}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     Seed Stage Fundraising Prep
                   </li>
                 </ul>
-                <a href="#founders" className="card-link relative z-10" style={{color: '#005AE2', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center'}}>Get Started <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginLeft: '4px'}}><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg></a>
+                <a href="#founders" className="card-link relative z-10" style={{ color: '#005AE2', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center' }}>Get Started <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px' }}><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg></a>
               </div>
 
-              <div className="card" style={{position: 'relative', overflow: 'hidden', border: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.05)'}}>
+              <div className="card" style={{ position: 'relative', overflow: 'hidden', border: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
                 {/* Decorative Faint Icon Top Right */}
-                <svg style={{position: 'absolute', top: '32px', right: '32px', width: '80px', height: '80px', color: '#F1F5F9'}} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                <svg style={{ position: 'absolute', top: '32px', right: '32px', width: '80px', height: '80px', color: '#F1F5F9' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                 </svg>
-                <h3 className="card-title relative z-10" style={{fontSize: '1.5rem', marginBottom: '24px'}}>For Investors</h3>
-                <p className="card-desc relative z-10" style={{color: '#64748B', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.6'}}>We de-risk technology investments. Partner with Crestcode to build your portfolio companies with professional-grade execution.</p>
-                <ul className="check-list relative z-10" style={{marginBottom: '40px'}}>
-                  <li style={{display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600}}>
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{marginRight: '12px'}}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <h3 className="card-title relative z-10" style={{ fontSize: '1.5rem', marginBottom: '24px' }}>For Investors</h3>
+                <p className="card-desc relative z-10" style={{ color: '#64748B', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.6' }}>We de-risk technology investments. Partner with Crestcode to build your portfolio companies with professional-grade execution.</p>
+                <ul className="check-list relative z-10" style={{ marginBottom: '40px' }}>
+                  <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     Technical Due Diligence
                   </li>
-                  <li style={{display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600}}>
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{marginRight: '12px'}}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     Portfolio Scale-Up Services
                   </li>
-                  <li style={{display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600}}>
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{marginRight: '12px'}}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     Managed Exit Preparation
                   </li>
                 </ul>
-                <a href="#investors" className="card-link relative z-10" style={{color: '#005AE2', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center'}}>Partner With Us <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginLeft: '4px'}}><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg></a>
+                <a href="#investors" className="card-link relative z-10" style={{ color: '#005AE2', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center' }}>Partner With Us <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px' }}><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg></a>
               </div>
 
             </div>
@@ -715,94 +724,93 @@ export default function StudioPage() {
         <section className="section-white">
           <div className="section-container">
             <h2 className="section-title">How the Partnership Works</h2>
-            <div className="grid-3" style={{marginTop: '64px'}}>
-              
-              <div className="card" style={{padding: '40px 32px'}}>
+            <div className="grid-3" style={{ marginTop: '64px' }}>
+
+              <div className="card" style={{ padding: '40px 32px' }}>
                 <div className="icon-circle">1</div>
-                <h3 className="card-title" style={{fontSize: '1.25rem'}}>Support</h3>
-                <p className="card-desc" style={{fontSize: '0.9rem'}}>
-                  We provide foundational support for existing teams, augmenting capabilities where you need them most.<br/><br/>
-                  <span style={{fontWeight: 700, color: 'var(--text-main)'}}>Best for:</span> Teams needing specific technical or design expertise to accelerate delivery.
+                <h3 className="card-title" style={{ fontSize: '1.25rem' }}>Support</h3>
+                <p className="card-desc" style={{ fontSize: '0.9rem' }}>
+                  We provide foundational support for existing teams, augmenting capabilities where you need them most.<br /><br />
+                  <span style={{ fontWeight: 700, color: 'var(--text-main)' }}>Best for:</span> Teams needing specific technical or design expertise to accelerate delivery.
                 </p>
-                <button className="card-link" style={{background: 'none', border: 'none', padding: 0, color: 'var(--primary-blue)', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none'}}>Learn more →</button>
+                <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, color: 'var(--primary-blue)', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>Learn more →</button>
               </div>
 
-              <div className="card cc-slide-center" style={{padding: '40px 32px'}}>
+              <div className="card cc-slide-center" style={{ padding: '40px 32px' }}>
                 <div className="icon-circle">2</div>
-                <h3 className="card-title" style={{fontSize: '1.25rem'}}>Co-Development</h3>
-                <p className="card-desc" style={{fontSize: '0.9rem'}}>
-                  We work alongside your internal team in a shared codebase, accelerating roadmap delivery.<br/><br/>
-                  <span style={{fontWeight: 700, color: 'var(--text-main)'}}>Best for:</span> Scaling startups that need to move fast without immediate full-time hires.
+                <h3 className="card-title" style={{ fontSize: '1.25rem' }}>Co-Development</h3>
+                <p className="card-desc" style={{ fontSize: '0.9rem' }}>
+                  We work alongside your internal team in a shared codebase, accelerating roadmap delivery.<br /><br />
+                  <span style={{ fontWeight: 700, color: 'var(--text-main)' }}>Best for:</span> Scaling startups that need to move fast without immediate full-time hires.
                 </p>
-                <button className="card-link" style={{background: 'none', border: 'none', padding: 0, color: 'var(--primary-blue)', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none'}}>Learn more →</button>
+                <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, color: 'var(--primary-blue)', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>Learn more →</button>
               </div>
 
-              <div className="card" style={{padding: '40px 32px'}}>
+              <div className="card" style={{ padding: '40px 32px' }}>
                 <div className="icon-circle">3</div>
-                <h3 className="card-title" style={{fontSize: '1.25rem'}}>Full Build</h3>
-                <p className="card-desc" style={{fontSize: '0.9rem'}}>
-                  We handle the entire product lifecycle from ideation to deployment as your dedicated product organization.<br/><br/>
-                  <span style={{fontWeight: 700, color: 'var(--white)'}}>Best for:</span> Solo founders or non-technical teams needing an end-to-end build partner.
+                <h3 className="card-title" style={{ fontSize: '1.25rem' }}>Full Build</h3>
+                <p className="card-desc" style={{ fontSize: '0.9rem' }}>
+                  We handle the entire product lifecycle from ideation to deployment as your dedicated product organization.<br /><br />
+                  <span style={{ fontWeight: 700, color: 'var(--white)' }}>Best for:</span> Solo founders or non-technical teams needing an end-to-end build partner.
                 </p>
-                <button className="card-link" style={{background: 'none', border: 'none', padding: 0, color: 'var(--primary-blue)', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none'}}>Learn more →</button>
+                <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, color: 'var(--primary-blue)', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>Learn more →</button>
               </div>
 
             </div>
           </div>
         </section>
 
-        <section className="section-dark" style={{backgroundColor: '#0A0F1C', padding: '100px 24px'}}>
+        <section className="section-dark" style={{ backgroundColor: '#0A0F1C', padding: '100px 24px' }}>
           <div style={{ maxWidth: '900px', margin: '0 auto' }}>
             {/* Main Section Title */}
-            <h2 className="section-title title-dark" style={{marginBottom: '60px', textAlign: 'left', fontSize: '2.5rem', fontWeight: 700, marginLeft: '0'}}>How We Are Solving It</h2>
-            
-            <div className="grid-2" style={{alignItems: 'flex-start', gap: '48px', display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
+            <h2 className="section-title title-dark" style={{ marginBottom: '60px', textAlign: 'left', fontSize: '2.5rem', fontWeight: 700, marginLeft: '0' }}>How We Are Solving It</h2>
+
+            <div className="grid-2" style={{ alignItems: 'flex-start', gap: '48px', display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
               {/* Left Column: Problem Step */}
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                <h3 className="solving-subtitle" style={{fontSize: '1.25rem', marginBottom: '32px', fontWeight: 800, color: '#FFFFFF'}}>
+                <h3 className="solving-subtitle" style={{ fontSize: '1.25rem', marginBottom: '32px', fontWeight: 800, color: '#FFFFFF' }}>
                   {stackCards[activeStackIndex].title}
                 </h3>
-                <p className="solving-col-text" style={{fontSize: '0.95rem', color: '#94A3B8', maxWidth: '320px', lineHeight: '1.8', fontWeight: 500, margin: '0'}}>
+                <p className="solving-col-text" style={{ fontSize: '0.95rem', color: '#94A3B8', maxWidth: '320px', lineHeight: '1.8', fontWeight: 500, margin: '0' }}>
                   {stackCards[activeStackIndex].problemDesc}
                 </p>
               </div>
- 
+
               {/* Right Column: Solution Stack */}
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                <h3 className="solving-subtitle" style={{fontSize: '1.25rem', marginBottom: '32px', fontWeight: 800, color: '#FFFFFF'}}>How Crestcode Resolves It</h3>
-                
+                <h3 className="solving-subtitle" style={{ fontSize: '1.25rem', marginBottom: '32px', fontWeight: 800, color: '#FFFFFF' }}>How Crestcode Resolves It</h3>
+
                 <div className="card-stack-wrapper" onClick={handleNextCard} style={{ perspective: '1200px', height: '340px', width: '100%', position: 'relative', display: 'flex', justifyContent: 'center' }}>
                   <div style={{ position: 'relative', width: '280px', height: '300px' }}>
                     {stackCards.map((card, index) => {
                       const isActive = index === activeStackIndex;
-                      const isFuture = index > activeStackIndex;
+                      const isPast = index < activeStackIndex;
+                      
+                      // Exact fan calculation based on your request:
+                      // Front card (which is stackCards[activeStackIndex]) has 0 degrees
+                      // Cards behind it rotate by 5 degrees more per step.
+                      const offset = index - activeStackIndex;
                       
                       let transform = '';
-                      let zIndex = stackCards.length - index;
+                      let zIndex = 50 - index;
                       let opacity = 1;
-                      
-                      if (isActive) {
-                        zIndex = 50;
-                        transform = 'translate(0, 0) rotate(0deg) scale(1)';
-                        opacity = 1;
-                      } else if (isFuture) {
-                        const offset = index - activeStackIndex;
-                        zIndex = 40 - offset;
-                        const rotate = offset * 3;
-                        const translateX = offset * 6;
-                        const translateY = offset * 8;
-                        const scale = 1 - (offset * 0.03);
-                        transform = `translate(${translateX}px, ${translateY}px) rotate(${rotate}deg) scale(${scale})`;
-                        opacity = Math.max(0, 1 - (offset * 0.3));
-                      } else {
-                        zIndex = 10;
-                        transform = 'translate(-20px, -10px) rotate(-5deg) scale(0.9)';
+
+                      if (isPast) {
+                        // Past cards slide away
+                        transform = 'translate(-40px, -20px) rotate(-10deg)';
                         opacity = 0;
+                        zIndex = 0;
+                      } else {
+                        // Front and behind cards
+                        const rotation = offset * 5; 
+                        transform = `rotate(${rotation}deg)`;
+                        opacity = 1;
+                        zIndex = 50 - offset;
                       }
 
                       return (
-                        <div 
-                          key={card.id} 
+                        <div
+                          key={card.id}
                           className={`card-stack-item ${isActive ? 'active-hover' : ''}`}
                           style={{
                             transform,
@@ -811,25 +819,24 @@ export default function StudioPage() {
                             position: 'absolute',
                             top: 0,
                             left: 0,
+                            transformOrigin: 'bottom right',
                             transition: 'all 0.6s cubic-bezier(0.25, 1, 0.5, 1)',
                             background: 'white',
-                            borderRadius: '20px',
+                            borderRadius: '24px',
                             padding: '32px 24px',
-                            width: '280px',
-                            height: '300px',
-                            boxShadow: isActive ? '0 25px 50px -12px rgba(0,0,0,0.5)' : '0 10px 20px rgba(0,0,0,0.1)',
+                            width: '320px',
+                            height: '340px',
+                            boxShadow: '0 15px 35px rgba(0,0,0,0.08)',
+                            border: '1px solid rgba(0,0,0,0.03)',
                             display: 'flex',
                             flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            border: '1px solid #E2E8F0',
-                            transformOrigin: 'center center'
+                            cursor: 'pointer'
                           }}
                         >
-                          <div className="card-stack-icon" style={{ 
-                            backgroundColor: card.color, 
-                            width: '52px', height: '52px', 
-                            borderRadius: '12px', display: 'flex', 
+                          <div className="card-stack-icon" style={{
+                            backgroundColor: card.color,
+                            width: '52px', height: '52px',
+                            borderRadius: '12px', display: 'flex',
                             alignItems: 'center', justifyContent: 'center',
                             marginBottom: '20px', color: 'white'
                           }}>
@@ -853,12 +860,12 @@ export default function StudioPage() {
           <div className="section-container grid-2">
             <div>
               <h2 className="section-title section-title-left">
-                <span className="text-blue">Why 98% of Ideas</span><br/>Never Launch.
+                <span className="text-blue">Why 98% of Ideas</span><br />Never Launch.
               </h2>
-              <p className="body-text" style={{marginBottom: '48px'}}>
+              <p className="body-text" style={{ marginBottom: '48px' }}>
                 Most startups fail because they build products no one wants, run out of capital before finding product-market fit, or suffer from poor technical foundations that prevent scaling.
               </p>
-              
+
               <div className="feature-box">
                 <div className="feature-box-icon">
                   <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
@@ -889,11 +896,11 @@ export default function StudioPage() {
           <div className="section-container text-center">
             <h2 className="section-title">What We Look For</h2>
             <p className="section-subtitle text-center">
-              We are highly selective. Our resources are finite, which is why we only<br/>partner with ventures that meet our "Future-Standard" criteria.
+              We are highly selective. Our resources are finite, which is why we only<br />partner with ventures that meet our "Future-Standard" criteria.
             </p>
-            
-            <div className="grid-4" style={{marginTop: '64px'}}>
-              
+
+            <div className="grid-4" style={{ marginTop: '64px' }}>
+
               <div className="look-card">
                 <div className="look-icon">
                   <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
@@ -934,13 +941,13 @@ export default function StudioPage() {
         <section className="section-light text-center">
           <div className="section-container">
             <h2 className="section-title">The Build Timeline</h2>
-            <p className="section-subtitle text-center mx-auto" style={{maxWidth: '750px', marginBottom: '64px'}}>
+            <p className="section-subtitle text-center mx-auto" style={{ maxWidth: '750px', marginBottom: '64px' }}>
               A high-velocity, structured roadmap from zero to market entry. We engineer digital excellence through 6 rigorous execution phases, optimized for performance and scale.
             </p>
 
             <div className="timeline-wrapper-new">
               <div className="timeline-grid-new">
-                
+
                 {/* Column 1 */}
                 <div className="timeline-col">
                   <div className="t-dot-wrapper">
@@ -952,7 +959,7 @@ export default function StudioPage() {
                       <span className="t-phase-text text-primary">PHASE 01</span>
                       <span className="t-week-pill">1-2 WKS</span>
                     </div>
-                    <h4 className="t-title-new">Discovery &<br/>Requirements</h4>
+                    <h4 className="t-title-new">Discovery &<br />Requirements</h4>
                     <p className="t-desc-new">Defining core goals and user needs for a scalable architecture.</p>
                   </div>
                 </div>
@@ -968,7 +975,7 @@ export default function StudioPage() {
                       <span className="t-phase-text text-primary">PHASE 02</span>
                       <span className="t-week-pill">1-2 WKS</span>
                     </div>
-                    <h4 className="t-title-new">Research &<br/>Planning</h4>
+                    <h4 className="t-title-new">Research &<br />Planning</h4>
                     <p className="t-desc-new">Technical feasibility and formulation of a strategic roadmap.</p>
                   </div>
                 </div>
@@ -984,7 +991,7 @@ export default function StudioPage() {
                       <span className="t-phase-text text-primary">PHASE 03</span>
                       <span className="t-week-pill">2-3 WKS</span>
                     </div>
-                    <h4 className="t-title-new">UX &<br/>Wireframing</h4>
+                    <h4 className="t-title-new">UX &<br />Wireframing</h4>
                     <p className="t-desc-new">Architecting intuitive experiences and high-performance user flow mapping.</p>
                   </div>
                 </div>
@@ -1000,7 +1007,7 @@ export default function StudioPage() {
                       <span className="t-phase-text text-primary">PHASE 04</span>
                       <span className="t-week-pill">2-3 WKS</span>
                     </div>
-                    <h4 className="t-title-new">UI Design &<br/>Prototype</h4>
+                    <h4 className="t-title-new">UI Design &<br />Prototype</h4>
                     <p className="t-desc-new">Crafting visual interfaces that represent the final product aesthetic.</p>
                   </div>
                 </div>
@@ -1016,8 +1023,8 @@ export default function StudioPage() {
                       <span className="t-phase-text text-primary">PHASE 05</span>
                       <span className="t-week-pill dark-pill">6-8 WKS</span>
                     </div>
-                    <h4 className="t-title-new text-white">Agile<br/>Engineering</h4>
-                    <p className="t-desc-new" style={{color: '#9CA3AF'}}>Full-stack engineering through agile sprints and robust infrastructure.</p>
+                    <h4 className="t-title-new text-white">Agile<br />Engineering</h4>
+                    <p className="t-desc-new" style={{ color: '#9CA3AF' }}>Full-stack engineering through agile sprints and robust infrastructure.</p>
                   </div>
                 </div>
 
@@ -1033,7 +1040,7 @@ export default function StudioPage() {
                       <span className="t-week-pill blue-pill">2-2 WKS</span>
                     </div>
                     <h4 className="t-title-new text-white">QA & Launch</h4>
-                    <p className="t-desc-new" style={{color: 'rgba(255,255,255,0.8)'}}>Systematic deployment and monitoring with scale-ready architecture.</p>
+                    <p className="t-desc-new" style={{ color: 'rgba(255,255,255,0.8)' }}>Systematic deployment and monitoring with scale-ready architecture.</p>
                   </div>
                 </div>
 
@@ -1076,9 +1083,9 @@ export default function StudioPage() {
         {/* FAQ Section */}
         <section id="faq" className="section-base">
           <div className="section-container">
-            <h2 className="section-title text-center" style={{marginBottom: '64px'}}>Studio FAQ</h2>
-            
-            <div style={{maxWidth: '800px', margin: '0 auto'}}>
+            <h2 className="section-title text-center" style={{ marginBottom: '64px' }}>Studio FAQ</h2>
+
+            <div style={{ maxWidth: '800px', margin: '0 auto' }}>
               <div className="faq-item">
                 <div className="faq-header">
                   <span>How much equity does the Studio take?</span>
@@ -1106,14 +1113,14 @@ export default function StudioPage() {
 
         {/* CTA */}
         <section className="section-white text-center">
-          <div className="section-container" style={{paddingTop: 'clamp(80px, 10vw, 120px)', paddingBottom: 'clamp(80px, 10vw, 120px)'}}>
-            <h2 className="section-title" style={{fontSize: 'clamp(2.5rem, 5vw, 4rem)', marginBottom: '24px'}}>
-              Ready to Build<br/><span className="text-blue">What's Next?</span>
+          <div className="section-container" style={{ paddingTop: 'clamp(80px, 10vw, 120px)', paddingBottom: 'clamp(80px, 10vw, 120px)' }}>
+            <h2 className="section-title" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', marginBottom: '24px' }}>
+              Ready to Build<br /><span className="text-blue">What's Next?</span>
             </h2>
             <p className="section-subtitle text-center">
               Submit your idea or company for review. We evaluate new opportunities on a rolling basis and respond within 48 hours.
             </p>
-            <button className="btn-primary" style={{marginTop: '32px', padding: '20px 48px', fontSize: '1.125rem'}}>Submit Your Idea</button>
+            <button className="btn-primary" style={{ marginTop: '32px', padding: '20px 48px', fontSize: '1.125rem' }}>Submit Your Idea</button>
           </div>
         </section>
 
@@ -1122,7 +1129,7 @@ export default function StudioPage() {
           <div className="section-container grid-4 pt-0 pb-0">
             <div>
               <div className="footer-logo">Crestcode USA</div>
-              <p className="body-text" style={{fontSize: '0.875rem', lineHeight: 1.6, color: '#9CA3AF'}}>Building the next generation of digital products and ventures.</p>
+              <p className="body-text" style={{ fontSize: '0.875rem', lineHeight: 1.6, color: '#9CA3AF' }}>Building the next generation of digital products and ventures.</p>
             </div>
             <div className="footer-links">
               <h5 className="footer-heading">Company</h5>
@@ -1141,11 +1148,11 @@ export default function StudioPage() {
               </ul>
             </div>
             <div className="footer-links">
-               <h5 className="footer-heading">Connect</h5>
-               <div style={{display: 'flex', gap: '16px'}}>
-                  <div style={{width: 40, height: 40, borderRadius: '50%', backgroundColor: '#1E293B', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, cursor: 'pointer'}}>in</div>
-                  <div style={{width: 40, height: 40, borderRadius: '50%', backgroundColor: '#1E293B', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, cursor: 'pointer'}}>X</div>
-               </div>
+              <h5 className="footer-heading">Connect</h5>
+              <div style={{ display: 'flex', gap: '16px' }}>
+                <div style={{ width: 40, height: 40, borderRadius: '50%', backgroundColor: '#1E293B', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, cursor: 'pointer' }}>in</div>
+                <div style={{ width: 40, height: 40, borderRadius: '50%', backgroundColor: '#1E293B', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, cursor: 'pointer' }}>X</div>
+              </div>
             </div>
           </div>
         </footer>
