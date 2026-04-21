@@ -329,10 +329,12 @@ export default function StudioPage() {
         .card { 
           background-color: var(--white); 
           border: 1px solid var(--border-light); 
-          padding: 48px 40px; 
+          padding: 32px; 
           border-radius: 24px; 
+          aspect-ratio: 1 / 1;
           transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s ease;
           display: flex; flex-direction: column;
+          justify-content: center;
           position: relative;
           transform-style: preserve-3d;
         }
@@ -355,6 +357,9 @@ export default function StudioPage() {
         
         .card-link { font-weight: 800; font-size: 0.875rem; color: var(--primary-blue); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: color 0.3s;}
         .card:hover .card-link { color: var(--accent-cyan); }
+
+        .card-desc span { color: var(--text-main); transition: color 0.3s; }
+        .card:hover .card-desc span { color: var(--white); }
 
         /* Lists */
         .check-list { list-style: none; padding: 0; margin: 0 0 32px 0; }
@@ -577,7 +582,9 @@ export default function StudioPage() {
                 </div>
               </div>
             </div>
-            <button className="btn-primary btn-nav">Enquire</button>
+            <Link to="/contact">
+              <button className="btn-primary btn-nav">Enquire</button>
+            </Link>
           </nav>
         </div>
 
@@ -593,7 +600,7 @@ export default function StudioPage() {
                 Democratizing product building using AI and simplifying complex processes through intelligent automation. Enabling faster, smarter, and scalable product creation.
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }} className="cc-reveal">
-                <button className="btn-primary">Learn About Studio Model →</button>
+                <button className="btn-primary" onClick={() => document.getElementById('methodology-section')?.scrollIntoView({behavior: 'smooth'})}>Learn About Studio Model →</button>
               </div>
             </div>
             <div className="hero-img-col">
@@ -615,7 +622,9 @@ export default function StudioPage() {
               <p className="body-text" style={{ marginBottom: '40px', color: '#9CA3AF' }}>
                 Get an instant "Build-Ready" score based on our proprietary venture assessment framework.
               </p>
-              <button className="btn-primary" style={{ backgroundColor: '#005AE2', boxShadow: '0 8px 32px rgba(0, 90, 226, 0.4)', padding: '12px 32px', borderRadius: '100px' }}>Validate Your Idea</button>
+              <Link to="/contact">
+                <button className="btn-primary" style={{ backgroundColor: '#005AE2', boxShadow: '0 8px 32px rgba(0, 90, 226, 0.4)', padding: '12px 32px', borderRadius: '100px' }}>Validate Your Idea</button>
+              </Link>
             </div>
 
             <div className="score-panel">
@@ -722,18 +731,20 @@ export default function StudioPage() {
 
         {/* How the Partnership Works */}
         <section className="section-white">
-          <div className="section-container">
+          <div className="section-container" style={{ maxWidth: '1280px' }}>
             <h2 className="section-title">How the Partnership Works</h2>
-            <div className="grid-3" style={{ marginTop: '64px' }}>
+            <div className="grid-3" style={{ marginTop: '64px', gap: '32px' }}>
 
               <div className="card" style={{ padding: '40px 32px' }}>
                 <div className="icon-circle">1</div>
                 <h3 className="card-title" style={{ fontSize: '1.25rem' }}>Support</h3>
                 <p className="card-desc" style={{ fontSize: '0.9rem' }}>
                   We provide foundational support for existing teams, augmenting capabilities where you need them most.<br /><br />
-                  <span style={{ fontWeight: 700, color: 'var(--text-main)' }}>Best for:</span> Teams needing specific technical or design expertise to accelerate delivery.
+                  <span style={{ fontWeight: 700 }}>Best for:</span> Teams needing specific technical or design expertise to accelerate delivery.
                 </p>
-                <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, color: 'var(--primary-blue)', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>Learn more →</button>
+                <Link to="/contact">
+                  <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>Learn more →</button>
+                </Link>
               </div>
 
               <div className="card cc-slide-center" style={{ padding: '40px 32px' }}>
@@ -741,9 +752,11 @@ export default function StudioPage() {
                 <h3 className="card-title" style={{ fontSize: '1.25rem' }}>Co-Development</h3>
                 <p className="card-desc" style={{ fontSize: '0.9rem' }}>
                   We work alongside your internal team in a shared codebase, accelerating roadmap delivery.<br /><br />
-                  <span style={{ fontWeight: 700, color: 'var(--text-main)' }}>Best for:</span> Scaling startups that need to move fast without immediate full-time hires.
+                  <span style={{ fontWeight: 700 }}>Best for:</span> Scaling startups that need to move fast without immediate full-time hires.
                 </p>
-                <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, color: 'var(--primary-blue)', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>Learn more →</button>
+                <Link to="/contact">
+                  <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>Learn more →</button>
+                </Link>
               </div>
 
               <div className="card" style={{ padding: '40px 32px' }}>
@@ -751,9 +764,11 @@ export default function StudioPage() {
                 <h3 className="card-title" style={{ fontSize: '1.25rem' }}>Full Build</h3>
                 <p className="card-desc" style={{ fontSize: '0.9rem' }}>
                   We handle the entire product lifecycle from ideation to deployment as your dedicated product organization.<br /><br />
-                  <span style={{ fontWeight: 700, color: 'var(--white)' }}>Best for:</span> Solo founders or non-technical teams needing an end-to-end build partner.
+                  <span style={{ fontWeight: 700 }}>Best for:</span> Solo founders or non-technical teams needing an end-to-end build partner.
                 </p>
-                <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, color: 'var(--primary-blue)', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>Learn more →</button>
+                <Link to="/contact">
+                  <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>Learn more →</button>
+                </Link>
               </div>
 
             </div>
@@ -761,50 +776,44 @@ export default function StudioPage() {
         </section>
 
         <section className="section-dark" style={{ backgroundColor: '#0A0F1C', padding: '100px 24px' }}>
-          <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             {/* Main Section Title */}
-            <h2 className="section-title title-dark" style={{ marginBottom: '60px', textAlign: 'left', fontSize: '2.5rem', fontWeight: 700, marginLeft: '0' }}>How We Are Solving It</h2>
-
-            <div className="grid-2" style={{ alignItems: 'flex-start', gap: '48px', display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+            <h2 className="section-title title-dark" style={{ marginBottom: '80px', textAlign: 'center', fontSize: '3.5rem', fontWeight: 800, transform: 'translateX(-40px)' }}>How We Are Solving It</h2>
+            <div className="grid-2" style={{ alignItems: 'center', gap: '120px', display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
               {/* Left Column: Problem Step */}
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                <h3 className="solving-subtitle" style={{ fontSize: '1.25rem', marginBottom: '32px', fontWeight: 800, color: '#FFFFFF' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', transform: 'translateY(-50px)' }}>
+                <h3 className="solving-subtitle" style={{ fontSize: '2.25rem', marginBottom: '24px', fontWeight: 800, color: '#FFFFFF', textAlign: 'center', width: '100%' }}>
                   {stackCards[activeStackIndex].title}
                 </h3>
-                <p className="solving-col-text" style={{ fontSize: '0.95rem', color: '#94A3B8', maxWidth: '320px', lineHeight: '1.8', fontWeight: 500, margin: '0' }}>
+                <p className="solving-col-text" style={{ fontSize: '1.25rem', color: '#CBD5E1', maxWidth: '480px', lineHeight: '1.6', fontWeight: 500, margin: '0', textAlign: 'center' }}>
                   {stackCards[activeStackIndex].problemDesc}
                 </p>
               </div>
 
               {/* Right Column: Solution Stack */}
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                <h3 className="solving-subtitle" style={{ fontSize: '1.25rem', marginBottom: '32px', fontWeight: 800, color: '#FFFFFF' }}>How Crestcode Resolves It</h3>
-
-                <div className="card-stack-wrapper" onClick={handleNextCard} style={{ perspective: '1200px', height: '340px', width: '100%', position: 'relative', display: 'flex', justifyContent: 'center' }}>
-                  <div style={{ position: 'relative', width: '280px', height: '300px' }}>
+                <div className="card-stack-wrapper" onClick={handleNextCard} style={{ perspective: '1500px', height: '440px', width: '100%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <div style={{ position: 'relative', width: '380px', height: '380px' }}>
                     {stackCards.map((card, index) => {
                       const isActive = index === activeStackIndex;
                       const isPast = index < activeStackIndex;
-                      
-                      // Exact fan calculation based on your request:
-                      // Front card (which is stackCards[activeStackIndex]) has 0 degrees
-                      // Cards behind it rotate by 5 degrees more per step.
-                      const offset = index - activeStackIndex;
-                      
+
                       let transform = '';
                       let zIndex = 50 - index;
                       let opacity = 1;
 
+                      // Fanned calculation:
+                      const offset = index - activeStackIndex;
                       if (isPast) {
-                        // Past cards slide away
-                        transform = 'translate(-40px, -20px) rotate(-10deg)';
+                        transform = 'translate(-60px, -40px) rotate(-15deg)';
                         opacity = 0;
                         zIndex = 0;
                       } else {
-                        // Front and behind cards
-                        const rotation = offset * 5; 
-                        transform = `rotate(${rotation}deg)`;
-                        opacity = 1;
+                        const rotation = offset * 4;
+                        const translateX = offset * 8;
+                        const translateY = offset * 8;
+                        transform = `translate(${translateX}px, ${translateY}px) rotate(${rotation}deg)`;
+                        opacity = 1 - (offset * 0.15);
                         zIndex = 50 - offset;
                       }
 
@@ -819,30 +828,32 @@ export default function StudioPage() {
                             position: 'absolute',
                             top: 0,
                             left: 0,
-                            transformOrigin: 'bottom right',
-                            transition: 'all 0.6s cubic-bezier(0.25, 1, 0.5, 1)',
+                            transformOrigin: 'center center',
+                            transition: 'all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)',
                             background: 'white',
                             borderRadius: '24px',
-                            padding: '32px 24px',
-                            width: '320px',
-                            height: '340px',
-                            boxShadow: '0 15px 35px rgba(0,0,0,0.08)',
-                            border: '1px solid rgba(0,0,0,0.03)',
+                            padding: '40px 32px',
+                            width: '380px',
+                            height: '380px',
+                            boxShadow: isActive ? '0 30px 60px -12px rgba(0,0,0,0.3)' : '0 10px 20px rgba(0,0,0,0.1)',
+                            border: '1px solid rgba(0,0,0,0.05)',
                             display: 'flex',
                             flexDirection: 'column',
+                            justifyContent: 'center',
                             cursor: 'pointer'
                           }}
                         >
                           <div className="card-stack-icon" style={{
-                            backgroundColor: card.color,
-                            width: '52px', height: '52px',
-                            borderRadius: '12px', display: 'flex',
+                            backgroundColor: card.color || '#FF8EBB',
+                            width: '48px', height: '48px',
+                            borderRadius: '8px', display: 'flex',
                             alignItems: 'center', justifyContent: 'center',
-                            marginBottom: '20px', color: 'white'
+                            marginBottom: '20px', color: 'white',
+                            flexShrink: 0
                           }}>
                             {card.icon}
                           </div>
-                          <p className="card-stack-text" style={{ fontSize: '0.8rem', color: '#64748B', fontWeight: 600, lineHeight: 1.7, margin: 0 }}>
+                          <p className="card-stack-text" style={{ fontSize: '0.85rem', color: '#1E293B', fontWeight: 600, lineHeight: 1.6, margin: 0, textAlign: 'left' }}>
                             {card.solutionDesc}
                           </p>
                         </div>
@@ -850,17 +861,28 @@ export default function StudioPage() {
                     })}
                   </div>
                 </div>
+                {/* Caption below cards */}
+                <p style={{ 
+                  color: '#005AE2', 
+                  fontSize: '0.75rem', 
+                  fontWeight: 800, 
+                  letterSpacing: '0.1em', 
+                  textTransform: 'uppercase',
+                  marginTop: '40px',
+                  marginLeft: '80px'
+                }}>
+                  How Crestcode Resolves It
+                </p>
               </div>
             </div>
           </div>
         </section>
-
         {/* Why Ideas Never Launch */}
         <section className="section-base">
           <div className="section-container grid-2">
             <div>
               <h2 className="section-title section-title-left">
-                <span className="text-blue">Why 98% of Ideas</span><br />Never Launch.
+                Why <span className="text-blue">**%</span> of Ideas<br />Never Launch.
               </h2>
               <p className="body-text" style={{ marginBottom: '48px' }}>
                 Most startups fail because they build products no one wants, run out of capital before finding product-market fit, or suffer from poor technical foundations that prevent scaling.
@@ -1120,7 +1142,9 @@ export default function StudioPage() {
             <p className="section-subtitle text-center">
               Submit your idea or company for review. We evaluate new opportunities on a rolling basis and respond within 48 hours.
             </p>
-            <button className="btn-primary" style={{ marginTop: '32px', padding: '20px 48px', fontSize: '1.125rem' }}>Submit Your Idea</button>
+            <Link to="/">
+              <button className="btn-primary" style={{ marginTop: '32px', padding: '20px 48px', fontSize: '1.125rem' }}>Submit Your Idea</button>
+            </Link>
           </div>
         </section>
 

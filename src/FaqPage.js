@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import useScrollReveal from './useScrollReveal';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -402,7 +403,7 @@ export default function FaqPage() {
                 <p className="body-text" style={{ marginBottom: '32px' }}>
                   Find answers to common questions about our engagement models, product development lifecycle, and enterprise security standards.
                 </p>
-                <button ref={magBtn} className="btn-bright cc-magnetic">
+                <button ref={magBtn} className="btn-bright cc-magnetic" onClick={() => document.getElementById('faq-section')?.scrollIntoView({behavior: 'smooth'})}>
                   <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                   </svg>
@@ -537,7 +538,9 @@ export default function FaqPage() {
               <div style={{ padding: '48px', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                 <h2 className="cta-title">Didn't find what you're looking for?</h2>
                 <p className="cta-desc">Our team is ready to answer your specific questions and discuss how Crestcode can accelerate your digital product journey.</p>
-                <button ref={magBtn2} className="btn-solid cc-magnetic">Contact Our Team</button>
+                <Link to="/contact">
+                  <button ref={magBtn2} className="btn-solid cc-magnetic">Contact Our Team</button>
+                </Link>
               </div>
             </BorderBeam>
 

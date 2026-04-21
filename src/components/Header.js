@@ -229,7 +229,9 @@ export default function Header({ currentPage }) {
               </div>
             </div>
           </div>
-          <button className="btn-nav">Enquire</button>
+          <Link to="/contact">
+            <button className="btn-nav">Enquire</button>
+          </Link>
         </nav>
       </div>
     </>

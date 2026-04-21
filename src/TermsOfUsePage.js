@@ -415,7 +415,9 @@ export default function TermsOfUsePage() {
                 </div>
               </div>
             </div>
-            <button className="btn-nav">Enquire</button>
+            <Link to="/contact">
+              <button className="btn-nav">Enquire</button>
+            </Link>
           </nav>
         </div>
 
@@ -486,12 +488,14 @@ export default function TermsOfUsePage() {
                 <h3>Have questions about our terms?</h3>
                 <p>Our legal team is here to help you understand your rights and responsibilities.</p>
               </div>
-              <button className="btn-bright">
-                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                Contact Legal Dept
-              </button>
+              <Link to="/contact">
+                <button className="btn-bright">
+                  <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  Contact Legal Dept
+                </button>
+              </Link>
             </div>
           </section>
         </main>
@@ -527,7 +531,9 @@ export default function TermsOfUsePage() {
                   <div style={{width: 40, height: 40, borderRadius: '6px', backgroundColor: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#0A0F1C', fontWeight: 800, fontSize: '14px', cursor: 'pointer'}}>in</div>
                </div>
                <p style={{fontSize: '0.85rem', color: '#9CA3AF', marginBottom: '16px'}}>Contact Us</p>
-               <button className="btn-footer">Partner With Us</button>
+               <Link to="/contact">
+                 <button className="btn-footer">Partner With Us</button>
+               </Link>
             </div>
           </div>
         </footer>

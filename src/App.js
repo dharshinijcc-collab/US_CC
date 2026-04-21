@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useScrollReveal from './useScrollReveal';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import StudioPage from './StudioPage';
@@ -42,6 +42,7 @@ function LandingPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [formMessage, setFormMessage] = useState('');
   const [messageType, setMessageType] = useState('');
+  const heroRef = useRef(null);
   
   // Try to fetch builder content
   React.useEffect(() => {
@@ -53,6 +54,54 @@ function LandingPage() {
   }, []);
   useScrollReveal();
 
+  // Vanta clouds effect
+  useEffect(() => {
+    const loadVanta = async () => {
+      if (!heroRef.current) return;
+
+      // Load Three.js
+      const threeScript = document.createElement('script');
+      threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js';
+      threeScript.async = true;
+      document.body.appendChild(threeScript);
+
+      // Load Vanta clouds
+      const vantaScript = document.createElement('script');
+      vantaScript.src = 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.clouds.min.js';
+      vantaScript.async = true;
+      document.body.appendChild(vantaScript);
+
+      // Wait for scripts to load
+      await new Promise(resolve => {
+        const checkLoaded = setInterval(() => {
+          if (window.THREE && window.VANTA) {
+            clearInterval(checkLoaded);
+            resolve();
+          }
+        }, 100);
+      });
+
+      // Initialize Vanta
+      if (window.VANTA && heroRef.current) {
+        window.VANTA.CLOUDS({
+          el: heroRef.current,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00
+        });
+      }
+    };
+
+    loadVanta();
+
+    return () => {
+      if (window.VANTA && heroRef.current) {
+        window.VANTA.CLOUDS({ el: heroRef.current }).destroy();
+      }
+    };
+  }, []);
 
   const statsRef1 = useCountUp(12000, 2000);
   const statsRef2 = useCountUp(450, 2000);
@@ -69,15 +118,28 @@ function LandingPage() {
     setIsLoading(true);
     setFormMessage('');
     try {
-      setTimeout(() => {
+      const response = await fetch('/api/submit-idea', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ idea }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
         setFormMessage('Thanks for sharing! Our team will review your idea.');
         setMessageType('success');
         setIdea('');
-        setIsLoading(false);
-      }, 1000);
+      } else {
+        setFormMessage(data.error || 'Submission failed. Please try again.');
+        setMessageType('error');
+      }
     } catch (error) {
       setFormMessage('Network error. Please try again later.');
       setMessageType('error');
+    } finally {
       setIsLoading(false);
     }
   };
@@ -495,7 +557,9 @@ function LandingPage() {
                 </div>
               </div>
             </div>
-            <button className="btn-primary btn-nav" style={{backgroundColor: 'var(--primary-blue)', color: 'var(--white)'}}>Enquire</button>
+            <Link to="/contact">
+              <button className="btn-primary btn-nav" style={{backgroundColor: 'var(--primary-blue)', color: 'var(--white)'}}>Enquire</button>
+            </Link>
           </nav>
         </div>
 
@@ -503,7 +567,7 @@ function LandingPage() {
         <BuilderComponent model="page" content={builderContentJson} />
 
 
-        <header className="hero-section" style={{ position: 'relative', paddingTop: '160px', paddingBottom: '80px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <header ref={heroRef} className="hero-section" style={{ position: 'relative', paddingTop: '160px', paddingBottom: '80px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <h1 style={{ fontSize: '3.5rem', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}>
             Have an <span style={{color: '#005AE2'}}>Idea</span><br/>Worth Building?
           </h1>
@@ -543,7 +607,7 @@ function LandingPage() {
               />
               <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 8px 8px 0' }}>
                 <button type="submit" disabled={isLoading} style={{
-                  backgroundColor: '#BDBDBD',
+                  backgroundColor: '#005AE2',
                   color: '#FFFFFF',
                   border: 'none',
                   borderRadius: '100px',
@@ -657,34 +721,40 @@ function LandingPage() {
               </BorderBeam>
             </div>
 
-            <div className="stats-row">
-              <div className="stat-item">
-                <div ref={statsRef1.ref} className="stat-num">
-                  {statsRef1.displayValue !== null ? statsRef1.displayValue : '0'}
+            </div>
+          </section>
+
+          {/* Metrics Section - White Theme */}
+          <section className="section-light" style={{ borderBottom: '1px solid var(--border-light)' }}>
+            <div className="section-container" style={{ paddingTop: '60px', paddingBottom: '60px' }}>
+              <div className="stats-row" style={{ borderTop: 'none', padding: 0 }}>
+                <div className="stat-item">
+                  <div ref={statsRef1.ref} className="stat-num" style={{ color: 'var(--text-black)' }}>
+                    {statsRef1.displayValue !== null ? statsRef1.displayValue : '0'}
+                  </div>
+                  <div className="stat-label" style={{ color: 'var(--text-muted)' }}>HOURS AUTOMATED</div>
                 </div>
-                <div className="stat-label">HOURS AUTOMATED</div>
-              </div>
-              <div className="stat-item">
-                <div ref={statsRef2.ref} className="stat-num text-accent">
-                  ${statsRef2.displayValue !== null ? statsRef2.displayValue : '0'}M
+                <div className="stat-item">
+                  <div ref={statsRef2.ref} className="stat-num text-accent">
+                    ${statsRef2.displayValue !== null ? statsRef2.displayValue : '0'}M
+                  </div>
+                  <div className="stat-label" style={{ color: 'var(--text-muted)' }}>VALUE DELIVERED</div>
                 </div>
-                <div className="stat-label">VALUE DELIVERED</div>
-              </div>
-              <div className="stat-item">
-                <div ref={statsRef3.ref} className="stat-num">
-                  {statsRef3.displayValue !== null ? statsRef3.displayValue : '0'}x
+                <div className="stat-item">
+                  <div ref={statsRef3.ref} className="stat-num" style={{ color: 'var(--text-black)' }}>
+                    {statsRef3.displayValue !== null ? statsRef3.displayValue : '0'}x
+                  </div>
+                  <div className="stat-label" style={{ color: 'var(--text-muted)' }}>FASTER TO MARKET</div>
                 </div>
-                <div className="stat-label">FASTER TO MARKET</div>
-              </div>
-              <div className="stat-item">
-                <div ref={statsRef4.ref} className="stat-num">
-                  {statsRef4.displayValue !== null ? statsRef4.displayValue : '0'}
+                <div className="stat-item">
+                  <div ref={statsRef4.ref} className="stat-num" style={{ color: 'var(--text-black)' }}>
+                    {statsRef4.displayValue !== null ? statsRef4.displayValue : '0'}
+                  </div>
+                  <div className="stat-label" style={{ color: 'var(--text-muted)' }}>PRODUCTS LAUNCHED</div>
                 </div>
-                <div className="stat-label">PRODUCTS LAUNCHED</div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
         {/* How We Make It Happen */}
         <section className="section-light">
@@ -739,15 +809,45 @@ function LandingPage() {
               <div className="process-line"></div>
               <div className="process-grid">
                 {[
-                  { title: "1. Submit Your Idea", desc: "Simple intake with clear criteria for high-potential market disruptions.", icon: (<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 18h6M10 22h4M12 2a7 7 0 017 7c0 2-1 3.9-2 5.5-.5.8-1.5 1.5-1.5 2.5v1H8.5v-1c0-1-1-1.7-1.5-2.5C6 12.9 5 11 5 9a7 7 0 017-7z" /></svg>) },
-                  { title: "2. Present Core Group", desc: "Strategic alignment check and technical feasibility analysis.", icon: (<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 6a4 4 0 100-8 4 4 0 000 8zM23 20v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" /></svg>) },
-                  { title: "3. Formalize", desc: "Agreement and security-backed onboarding for all stakeholders.", icon: (<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M14 13l-4 4c-.8.8-2 .8-2.8 0l-2-2c-.8-.8-.8-2 0-2.8l4-4m1-1l5-5c.8-.8.8-2 0-2.8l-2-2c-.8-.8-2-.8-2.8 0l-5 5M22 22l-5-5m-13 5h4m-4-4v4" /></svg>) },
-                  { title: "4. Build with Pod", desc: "Rapid execution by a dedicated engineering and product team.", icon: (<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96" /><line x1="12" y1="22.08" x2="12" y2="12" /></svg>) },
-                  { title: "5. Launch & Iterate", desc: "Market entry followed by rapid feedback loops and optimization.", icon: (<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><polyline strokeLinecap="round" strokeLinejoin="round" points="2 17 8 11 13 16 22 5" /><path strokeLinecap="round" strokeLinejoin="round" d="M18 5h4v4M10 4l1 2 2 1-2 1-1 2-1-2-2-1 2-1z" /></svg>) },
-                  { title: "6. Spin Out", desc: "Establishing the venture as a fully independent market entity.", icon: (<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" /></svg>) }
+                  { 
+                    title: "Ideation", 
+                    desc: "Collaborative brainstorming to define core value propositions and product vision.", 
+                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.989-2.386l-.548-.547z" /></svg>), 
+                    color: '#FF8EBB' 
+                  },
+                  { 
+                    title: "Strategy & Setup", 
+                    desc: "Deep market analysis, technical planning, and strategic resource allocation.", 
+                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>), 
+                    color: '#5C67FF' 
+                  },
+                  { 
+                    title: "Design", 
+                    desc: "High-fidelity UX/UI design centered on intuitive user behavior and aesthetics.", 
+                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 22s5-5 5-10V2L12 12M12 22s-5-5-5-10V2l5 10" /></svg>), 
+                    color: '#99C26D' 
+                  },
+                  { 
+                    title: "Development", 
+                    desc: "Scalable full-stack engineering with modular architecture and clean code.", 
+                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>), 
+                    color: '#A855F7' 
+                  },
+                  { 
+                    title: "Launch & Market", 
+                    desc: "Strategic market deployment with real-time feedback loops and iterate cycles.", 
+                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.5 8.5C15.5 8.5 17 6.5 21.5 6.5C21.5 6.5 19.5 8 19.5 12.5C19.5 12.5 21.5 14 21.5 14L18.5 17.5L14 13L9.5 17.5L6.5 14.5L11 10L6.5 5.5L10 2L14.5 6.5L15.5 8.5ZM15.5 8.5L12.5 11.5M10 16.5L8.5 20L6 22L4 20L2 18L4 15.5L7.5 14" /></svg>), 
+                    color: '#FF8B42' 
+                  },
+                  { 
+                    title: "Scale", 
+                    desc: "Continuous optimization and growth strategy for market dominance and scale.", 
+                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" /></svg>), 
+                    color: '#34D399' 
+                  }
                 ].map((step, idx) => (
                   <div key={idx} className="process-step">
-                    <div className="step-icon-peach">{step.icon}</div>
+                    <div className="step-icon-peach" style={{ backgroundColor: step.color, color: 'white', border: 'none', boxShadow: `0 8px 16px -4px ${step.color}4D` }}>{step.icon}</div>
                     <h5 className="step-title">{step.title}</h5>
                     <p className="step-desc">{step.desc}</p>
                   </div>
@@ -809,9 +909,11 @@ function LandingPage() {
               We don't just build software; we engineer businesses.<br/>
               Our validated build framework minimizes risk and maximizes market impact by aligning technical precision with commercial reality.
             </p>
-            <button className="btn-primary" style={{marginTop: '16px'}}>
+            <Link to="/studio">
+              <button className="btn-primary" style={{marginTop: '16px'}}>
               Our Methodology &#x2192;
             </button>
+            </Link>
           </div>
         </section>
 

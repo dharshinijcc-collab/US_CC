@@ -23,10 +23,35 @@ export default function ContactPage() {
   };
   useScrollReveal();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Submitted:', formData);
-    // Add submission logic
+    try {
+      const response = await fetch('/api/submit-contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('Thank you for contacting us! We will get back to you soon.');
+        setFormData({
+          firstName: '',
+          workEmail: '',
+          company: '',
+          serviceInterest: 'Idea Validation',
+          projectStage: 'Discovery',
+          message: ''
+        });
+      } else {
+        alert(data.error || 'Submission failed. Please try again.');
+      }
+    } catch (error) {
+      alert('Network error. Please try again later.');
+    }
   };
 
   return (
@@ -666,7 +691,7 @@ export default function ContactPage() {
               </div>
               <h3 className="info-title">Business Inquiries</h3>
               <p className="info-desc">Dedicated partnership channel</p>
-              <button className="info-link">Request Partner Access</button>
+              <button className="info-link" onClick={() => document.getElementById('form-section').scrollIntoView({behavior: 'smooth'})}>Request Partner Access</button>
             </div>
           </div>
         </section>
@@ -701,7 +726,7 @@ export default function ContactPage() {
         <div className="cta-strip">
           <div className="cta-strip-inner">
             <h2 className="cta-strip-title">Ready to start?</h2>
-            <button className="btn-white">Book a Strategy Call</button>
+            <button className="btn-white" onClick={() => document.getElementById('form-section').scrollIntoView({behavior: 'smooth'})}>Book a Strategy Call</button>
           </div>
         </div>
       </div>

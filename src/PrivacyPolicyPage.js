@@ -415,7 +415,9 @@ export default function PrivacyPolicyPage() {
                 </div>
               </div>
             </div>
-            <button className="btn-nav">Enquire</button>
+            <Link to="/contact">
+              <button className="btn-nav">Enquire</button>
+            </Link>
           </nav>
         </div>
 
@@ -571,7 +573,9 @@ export default function PrivacyPolicyPage() {
                   <div style={{width: 40, height: 40, borderRadius: '6px', backgroundColor: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#0A0F1C', fontWeight: 800, fontSize: '14px', cursor: 'pointer'}}>in</div>
                </div>
                <p style={{fontSize: '0.85rem', color: '#9CA3AF', marginBottom: '16px'}}>Contact Us</p>
-               <button className="btn-footer">Partner With Us</button>
+               <Link to="/contact">
+                 <button className="btn-footer">Partner With Us</button>
+               </Link>
             </div>
           </div>
         </footer>

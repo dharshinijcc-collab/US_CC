@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import useScrollReveal from './useScrollReveal';
 import Header from './components/Header';
 
@@ -401,8 +402,8 @@ export default function CareersPage() {
                 We're not just looking for employees. We're looking for builders, thinkers, and partners to join the <span className="cc-gradient-text" style={{fontWeight: '700'}}>revolution</span> of venture creation.
               </p>
               <div className="hero-btn-group">
-                <button className="btn-bright">View Openings</button>
-                <button className="btn-outline">Our Mission</button>
+                <button className="btn-bright" onClick={() => document.getElementById('job-listings')?.scrollIntoView({behavior: 'smooth'})}>View Openings</button>
+                <button className="btn-outline" onClick={() => document.getElementById('mission-section')?.scrollIntoView({behavior: 'smooth'})}>Our Mission</button>
               </div>
             </div>
             <div className="hero-image-wrap">
@@ -576,7 +577,9 @@ export default function CareersPage() {
                 <p className="cta-subtitle">
                   We're a founder-led organization with a passion for architectural purity and performance.
                 </p>
-                <button className="btn-bright">Connect with our founders &#x2192;</button>
+                <Link to="/contact">
+                  <button className="btn-bright">Connect with our founders &#x2192;</button>
+                </Link>
               </div>
             </div>
           </div>
