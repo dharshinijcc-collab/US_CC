@@ -8,7 +8,6 @@ import careersContent from './content/careers.json';
 import TextReveal from './components/effects/TextReveal';
 import GrainOverlay from './components/effects/GrainOverlay';
 import BorderBeam from './components/effects/BorderBeam';
-import useMagneticHover from './hooks/useMagneticHover';
 import Footer from './components/Footer';
 
 export default function CareersPage() {
