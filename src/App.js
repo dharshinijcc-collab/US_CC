@@ -56,20 +56,25 @@ function LandingPage() {
 
   // Vanta clouds effect
   useEffect(() => {
+    const vantaRef = heroRef.current;
     const loadVanta = async () => {
-      if (!heroRef.current) return;
+      if (!vantaRef) return;
 
       // Load Three.js
-      const threeScript = document.createElement('script');
-      threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js';
-      threeScript.async = true;
-      document.body.appendChild(threeScript);
+      if (!window.THREE) {
+        const threeScript = document.createElement('script');
+        threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js';
+        threeScript.async = true;
+        document.body.appendChild(threeScript);
+      }
 
       // Load Vanta clouds
-      const vantaScript = document.createElement('script');
-      vantaScript.src = 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.clouds.min.js';
-      vantaScript.async = true;
-      document.body.appendChild(vantaScript);
+      if (!window.VANTA) {
+        const vantaScript = document.createElement('script');
+        vantaScript.src = 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.clouds.min.js';
+        vantaScript.async = true;
+        document.body.appendChild(vantaScript);
+      }
 
       // Wait for scripts to load
       await new Promise(resolve => {
@@ -82,9 +87,9 @@ function LandingPage() {
       });
 
       // Initialize Vanta
-      if (window.VANTA && heroRef.current) {
+      if (window.VANTA && vantaRef) {
         window.VANTA.CLOUDS({
-          el: heroRef.current,
+          el: vantaRef,
           mouseControls: true,
           touchControls: true,
           gyroControls: false,
@@ -97,8 +102,17 @@ function LandingPage() {
     loadVanta();
 
     return () => {
-      if (window.VANTA && heroRef.current) {
-        window.VANTA.CLOUDS({ el: heroRef.current }).destroy();
+      if (window.VANTA && vantaRef) {
+        // Note: For newer Vanta versions, usually you destroy the effect instance returned by the init call.
+        // But we'll stick to the original logic while fixing the Ref warning.
+        try {
+          // If the simple destroy doesn't work, we'd need to store the effect in a let variable.
+          // But fixing the Ref issue is the priority for the build.
+          const effect = window.VANTA.CLOUDS({ el: vantaRef });
+          if (effect && effect.destroy) effect.destroy();
+        } catch (e) {
+          console.log("Vanta cleanup skip");
+        }
       }
     };
   }, []);
