@@ -8,8 +8,6 @@ import ContactPage from './ContactPage';
 import PrivacyPolicyPage from './PrivacyPolicyPage';
 import TermsOfUsePage from './TermsOfUsePage';
 import Footer from './components/Footer';
-import { BuilderComponent, builder } from '@builder.io/react';
-import './builder-settings';
 
 
 // Effects & Hooks
@@ -35,23 +33,12 @@ export default function App() {
   );
 }
 
-function LandingPage() {
-  const [builderContentJson, setBuilderContentJson] = useState(null);
-
   const [idea, setIdea] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [formMessage, setFormMessage] = useState('');
   const [messageType, setMessageType] = useState('');
   const heroRef = useRef(null);
   
-  // Try to fetch builder content
-  React.useEffect(() => {
-    async function fetchContent() {
-      const content = await builder.get('page', { url: window.location.pathname }).promise();
-      setBuilderContentJson(content);
-    }
-    fetchContent();
-  }, []);
   useScrollReveal();
 
   // Vanta clouds effect
@@ -577,8 +564,6 @@ function LandingPage() {
           </nav>
         </div>
 
-        {/* Builder.io Content Area - CEO can add sections here visually */}
-        <BuilderComponent model="page" content={builderContentJson} />
 
 
         <header ref={heroRef} className="hero-section" style={{ position: 'relative', paddingTop: '160px', paddingBottom: '80px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
