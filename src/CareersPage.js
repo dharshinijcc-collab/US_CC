@@ -19,7 +19,6 @@ export default function CareersPage() {
     linkedin: ''
   });
   useScrollReveal();
-  const magBtn = useMagneticHover(15);
 
   const handleSubmit = (e) => {
     e.preventDefault();
