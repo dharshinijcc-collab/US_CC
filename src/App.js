@@ -8,6 +8,7 @@ import ContactPage from './ContactPage';
 import PrivacyPolicyPage from './PrivacyPolicyPage';
 import TermsOfUsePage from './TermsOfUsePage';
 import Footer from './components/Footer';
+import homeContent from './content/home.json';
 
 
 // Effects & Hooks
@@ -569,10 +570,12 @@ function LandingPage() {
 
         <header ref={heroRef} className="hero-section" style={{ position: 'relative', paddingTop: '160px', paddingBottom: '80px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <h1 style={{ fontSize: '3.5rem', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}>
-            Have an <span style={{color: '#005AE2'}}>Idea</span><br/>Worth Building?
+            {homeContent.hero.heading.split('Idea').map((part, index) => (
+              index === 0 ? <React.Fragment key={index}>{part}<span style={{color: '#005AE2'}}>Idea</span></React.Fragment> : part
+            ))}
           </h1>
           <p style={{ textAlign: 'center', color: '#475569', fontSize: '1.1rem', maxWidth: '540px', lineHeight: 1.6, marginBottom: '48px', fontWeight: 500 }}>
-            Tell us what you're working on. If there's strong founder fit, market pull, and product potential, we'll help take it from concept to venture creation.
+            {homeContent.hero.subheading}
           </p>
           
           <form onSubmit={handleIdeaSubmit} style={{ width: '100%', maxWidth: '600px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -625,16 +628,16 @@ function LandingPage() {
               </div>
             </div>
             {formMessage && <div className={`form-message ${messageType}`}>{formMessage}</div>}
-            <p style={{ color: '#64748B', fontSize: '0.9rem', fontWeight: 500, textAlign: 'center' }}>From Idea to Validation, all under one roof.</p>
+            <p style={{ color: '#64748B', fontSize: '0.9rem', fontWeight: 500, textAlign: 'center' }}>{homeContent.hero.footerNote}</p>
           </form>
         </header>
 
         {/* Target Audiences Section */}
         <section className="section-light">
           <div className="section-container">
-            <h3 className="section-eyebrow text-center cc-reveal">TARGET AUDIENCES</h3>
-            <h2 className="section-title text-center cc-reveal cc-delay-1">Built for Visionaries at Every Stage.</h2>
-            <p className="section-subtitle text-center cc-reveal cc-delay-2">Using AI to deliver faster.</p>
+            <h3 className="section-eyebrow text-center cc-reveal">{homeContent.audiences.eyebrow}</h3>
+            <h2 className="section-title text-center cc-reveal cc-delay-1">{homeContent.audiences.title}</h2>
+            <p className="section-subtitle text-center cc-reveal cc-delay-2">{homeContent.audiences.subtitle}</p>
             
             <div className="cards-grid">
               <div className="sys-card cc-shine">
@@ -680,8 +683,8 @@ function LandingPage() {
           <div className="section-container" style={{ position: 'relative', zIndex: 1 }}>
             <div className="dark-grid">
               <div className="dark-content">
-                <h3 className="section-eyebrow cc-reveal">THE CRESTCODE EDGE</h3>
-                <h2 className="section-title text-white cc-reveal cc-delay-1">Why Strategic Founders<br />Partner With Us.</h2>
+                <h3 className="section-eyebrow cc-reveal">{homeContent.partnership.eyebrow}</h3>
+                <h2 className="section-title text-white cc-reveal cc-delay-1">{homeContent.partnership.title}</h2>
                 <div className="feature-list">
                   <div className="feature-item">
                     <div className="feature-bullet">&#x2713;</div>

@@ -1,0 +1,30 @@
+backend:
+  name: git-gateway
+  branch: master
+
+media_folder: "public/img"
+public_folder: "/img"
+
+collections:
+  - name: "pages"
+    label: "Pages"
+    files:
+      - name: "home"
+        label: "Home Page"
+        file: "src/content/home.json"
+        fields:
+          - {label: "Hero Section", name: "hero", widget: "object", fields: [
+              {label: "Main Heading", name: "heading", widget: "string"},
+              {label: "Subheading Paragraph", name: "subheading", widget: "text"},
+              {label: "Footer Note", name: "footerNote", widget: "string"}
+            ]}
+          - {label: "Target Audiences", name: "audiences", widget: "object", fields: [
+              {label: "Eyebrow Text", name: "eyebrow", widget: "string"},
+              {label: "Section Title", name: "title", widget: "string"},
+              {label: "Section Subtitle", name: "subtitle", widget: "string"}
+            ]}
+          - {label: "Partnership Section", name: "partnership", widget: "object", fields: [
+              {label: "Eyebrow Text", name: "eyebrow", widget: "string"},
+              {label: "Section Title", name: "title", widget: "string"},
+              {label: "Subtitle Paragraph", name: "subtitle", widget: "text"}
+            ]}
