@@ -288,13 +288,6 @@ collections:
               {label: "List Items", name: "listItems", widget: "list", field: {label: "Item", name: "item", widget: "text"}},
               {label: "Follow Up Content", name: "followUpContent", widget: "list", field: {label: "Paragraph", name: "paragraph", widget: "text"}}
             ]}
-          - {label: "Cookies", name: "cookies", widget: "list", fields: [
-              {label: "Title", name: "title", widget: "string"},
-              {label: "Description", name: "description", widget: "text"}
-            ]}
-          - {label: "Cookie Note", name: "cookieNote", widget: "text"}
-          - {label: "Contact Email", name: "contactEmail", widget: "string"}
-          - {label: "Contact Address", name: "contactAddress", widget: "string"}
       - name: "terms"
         label: "Terms of Use Page"
         file: "src/content/terms.json"
