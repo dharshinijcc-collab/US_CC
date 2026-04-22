@@ -33,6 +33,7 @@ export default function App() {
   );
 }
 
+function LandingPage() {
   const [idea, setIdea] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [formMessage, setFormMessage] = useState('');
