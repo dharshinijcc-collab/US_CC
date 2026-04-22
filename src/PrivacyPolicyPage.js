@@ -1,6 +1,7 @@
 import React from 'react';
 import useScrollReveal from './useScrollReveal';
 import { Link } from 'react-router-dom';
+import privacyContent from './content/privacy.json';
 
 export default function PrivacyPolicyPage() {
   useScrollReveal();
@@ -424,119 +425,100 @@ export default function PrivacyPolicyPage() {
         {/* Legal Document Content */}
         <main className="legal-container">
           <div className="eyebrow-pill cc-reveal">LEGAL DOCUMENT</div>
-          <h1 className="legal-title cc-reveal cc-delay-1">Privacy Policy</h1>
+          <h1 className="legal-title cc-reveal cc-delay-1">{privacyContent.title}</h1>
           
           <div className="legal-meta">
             <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
-            Last Updated: October 26, 2023
+            Last Updated: {privacyContent.lastUpdated}
           </div>
 
           <section className="cc-reveal cc-delay-2">
             <h2 className="legal-h2">
-              <span className="legal-number">01.</span> Overview
+              <span className="legal-number">{privacyContent.sections[0].number}.</span> {privacyContent.sections[0].title}
             </h2>
-            <p className="legal-p">
-              Crestcode USA ("we", "our", or "us") is committed to protecting your privacy and ensuring the security of your personal data. This Privacy Policy outlines types of information we collect, how we use it, and measures we take to protect it when you use our website and services.
-            </p>
-            <p className="legal-p">
-              By accessing or using our services, you acknowledge that you have read and understood this Privacy Policy. We may update this policy periodically to reflect changes in our practices or legal requirements.
-            </p>
+            {privacyContent.sections[0].content.map((paragraph, idx) => (
+              <p key={idx} className="legal-p">{paragraph}</p>
+            ))}
           </section>
 
           <section className="cc-reveal cc-delay-3">
             <h2 className="legal-h2">
-              <span className="legal-number">02.</span> Data Collection & Usage
+              <span className="legal-number">{privacyContent.sections[1].number}.</span> {privacyContent.sections[1].title}
             </h2>
-            <p className="legal-p">
-              We collect information that you provide directly to us, such as when you create an account, fill out a form, or communicate with our support team. This may include:
-            </p>
+            {privacyContent.sections[1].content.map((paragraph, idx) => (
+              <p key={idx} className="legal-p">{paragraph}</p>
+            ))}
             
             <ul className="legal-list">
-              <li>
-                <div className="list-icon">
-                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <div><strong>Contact Information:</strong> Name, email address, phone number, and mailing address.</div>
-              </li>
-              <li>
-                <div className="list-icon">
-                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <div><strong>Professional Details:</strong> Job title, company name, and industry information.</div>
-              </li>
-              <li>
-                <div className="list-icon">
-                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <div><strong>Technical Usage:</strong> IP address, browser type, and operating system details.</div>
-              </li>
+              {privacyContent.sections[1].listItems.map((item, idx) => (
+                <li key={idx}>
+                  <div className="list-icon">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>{item}</div>
+                </li>
+              ))}
             </ul>
             
-            <p className="legal-p">
-              We use this data to provide and improve our services, process transactions, send administrative updates, and ensure compliance with security protocols.
-            </p>
+            {privacyContent.sections[1].followUpContent.map((paragraph, idx) => (
+              <p key={idx} className="legal-p">{paragraph}</p>
+            ))}
           </section>
 
           <section className="cc-reveal cc-delay-1">
             <h2 className="legal-h2">
-              <span className="legal-number">03.</span> Cookies & Analytics
+              <span className="legal-number">{privacyContent.sections[2].number}.</span> {privacyContent.sections[2].title}
             </h2>
             
             <div className="legal-card">
-              <p className="legal-p" style={{color: 'var(--text-main)'}}>
-                Our website uses cookies and similar tracking technologies to enhance your browsing experience and analyze site traffic.
-              </p>
+              {privacyContent.sections[2].content.map((paragraph, idx) => (
+                <p key={idx} className="legal-p" style={{color: 'var(--text-main)'}}>
+                  {paragraph}
+                </p>
+              ))}
               
               <div className="legal-card-grid">
-                <div>
-                  <h3 className="legal-card-h3">ESSENTIAL COOKIES</h3>
-                  <p className="legal-card-p">
-                    Necessary for the website to function properly, including security and session management.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="legal-card-h3">ANALYTICS COOKIES</h3>
-                  <p className="legal-card-p">
-                    Help us understand how visitors interact with our website through tools like Google Analytics.
-                  </p>
-                </div>
+                {privacyContent.sections[2].cookies.map((cookie, idx) => (
+                  <div key={idx}>
+                    <h3 className="legal-card-h3">{cookie.title}</h3>
+                    <p className="legal-card-p">
+                      {cookie.description}
+                    </p>
+                  </div>
+                ))}
               </div>
 
               <p className="legal-card-p" style={{color: '#9CA3AF', fontSize: '0.8rem'}}>
-                You can manage your cookie preferences through your browser settings at any time.
+                {privacyContent.sections[2].cookieNote}
               </p>
             </div>
           </section>
 
           <section className="cc-reveal cc-delay-2">
             <h2 className="legal-h2">
-              <span className="legal-number">04.</span> Contact Information
+              <span className="legal-number">{privacyContent.sections[3].number}.</span> {privacyContent.sections[3].title}
             </h2>
-            <p className="legal-p">
-              If you have any questions, concerns, or requests regarding this Privacy Policy or how we handle your personal data, please contact our Data Protection Officer:
-            </p>
+            {privacyContent.sections[3].content.map((paragraph, idx) => (
+              <p key={idx} className="legal-p">{paragraph}</p>
+            ))}
             
             <div className="contact-pills-wrap">
-              <a href="mailto:privacy@crestcode.usa" className="contact-pill">
+              <a href={`mailto:${privacyContent.sections[3].contactEmail}`} className="contact-pill">
                 <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                privacy@crestcode.usa
+                {privacyContent.sections[3].contactEmail}
               </a>
               <div className="contact-pill">
                 <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                New York, NY 10001, USA
+                {privacyContent.sections[3].contactAddress}
               </div>
             </div>
           </section>

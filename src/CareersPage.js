@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useScrollReveal from './useScrollReveal';
 import Header from './components/Header';
+import careersContent from './content/careers.json';
 
 // Effects & Hooks
 import TextReveal from './components/effects/TextReveal';
@@ -397,13 +398,13 @@ export default function CareersPage() {
               <div className="hero-eyebrow-pill cc-reveal">
                 <span className="eyebrow-dot">.</span> OPEN POSITIONS
               </div>
-              <TextReveal as="h1" className="hero-title" text="Join the Product Revolution" />
+              <TextReveal as="h1" className="hero-title" text={careersContent.hero.title} />
               <p className="body-text cc-reveal cc-delay-2" style={{maxWidth: '480px'}}>
-                We're not just looking for employees. We're looking for builders, thinkers, and partners to join the <span className="cc-gradient-text" style={{fontWeight: '700'}}>revolution</span> of venture creation.
+                {careersContent.hero.subheading}
               </p>
               <div className="hero-btn-group">
-                <button className="btn-bright" onClick={() => document.getElementById('job-listings')?.scrollIntoView({behavior: 'smooth'})}>View Openings</button>
-                <button className="btn-outline" onClick={() => document.getElementById('mission-section')?.scrollIntoView({behavior: 'smooth'})}>Our Mission</button>
+                <button className="btn-bright" onClick={() => document.getElementById('job-listings')?.scrollIntoView({behavior: 'smooth'})}>{careersContent.hero.viewOpeningsButton}</button>
+                <button className="btn-outline" onClick={() => document.getElementById('mission-section')?.scrollIntoView({behavior: 'smooth'})}>{careersContent.hero.ourMissionButton}</button>
               </div>
             </div>
             <div className="hero-image-wrap">
@@ -415,9 +416,9 @@ export default function CareersPage() {
         {/* Values / Mindset Section */}
         <section>
           <div className="section-container">
-            <h2 className="section-title">A growth mindset for ambitious builders.</h2>
+            <h2 className="section-title">{careersContent.values.title}</h2>
             <p className="body-text" style={{marginBottom: '48px', maxWidth: '600px'}}>
-              At Crestcode USA, we push the boundaries of what's possible in core infrastructure. We provide the environment, you provide the ambition. We focus on deep work and technical mastery over bureaucracy.
+              {careersContent.values.subtitle}
             </p>
 
             <div className="grid-3">
@@ -426,8 +427,8 @@ export default function CareersPage() {
                 <div className="value-icon-box">
                   <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
                 </div>
-                <h4 className="value-title">Ownership</h4>
-                <p className="value-desc">Take full responsibility for your code and impact. We empower individuals to lead projects from inception to deployment.</p>
+                <h4 className="value-title">{careersContent.values.values[0].title}</h4>
+                <p className="value-desc">{careersContent.values.values[0].description}</p>
               </div>
 
               {/* Value 2 */}
@@ -435,8 +436,8 @@ export default function CareersPage() {
                 <div className="value-icon-box">
                   <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 </div>
-                <h4 className="value-title">Excellence</h4>
-                <p className="value-desc">We strive for nothing less than world-class quality. Our standards are high because our clients' infrastructure demands it.</p>
+                <h4 className="value-title">{careersContent.values.values[1].title}</h4>
+                <p className="value-desc">{careersContent.values.values[1].description}</p>
               </div>
 
               {/* Value 3 */}
@@ -444,8 +445,8 @@ export default function CareersPage() {
                 <div className="value-icon-box">
                   <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                 </div>
-                <h4 className="value-title">Security-First</h4>
-                <p className="value-desc">Protection is at the core of every architecture decision. We build secure by design, not as an afterthought.</p>
+                <h4 className="value-title">{careersContent.values.values[2].title}</h4>
+                <p className="value-desc">{careersContent.values.values[2].description}</p>
               </div>
             </div>
           </div>
@@ -454,38 +455,38 @@ export default function CareersPage() {
         {/* Department Overview */}
         <section>
           <div className="section-container pt-0">
-            <h2 className="section-title" style={{fontSize: 'clamp(1.5rem, 3vw, 2rem)', marginBottom: '32px'}}>Department Overview</h2>
+            <h2 className="section-title" style={{fontSize: 'clamp(1.5rem, 3vw, 2rem)', marginBottom: '32px'}}>{careersContent.departments.title}</h2>
             
             <div className="dept-grid">
               <div className="dept-card">
                 <div className="dept-icon">
                   <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                 </div>
-                <span className="dept-label">Product</span>
+                <span className="dept-label">{careersContent.departments.departments[0]}</span>
               </div>
               <div className="dept-card">
                 <div className="dept-icon">
                   <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" /></svg>
                 </div>
-                <span className="dept-label">Data</span>
+                <span className="dept-label">{careersContent.departments.departments[1]}</span>
               </div>
               <div className="dept-card">
                 <div className="dept-icon">
                   <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
                 </div>
-                <span className="dept-label">Engineering</span>
+                <span className="dept-label">{careersContent.departments.departments[2]}</span>
               </div>
               <div className="dept-card">
                 <div className="dept-icon">
                   <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
                 </div>
-                <span className="dept-label">Security</span>
+                <span className="dept-label">{careersContent.departments.departments[3]}</span>
               </div>
               <div className="dept-card">
                 <div className="dept-icon">
                   <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                 </div>
-                <span className="dept-label">Operations</span>
+                <span className="dept-label">{careersContent.departments.departments[4]}</span>
               </div>
             </div>
           </div>
@@ -497,9 +498,9 @@ export default function CareersPage() {
             <div className="talent-icon">
               <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
             </div>
-            <h2 className="section-title">No current openings</h2>
+            <h2 className="section-title">{careersContent.talentPool.title}</h2>
             <p className="body-text" style={{maxWidth: '500px', margin: '0 auto'}}>
-              But we are always looking for exceptional talent. Join our talent pool to be notified of new roles that match your skill set.
+              {careersContent.talentPool.subtitle}
             </p>
 
             <BorderBeam>
@@ -507,7 +508,7 @@ export default function CareersPage() {
                 <form onSubmit={handleSubmit}>
                   <div className="form-row-2">
                     <div className="form-group">
-                      <label className="form-label">FIRST NAME</label>
+                      <label className="form-label">{careersContent.talentPool.form.nameLabel}</label>
                       <input 
                         type="text" 
                         className="form-input" 
@@ -518,7 +519,7 @@ export default function CareersPage() {
                       />
                     </div>
                     <div className="form-group">
-                      <label className="form-label">EMAIL ADDRESS</label>
+                      <label className="form-label">{careersContent.talentPool.form.emailLabel}</label>
                       <input 
                         type="email" 
                         className="form-input" 
@@ -531,7 +532,7 @@ export default function CareersPage() {
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">AREA OF INTEREST</label>
+                    <label className="form-label">{careersContent.talentPool.form.roleLabel}</label>
                     <select 
                       className="form-input"
                       value={formData.interest}
@@ -547,7 +548,7 @@ export default function CareersPage() {
                   </div>
 
                   <div className="form-group" style={{marginBottom: '32px'}}>
-                    <label className="form-label">LINKEDIN PROFILE / URL</label>
+                    <label className="form-label">{careersContent.talentPool.form.linkedinLabel}</label>
                     <input 
                       type="url" 
                       className="form-input" 
@@ -558,9 +559,7 @@ export default function CareersPage() {
                   </div>
 
                   <div className="cc-reveal cc-delay-2" style={{marginTop: '32px'}}>
-                    <button ref={magBtn} type="submit" className="btn-bright w-full cc-magnetic" style={{padding: '16px'}}>
-                      Join Talent Pool
-                    </button>
+                    <button type="submit" className="btn-bright w-full cc-magnetic" style={{padding: '16px'}}>{careersContent.talentPool.form.buttonText}</button>
                   </div>
                 </form>
               </div>
@@ -573,12 +572,12 @@ export default function CareersPage() {
           <div className="max-w-[1200px] mx-auto">
             <div className="cta-card">
               <div className="cta-content">
-                <h2 className="cta-title">Ready to scale the future?</h2>
+                <h2 className="cta-title">{careersContent.cta.title}</h2>
                 <p className="cta-subtitle">
-                  We're a founder-led organization with a passion for architectural purity and performance.
+                  {careersContent.cta.subtitle}
                 </p>
                 <Link to="/contact">
-                  <button className="btn-bright">Connect with our founders &#x2192;</button>
+                  <button className="btn-bright">{careersContent.cta.buttonText} &#x2192;</button>
                 </Link>
               </div>
             </div>

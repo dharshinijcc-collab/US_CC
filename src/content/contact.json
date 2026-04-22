@@ -1,0 +1,55 @@
+{
+  "hero": {
+    "eyebrow": "GET IN TOUCH",
+    "title": "Let's Build Something Great Together",
+    "subheading": "Ready to start your project? Reach out and let's discuss how we can help bring your vision to life.",
+    "buttonText": "Get Started"
+  },
+  "services": {
+    "title": "How can we help?",
+    "subtitle": "Select an area of interest to see how we specialize in driving your success.",
+    "services": [
+      {
+        "title": "Idea Validation",
+        "description": "Data-back your concept with market data."
+      },
+      {
+        "title": "MVP Build",
+        "description": "Develop your core product in record time."
+      },
+      {
+        "title": "Product Modernization",
+        "description": "Upgrade legacy systems for performance."
+      },
+      {
+        "title": "Compliance & Security",
+        "description": "Enterprise-grade safety for your data."
+      },
+      {
+        "title": "Scaling Support",
+        "description": "Infrastructure that grows with you."
+      }
+    ]
+  },
+  "form": {
+    "nameLabel": "FULL NAME",
+    "emailLabel": "WORK EMAIL",
+    "companyLabel": "COMPANY",
+    "serviceLabel": "SERVICE INTEREST",
+    "stageLabel": "PROJECT STAGE",
+    "messageLabel": "MESSAGE",
+    "buttonText": "Send Message",
+    "stages": ["Discovery", "In Progress", "Scaling", "Support"]
+  },
+  "contactInfo": {
+    "title": "Contact Information",
+    "email": "hello@crestcode.com",
+    "address": "San Francisco, CA",
+    "phone": "+1 (555) 123-4567"
+  },
+  "cta": {
+    "title": "Ready to transform your digital presence?",
+    "subtitle": "Let's discuss how Crestcode can accelerate your product journey.",
+    "buttonText": "Start a Conversation"
+  }
+}

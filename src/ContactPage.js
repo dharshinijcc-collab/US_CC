@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useScrollReveal from './useScrollReveal';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import contactContent from './content/contact.json';
 
 // Effects & Hooks
 import GrainOverlay from './components/effects/GrainOverlay';
@@ -565,12 +566,12 @@ export default function ContactPage() {
           <div className="section-container grid-2 pb-0" style={{ position: 'relative', zIndex: 1 }}>
             <div>
               <div className="hero-eyebrow-pill cc-reveal">CONTACT OUR EXPERTS</div>
-              <h1 className="hero-title">Let's Build Your Next Product</h1>
+              <h1 className="hero-title">{contactContent.hero.title}</h1>
               <p className="body-text cc-reveal cc-delay-2" style={{maxWidth: '480px', marginBottom: '40px'}}>
-                Partner with our venture studio to transform your vision into a market-ready digital reality through expert engineering and strategic design.
+                {contactContent.hero.subheading}
               </p>
               <button className="btn-dark cc-reveal cc-delay-3" onClick={() => document.getElementById('form-section').scrollIntoView()}>
-                Scroll to Form ↓
+                {contactContent.hero.buttonText}
               </button>
             </div>
             <div className="hero-image-wrap"></div>
@@ -583,28 +584,28 @@ export default function ContactPage() {
             
             {/* Left Column: Services */}
             <div>
-              <h2 className="section-title cc-slide-left" style={{fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', marginTop: 0}}>How can we help?</h2>
-              <p className="body-text cc-slide-left cc-delay-1">Select an area of interest to see how we specialize in driving your success.</p>
+              <h2 className="section-title cc-slide-left" style={{fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', marginTop: 0}}>{contactContent.services.title}</h2>
+              <p className="body-text cc-slide-left cc-delay-1">{contactContent.services.subtitle}</p>
               
               <div className="services-list">
-                {[
-                  { title: 'Idea Validation', desc: 'Data-back your concept with market data.', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /> },
-                  { title: 'MVP Build', desc: 'Develop your core product in record time.', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /> },
-                  { title: 'Product Modernization', desc: 'Upgrade legacy systems for performance.', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /> },
-                  { title: 'Compliance & Security', desc: 'Enterprise-grade safety for your data.', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /> },
-                  { title: 'Scaling Support', desc: 'Infrastructure that grows with you.', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /> }
-                ].map((service) => (
+                {contactContent.services.services.map((service, index) => (
                   <div 
                     key={service.title}
                     className={`service-card ${formData.serviceInterest === service.title ? 'active' : ''}`}
                     onClick={() => handleServiceClick(service.title)}
                   >
                     <div className="service-icon-box">
-                      <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">{service.icon}</svg>
+                      <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">{[
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />,
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />,
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />,
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />,
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                      ][index]}</svg>
                     </div>
                     <div>
                       <h4 className="service-title">{service.title}</h4>
-                      <p className="service-desc">{service.desc}</p>
+                      <p className="service-desc">{service.description}</p>
                     </div>
                   </div>
                 ))}
@@ -616,12 +617,12 @@ export default function ContactPage() {
               <form onSubmit={handleSubmit} style={{padding: '48px'}}>
                 <div className="form-row-2">
                   <div className="form-group">
-                    <label className="form-label">FULL NAME</label>
+                    <label className="form-label">{contactContent.form.nameLabel}</label>
                     <input type="text" className="form-input" placeholder="John Doe" 
                            value={formData.firstName} onChange={e => setFormData({...formData, firstName: e.target.value})} required/>
                   </div>
                   <div className="form-group">
-                    <label className="form-label">WORK EMAIL</label>
+                    <label className="form-label">{contactContent.form.emailLabel}</label>
                     <input type="email" className="form-input" placeholder="john@company.com" 
                            value={formData.workEmail} onChange={e => setFormData({...formData, workEmail: e.target.value})} required/>
                   </div>
@@ -629,26 +630,24 @@ export default function ContactPage() {
 
                 <div className="form-row-2">
                   <div className="form-group">
-                    <label className="form-label">COMPANY</label>
+                    <label className="form-label">{contactContent.form.companyLabel}</label>
                     <input type="text" className="form-input" placeholder="Acme Inc." 
                            value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})}/>
                   </div>
                   <div className="form-group">
-                    <label className="form-label">SERVICE INTEREST</label>
+                    <label className="form-label">{contactContent.form.serviceLabel}</label>
                     <select className="form-input" value={formData.serviceInterest} onChange={e => handleServiceClick(e.target.value)}>
-                      <option value="Idea Validation">Idea Validation</option>
-                      <option value="MVP Build">MVP Build</option>
-                      <option value="Product Modernization">Product Modernization</option>
-                      <option value="Compliance & Security">Compliance & Security</option>
-                      <option value="Scaling Support">Scaling Support</option>
+                      {contactContent.services.services.map(service => (
+                        <option key={service.title} value={service.title}>{service.title}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
 
                 <div className="form-group" style={{marginBottom: '32px'}}>
-                  <label className="form-label">PROJECT STAGE</label>
+                  <label className="form-label">{contactContent.form.stageLabel}</label>
                   <div className="radio-pill-group">
-                    {['Discovery', 'In Progress', 'Scaling', 'Support'].map(stage => (
+                    {contactContent.form.stages.map(stage => (
                       <label key={stage} className={`radio-pill ${formData.projectStage === stage ? 'active' : ''}`}>
                         <input type="radio" name="projectStage" value={stage} 
                                checked={formData.projectStage === stage} 
@@ -661,13 +660,13 @@ export default function ContactPage() {
                 </div>
 
                 <div className="form-group" style={{marginBottom: '32px'}}>
-                  <label className="form-label">MESSAGE</label>
+                  <label className="form-label">{contactContent.form.messageLabel}</label>
                   <textarea className="form-input" placeholder="Tell us about your project..." 
                             value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} required></textarea>
                 </div>
 
                 <button type="submit" className="btn-bright" style={{width: '100%', padding: '18px'}}>
-                  Send Message
+                  {contactContent.form.buttonText}
                 </button>
               </form>
             </BorderBeam>
@@ -683,15 +682,15 @@ export default function ContactPage() {
               </div>
               <h3 className="info-title">Email Us</h3>
               <p className="info-desc">For general inquiries and hello's</p>
-              <a href="mailto:hello@crestcode.com" className="info-link">hello@crestcode.com</a>
+              <a href={`mailto:${contactContent.contactInfo.email}`} className="info-link">{contactContent.contactInfo.email}</a>
             </div>
             <div className="info-card">
               <div className="info-icon">
                 <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2H5a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
               </div>
-              <h3 className="info-title">Business Inquiries</h3>
-              <p className="info-desc">Dedicated partnership channel</p>
-              <button className="info-link" onClick={() => document.getElementById('form-section').scrollIntoView({behavior: 'smooth'})}>Request Partner Access</button>
+              <h3 className="info-title">{contactContent.contactInfo.title}</h3>
+              <p className="info-desc">{contactContent.contactInfo.address}</p>
+              <a href={`tel:${contactContent.contactInfo.phone}`} className="info-link">{contactContent.contactInfo.phone}</a>
             </div>
           </div>
         </section>
@@ -725,8 +724,8 @@ export default function ContactPage() {
         {/* Bottom CTA Strip */}
         <div className="cta-strip">
           <div className="cta-strip-inner">
-            <h2 className="cta-strip-title">Ready to start?</h2>
-            <button className="btn-white" onClick={() => document.getElementById('form-section').scrollIntoView({behavior: 'smooth'})}>Book a Strategy Call</button>
+            <h2 className="cta-strip-title">{contactContent.cta.title}</h2>
+            <button className="btn-white" onClick={() => document.getElementById('form-section').scrollIntoView({behavior: 'smooth'})}>{contactContent.cta.buttonText}</button>
           </div>
         </div>
       </div>

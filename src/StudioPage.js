@@ -1,52 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import studioContent from './content/studio.json';
 
 export default function StudioPage() {
   // 1. State for the 3D Card Stack Carousel
   const [activeStackIndex, setActiveStackIndex] = useState(0);
-  // 2. Data array for the Stacked Cards (Exactly matching the text and white styling from your image)
-  const stackCards = [
-    {
-      id: 0,
-      title: "1. Building Before Validation",
-      problemDesc: "We identify high-potential opportunities, validate them through strategy and market fit, and build scalable ventures with the right product, team, and capital.",
-      solutionDesc: "Crestcode validates ideas before development begins, tests demand and feasibility early, aligns the solution with real market needs, and ensures execution starts with confidence, not guesswork.",
-      icon: <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.989-2.386l-.548-.547z" /></svg>,
-      color: "#FF8EBB"
-    },
-    {
-      id: 1,
-      title: "2. Technical Foundation",
-      problemDesc: "Startups often suffer from poor technical foundations that prevent scaling and lead to expensive rewrites.",
-      solutionDesc: "We build on enterprise-grade architecture from day one, ensuring your product is scalable, secure, and ready for massive growth.",
-      icon: <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" /></svg>,
-      color: "#5C67FF"
-    },
-    {
-      id: 2,
-      title: "3. Market Misalignment",
-      problemDesc: "Most startups fail because they build products no one wants, misinterpreting market signals.",
-      solutionDesc: "Our validation process savings crucial runway by preventing premature scaling and ensuring resources are allocated to proven market demands.",
-      icon: <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>,
-      color: "#99C26D"
-    },
-    {
-      id: 3,
-      title: "4. Execution Speed",
-      problemDesc: "Fragmented handoffs between design and engineering slow down development and dilute vision.",
-      solutionDesc: "Our dedicated pods move 10x faster through total alignment, shared codebases, and repeatable engineering frameworks.",
-      icon: <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
-      color: "#9C27B0"
-    },
-    {
-      id: 4,
-      title: "5. Capital Efficiency",
-      problemDesc: "Raising too much capital too early leads to dilution and loss of strategic control.",
-      solutionDesc: "We provide the infrastructure and expertise to reach profitability with minimal burn, giving founders total control.",
-      icon: <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.407 2.67 1M12 17V7m0 10c-1.11 0-2.08-.407-2.67-1M12 17V7" /></svg>,
-      color: "#8257e5"
-    }
-  ];
+  // 2. Data array for the Stacked Cards from JSON content
+  const stackCards = studioContent.solving.cards.map((card, index) => ({
+    ...card,
+    icon: index === 0 ? <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.989-2.386l-.548-.547z" /></svg> :
+         index === 1 ? <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" /></svg> :
+         index === 2 ? <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg> :
+         index === 3 ? <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> :
+         <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.407 2.67 1M12 17V7m0 10c-1.11 0-2.08-.407-2.67-1M12 17V7" /></svg>,
+    color: ["#FF8EBB", "#5C67FF", "#99C26D", "#9C27B0", "#8257e5"][index]
+  }));
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -592,23 +560,23 @@ export default function StudioPage() {
         <section className="section-white hero-section" style={{ position: 'relative' }}>
           <div className="section-container grid-2 pt-0 pb-0" style={{ position: 'relative', zIndex: 1 }}>
             <div>
-              <div className="hero-eyebrow-pill">THE STUDIO ADVANTAGE</div>
+              <div className="hero-eyebrow-pill">{studioContent.hero.eyebrow}</div>
               <h1 className="hero-title">
-                Building products through <span className="text-blue" style={{ fontWeight: 700 }}>repeatable</span> and <span className="text-blue" style={{ fontWeight: 700 }}>tested</span> methods.
+                {studioContent.hero.title}
               </h1>
               <p className="body-text" style={{ marginBottom: '40px', maxWidth: '480px' }}>
-                Democratizing product building using AI and simplifying complex processes through intelligent automation. Enabling faster, smarter, and scalable product creation.
+                {studioContent.hero.subheading}
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }} className="cc-reveal">
-                <button className="btn-primary" onClick={() => document.getElementById('methodology-section')?.scrollIntoView({behavior: 'smooth'})}>Learn About Studio Model →</button>
+                <button className="btn-primary" onClick={() => document.getElementById('methodology-section')?.scrollIntoView({behavior: 'smooth'})}>{studioContent.hero.buttonText}</button>
               </div>
             </div>
             <div className="hero-img-col">
               <div className="hero-img-bg"></div>
               <div className="hero-img-badge">
-                <div className="hero-badge-tag"><span className="hero-badge-dot"></span>LIVE VENTURES</div>
-                <div className="hero-badge-val">$450M+</div>
-                <div className="hero-badge-lbl">Aggregate Portfolio Valuation</div>
+                <div className="hero-badge-tag"><span className="hero-badge-dot"></span>{studioContent.hero.badgeTag}</div>
+                <div className="hero-badge-val">{studioContent.hero.badgeValue}</div>
+                <div className="hero-badge-lbl">{studioContent.hero.badgeLabel}</div>
               </div>
             </div>
           </div>
@@ -618,25 +586,25 @@ export default function StudioPage() {
         <div className="validation-wrapper section-base" style={{ backgroundColor: 'var(--white)' }}>
           <div className="validation-card grid-2">
             <div>
-              <h2 className="section-title section-title-left title-dark">Idea Validation</h2>
+              <h2 className="section-title section-title-left title-dark">{studioContent.validation.title}</h2>
               <p className="body-text" style={{ marginBottom: '40px', color: '#9CA3AF' }}>
-                Get an instant "Build-Ready" score based on our proprietary venture assessment framework.
+                {studioContent.validation.description}
               </p>
               <Link to="/contact">
-                <button className="btn-primary" style={{ backgroundColor: '#005AE2', boxShadow: '0 8px 32px rgba(0, 90, 226, 0.4)', padding: '12px 32px', borderRadius: '100px' }}>Validate Your Idea</button>
+                <button className="btn-primary" style={{ backgroundColor: '#005AE2', boxShadow: '0 8px 32px rgba(0, 90, 226, 0.4)', padding: '12px 32px', borderRadius: '100px' }}>{studioContent.validation.buttonText}</button>
               </Link>
             </div>
 
             <div className="score-panel">
               <div className="score-header">
-                <span className="score-title-text" style={{ color: '#9CA3AF', fontSize: '0.7rem', fontWeight: 700 }}>VENTURE READINESS SCORE</span>
-                <span className="score-number" style={{ color: '#005AE2', fontSize: '1.5rem', fontWeight: 800 }}>84/100</span>
+                <span className="score-title-text" style={{ color: '#9CA3AF', fontSize: '0.7rem', fontWeight: 700 }}>{studioContent.validation.scoreLabel}</span>
+                <span className="score-number" style={{ color: '#005AE2', fontSize: '1.5rem', fontWeight: 800 }}>{studioContent.validation.scoreValue}</span>
               </div>
 
               <div className="progress-row">
                 <div className="progress-labels">
-                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>Market Fit</span>
-                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>92%</span>
+                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>{studioContent.validation.marketFitLabel}</span>
+                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>{studioContent.validation.marketFitValue}</span>
                 </div>
                 <div className="progress-track" style={{ backgroundColor: '#2A303C', height: '4px', borderRadius: '2px' }}>
                   <div className="progress-fill" style={{ width: '92%', height: '4px', borderRadius: '2px', backgroundColor: '#005AE2' }}></div>
@@ -645,8 +613,8 @@ export default function StudioPage() {
 
               <div className="progress-row">
                 <div className="progress-labels">
-                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>Tech Feasibility</span>
-                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>78%</span>
+                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>{studioContent.validation.techFeasibilityLabel}</span>
+                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>{studioContent.validation.techFeasibilityValue}</span>
                 </div>
                 <div className="progress-track" style={{ backgroundColor: '#2A303C', height: '4px', borderRadius: '2px' }}>
                   <div className="progress-fill" style={{ width: '78%', height: '4px', borderRadius: '2px', backgroundColor: '#005AE2' }}></div>
@@ -655,8 +623,8 @@ export default function StudioPage() {
 
               <div className="progress-row" style={{ marginBottom: '24px' }}>
                 <div className="progress-labels">
-                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>GTM Strategy</span>
-                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>81%</span>
+                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>{studioContent.validation.gtmStrategyLabel}</span>
+                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>{studioContent.validation.gtmStrategyValue}</span>
                 </div>
                 <div className="progress-track" style={{ backgroundColor: '#2A303C', height: '4px', borderRadius: '2px' }}>
                   <div className="progress-fill" style={{ width: '81%', height: '4px', borderRadius: '2px', backgroundColor: '#005AE2' }}></div>
@@ -665,7 +633,7 @@ export default function StudioPage() {
 
               <div style={{ backgroundColor: '#122624', color: '#00E6A0', padding: '12px 16px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" /></svg>
-                High Growth Potential Detected
+                {studioContent.validation.growthBadge}
               </div>
             </div>
           </div>
@@ -674,7 +642,7 @@ export default function StudioPage() {
         {/* For Founders vs. For Investors Section */}
         <section className="section-base" style={{ position: 'relative' }}>
           <div className="section-container" style={{ position: 'relative', zIndex: 1 }}>
-            <h2 className="section-title">Built for Founders. Designed for<br />Investors.</h2>
+            <h2 className="section-title">{studioContent.foundersInvestors.title}</h2>
             <div className="grid-2 grid-2-align-top" style={{ marginTop: '64px' }}>
 
               <div className="card" style={{ position: 'relative', overflow: 'hidden', border: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
@@ -682,23 +650,23 @@ export default function StudioPage() {
                 <svg style={{ position: 'absolute', top: '32px', right: '32px', width: '80px', height: '80px', color: '#F1F5F9' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5L21 3m-7.5 7.5L9 21M13.5 10.5l-3-3m3 3l3 3m-3-3L3 21" />
                 </svg>
-                <h3 className="card-title relative z-10" style={{ fontSize: '1.5rem', marginBottom: '24px' }}>For Founders</h3>
-                <p className="card-desc relative z-10" style={{ color: '#64748B', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.6' }}>Turn your vision into a venture-backable reality. We provide the infrastructure and talent to build 10x faster while you focus on the market.</p>
+                <h3 className="card-title relative z-10" style={{ fontSize: '1.5rem', marginBottom: '24px' }}>{studioContent.foundersInvestors.founders.title}</h3>
+                <p className="card-desc relative z-10" style={{ color: '#64748B', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.6' }}>{studioContent.foundersInvestors.founders.description}</p>
                 <ul className="check-list relative z-10" style={{ marginBottom: '40px' }}>
                   <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
                     <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    Fractional C-Suite Support
+                    {studioContent.foundersInvestors.founders.benefits[0]}
                   </li>
                   <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
                     <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    Elite Dev & Design Squads
+                    {studioContent.foundersInvestors.founders.benefits[1]}
                   </li>
                   <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
                     <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    Seed Stage Fundraising Prep
+                    {studioContent.foundersInvestors.founders.benefits[2]}
                   </li>
                 </ul>
-                <a href="#founders" className="card-link relative z-10" style={{ color: '#005AE2', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center' }}>Get Started <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px' }}><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg></a>
+                <a href="#founders" className="card-link relative z-10" style={{ color: '#005AE2', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center' }}>{studioContent.foundersInvestors.founders.buttonText} <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px' }}><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg></a>
               </div>
 
               <div className="card" style={{ position: 'relative', overflow: 'hidden', border: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
@@ -706,23 +674,23 @@ export default function StudioPage() {
                 <svg style={{ position: 'absolute', top: '32px', right: '32px', width: '80px', height: '80px', color: '#F1F5F9' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                 </svg>
-                <h3 className="card-title relative z-10" style={{ fontSize: '1.5rem', marginBottom: '24px' }}>For Investors</h3>
-                <p className="card-desc relative z-10" style={{ color: '#64748B', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.6' }}>We de-risk technology investments. Partner with Crestcode to build your portfolio companies with professional-grade execution.</p>
+                <h3 className="card-title relative z-10" style={{ fontSize: '1.5rem', marginBottom: '24px' }}>{studioContent.foundersInvestors.investors.title}</h3>
+                <p className="card-desc relative z-10" style={{ color: '#64748B', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.6' }}>{studioContent.foundersInvestors.investors.description}</p>
                 <ul className="check-list relative z-10" style={{ marginBottom: '40px' }}>
                   <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
                     <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    Technical Due Diligence
+                    {studioContent.foundersInvestors.investors.benefits[0]}
                   </li>
                   <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
                     <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    Portfolio Scale-Up Services
+                    {studioContent.foundersInvestors.investors.benefits[1]}
                   </li>
                   <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
                     <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    Managed Exit Preparation
+                    {studioContent.foundersInvestors.investors.benefits[2]}
                   </li>
                 </ul>
-                <a href="#investors" className="card-link relative z-10" style={{ color: '#005AE2', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center' }}>Partner With Us <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px' }}><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg></a>
+                <a href="#investors" className="card-link relative z-10" style={{ color: '#005AE2', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center' }}>{studioContent.foundersInvestors.investors.buttonText} <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px' }}><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg></a>
               </div>
 
             </div>
@@ -732,42 +700,42 @@ export default function StudioPage() {
         {/* How the Partnership Works */}
         <section className="section-white">
           <div className="section-container" style={{ maxWidth: '1280px' }}>
-            <h2 className="section-title">How the Partnership Works</h2>
+            <h2 className="section-title">{studioContent.partnership.title}</h2>
             <div className="grid-3" style={{ marginTop: '64px', gap: '32px' }}>
 
               <div className="card" style={{ padding: '40px 32px' }}>
                 <div className="icon-circle">1</div>
-                <h3 className="card-title" style={{ fontSize: '1.25rem' }}>Support</h3>
+                <h3 className="card-title" style={{ fontSize: '1.25rem' }}>{studioContent.partnership.support.title}</h3>
                 <p className="card-desc" style={{ fontSize: '0.9rem' }}>
-                  We provide foundational support for existing teams, augmenting capabilities where you need them most.<br /><br />
-                  <span style={{ fontWeight: 700 }}>Best for:</span> Teams needing specific technical or design expertise to accelerate delivery.
+                  {studioContent.partnership.support.description}<br /><br />
+                  <span style={{ fontWeight: 700 }}>Best for:</span> {studioContent.partnership.support.bestFor}
                 </p>
                 <Link to="/contact">
-                  <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>Learn more →</button>
+                  <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>{studioContent.partnership.support.buttonText}</button>
                 </Link>
               </div>
 
               <div className="card cc-slide-center" style={{ padding: '40px 32px' }}>
                 <div className="icon-circle">2</div>
-                <h3 className="card-title" style={{ fontSize: '1.25rem' }}>Co-Development</h3>
+                <h3 className="card-title" style={{ fontSize: '1.25rem' }}>{studioContent.partnership.codevelopment.title}</h3>
                 <p className="card-desc" style={{ fontSize: '0.9rem' }}>
-                  We work alongside your internal team in a shared codebase, accelerating roadmap delivery.<br /><br />
-                  <span style={{ fontWeight: 700 }}>Best for:</span> Scaling startups that need to move fast without immediate full-time hires.
+                  {studioContent.partnership.codevelopment.description}<br /><br />
+                  <span style={{ fontWeight: 700 }}>Best for:</span> {studioContent.partnership.codevelopment.bestFor}
                 </p>
                 <Link to="/contact">
-                  <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>Learn more →</button>
+                  <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>{studioContent.partnership.codevelopment.buttonText}</button>
                 </Link>
               </div>
 
               <div className="card" style={{ padding: '40px 32px' }}>
                 <div className="icon-circle">3</div>
-                <h3 className="card-title" style={{ fontSize: '1.25rem' }}>Full Build</h3>
+                <h3 className="card-title" style={{ fontSize: '1.25rem' }}>{studioContent.partnership.fullBuild.title}</h3>
                 <p className="card-desc" style={{ fontSize: '0.9rem' }}>
-                  We handle the entire product lifecycle from ideation to deployment as your dedicated product organization.<br /><br />
-                  <span style={{ fontWeight: 700 }}>Best for:</span> Solo founders or non-technical teams needing an end-to-end build partner.
+                  {studioContent.partnership.fullBuild.description}<br /><br />
+                  <span style={{ fontWeight: 700 }}>Best for:</span> {studioContent.partnership.fullBuild.bestFor}
                 </p>
                 <Link to="/contact">
-                  <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>Learn more →</button>
+                  <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>{studioContent.partnership.fullBuild.buttonText}</button>
                 </Link>
               </div>
 
@@ -778,7 +746,7 @@ export default function StudioPage() {
         <section className="section-dark" style={{ backgroundColor: '#0A0F1C', padding: '100px 24px' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             {/* Main Section Title */}
-            <h2 className="section-title title-dark" style={{ marginBottom: '80px', textAlign: 'center', fontSize: '3.5rem', fontWeight: 800, transform: 'translateX(-40px)' }}>How We Are Solving It</h2>
+            <h2 className="section-title title-dark" style={{ marginBottom: '80px', textAlign: 'center', fontSize: '3.5rem', fontWeight: 800, transform: 'translateX(-40px)' }}>{studioContent.solving.title}</h2>
             <div className="grid-2" style={{ alignItems: 'center', gap: '120px', display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
               {/* Left Column: Problem Step */}
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', transform: 'translateY(-50px)' }}>
@@ -871,7 +839,7 @@ export default function StudioPage() {
                   marginTop: '40px',
                   marginLeft: '80px'
                 }}>
-                  How Crestcode Resolves It
+                  {studioContent.solving.caption}
                 </p>
               </div>
             </div>
@@ -882,10 +850,10 @@ export default function StudioPage() {
           <div className="section-container grid-2">
             <div>
               <h2 className="section-title section-title-left">
-                Why <span className="text-blue">**%</span> of Ideas<br />Never Launch.
+                {studioContent.whyIdeasFail.title}
               </h2>
               <p className="body-text" style={{ marginBottom: '48px' }}>
-                Most startups fail because they build products no one wants, run out of capital before finding product-market fit, or suffer from poor technical foundations that prevent scaling.
+                {studioContent.whyIdeasFail.description}
               </p>
 
               <div className="feature-box">
@@ -893,8 +861,8 @@ export default function StudioPage() {
                   <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                 </div>
                 <div>
-                  <h4>Building in Isolation</h4>
-                  <p>Developing without continuous user feedback leads to misaligned products.</p>
+                  <h4>{studioContent.whyIdeasFail.problems[0].title}</h4>
+                  <p>{studioContent.whyIdeasFail.problems[0].description}</p>
                 </div>
               </div>
 
@@ -903,8 +871,8 @@ export default function StudioPage() {
                   <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 </div>
                 <div>
-                  <h4>Premature Scaling</h4>
-                  <p>Spending heavily on marketing before achieving true product-market fit.</p>
+                  <h4>{studioContent.whyIdeasFail.problems[1].title}</h4>
+                  <p>{studioContent.whyIdeasFail.problems[1].description}</p>
                 </div>
               </div>
             </div>
@@ -916,9 +884,9 @@ export default function StudioPage() {
         {/* What We Look For */}
         <section className="section-white">
           <div className="section-container text-center">
-            <h2 className="section-title">What We Look For</h2>
+            <h2 className="section-title">{studioContent.whatWeLookFor.title}</h2>
             <p className="section-subtitle text-center">
-              We are highly selective. Our resources are finite, which is why we only<br />partner with ventures that meet our "Future-Standard" criteria.
+              {studioContent.whatWeLookFor.subtitle}
             </p>
 
             <div className="grid-4" style={{ marginTop: '64px' }}>
@@ -927,32 +895,32 @@ export default function StudioPage() {
                 <div className="look-icon">
                   <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
                 </div>
-                <h4 className="look-title">Market Scape</h4>
-                <p className="look-desc">TAM over $1B with a clear, underserved niche or a massive inefficiency waiting to be disrupted.</p>
+                <h4 className="look-title">{studioContent.whatWeLookFor.criteria[0].title}</h4>
+                <p className="look-desc">{studioContent.whatWeLookFor.criteria[0].description}</p>
               </div>
 
               <div className="look-card">
                 <div className="look-icon">
                   <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>
                 </div>
-                <h4 className="look-title">Tech Leverage</h4>
-                <p className="look-desc">Opportunities where AI, Automation, or Proprietary Tech creates a "moat" that is difficult to copy.</p>
+                <h4 className="look-title">{studioContent.whatWeLookFor.criteria[1].title}</h4>
+                <p className="look-desc">{studioContent.whatWeLookFor.criteria[1].description}</p>
               </div>
 
               <div className="look-card">
                 <div className="look-icon">
                   <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                 </div>
-                <h4 className="look-title">Founder Fit</h4>
-                <p className="look-desc">Domain expertise, relentless drive, and a willingness to be challenged as much as coached.</p>
+                <h4 className="look-title">{studioContent.whatWeLookFor.criteria[2].title}</h4>
+                <p className="look-desc">{studioContent.whatWeLookFor.criteria[2].description}</p>
               </div>
 
               <div className="look-card">
                 <div className="look-icon">
                   <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                 </div>
-                <h4 className="look-title">Ethical Moat</h4>
-                <p className="look-desc">Businesses that solve real-world problems and contribute positively to the tech ecosystem.</p>
+                <h4 className="look-title">{studioContent.whatWeLookFor.criteria[3].title}</h4>
+                <p className="look-desc">{studioContent.whatWeLookFor.criteria[3].description}</p>
               </div>
 
             </div>
@@ -962,9 +930,9 @@ export default function StudioPage() {
         {/* The Build Timeline */}
         <section className="section-light text-center">
           <div className="section-container">
-            <h2 className="section-title">The Build Timeline</h2>
+            <h2 className="section-title">{studioContent.timeline.title}</h2>
             <p className="section-subtitle text-center mx-auto" style={{ maxWidth: '750px', marginBottom: '64px' }}>
-              A high-velocity, structured roadmap from zero to market entry. We engineer digital excellence through 6 rigorous execution phases, optimized for performance and scale.
+              {studioContent.timeline.subtitle}
             </p>
 
             <div className="timeline-wrapper-new">
@@ -981,8 +949,8 @@ export default function StudioPage() {
                       <span className="t-phase-text text-primary">PHASE 01</span>
                       <span className="t-week-pill">1-2 WKS</span>
                     </div>
-                    <h4 className="t-title-new">Discovery &<br />Requirements</h4>
-                    <p className="t-desc-new">Defining core goals and user needs for a scalable architecture.</p>
+                    <h4 className="t-title-new">{studioContent.timeline.phases[0].title}</h4>
+                    <p className="t-desc-new">{studioContent.timeline.phases[0].description}</p>
                   </div>
                 </div>
 
@@ -997,8 +965,8 @@ export default function StudioPage() {
                       <span className="t-phase-text text-primary">PHASE 02</span>
                       <span className="t-week-pill">1-2 WKS</span>
                     </div>
-                    <h4 className="t-title-new">Research &<br />Planning</h4>
-                    <p className="t-desc-new">Technical feasibility and formulation of a strategic roadmap.</p>
+                    <h4 className="t-title-new">{studioContent.timeline.phases[1].title}</h4>
+                    <p className="t-desc-new">{studioContent.timeline.phases[1].description}</p>
                   </div>
                 </div>
 
@@ -1013,8 +981,8 @@ export default function StudioPage() {
                       <span className="t-phase-text text-primary">PHASE 03</span>
                       <span className="t-week-pill">2-3 WKS</span>
                     </div>
-                    <h4 className="t-title-new">UX &<br />Wireframing</h4>
-                    <p className="t-desc-new">Architecting intuitive experiences and high-performance user flow mapping.</p>
+                    <h4 className="t-title-new">{studioContent.timeline.phases[2].title}</h4>
+                    <p className="t-desc-new">{studioContent.timeline.phases[2].description}</p>
                   </div>
                 </div>
 
@@ -1029,8 +997,8 @@ export default function StudioPage() {
                       <span className="t-phase-text text-primary">PHASE 04</span>
                       <span className="t-week-pill">2-3 WKS</span>
                     </div>
-                    <h4 className="t-title-new">UI Design &<br />Prototype</h4>
-                    <p className="t-desc-new">Crafting visual interfaces that represent the final product aesthetic.</p>
+                    <h4 className="t-title-new">{studioContent.timeline.phases[3].title}</h4>
+                    <p className="t-desc-new">{studioContent.timeline.phases[3].description}</p>
                   </div>
                 </div>
 
@@ -1045,8 +1013,8 @@ export default function StudioPage() {
                       <span className="t-phase-text text-primary">PHASE 05</span>
                       <span className="t-week-pill dark-pill">6-8 WKS</span>
                     </div>
-                    <h4 className="t-title-new text-white">Agile<br />Engineering</h4>
-                    <p className="t-desc-new" style={{ color: '#9CA3AF' }}>Full-stack engineering through agile sprints and robust infrastructure.</p>
+                    <h4 className="t-title-new text-white">{studioContent.timeline.phases[4].title}</h4>
+                    <p className="t-desc-new" style={{ color: '#9CA3AF' }}>{studioContent.timeline.phases[4].description}</p>
                   </div>
                 </div>
 
@@ -1061,8 +1029,8 @@ export default function StudioPage() {
                       <span className="t-phase-text text-white">PHASE 06</span>
                       <span className="t-week-pill blue-pill">2-2 WKS</span>
                     </div>
-                    <h4 className="t-title-new text-white">QA & Launch</h4>
-                    <p className="t-desc-new" style={{ color: 'rgba(255,255,255,0.8)' }}>Systematic deployment and monitoring with scale-ready architecture.</p>
+                    <h4 className="t-title-new text-white">{studioContent.timeline.phases[5].title}</h4>
+                    <p className="t-desc-new" style={{ color: 'rgba(255,255,255,0.8)' }}>{studioContent.timeline.phases[5].description}</p>
                   </div>
                 </div>
 
@@ -1075,8 +1043,8 @@ export default function StudioPage() {
                     <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   </div>
                   <div>
-                    <div className="t-stat-val">12-20 Weeks</div>
-                    <div className="t-stat-lbl">AVERAGE DELIVERY</div>
+                    <div className="t-stat-val">{studioContent.timeline.stats[0].value}</div>
+                    <div className="t-stat-lbl">{studioContent.timeline.stats[0].label}</div>
                   </div>
                 </div>
                 <div className="t-stat-pill">
@@ -1084,8 +1052,8 @@ export default function StudioPage() {
                     <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                   </div>
                   <div>
-                    <div className="t-stat-val">Dedicated Squad</div>
-                    <div className="t-stat-lbl">PER BUILD CYCLE</div>
+                    <div className="t-stat-val">{studioContent.timeline.stats[1].value}</div>
+                    <div className="t-stat-lbl">{studioContent.timeline.stats[1].label}</div>
                   </div>
                 </div>
                 <div className="t-stat-pill">
@@ -1093,8 +1061,8 @@ export default function StudioPage() {
                     <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                   </div>
                   <div>
-                    <div className="t-stat-val">Sovereign Standard</div>
-                    <div className="t-stat-lbl">ENGINEERING QUALITY</div>
+                    <div className="t-stat-val">{studioContent.timeline.stats[2].value}</div>
+                    <div className="t-stat-lbl">{studioContent.timeline.stats[2].label}</div>
                   </div>
                 </div>
               </div>
@@ -1105,27 +1073,27 @@ export default function StudioPage() {
         {/* FAQ Section */}
         <section id="faq" className="section-base">
           <div className="section-container">
-            <h2 className="section-title text-center" style={{ marginBottom: '64px' }}>Studio FAQ</h2>
+            <h2 className="section-title text-center" style={{ marginBottom: '64px' }}>{studioContent.faq.title}</h2>
 
             <div style={{ maxWidth: '800px', margin: '0 auto' }}>
               <div className="faq-item">
                 <div className="faq-header">
-                  <span>How much equity does the Studio take?</span>
+                  <span>{studioContent.faq.items[0].question}</span>
                   <span className="faq-icon">-</span>
                 </div>
                 <div className="faq-content">
-                  We operate on a variable equity and cash model depending on the stage of your venture and the level of support required. Our goal is to ensure founders retain majority control and the cap table remains attractive for future investors.
+                  {studioContent.faq.items[0].answer}
                 </div>
               </div>
               <div className="faq-item">
                 <div className="faq-header">
-                  <span>Do I need to be a technical founder?</span>
+                  <span>{studioContent.faq.items[1].question}</span>
                   <span className="faq-icon">+</span>
                 </div>
               </div>
               <div className="faq-item">
                 <div className="faq-header">
-                  <span>How long does the program last?</span>
+                  <span>{studioContent.faq.items[2].question}</span>
                   <span className="faq-icon">+</span>
                 </div>
               </div>
@@ -1137,13 +1105,13 @@ export default function StudioPage() {
         <section className="section-white text-center">
           <div className="section-container" style={{ paddingTop: 'clamp(80px, 10vw, 120px)', paddingBottom: 'clamp(80px, 10vw, 120px)' }}>
             <h2 className="section-title" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', marginBottom: '24px' }}>
-              Ready to Build<br /><span className="text-blue">What's Next?</span>
+              {studioContent.cta.title}
             </h2>
             <p className="section-subtitle text-center">
-              Submit your idea or company for review. We evaluate new opportunities on a rolling basis and respond within 48 hours.
+              {studioContent.cta.subtitle}
             </p>
             <Link to="/">
-              <button className="btn-primary" style={{ marginTop: '32px', padding: '20px 48px', fontSize: '1.125rem' }}>Submit Your Idea</button>
+              <button className="btn-primary" style={{ marginTop: '32px', padding: '20px 48px', fontSize: '1.125rem' }}>{studioContent.cta.buttonText}</button>
             </Link>
           </div>
         </section>
@@ -1152,11 +1120,11 @@ export default function StudioPage() {
         <footer className="footer">
           <div className="section-container grid-4 pt-0 pb-0">
             <div>
-              <div className="footer-logo">Crestcode USA</div>
-              <p className="body-text" style={{ fontSize: '0.875rem', lineHeight: 1.6, color: '#9CA3AF' }}>Building the next generation of digital products and ventures.</p>
+              <div className="footer-logo">{studioContent.footer.logo}</div>
+              <p className="body-text" style={{ fontSize: '0.875rem', lineHeight: 1.6, color: '#9CA3AF' }}>{studioContent.footer.description}</p>
             </div>
             <div className="footer-links">
-              <h5 className="footer-heading">Company</h5>
+              <h5 className="footer-heading">{studioContent.footer.company.heading}</h5>
               <ul>
                 <li><Link to="/">About Us</Link></li>
                 <li><Link to="/careers">Careers</Link></li>
@@ -1164,7 +1132,7 @@ export default function StudioPage() {
               </ul>
             </div>
             <div className="footer-links">
-              <h5 className="footer-heading">Services</h5>
+              <h5 className="footer-heading">{studioContent.footer.services.heading}</h5>
               <ul>
                 <li><Link to="/studio">MVP Development</Link></li>
                 <li><Link to="/studio">Product Design</Link></li>
@@ -1172,7 +1140,7 @@ export default function StudioPage() {
               </ul>
             </div>
             <div className="footer-links">
-              <h5 className="footer-heading">Connect</h5>
+              <h5 className="footer-heading">{studioContent.footer.connect.heading}</h5>
               <div style={{ display: 'flex', gap: '16px' }}>
                 <div style={{ width: 40, height: 40, borderRadius: '50%', backgroundColor: '#1E293B', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, cursor: 'pointer' }}>in</div>
                 <div style={{ width: 40, height: 40, borderRadius: '50%', backgroundColor: '#1E293B', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 700, cursor: 'pointer' }}>X</div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import useScrollReveal from './useScrollReveal';
 import { Link } from 'react-router-dom';
+import termsContent from './content/terms.json';
 
 import GrainOverlay from './components/effects/GrainOverlay';
 import TextReveal from './components/effects/TextReveal';
@@ -426,8 +427,8 @@ export default function TermsOfUsePage() {
           <section className="legal-hero" style={{ position: 'relative' }}>
             <div className="section-container" style={{ position: 'relative', zIndex: 1 }}>
               <div className="hero-eyebrow cc-reveal">LEGAL</div>
-              <TextReveal as="h1" className="hero-title" text="Terms of Use" />
-              <p className="hero-subtitle cc-reveal cc-delay-1">Last updated: October 20, 2023</p>
+              <TextReveal as="h1" className="hero-title" text={termsContent.title} />
+              <p className="hero-subtitle cc-reveal cc-delay-1">Last updated: {termsContent.lastUpdated}</p>
             </div>
           </section>
           
@@ -435,42 +436,39 @@ export default function TermsOfUsePage() {
 
           <section className="terms-section cc-reveal cc-delay-2">
             <h2 className="terms-h2">
-              <div className="terms-number">1</div> Overview and Acceptance
+              <div className="terms-number">{termsContent.sections[0].number}</div> {termsContent.sections[0].title}
             </h2>
-            <p className="terms-p">
-              Welcome to Crestcode USA. These Terms of Use ("Terms") govern your access to and use of our website, services, and applications. Please read these Terms carefully before using the services.
-            </p>
-            <p className="terms-p">
-              By accessing or using our website, you agree to be bound by these Terms of Use and our Privacy Policy. If you do not agree to these terms, please do not use our services. We reserve the right to modify these terms at any time, and such modifications shall be effective immediately upon posting.
-            </p>
+            {termsContent.sections[0].content.map((paragraph, idx) => (
+              <p key={idx} className="terms-p">{paragraph}</p>
+            ))}
           </section>
 
           <section className="terms-section cc-reveal cc-delay-3">
             <h2 className="terms-h2">
-              <div className="terms-number">2</div> Site Usage and Intellectual Property
+              <div className="terms-number">{termsContent.sections[1].number}</div> {termsContent.sections[1].title}
             </h2>
-            <p className="terms-p">
-              All content provided on this site, including but not limited to text, graphics, logos, icons, images, and software, is the property of Crestcode USA or its content suppliers and is protected by United States and international copyright laws.
-            </p>
+            {termsContent.sections[1].content.map((paragraph, idx) => (
+              <p key={idx} className="terms-p">{paragraph}</p>
+            ))}
             
             <div className="terms-indented">
-              <p className="terms-p">You are granted a limited, non-exclusive license to access the site for professional information.</p>
-              <p className="terms-p">You may not reproduce, duplicate, copy, sell, or otherwise exploit any portion of the site without express written consent.</p>
-              <p className="terms-p">Unauthorized use of any Crestcode USA trademark, service mark, or logo may be a violation of federal and state trademark laws.</p>
+              {termsContent.sections[1].indentedContent.map((paragraph, idx) => (
+                <p key={idx} className="terms-p">{paragraph}</p>
+              ))}
             </div>
           </section>
 
           <section className="terms-section cc-reveal cc-delay-1">
             <h2 className="terms-h2">
-              <div className="terms-number">3</div> Disclaimers and Liability
+              <div className="terms-number">{termsContent.sections[2].number}</div> {termsContent.sections[2].title}
             </h2>
-            <p className="terms-p">
-              The services and information on this website are provided on an "as is" and "as available" basis. Crestcode USA makes no representations or warranties of any kind, express or implied, as to the operation of the site or the information, content, or materials included.
-            </p>
+            {termsContent.sections[2].content.map((paragraph, idx) => (
+              <p key={idx} className="terms-p">{paragraph}</p>
+            ))}
             
             <div className="terms-highlight">
               <p className="terms-p" style={{ margin: 0, color: 'var(--text-muted)' }}>
-                In no event shall Crestcode USA be liable for any direct, indirect, incidental, special, or consequential damages arising out of or in any way connected with the use of this website or with the delay or inability to use this website.
+                {termsContent.sections[2].highlightedContent}
               </p>
             </div>
           </section>
@@ -480,20 +478,20 @@ export default function TermsOfUsePage() {
               <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
               </svg>
-              Legal Questions & Contact
+              {termsContent.contact.title}
             </div>
             
             <div className="legal-contact-box">
               <div className="legal-contact-text">
-                <h3>Have questions about our terms?</h3>
-                <p>Our legal team is here to help you understand your rights and responsibilities.</p>
+                <h3>{termsContent.contact.subtitle}</h3>
+                <p>{termsContent.contact.description}</p>
               </div>
               <Link to="/contact">
                 <button className="btn-bright">
                   <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  Contact Legal Dept
+                  {termsContent.contact.buttonText}
                 </button>
               </Link>
             </div>

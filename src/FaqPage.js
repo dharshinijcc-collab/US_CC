@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import useScrollReveal from './useScrollReveal';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import faqContent from './content/faq.json';
 
 // Effects & Hooks
 import TextReveal from './components/effects/TextReveal';
@@ -397,17 +398,14 @@ export default function FaqPage() {
                 </svg>
               </div>
               <div>
-                <TextReveal as="h1" className="hero-title" text="How We Help You Scale" />
+                <TextReveal as="h1" className="hero-title" text={faqContent.hero.title} />
               </div>
               <div>
                 <p className="body-text" style={{ marginBottom: '32px' }}>
-                  Find answers to common questions about our engagement models, product development lifecycle, and enterprise security standards.
+                  {faqContent.hero.subheading}
                 </p>
                 <button ref={magBtn} className="btn-bright cc-magnetic" onClick={() => document.getElementById('faq-section')?.scrollIntoView({behavior: 'smooth'})}>
-                  <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
-                  View FAQ
+                  {faqContent.hero.buttonText}
                 </button>
               </div>
             </div>
@@ -421,13 +419,13 @@ export default function FaqPage() {
             {/* Tabs */}
             <div className="tabs-container">
               <div className={`tab-item ${activeTab === 'engagement' ? 'active' : ''}`} onClick={() => setActiveTab('engagement')}>
-                <GradientText text="Engagement" />
+                <GradientText text={faqContent.tabs[0]} />
               </div>
               <div className={`tab-item ${activeTab === 'product' ? 'active' : ''}`} onClick={() => setActiveTab('product')}>
-                <GradientText text="Product" />
+                <GradientText text={faqContent.tabs[1]} />
               </div>
               <div className={`tab-item ${activeTab === 'security' ? 'active' : ''}`} onClick={() => setActiveTab('security')}>
-                <GradientText text="Security" />
+                <GradientText text={faqContent.tabs[2]} />
               </div>
             </div>
 
@@ -437,30 +435,30 @@ export default function FaqPage() {
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
-                Engagement Model
+                {faqContent.categories.engagement.title}
               </div>
 
               <div className={`accordion-item ${openFaq === 'engagement-1' ? 'open' : ''}`} onClick={() => toggleFaq('engagement-1')}>
                 <div className="accordion-header">
-                  What is your typical engagement process?
+                  {faqContent.categories.engagement.faqs[0].question}
                   <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
                 </div>
                 <div className="accordion-body">
-                  Our process begins with a deep-dive discovery phase to align on goals. We then move into agile development cycles featuring bi-weekly demos, transparent roadmaps, and continuous feedback loops to ensure alignment at every step.
+                  {faqContent.categories.engagement.faqs[0].answer}
                 </div>
               </div>
 
               <div className={`accordion-item ${openFaq === 'engagement-2' ? 'open' : ''}`} onClick={() => toggleFaq('engagement-2')}>
                 <div className="accordion-header">
-                  Who owns the intellectual property?
+                  {faqContent.categories.engagement.faqs[1].question}
                   <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
                 </div>
                 <div className="accordion-body">
-                  Upon completion and final payment, you retain 100% ownership of all source code, designs, and intellectual property generated during the engagement.
+                  {faqContent.categories.engagement.faqs[1].answer}
                 </div>
               </div>
             </div>
@@ -471,30 +469,30 @@ export default function FaqPage() {
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                Product Build
+                {faqContent.categories.product.title}
               </div>
 
               <div className={`accordion-item ${openFaq === 'product-1' ? 'open' : ''}`} onClick={() => toggleFaq('product-1')}>
                 <div className="accordion-header">
-                  How long does it take to build an MVP?
+                  {faqContent.categories.product.faqs[0].question}
                   <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
                 </div>
                 <div className="accordion-body">
-                  A typical MVP takes between 12 to 20 weeks depending on complexity, integrations, and feature scope.
+                  {faqContent.categories.product.faqs[0].answer}
                 </div>
               </div>
 
               <div className={`accordion-item ${openFaq === 'product-2' ? 'open' : ''}`} onClick={() => toggleFaq('product-2')}>
                 <div className="accordion-header">
-                  What technology stack do you use?
+                  {faqContent.categories.product.faqs[1].question}
                   <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
                 </div>
                 <div className="accordion-body">
-                  We specialize in modern, scalable stacks including React/Next.js for frontend, Node.js or Python for backend, and PostgreSQL for databases, hosted on AWS or GCP.
+                  {faqContent.categories.product.faqs[1].answer}
                 </div>
               </div>
             </div>
@@ -505,24 +503,24 @@ export default function FaqPage() {
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
-                Security & Support
+                {faqContent.categories.security.title}
               </div>
 
               <div className={`accordion-item ${openFaq === 'sec-1' ? 'open' : ''}`} onClick={() => toggleFaq('sec-1')}>
                 <div className="accordion-header">
-                  How do you handle data security?
+                  {faqContent.categories.security.faqs[0].question}
                   <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
                 </div>
                 <div className="accordion-body">
-                  We build security in from day one, adhering to SOC2 and GDPR compliance standards, utilizing end-to-end encryption, and conducting routine vulnerability assessments.
+                  {faqContent.categories.security.faqs[0].answer}
                 </div>
               </div>
 
               <div className={`accordion-item ${openFaq === 'sec-2' ? 'open' : ''}`} onClick={() => toggleFaq('sec-2')}>
                 <div className="accordion-header">
-                  What post-launch support do you offer?
+                  {faqContent.categories.security.faqs[1].question}
                   <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
@@ -536,10 +534,10 @@ export default function FaqPage() {
             {/* CTA Banner */}
             <BorderBeam className="cta-banner cc-reveal cc-delay-1 cc-shine" style={{ padding: 0 }}>
               <div style={{ padding: '48px', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <h2 className="cta-title">Didn't find what you're looking for?</h2>
-                <p className="cta-desc">Our team is ready to answer your specific questions and discuss how Crestcode can accelerate your digital product journey.</p>
+                <h2 className="cta-title">{faqContent.cta.title}</h2>
+                <p className="cta-desc">{faqContent.cta.subtitle}</p>
                 <Link to="/contact">
-                  <button ref={magBtn2} className="btn-solid cc-magnetic">Contact Our Team</button>
+                  <button ref={magBtn2} className="btn-solid cc-magnetic">{faqContent.cta.buttonText}</button>
                 </Link>
               </div>
             </BorderBeam>

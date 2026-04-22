@@ -40,7 +40,7 @@ function LandingPage() {
   const [formMessage, setFormMessage] = useState('');
   const [messageType, setMessageType] = useState('');
   const heroRef = useRef(null);
-  
+
   useScrollReveal();
 
   // Vanta clouds effect
@@ -150,7 +150,8 @@ function LandingPage() {
   return (
     <>
 
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
 
         :root {
@@ -561,7 +562,7 @@ function LandingPage() {
               </div>
             </div>
             <Link to="/contact">
-              <button className="btn-primary btn-nav" style={{backgroundColor: 'var(--primary-blue)', color: 'var(--white)'}}>Enquire</button>
+              <button className="btn-primary btn-nav" style={{ backgroundColor: 'var(--primary-blue)', color: 'var(--white)' }}>Enquire</button>
             </Link>
           </nav>
         </div>
@@ -571,13 +572,13 @@ function LandingPage() {
         <header ref={heroRef} className="hero-section" style={{ position: 'relative', paddingTop: '160px', paddingBottom: '80px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <h1 style={{ fontSize: '3.5rem', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}>
             {homeContent.hero.heading.split('Idea').map((part, index) => (
-              index === 0 ? <React.Fragment key={index}>{part}<span style={{color: '#005AE2'}}>Idea</span></React.Fragment> : part
+              index === 0 ? <React.Fragment key={index}>{part}<span style={{ color: '#005AE2' }}>Idea</span></React.Fragment> : part
             ))}
           </h1>
           <p style={{ textAlign: 'center', color: '#475569', fontSize: '1.1rem', maxWidth: '540px', lineHeight: 1.6, marginBottom: '48px', fontWeight: 500 }}>
             {homeContent.hero.subheading}
           </p>
-          
+
           <form onSubmit={handleIdeaSubmit} style={{ width: '100%', maxWidth: '600px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{
               width: '100%',
@@ -589,7 +590,7 @@ function LandingPage() {
               padding: '8px',
               marginBottom: '16px'
             }}>
-              <textarea 
+              <textarea
                 className="idea-textarea"
                 style={{
                   width: '100%',
@@ -603,7 +604,7 @@ function LandingPage() {
                   backgroundColor: 'transparent',
                   outline: 'none'
                 }}
-                placeholder="Tell us about your idea..." 
+                placeholder="Tell us about your idea..."
                 value={idea}
                 onChange={(e) => setIdea(e.target.value)}
                 disabled={isLoading}
@@ -638,7 +639,7 @@ function LandingPage() {
             <h3 className="section-eyebrow text-center cc-reveal">{homeContent.audiences.eyebrow}</h3>
             <h2 className="section-title text-center cc-reveal cc-delay-1">{homeContent.audiences.title}</h2>
             <p className="section-subtitle text-center cc-reveal cc-delay-2">{homeContent.audiences.subtitle}</p>
-            
+
             <div className="cards-grid">
               <div className="sys-card cc-shine">
                 <div className="card-icon">
@@ -709,9 +710,9 @@ function LandingPage() {
                   </div>
                 </div>
               </div>
-              
-              <BorderBeam className="testimonial-card-dark cc-reveal cc-delay-2 cc-card-3d cc-card-3d-dark cc-shine" style={{padding: 0}}>
-                <div style={{padding: '32px', height: '100%'}}>
+
+              <BorderBeam className="testimonial-card-dark cc-reveal cc-delay-2 cc-card-3d cc-card-3d-dark cc-shine" style={{ padding: 0 }}>
+                <div style={{ padding: '32px', height: '100%' }}>
                   <p className="t-card-quote">"Crestcode has been the catalyst for our growth, acting as an extension of our core team."</p>
                   <div className="t-card-author">
                     <div className="t-avatar"></div>
@@ -724,53 +725,53 @@ function LandingPage() {
               </BorderBeam>
             </div>
 
-            </div>
-          </section>
+          </div>
+        </section>
 
-          {/* Metrics Section - White Theme */}
-          <section className="section-light" style={{ borderBottom: '1px solid var(--border-light)' }}>
-            <div className="section-container" style={{ paddingTop: '60px', paddingBottom: '60px' }}>
-              <div className="stats-row" style={{ borderTop: 'none', padding: 0 }}>
-                <div className="stat-item">
-                  <div ref={statsRef1.ref} className="stat-num" style={{ color: 'var(--text-black)' }}>
-                    {statsRef1.displayValue !== null ? statsRef1.displayValue : '0'}
-                  </div>
-                  <div className="stat-label" style={{ color: 'var(--text-muted)' }}>HOURS AUTOMATED</div>
+        {/* Metrics Section - White Theme */}
+        <section className="section-light" style={{ borderBottom: '1px solid var(--border-light)' }}>
+          <div className="section-container" style={{ paddingTop: '60px', paddingBottom: '60px' }}>
+            <div className="stats-row" style={{ borderTop: 'none', padding: 0 }}>
+              <div className="stat-item">
+                <div ref={statsRef1.ref} className="stat-num" style={{ color: 'var(--text-black)' }}>
+                  {statsRef1.displayValue !== null ? statsRef1.displayValue : '0'}
                 </div>
-                <div className="stat-item">
-                  <div ref={statsRef2.ref} className="stat-num text-accent">
-                    ${statsRef2.displayValue !== null ? statsRef2.displayValue : '0'}M
-                  </div>
-                  <div className="stat-label" style={{ color: 'var(--text-muted)' }}>VALUE DELIVERED</div>
+                <div className="stat-label" style={{ color: 'var(--text-muted)' }}>HOURS AUTOMATED</div>
+              </div>
+              <div className="stat-item">
+                <div ref={statsRef2.ref} className="stat-num text-accent">
+                  ${statsRef2.displayValue !== null ? statsRef2.displayValue : '0'}M
                 </div>
-                <div className="stat-item">
-                  <div ref={statsRef3.ref} className="stat-num" style={{ color: 'var(--text-black)' }}>
-                    {statsRef3.displayValue !== null ? statsRef3.displayValue : '0'}x
-                  </div>
-                  <div className="stat-label" style={{ color: 'var(--text-muted)' }}>FASTER TO MARKET</div>
+                <div className="stat-label" style={{ color: 'var(--text-muted)' }}>VALUE DELIVERED</div>
+              </div>
+              <div className="stat-item">
+                <div ref={statsRef3.ref} className="stat-num" style={{ color: 'var(--text-black)' }}>
+                  {statsRef3.displayValue !== null ? statsRef3.displayValue : '0'}x
                 </div>
-                <div className="stat-item">
-                  <div ref={statsRef4.ref} className="stat-num" style={{ color: 'var(--text-black)' }}>
-                    {statsRef4.displayValue !== null ? statsRef4.displayValue : '0'}
-                  </div>
-                  <div className="stat-label" style={{ color: 'var(--text-muted)' }}>PRODUCTS LAUNCHED</div>
+                <div className="stat-label" style={{ color: 'var(--text-muted)' }}>FASTER TO MARKET</div>
+              </div>
+              <div className="stat-item">
+                <div ref={statsRef4.ref} className="stat-num" style={{ color: 'var(--text-black)' }}>
+                  {statsRef4.displayValue !== null ? statsRef4.displayValue : '0'}
                 </div>
+                <div className="stat-label" style={{ color: 'var(--text-muted)' }}>PRODUCTS LAUNCHED</div>
               </div>
             </div>
-          </section>
+          </div>
+        </section>
 
         {/* How We Make It Happen */}
         <section className="section-light">
           <div className="section-container">
             <h2 className="section-title">How We Make It Happen</h2>
-            <p className="section-subtitle" style={{margin: '0 0 clamp(32px, 5vw, 48px) 0', maxWidth: '800px', textAlign: 'left'}}>
+            <p className="section-subtitle" style={{ margin: '0 0 clamp(32px, 5vw, 48px) 0', maxWidth: '800px', textAlign: 'left' }}>
               We don't just execute tasks — we become your product build partner. With senior product thinking, in-house delivery, and proven systems, we help you move from idea to launch with less risk, less delay, and far more clarity.
             </p>
 
             <div className="features-grid-4">
               <div className="sys-card-small cc-shine">
                 <div className="f-card-icon primary-bg">&#x39b;</div>
-                <h4 className="f-card-title">Deep Product &<br/>Development<br/>Expertise</h4>
+                <h4 className="f-card-title">Deep Product &<br />Development<br />Expertise</h4>
                 <p className="f-card-highlight">Built by Product Minds, Not Just Coders</p>
                 <p className="f-card-desc">Our team brings real product, design, and engineering depth to every line of code. We think about the "why" as much as the "how".</p>
               </div>
@@ -778,15 +779,15 @@ function LandingPage() {
                 <div className="f-card-icon primary-bg">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                 </div>
-                <h4 className="f-card-title">Reusable, Validated<br/>Build Systems</h4>
+                <h4 className="f-card-title">Reusable, Validated<br />Build Systems</h4>
                 <p className="f-card-highlight">Proven Methods. Faster Decisions.</p>
                 <p className="f-card-desc">We use reusable frameworks and tested workflows to speed up execution. We don't reinvent the wheel; we optimize the journey.</p>
               </div>
               <div className="sys-card-small cc-shine">
                 <div className="f-card-icon primary-bg">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 3h5v5" /><path d="M4 20L21 3" /><path d="M21 16v5h-5" /><path d="M15 15l6 6" /><path d="M4 4l5 5" /></svg>
                 </div>
-                <h4 className="f-card-title">End-to-End In-House<br/>Delivery</h4>
+                <h4 className="f-card-title">End-to-End In-House<br />Delivery</h4>
                 <p className="f-card-highlight">From Ideation to Launch — All in One Place</p>
                 <p className="f-card-desc">Strategy, UX, UI, and dev handled in-house with no fragmented handoffs. Total alignment from day one to launch.</p>
               </div>
@@ -794,7 +795,7 @@ function LandingPage() {
                 <div className="f-card-icon primary-bg">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                 </div>
-                <h4 className="f-card-title">Partnership Over<br/>Project</h4>
+                <h4 className="f-card-title">Partnership Over<br />Project</h4>
                 <p className="f-card-highlight">We Build With You, Not Just For You</p>
                 <p className="f-card-desc">We work as an embedded partner invested in your long-term success, adapting our systems to your unique growth goals.</p>
               </div>
@@ -812,41 +813,41 @@ function LandingPage() {
               <div className="process-line"></div>
               <div className="process-grid">
                 {[
-                  { 
-                    title: "Ideation", 
-                    desc: "Collaborative brainstorming to define core value propositions and product vision.", 
-                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.989-2.386l-.548-.547z" /></svg>), 
-                    color: '#FF8EBB' 
+                  {
+                    title: "Ideation",
+                    desc: "Collaborative brainstorming to define core value propositions and product vision.",
+                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.989-2.386l-.548-.547z" /></svg>),
+                    color: '#FF8EBB'
                   },
-                  { 
-                    title: "Strategy & Setup", 
-                    desc: "Deep market analysis, technical planning, and strategic resource allocation.", 
-                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>), 
-                    color: '#5C67FF' 
+                  {
+                    title: "Strategy & Setup",
+                    desc: "Deep market analysis, technical planning, and strategic resource allocation.",
+                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>),
+                    color: '#5C67FF'
                   },
-                  { 
-                    title: "Design", 
-                    desc: "High-fidelity UX/UI design centered on intuitive user behavior and aesthetics.", 
-                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 22s5-5 5-10V2L12 12M12 22s-5-5-5-10V2l5 10" /></svg>), 
-                    color: '#99C26D' 
+                  {
+                    title: "Design",
+                    desc: "High-fidelity UX/UI design centered on intuitive user behavior and aesthetics.",
+                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 22s5-5 5-10V2L12 12M12 22s-5-5-5-10V2l5 10" /></svg>),
+                    color: '#99C26D'
                   },
-                  { 
-                    title: "Development", 
-                    desc: "Scalable full-stack engineering with modular architecture and clean code.", 
-                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>), 
-                    color: '#A855F7' 
+                  {
+                    title: "Development",
+                    desc: "Scalable full-stack engineering with modular architecture and clean code.",
+                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>),
+                    color: '#A855F7'
                   },
-                  { 
-                    title: "Launch & Market", 
-                    desc: "Strategic market deployment with real-time feedback loops and iterate cycles.", 
-                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.5 8.5C15.5 8.5 17 6.5 21.5 6.5C21.5 6.5 19.5 8 19.5 12.5C19.5 12.5 21.5 14 21.5 14L18.5 17.5L14 13L9.5 17.5L6.5 14.5L11 10L6.5 5.5L10 2L14.5 6.5L15.5 8.5ZM15.5 8.5L12.5 11.5M10 16.5L8.5 20L6 22L4 20L2 18L4 15.5L7.5 14" /></svg>), 
-                    color: '#FF8B42' 
+                  {
+                    title: "Launch & Market",
+                    desc: "Strategic market deployment with real-time feedback loops and iterate cycles.",
+                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.5 8.5C15.5 8.5 17 6.5 21.5 6.5C21.5 6.5 19.5 8 19.5 12.5C19.5 12.5 21.5 14 21.5 14L18.5 17.5L14 13L9.5 17.5L6.5 14.5L11 10L6.5 5.5L10 2L14.5 6.5L15.5 8.5ZM15.5 8.5L12.5 11.5M10 16.5L8.5 20L6 22L4 20L2 18L4 15.5L7.5 14" /></svg>),
+                    color: '#FF8B42'
                   },
-                  { 
-                    title: "Scale", 
-                    desc: "Continuous optimization and growth strategy for market dominance and scale.", 
-                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" /></svg>), 
-                    color: '#34D399' 
+                  {
+                    title: "Scale",
+                    desc: "Continuous optimization and growth strategy for market dominance and scale.",
+                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" /></svg>),
+                    color: '#34D399'
                   }
                 ].map((step, idx) => (
                   <div key={idx} className="process-step">
@@ -863,8 +864,8 @@ function LandingPage() {
         {/* Testimonials Section */}
         <section className="section-light">
           <div className="section-container">
-            <h2 className="section-title text-center cc-reveal" style={{marginBottom: 'clamp(40px, 6vw, 80px)'}}>The Verdict from Visionaries</h2>
-            
+            <h2 className="section-title text-center cc-reveal" style={{ marginBottom: 'clamp(40px, 6vw, 80px)' }}>The Verdict from Visionaries</h2>
+
             <div className="cards-grid-2">
               <div className="sys-card-small cc-shine">
                 <p className="t-quote">"Crestcode transformed our vague concept into a market-ready platform in under 4 months. Their strategic clarity and technical speed are unmatched."</p>
@@ -905,17 +906,17 @@ function LandingPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="section-light text-center" style={{paddingTop: 0}}>
+        <section className="section-light text-center" style={{ paddingTop: 0 }}>
           <div className="section-container">
             <h2 className="section-title cc-reveal">A Better Way to Build<br />New Ventures</h2>
             <p className="section-subtitle text-center">
-              We don't just build software; we engineer businesses.<br/>
+              We don't just build software; we engineer businesses.<br />
               Our validated build framework minimizes risk and maximizes market impact by aligning technical precision with commercial reality.
             </p>
             <Link to="/studio">
-              <button className="btn-primary" style={{marginTop: '16px'}}>
-              Our Methodology &#x2192;
-            </button>
+              <button className="btn-primary" style={{ marginTop: '16px' }}>
+                Our Methodology &#x2192;
+              </button>
             </Link>
           </div>
         </section>

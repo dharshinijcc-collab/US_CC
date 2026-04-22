@@ -1,0 +1,49 @@
+{
+  "title": "Terms of Use",
+  "lastUpdated": "October 20, 2023",
+  "sections": [
+    {
+      "number": "1",
+      "title": "Overview and Acceptance",
+      "content": [
+        "Welcome to Crestcode USA. These Terms of Use (\"Terms\") govern your access to and use of our website, services, and applications. Please read these Terms carefully before using the services.",
+        "By accessing or using our website, you agree to be bound by these Terms of Use and our Privacy Policy. If you do not agree to these terms, please do not use our services. We reserve the right to modify these terms at any time, and such modifications shall be effective immediately upon posting."
+      ]
+    },
+    {
+      "number": "2",
+      "title": "Site Usage and Intellectual Property",
+      "content": [
+        "All content provided on this site, including but not limited to text, graphics, logos, icons, images, and software, is the property of Crestcode USA or its content suppliers and is protected by United States and international copyright laws."
+      ],
+      "indentedContent": [
+        "You are granted a limited, non-exclusive license to access the site for professional information.",
+        "You may not reproduce, duplicate, copy, sell, or otherwise exploit any portion of the site without express written consent.",
+        "Unauthorized use of any Crestcode USA trademark, service mark, or logo may be a violation of federal and state trademark laws."
+      ]
+    },
+    {
+      "number": "3",
+      "title": "Disclaimers and Liability",
+      "content": [
+        "The services and information on this website are provided on an \"as is\" and \"as available\" basis. Crestcode USA makes no representations or warranties of any kind, express or implied, as to the operation of the site or the information, content, or materials included."
+      ],
+      "highlightedContent": "In no event shall Crestcode USA be liable for any direct, indirect, incidental, special, or consequential damages arising out of or in any way connected with the use of this website or with the delay or inability to use this website."
+    },
+    {
+      "number": "4",
+      "title": "General Terms",
+      "content": [
+        "Terms of Use govern Your use of our Service. By accessing or using the Service, You agree to be bound by these Terms.",
+        "You agree to use the Service only for lawful purposes and in accordance with these Terms. You agree not to use the Service in any way that could damage the Service or interfere with anyone else's use of the Service.",
+        "We reserve the right to modify these Terms at any time. We will notify You of any changes by posting the new Terms on this page."
+      ]
+    }
+  ],
+  "contact": {
+    "title": "Legal Questions & Contact",
+    "subtitle": "Have questions about our terms?",
+    "description": "Our legal team is here to help you understand your rights and responsibilities.",
+    "buttonText": "Contact Legal Dept"
+  }
+}
