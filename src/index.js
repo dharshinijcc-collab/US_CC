@@ -7,8 +7,8 @@ import './animations.css';
 import App from './App';
 
 // Initialize Builder.io
-// Replace YOUR_API_KEY with your actual Builder.io API key
-Builder.init('YOUR_API_KEY');
+// Public API key - safe to use in client-side code
+Builder.init('YOUR_BUILDER_PUBLIC_API_KEY');
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
