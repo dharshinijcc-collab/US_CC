@@ -2,6 +2,7 @@ services:
   - type: web
     name: crestcode-backend
     env: node
+    plan: free
     buildCommand: npm install
     startCommand: node index.js
     envVars:
