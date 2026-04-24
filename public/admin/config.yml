@@ -275,35 +275,35 @@ collections:
               {label: "Subtitle", name: "subtitle", widget: "text"},
               {label: "Button Text", name: "buttonText", widget: "string"}
             ]}
-      - name: "privacy"
-        label: "Privacy Policy Page"
-        file: "src/content/privacy.json"
-        fields:
-          - {label: "Page Title", name: "title", widget: "string"},
-          - {label: "Last Updated", name: "lastUpdated", widget: "string"},
-          - {label: "Sections", name: "sections", widget: "list", fields: [
-              {label: "Number", name: "number", widget: "string"},
-              {label: "Title", name: "title", widget: "string"},
-              {label: "Content", name: "content", widget: "list", field: {label: "Paragraph", name: "paragraph", widget: "text"}},
-              {label: "List Items", name: "listItems", widget: "list", field: {label: "Item", name: "item", widget: "text"}},
-              {label: "Follow Up Content", name: "followUpContent", widget: "list", field: {label: "Paragraph", name: "paragraph", widget: "text"}}
-            ]}
-      - name: "terms"
-        label: "Terms of Use Page"
-        file: "src/content/terms.json"
-        fields:
-          - {label: "Page Title", name: "title", widget: "string"},
-          - {label: "Last Updated", name: "lastUpdated", widget: "string"},
-          - {label: "Sections", name: "sections", widget: "list", fields: [
-              {label: "Number", name: "number", widget: "string"},
-              {label: "Title", name: "title", widget: "string"},
-              {label: "Content", name: "content", widget: "list", field: {label: "Paragraph", name: "paragraph", widget: "text"}},
-              {label: "Indented Content", name: "indentedContent", widget: "list", field: {label: "Paragraph", name: "paragraph", widget: "text"}},
-              {label: "Highlighted Content", name: "highlightedContent", widget: "text"}
-            ]}
-          - {label: "Contact Section", name: "contact", widget: "object", fields: [
-              {label: "Title", name: "title", widget: "string"},
-              {label: "Subtitle", name: "subtitle", widget: "string"},
-              {label: "Description", name: "description", widget: "text"},
-              {label: "Button Text", name: "buttonText", widget: "string"}
-            ]}
+  - name: "privacy"
+    label: "Privacy Policy Page"
+    file: "src/content/privacy.json"
+    fields:
+      - {label: "Page Title", name: "title", widget: "string"},
+      - {label: "Last Updated", name: "lastUpdated", widget: "string"},
+      - {label: "Sections", name: "sections", widget: "list", fields: [
+          {label: "Number", name: "number", widget: "string"},
+          {label: "Title", name: "title", widget: "string"},
+          {label: "Content", name: "content", widget: "list", field: {label: "Paragraph", name: "paragraph", widget: "text"}},
+          {label: "List Items", name: "listItems", widget: "list", field: {label: "Item", name: "item", widget: "text"}},
+          {label: "Follow Up Content", name: "followUpContent", widget: "list", field: {label: "Paragraph", name: "paragraph", widget: "text"}}
+        ]}
+  - name: "terms"
+    label: "Terms of Use Page"
+    file: "src/content/terms.json"
+    fields:
+      - {label: "Page Title", name: "title", widget: "string"},
+      - {label: "Last Updated", name: "lastUpdated", widget: "string"},
+      - {label: "Sections", name: "sections", widget: "list", fields: [
+          {label: "Number", name: "number", widget: "string"},
+          {label: "Title", name: "title", widget: "string"},
+          {label: "Content", name: "content", widget: "list", field: {label: "Paragraph", name: "paragraph", widget: "text"}},
+          {label: "Indented Content", name: "indentedContent", widget: "list", field: {label: "Paragraph", name: "paragraph", widget: "text"}},
+          {label: "Highlighted Content", name: "highlightedContent", widget: "text"}
+        ]}
+      - {label: "Contact Section", name: "contact", widget: "object", fields: [
+          {label: "Title", name: "title", widget: "string"},
+          {label: "Subtitle", name: "subtitle", widget: "string"},
+          {label: "Description", name: "description", widget: "text"},
+          {label: "Button Text", name: "buttonText", widget: "string"}
+        ]}
