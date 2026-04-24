@@ -8,6 +8,7 @@ import ContactPage from './ContactPage';
 import PrivacyPolicyPage from './PrivacyPolicyPage';
 import TermsOfUsePage from './TermsOfUsePage';
 import Footer from './components/Footer';
+import { fetchSheetData } from './utils/googleSheets';
 import homeContent from './content/home.json';
 
 

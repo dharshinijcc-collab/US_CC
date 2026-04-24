@@ -3,107 +3,98 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Content Editor</title>
+  <title>Google Sheets CMS Setup</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
-    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .header { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .header h1 { color: #333; }
-    .tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-    .tab { padding: 10px 20px; background: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
-    .tab.active { background: #005AE2; color: white; }
-    .editor { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .editor textarea { width: 100%; min-height: 400px; padding: 15px; font-family: 'Courier New', monospace; font-size: 14px; border: 1px solid #ddd; border-radius: 4px; resize: vertical; }
-    .editor button { margin-top: 15px; padding: 10px 20px; background: #005AE2; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
-    .editor button:hover { background: #004ac2; }
-    .message { padding: 10px 15px; margin-top: 15px; border-radius: 6px; display: none; }
-    .message.success { background: #d4edda; color: #155724; }
-    .message.error { background: #f8d7da; color: #721c24; }
-    .hidden { display: none; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 40px 20px; }
+    .container { max-width: 900px; margin: 0 auto; }
+    .header { background: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    .header h1 { color: #333; margin-bottom: 10px; }
+    .header p { color: #666; line-height: 1.6; }
+    .step { background: white; padding: 25px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .step h2 { color: #005AE2; margin-bottom: 15px; font-size: 1.2rem; }
+    .step ol { margin-left: 20px; line-height: 1.8; color: #444; }
+    .step li { margin-bottom: 10px; }
+    .step code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+    .highlight { background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107; margin: 20px 0; }
+    .btn { display: inline-block; padding: 12px 24px; background: #005AE2; color: white; text-decoration: none; border-radius: 8px; margin-top: 20px; }
+    .btn:hover { background: #004ac2; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1>📝 Content Editor</h1>
-      <p>Edit your website content directly. Changes will be saved to JSON files.</p>
+      <h1>� Google Sheets CMS Setup</h1>
+      <p>Your CEO can edit content in Google Sheets from anywhere (USA, India, etc.) and changes will appear instantly on the website.</p>
     </div>
     
-    <div class="tabs">
-      <button class="tab active" data-file="home">Home Page</button>
-      <button class="tab" data-file="studio">Studio Page</button>
-      <button class="tab" data-file="contact">Contact Page</button>
-      <button class="tab" data-file="careers">Careers Page</button>
-      <button class="tab" data-file="faq">FAQ Page</button>
-      <button class="tab" data-file="privacy">Privacy Policy</button>
-      <button class="tab" data-file="terms">Terms of Use</button>
+    <div class="step">
+      <h2>Step 1: Create Google Sheet</h2>
+      <ol>
+        <li>Go to <a href="https://sheets.google.com" target="_blank">sheets.google.com</a> and create a new sheet</li>
+        <li>Create these tabs: <code>home</code>, <code>studio</code>, <code>contact</code>, <code>careers</code>, <code>faq</code>, <code>privacy</code>, <code>terms</code></li>
+        <li>For the <code>home</code> tab, create 2 columns: <strong>Key</strong> (A) and <strong>Value</strong> (B)</li>
+        <li>Add this data to the home tab:</li>
+      </ol>
+      <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+        <tr style="background: #f4f4f4;"><th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Key</th><th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Value</th></tr>
+        <tr><td style="padding: 10px; border: 1px solid #ddd;">hero.heading</td><td style="padding: 10px; border: 1px solid #ddd;">Have an Idea Worth Building?</td></tr>
+        <tr><td style="padding: 10px; border: 1px solid #ddd;">hero.subheading</td><td style="padding: 10px; border: 1px solid #ddd;">Tell us what you're working on...</td></tr>
+        <tr><td style="padding: 10px; border: 1px solid #ddd;">hero.footerNote</td><td style="padding: 10px; border: 1px solid #ddd;">From Idea to Validation...</td></tr>
+        <tr><td style="padding: 10px; border: 1px solid #ddd;">audiences.eyebrow</td><td style="padding: 10px; border: 1px solid #ddd;">TARGET AUDIENCES</td></tr>
+        <tr><td style="padding: 10px; border: 1px solid #ddd;">audiences.title</td><td style="padding: 10px; border: 1px solid #ddd;">Built for Visionaries...</td></tr>
+        <tr><td style="padding: 10px; border: 1px solid #ddd;">audiences.subtitle</td><td style="padding: 10px; border: 1px solid #ddd;">Using AI to deliver faster</td></tr>
+      </table>
     </div>
     
-    <div class="editor">
-      <textarea id="jsonEditor" placeholder="Select a file to edit..."></textarea>
-      <button onclick="saveContent()">💾 Save Changes</button>
-      <div id="message" class="message"></div>
+    <div class="step">
+      <h2>Step 2: Publish the Sheet</h2>
+      <ol>
+        <li>Click <strong>File → Share → Publish to web</strong></li>
+        <li>Select <strong>Entire document</strong></li>
+        <li>Format: <strong>CSV</strong></li>
+        <li>Click <strong>Publish</strong></li>
+        <li>Copy the URL (it will look like: <code>https://docs.google.com/spreadsheets/d/SHEET_ID/pub?output=csv</code>)</li>
+      </ol>
+    </div>
+    
+    <div class="step">
+      <h2>Step 3: Get Sheet GIDs</h2>
+      <ol>
+        <li>Click on each tab in your Google Sheet</li>
+        <li>Look at the URL - you'll see <code>#gid=0</code>, <code>#gid=123456789</code>, etc.</li>
+        <li>Note down the GID for each tab:</li>
+        <ul>
+          <li>home: gid=0 (usually)</li>
+          <li>studio: gid=??? (check URL)</li>
+          <li>contact: gid=??? (check URL)</li>
+          <li>etc.</li>
+        </ul>
+      </ol>
+    </div>
+    
+    <div class="step">
+      <h2>Step 4: Send the Developer This Info</h2>
+      <p>Send your developer (you) these two things:</p>
+      <ol>
+        <li><strong>Sheet ID</strong> - the long ID in the URL (between <code>/d/</code> and <code>/pub</code>)</li>
+        <li><strong>GIDs</strong> - the gid number for each tab</li>
+      </ol>
+    </div>
+    
+    <div class="highlight">
+      <strong>How it works:</strong><br>
+      Once set up, your CEO can edit the Google Sheet from anywhere. The website will automatically fetch the latest content. No Git commits needed!
+    </div>
+    
+    <div class="step">
+      <h2>Step 5: Share with CEO</h2>
+      <ol>
+        <li>Click <strong>Share</strong> button in Google Sheet</li>
+        <li>Add your CEO's email with <strong>Editor</strong> permission</li>
+        <li>They can now edit content from anywhere in the world</li>
+      </ol>
     </div>
   </div>
-  
-  <script>
-    const contentFiles = {
-      home: '/src/content/home.json',
-      studio: '/src/content/studio.json',
-      contact: '/src/content/contact.json',
-      careers: '/src/content/careers.json',
-      faq: '/src/content/faq.json',
-      privacy: '/src/content/privacy.json',
-      terms: '/src/content/terms.json'
-    };
-    
-    let currentFile = 'home';
-    
-    // Tab switching
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        currentFile = tab.dataset.file;
-        loadContent(currentFile);
-      });
-    });
-    
-    // Load content
-    async function loadContent(file) {
-      try {
-        const response = await fetch(contentFiles[file]);
-        const data = await response.json();
-        document.getElementById('jsonEditor').value = JSON.stringify(data, null, 2);
-      } catch (error) {
-        document.getElementById('jsonEditor').value = 'Error loading file: ' + error.message;
-      }
-    }
-    
-    // Save content
-    async function saveContent() {
-      const editor = document.getElementById('jsonEditor');
-      const message = document.getElementById('message');
-      
-      try {
-        const content = JSON.parse(editor.value);
-        message.style.display = 'block';
-        message.className = 'message success';
-        message.textContent = '✅ JSON is valid! To save changes, you need to commit to Git.';
-        
-        // Copy to clipboard for easy git commit
-        navigator.clipboard.writeText(JSON.stringify(content, null, 2));
-        message.textContent += ' Content copied to clipboard.';
-      } catch (error) {
-        message.style.display = 'block';
-        message.className = 'message error';
-        message.textContent = '❌ Invalid JSON: ' + error.message;
-      }
-    }
-    
-    // Load initial content
-    loadContent('home');
-  </script>
 </body>
 </html>
