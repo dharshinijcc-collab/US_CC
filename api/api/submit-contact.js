@@ -1,14 +1,10 @@
 const { createClient } = require('@supabase/supabase-js');
-const { Resend } = require('resend');
 
 // Initialize Supabase
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_ANON_KEY
 );
-
-// Initialize Resend
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export default async function handler(req, res) {
   // Only allow POST requests
@@ -51,51 +47,8 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Failed to store submission' });
     }
 
-    // Send email notification to team
-    try {
-      await resend.emails.send({
-        from: 'Crestcode <noreply@crestcode.com>',
-        to: 'hello@crestcode.com',
-        subject: `New Contact: ${firstName} - ${serviceInterest}`,
-        html: `
-          <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${firstName}</p>
-          <p><strong>Email:</strong> ${workEmail}</p>
-          <p><strong>Company:</strong> ${company || 'Not provided'}</p>
-          <p><strong>Service Interest:</strong> ${serviceInterest}</p>
-          <p><strong>Project Stage:</strong> ${projectStage}</p>
-          <p><strong>Message:</strong></p>
-          <p>${message}</p>
-          <p><strong>Submitted:</strong> ${new Date().toLocaleString()}</p>
-        `
-      });
-    } catch (emailError) {
-      console.error('Email error:', emailError);
-      // Don't fail the request if email fails
-    }
-
-    // Send confirmation email to user
-    try {
-      await resend.emails.send({
-        from: 'Crestcode <noreply@crestcode.com>',
-        to: workEmail,
-        subject: 'Thank you for contacting Crestcode',
-        html: `
-          <h2>Thank you for reaching out!</h2>
-          <p>Hi ${firstName},</p>
-          <p>We've received your message and our team will review it within 24 hours.</p>
-          <p><strong>Your inquiry:</strong> ${serviceInterest}</p>
-          <p>We'll get back to you soon!</p>
-          <p>Best regards,<br>The Crestcode Team</p>
-        `
-      });
-    } catch (emailError) {
-      console.error('Confirmation email error:', emailError);
-      // Don't fail the request if email fails
-    }
-
-    return res.status(200).json({ 
-      success: true, 
+    return res.status(200).json({
+      success: true,
       message: 'Contact form submitted successfully',
       data: data[0]
     });
