@@ -3,21 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Crestcode Editor</title>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <title>Builder.io Editor</title>
+  <script src="https://cdn.builder.io/js/webcomponents@latest"></script>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <div id="builder-root"></div>
   <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", user => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
-          });
-        }
-      });
-    }
+    // Initialize Builder.io
+    window.builder = window.builder || {};
+    window.builder.init = function() {
+      // Builder.io initialization will be configured here
+      // You'll need to add your Builder.io API key
+      console.log('Builder.io initialized');
+    };
+    
+    // Load Builder.io SDK
+    import('https://cdn.builder.io/js/webcomponents@latest').then(() => {
+      console.log('Builder.io SDK loaded');
+    });
   </script>
 </body>
 </html>
