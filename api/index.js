@@ -10,13 +10,11 @@ app.use(express.json());
 
 // Routes
 app.post('/api/submit-idea', async (req, res) => {
-  // Mock req/res for the handler
-  await submitIdea.default(req, res);
+  await submitIdea(req, res);
 });
 
 app.post('/api/submit-contact', async (req, res) => {
-  // Mock req/res for the handler
-  await submitContact.default(req, res);
+  await submitContact(req, res);
 });
 
 // Health check
