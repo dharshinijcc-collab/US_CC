@@ -1,17 +1,29 @@
 // Google Sheets CMS - For remote content editing
 // CEO can edit in Google Sheets, changes reflect instantly on website
 
-const SHEET_ID = 'YOUR_GOOGLE_SHEET_ID'; // Replace with your actual Google Sheet ID
+// REPLACE THIS WITH YOUR ACTUAL GOOGLE SHEET ID
+const SHEET_ID = 'YOUR_GOOGLE_SHEET_ID_HERE';
 const BASE_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/pub?output=csv`;
+
+// REPLACE THESE WITH YOUR ACTUAL GIDs FROM GOOGLE SHEET URL
+const SHEET_GIDS = {
+  home: '0',
+  studio: '0',
+  contact: '0',
+  careers: '0',
+  faq: '0',
+  privacy: '0',
+  terms: '0'
+};
 
 /**
  * Fetch data from a specific sheet tab
  * @param {string} sheetName - Name of the sheet tab (home, studio, contact, etc.)
- * @param {string} gid - The GID of the sheet tab
  * @returns {Promise<Object>} Parsed JSON data
  */
-export async function fetchSheetData(sheetName, gid = '0') {
+export async function fetchSheetData(sheetName) {
   try {
+    const gid = SHEET_GIDS[sheetName] || '0';
     const url = `${BASE_URL}&gid=${gid}`;
     const response = await fetch(url);
     const csvText = await response.text();
@@ -30,7 +42,6 @@ function parseCSVToJSON(csvText) {
   const lines = csvText.split('\n').filter(line => line.trim());
   if (lines.length < 2) return {};
 
-  const headers = parseCSVLine(lines[0]);
   const result = {};
 
   for (let i = 1; i < lines.length; i++) {
@@ -84,19 +95,8 @@ function parseCSVLine(line) {
  * Fetch all content at once
  */
 export async function fetchAllContent() {
-  // GIDs for each sheet - you'll get these from your Google Sheet URL
-  const sheetConfig = {
-    home: { gid: '0' },
-    studio: { gid: '123456789' },
-    contact: { gid: '987654321' },
-    careers: { gid: '111222333' },
-    faq: { gid: '444555666' },
-    privacy: { gid: '777888999' },
-    terms: { gid: '000111222' }
-  };
-
-  const promises = Object.entries(sheetConfig).map(async ([name, config]) => {
-    const data = await fetchSheetData(name, config.gid);
+  const promises = Object.keys(SHEET_GIDS).map(async (name) => {
+    const data = await fetchSheetData(name);
     return [name, data];
   });
 

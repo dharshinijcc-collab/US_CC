@@ -3,98 +3,164 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Google Sheets CMS Setup</title>
+  <title>CEO Content Dashboard</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 40px 20px; }
-    .container { max-width: 900px; margin: 0 auto; }
-    .header { background: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-    .header h1 { color: #333; margin-bottom: 10px; }
-    .header p { color: #666; line-height: 1.6; }
-    .step { background: white; padding: 25px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .step h2 { color: #005AE2; margin-bottom: 15px; font-size: 1.2rem; }
-    .step ol { margin-left: 20px; line-height: 1.8; color: #444; }
-    .step li { margin-bottom: 10px; }
-    .step code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
-    .highlight { background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107; margin: 20px 0; }
-    .btn { display: inline-block; padding: 12px 24px; background: #005AE2; color: white; text-decoration: none; border-radius: 8px; margin-top: 20px; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 40px 20px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .header { background: white; padding: 40px; border-radius: 16px; margin-bottom: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; }
+    .header h1 { color: #333; margin-bottom: 10px; font-size: 2.5rem; }
+    .header p { color: #666; line-height: 1.6; font-size: 1.1rem; }
+    .header .badge { display: inline-block; background: #005AE2; color: white; padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; margin-top: 15px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+    .card { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+    .card h3 { color: #333; margin-bottom: 10px; font-size: 1.5rem; }
+    .card p { color: #666; line-height: 1.6; margin-bottom: 20px; }
+    .card .icon { font-size: 3rem; margin-bottom: 15px; }
+    .card .status { display: inline-block; padding: 6px 12px; border-radius: 12px; font-size: 0.85rem; font-weight: 600; }
+    .status.active { background: #d4edda; color: #155724; }
+    .status.pending { background: #fff3cd; color: #856404; }
+    .setup-section { background: white; padding: 40px; border-radius: 16px; margin-top: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .setup-section h2 { color: #333; margin-bottom: 20px; }
+    .setup-section ol { margin-left: 20px; line-height: 2; color: #444; }
+    .setup-section code { background: #f4f4f4; padding: 2px 8px; border-radius: 4px; font-family: monospace; }
+    .input-group { margin: 20px 0; }
+    .input-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+    .input-group input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; }
+    .input-group input:focus { border-color: #005AE2; outline: none; }
+    .btn { display: inline-block; padding: 12px 30px; background: #005AE2; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; font-size: 1rem; }
     .btn:hover { background: #004ac2; }
+    .btn-secondary { background: #6c757d; }
+    .btn-secondary:hover { background: #5a6268; }
+    .info-box { background: #e7f3ff; border-left: 4px solid #005AE2; padding: 15px; margin: 20px 0; border-radius: 8px; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1>� Google Sheets CMS Setup</h1>
-      <p>Your CEO can edit content in Google Sheets from anywhere (USA, India, etc.) and changes will appear instantly on the website.</p>
+      <h1>🎯 CEO Content Dashboard</h1>
+      <p>Edit your website content directly from Google Sheets. Changes appear instantly on your site.</p>
+      <div class="badge">✨ Live Editing Enabled</div>
     </div>
     
-    <div class="step">
-      <h2>Step 1: Create Google Sheet</h2>
-      <ol>
-        <li>Go to <a href="https://sheets.google.com" target="_blank">sheets.google.com</a> and create a new sheet</li>
-        <li>Create these tabs: <code>home</code>, <code>studio</code>, <code>contact</code>, <code>careers</code>, <code>faq</code>, <code>privacy</code>, <code>terms</code></li>
-        <li>For the <code>home</code> tab, create 2 columns: <strong>Key</strong> (A) and <strong>Value</strong> (B)</li>
-        <li>Add this data to the home tab:</li>
-      </ol>
-      <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
-        <tr style="background: #f4f4f4;"><th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Key</th><th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Value</th></tr>
-        <tr><td style="padding: 10px; border: 1px solid #ddd;">hero.heading</td><td style="padding: 10px; border: 1px solid #ddd;">Have an Idea Worth Building?</td></tr>
-        <tr><td style="padding: 10px; border: 1px solid #ddd;">hero.subheading</td><td style="padding: 10px; border: 1px solid #ddd;">Tell us what you're working on...</td></tr>
-        <tr><td style="padding: 10px; border: 1px solid #ddd;">hero.footerNote</td><td style="padding: 10px; border: 1px solid #ddd;">From Idea to Validation...</td></tr>
-        <tr><td style="padding: 10px; border: 1px solid #ddd;">audiences.eyebrow</td><td style="padding: 10px; border: 1px solid #ddd;">TARGET AUDIENCES</td></tr>
-        <tr><td style="padding: 10px; border: 1px solid #ddd;">audiences.title</td><td style="padding: 10px; border: 1px solid #ddd;">Built for Visionaries...</td></tr>
-        <tr><td style="padding: 10px; border: 1px solid #ddd;">audiences.subtitle</td><td style="padding: 10px; border: 1px solid #ddd;">Using AI to deliver faster</td></tr>
-      </table>
+    <div class="grid">
+      <div class="card" onclick="window.open('https://docs.google.com/spreadsheets', '_blank')">
+        <div class="icon">📊</div>
+        <h3>Open Google Sheet</h3>
+        <p>Click to open your content Google Sheet and edit any page content.</p>
+        <span class="status active">Live</span>
+      </div>
+      
+      <div class="card" onclick="window.open('https://docs.google.com/spreadsheets', '_blank')">
+        <div class="icon">🏠</div>
+        <h3>Home Page</h3>
+        <p>Edit hero section, audiences, and partnership content.</p>
+        <span class="status active">Ready</span>
+      </div>
+      
+      <div class="card" onclick="window.open('https://docs.google.com/spreadsheets', '_blank')">
+        <div class="icon">🎨</div>
+        <h3>Studio Page</h3>
+        <p>Edit studio model, validation, and timeline content.</p>
+        <span class="status active">Ready</span>
+      </div>
+      
+      <div class="card" onclick="window.open('https://docs.google.com/spreadsheets', '_blank')">
+        <div class="icon">📧</div>
+        <h3>Contact Page</h3>
+        <p>Edit contact form, services, and contact information.</p>
+        <span class="status active">Ready</span>
+      </div>
+      
+      <div class="card" onclick="window.open('https://docs.google.com/spreadsheets', '_blank')">
+        <div class="icon">💼</div>
+        <h3>Careers Page</h3>
+        <p>Edit job listings, values, and talent pool form.</p>
+        <span class="status active">Ready</span>
+      </div>
+      
+      <div class="card" onclick="window.open('https://docs.google.com/spreadsheets', '_blank')">
+        <div class="icon">❓</div>
+        <h3>FAQ Page</h3>
+        <p>Edit frequently asked questions and answers.</p>
+        <span class="status active">Ready</span>
+      </div>
+      
+      <div class="card" onclick="window.open('https://docs.google.com/spreadsheets', '_blank')">
+        <div class="icon">🔒</div>
+        <h3>Privacy Policy</h3>
+        <p>Edit privacy policy and data collection information.</p>
+        <span class="status active">Ready</span>
+      </div>
+      
+      <div class="card" onclick="window.open('https://docs.google.com/spreadsheets', '_blank')">
+        <div class="icon">📜</div>
+        <h3>Terms of Use</h3>
+        <p>Edit terms of service and legal information.</p>
+        <span class="status active">Ready</span>
+      </div>
     </div>
     
-    <div class="step">
-      <h2>Step 2: Publish the Sheet</h2>
+    <div class="setup-section">
+      <h2>⚙️ First-Time Setup</h2>
+      <p>If this is your first time, complete these steps:</p>
+      
+      <div class="info-box">
+        <strong>📋 Need the complete Google Sheet structure?</strong><br>
+        Check the <code>GOOGLE_SHEET_STRUCTURE.md</code> file in your project for all the data to copy-paste.
+      </div>
+      
       <ol>
+        <li>Create a Google Sheet at <a href="https://sheets.google.com" target="_blank">sheets.google.com</a></li>
+        <li>Create tabs: <code>home</code>, <code>studio</code>, <code>contact</code>, <code>careers</code>, <code>faq</code>, <code>privacy</code>, <code>terms</code></li>
+        <li>For each tab, create 2 columns: <strong>Key</strong> (A) and <strong>Value</strong> (B)</li>
+        <li>Copy the data from <code>GOOGLE_SHEET_STRUCTURE.md</code> into each tab</li>
         <li>Click <strong>File → Share → Publish to web</strong></li>
-        <li>Select <strong>Entire document</strong></li>
-        <li>Format: <strong>CSV</strong></li>
+        <li>Select <strong>Entire document</strong>, Format: <strong>CSV</strong></li>
         <li>Click <strong>Publish</strong></li>
-        <li>Copy the URL (it will look like: <code>https://docs.google.com/spreadsheets/d/SHEET_ID/pub?output=csv</code>)</li>
+        <li>Copy the Sheet ID from the URL (between <code>/d/</code> and <code>/pub</code>)</li>
+        <li>Get the GID for each tab from the URL (e.g., <code>#gid=0</code>)</li>
+        <li>Send the Sheet ID and GIDs to your developer to update the code</li>
+        <li>Share the sheet with your CEO's email with <strong>Editor</strong> permission</li>
       </ol>
+      
+      <div class="input-group">
+        <label>Google Sheet URL (for quick access):</label>
+        <input type="text" id="sheetUrl" placeholder="https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit" />
+      </div>
+      
+      <button class="btn" onclick="saveSheetUrl()">💾 Save Sheet URL</button>
+      <button class="btn btn-secondary" onclick="document.getElementById('sheetUrl').value = localStorage.getItem('sheetUrl') || ''">📂 Load Saved URL</button>
     </div>
     
-    <div class="step">
-      <h2>Step 3: Get Sheet GIDs</h2>
-      <ol>
-        <li>Click on each tab in your Google Sheet</li>
-        <li>Look at the URL - you'll see <code>#gid=0</code>, <code>#gid=123456789</code>, etc.</li>
-        <li>Note down the GID for each tab:</li>
-        <ul>
-          <li>home: gid=0 (usually)</li>
-          <li>studio: gid=??? (check URL)</li>
-          <li>contact: gid=??? (check URL)</li>
-          <li>etc.</li>
-        </ul>
-      </ol>
-    </div>
-    
-    <div class="step">
-      <h2>Step 4: Send the Developer This Info</h2>
-      <p>Send your developer (you) these two things:</p>
-      <ol>
-        <li><strong>Sheet ID</strong> - the long ID in the URL (between <code>/d/</code> and <code>/pub</code>)</li>
-        <li><strong>GIDs</strong> - the gid number for each tab</li>
-      </ol>
-    </div>
-    
-    <div class="highlight">
-      <strong>How it works:</strong><br>
-      Once set up, your CEO can edit the Google Sheet from anywhere. The website will automatically fetch the latest content. No Git commits needed!
-    </div>
-    
-    <div class="step">
-      <h2>Step 5: Share with CEO</h2>
-      <ol>
-        <li>Click <strong>Share</strong> button in Google Sheet</li>
-        <li>Add your CEO's email with <strong>Editor</strong> permission</li>
-        <li>They can now edit content from anywhere in the world</li>
-      </ol>
+    <div class="setup-section">
+      <h2>🌍 How It Works</h2>
+      <ul style="margin-left: 20px; line-height: 2; color: #444;">
+        <li><strong>CEO in USA</strong> → Opens Google Sheet → Edits content → Saves</li>
+        <li><strong>Website</strong> → Automatically fetches latest content → Updates instantly</li>
+        <li><strong>No Git commits needed</strong> - Changes are live immediately</li>
+        <li><strong>Works from anywhere</strong> - USA, India, anywhere with internet</li>
+      </ul>
     </div>
   </div>
+  
+  <script>
+    function saveSheetUrl() {
+      const url = document.getElementById('sheetUrl').value;
+      if (url) {
+        localStorage.setItem('sheetUrl', url);
+        alert('Sheet URL saved! You can load it anytime.');
+      }
+    }
+    
+    // Load saved URL on page load
+    window.onload = function() {
+      const savedUrl = localStorage.getItem('sheetUrl');
+      if (savedUrl) {
+        document.getElementById('sheetUrl').value = savedUrl;
+      }
+    };
+  </script>
 </body>
 </html>

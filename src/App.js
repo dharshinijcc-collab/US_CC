@@ -9,7 +9,6 @@ import PrivacyPolicyPage from './PrivacyPolicyPage';
 import TermsOfUsePage from './TermsOfUsePage';
 import Footer from './components/Footer';
 import { fetchSheetData } from './utils/googleSheets';
-import homeContent from './content/home.json';
 
 
 // Effects & Hooks
@@ -40,9 +39,32 @@ function LandingPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [formMessage, setFormMessage] = useState('');
   const [messageType, setMessageType] = useState('');
+  const [homeContent, setHomeContent] = useState({
+    hero: { heading: '', subheading: '', footerNote: '' },
+    audiences: { eyebrow: '', title: '', subtitle: '' },
+    partnership: { eyebrow: '', title: '', subtitle: '' }
+  });
+  const [contentLoading, setContentLoading] = useState(true);
   const heroRef = useRef(null);
 
   useScrollReveal();
+
+  // Fetch content from Google Sheets
+  useEffect(() => {
+    const loadContent = async () => {
+      try {
+        const data = await fetchSheetData('home');
+        if (data) {
+          setHomeContent(data);
+        }
+      } catch (error) {
+        console.error('Failed to load content:', error);
+      } finally {
+        setContentLoading(false);
+      }
+    };
+    loadContent();
+  }, []);
 
   // Vanta clouds effect
   useEffect(() => {
