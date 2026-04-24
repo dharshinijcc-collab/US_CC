@@ -4,13 +4,15 @@
   "description": "Free backend for Crestcode Product Studio",
   "main": "index.js",
   "scripts": {
-    "dev": "vercel dev"
+    "start": "node index.js",
+    "dev": "node index.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
+    "express": "^4.22.1",
     "resend": "^3.2.0"
   },
-  "devDependencies": {
-    "vercel": "^33.0.0"
+  "engines": {
+    "node": ">=14.0.0"
   }
 }

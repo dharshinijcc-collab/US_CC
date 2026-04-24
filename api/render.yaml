@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: crestcode-backend
+    env: node
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
