@@ -152,7 +152,8 @@ function LandingPage() {
 
       <style dangerouslySetInnerHTML={{
         __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
         :root {
           /* Color System */
@@ -180,11 +181,26 @@ function LandingPage() {
         body, html {
           margin: 0;
           padding: 0;
-          font-family: 'Plus Jakarta Sans', sans-serif;
+          font-family: 'Inter', sans-serif;
           -webkit-font-smoothing: antialiased;
           background-color: var(--bg-base);
           color: var(--text-black);
           scroll-behavior: smooth;
+        }
+
+        /* Headings - Manrope */
+        h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .section-eyebrow, .card-title, .navbar-brand, .f-card-title, .feature-title, .t-name-light, .t-name, .fq-author, .footer-logo, .footer-heading {
+          font-family: 'Manrope', sans-serif;
+        }
+
+        /* Sub-text - Manrope */
+        .section-subtitle, .hero-description, .card-description, .f-card-desc, .feature-desc, .t-quote, .t-role-light, .t-role, .fq-role, .footer-tagline, .stat-label, .step-desc {
+          font-family: 'Manrope', sans-serif;
+        }
+
+        /* Content - Inter */
+        p, span, div, button, input, textarea, a, li, .navbar-links, .nav-dropdown-content a, .idea-textarea, .form-message {
+          font-family: 'Inter', sans-serif;
         }
 
         * { box-sizing: border-box; }
@@ -486,7 +502,7 @@ function LandingPage() {
         .founder-img { width: clamp(100px, 15vw, 140px); height: clamp(100px, 15vw, 140px); border-radius: 100px; border: 4px solid var(--white); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); overflow: hidden; flex-shrink: 0; }
         .founder-photo { width: 100%; height: 100%; object-fit: cover; }
         .fq-content { flex-grow: 1; text-align: left; }
-        .fq-marks { color: #005AE2; font-size: 48px; font-weight: 800; line-height: 1; margin-bottom: 12px; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .fq-marks { color: #005AE2; font-size: 48px; font-weight: 800; line-height: 1; margin-bottom: 12px; font-family: 'Manrope', sans-serif; }
         .fq-text { font-size: clamp(1.1rem, 2.5vw, 1.35rem); font-weight: 700; color: #0A0F1C; line-height: 1.5; margin-bottom: 24px; letter-spacing: -0.01em; }
         .fq-meta { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
         .fq-author { font-weight: 800; font-size: 1rem; color: #0A0F1C; }

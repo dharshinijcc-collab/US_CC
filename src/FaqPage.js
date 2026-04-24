@@ -28,7 +28,8 @@ export default function FaqPage() {
     <>
       <style dangerouslySetInnerHTML={{
         __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
         :root {
           /* Color System */
@@ -57,11 +58,26 @@ export default function FaqPage() {
         body, html {
           margin: 0;
           padding: 0;
-          font-family: 'Plus Jakarta Sans', sans-serif;
+          font-family: 'Inter', sans-serif;
           -webkit-font-smoothing: antialiased;
           background-color: var(--bg-base);
           color: var(--text-black);
           scroll-behavior: smooth;
+        }
+
+        /* Headings - Manrope */
+        h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .section-eyebrow, .card-title, .navbar-brand, .feature-title, .t-name-light, .t-name, .fq-author, .footer-logo, .footer-heading {
+          font-family: 'Manrope', sans-serif;
+        }
+
+        /* Sub-text - Manrope */
+        .section-subtitle, .hero-description, .card-description, .feature-desc, .t-quote, .t-role-light, .t-role, .fq-role, .footer-tagline, .stat-label, .step-desc {
+          font-family: 'Manrope', sans-serif;
+        }
+
+        /* Content - Inter */
+        p, span, div, button, input, textarea, a, li, .navbar-links, .nav-dropdown-content a, .idea-textarea, .form-message {
+          font-family: 'Inter', sans-serif;
         }
 
         /* Page Load Animation */
