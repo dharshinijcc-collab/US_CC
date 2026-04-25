@@ -47,6 +47,7 @@ function LandingPage() {
 
   // Vanta clouds effect
   useEffect(() => {
+    let vantaEffect = null;
     const vantaRef = heroRef.current;
     const loadVanta = async () => {
       if (!vantaRef) return;
@@ -78,14 +79,15 @@ function LandingPage() {
       });
 
       // Initialize Vanta
-      if (window.VANTA && vantaRef) {
-        window.VANTA.CLOUDS({
+      if (window.VANTA && vantaRef && !vantaEffect) {
+        vantaEffect = window.VANTA.CLOUDS({
           el: vantaRef,
           mouseControls: true,
           touchControls: true,
           gyroControls: false,
           minHeight: 200.00,
-          minWidth: 200.00
+          minWidth: 200.00,
+          backgroundColor: 0xffffff
         });
       }
     };
@@ -93,17 +95,8 @@ function LandingPage() {
     loadVanta();
 
     return () => {
-      if (window.VANTA && vantaRef) {
-        // Note: For newer Vanta versions, usually you destroy the effect instance returned by the init call.
-        // But we'll stick to the original logic while fixing the Ref warning.
-        try {
-          // If the simple destroy doesn't work, we'd need to store the effect in a let variable.
-          // But fixing the Ref issue is the priority for the build.
-          const effect = window.VANTA.CLOUDS({ el: vantaRef });
-          if (effect && effect.destroy) effect.destroy();
-        } catch (e) {
-          console.log("Vanta cleanup skip");
-        }
+      if (vantaEffect && vantaEffect.destroy) {
+        vantaEffect.destroy();
       }
     };
   }, []);
@@ -589,7 +582,7 @@ function LandingPage() {
 
 
 
-        <header ref={heroRef} className="hero-section" style={{ position: 'relative', paddingTop: '160px', paddingBottom: '80px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <header ref={heroRef} className="hero-section" style={{ position: 'relative', paddingTop: '160px', paddingBottom: '80px', backgroundColor: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <h1 style={{ fontSize: '3.5rem', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}>
             {homeContent.hero.heading.split('Idea').map((part, index) => (
               index === 0 ? <React.Fragment key={index}>{part}<span style={{ color: '#005AE2' }}>Idea</span></React.Fragment> : part
