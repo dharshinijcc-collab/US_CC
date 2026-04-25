@@ -44,7 +44,7 @@ async function handler(req, res) {
 
     if (error) {
       console.error('Supabase error:', error);
-      return res.status(500).json({ error: 'Failed to store submission' });
+      return res.status(500).json({ error: error.message });
     }
 
     return res.status(200).json({
@@ -55,8 +55,9 @@ async function handler(req, res) {
 
   } catch (error) {
     console.error('Server error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: error.message });
   }
 }
 
 module.exports = handler;
+
