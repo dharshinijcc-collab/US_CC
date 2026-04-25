@@ -35,6 +35,8 @@ export default function App() {
 }
 
 function LandingPage() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [idea, setIdea] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [formMessage, setFormMessage] = useState('');
@@ -113,8 +115,8 @@ function LandingPage() {
 
   const handleIdeaSubmit = async (e) => {
     e.preventDefault();
-    if (!idea || idea.trim().length < 10) {
-      setFormMessage('Please tell us about your idea (at least 10 characters)');
+    if (!name || !email || !idea || idea.trim().length < 10) {
+      setFormMessage('Please fill in all fields and tell us about your idea (at least 10 characters)');
       setMessageType('error');
       return;
     }
@@ -126,7 +128,7 @@ function LandingPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ idea }),
+        body: JSON.stringify({ name, email, idea }),
       });
 
       const data = await response.json();
@@ -135,6 +137,8 @@ function LandingPage() {
         setFormMessage('Thanks for sharing! Our team will review your idea.');
         setMessageType('success');
         setIdea('');
+        setName('');
+        setEmail('');
       } else {
         setFormMessage(data.error || 'Submission failed. Please try again.');
         setMessageType('error');
@@ -596,6 +600,45 @@ function LandingPage() {
           </p>
 
           <form onSubmit={handleIdeaSubmit} method="POST" style={{ width: '100%', maxWidth: '600px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{
+              width: '100%',
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '12px',
+              marginBottom: '12px'
+            }}>
+              <input
+                type="text"
+                placeholder="Your Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                disabled={isLoading}
+                style={{
+                  padding: '16px 20px',
+                  borderRadius: '16px',
+                  border: '1px solid #E2E8F0',
+                  fontSize: '1rem',
+                  outline: 'none',
+                  backgroundColor: 'white'
+                }}
+              />
+              <input
+                type="email"
+                placeholder="Work Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={isLoading}
+                style={{
+                  padding: '16px 20px',
+                  borderRadius: '16px',
+                  border: '1px solid #E2E8F0',
+                  fontSize: '1rem',
+                  outline: 'none',
+                  backgroundColor: 'white'
+                }}
+              />
+            </div>
+
             <div style={{
               width: '100%',
               position: 'relative',
