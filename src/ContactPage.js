@@ -630,16 +630,16 @@ export default function ContactPage() {
 
             {/* Right Column: Form */}
             <BorderBeam className="form-card cc-slide-right" style={{padding: 0}}>
-              <form onSubmit={handleSubmit} style={{padding: '48px'}}>
+              <form onSubmit={handleSubmit} method="POST" name="contact-form" style={{padding: '48px'}}>
                 <div className="form-row-2">
                   <div className="form-group">
                     <label className="form-label">{contactContent.form.nameLabel}</label>
-                    <input type="text" className="form-input" placeholder="John Doe" 
+                    <input type="text" name="firstName" className="form-input" placeholder="John Doe" 
                            value={formData.firstName} onChange={e => setFormData({...formData, firstName: e.target.value})} required/>
                   </div>
                   <div className="form-group">
                     <label className="form-label">{contactContent.form.emailLabel}</label>
-                    <input type="email" className="form-input" placeholder="john@company.com" 
+                    <input type="email" name="workEmail" className="form-input" placeholder="john@company.com" 
                            value={formData.workEmail} onChange={e => setFormData({...formData, workEmail: e.target.value})} required/>
                   </div>
                 </div>
@@ -647,7 +647,7 @@ export default function ContactPage() {
                 <div className="form-row-2">
                   <div className="form-group">
                     <label className="form-label">{contactContent.form.companyLabel}</label>
-                    <input type="text" className="form-input" placeholder="Acme Inc." 
+                    <input type="text" name="company" className="form-input" placeholder="Acme Inc." 
                            value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})}/>
                   </div>
                   <div className="form-group">
@@ -677,7 +677,7 @@ export default function ContactPage() {
 
                 <div className="form-group" style={{marginBottom: '32px'}}>
                   <label className="form-label">{contactContent.form.messageLabel}</label>
-                  <textarea className="form-input" placeholder="Tell us about your project..." 
+                  <textarea name="message" className="form-input" placeholder="Tell us about your project..." 
                             value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} required></textarea>
                 </div>
 

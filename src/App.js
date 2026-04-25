@@ -595,7 +595,7 @@ function LandingPage() {
             {homeContent.hero.subheading}
           </p>
 
-          <form onSubmit={handleIdeaSubmit} style={{ width: '100%', maxWidth: '600px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <form onSubmit={handleIdeaSubmit} method="POST" style={{ width: '100%', maxWidth: '600px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{
               width: '100%',
               position: 'relative',
@@ -607,6 +607,7 @@ function LandingPage() {
               marginBottom: '16px'
             }}>
               <textarea
+                name="idea"
                 className="idea-textarea"
                 style={{
                   width: '100%',
