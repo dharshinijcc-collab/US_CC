@@ -607,6 +607,7 @@ function LandingPage() {
               marginBottom: '16px'
             }}>
               <textarea
+                id="idea"
                 name="idea"
                 className="idea-textarea"
                 style={{
