@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import useScrollReveal from './useScrollReveal';
 import Header from './components/Header';
 import Footer from './components/Footer';
