@@ -428,7 +428,7 @@ export default function CareersPage() {
         </section>
 
         {/* Values / Mindset Section */}
-        <section>
+        <section id="mission-section">
           <div className="section-container">
             <h2 className="section-title">{careersContent.values.title}</h2>
             <p className="body-text" style={{marginBottom: '48px', maxWidth: '600px'}}>
@@ -507,7 +507,7 @@ export default function CareersPage() {
         </section>
 
         {/* Talent Pool Form Section */}
-        <section>
+        <section id="job-listings">
           <div className="section-container talent-section">
             <div className="talent-icon">
               <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>

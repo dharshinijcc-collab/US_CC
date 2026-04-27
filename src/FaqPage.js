@@ -429,7 +429,7 @@ export default function FaqPage() {
         </section>
 
         {/* FAQ Content Section */}
-        <section>
+        <section id="faq-section">
           <div className="section-container pt-0">
 
             {/* Tabs */}

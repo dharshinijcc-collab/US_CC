@@ -1,6 +1,8 @@
 import React from 'react';
-import useScrollReveal from './useScrollReveal';
 import { Link } from 'react-router-dom';
+import useScrollReveal from './useScrollReveal';
+import Header from './components/Header';
+import Footer from './components/Footer';
 import termsContent from './content/terms.json';
 
 import GrainOverlay from './components/effects/GrainOverlay';
@@ -409,34 +411,9 @@ export default function TermsOfUsePage() {
       `}} />
 
       <div className="terms-page" style={{position:'relative',overflow:'hidden'}}>
+        <Header />
         <GrainOverlay opacity={0.015} />
         {/* Ambient glow orbs */}
-        <div className="cc-glow-orb cc-glow-orb-blue" style={{width:400,height:400,top:'-100px',right:'-80px',opacity:0.11}} />
-        <div className="cc-glow-orb cc-glow-orb-purple" style={{width:240,height:240,bottom:'30%',left:'-50px',opacity:0.07}} />
-        {/* Navbar */}
-        <div className="navbar-wrapper">
-          <nav className="navbar">
-            <div className="navbar-brand">Crestcode Product Studio</div>
-            <div className="navbar-links">
-              <Link to="/">Home</Link>
-              <Link to="/studio">Studio</Link>
-              <Link to="/">Company</Link>
-              <div className="nav-dropdown">
-                <Link to="/studio">Our Model &#x25BC;</Link>
-                <div className="nav-dropdown-content">
-                  <Link to="/careers" className="dropdown-item">Careers</Link>
-                  <Link to="/faq" className="dropdown-item">FAQ</Link>
-                  <Link to="/contact" className="dropdown-item">Contact</Link>
-                  <Link to="/privacy" className="dropdown-item">Privacy Policy</Link>
-                  <Link to="/terms" className="dropdown-item">Terms of Use</Link>
-                </div>
-              </div>
-            </div>
-            <Link to="/contact">
-              <button className="btn-nav">Enquire</button>
-            </Link>
-          </nav>
-        </div>
 
         {/* Legal Document Content */}
         <main className="legal-container">
@@ -514,44 +491,7 @@ export default function TermsOfUsePage() {
           </section>
         </main>
 
-        {/* Footer */}
-        <footer className="footer">
-          <div className="footer-grid">
-            <div>
-              <div className="footer-logo">Crestcode USA</div>
-              <p style={{fontSize: '0.85rem', lineHeight: 1.6, color: '#9CA3AF', maxWidth: '280px', margin: 0}}>
-                Building the next generation of digital products and ventures.
-              </p>
-            </div>
-            <div className="footer-links">
-              <h5 className="footer-heading">STUDIO</h5>
-              <ul>
-                <li><Link to="/founder">Founder Relations</Link></li>
-                <li><Link to="/selection">Selection Framework</Link></li>
-              </ul>
-            </div>
-            <div className="footer-links">
-              <h5 className="footer-heading">COMPANY</h5>
-              <ul>
-                <li><Link to="/about">About Us</Link></li>
-                <li><Link to="/insights">Insights</Link></li>
-                <li><Link to="/careers">Careers</Link></li>
-                <li><Link to="/faq">FAQ</Link></li>
-              </ul>
-            </div>
-            <div className="footer-links">
-               <h5 className="footer-heading">CONNECT</h5>
-               <div style={{marginBottom: '16px'}}>
-                  <div style={{width: 40, height: 40, borderRadius: '6px', backgroundColor: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#0A0F1C', fontWeight: 800, fontSize: '14px', cursor: 'pointer'}}>in</div>
-               </div>
-               <p style={{fontSize: '0.85rem', color: '#9CA3AF', marginBottom: '16px'}}>Contact Us</p>
-               <Link to="/contact">
-                 <button className="btn-footer">Partner With Us</button>
-               </Link>
-            </div>
-          </div>
-        </footer>
-
+        <Footer />
       </div>
     </>
   );

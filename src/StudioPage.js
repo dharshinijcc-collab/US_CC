@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Header from './components/Header';
 import studioContent from './content/studio.json';
 
 export default function StudioPage() {
@@ -544,33 +545,8 @@ export default function StudioPage() {
       `}} />
 
       <div className="studio-page" style={{ position: 'relative', overflow: 'hidden' }}>
+        <Header />
         {/* Ambient glow orbs */}
-        <div className="cc-glow-orb cc-glow-orb-blue" style={{ width: 500, height: 500, top: '-150px', right: '-100px', opacity: 0.15 }} />
-        <div className="cc-glow-orb cc-glow-orb-purple" style={{ width: 350, height: 350, top: '50%', left: '-80px', opacity: 0.10 }} />
-        {/* Navbar */}
-        <div className="navbar-wrapper">
-          <nav className="navbar">
-            <div className="navbar-brand">Crestcode Product Studio</div>
-            <div className="navbar-links">
-              <Link to="/">Home</Link>
-              <Link to="/studio" className="active-link" style={{ color: 'white', fontWeight: '800' }}>Studio</Link>
-              <Link to="/">Company</Link>
-              <div className="nav-dropdown">
-                <Link to="/studio">Our Model &#x25BC;</Link>
-                <div className="nav-dropdown-content">
-                  <Link to="/careers" className="dropdown-item">Careers</Link>
-                  <Link to="/faq" className="dropdown-item">FAQ</Link>
-                  <Link to="/contact" className="dropdown-item">Contact</Link>
-                  <Link to="/privacy" className="dropdown-item">Privacy Policy</Link>
-                  <Link to="/terms" className="dropdown-item">Terms of Use</Link>
-                </div>
-              </div>
-            </div>
-            <Link to="/contact">
-              <button className="btn-primary btn-nav">Enquire</button>
-            </Link>
-          </nav>
-        </div>
 
         {/* Hero Section */}
         <section className="section-white hero-section" style={{ position: 'relative' }}>
@@ -714,7 +690,7 @@ export default function StudioPage() {
         </section>
 
         {/* How the Partnership Works */}
-        <section className="section-white">
+        <section className="section-white" id="methodology-section">
           <div className="section-container" style={{ maxWidth: '1280px' }}>
             <h2 className="section-title">{studioContent.partnership.title}</h2>
             <div className="grid-3" style={{ marginTop: '64px', gap: '32px' }}>

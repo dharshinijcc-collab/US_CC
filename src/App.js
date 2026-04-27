@@ -8,6 +8,7 @@ import ContactPage from './ContactPage';
 import PrivacyPolicyPage from './PrivacyPolicyPage';
 import TermsOfUsePage from './TermsOfUsePage';
 import Footer from './components/Footer';
+import Header from './components/Header';
 import homeContent from './content/home.json';
 
 
@@ -550,35 +551,40 @@ function LandingPage() {
         @media (max-width: 768px) {
           .footer-container { grid-template-columns: 1fr; }
         }
+
+        .hero-input-wrapper {
+          background: linear-gradient(white, white) padding-box, linear-gradient(225deg, #E2E8F0 60%, #D8B4E2 100%) border-box;
+          border: 1px solid transparent;
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hero-input-wrapper:focus-within {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08);
+          border-color: rgba(0, 90, 226, 0.3);
+        }
+        .hero-input {
+          width: 100%;
+          padding: 16px 20px;
+          border: none;
+          background: transparent;
+          outline: none;
+          font-size: 15px;
+          font-weight: 500;
+          color: var(--text-black);
+          font-family: 'Inter', sans-serif;
+        }
+        .hero-input::placeholder {
+          color: #94A3B8;
+        }
       `}} />
 
       <div className="landing-page" style={{ overflow: 'hidden', position: 'relative' }}>
+        <Header />
+        
         {/* Ambient aura animation */}
-        <div className="hero-aura aura-1" />
-        <div className="hero-aura aura-2" />
-        <div className="navbar-wrapper">
-          <nav className="navbar">
-            <div className="navbar-brand">Crestcode Product Studio</div>
-            <div className="navbar-links">
-              <Link to="/" className="active-link">Home</Link>
-              <Link to="/studio">Studio</Link>
-              <a href="#company">Company</a>
-              <div className="nav-dropdown">
-                <a href="#model">Our Model &#x25BC;</a>
-                <div className="nav-dropdown-content">
-                  <Link to="/careers" className="dropdown-item">Careers</Link>
-                  <Link to="/faq" className="dropdown-item">FAQ</Link>
-                  <Link to="/contact" className="dropdown-item">Contact</Link>
-                  <Link to="/privacy" className="dropdown-item">Privacy Policy</Link>
-                  <Link to="/terms" className="dropdown-item">Terms of Use</Link>
-                </div>
-              </div>
-            </div>
-            <Link to="/contact">
-              <button className="btn-primary btn-nav" style={{ backgroundColor: 'var(--primary-blue)', color: 'var(--white)' }}>Enquire</button>
-            </Link>
-          </nav>
-        </div>
 
 
 
@@ -592,44 +598,34 @@ function LandingPage() {
             {homeContent.hero.subheading}
           </p>
 
-          <form onSubmit={handleIdeaSubmit} method="POST" style={{ width: '100%', maxWidth: '600px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <form onSubmit={handleIdeaSubmit} method="POST" style={{ width: '100%', maxWidth: '600px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 10 }}>
             <div style={{
               width: '100%',
               display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
               gap: '12px',
               marginBottom: '12px'
             }}>
-              <input
-                type="text"
-                placeholder="Your Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                disabled={isLoading}
-                style={{
-                  padding: '16px 20px',
-                  borderRadius: '16px',
-                  border: '1px solid #E2E8F0',
-                  fontSize: '1rem',
-                  outline: 'none',
-                  backgroundColor: 'white'
-                }}
-              />
-              <input
-                type="email"
-                placeholder="Work Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={isLoading}
-                style={{
-                  padding: '16px 20px',
-                  borderRadius: '16px',
-                  border: '1px solid #E2E8F0',
-                  fontSize: '1rem',
-                  outline: 'none',
-                  backgroundColor: 'white'
-                }}
-              />
+              <div className="hero-input-wrapper">
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  className="hero-input"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  disabled={isLoading}
+                />
+              </div>
+              <div className="hero-input-wrapper">
+                <input
+                  type="email"
+                  placeholder="Work Email"
+                  className="hero-input"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={isLoading}
+                />
+              </div>
             </div>
 
             <div style={{
@@ -683,7 +679,7 @@ function LandingPage() {
               </div>
             </div>
             {formMessage && <div className={`form-message ${messageType}`}>{formMessage}</div>}
-            <p style={{ color: '#64748B', fontSize: '0.9rem', fontWeight: 500, textAlign: 'center' }}>{homeContent.hero.footerNote}</p>
+            <p className="hero-note">{homeContent.hero.footerNote}</p>
           </form>
         </header>
 
