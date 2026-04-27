@@ -19,10 +19,33 @@ export default function CareersPage() {
   });
   useScrollReveal();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Form submission logic would go here
-    console.log('Joined Talent Pool:', formData);
+    try {
+      const response = await fetch('/api/submit-talent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('Thank you for joining our talent pool! We have received your information.');
+        setFormData({
+          firstName: '',
+          email: '',
+          interest: 'Engineering',
+          linkedin: ''
+        });
+      } else {
+        alert(data.error || 'Submission failed. Please try again.');
+      }
+    } catch (error) {
+      alert('Network error. Please try again later.');
+    }
   };
 
   return (

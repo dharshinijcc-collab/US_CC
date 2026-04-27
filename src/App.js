@@ -117,7 +117,7 @@ function LandingPage() {
     setIsLoading(true);
     setFormMessage('');
     try {
-      const response = await fetch('https://us-cc.onrender.com/api/submit-idea', {
+      const response = await fetch('/api/submit-idea', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

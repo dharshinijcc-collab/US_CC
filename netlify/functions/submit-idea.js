@@ -21,7 +21,7 @@ exports.handler = async (event, context) => {
 
   try {
     const body = JSON.parse(event.body);
-    const { idea } = body;
+    const { name, email, idea } = body;
 
     // Validate input
     if (!idea || idea.trim().length < 10) {
@@ -36,6 +36,8 @@ exports.handler = async (event, context) => {
       .from('idea_submissions')
       .insert([
         {
+          full_name: name?.trim() || '',
+          email: email?.trim() || '',
           idea: idea.trim(),
           created_at: new Date().toISOString()
         }
@@ -53,11 +55,13 @@ exports.handler = async (event, context) => {
     // Send email notification
     try {
       await resend.emails.send({
-        from: 'Crestcode <noreply@crestcode.com>',
+        from: 'Crestcode Ideas <noreply@crestcode.com>',
         to: 'hello@crestcode.com',
-        subject: 'New Idea Submission',
+        subject: `New Idea Submission from ${name || 'Anonymous'}`,
         html: `
           <h2>New Idea Submission</h2>
+          <p><strong>Name:</strong> ${name || 'Not provided'}</p>
+          <p><strong>Email:</strong> ${email || 'Not provided'}</p>
           <p><strong>Idea:</strong></p>
           <p>${idea}</p>
           <p><strong>Submitted:</strong> ${new Date().toLocaleString()}</p>

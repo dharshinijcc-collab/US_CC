@@ -27,7 +27,7 @@ export default function ContactPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://us-cc.onrender.com/api/submit-contact', {
+      const response = await fetch('/api/submit-contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
