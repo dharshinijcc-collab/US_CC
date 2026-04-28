@@ -42,6 +42,8 @@ function LandingPage() {
   const [messageType, setMessageType] = useState('');
   const [showAuthPopup, setShowAuthPopup] = useState(false);
   const [pendingIdea, setPendingIdea] = useState('');
+  const [authEmail, setAuthEmail] = useState('');
+  const [authPassword, setAuthPassword] = useState('');
   const heroRef = useRef(null);
 
   useScrollReveal();
@@ -121,6 +123,11 @@ function LandingPage() {
 
   const handleAuthAction = async (action) => {
     // action = 'login' | 'signup'
+    if (!authEmail || !authPassword) {
+      setFormMessage('Please enter email and password');
+      setMessageType('error');
+      return;
+    }
     setShowAuthPopup(false);
     setIsLoading(true);
     setFormMessage('');
@@ -128,7 +135,7 @@ function LandingPage() {
       const response = await fetch('/api/submit-idea', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ idea: pendingIdea, action }),
+        body: JSON.stringify({ idea: pendingIdea, action, email: authEmail, password: authPassword }),
       });
       const data = await response.json();
       if (response.ok) {
@@ -136,6 +143,8 @@ function LandingPage() {
         setMessageType('success');
         setIdea('');
         setPendingIdea('');
+        setAuthEmail('');
+        setAuthPassword('');
       } else {
         setFormMessage(data.error || 'Submission failed. Please try again.');
         setMessageType('error');
@@ -711,9 +720,42 @@ function LandingPage() {
                   <h2 style={{ fontSize: '1.45rem', fontWeight: 800, color: '#0A0F1C', marginBottom: '10px', letterSpacing: '-0.02em', fontFamily: 'Manrope, sans-serif' }}>
                     Sign in to continue
                   </h2>
-                  <p style={{ color: '#64748B', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '28px', fontWeight: 500 }}>
+                  <p style={{ color: '#64748B', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '24px', fontWeight: 500 }}>
                     Please log in or create an account to submit your idea.
                   </p>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
+                    <input
+                      type="email"
+                      placeholder="Email"
+                      value={authEmail}
+                      onChange={(e) => setAuthEmail(e.target.value)}
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '1px solid #E2E8F0',
+                        borderRadius: '12px',
+                        fontSize: '0.95rem',
+                        outline: 'none',
+                        transition: 'border-color 0.2s'
+                      }}
+                    />
+                    <input
+                      type="password"
+                      placeholder="Password"
+                      value={authPassword}
+                      onChange={(e) => setAuthPassword(e.target.value)}
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        border: '1px solid #E2E8F0',
+                        borderRadius: '12px',
+                        fontSize: '0.95rem',
+                        outline: 'none',
+                        transition: 'border-color 0.2s'
+                      }}
+                    />
+                  </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     <button
