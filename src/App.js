@@ -36,12 +36,12 @@ export default function App() {
 }
 
 function LandingPage() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [idea, setIdea] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [formMessage, setFormMessage] = useState('');
   const [messageType, setMessageType] = useState('');
+  const [showAuthPopup, setShowAuthPopup] = useState(false);
+  const [pendingIdea, setPendingIdea] = useState('');
   const heroRef = useRef(null);
 
   useScrollReveal();
@@ -107,32 +107,35 @@ function LandingPage() {
   const statsRef3 = useCountUp(3.5, 2000);
   const statsRef4 = useCountUp(42, 2000);
 
-  const handleIdeaSubmit = async (e) => {
+  const handleIdeaSubmit = (e) => {
     e.preventDefault();
-    if (!name || !email || !idea || idea.trim().length < 10) {
-      setFormMessage('Please fill in all fields and tell us about your idea (at least 10 characters)');
+    if (!idea || idea.trim().length < 10) {
+      setFormMessage('Please tell us about your idea (at least 10 characters)');
       setMessageType('error');
       return;
     }
+    // Store idea and show auth popup
+    setPendingIdea(idea);
+    setShowAuthPopup(true);
+  };
+
+  const handleAuthAction = async (action) => {
+    // action = 'login' | 'signup'
+    setShowAuthPopup(false);
     setIsLoading(true);
     setFormMessage('');
     try {
       const response = await fetch('/api/submit-idea', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, idea }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idea: pendingIdea, action }),
       });
-
       const data = await response.json();
-
       if (response.ok) {
         setFormMessage('Thanks for sharing! Our team will review your idea.');
         setMessageType('success');
         setIdea('');
-        setName('');
-        setEmail('');
+        setPendingIdea('');
       } else {
         setFormMessage(data.error || 'Submission failed. Please try again.');
         setMessageType('error');
@@ -598,43 +601,14 @@ function LandingPage() {
             {homeContent.hero.subheading}
           </p>
 
-          <form onSubmit={handleIdeaSubmit} method="POST" style={{ width: '100%', maxWidth: '600px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 10 }}>
-            <div style={{
-              width: '100%',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: '12px',
-              marginBottom: '12px'
-            }}>
-              <div className="hero-input-wrapper">
-                <input
-                  type="text"
-                  placeholder="Your Name"
-                  className="hero-input"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  disabled={isLoading}
-                />
-              </div>
-              <div className="hero-input-wrapper">
-                <input
-                  type="email"
-                  placeholder="Work Email"
-                  className="hero-input"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={isLoading}
-                />
-              </div>
-            </div>
-
+          <form onSubmit={handleIdeaSubmit} method="POST" style={{ width: '100%', maxWidth: '480px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 10 }}>
             <div style={{
               width: '100%',
               position: 'relative',
               background: 'linear-gradient(white, white) padding-box, linear-gradient(225deg, #E2E8F0 60%, #D8B4E2 100%) border-box',
-              borderRadius: '24px',
+              borderRadius: '20px',
               border: '1px solid transparent',
-              boxShadow: '0 10px 40px -10px rgba(0,0,0,0.05)',
+              boxShadow: '0 10px 40px -10px rgba(0,0,0,0.07)',
               padding: '8px',
               marginBottom: '16px'
             }}>
@@ -644,15 +618,16 @@ function LandingPage() {
                 className="idea-textarea"
                 style={{
                   width: '100%',
-                  height: '140px',
+                  height: '90px',
                   border: 'none',
                   resize: 'none',
-                  padding: '16px',
-                  fontSize: '1.05rem',
+                  padding: '14px 16px',
+                  fontSize: '1rem',
                   fontFamily: 'inherit',
                   color: '#0A0F1C',
                   backgroundColor: 'transparent',
-                  outline: 'none'
+                  outline: 'none',
+                  borderRadius: '14px'
                 }}
                 placeholder="Tell us about your idea..."
                 value={idea}
@@ -974,6 +949,106 @@ function LandingPage() {
         {/* Footer */}
         {/* Footer */}
         <Footer />
+
+        {/* Auth Popup Modal */}
+        {showAuthPopup && (
+          <div
+            onClick={() => setShowAuthPopup(false)}
+            style={{
+              position: 'fixed', inset: 0,
+              background: 'rgba(10, 15, 28, 0.55)',
+              backdropFilter: 'blur(6px)',
+              zIndex: 9999,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              padding: '24px',
+              animation: 'fadeInUp 0.25s ease-out both'
+            }}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                background: '#FFFFFF',
+                borderRadius: '28px',
+                padding: 'clamp(32px, 5vw, 52px)',
+                maxWidth: '420px',
+                width: '100%',
+                boxShadow: '0 32px 80px -16px rgba(0,0,0,0.22)',
+                textAlign: 'center',
+                position: 'relative'
+              }}
+            >
+              {/* Close */}
+              <button
+                onClick={() => setShowAuthPopup(false)}
+                style={{
+                  position: 'absolute', top: '16px', right: '20px',
+                  background: 'none', border: 'none',
+                  fontSize: '1.4rem', color: '#94A3B8',
+                  cursor: 'pointer', lineHeight: 1
+                }}
+              >×</button>
+
+              {/* Icon */}
+              <div style={{
+                width: '56px', height: '56px',
+                background: 'linear-gradient(135deg, #005AE2, #4F46E5)',
+                borderRadius: '16px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                margin: '0 auto 20px'
+              }}>
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 22s5-5 5-10V2L12 12M12 22s-5-5-5-10V2l5 10"/>
+                </svg>
+              </div>
+
+              <h2 style={{ fontSize: '1.45rem', fontWeight: 800, color: '#0A0F1C', marginBottom: '10px', letterSpacing: '-0.02em', fontFamily: 'Manrope, sans-serif' }}>
+                Almost there!
+              </h2>
+              <p style={{ color: '#64748B', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '28px', fontWeight: 500 }}>
+                To submit your idea and track its progress, please log in or create a free account.
+              </p>
+
+              {/* Buttons */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <button
+                  onClick={() => handleAuthAction('login')}
+                  style={{
+                    width: '100%',
+                    padding: '14px 24px',
+                    background: '#005AE2',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '100px',
+                    fontWeight: 700,
+                    fontSize: '0.95rem',
+                    cursor: 'pointer',
+                    boxShadow: '0 8px 20px -4px rgba(0,90,226,0.35)',
+                    transition: 'background 0.2s'
+                  }}
+                >Log In</button>
+                <button
+                  onClick={() => handleAuthAction('signup')}
+                  style={{
+                    width: '100%',
+                    padding: '14px 24px',
+                    background: 'transparent',
+                    color: '#005AE2',
+                    border: '2px solid #E2E8F0',
+                    borderRadius: '100px',
+                    fontWeight: 700,
+                    fontSize: '0.95rem',
+                    cursor: 'pointer',
+                    transition: 'border-color 0.2s'
+                  }}
+                >Create Account</button>
+              </div>
+
+              <p style={{ marginTop: '20px', fontSize: '0.78rem', color: '#94A3B8', fontWeight: 500 }}>
+                Your idea is saved. Completing sign-in will send it to our team.
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
