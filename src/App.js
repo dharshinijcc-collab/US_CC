@@ -42,7 +42,6 @@ function LandingPage() {
   const [messageType, setMessageType] = useState('');
   const [showAuthPopup, setShowAuthPopup] = useState(false);
   const [pendingIdea, setPendingIdea] = useState('');
-  const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const heroRef = useRef(null);
 
@@ -122,8 +121,8 @@ function LandingPage() {
   };
 
   const handleAuthAction = async () => {
-    if (!userName || !userEmail) {
-      setFormMessage('Please enter your name and email');
+    if (!userEmail) {
+      setFormMessage('Please enter your email');
       setMessageType('error');
       return;
     }
@@ -134,7 +133,7 @@ function LandingPage() {
       const response = await fetch('/api/submit-idea', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ idea: pendingIdea, name: userName, email: userEmail }),
+        body: JSON.stringify({ idea: pendingIdea, email: userEmail }),
       });
       const data = await response.json();
       if (response.ok) {
@@ -142,7 +141,6 @@ function LandingPage() {
         setMessageType('success');
         setIdea('');
         setPendingIdea('');
-        setUserName('');
         setUserEmail('');
       } else {
         setFormMessage(data.error || 'Submission failed. Please try again.');
@@ -783,9 +781,8 @@ function LandingPage() {
                 <div onClick={(e) => e.stopPropagation()} style={{ background:'#fff', borderRadius:'20px', padding:'32px', position:'relative' }}>
                   <button onClick={() => setShowAuthPopup(false)} style={{ position:'absolute', top:'12px', right:'16px', background:'none', border:'none', fontSize:'1.4rem', color:'#94A3B8', cursor:'pointer', lineHeight:1 }}>×</button>
                   <h2 style={{ fontSize:'1.45rem', fontWeight:800, color:'#0A0F1C', marginBottom:'10px', letterSpacing:'-0.02em', fontFamily:'Manrope,sans-serif' }}>Almost there!</h2>
-                  <p style={{ color:'#64748B', fontSize:'0.95rem', lineHeight:1.6, marginBottom:'24px', fontWeight:500 }}>Please enter your details to submit your idea.</p>
+                  <p style={{ color:'#64748B', fontSize:'0.95rem', lineHeight:1.6, marginBottom:'24px', fontWeight:500 }}>Please enter your email to submit your idea.</p>
                   <div style={{ display:'flex', flexDirection:'column', gap:'12px', marginBottom:'20px' }}>
-                    <input type="text" placeholder="Your Name" value={userName} onChange={(e) => setUserName(e.target.value)} style={{ width:'100%', padding:'12px 16px', border:'1px solid #E2E8F0', borderRadius:'12px', fontSize:'0.95rem', outline:'none' }} />
                     <input type="email" placeholder="Your Email" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} style={{ width:'100%', padding:'12px 16px', border:'1px solid #E2E8F0', borderRadius:'12px', fontSize:'0.95rem', outline:'none' }} />
                   </div>
                   <button onClick={handleAuthAction} style={{ width:'100%', padding:'14px 24px', background:'#005AE2', color:'#fff', border:'none', borderRadius:'100px', fontWeight:700, fontSize:'0.95rem', cursor:'pointer', boxShadow:'0 8px 20px -4px rgba(0,90,226,0.35)' }}>Submit</button>

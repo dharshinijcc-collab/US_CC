@@ -15,11 +15,11 @@ async function handler(req, res) {
   try {
     console.log("Incoming data:", req.body);
 
-    const { name, email, idea } = req.body;
+    const { email, idea, name } = req.body;
 
     const { data, error } = await supabase
       .from("idea_submissions")
-      .insert([{ name, email, idea }]);
+      .insert([{ name: name || 'Anonymous', email, idea }]);
 
     if (error) {
       console.error("Supabase error:", error);
