@@ -42,8 +42,8 @@ function LandingPage() {
   const [messageType, setMessageType] = useState('');
   const [showAuthPopup, setShowAuthPopup] = useState(false);
   const [pendingIdea, setPendingIdea] = useState('');
-  const [authEmail, setAuthEmail] = useState('');
-  const [authPassword, setAuthPassword] = useState('');
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   const heroRef = useRef(null);
 
   useScrollReveal();
@@ -121,10 +121,9 @@ function LandingPage() {
     setShowAuthPopup(true);
   };
 
-  const handleAuthAction = async (action) => {
-    // action = 'login' | 'signup'
-    if (!authEmail || !authPassword) {
-      setFormMessage('Please enter email and password');
+  const handleAuthAction = async () => {
+    if (!userName || !userEmail) {
+      setFormMessage('Please enter your name and email');
       setMessageType('error');
       return;
     }
@@ -135,7 +134,7 @@ function LandingPage() {
       const response = await fetch('/api/submit-idea', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ idea: pendingIdea, action, email: authEmail, password: authPassword }),
+        body: JSON.stringify({ idea: pendingIdea, name: userName, email: userEmail }),
       });
       const data = await response.json();
       if (response.ok) {
@@ -143,8 +142,8 @@ function LandingPage() {
         setMessageType('success');
         setIdea('');
         setPendingIdea('');
-        setAuthEmail('');
-        setAuthPassword('');
+        setUserName('');
+        setUserEmail('');
       } else {
         setFormMessage(data.error || 'Submission failed. Please try again.');
         setMessageType('error');
@@ -422,6 +421,104 @@ function LandingPage() {
         .form-message.success { background-color: #ECFDF5; color: var(--success-green); }
         .form-message.error { background-color: #FEF2F2; color: #991B1B; }
 
+        /* Hero Email Popup */
+        @keyframes popupSlideIn {
+          from { opacity: 0; transform: translate(-50%, -44%); }
+          to   { opacity: 1; transform: translate(-50%, -50%); }
+        }
+        .hero-email-popup-overlay {
+          position: absolute;
+          inset: 0;
+          background: rgba(10, 15, 28, 0.38);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          z-index: 50;
+          border-radius: inherit;
+        }
+        .hero-email-popup {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: min(440px, 90vw);
+          background: #ffffff;
+          border-radius: 24px;
+          padding: 40px 36px 36px;
+          box-shadow: 0 40px 80px -20px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.04);
+          z-index: 51;
+          animation: popupSlideIn 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+          text-align: center;
+        }
+        .hero-email-popup-close {
+          position: absolute;
+          top: 14px; right: 18px;
+          background: none; border: none;
+          font-size: 1.5rem; color: #94A3B8;
+          cursor: pointer; line-height: 1;
+          transition: color 0.2s;
+        }
+        .hero-email-popup-close:hover { color: #475569; }
+        .hero-email-popup-icon {
+          width: 60px; height: 60px;
+          background: linear-gradient(135deg, #005AE2 0%, #4F46E5 100%);
+          border-radius: 18px;
+          display: flex; align-items: center; justify-content: center;
+          margin: 0 auto 20px;
+          box-shadow: 0 10px 24px -6px rgba(0,90,226,0.4);
+        }
+        .hero-email-popup h3 {
+          font-family: 'Manrope', sans-serif;
+          font-size: 1.5rem; font-weight: 800;
+          color: #0A0F1C; margin: 0 0 10px;
+          letter-spacing: -0.02em;
+        }
+        .hero-email-popup p {
+          font-size: 0.95rem; color: #64748B;
+          line-height: 1.6; font-weight: 500;
+          margin: 0 0 24px;
+        }
+        .hero-email-popup-input-row {
+          display: flex; gap: 8px;
+          background: #F8FAFC;
+          border: 1.5px solid #E2E8F0;
+          border-radius: 14px;
+          padding: 6px 6px 6px 16px;
+          transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .hero-email-popup-input-row:focus-within {
+          border-color: #005AE2;
+          box-shadow: 0 0 0 4px rgba(0,90,226,0.1);
+        }
+        .hero-email-popup-input {
+          flex: 1; border: none; background: transparent;
+          outline: none; font-size: 0.95rem; font-weight: 500;
+          color: #0A0F1C; font-family: 'Inter', sans-serif;
+          min-width: 0;
+        }
+        .hero-email-popup-input::placeholder { color: #94A3B8; }
+        .hero-email-popup-btn {
+          background: #005AE2; color: #fff;
+          border: none; border-radius: 10px;
+          padding: 10px 18px; font-weight: 700;
+          font-size: 0.875rem; cursor: pointer;
+          white-space: nowrap; flex-shrink: 0;
+          transition: background 0.2s, transform 0.15s;
+          box-shadow: 0 4px 12px rgba(0,90,226,0.3);
+        }
+        .hero-email-popup-btn:hover { background: #004ac2; transform: translateY(-1px); }
+        .hero-email-popup-success {
+          display: flex; flex-direction: column; align-items: center; gap: 12px;
+          padding: 8px 0;
+        }
+        .hero-email-popup-success-icon {
+          width: 52px; height: 52px; border-radius: 50%;
+          background: #ECFDF5; display: flex; align-items: center; justify-content: center;
+        }
+        .hero-email-popup-privacy {
+          margin-top: 14px;
+          font-size: 0.75rem; color: #94A3B8; font-weight: 500;
+        }
+
         /* Grid Systems */
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
         .cards-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; margin-bottom: 48px;}
@@ -665,135 +762,33 @@ function LandingPage() {
             {formMessage && <div className={`form-message ${messageType}`}>{formMessage}</div>}
             <p className="hero-note">{homeContent.hero.footerNote}</p>
 
-            {/* Auth Popup - Positioned in hero section */}
+            {/* Auth Popup (triggered after submit) */}
             {showAuthPopup && (
               <div
                 onClick={() => setShowAuthPopup(false)}
                 style={{
                   position: 'absolute',
-                  top: '50%',
-                  left: '50%',
+                  top: '50%', left: '50%',
                   transform: 'translate(-50%, -50%)',
-                  background: 'rgba(10, 15, 28, 0.55)',
+                  background: 'rgba(10,15,28,0.55)',
                   backdropFilter: 'blur(6px)',
                   borderRadius: '28px',
-                  padding: 'clamp(32px, 5vw, 52px)',
-                  maxWidth: '420px',
-                  width: '100%',
+                  padding: 'clamp(32px,5vw,52px)',
+                  maxWidth: '420px', width: '100%',
                   boxShadow: '0 32px 80px -16px rgba(0,0,0,0.22)',
-                  textAlign: 'center',
-                  zIndex: 100,
+                  textAlign: 'center', zIndex: 100,
                   animation: 'fadeInUp 0.25s ease-out both'
                 }}
               >
-                <div
-                  onClick={(e) => e.stopPropagation()}
-                  style={{
-                    background: '#FFFFFF',
-                    borderRadius: '20px',
-                    padding: '32px',
-                    position: 'relative'
-                  }}
-                >
-                  <button
-                    onClick={() => setShowAuthPopup(false)}
-                    style={{
-                      position: 'absolute', top: '12px', right: '16px',
-                      background: 'none', border: 'none',
-                      fontSize: '1.4rem', color: '#94A3B8',
-                      cursor: 'pointer', lineHeight: 1
-                    }}
-                  >×</button>
-
-                  <div style={{
-                    width: '56px', height: '56px',
-                    background: 'linear-gradient(135deg, #005AE2, #4F46E5)',
-                    borderRadius: '16px',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    margin: '0 auto 20px'
-                  }}>
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M12 22s5-5 5-10V2L12 12M12 22s-5-5-5-10V2l5 10"/>
-                    </svg>
+                <div onClick={(e) => e.stopPropagation()} style={{ background:'#fff', borderRadius:'20px', padding:'32px', position:'relative' }}>
+                  <button onClick={() => setShowAuthPopup(false)} style={{ position:'absolute', top:'12px', right:'16px', background:'none', border:'none', fontSize:'1.4rem', color:'#94A3B8', cursor:'pointer', lineHeight:1 }}>×</button>
+                  <h2 style={{ fontSize:'1.45rem', fontWeight:800, color:'#0A0F1C', marginBottom:'10px', letterSpacing:'-0.02em', fontFamily:'Manrope,sans-serif' }}>Almost there!</h2>
+                  <p style={{ color:'#64748B', fontSize:'0.95rem', lineHeight:1.6, marginBottom:'24px', fontWeight:500 }}>Please enter your details to submit your idea.</p>
+                  <div style={{ display:'flex', flexDirection:'column', gap:'12px', marginBottom:'20px' }}>
+                    <input type="text" placeholder="Your Name" value={userName} onChange={(e) => setUserName(e.target.value)} style={{ width:'100%', padding:'12px 16px', border:'1px solid #E2E8F0', borderRadius:'12px', fontSize:'0.95rem', outline:'none' }} />
+                    <input type="email" placeholder="Your Email" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} style={{ width:'100%', padding:'12px 16px', border:'1px solid #E2E8F0', borderRadius:'12px', fontSize:'0.95rem', outline:'none' }} />
                   </div>
-
-                  <h2 style={{ fontSize: '1.45rem', fontWeight: 800, color: '#0A0F1C', marginBottom: '10px', letterSpacing: '-0.02em', fontFamily: 'Manrope, sans-serif' }}>
-                    Sign in to continue
-                  </h2>
-                  <p style={{ color: '#64748B', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '24px', fontWeight: 500 }}>
-                    Please log in or create an account to submit your idea.
-                  </p>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
-                    <input
-                      type="email"
-                      placeholder="Email"
-                      value={authEmail}
-                      onChange={(e) => setAuthEmail(e.target.value)}
-                      style={{
-                        width: '100%',
-                        padding: '12px 16px',
-                        border: '1px solid #E2E8F0',
-                        borderRadius: '12px',
-                        fontSize: '0.95rem',
-                        outline: 'none',
-                        transition: 'border-color 0.2s'
-                      }}
-                    />
-                    <input
-                      type="password"
-                      placeholder="Password"
-                      value={authPassword}
-                      onChange={(e) => setAuthPassword(e.target.value)}
-                      style={{
-                        width: '100%',
-                        padding: '12px 16px',
-                        border: '1px solid #E2E8F0',
-                        borderRadius: '12px',
-                        fontSize: '0.95rem',
-                        outline: 'none',
-                        transition: 'border-color 0.2s'
-                      }}
-                    />
-                  </div>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    <button
-                      onClick={() => handleAuthAction('login')}
-                      style={{
-                        width: '100%',
-                        padding: '14px 24px',
-                        background: '#005AE2',
-                        color: '#fff',
-                        border: 'none',
-                        borderRadius: '100px',
-                        fontWeight: 700,
-                        fontSize: '0.95rem',
-                        cursor: 'pointer',
-                        boxShadow: '0 8px 20px -4px rgba(0,90,226,0.35)',
-                        transition: 'background 0.2s'
-                      }}
-                    >Log In</button>
-                    <button
-                      onClick={() => handleAuthAction('signup')}
-                      style={{
-                        width: '100%',
-                        padding: '14px 24px',
-                        background: 'transparent',
-                        color: '#005AE2',
-                        border: '2px solid #E2E8F0',
-                        borderRadius: '100px',
-                        fontWeight: 700,
-                        fontSize: '0.95rem',
-                        cursor: 'pointer',
-                        transition: 'border-color 0.2s'
-                      }}
-                    >Create Account</button>
-                  </div>
-
-                  <p style={{ marginTop: '20px', fontSize: '0.78rem', color: '#94A3B8', fontWeight: 500 }}>
-                    Your idea is saved. Completing sign-in will send it to our team.
-                  </p>
+                  <button onClick={handleAuthAction} style={{ width:'100%', padding:'14px 24px', background:'#005AE2', color:'#fff', border:'none', borderRadius:'100px', fontWeight:700, fontSize:'0.95rem', cursor:'pointer', boxShadow:'0 8px 20px -4px rgba(0,90,226,0.35)' }}>Submit</button>
                 </div>
               </div>
             )}
