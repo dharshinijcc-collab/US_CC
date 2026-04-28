@@ -655,11 +655,112 @@ function LandingPage() {
             </div>
             {formMessage && <div className={`form-message ${messageType}`}>{formMessage}</div>}
             <p className="hero-note">{homeContent.hero.footerNote}</p>
+
+            {/* Auth Popup - Positioned in hero section */}
+            {showAuthPopup && (
+              <div
+                onClick={() => setShowAuthPopup(false)}
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  background: 'rgba(10, 15, 28, 0.55)',
+                  backdropFilter: 'blur(6px)',
+                  borderRadius: '28px',
+                  padding: 'clamp(32px, 5vw, 52px)',
+                  maxWidth: '420px',
+                  width: '100%',
+                  boxShadow: '0 32px 80px -16px rgba(0,0,0,0.22)',
+                  textAlign: 'center',
+                  zIndex: 100,
+                  animation: 'fadeInUp 0.25s ease-out both'
+                }}
+              >
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  style={{
+                    background: '#FFFFFF',
+                    borderRadius: '20px',
+                    padding: '32px',
+                    position: 'relative'
+                  }}
+                >
+                  <button
+                    onClick={() => setShowAuthPopup(false)}
+                    style={{
+                      position: 'absolute', top: '12px', right: '16px',
+                      background: 'none', border: 'none',
+                      fontSize: '1.4rem', color: '#94A3B8',
+                      cursor: 'pointer', lineHeight: 1
+                    }}
+                  >×</button>
+
+                  <div style={{
+                    width: '56px', height: '56px',
+                    background: 'linear-gradient(135deg, #005AE2, #4F46E5)',
+                    borderRadius: '16px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    margin: '0 auto 20px'
+                  }}>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 22s5-5 5-10V2L12 12M12 22s-5-5-5-10V2l5 10"/>
+                    </svg>
+                  </div>
+
+                  <h2 style={{ fontSize: '1.45rem', fontWeight: 800, color: '#0A0F1C', marginBottom: '10px', letterSpacing: '-0.02em', fontFamily: 'Manrope, sans-serif' }}>
+                    Sign in to continue
+                  </h2>
+                  <p style={{ color: '#64748B', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '28px', fontWeight: 500 }}>
+                    Please log in or create an account to submit your idea.
+                  </p>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    <button
+                      onClick={() => handleAuthAction('login')}
+                      style={{
+                        width: '100%',
+                        padding: '14px 24px',
+                        background: '#005AE2',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '100px',
+                        fontWeight: 700,
+                        fontSize: '0.95rem',
+                        cursor: 'pointer',
+                        boxShadow: '0 8px 20px -4px rgba(0,90,226,0.35)',
+                        transition: 'background 0.2s'
+                      }}
+                    >Log In</button>
+                    <button
+                      onClick={() => handleAuthAction('signup')}
+                      style={{
+                        width: '100%',
+                        padding: '14px 24px',
+                        background: 'transparent',
+                        color: '#005AE2',
+                        border: '2px solid #E2E8F0',
+                        borderRadius: '100px',
+                        fontWeight: 700,
+                        fontSize: '0.95rem',
+                        cursor: 'pointer',
+                        transition: 'border-color 0.2s'
+                      }}
+                    >Create Account</button>
+                  </div>
+
+                  <p style={{ marginTop: '20px', fontSize: '0.78rem', color: '#94A3B8', fontWeight: 500 }}>
+                    Your idea is saved. Completing sign-in will send it to our team.
+                  </p>
+                </div>
+              </div>
+            )}
           </form>
         </header>
 
         {/* Target Audiences Section */}
         <section className="section-light">
+/* ... */
           <div className="section-container">
             <h3 className="section-eyebrow text-center cc-reveal">{homeContent.audiences.eyebrow}</h3>
             <h2 className="section-title text-center cc-reveal cc-delay-1">{homeContent.audiences.title}</h2>
@@ -949,106 +1050,6 @@ function LandingPage() {
         {/* Footer */}
         {/* Footer */}
         <Footer />
-
-        {/* Auth Popup Modal */}
-        {showAuthPopup && (
-          <div
-            onClick={() => setShowAuthPopup(false)}
-            style={{
-              position: 'fixed', inset: 0,
-              background: 'rgba(10, 15, 28, 0.55)',
-              backdropFilter: 'blur(6px)',
-              zIndex: 9999,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              padding: '24px',
-              animation: 'fadeInUp 0.25s ease-out both'
-            }}
-          >
-            <div
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                background: '#FFFFFF',
-                borderRadius: '28px',
-                padding: 'clamp(32px, 5vw, 52px)',
-                maxWidth: '420px',
-                width: '100%',
-                boxShadow: '0 32px 80px -16px rgba(0,0,0,0.22)',
-                textAlign: 'center',
-                position: 'relative'
-              }}
-            >
-              {/* Close */}
-              <button
-                onClick={() => setShowAuthPopup(false)}
-                style={{
-                  position: 'absolute', top: '16px', right: '20px',
-                  background: 'none', border: 'none',
-                  fontSize: '1.4rem', color: '#94A3B8',
-                  cursor: 'pointer', lineHeight: 1
-                }}
-              >×</button>
-
-              {/* Icon */}
-              <div style={{
-                width: '56px', height: '56px',
-                background: 'linear-gradient(135deg, #005AE2, #4F46E5)',
-                borderRadius: '16px',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                margin: '0 auto 20px'
-              }}>
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 22s5-5 5-10V2L12 12M12 22s-5-5-5-10V2l5 10"/>
-                </svg>
-              </div>
-
-              <h2 style={{ fontSize: '1.45rem', fontWeight: 800, color: '#0A0F1C', marginBottom: '10px', letterSpacing: '-0.02em', fontFamily: 'Manrope, sans-serif' }}>
-                Sign in to continue
-              </h2>
-              <p style={{ color: '#64748B', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '28px', fontWeight: 500 }}>
-                Please log in or create an account to submit your idea.
-              </p>
-
-              {/* Buttons */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <button
-                  onClick={() => handleAuthAction('login')}
-                  style={{
-                    width: '100%',
-                    padding: '14px 24px',
-                    background: '#005AE2',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '100px',
-                    fontWeight: 700,
-                    fontSize: '0.95rem',
-                    cursor: 'pointer',
-                    boxShadow: '0 8px 20px -4px rgba(0,90,226,0.35)',
-                    transition: 'background 0.2s'
-                  }}
-                >Log In</button>
-                <button
-                  onClick={() => handleAuthAction('signup')}
-                  style={{
-                    width: '100%',
-                    padding: '14px 24px',
-                    background: 'transparent',
-                    color: '#005AE2',
-                    border: '2px solid #E2E8F0',
-                    borderRadius: '100px',
-                    fontWeight: 700,
-                    fontSize: '0.95rem',
-                    cursor: 'pointer',
-                    transition: 'border-color 0.2s'
-                  }}
-                >Create Account</button>
-              </div>
-
-              <p style={{ marginTop: '20px', fontSize: '0.78rem', color: '#94A3B8', fontWeight: 500 }}>
-                Your idea is saved. Completing sign-in will send it to our team.
-              </p>
-            </div>
-          </div>
-        )}
       </div>
     </>
   );
