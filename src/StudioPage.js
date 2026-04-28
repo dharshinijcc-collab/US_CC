@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './components/Header';
+import ScrollStack, { ScrollStackItem } from './components/ScrollStack';
 import studioContent from './content/studio.json';
 
 export default function StudioPage() {
@@ -472,10 +473,10 @@ export default function StudioPage() {
         .image-box-abstract { border-radius: 24px; overflow: hidden; height: 100%; min-height: 400px; background: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80') center/cover; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15);}
 
         /* What We Look For */
-        .look-card { background: var(--bg-grey); border-radius: 24px; padding: 32px; text-align: left; border: 1px solid var(--border-light); }
-        .look-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: flex-start; color: var(--primary-blue); margin-bottom: 24px;}
-        .look-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 12px; color: var(--text-black); }
-        .look-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; font-weight: 500; }
+        .look-card { background: var(--white); border-radius: 24px; padding: 40px; text-align: left; border: 1px solid var(--border-light); box-shadow: 0 10px 40px rgba(0,0,0,0.08); height: 100%; display: flex; flex-direction: column; justify-content: center; }
+        .look-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary-blue); margin-bottom: 24px; background-color: #F0F5FF;}
+        .look-title { font-size: 1.25rem; font-weight: 800; margin-bottom: 12px; color: var(--text-black); }
+        .look-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; font-weight: 500; }
 
         /* The Build Timeline Section */
         .timeline-wrapper-new { padding: 48px 0 64px; overflow-x: auto; scrollbar-width: none; }
@@ -881,41 +882,47 @@ export default function StudioPage() {
               {studioContent.whatWeLookFor.subtitle}
             </p>
 
-            <div className="grid-4" style={{ marginTop: '64px' }}>
-
-              <div className="look-card">
-                <div className="look-icon">
-                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+            <ScrollStack useWindowScroll={true} style={{ marginTop: '64px' }}>
+              <ScrollStackItem>
+                <div className="look-card">
+                  <div className="look-icon">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                  </div>
+                  <h4 className="look-title">{studioContent.whatWeLookFor.criteria[0].title}</h4>
+                  <p className="look-desc">{studioContent.whatWeLookFor.criteria[0].description}</p>
                 </div>
-                <h4 className="look-title">{studioContent.whatWeLookFor.criteria[0].title}</h4>
-                <p className="look-desc">{studioContent.whatWeLookFor.criteria[0].description}</p>
-              </div>
+              </ScrollStackItem>
 
-              <div className="look-card">
-                <div className="look-icon">
-                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>
+              <ScrollStackItem>
+                <div className="look-card">
+                  <div className="look-icon">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>
+                  </div>
+                  <h4 className="look-title">{studioContent.whatWeLookFor.criteria[1].title}</h4>
+                  <p className="look-desc">{studioContent.whatWeLookFor.criteria[1].description}</p>
                 </div>
-                <h4 className="look-title">{studioContent.whatWeLookFor.criteria[1].title}</h4>
-                <p className="look-desc">{studioContent.whatWeLookFor.criteria[1].description}</p>
-              </div>
+              </ScrollStackItem>
 
-              <div className="look-card">
-                <div className="look-icon">
-                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+              <ScrollStackItem>
+                <div className="look-card">
+                  <div className="look-icon">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                  </div>
+                  <h4 className="look-title">{studioContent.whatWeLookFor.criteria[2].title}</h4>
+                  <p className="look-desc">{studioContent.whatWeLookFor.criteria[2].description}</p>
                 </div>
-                <h4 className="look-title">{studioContent.whatWeLookFor.criteria[2].title}</h4>
-                <p className="look-desc">{studioContent.whatWeLookFor.criteria[2].description}</p>
-              </div>
+              </ScrollStackItem>
 
-              <div className="look-card">
-                <div className="look-icon">
-                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+              <ScrollStackItem>
+                <div className="look-card">
+                  <div className="look-icon">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                  </div>
+                  <h4 className="look-title">{studioContent.whatWeLookFor.criteria[3].title}</h4>
+                  <p className="look-desc">{studioContent.whatWeLookFor.criteria[3].description}</p>
                 </div>
-                <h4 className="look-title">{studioContent.whatWeLookFor.criteria[3].title}</h4>
-                <p className="look-desc">{studioContent.whatWeLookFor.criteria[3].description}</p>
-              </div>
-
-            </div>
+              </ScrollStackItem>
+            </ScrollStack>
           </div>
         </section>
 
