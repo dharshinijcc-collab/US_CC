@@ -1002,10 +1002,10 @@ function LandingPage() {
               </div>
 
               <h2 style={{ fontSize: '1.45rem', fontWeight: 800, color: '#0A0F1C', marginBottom: '10px', letterSpacing: '-0.02em', fontFamily: 'Manrope, sans-serif' }}>
-                Almost there!
+                Sign in to continue
               </h2>
               <p style={{ color: '#64748B', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '28px', fontWeight: 500 }}>
-                To submit your idea and track its progress, please log in or create a free account.
+                Please log in or create an account to submit your idea.
               </p>
 
               {/* Buttons */}
