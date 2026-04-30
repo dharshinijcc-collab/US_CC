@@ -12,8 +12,8 @@ declare module 'axios' {
 }
 
 if (!API_URL) {
-  throw new Error(
-    'API URL is missing. Define NEXT_PUBLIC_DOCKLY_API_URL in your .env file.'
+  console.warn(
+    '⚠️ API URL is missing. Define NEXT_PUBLIC_DOCKLY_API_URL in your environment variables. API calls will fail.'
   );
 }
 
