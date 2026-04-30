@@ -2,7 +2,8 @@ import React from 'react';
 import useScrollReveal from './useScrollReveal';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import privacyContent from './content/privacy.json';
+import config from '../backend/config.json';
+const privacyContent = config.privacy;
 
 export default function PrivacyPolicyPage() {
   useScrollReveal();

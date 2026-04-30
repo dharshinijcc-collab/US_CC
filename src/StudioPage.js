@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './components/Header';
 import ScrollStack, { ScrollStackItem } from './components/ScrollStack';
-import studioContent from './content/studio.json';
+import config from '../backend/config.json';
+const studioContent = config.studio;
 
 export default function StudioPage() {
   // 1. State for the 3D Card Stack Carousel

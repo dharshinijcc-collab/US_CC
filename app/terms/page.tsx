@@ -1,16 +1,24 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 import Link from 'next/link';
 import useScrollReveal from '@/hooks/useScrollReveal';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import termsContent from '@/src/content/terms.json';
-
 import GrainOverlay from '@/components/effects/GrainOverlay';
+import { useContent } from '@/context/ContentContext';
 import TextReveal from '@/components/effects/TextReveal';
+import EditableText from '@/components/admin/EditableText';
+
 export default function TermsOfUsePage() {
+  const { content, loading, error } = useContent();
   useScrollReveal();
+  
+  if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">Loading terms...</div>;
+  if (error) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope text-red-500">Error: {error}</div>;
+  if (!content) return null;
+
+  const termsContent = content.terms;
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: `
@@ -423,7 +431,7 @@ export default function TermsOfUsePage() {
             <div className="section-container" style={{ position: 'relative', zIndex: 1 }}>
               <div className="hero-eyebrow cc-reveal">LEGAL</div>
               <TextReveal as="h1" className="hero-title" text={termsContent.title} />
-              <p className="hero-subtitle cc-reveal cc-delay-1">Last updated: {termsContent.lastUpdated}</p>
+              <p className="hero-subtitle cc-reveal cc-delay-1">Last updated: <EditableText contentKey="terms.lastUpdated" value={termsContent.lastUpdated} /></p>
             </div>
           </section>
           
@@ -431,40 +439,80 @@ export default function TermsOfUsePage() {
 
           <section className="terms-section cc-reveal cc-delay-2">
             <h2 className="terms-h2">
-              <div className="terms-number">{termsContent.sections[0].number}</div> {termsContent.sections[0].title}
+              <div className="terms-number">{termsContent.sections[0].number}</div>
+              <EditableText 
+                contentKey="terms.sections.0.title"
+                value={termsContent.sections[0].title}
+              />
             </h2>
             {termsContent.sections[0].content?.map((paragraph, idx) => (
-              <p key={idx} className="terms-p">{paragraph}</p>
+              <EditableText 
+                key={idx}
+                as="p"
+                contentKey={`terms.sections.0.content.${idx}`}
+                value={paragraph}
+                className="terms-p"
+              />
             ))}
           </section>
 
           <section className="terms-section cc-reveal cc-delay-3">
             <h2 className="terms-h2">
-              <div className="terms-number">{termsContent.sections[1].number}</div> {termsContent.sections[1].title}
+              <div className="terms-number">{termsContent.sections[1].number}</div>
+              <EditableText 
+                contentKey="terms.sections.1.title"
+                value={termsContent.sections[1].title}
+              />
             </h2>
             {termsContent.sections[1].content?.map((paragraph, idx) => (
-              <p key={idx} className="terms-p">{paragraph}</p>
+              <EditableText 
+                key={idx}
+                as="p"
+                contentKey={`terms.sections.1.content.${idx}`}
+                value={paragraph}
+                className="terms-p"
+              />
             ))}
             
             <div className="terms-indented">
               {termsContent.sections[1].indentedContent?.map((paragraph, idx) => (
-                <p key={idx} className="terms-p">{paragraph}</p>
+                <EditableText 
+                  key={idx}
+                  as="p"
+                  contentKey={`terms.sections.1.indentedContent.${idx}`}
+                  value={paragraph}
+                  className="terms-p"
+                />
               ))}
             </div>
           </section>
 
           <section className="terms-section cc-reveal cc-delay-1">
             <h2 className="terms-h2">
-              <div className="terms-number">{termsContent.sections[2].number}</div> {termsContent.sections[2].title}
+              <div className="terms-number">{termsContent.sections[2].number}</div>
+              <EditableText 
+                contentKey="terms.sections.2.title"
+                value={termsContent.sections[2].title}
+              />
             </h2>
             {termsContent.sections[2].content?.map((paragraph, idx) => (
-              <p key={idx} className="terms-p">{paragraph}</p>
+              <EditableText 
+                key={idx}
+                as="p"
+                contentKey={`terms.sections.2.content.${idx}`}
+                value={paragraph}
+                className="terms-p"
+              />
             ))}
             
             <div className="terms-highlight">
-              <p className="terms-p" style={{ margin: 0, color: 'var(--text-muted)' }}>
-                {termsContent.sections[2].highlightedContent}
-              </p>
+              <EditableText 
+                as="p"
+                contentKey="terms.sections.2.highlightedContent"
+                value={termsContent.sections[2].highlightedContent}
+                className="terms-p"
+                style={{ margin: 0, color: 'var(--text-muted)' }}
+              />
             </div>
           </section>
 
@@ -473,20 +521,28 @@ export default function TermsOfUsePage() {
               <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
               </svg>
-              {termsContent.contact.title}
+              <EditableText contentKey="terms.contact.title" value={termsContent.contact.title} />
             </div>
             
             <div className="legal-contact-box">
               <div className="legal-contact-text">
-                <h3>{termsContent.contact.subtitle}</h3>
-                <p>{termsContent.contact.description}</p>
+                <EditableText 
+                  as="h3"
+                  contentKey="terms.contact.subtitle"
+                  value={termsContent.contact.subtitle}
+                />
+                <EditableText 
+                  as="p"
+                  contentKey="terms.contact.description"
+                  value={termsContent.contact.description}
+                />
               </div>
               <Link href="/contact">
                 <button className="btn-bright">
                   <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2h-4a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  {termsContent.contact.buttonText}
+                  <EditableText contentKey="terms.contact.buttonText" value={termsContent.contact.buttonText} />
                 </button>
               </Link>
             </div>

@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import useScrollReveal from './useScrollReveal';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import faqContent from './content/faq.json';
+import config from '../backend/config.json';
+const faqContent = config.faq;
 
 // Effects & Hooks
 import TextReveal from './components/effects/TextReveal';

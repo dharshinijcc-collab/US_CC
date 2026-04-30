@@ -9,7 +9,8 @@ import PrivacyPolicyPage from './PrivacyPolicyPage';
 import TermsOfUsePage from './TermsOfUsePage';
 import Footer from './components/Footer';
 import Header from './components/Header';
-import homeContent from './content/home.json';
+import config from '../backend/config.json';
+const homeContent = config.home;
 
 
 // Effects & Hooks

@@ -1,18 +1,19 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
 import useScrollReveal from '@/hooks/useScrollReveal';
 import Header from '@/components/Header';
-import careersContent from '@/src/content/careers.json';
-
-// Effects & Hooks
-import TextReveal from '@/components/effects/TextReveal';
-import GrainOverlay from '@/components/effects/GrainOverlay';
-import BorderBeam from '@/components/effects/BorderBeam';
 import Footer from '@/components/Footer';
+import GrainOverlay from '@/components/effects/GrainOverlay';
+import { useContent } from '@/context/ContentContext';
+import BorderBeam from '@/components/effects/BorderBeam';
+import TextReveal from '@/components/effects/TextReveal';
+import EditableText from '@/components/admin/EditableText';
 
 export default function CareersPage() {
+  const { content, loading, error } = useContent();
+
   const [formData, setFormData] = useState({
     firstName: '',
     email: '',
@@ -20,6 +21,12 @@ export default function CareersPage() {
     linkedin: ''
   });
   useScrollReveal();
+  
+  if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#FAFAFA] font-manrope">Loading careers...</div>;
+  if (error) return <div className="flex items-center justify-center min-h-screen bg-[#FAFAFA] font-manrope text-red-500">Error: {error}</div>;
+  if (!content) return null;
+
+  const careersContent = content.careers;
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -233,7 +240,7 @@ export default function CareersPage() {
           border: none;
           font-family: inherit;
           font-size: inherit;
-        }
+          }
         .dropdown-toggle:hover { color: var(--white); }
         .dropdown-menu { 
           position: absolute; 
@@ -435,15 +442,28 @@ export default function CareersPage() {
           <div className="section-container grid-2 pt-0 pb-0" style={{position:'relative',zIndex:1}}>
             <div>
               <div className="hero-eyebrow-pill cc-reveal">
-                <span className="eyebrow-dot">.</span> OPEN POSITIONS
+                <EditableText contentKey="careers.hero.eyebrow" value={careersContent.hero.eyebrow} />
               </div>
-              <TextReveal as="h1" className="hero-title" text={careersContent.hero.title} />
-              <p className="body-text cc-reveal cc-delay-2" style={{maxWidth: '480px'}}>
-                {careersContent.hero.subheading}
-              </p>
+              <EditableText 
+                as="h1"
+                contentKey="careers.hero.title"
+                value={careersContent.hero.title}
+                className="hero-title"
+              />
+              <EditableText 
+                as="p"
+                contentKey="careers.hero.subheading"
+                value={careersContent.hero.subheading}
+                className="body-text cc-reveal cc-delay-2"
+                style={{maxWidth: '480px'}}
+              />
               <div className="hero-btn-group">
-                <button className="btn-bright" onClick={() => document.getElementById('job-listings')?.scrollIntoView({behavior: 'smooth'})}>{careersContent.hero.viewOpeningsButton}</button>
-                <button className="btn-outline" onClick={() => document.getElementById('mission-section')?.scrollIntoView({behavior: 'smooth'})}>{careersContent.hero.ourMissionButton}</button>
+                <button className="btn-bright" onClick={() => document.getElementById('job-listings')?.scrollIntoView({behavior: 'smooth'})}>
+                  <EditableText contentKey="careers.hero.viewOpeningsButton" value={careersContent.hero.viewOpeningsButton} />
+                </button>
+                <button className="btn-outline" onClick={() => document.getElementById('mission-section')?.scrollIntoView({behavior: 'smooth'})}>
+                  <EditableText contentKey="careers.hero.ourMissionButton" value={careersContent.hero.ourMissionButton} />
+                </button>
               </div>
             </div>
             <div className="hero-image-wrap">
@@ -455,38 +475,42 @@ export default function CareersPage() {
         {/* Values / Mindset Section */}
         <section id="mission-section">
           <div className="section-container">
-            <h2 className="section-title">{careersContent.values.title}</h2>
-            <p className="body-text" style={{marginBottom: '48px', maxWidth: '600px'}}>
-              {careersContent.values.subtitle}
-            </p>
+            <EditableText 
+              as="h2"
+              contentKey="careers.values.title"
+              value={careersContent.values.title}
+              className="section-title"
+            />
+            <EditableText 
+              as="p"
+              contentKey="careers.values.subtitle"
+              value={careersContent.values.subtitle}
+              className="body-text"
+              style={{marginBottom: '48px', maxWidth: '600px'}}
+            />
 
             <div className="grid-3">
-              {/* Value 1 */}
-              <div className="value-card cc-slide-left cc-delay-1">
-                <div className="value-icon-box">
-                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+              {careersContent.values.values.map((v, idx) => (
+                <div key={idx} className={`value-card cc-slide-${idx === 0 ? 'left' : idx === 1 ? 'center' : 'right'} cc-delay-${idx + 1}`}>
+                  <div className="value-icon-box">
+                    {idx === 0 && <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>}
+                    {idx === 1 && <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
+                    {idx === 2 && <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>}
+                  </div>
+                  <EditableText 
+                    as="h4"
+                    contentKey={`careers.values.values.${idx}.title`}
+                    value={v.title}
+                    className="value-title"
+                  />
+                  <EditableText 
+                    as="p"
+                    contentKey={`careers.values.values.${idx}.description`}
+                    value={v.description}
+                    className="value-desc"
+                  />
                 </div>
-                <h4 className="value-title">{careersContent.values.values[0].title}</h4>
-                <p className="value-desc">{careersContent.values.values[0].description}</p>
-              </div>
-
-              {/* Value 2 */}
-              <div className="value-card cc-slide-center cc-delay-2">
-                <div className="value-icon-box">
-                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                </div>
-                <h4 className="value-title">{careersContent.values.values[1].title}</h4>
-                <p className="value-desc">{careersContent.values.values[1].description}</p>
-              </div>
-
-              {/* Value 3 */}
-              <div className="value-card cc-slide-right cc-delay-3">
-                <div className="value-icon-box">
-                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                </div>
-                <h4 className="value-title">{careersContent.values.values[2].title}</h4>
-                <p className="value-desc">{careersContent.values.values[2].description}</p>
-              </div>
+              ))}
             </div>
           </div>
         </section>
@@ -494,39 +518,31 @@ export default function CareersPage() {
         {/* Department Overview */}
         <section>
           <div className="section-container pt-0">
-            <h2 className="section-title" style={{fontSize: 'clamp(1.5rem, 3vw, 2rem)', marginBottom: '32px'}}>{careersContent.departments.title}</h2>
+            <EditableText 
+              as="h2"
+              contentKey="careers.departments.title"
+              value={careersContent.departments.title}
+              className="section-title"
+              style={{fontSize: 'clamp(1.5rem, 3vw, 2rem)', marginBottom: '32px'}}
+            />
             
             <div className="dept-grid">
-              <div className="dept-card">
-                <div className="dept-icon">
-                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+              {careersContent.departments.departments.map((dept, idx) => (
+                <div key={idx} className="dept-card">
+                  <div className="dept-icon">
+                    {idx === 0 && <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>}
+                    {idx === 1 && <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" /></svg>}
+                    {idx === 2 && <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>}
+                    {idx === 3 && <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>}
+                    {idx === 4 && <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>}
+                  </div>
+                  <EditableText 
+                    contentKey={`careers.departments.departments.${idx}`}
+                    value={dept}
+                    className="dept-label"
+                  />
                 </div>
-                <span className="dept-label">{careersContent.departments.departments[0]}</span>
-              </div>
-              <div className="dept-card">
-                <div className="dept-icon">
-                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" /></svg>
-                </div>
-                <span className="dept-label">{careersContent.departments.departments[1]}</span>
-              </div>
-              <div className="dept-card">
-                <div className="dept-icon">
-                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
-                </div>
-                <span className="dept-label">{careersContent.departments.departments[2]}</span>
-              </div>
-              <div className="dept-card">
-                <div className="dept-icon">
-                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-                </div>
-                <span className="dept-label">{careersContent.departments.departments[3]}</span>
-              </div>
-              <div className="dept-card">
-                <div className="dept-icon">
-                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                </div>
-                <span className="dept-label">{careersContent.departments.departments[4]}</span>
-              </div>
+              ))}
             </div>
           </div>
         </section>
@@ -537,17 +553,31 @@ export default function CareersPage() {
             <div className="talent-icon">
               <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
             </div>
-            <h2 className="section-title">{careersContent.talentPool.title}</h2>
-            <p className="body-text" style={{maxWidth: '500px', margin: '0 auto'}}>
-              {careersContent.talentPool.subtitle}
-            </p>
+            <EditableText 
+              as="h2"
+              contentKey="careers.talentPool.title"
+              value={careersContent.talentPool.title}
+              className="section-title"
+            />
+            <EditableText 
+              as="p"
+              contentKey="careers.talentPool.subtitle"
+              value={careersContent.talentPool.subtitle}
+              className="body-text"
+              style={{maxWidth: '500px', margin: '0 auto'}}
+            />
 
             <BorderBeam>
               <div className="talent-form-card">
                 <form onSubmit={handleSubmit}>
                   <div className="form-row-2">
                     <div className="form-group">
-                      <label className="form-label">{careersContent.talentPool.form.nameLabel}</label>
+                      <EditableText 
+                        as="label"
+                        contentKey="careers.talentPool.form.nameLabel"
+                        value={careersContent.talentPool.form.nameLabel}
+                        className="form-label"
+                      />
                       <input 
                         type="text" 
                         className="form-input" 
@@ -558,7 +588,12 @@ export default function CareersPage() {
                       />
                     </div>
                     <div className="form-group">
-                      <label className="form-label">{careersContent.talentPool.form.emailLabel}</label>
+                      <EditableText 
+                        as="label"
+                        contentKey="careers.talentPool.form.emailLabel"
+                        value={careersContent.talentPool.form.emailLabel}
+                        className="form-label"
+                      />
                       <input 
                         type="email" 
                         className="form-input" 
@@ -571,7 +606,12 @@ export default function CareersPage() {
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">{careersContent.talentPool.form.roleLabel}</label>
+                    <EditableText 
+                      as="label"
+                      contentKey="careers.talentPool.form.roleLabel"
+                      value={careersContent.talentPool.form.roleLabel}
+                      className="form-label"
+                    />
                     <select 
                       className="form-input"
                       value={formData.interest}
@@ -587,7 +627,12 @@ export default function CareersPage() {
                   </div>
 
                   <div className="form-group" style={{marginBottom: '32px'}}>
-                    <label className="form-label">{careersContent.talentPool.form.linkedinLabel}</label>
+                    <EditableText 
+                      as="label"
+                      contentKey="careers.talentPool.form.linkedinLabel"
+                      value={careersContent.talentPool.form.linkedinLabel}
+                      className="form-label"
+                    />
                     <input 
                       type="url" 
                       className="form-input" 
@@ -598,7 +643,9 @@ export default function CareersPage() {
                   </div>
 
                   <div className="cc-reveal cc-delay-2" style={{marginTop: '32px'}}>
-                    <button type="submit" className="btn-bright w-full cc-magnetic" style={{padding: '16px'}}>{careersContent.talentPool.form.buttonText}</button>
+                    <button type="submit" className="btn-bright w-full cc-magnetic" style={{padding: '16px'}}>
+                      <EditableText contentKey="careers.talentPool.form.buttonText" value={careersContent.talentPool.form.buttonText} />
+                    </button>
                   </div>
                 </form>
               </div>
@@ -611,12 +658,22 @@ export default function CareersPage() {
           <div className="max-w-[1200px] mx-auto">
             <div className="cta-card">
               <div className="cta-content">
-                <h2 className="cta-title">{careersContent.cta.title}</h2>
-                <p className="cta-subtitle">
-                  {careersContent.cta.subtitle}
-                </p>
+                <EditableText 
+                  as="h2"
+                  contentKey="careers.cta.title"
+                  value={careersContent.cta.title}
+                  className="cta-title"
+                />
+                <EditableText 
+                  as="p"
+                  contentKey="careers.cta.subtitle"
+                  value={careersContent.cta.subtitle}
+                  className="cta-subtitle"
+                />
                 <Link href="/contact">
-                  <button className="btn-bright">{careersContent.cta.buttonText} &#x2192;</button>
+                  <button className="btn-bright">
+                    <EditableText contentKey="careers.cta.buttonText" value={careersContent.cta.buttonText} />
+                  </button>
                 </Link>
               </div>
             </div>
@@ -629,13 +686,3 @@ export default function CareersPage() {
     </>
   );
 }
-
-
-
-
-
-
-
-
-
-

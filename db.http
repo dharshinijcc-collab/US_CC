@@ -1,0 +1,11 @@
+### Seed Database from config.json
+POST http://localhost:5000/server/api/seed-db
+Content-Type: application/json
+
+### Get All Content
+GET http://localhost:5000/server/api/content
+Content-Type: application/json
+
+### Test Database Connection
+GET http://localhost:5000/server/api/test-db
+Content-Type: application/json

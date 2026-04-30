@@ -5,11 +5,32 @@ import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ScrollStack, { ScrollStackItem } from '@/components/ScrollStack';
-import studioContent from '@/src/content/studio.json';
+import { useContent } from '@/context/ContentContext';
+import EditableText from '@/components/admin/EditableText';
 
 export default function StudioPage() {
-  // 1. State for the 3D Card Stack Carousel
+  const { content, loading, error } = useContent();
   const [activeStackIndex, setActiveStackIndex] = useState(0);
+
+  useEffect(() => {
+    // We can't derive stackCards here because it needs content.
+    // But we can use an effect that only runs if content exists.
+    if (!content) return;
+    
+    const studioContent = content.studio;
+    const cardsLength = studioContent.solving.cards.length;
+    
+    const timer = setInterval(() => {
+      setActiveStackIndex((prev) => (prev + 1) % cardsLength);
+    }, 3500);
+    return () => clearInterval(timer);
+  }, [content]);
+
+  if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">Loading studio...</div>;
+  if (error) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope text-red-500">Error: {error}</div>;
+  if (!content) return null;
+  const studioContent = content.studio;
+
   // 2. Data array for the Stacked Cards from JSON content
   const stackCards = studioContent.solving.cards.map((card, index) => ({
     ...card,
@@ -20,13 +41,6 @@ export default function StudioPage() {
          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.407 2.67 1M12 17V7m0 10c-1.11 0-2.08-.407-2.67-1M12 17V7" /></svg>,
     color: ["#FF8EBB", "#5C67FF", "#99C26D", "#9C27B0", "#8257e5"][index]
   }));
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveStackIndex((prev) => (prev + 1) % stackCards.length);
-    }, 3500);
-    return () => clearInterval(timer);
-  }, [stackCards.length]);
 
   // Handler to slide to the next card
   const handleNextCard = () => {
@@ -613,23 +627,47 @@ export default function StudioPage() {
         <section className="section-white hero-section" style={{ position: 'relative' }}>
           <div className="section-container grid-2 pt-0 pb-0" style={{ position: 'relative', zIndex: 1 }}>
             <div>
-              <div className="hero-eyebrow-pill">{studioContent.hero.eyebrow}</div>
-              <h1 className="hero-title">
-                {studioContent.hero.title}
-              </h1>
-              <p className="body-text" style={{ marginBottom: '40px', maxWidth: '480px' }}>
-                {studioContent.hero.subheading}
-              </p>
+              <EditableText 
+                contentKey="studio.hero.eyebrow"
+                value={studioContent.hero.eyebrow}
+                className="hero-eyebrow-pill"
+              />
+              <EditableText 
+                as="h1"
+                contentKey="studio.hero.title"
+                value={studioContent.hero.title}
+                className="hero-title"
+              />
+              <EditableText 
+                as="p"
+                contentKey="studio.hero.subheading"
+                value={studioContent.hero.subheading}
+                className="body-text"
+                style={{ marginBottom: '40px', maxWidth: '480px' }}
+              />
               <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }} className="cc-reveal">
-                <button className="btn-primary" onClick={() => document.getElementById('methodology-section')?.scrollIntoView({behavior: 'smooth'})}>{studioContent.hero.buttonText}</button>
+                <button className="btn-primary" onClick={() => document.getElementById('methodology-section')?.scrollIntoView({behavior: 'smooth'})}>
+                  <EditableText contentKey="studio.hero.buttonText" value={studioContent.hero.buttonText} />
+                </button>
               </div>
             </div>
             <div className="hero-img-col">
               <div className="hero-img-bg"></div>
               <div className="hero-img-badge">
-                <div className="hero-badge-tag"><span className="hero-badge-dot"></span>{studioContent.hero.badgeTag}</div>
-                <div className="hero-badge-val">{studioContent.hero.badgeValue}</div>
-                <div className="hero-badge-lbl">{studioContent.hero.badgeLabel}</div>
+                <div className="hero-badge-tag">
+                  <span className="hero-badge-dot"></span>
+                  <EditableText contentKey="studio.hero.badgeTag" value={studioContent.hero.badgeTag} />
+                </div>
+                <EditableText 
+                  contentKey="studio.hero.badgeValue"
+                  value={studioContent.hero.badgeValue}
+                  className="hero-badge-val"
+                />
+                <EditableText 
+                  contentKey="studio.hero.badgeLabel"
+                  value={studioContent.hero.badgeLabel}
+                  className="hero-badge-lbl"
+                />
               </div>
             </div>
           </div>
@@ -639,25 +677,46 @@ export default function StudioPage() {
         <div className="validation-wrapper section-base" style={{ backgroundColor: 'var(--white)' }}>
           <div className="validation-card grid-2">
             <div>
-              <h2 className="section-title section-title-left title-dark">{studioContent.validation.title}</h2>
-              <p className="body-text" style={{ marginBottom: '40px', color: '#9CA3AF' }}>
-                {studioContent.validation.description}
-              </p>
+              <EditableText 
+                as="h2"
+                contentKey="studio.validation.title"
+                value={studioContent.validation.title}
+                className="section-title section-title-left title-dark"
+              />
+              <EditableText 
+                as="p"
+                contentKey="studio.validation.description"
+                value={studioContent.validation.description}
+                className="body-text"
+                style={{ marginBottom: '40px', color: '#9CA3AF' }}
+              />
               <Link href="/contact">
-                <button className="btn-primary" style={{ backgroundColor: '#005AE2', boxShadow: '0 8px 32px rgba(0, 90, 226, 0.4)', padding: '12px 32px', borderRadius: '100px' }}>{studioContent.validation.buttonText}</button>
+                <button className="btn-primary" style={{ backgroundColor: '#005AE2', boxShadow: '0 8px 32px rgba(0, 90, 226, 0.4)', padding: '12px 32px', borderRadius: '100px' }}>
+                  <EditableText contentKey="studio.validation.buttonText" value={studioContent.validation.buttonText} />
+                </button>
               </Link>
             </div>
 
             <div className="score-panel">
               <div className="score-header">
-                <span className="score-title-text" style={{ color: '#9CA3AF', fontSize: '0.7rem', fontWeight: 700 }}>{studioContent.validation.scoreLabel}</span>
-                <span className="score-number" style={{ color: '#005AE2', fontSize: '1.5rem', fontWeight: 800 }}>{studioContent.validation.scoreValue}</span>
+                <EditableText 
+                  contentKey="studio.validation.scoreLabel"
+                  value={studioContent.validation.scoreLabel}
+                  className="score-title-text"
+                  style={{ color: '#9CA3AF', fontSize: '0.7rem', fontWeight: 700 }}
+                />
+                <EditableText 
+                  contentKey="studio.validation.scoreValue"
+                  value={studioContent.validation.scoreValue}
+                  className="score-number"
+                  style={{ color: '#005AE2', fontSize: '1.5rem', fontWeight: 800 }}
+                />
               </div>
 
               <div className="progress-row">
                 <div className="progress-labels">
-                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>{studioContent.validation.marketFitLabel}</span>
-                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>{studioContent.validation.marketFitValue}</span>
+                  <EditableText contentKey="studio.validation.marketFitLabel" value={studioContent.validation.marketFitLabel} style={{ color: '#9CA3AF', fontSize: '0.8rem' }} />
+                  <EditableText contentKey="studio.validation.marketFitValue" value={studioContent.validation.marketFitValue} style={{ color: '#9CA3AF', fontSize: '0.8rem' }} />
                 </div>
                 <div className="progress-track" style={{ backgroundColor: '#2A303C', height: '4px', borderRadius: '2px' }}>
                   <div className="progress-fill" style={{ width: '92%', height: '4px', borderRadius: '2px', backgroundColor: '#005AE2' }}></div>
@@ -666,8 +725,8 @@ export default function StudioPage() {
 
               <div className="progress-row">
                 <div className="progress-labels">
-                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>{studioContent.validation.techFeasibilityLabel}</span>
-                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>{studioContent.validation.techFeasibilityValue}</span>
+                  <EditableText contentKey="studio.validation.techFeasibilityLabel" value={studioContent.validation.techFeasibilityLabel} style={{ color: '#9CA3AF', fontSize: '0.8rem' }} />
+                  <EditableText contentKey="studio.validation.techFeasibilityValue" value={studioContent.validation.techFeasibilityValue} style={{ color: '#9CA3AF', fontSize: '0.8rem' }} />
                 </div>
                 <div className="progress-track" style={{ backgroundColor: '#2A303C', height: '4px', borderRadius: '2px' }}>
                   <div className="progress-fill" style={{ width: '78%', height: '4px', borderRadius: '2px', backgroundColor: '#005AE2' }}></div>
@@ -676,8 +735,8 @@ export default function StudioPage() {
 
               <div className="progress-row" style={{ marginBottom: '24px' }}>
                 <div className="progress-labels">
-                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>{studioContent.validation.gtmStrategyLabel}</span>
-                  <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>{studioContent.validation.gtmStrategyValue}</span>
+                  <EditableText contentKey="studio.validation.gtmStrategyLabel" value={studioContent.validation.gtmStrategyLabel} style={{ color: '#9CA3AF', fontSize: '0.8rem' }} />
+                  <EditableText contentKey="studio.validation.gtmStrategyValue" value={studioContent.validation.gtmStrategyValue} style={{ color: '#9CA3AF', fontSize: '0.8rem' }} />
                 </div>
                 <div className="progress-track" style={{ backgroundColor: '#2A303C', height: '4px', borderRadius: '2px' }}>
                   <div className="progress-fill" style={{ width: '81%', height: '4px', borderRadius: '2px', backgroundColor: '#005AE2' }}></div>
@@ -686,7 +745,7 @@ export default function StudioPage() {
 
               <div style={{ backgroundColor: '#122624', color: '#00E6A0', padding: '12px 16px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" /></svg>
-                {studioContent.validation.growthBadge}
+                <EditableText contentKey="studio.validation.growthBadge" value={studioContent.validation.growthBadge} />
               </div>
             </div>
           </div>
@@ -695,7 +754,12 @@ export default function StudioPage() {
         {/* For Founders vs. For Investors Section */}
         <section className="section-base" style={{ position: 'relative' }}>
           <div className="section-container" style={{ position: 'relative', zIndex: 1 }}>
-            <h2 className="section-title">{studioContent.foundersInvestors.title}</h2>
+            <EditableText 
+              as="h2"
+              contentKey="studio.foundersInvestors.title"
+              value={studioContent.foundersInvestors.title}
+              className="section-title"
+            />
             <div className="grid-2 grid-2-align-top" style={{ marginTop: '64px' }}>
 
               <div className="card" style={{ position: 'relative', overflow: 'hidden', border: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
@@ -703,23 +767,32 @@ export default function StudioPage() {
                 <svg style={{ position: 'absolute', top: '32px', right: '32px', width: '80px', height: '80px', color: '#F1F5F9' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5L21 3m-7.5 7.5L9 21M13.5 10.5l-3-3m3 3l3 3m-3-3L3 21" />
                 </svg>
-                <h3 className="card-title relative z-10" style={{ fontSize: '1.5rem', marginBottom: '24px' }}>{studioContent.foundersInvestors.founders.title}</h3>
-                <p className="card-desc relative z-10" style={{ color: '#64748B', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.6' }}>{studioContent.foundersInvestors.founders.description}</p>
+                <EditableText 
+                  as="h3"
+                  contentKey="studio.foundersInvestors.founders.title"
+                  value={studioContent.foundersInvestors.founders.title}
+                  className="card-title relative z-10"
+                  style={{ fontSize: '1.5rem', marginBottom: '24px' }}
+                />
+                <EditableText 
+                  as="p"
+                  contentKey="studio.foundersInvestors.founders.description"
+                  value={studioContent.foundersInvestors.founders.description}
+                  className="card-desc relative z-10"
+                  style={{ color: '#64748B', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.6' }}
+                />
                 <ul className="check-list relative z-10" style={{ marginBottom: '40px' }}>
-                  <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    {studioContent.foundersInvestors.founders.benefits[0]}
-                  </li>
-                  <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    {studioContent.foundersInvestors.founders.benefits[1]}
-                  </li>
-                  <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    {studioContent.foundersInvestors.founders.benefits[2]}
-                  </li>
+                  {studioContent.foundersInvestors.founders.benefits.map((benefit, bIdx) => (
+                    <li key={bIdx} style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
+                      <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <EditableText contentKey={`studio.foundersInvestors.founders.benefits.${bIdx}`} value={benefit} />
+                    </li>
+                  ))}
                 </ul>
-                <a href="#founders" className="card-link relative z-10" style={{ color: '#005AE2', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center' }}>{studioContent.foundersInvestors.founders.buttonText} <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px' }}><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg></a>
+                <a href="#founders" className="card-link relative z-10" style={{ color: '#005AE2', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+                  <EditableText contentKey="studio.foundersInvestors.founders.buttonText" value={studioContent.foundersInvestors.founders.buttonText} /> 
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px' }}><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+                </a>
               </div>
 
               <div className="card" style={{ position: 'relative', overflow: 'hidden', border: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
@@ -727,23 +800,32 @@ export default function StudioPage() {
                 <svg style={{ position: 'absolute', top: '32px', right: '32px', width: '80px', height: '80px', color: '#F1F5F9' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                 </svg>
-                <h3 className="card-title relative z-10" style={{ fontSize: '1.5rem', marginBottom: '24px' }}>{studioContent.foundersInvestors.investors.title}</h3>
-                <p className="card-desc relative z-10" style={{ color: '#64748B', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.6' }}>{studioContent.foundersInvestors.investors.description}</p>
+                <EditableText 
+                  as="h3"
+                  contentKey="studio.foundersInvestors.investors.title"
+                  value={studioContent.foundersInvestors.investors.title}
+                  className="card-title relative z-10"
+                  style={{ fontSize: '1.5rem', marginBottom: '24px' }}
+                />
+                <EditableText 
+                  as="p"
+                  contentKey="studio.foundersInvestors.investors.description"
+                  value={studioContent.foundersInvestors.investors.description}
+                  className="card-desc relative z-10"
+                  style={{ color: '#64748B', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.6' }}
+                />
                 <ul className="check-list relative z-10" style={{ marginBottom: '40px' }}>
-                  <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    {studioContent.foundersInvestors.investors.benefits[0]}
-                  </li>
-                  <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    {studioContent.foundersInvestors.investors.benefits[1]}
-                  </li>
-                  <li style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    {studioContent.foundersInvestors.investors.benefits[2]}
-                  </li>
+                  {studioContent.foundersInvestors.investors.benefits.map((benefit, bIdx) => (
+                    <li key={bIdx} style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#334155', fontSize: '0.9rem', fontWeight: 600 }}>
+                      <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#005AE2" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <EditableText contentKey={`studio.foundersInvestors.investors.benefits.${bIdx}`} value={benefit} />
+                    </li>
+                  ))}
                 </ul>
-                <a href="#investors" className="card-link relative z-10" style={{ color: '#005AE2', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center' }}>{studioContent.foundersInvestors.investors.buttonText} <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px' }}><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg></a>
+                <a href="#investors" className="card-link relative z-10" style={{ color: '#005AE2', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+                  <EditableText contentKey="studio.foundersInvestors.investors.buttonText" value={studioContent.foundersInvestors.investors.buttonText} />
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px' }}><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+                </a>
               </div>
 
             </div>
@@ -753,42 +835,74 @@ export default function StudioPage() {
         {/* How the Partnership Works */}
         <section className="section-white" id="methodology-section">
           <div className="section-container" style={{ maxWidth: '1280px' }}>
-            <h2 className="section-title">{studioContent.partnership.title}</h2>
+            <EditableText 
+              as="h2"
+              contentKey="studio.partnership.title"
+              value={studioContent.partnership.title}
+              className="section-title"
+            />
             <div className="grid-3" style={{ marginTop: '64px', gap: '32px' }}>
 
               <div className="card" style={{ padding: '40px 32px' }}>
                 <div className="icon-circle">1</div>
-                <h3 className="card-title" style={{ fontSize: '1.25rem' }}>{studioContent.partnership.support.title}</h3>
-                <p className="card-desc" style={{ fontSize: '0.9rem' }}>
-                  {studioContent.partnership.support.description}<br /><br />
-                  <span style={{ fontWeight: 700 }}>Best for:</span> {studioContent.partnership.support.bestFor}
-                </p>
+                <EditableText 
+                  as="h3"
+                  contentKey="studio.partnership.support.title"
+                  value={studioContent.partnership.support.title}
+                  className="card-title"
+                  style={{ fontSize: '1.25rem' }}
+                />
+                <div className="card-desc" style={{ fontSize: '0.9rem' }}>
+                  <EditableText contentKey="studio.partnership.support.description" value={studioContent.partnership.support.description} />
+                  <br /><br />
+                  <span style={{ fontWeight: 700 }}>Best for:</span> <EditableText contentKey="studio.partnership.support.bestFor" value={studioContent.partnership.support.bestFor} />
+                </div>
                 <Link href="/contact">
-                  <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>{studioContent.partnership.support.buttonText}</button>
+                  <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>
+                    <EditableText contentKey="studio.partnership.support.buttonText" value={studioContent.partnership.support.buttonText} />
+                  </button>
                 </Link>
               </div>
 
               <div className="card cc-slide-center" style={{ padding: '40px 32px' }}>
                 <div className="icon-circle">2</div>
-                <h3 className="card-title" style={{ fontSize: '1.25rem' }}>{studioContent.partnership.codevelopment.title}</h3>
-                <p className="card-desc" style={{ fontSize: '0.9rem' }}>
-                  {studioContent.partnership.codevelopment.description}<br /><br />
-                  <span style={{ fontWeight: 700 }}>Best for:</span> {studioContent.partnership.codevelopment.bestFor}
-                </p>
+                <EditableText 
+                  as="h3"
+                  contentKey="studio.partnership.codevelopment.title"
+                  value={studioContent.partnership.codevelopment.title}
+                  className="card-title"
+                  style={{ fontSize: '1.25rem' }}
+                />
+                <div className="card-desc" style={{ fontSize: '0.9rem' }}>
+                  <EditableText contentKey="studio.partnership.codevelopment.description" value={studioContent.partnership.codevelopment.description} />
+                  <br /><br />
+                  <span style={{ fontWeight: 700 }}>Best for:</span> <EditableText contentKey="studio.partnership.codevelopment.bestFor" value={studioContent.partnership.codevelopment.bestFor} />
+                </div>
                 <Link href="/contact">
-                  <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>{studioContent.partnership.codevelopment.buttonText}</button>
+                  <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>
+                    <EditableText contentKey="studio.partnership.codevelopment.buttonText" value={studioContent.partnership.codevelopment.buttonText} />
+                  </button>
                 </Link>
               </div>
 
               <div className="card" style={{ padding: '40px 32px' }}>
                 <div className="icon-circle">3</div>
-                <h3 className="card-title" style={{ fontSize: '1.25rem' }}>{studioContent.partnership.fullBuild.title}</h3>
-                <p className="card-desc" style={{ fontSize: '0.9rem' }}>
-                  {studioContent.partnership.fullBuild.description}<br /><br />
-                  <span style={{ fontWeight: 700 }}>Best for:</span> {studioContent.partnership.fullBuild.bestFor}
-                </p>
+                <EditableText 
+                  as="h3"
+                  contentKey="studio.partnership.fullBuild.title"
+                  value={studioContent.partnership.fullBuild.title}
+                  className="card-title"
+                  style={{ fontSize: '1.25rem' }}
+                />
+                <div className="card-desc" style={{ fontSize: '0.9rem' }}>
+                  <EditableText contentKey="studio.partnership.fullBuild.description" value={studioContent.partnership.fullBuild.description} />
+                  <br /><br />
+                  <span style={{ fontWeight: 700 }}>Best for:</span> <EditableText contentKey="studio.partnership.fullBuild.bestFor" value={studioContent.partnership.fullBuild.bestFor} />
+                </div>
                 <Link href="/contact">
-                  <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>{studioContent.partnership.fullBuild.buttonText}</button>
+                  <button className="card-link" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', fontWeight: 'inherit', textDecoration: 'none' }}>
+                    <EditableText contentKey="studio.partnership.fullBuild.buttonText" value={studioContent.partnership.fullBuild.buttonText} />
+                  </button>
                 </Link>
               </div>
 
@@ -799,16 +913,30 @@ export default function StudioPage() {
         <section className="section-dark" style={{ backgroundColor: '#0A0F1C', padding: '100px 24px' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             {/* Main Section Title */}
-            <h2 className="section-title title-dark" style={{ marginBottom: '80px', textAlign: 'center', fontSize: '3.5rem', fontWeight: 800, transform: 'translateX(-40px)' }}>{studioContent.solving.title}</h2>
+            <EditableText 
+              as="h2"
+              contentKey="studio.solving.title"
+              value={studioContent.solving.title}
+              className="section-title title-dark"
+              style={{ marginBottom: '80px', textAlign: 'center', fontSize: '3.5rem', fontWeight: 800, transform: 'translateX(-40px)' }}
+            />
             <div className="grid-2" style={{ alignItems: 'center', gap: '120px', display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
               {/* Left Column: Problem Step */}
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', transform: 'translateY(-50px)' }}>
-                <h3 className="solving-subtitle" style={{ fontSize: '2.25rem', marginBottom: '24px', fontWeight: 800, color: '#FFFFFF', textAlign: 'center', width: '100%' }}>
-                  {stackCards[activeStackIndex].title}
-                </h3>
-                <p className="solving-col-text" style={{ fontSize: '1.25rem', color: '#CBD5E1', maxWidth: '480px', lineHeight: '1.6', fontWeight: 500, margin: '0', textAlign: 'center' }}>
-                  {stackCards[activeStackIndex].problemDesc}
-                </p>
+                <EditableText 
+                  as="h3"
+                  contentKey={`studio.solving.cards.${activeStackIndex}.title`}
+                  value={stackCards[activeStackIndex].title}
+                  className="solving-subtitle"
+                  style={{ fontSize: '2.25rem', marginBottom: '24px', fontWeight: 800, color: '#FFFFFF', textAlign: 'center', width: '100%' }}
+                />
+                <EditableText 
+                  as="p"
+                  contentKey={`studio.solving.cards.${activeStackIndex}.problemDesc`}
+                  value={stackCards[activeStackIndex].problemDesc}
+                  className="solving-col-text"
+                  style={{ fontSize: '1.25rem', color: '#CBD5E1', maxWidth: '480px', lineHeight: '1.6', fontWeight: 500, margin: '0', textAlign: 'center' }}
+                />
               </div>
 
               {/* Right Column: Solution Stack */}
@@ -874,26 +1002,33 @@ export default function StudioPage() {
                           }}>
                             {card.icon}
                           </div>
-                          <p className="card-stack-text" style={{ fontSize: '0.85rem', color: '#1E293B', fontWeight: 600, lineHeight: 1.6, margin: 0, textAlign: 'left' }}>
-                            {card.solutionDesc}
-                          </p>
+                          <EditableText 
+                            as="p"
+                            contentKey={`studio.solving.cards.${index}.solutionDesc`}
+                            value={card.solutionDesc}
+                            className="card-stack-text"
+                            style={{ fontSize: '0.85rem', color: '#1E293B', fontWeight: 600, lineHeight: 1.6, margin: 0, textAlign: 'left' }}
+                          />
                         </div>
                       );
                     })}
                   </div>
                 </div>
                 {/* Caption below cards */}
-                <p style={{ 
-                  color: '#005AE2', 
-                  fontSize: '0.75rem', 
-                  fontWeight: 800, 
-                  letterSpacing: '0.1em', 
-                  textTransform: 'uppercase',
-                  marginTop: '40px',
-                  marginLeft: '80px'
-                }}>
-                  {studioContent.solving.caption}
-                </p>
+                <EditableText 
+                  as="p"
+                  contentKey="studio.solving.caption"
+                  value={studioContent.solving.caption}
+                  style={{ 
+                    color: '#005AE2', 
+                    fontSize: '0.75rem', 
+                    fontWeight: 800, 
+                    letterSpacing: '0.1em', 
+                    textTransform: 'uppercase',
+                    marginTop: '40px',
+                    marginLeft: '80px'
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -902,20 +1037,27 @@ export default function StudioPage() {
         <section className="section-base">
           <div className="section-container grid-2">
             <div>
-              <h2 className="section-title section-title-left">
-                {studioContent.whyIdeasFail.title}
-              </h2>
-              <p className="body-text" style={{ marginBottom: '48px' }}>
-                {studioContent.whyIdeasFail.description}
-              </p>
+              <EditableText 
+                as="h2"
+                contentKey="studio.whyIdeasFail.title"
+                value={studioContent.whyIdeasFail.title}
+                className="section-title section-title-left"
+              />
+              <EditableText 
+                as="p"
+                contentKey="studio.whyIdeasFail.description"
+                value={studioContent.whyIdeasFail.description}
+                className="body-text"
+                style={{ marginBottom: '48px' }}
+              />
 
               <div className="feature-box">
                 <div className="feature-box-icon">
                   <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                 </div>
                 <div>
-                  <h4>{studioContent.whyIdeasFail.problems[0].title}</h4>
-                  <p>{studioContent.whyIdeasFail.problems[0].description}</p>
+                  <EditableText as="h4" contentKey="studio.whyIdeasFail.problems.0.title" value={studioContent.whyIdeasFail.problems[0].title} />
+                  <EditableText as="p" contentKey="studio.whyIdeasFail.problems.0.description" value={studioContent.whyIdeasFail.problems[0].description} />
                 </div>
               </div>
 
@@ -924,8 +1066,8 @@ export default function StudioPage() {
                   <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 </div>
                 <div>
-                  <h4>{studioContent.whyIdeasFail.problems[1].title}</h4>
-                  <p>{studioContent.whyIdeasFail.problems[1].description}</p>
+                  <EditableText as="h4" contentKey="studio.whyIdeasFail.problems.1.title" value={studioContent.whyIdeasFail.problems[1].title} />
+                  <EditableText as="p" contentKey="studio.whyIdeasFail.problems.1.description" value={studioContent.whyIdeasFail.problems[1].description} />
                 </div>
               </div>
             </div>
@@ -938,44 +1080,35 @@ export default function StudioPage() {
         <section className="section-white">
           <div className="section-container">
             <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-              <h2 className="section-title" style={{ marginBottom: '24px' }}>{studioContent.whatWeLookFor.title}</h2>
-              <p className="section-subtitle" style={{ maxWidth: '700px', margin: '0 auto', color: '#64748B', lineHeight: 1.6 }}>
-                {studioContent.whatWeLookFor.subtitle}
-              </p>
+              <EditableText 
+                as="h2"
+                contentKey="studio.whatWeLookFor.title"
+                value={studioContent.whatWeLookFor.title}
+                className="section-title"
+                style={{ marginBottom: '24px' }}
+              />
+              <EditableText 
+                as="p"
+                contentKey="studio.whatWeLookFor.subtitle"
+                value={studioContent.whatWeLookFor.subtitle}
+                className="section-subtitle"
+                style={{ maxWidth: '700px', margin: '0 auto', color: '#64748B', lineHeight: 1.6 }}
+              />
             </div>
             
             <div className="grid-4" style={{ gap: '24px' }}>
-              <div className="look-card">
-                <div className="look-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+              {studioContent.whatWeLookFor.criteria.map((criterion, cIdx) => (
+                <div key={cIdx} className="look-card">
+                  <div className="look-icon">
+                    {cIdx === 0 ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg> :
+                     cIdx === 1 ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2-2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg> :
+                     cIdx === 2 ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> :
+                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>}
+                  </div>
+                  <EditableText as="h4" contentKey={`studio.whatWeLookFor.criteria.${cIdx}.title`} value={criterion.title} className="look-title" />
+                  <EditableText as="p" contentKey={`studio.whatWeLookFor.criteria.${cIdx}.description`} value={criterion.description} className="look-desc" />
                 </div>
-                <h4 className="look-title">{studioContent.whatWeLookFor.criteria[0].title}</h4>
-                <p className="look-desc">{studioContent.whatWeLookFor.criteria[0].description}</p>
-              </div>
-
-              <div className="look-card">
-                <div className="look-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>
-                </div>
-                <h4 className="look-title">{studioContent.whatWeLookFor.criteria[1].title}</h4>
-                <p className="look-desc">{studioContent.whatWeLookFor.criteria[1].description}</p>
-              </div>
-
-              <div className="look-card">
-                <div className="look-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                </div>
-                <h4 className="look-title">{studioContent.whatWeLookFor.criteria[2].title}</h4>
-                <p className="look-desc">{studioContent.whatWeLookFor.criteria[2].description}</p>
-              </div>
-
-              <div className="look-card">
-                <div className="look-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                </div>
-                <h4 className="look-title">{studioContent.whatWeLookFor.criteria[3].title}</h4>
-                <p className="look-desc">{studioContent.whatWeLookFor.criteria[3].description}</p>
-              </div>
+              ))}
             </div>
           </div>
         </section>
@@ -983,141 +1116,55 @@ export default function StudioPage() {
         {/* The Build Timeline */}
         <section className="section-light text-center">
           <div className="section-container">
-            <h2 className="section-title">{studioContent.timeline.title}</h2>
-            <p className="section-subtitle text-center mx-auto" style={{ maxWidth: '750px', marginBottom: '64px' }}>
-              {studioContent.timeline.subtitle}
-            </p>
+            <EditableText 
+              as="h2"
+              contentKey="studio.timeline.title"
+              value={studioContent.timeline.title}
+              className="section-title"
+            />
+            <EditableText 
+              as="p"
+              contentKey="studio.timeline.subtitle"
+              value={studioContent.timeline.subtitle}
+              className="section-subtitle text-center mx-auto"
+              style={{ maxWidth: '750px', marginBottom: '64px' }}
+            />
 
             <div className="timeline-wrapper-new">
               <div className="timeline-grid-new">
-
-                {/* Column 1 */}
-                <div className="timeline-col">
-                  <div className="t-dot-wrapper">
-                    <div className="t-dot-new blue"></div>
-                    <div className="t-line-new blue"></div>
-                  </div>
-                  <div className="time-card-new">
-                    <div className="t-card-header">
-                      <span className="t-phase-text">PHASE 01</span>
-                      <span className="t-week-pill">1-2 WKS</span>
+                {studioContent.timeline.phases.map((phase, pIdx) => (
+                  <div key={pIdx} className="timeline-col">
+                    <div className="t-dot-wrapper">
+                      <div className={`t-dot-new ${pIdx < 4 ? 'blue' : pIdx === 4 ? 'dark' : 'blue'}`}></div>
+                      <div className={`t-line-new ${pIdx < 3 ? 'blue' : pIdx === 3 ? 'dark' : 'grey'}`}></div>
                     </div>
-                    <h4 className="t-title-new">{studioContent.timeline.phases[0].title}</h4>
-                    <p className="t-desc-new">{studioContent.timeline.phases[0].description}</p>
-                  </div>
-                </div>
-
-                {/* Column 2 */}
-                <div className="timeline-col">
-                  <div className="t-dot-wrapper">
-                    <div className="t-dot-new blue"></div>
-                    <div className="t-line-new blue"></div>
-                  </div>
-                  <div className="time-card-new">
-                    <div className="t-card-header">
-                      <span className="t-phase-text">PHASE 02</span>
-                      <span className="t-week-pill">1-2 WKS</span>
+                    <div className={`time-card-new ${pIdx === 5 ? 'blue-card' : ''}`}>
+                      <div className="t-card-header">
+                        <EditableText contentKey={`studio.timeline.phases.${pIdx}.phase`} value={phase.phase} className="t-phase-text" />
+                        <EditableText contentKey={`studio.timeline.phases.${pIdx}.duration`} value={phase.duration} className="t-week-pill" />
+                      </div>
+                      <EditableText as="h4" contentKey={`studio.timeline.phases.${pIdx}.title`} value={phase.title} className="t-title-new" />
+                      <EditableText as="p" contentKey={`studio.timeline.phases.${pIdx}.description`} value={phase.description} className="t-desc-new" />
                     </div>
-                    <h4 className="t-title-new">{studioContent.timeline.phases[1].title}</h4>
-                    <p className="t-desc-new">{studioContent.timeline.phases[1].description}</p>
                   </div>
-                </div>
-
-                {/* Column 3 */}
-                <div className="timeline-col">
-                  <div className="t-dot-wrapper">
-                    <div className="t-dot-new blue"></div>
-                    <div className="t-line-new blue"></div>
-                  </div>
-                  <div className="time-card-new">
-                    <div className="t-card-header">
-                      <span className="t-phase-text">PHASE 03</span>
-                      <span className="t-week-pill">2-3 WKS</span>
-                    </div>
-                    <h4 className="t-title-new">{studioContent.timeline.phases[2].title}</h4>
-                    <p className="t-desc-new">{studioContent.timeline.phases[2].description}</p>
-                  </div>
-                </div>
-
-                {/* Column 4 */}
-                <div className="timeline-col">
-                  <div className="t-dot-wrapper">
-                    <div className="t-dot-new blue"></div>
-                    <div className="t-line-new dark"></div>
-                  </div>
-                  <div className="time-card-new">
-                    <div className="t-card-header">
-                      <span className="t-phase-text">PHASE 04</span>
-                      <span className="t-week-pill">2-3 WKS</span>
-                    </div>
-                    <h4 className="t-title-new">{studioContent.timeline.phases[3].title}</h4>
-                    <p className="t-desc-new">{studioContent.timeline.phases[3].description}</p>
-                  </div>
-                </div>
-
-                {/* Column 5 */}
-                <div className="timeline-col">
-                  <div className="t-dot-wrapper">
-                    <div className="t-dot-new dark"></div>
-                    <div className="t-line-new grey"></div>
-                  </div>
-                  <div className="time-card-new">
-                    <div className="t-card-header">
-                      <span className="t-phase-text">PHASE 05</span>
-                      <span className="t-week-pill">6-8 WKS</span>
-                    </div>
-                    <h4 className="t-title-new">{studioContent.timeline.phases[4].title}</h4>
-                    <p className="t-desc-new">{studioContent.timeline.phases[4].description}</p>
-                  </div>
-                </div>
-
-                {/* Column 6 */}
-                <div className="timeline-col">
-                  <div className="t-dot-wrapper">
-                    <div className="t-dot-new blue"></div>
-                    <div className="t-line-new grey"></div>
-                  </div>
-                  <div className="time-card-new blue-card">
-                    <div className="t-card-header">
-                      <span className="t-phase-text">PHASE 06</span>
-                      <span className="t-week-pill">2-2 WKS</span>
-                    </div>
-                    <h4 className="t-title-new">{studioContent.timeline.phases[5].title}</h4>
-                    <p className="t-desc-new">{studioContent.timeline.phases[5].description}</p>
-                  </div>
-                </div>
-
+                ))}
               </div>
 
               {/* Bottom Stat Pills */}
               <div className="timeline-stats-row">
-                <div className="t-stat-pill">
-                  <div className="t-stat-icon">
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                {studioContent.timeline.stats.map((stat, sIdx) => (
+                  <div key={sIdx} className="t-stat-pill">
+                    <div className="t-stat-icon">
+                      {sIdx === 0 ? <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> :
+                       sIdx === 1 ? <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> :
+                       <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>}
+                    </div>
+                    <div>
+                      <EditableText contentKey={`studio.timeline.stats.${sIdx}.value`} value={stat.value} className="t-stat-val" />
+                      <EditableText contentKey={`studio.timeline.stats.${sIdx}.label`} value={stat.label} className="t-stat-lbl" />
+                    </div>
                   </div>
-                  <div>
-                    <div className="t-stat-val">{studioContent.timeline.stats[0].value}</div>
-                    <div className="t-stat-lbl">{studioContent.timeline.stats[0].label}</div>
-                  </div>
-                </div>
-                <div className="t-stat-pill">
-                  <div className="t-stat-icon">
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                  </div>
-                  <div>
-                    <div className="t-stat-val">{studioContent.timeline.stats[1].value}</div>
-                    <div className="t-stat-lbl">{studioContent.timeline.stats[1].label}</div>
-                  </div>
-                </div>
-                <div className="t-stat-pill">
-                  <div className="t-stat-icon">
-                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                  </div>
-                  <div>
-                    <div className="t-stat-val">{studioContent.timeline.stats[2].value}</div>
-                    <div className="t-stat-lbl">{studioContent.timeline.stats[2].label}</div>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
@@ -1126,30 +1173,31 @@ export default function StudioPage() {
         {/* FAQ Section */}
         <section id="faq" className="section-base">
           <div className="section-container">
-            <h2 className="section-title text-center" style={{ marginBottom: '64px' }}>{studioContent.faq.title}</h2>
+            <EditableText 
+              as="h2"
+              contentKey="studio.faq.title"
+              value={studioContent.faq.title}
+              className="section-title text-center"
+              style={{ marginBottom: '64px' }}
+            />
 
             <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-              <div className="faq-item">
-                <div className="faq-header">
-                  <span>{studioContent.faq.items[0].question}</span>
-                  <span className="faq-icon">-</span>
+              {studioContent.faq.items.map((item, idx) => (
+                <div key={idx} className="faq-item">
+                  <div className="faq-header">
+                    <EditableText as="span" contentKey={`studio.faq.items.${idx}.question`} value={item.question} />
+                    <span className="faq-icon">{idx === 0 ? '-' : '+'}</span>
+                  </div>
+                  {idx === 0 && (
+                    <EditableText 
+                      as="div"
+                      contentKey={`studio.faq.items.${idx}.answer`}
+                      value={item.answer}
+                      className="faq-content"
+                    />
+                  )}
                 </div>
-                <div className="faq-content">
-                  {studioContent.faq.items[0].answer}
-                </div>
-              </div>
-              <div className="faq-item">
-                <div className="faq-header">
-                  <span>{studioContent.faq.items[1].question}</span>
-                  <span className="faq-icon">+</span>
-                </div>
-              </div>
-              <div className="faq-item">
-                <div className="faq-header">
-                  <span>{studioContent.faq.items[2].question}</span>
-                  <span className="faq-icon">+</span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
@@ -1157,14 +1205,23 @@ export default function StudioPage() {
         {/* CTA */}
         <section className="section-white text-center">
           <div className="section-container" style={{ paddingTop: 'clamp(80px, 10vw, 120px)', paddingBottom: 'clamp(80px, 10vw, 120px)' }}>
-            <h2 className="section-title" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', marginBottom: '24px' }}>
-              {studioContent.cta.title}
-            </h2>
-            <p className="section-subtitle text-center">
-              {studioContent.cta.subtitle}
-            </p>
+            <EditableText 
+              as="h2"
+              contentKey="studio.cta.title"
+              value={studioContent.cta.title}
+              className="section-title"
+              style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', marginBottom: '24px' }}
+            />
+            <EditableText 
+              as="p"
+              contentKey="studio.cta.subtitle"
+              value={studioContent.cta.subtitle}
+              className="section-subtitle text-center"
+            />
             <Link href="/">
-              <button className="btn-primary" style={{ marginTop: '32px', padding: '20px 48px', fontSize: '1.125rem' }}>{studioContent.cta.buttonText}</button>
+              <button className="btn-primary" style={{ marginTop: '32px', padding: '20px 48px', fontSize: '1.125rem' }}>
+                <EditableText contentKey="studio.cta.buttonText" value={studioContent.cta.buttonText} />
+              </button>
             </Link>
           </div>
         </section>

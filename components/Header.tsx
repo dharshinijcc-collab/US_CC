@@ -3,10 +3,17 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useContent } from '@/context/ContentContext';
+import EditableText from '@/components/admin/EditableText';
 
 export default function Header(props: any) {
+  const { content } = useContent();
+  const globalContent = content?.global;
+  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+
+  if (!globalContent) return null;
 
   // Close menu on route change
   useEffect(() => {
@@ -101,17 +108,7 @@ export default function Header(props: any) {
 
         .navbar-links a.active-link { 
           color: white !important; 
-          position: relative;
-        }
-        .navbar-links a.active-link::after {
-          content: '';
-          position: absolute;
-          bottom: -4px;
-          left: 0;
-          width: 100%;
-          height: 2px;
-          background: #005AE2;
-          border-radius: 2px;
+          font-weight: 800;
         }
         
         .dropdown { position: relative; display: inline-block; }
@@ -263,32 +260,47 @@ export default function Header(props: any) {
 
       <div className="navbar-wrapper">
         <nav className="navbar">
-          <Link href="/" className="navbar-brand">Crestcode Product Studio</Link>
+          <Link href="/" className="navbar-brand">
+            <EditableText contentKey="global.header.brand" value={globalContent.header.brand} />
+          </Link>
           
           <div className="navbar-links">
-            <Link href="/" className={pathname === '/' ? 'active-link' : ''}>Home</Link>
-            <Link href="/studio" className={pathname === '/studio' ? 'active-link' : ''}>Studio</Link>
+            {globalContent.header.links.map((link, idx) => (
+              <Link key={idx} href={link.href} className={pathname === link.href ? 'active-link' : ''}>
+                <EditableText contentKey={`global.header.links.${idx}.name`} value={link.name} />
+              </Link>
+            ))}
             <div className="dropdown">
-              <button className="dropdown-toggle">Company &#x25BC;</button>
+              <button className="dropdown-toggle">
+                <EditableText contentKey="global.header.dropdowns.company.label" value={globalContent.header.dropdowns.company.label} /> &#x25BC;
+              </button>
               <div className="dropdown-menu">
-                <Link href="/careers" className="dropdown-item">Careers</Link>
-                <Link href="/progress" className="dropdown-item">Progress</Link>
+                {globalContent.header.dropdowns.company.links.map((link, idx) => (
+                  <Link key={idx} href={link.href} className="dropdown-item">
+                    <EditableText contentKey={`global.header.dropdowns.company.links.${idx}.name`} value={link.name} />
+                  </Link>
+                ))}
               </div>
             </div>
             <div className="dropdown">
-              <button className="dropdown-toggle">Our Model &#x25BC;</button>
+              <button className="dropdown-toggle">
+                <EditableText contentKey="global.header.dropdowns.model.label" value={globalContent.header.dropdowns.model.label} /> &#x25BC;
+              </button>
               <div className="dropdown-menu">
-                <Link href="/faq" className="dropdown-item">FAQ</Link>
-                <Link href="/contact" className="dropdown-item">Contact Us</Link>
-                <Link href="/privacy" className="dropdown-item">Privacy Policy</Link>
-                <Link href="/terms" className="dropdown-item">Terms of Use</Link>
+                {globalContent.header.dropdowns.model.links.map((link, idx) => (
+                  <Link key={idx} href={link.href} className="dropdown-item">
+                    <EditableText contentKey={`global.header.dropdowns.model.links.${idx}.name`} value={link.name} />
+                  </Link>
+                ))}
               </div>
             </div>
           </div>
 
           <div className="btn-nav-wrapper">
             <Link href="/contact" className="btn-nav-desktop">
-              <button className="btn-nav">Contact Us</button>
+              <button className="btn-nav">
+                <EditableText contentKey="global.header.cta" value={globalContent.header.cta} />
+              </button>
             </Link>
             
             <div className={`hamburger ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
@@ -301,15 +313,17 @@ export default function Header(props: any) {
       </div>
 
       <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
-        <Link href="/" className={`mobile-link ${pathname === '/' ? 'active-link' : ''}`}>Home</Link>
-        <Link href="/studio" className={`mobile-link ${pathname === '/studio' ? 'active-link' : ''}`}>Studio</Link>
-        <Link href="/careers" className={`mobile-link ${pathname === '/careers' ? 'active-link' : ''}`}>Careers</Link>
-        <Link href="/contact" className={`mobile-link ${pathname === '/contact' ? 'active-link' : ''}`}>Contact Us</Link>
+        {globalContent.header.links.map((link, idx) => (
+          <Link key={idx} href={link.href} className={`mobile-link ${pathname === link.href ? 'active-link' : ''}`}>{link.name}</Link>
+        ))}
+        {globalContent.header.dropdowns.company.links.map((link, idx) => (
+          <Link key={idx} href={link.href} className={`mobile-link ${pathname === link.href ? 'active-link' : ''}`}>{link.name}</Link>
+        ))}
         
         <div className="mobile-sublinks">
-          <Link href="/faq" className="mobile-sublink">FAQ</Link>
-          <Link href="/privacy" className="mobile-sublink">Privacy Policy</Link>
-          <Link href="/terms" className="mobile-sublink">Terms of Use</Link>
+          {globalContent.header.dropdowns.model.links.map((link, idx) => (
+            <Link key={idx} href={link.href} className="mobile-sublink">{link.name}</Link>
+          ))}
         </div>
       </div>
     </>

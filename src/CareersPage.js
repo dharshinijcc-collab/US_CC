@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useScrollReveal from './useScrollReveal';
 import Header from './components/Header';
-import careersContent from './content/careers.json';
+import config from '../backend/config.json';
+const careersContent = config.careers;
 
 // Effects & Hooks
 import TextReveal from './components/effects/TextReveal';

@@ -5,14 +5,15 @@ import Link from 'next/link';
 import useScrollReveal from '@/hooks/useScrollReveal';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
-import homeContent from '@/src/content/home.json';
-
-// Effects & Hooks
-import useCountUp from '@/hooks/useCountUp';
+import { useContent } from '@/context/ContentContext';
+import GlobalCursorGlow from '@/components/effects/GlobalCursorGlow';
+import EditableText from '@/components/admin/EditableText';
 import SpotlightCursor from '@/components/effects/SpotlightCursor';
 import BorderBeam from '@/components/effects/BorderBeam';
 
 export default function LandingPage() {
+  const { content, loading, error } = useContent();
+
   const [idea, setIdea] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [formMessage, setFormMessage] = useState('');
@@ -96,7 +97,7 @@ export default function LandingPage() {
     // Small timeout to ensure DOM is ready and styles are applied
     const timeoutId = setTimeout(() => {
       initVanta();
-    }, 100);
+    }, 50);
 
     return () => {
       isUnmounted = true;
@@ -105,13 +106,36 @@ export default function LandingPage() {
         vantaEffect.destroy();
       }
     };
-  }, []);
+  }, [loading]);
+  
+  if (loading) return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">
+      <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+      <p className="text-gray-600 font-medium">Loading premium experience...</p>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope px-4 text-center">
+      <div className="text-red-500 text-5xl mb-4">⚠️</div>
+      <h1 className="text-2xl font-bold text-gray-800 mb-2">Content Loading Failed</h1>
+      <p className="text-gray-600 mb-6">{error}</p>
+      <button 
+        onClick={() => window.location.reload()}
+        className="px-6 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors"
+      >
+        Retry Connection
+      </button>
+    </div>
+  );
 
+  if (!content) return (
+    <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">
+      <p className="text-gray-500 italic">No content available. Please ensure the backend is running and seeded.</p>
+    </div>
+  );
 
-  const statsRef1 = useCountUp(12000, 2000);
-  const statsRef2 = useCountUp(450, 2000);
-  const statsRef3 = useCountUp(3.5, 2000);
-  const statsRef4 = useCountUp(42, 2000);
+  const homeContent = content.home;
 
   const handleIdeaSubmit = (e: any) => {
     e.preventDefault();
@@ -687,15 +711,19 @@ export default function LandingPage() {
           display: flex; animation: cc-pageSlide 0.5s ease;
         }
         .signup-left {
-          width: 38%; background: #0A0F1C; color: white; padding: 24px 64px;
-          display: flex; flex-direction: column; justify-content: center;
+          width: 38%; background: #0A0F1C; color: white; padding: 60px 64px;
+          display: flex; flex-direction: column; justify-content: flex-start;
+          gap: 20px;
         }
         @media (max-width: 900px) { .signup-left { display: none; } }
         .signup-right {
-          flex: 1; padding: 24px 64px; display: flex; flex-direction: column;
-          align-items: center; justify-content: center; overflow-y: auto;
+          flex: 1; padding: 40px 64px; display: flex; flex-direction: column;
+          align-items: center; justify-content: flex-start; overflow-y: auto;
         }
-        .signup-form-box { width: 100%; max-width: 440px; }
+        .signup-form-box { 
+          width: 100%; max-width: 440px; 
+          display: flex; flex-direction: column;
+        }
         .signup-badge {
           background: #E0E7FF; color: #4338CA; padding: 6px 12px;
           border-radius: 100px; font-size: 0.75rem; font-weight: 700;
@@ -726,21 +754,50 @@ export default function LandingPage() {
 
         @keyframes cc-popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         @keyframes cc-fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Hero Aura Animation */
+        @keyframes float-aura {
+          0% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(30px, 50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.95); }
+          100% { transform: translate(0, 0) scale(1); }
+        }
+        .hero-aura {
+          position: absolute;
+          width: 800px;
+          height: 800px;
+          border-radius: 100%;
+          filter: blur(100px);
+          opacity: 0.12;
+          z-index: 0;
+          pointer-events: none;
+          animation: float-aura 15s infinite alternate ease-in-out;
+        }
+        .aura-1 { background: radial-gradient(circle, #4F46E5, transparent 70%); top: -300px; left: -200px; }
+        .aura-2 { background: radial-gradient(circle, #005AE2, transparent 70%); bottom: -200px; right: -200px; animation-delay: -7s; }
       `}} />
 
       <div className="landing-page" style={{ overflow: 'hidden', position: 'relative' }}>
         <Header />
         
+        {/* Ambient aura animation */}
+        <div className="hero-aura aura-1"></div>
+        <div className="hero-aura aura-2"></div>
+        
         {/* Step 1: Idea Submission Hero */}
         <header ref={heroRef} className="hero-section" style={{ position: 'relative', paddingTop: '160px', paddingBottom: '80px', backgroundColor: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <h1 style={{ fontSize: '3.5rem', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}>
-            {homeContent.hero.heading.split('Idea').map((part, index) => (
-              index === 0 ? <React.Fragment key={index}>{part}<span style={{ color: '#005AE2' }}>Idea</span></React.Fragment> : part
-            ))}
-          </h1>
-          <p style={{ textAlign: 'center', color: '#475569', fontSize: '1.1rem', maxWidth: '540px', lineHeight: 1.6, marginBottom: '48px', fontWeight: 500 }}>
-            {homeContent.hero.subheading}
-          </p>
+          <EditableText 
+            as="h1"
+            contentKey="home.hero.heading"
+            value={homeContent.hero.heading}
+            style={{ fontSize: '3.5rem', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}
+          />
+          <EditableText 
+            as="p"
+            contentKey="home.hero.subheading"
+            value={homeContent.hero.subheading}
+            style={{ textAlign: 'center', color: '#475569', fontSize: '1.1rem', maxWidth: '540px', lineHeight: 1.6, marginBottom: '48px', fontWeight: 500 }}
+          />
 
           <form onSubmit={(e) => { e.preventDefault(); if (submissionStep === 0) handleIdeaSubmit(e); else if (submissionStep === 1) handleProceedToSignup(); }} method="POST" style={{ width: '100%', maxWidth: '480px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 10 }}>
             <div style={{
@@ -772,7 +829,7 @@ export default function LandingPage() {
                       outline: 'none',
                       borderRadius: '14px'
                     }}
-                    placeholder="Tell us about your idea..."
+                    placeholder={homeContent.hero.placeholder}
                     value={idea}
                     onChange={(e: any) => setIdea(e.target.value)}
                     disabled={isLoading}
@@ -792,21 +849,31 @@ export default function LandingPage() {
                       boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
                       gap: '6px'
                     }}>
-                      {isLoading ? '...' : 'Submit →'}
+                      {isLoading ? '...' : <EditableText contentKey="home.hero.submitBtn" value={homeContent.hero.submitBtn} />}
                     </button>
                   </div>
                 </>
               ) : (
                 <div style={{ padding: '16px 16px 8px 16px', textAlign: 'left' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                    <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0A0F1C', margin: 0 }}>Where should we send updates?</h3>
+                    <EditableText 
+                      as="h3"
+                      contentKey="home.hero.emailStep.title"
+                      value={homeContent.hero.emailStep.title}
+                      style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0A0F1C', margin: 0 }}
+                    />
                     <button type="button" onClick={() => setSubmissionStep(0)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.5rem', color: '#94A3B8', padding: '0 8px' }}>×</button>
                   </div>
-                  <p style={{ color: '#64748B', fontSize: '0.9rem', marginBottom: '16px' }}>Enter your email and we'll notify you as soon as we review your idea.</p>
+                  <EditableText 
+                    as="p"
+                    contentKey="home.hero.emailStep.subtitle"
+                    value={homeContent.hero.emailStep.subtitle}
+                    style={{ color: '#64748B', fontSize: '0.9rem', marginBottom: '16px' }}
+                  />
                   <input 
                     type="email" 
                     className="step-input" 
-                    placeholder="yourname@email.com" 
+                    placeholder={homeContent.hero.emailStep.placeholder}
                     value={userEmail}
                     onChange={(e) => setUserEmail(e.target.value)}
                     style={{ width: '100%', marginBottom: '16px', boxSizing: 'border-box' }}
@@ -827,7 +894,7 @@ export default function LandingPage() {
                       boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
                       gap: '6px'
                     }}>
-                      Proceed →
+                      <EditableText contentKey="home.hero.emailStep.buttonText" value={homeContent.hero.emailStep.buttonText} />
                     </button>
                   </div>
                 </div>
@@ -845,50 +912,72 @@ export default function LandingPage() {
         {submissionStep === 2 && (
           <div className="signup-overlay">
             <div className="signup-left">
-              <h1 style={{ fontWeight: 800, fontSize: '1.5rem', marginBottom: '32px' }}>Crestcode</h1>
-              <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '24px', lineHeight: 1.2 }}>Your idea is in<br />good hands.</h2>
-              <p style={{ color: '#94A3B8', fontSize: '1.1rem', lineHeight: 1.6, marginBottom: '48px' }}>
-                Create your account to track progress, get feedback, and stay connected with our team.
-              </p>
+              <EditableText 
+                as="h1"
+                contentKey="home.hero.signupStep.brand"
+                value={homeContent.hero.signupStep.brand}
+                style={{ fontWeight: 800, fontSize: '1.5rem', marginBottom: '16px' }}
+              />
+              <EditableText 
+                as="h2"
+                contentKey="home.hero.signupStep.title"
+                value={homeContent.hero.signupStep.title}
+                style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '12px', lineHeight: 1.2, whiteSpace: 'pre-line' }}
+              />
+              <EditableText 
+                as="p"
+                contentKey="home.hero.signupStep.subtitle"
+                value={homeContent.hero.signupStep.subtitle}
+                style={{ color: '#94A3B8', fontSize: '1.1rem', lineHeight: 1.6, marginBottom: '32px' }}
+              />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                  <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: '#005AE2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
+                {homeContent.hero.signupStep.features.map((feature, idx) => (
+                  <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: '#005AE2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
+                    </div>
+                    <EditableText 
+                      as="span"
+                      contentKey={`home.hero.signupStep.features.${idx}`}
+                      value={feature}
+                      style={{ fontWeight: 600 }}
+                    />
                   </div>
-                  <span style={{ fontWeight: 600 }}>Dedicated Product Manager</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                  <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: '#005AE2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
-                  </div>
-                  <span style={{ fontWeight: 600 }}>Real-time status updates</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                  <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: '#005AE2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
-                  </div>
-                  <span style={{ fontWeight: 600 }}>Seamless feedback loops</span>
-                </div>
+                ))}
               </div>
             </div>
             <div className="signup-right">
               <div className="signup-form-box">
-                <div className="signup-badge">Step 1 of 1</div>
-                <h2 className="signup-title">Create your account</h2>
-                <p className="signup-subtitle">It takes less than 2 minutes.</p>
+                <EditableText 
+                  contentKey="home.hero.signupStep.form.badge"
+                  value={homeContent.hero.signupStep.form.badge}
+                  className="signup-badge"
+                />
+                <EditableText 
+                  as="h2"
+                  contentKey="home.hero.signupStep.form.title"
+                  value={homeContent.hero.signupStep.form.title}
+                  className="signup-title"
+                />
+                <EditableText 
+                  as="p"
+                  contentKey="home.hero.signupStep.form.subtitle"
+                  value={homeContent.hero.signupStep.form.subtitle}
+                  className="signup-subtitle"
+                />
                 
                 <div className="signup-field">
-                  <label className="signup-label">Enter Business Name</label>
+                  <label className="signup-label">{homeContent.hero.signupStep.form.businessNameLabel}</label>
                   <input 
                     type="text" 
                     className="signup-input" 
-                    placeholder="XYZ Company Ltd.," 
+                    placeholder={homeContent.hero.signupStep.form.businessNamePlaceholder}
                     value={businessName}
                     onChange={(e) => setBusinessName(e.target.value)}
                   />
                 </div>
                 <div className="signup-field">
-                  <label className="signup-label">Email Business Address</label>
+                  <label className="signup-label">{homeContent.hero.signupStep.form.emailLabel}</label>
                   <input 
                     type="email" 
                     className="signup-input" 
@@ -898,21 +987,21 @@ export default function LandingPage() {
                   />
                 </div>
                 <div className="signup-field">
-                  <label className="signup-label">Password</label>
+                  <label className="signup-label">{homeContent.hero.signupStep.form.passwordLabel}</label>
                   <input 
                     type="password" 
                     className="signup-input" 
-                    placeholder="Min. 8 characters" 
+                    placeholder={homeContent.hero.signupStep.form.passwordPlaceholder}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
                 <div className="signup-field">
-                  <label className="signup-label">Confirm Password</label>
+                  <label className="signup-label">{homeContent.hero.signupStep.form.confirmPasswordLabel}</label>
                   <input 
                     type="password" 
                     className="signup-input" 
-                    placeholder="Repeat your password" 
+                    placeholder={homeContent.hero.signupStep.form.confirmPasswordPlaceholder}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                   />
@@ -921,18 +1010,20 @@ export default function LandingPage() {
                 {formMessage && <div className="form-message error" style={{ marginBottom: '20px' }}>{formMessage}</div>}
                 
                 <button className="btn-step-primary" onClick={handleCreateAccount} disabled={isLoading}>
-                  {isLoading ? 'Creating...' : 'Create Account →'}
+                  {isLoading ? homeContent.hero.signupStep.form.creatingBtn : homeContent.hero.signupStep.form.submitBtn}
                 </button>
 
-                <div className="signup-divider">OR</div>
+                <div className="signup-divider">
+                  <EditableText contentKey="home.hero.signupStep.form.orText" value={homeContent.hero.signupStep.form.orText} />
+                </div>
 
                 <button className="btn-google">
                   <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google" />
-                  Continue with Google
+                  <EditableText contentKey="home.hero.signupStep.form.googleBtn" value={homeContent.hero.signupStep.form.googleBtn} />
                 </button>
 
                 <div className="signup-footer">
-                  Already have an account? <Link href="/signin">Sign in</Link>
+                  <EditableText contentKey="home.hero.signupStep.form.footerText" value={homeContent.hero.signupStep.form.footerText} /> <Link href="/signin"><EditableText contentKey="home.hero.signupStep.form.footerLink" value={homeContent.hero.signupStep.form.footerLink} /></Link>
                 </div>
               </div>
             </div>
@@ -946,10 +1037,12 @@ export default function LandingPage() {
               <div className="step-modal-icon-wrap" style={{ background: '#ECFDF5', color: '#10B981' }}>
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
               </div>
-              <h3>Success!</h3>
-              <p>Your idea has been submitted and your account is ready. You can now track the progress of your venture.</p>
+              <h3><EditableText contentKey="home.hero.successModal.title" value={homeContent.hero.successModal.title} /></h3>
+              <p><EditableText contentKey="home.hero.successModal.description" value={homeContent.hero.successModal.description} /></p>
               <Link href="/progress">
-                <button className="btn-step-primary">Go to Progress Page →</button>
+                <button className="btn-step-primary">
+                  <EditableText contentKey="home.hero.successModal.buttonText" value={homeContent.hero.successModal.buttonText} />
+                </button>
               </Link>
             </div>
           </div>
@@ -958,44 +1051,58 @@ export default function LandingPage() {
         {/* Target Audiences Section */}
         <section className="section-light">
           <div className="section-container">
-            <h3 className="section-eyebrow text-center cc-reveal">{homeContent.audiences.eyebrow}</h3>
-            <h2 className="section-title text-center cc-reveal cc-delay-1">{homeContent.audiences.title}</h2>
-            <p className="section-subtitle text-center cc-reveal cc-delay-2">{homeContent.audiences.subtitle}</p>
+            <EditableText 
+              as="h3"
+              contentKey="home.audiences.eyebrow"
+              value={homeContent.audiences.eyebrow}
+              className="section-eyebrow text-center cc-reveal"
+            />
+            <EditableText 
+              as="h2"
+              contentKey="home.audiences.title"
+              value={homeContent.audiences.title}
+              className="section-title text-center cc-reveal cc-delay-1"
+            />
+            <EditableText 
+              as="p"
+              contentKey="home.audiences.subtitle"
+              value={homeContent.audiences.subtitle}
+              className="section-subtitle text-center cc-reveal cc-delay-2"
+            />
 
             <div className="cards-grid">
-              <div className="sys-card cc-shine">
-                <div className="card-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              {homeContent.audiences.items.map((item, idx) => (
+                <div key={idx} className="sys-card cc-shine">
+                  <div className="card-icon">
+                    {item.icon === 'user' && <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>}
+                    {item.icon === 'building' && <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>}
+                    {item.icon === 'idea' && <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 1 7 7c0 2-1 3.9-2 5.5-.5.8-1.5 1.5-1.5 2.5v1H8.5v-1c0-1-1-1.7-1.5-2.5C6 12.9 5 11 5 9a7 7 0 0 1 7-7z"></path></svg>}
+                  </div>
+                  <EditableText 
+                    as="h4"
+                    contentKey={`home.audiences.items.${idx}.title`}
+                    value={item.title}
+                    className="card-title"
+                  />
+                  <EditableText 
+                    as="p"
+                    contentKey={`home.audiences.items.${idx}.description`}
+                    value={item.description}
+                    className="card-description"
+                  />
+                  <ul className="card-features">
+                    {item.features.map((feature, fIdx) => (
+                      <li key={fIdx}>
+                        <span className="check-icon">&#x2713;</span> 
+                        <EditableText 
+                          contentKey={`home.audiences.items.${idx}.features.${fIdx}`}
+                          value={feature}
+                        />
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <h4 className="card-title">Solo Founders</h4>
-                <p className="card-description">Expert technical partnership to transform your vision into a robust, market-ready digital product without the overhead of hiring an internal team.</p>
-                <ul className="card-features">
-                  <li><span className="check-icon">&#x2713;</span> Rapid MVP Development</li>
-                  <li><span className="check-icon">&#x2713;</span> Strategic Product Roadmap</li>
-                </ul>
-              </div>
-              <div className="sys-card cc-shine">
-                <div className="card-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-                </div>
-                <h4 className="card-title">SMEs & Corporate Labs</h4>
-                <p className="card-description">Agile execution for launching new digital sub-brands or internal products that require speed-to-market and high-fidelity design.</p>
-                <ul className="card-features">
-                  <li><span className="check-icon">&#x2713;</span> Digital Product Innovation</li>
-                  <li><span className="check-icon">&#x2713;</span> Legacy Modernization</li>
-                </ul>
-              </div>
-              <div className="sys-card cc-shine">
-                <div className="card-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 1 7 7c0 2-1 3.9-2 5.5-.5.8-1.5 1.5-1.5 2.5v1H8.5v-1c0-1-1-1.7-1.5-2.5C6 12.9 5 11 5 9a7 7 0 0 1 7-7z"></path></svg>
-                </div>
-                <h4 className="card-title">Non-technical Founders</h4>
-                <p className="card-description">A bridge between your business insight and complex technical implementation, ensuring quality code and scalable architecture from day one.</p>
-                <ul className="card-features">
-                  <li><span className="check-icon">&#x2713;</span> CTO-as-a-Service</li>
-                  <li><span className="check-icon">&#x2713;</span> Tech Strategy & Mentorship</li>
-                </ul>
-              </div>
+              ))}
             </div>
           </div>
         </section>
@@ -1006,41 +1113,62 @@ export default function LandingPage() {
           <div className="section-container" style={{ position: 'relative', zIndex: 1 }}>
             <div className="dark-grid">
               <div className="dark-content">
-                <h3 className="section-eyebrow cc-reveal">{homeContent.partnership.eyebrow}</h3>
-                <h2 className="section-title text-white cc-reveal cc-delay-1">{homeContent.partnership.title}</h2>
+                <EditableText 
+                  as="h3"
+                  contentKey="home.partnership.eyebrow"
+                  value={homeContent.partnership.eyebrow}
+                  className="section-eyebrow cc-reveal"
+                />
+                <EditableText 
+                  as="h2"
+                  contentKey="home.partnership.title"
+                  value={homeContent.partnership.title}
+                  className="section-title text-white cc-reveal cc-delay-1"
+                />
                 <div className="feature-list">
-                  <div className="feature-item">
-                    <div className="feature-bullet">&#x2713;</div>
-                    <div>
-                      <h4 className="feature-title">Hands-on Product Partners</h4>
-                      <p className="feature-desc">We aren't just order-takers. We challenge assumptions, offer strategic insights, and build products based on business outcomes, not just tickets.</p>
+                  {homeContent.partnership.features.map((feature, idx) => (
+                    <div key={idx} className="feature-item">
+                      <div className="feature-bullet">&#x2713;</div>
+                      <div>
+                        <EditableText 
+                          as="h4"
+                          contentKey={`home.partnership.features.${idx}.title`}
+                          value={feature.title}
+                          className="feature-title"
+                        />
+                        <EditableText 
+                          as="p"
+                          contentKey={`home.partnership.features.${idx}.description`}
+                          value={feature.description}
+                          className="feature-desc"
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="feature-item">
-                    <div className="feature-bullet">&#x2713;</div>
-                    <div>
-                      <h4 className="feature-title">India-based Team, Global Quality</h4>
-                      <p className="feature-desc">Access top-tier engineering talent with a Silicon Valley mindset. We provide elite output at founder-friendly pricing structures that optimize your runway.</p>
-                    </div>
-                  </div>
-                  <div className="feature-item">
-                    <div className="feature-bullet">&#x2713;</div>
-                    <div>
-                      <h4 className="feature-title">Founder-Friendly Agility</h4>
-                      <p className="feature-desc">We move at the speed of venture. No bureaucracy, just rapid iteration cycles and transparent communication that keeps your project moving forward.</p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
 
               <BorderBeam className="testimonial-card-dark cc-reveal cc-delay-2 cc-card-3d cc-card-3d-dark cc-shine" style={{ padding: 0 }}>
                 <div style={{ padding: '32px', height: '100%' }}>
-                  <p className="t-card-quote">"Crestcode has been the catalyst for our growth, acting as an extension of our core team."</p>
+                  <EditableText 
+                    as="p"
+                    contentKey="home.partnership.testimonial.quote"
+                    value={homeContent.partnership.testimonial.quote}
+                    className="t-card-quote"
+                  />
                   <div className="t-card-author">
                     <div className="t-avatar"></div>
                     <div>
-                      <div className="t-name">Julian Rossi</div>
-                      <div className="t-role">CTO, Zenith FinTech</div>
+                      <EditableText 
+                        contentKey="home.partnership.testimonial.author"
+                        value={homeContent.partnership.testimonial.author}
+                        className="t-name"
+                      />
+                      <EditableText 
+                        contentKey="home.partnership.testimonial.role"
+                        value={homeContent.partnership.testimonial.role}
+                        className="t-role"
+                      />
                     </div>
                   </div>
                 </div>
@@ -1053,30 +1181,21 @@ export default function LandingPage() {
         <section className="section-light" style={{ borderBottom: '1px solid var(--border-light)' }}>
           <div className="section-container" style={{ paddingTop: '60px', paddingBottom: '60px' }}>
             <div className="stats-row" style={{ borderTop: 'none', padding: 0 }}>
-              <div className="stat-item">
-                <div ref={statsRef1.ref} className="stat-num" style={{ color: 'var(--text-black)' }}>
-                  {statsRef1.displayValue !== null ? statsRef1.displayValue : '0'}
+              {homeContent.metrics.map((metric, idx) => (
+                <div key={idx} className="stat-item">
+                  <div className="stat-num" style={{ color: 'var(--text-black)', display: 'flex', gap: '2px' }}>
+                    <EditableText contentKey={`home.metrics.${idx}.prefix`} value={metric.prefix} />
+                    <EditableText contentKey={`home.metrics.${idx}.value`} value={metric.value} />
+                    <EditableText contentKey={`home.metrics.${idx}.suffix`} value={metric.suffix} />
+                  </div>
+                  <EditableText 
+                    contentKey={`home.metrics.${idx}.label`}
+                    value={metric.label}
+                    className="stat-label"
+                    style={{ color: 'var(--text-muted)' }}
+                  />
                 </div>
-                <div className="stat-label" style={{ color: 'var(--text-muted)' }}>HOURS AUTOMATED</div>
-              </div>
-              <div className="stat-item">
-                <div ref={statsRef2.ref} className="stat-num text-accent">
-                  ${statsRef2.displayValue !== null ? statsRef2.displayValue : '0'}M
-                </div>
-                <div className="stat-label" style={{ color: 'var(--text-muted)' }}>VALUE DELIVERED</div>
-              </div>
-              <div className="stat-item">
-                <div ref={statsRef3.ref} className="stat-num" style={{ color: 'var(--text-black)' }}>
-                  {statsRef3.displayValue !== null ? statsRef3.displayValue : '0'}x
-                </div>
-                <div className="stat-label" style={{ color: 'var(--text-muted)' }}>FASTER TO MARKET</div>
-              </div>
-              <div className="stat-item">
-                <div ref={statsRef4.ref} className="stat-num" style={{ color: 'var(--text-black)' }}>
-                  {statsRef4.displayValue !== null ? statsRef4.displayValue : '0'}
-                </div>
-                <div className="stat-label" style={{ color: 'var(--text-muted)' }}>PRODUCTS LAUNCHED</div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
@@ -1084,41 +1203,49 @@ export default function LandingPage() {
         {/* How We Make It Happen */}
         <section className="section-light">
           <div className="section-container">
-            <h2 className="section-title">How We Make It Happen</h2>
-            <p className="section-subtitle" style={{ margin: '0 0 clamp(32px, 5vw, 48px) 0', maxWidth: '800px', textAlign: 'left' }}>
-              We don't just execute tasks — we become your product build partner. With senior product thinking, in-house delivery, and proven systems, we help you move from idea to launch with less risk, less delay, and far more clarity.
-            </p>
+            <EditableText 
+              as="h2"
+              contentKey="home.methodology.title"
+              value={homeContent.methodology.title}
+              className="section-title"
+            />
+            <EditableText 
+              as="p"
+              contentKey="home.methodology.subtitle"
+              value={homeContent.methodology.subtitle}
+              className="section-subtitle"
+              style={{ margin: '0 0 clamp(32px, 5vw, 48px) 0', maxWidth: '800px', textAlign: 'left' }}
+            />
             <div className="features-grid-4">
-              <div className="sys-card-small cc-shine">
-                <div className="f-card-icon primary-bg">Λ</div>
-                <h4 className="f-card-title">Deep Product &<br />Development<br />Expertise</h4>
-                <p className="f-card-highlight">Built by Product Minds, Not Just Coders</p>
-                <p className="f-card-desc">Our team brings real product, design, and engineering depth to every line of code. We think about the "why" as much as the "how".</p>
-              </div>
-              <div className="sys-card-small">
-                <div className="f-card-icon primary-bg">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              {homeContent.methodology.cards.map((card, idx) => (
+                <div key={idx} className={`sys-card-small ${idx % 2 === 0 ? 'cc-shine' : ''}`}>
+                  <div className="f-card-icon primary-bg">
+                    {card.icon === 'lambda' && 'Λ'}
+                    {card.icon === 'grid' && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>}
+                    {card.icon === 'layers' && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 3h5v5" /><path d="M4 20L21 3" /><path d="M21 16v5h-5" /><path d="M15 15l6 6" /><path d="M4 4l5 5" /></svg>}
+                    {card.icon === 'star' && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>}
+                  </div>
+                  <EditableText 
+                    as="h4"
+                    contentKey={`home.methodology.cards.${idx}.title`}
+                    value={card.title}
+                    className="f-card-title"
+                    style={{ whiteSpace: 'pre-line' }}
+                  />
+                  <EditableText 
+                    as="p"
+                    contentKey={`home.methodology.cards.${idx}.highlight`}
+                    value={card.highlight}
+                    className="f-card-highlight"
+                  />
+                  <EditableText 
+                    as="p"
+                    contentKey={`home.methodology.cards.${idx}.description`}
+                    value={card.description}
+                    className="f-card-desc"
+                  />
                 </div>
-                <h4 className="f-card-title">Reusable, Validated<br />Build Systems</h4>
-                <p className="f-card-highlight">Proven Methods. Faster Decisions.</p>
-                <p className="f-card-desc">We use reusable frameworks and tested workflows to speed up execution. We don't reinvent the wheel; we optimize the journey.</p>
-              </div>
-              <div className="sys-card-small cc-shine">
-                <div className="f-card-icon primary-bg">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 3h5v5" /><path d="M4 20L21 3" /><path d="M21 16v5h-5" /><path d="M15 15l6 6" /><path d="M4 4l5 5" /></svg>
-                </div>
-                <h4 className="f-card-title">End-to-End In-House<br />Delivery</h4>
-                <p className="f-card-highlight">From Ideation to Launch — All in One Place</p>
-                <p className="f-card-desc">Strategy, UX, UI, and dev handled in-house with no fragmented handoffs. Total alignment from day one to launch.</p>
-              </div>
-              <div className="sys-card-small cc-shine">
-                <div className="f-card-icon primary-bg">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                </div>
-                <h4 className="f-card-title">Partnership Over<br />Project</h4>
-                <p className="f-card-highlight">We Build With You, Not Just For You</p>
-                <p className="f-card-desc">We work as an embedded partner invested in your long-term success, adapting our systems to your unique growth goals.</p>
-              </div>
+              ))}
             </div>
           </div>
         </section>
@@ -1126,23 +1253,36 @@ export default function LandingPage() {
         {/* 6-Step Venture Process Section */}
         <section className="section-grey border-y text-center">
           <div className="section-container">
-            <h2 className="section-title text-center">The 6-Step Venture Process</h2>
-            <p className="section-subtitle text-center cc-reveal cc-delay-1">A rigorous methodology designed to de-risk startups and accelerate the path to Product-Market Fit.</p>
+            <EditableText 
+              as="h2"
+              contentKey="home.process.title"
+              value={homeContent.process.title}
+              className="section-title text-center"
+            />
+            <EditableText 
+              as="p"
+              contentKey="home.process.subtitle"
+              value={homeContent.process.subtitle}
+              className="section-subtitle text-center cc-reveal cc-delay-1"
+            />
             <div className="process-wrapper">
               <div className="process-line"></div>
               <div className="process-grid">
-                {[
-                  { title: "Ideation", color: '#FF8EBB' },
-                  { title: "Strategy & Setup", color: '#5C67FF' },
-                  { title: "Design", color: '#99C26D' },
-                  { title: "Development", color: '#A855F7' },
-                  { title: "Launch & Market", color: '#FF8B42' },
-                  { title: "Scale", color: '#34D399' }
-                ].map((step, idx) => (
+                {homeContent.process.steps.map((step, idx) => (
                   <div key={idx} className="process-step">
                     <div className="step-icon-peach" style={{ backgroundColor: step.color, color: 'white' }}>{idx+1}</div>
-                    <h5 className="step-title">{step.title}</h5>
-                    <p className="step-desc">Rigorous methodology designed to de-risk and accelerate.</p>
+                    <EditableText 
+                      as="h5"
+                      contentKey={`home.process.steps.${idx}.title`}
+                      value={step.title}
+                      className="step-title"
+                    />
+                    <EditableText 
+                      as="p"
+                      contentKey={`home.process.steps.${idx}.description`}
+                      value={step.description}
+                      className="step-desc"
+                    />
                   </div>
                 ))}
               </div>
@@ -1153,41 +1293,65 @@ export default function LandingPage() {
         {/* Testimonials Section */}
         <section className="section-light">
           <div className="section-container">
-            <h2 className="section-title text-center cc-reveal" style={{ marginBottom: 'clamp(40px, 6vw, 80px)' }}>The Verdict from Visionaries</h2>
+            <EditableText 
+              as="h2"
+              contentKey="home.testimonials.title"
+              value={homeContent.testimonials.title}
+              className="section-title text-center cc-reveal"
+              style={{ marginBottom: 'clamp(40px, 6vw, 80px)' }}
+            />
 
             <div className="cards-grid-2">
-              <div className="sys-card-small cc-shine">
-                <p className="t-quote">"Crestcode transformed our vague concept into a market-ready platform in under 4 months. Their strategic clarity and technical speed are unmatched."</p>
-                <div className="t-box-author">
-                  <div className="t-avatar-light"></div>
-                  <div>
-                    <div className="t-name-light">Elena Rodriguez</div>
-                    <div className="t-role-light">CEO, FLUX SYSTEMS</div>
+              {homeContent.testimonials.items.map((item, idx) => (
+                <div key={idx} className="sys-card-small cc-shine">
+                  <EditableText 
+                    as="p"
+                    contentKey={`home.testimonials.items.${idx}.quote`}
+                    value={item.quote}
+                    className="t-quote"
+                  />
+                  <div className="t-box-author">
+                    <div className="t-avatar-light"></div>
+                    <div>
+                      <EditableText 
+                        contentKey={`home.testimonials.items.${idx}.author`}
+                        value={item.author}
+                        className="t-name-light"
+                      />
+                      <EditableText 
+                        contentKey={`home.testimonials.items.${idx}.role`}
+                        value={item.role}
+                        className="t-role-light"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="sys-card-small cc-shine">
-                <p className="t-quote">"They don't just build what you ask for; they build what you actually need to scale. A true partner in every sense of the word."</p>
-                <div className="t-box-author">
-                  <div className="t-avatar-light"></div>
-                  <div>
-                    <div className="t-name-light">David Chen</div>
-                    <div className="t-role-light">PRODUCT HEAD, VANTAGE AI</div>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
 
             <div className="founder-quote-card">
               <div className="founder-img">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400" alt="Marcus Sterling" className="founder-photo" />
+                <img src={homeContent.testimonials.founder.image} alt={homeContent.testimonials.founder.author} className="founder-photo" />
               </div>
               <div className="fq-content">
                 <div className="fq-marks">""</div>
-                <p className="fq-text">"We believe strong ideas deserve structured execution. In the world of tech, brilliance is common, but discipline is rare. We bridge that gap."</p>
+                <EditableText 
+                  as="p"
+                  contentKey="home.testimonials.founder.quote"
+                  value={homeContent.testimonials.founder.quote}
+                  className="fq-text"
+                />
                 <div className="fq-meta">
-                  <span className="fq-author">Marcus Sterling</span>
-                  <span className="fq-role">Founder & Managing Partner, Crestcode USA</span>
+                  <EditableText 
+                    contentKey="home.testimonials.founder.author"
+                    value={homeContent.testimonials.founder.author}
+                    className="fq-author"
+                  />
+                  <EditableText 
+                    contentKey="home.testimonials.founder.role"
+                    value={homeContent.testimonials.founder.role}
+                    className="fq-role"
+                  />
                 </div>
               </div>
             </div>
@@ -1197,14 +1361,22 @@ export default function LandingPage() {
         {/* CTA Section */}
         <section className="section-light text-center" style={{ paddingTop: 0 }}>
           <div className="section-container">
-            <h2 className="section-title cc-reveal">A Better Way to Build<br />New Ventures</h2>
-            <p className="section-subtitle text-center">
-              We don't just build software; we engineer businesses.<br />
-              Our validated build framework minimizes risk and maximizes market impact by aligning technical precision with commercial reality.
-            </p>
+            <EditableText 
+              as="h2"
+              contentKey="home.cta.title"
+              value={homeContent.cta.title}
+              className="section-title cc-reveal"
+              style={{ whiteSpace: 'pre-line' }}
+            />
+            <EditableText 
+              as="p"
+              contentKey="home.cta.subtitle"
+              value={homeContent.cta.subtitle}
+              className="section-subtitle text-center"
+            />
             <Link href="/studio">
               <button className="btn-primary" style={{ marginTop: '16px' }}>
-                Our Methodology &#x2192;
+                <EditableText contentKey="home.cta.buttonText" value={homeContent.cta.buttonText} />
               </button>
             </Link>
           </div>

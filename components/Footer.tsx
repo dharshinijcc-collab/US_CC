@@ -2,8 +2,14 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useContent } from '@/context/ContentContext';
+import EditableText from '@/components/admin/EditableText';
 
 export default function Footer() {
+  const { content } = useContent();
+  const globalContent = content?.global;
+
+  if (!globalContent) return null;
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: `
@@ -112,35 +118,52 @@ export default function Footer() {
       `}} />
       <div className="cc-footer-wrapper">
         <footer className="footer" style={{ position: "relative", overflow: "hidden" }}>
-          <div className="footer-watermark">CRESTCODE</div>
+          <div className="footer-watermark">
+            <EditableText contentKey="global.footer.watermark" value={globalContent.footer.watermark} />
+          </div>
           <div className="footer-container">
             <div>
-              <div className="footer-logo">Crestcode USA</div>
-              <p className="footer-tagline">Building the next generation of digital products and ventures.</p>
+              <EditableText 
+                contentKey="global.footer.brand" 
+                value={globalContent.footer.brand} 
+                className="footer-logo"
+              />
+              <EditableText 
+                as="p"
+                contentKey="global.footer.tagline" 
+                value={globalContent.footer.tagline} 
+                className="footer-tagline"
+              />
             </div>
-            <div className="footer-links-group">
-              <h5 className="footer-heading">Company</h5>
-              <ul>
-                <li><Link href="/">About Us</Link></li>
-                <li><Link href="/careers">Careers</Link></li>
-                <li><Link href="/contact">Contact</Link></li>
-              </ul>
-            </div>
-            <div className="footer-links-group">
-              <h5 className="footer-heading">Services</h5>
-              <ul>
-                <li><Link href="/studio">MVP Development</Link></li>
-                <li><Link href="/studio">Product Design</Link></li>
-                <li><Link href="/studio">Technical Consulting</Link></li>
-              </ul>
-            </div>
-            <div className="footer-links-group">
-               <h5 className="footer-heading">Connect</h5>
-               <div className="social-icons">
-                  <span className="social-icon">in</span>
-                  <span className="social-icon">X</span>
-               </div>
-            </div>
+            {globalContent.footer.sections.map((section, idx) => (
+              <div key={idx} className="footer-links-group">
+                <EditableText 
+                  as="h5"
+                  contentKey={`global.footer.sections.${idx}.title`}
+                  value={section.title}
+                  className="footer-heading"
+                />
+                {section.links ? (
+                  <ul>
+                    {section.links.map((link, lIdx) => (
+                      <li key={lIdx}>
+                        <Link href={link.href}>
+                          <EditableText contentKey={`global.footer.sections.${idx}.links.${lIdx}.name`} value={link.name} />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : section.social ? (
+                  <div className="social-icons">
+                    {section.social.map((social, sIdx) => (
+                      <Link key={sIdx} href={social.href} className="social-icon">
+                        <EditableText contentKey={`global.footer.sections.${idx}.social.${sIdx}.name`} value={social.name} />
+                      </Link>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            ))}
           </div>
         </footer>
       </div>

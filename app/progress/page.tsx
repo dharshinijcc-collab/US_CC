@@ -3,17 +3,20 @@
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { useContent } from '@/context/ContentContext';
+import EditableText from '@/components/admin/EditableText';
 
 export default function ProgressPage() {
+  const { content, loading, error } = useContent();
   const [currentStep] = useState(1); // Mock step: 1 - Ideation
+  
+  if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#F8FAFC] font-manrope">Loading progress...</div>;
+  if (error) return <div className="flex items-center justify-center min-h-screen bg-[#F8FAFC] font-manrope text-red-500">Error: {error}</div>;
+  if (!content) return null;
 
-  const steps = [
-    { id: 1, name: 'Ideation', status: 'In Progress', description: 'We are currently reviewing your idea and defining the core value proposition.' },
-    { id: 2, name: 'Strategy & Setup', status: 'Pending', description: 'Technical planning and resource allocation for your venture.' },
-    { id: 3, name: 'Design', status: 'Pending', description: 'Creating high-fidelity UI/UX designs for your product.' },
-    { id: 4, name: 'Development', status: 'Pending', description: 'Building the scalable architecture and core features.' },
-    { id: 5, name: 'Launch', status: 'Pending', description: 'Deploying to market and establishing feedback loops.' }
-  ];
+  const progressContent = content.progress;
+
+  const steps = progressContent.steps;
 
   return (
     <>
@@ -157,7 +160,6 @@ export default function ProgressPage() {
           transition: background 0.2s;
         }
         .support-btn:hover { background: #004ac2; }
-
         @media (max-width: 768px) {
           .stepper { overflow-x: auto; padding-bottom: 10px; justify-content: flex-start; gap: 40px; }
           .stepper::before { display: none; }
@@ -171,39 +173,76 @@ export default function ProgressPage() {
       <main className="progress-container">
         <div className="content-wrap">
           <div className="progress-header">
-            <h1>Track Your Venture</h1>
-            <p>Real-time updates on your idea's journey from concept to market.</p>
+            <EditableText 
+              as="h1"
+              contentKey="progress.header.title"
+              value={progressContent.header.title}
+            />
+            <EditableText 
+              as="p"
+              contentKey="progress.header.subtitle"
+              value={progressContent.header.subtitle}
+            />
           </div>
 
           <div className="progress-card">
             <div className="stepper">
-              {steps.map((step) => (
+              {steps.map((step, idx) => (
                 <div key={step.id} className={`step-item ${step.id === currentStep ? 'active' : step.id < currentStep ? 'completed' : ''}`}>
                   <div className="step-circle">
                     {step.id < currentStep ? '✓' : step.id}
                   </div>
-                  <span className="step-name">{step.name}</span>
+                  <EditableText 
+                    as="span"
+                    contentKey={`progress.steps.${idx}.name`}
+                    value={step.name}
+                    className="step-name"
+                  />
                 </div>
               ))}
             </div>
 
             <div className="phase-details">
               <div className="phase-title">
-                Current Phase: {steps[currentStep-1].name}
-                <span className="status-badge">{steps[currentStep-1].status}</span>
+                <EditableText contentKey="progress.details.currentPhaseLabel" value={progressContent.details.currentPhaseLabel} />: <EditableText contentKey={`progress.steps.${currentStep-1}.name`} value={steps[currentStep-1].name} />
+                <EditableText 
+                  as="span"
+                  contentKey={`progress.steps.${currentStep-1}.status`}
+                  value={steps[currentStep-1].status}
+                  className="status-badge"
+                />
               </div>
-              <p className="phase-desc">
-                {steps[currentStep-1].description}
-              </p>
+              <EditableText 
+                as="p"
+                contentKey={`progress.steps.${currentStep-1}.description`}
+                value={steps[currentStep-1].description}
+                className="phase-desc"
+              />
               
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
                 <div style={{ padding: '20px', background: '#F8FAFC', borderRadius: '16px' }}>
-                  <div style={{ fontSize: '0.8rem', color: '#94A3B8', fontWeight: 700, marginBottom: '4px' }}>SUBMITTED ON</div>
-                  <div style={{ fontWeight: 700, color: '#0F172A' }}>Oct 24, 2023</div>
+                  <EditableText 
+                    contentKey="progress.details.submittedOnLabel"
+                    value={progressContent.details.submittedOnLabel}
+                    style={{ fontSize: '0.8rem', color: '#94A3B8', fontWeight: 700, marginBottom: '4px' }}
+                  />
+                  <EditableText 
+                    contentKey="progress.details.submittedOnValue"
+                    value={progressContent.details.submittedOnValue}
+                    style={{ fontWeight: 700, color: '#0F172A' }}
+                  />
                 </div>
                 <div style={{ padding: '20px', background: '#F8FAFC', borderRadius: '16px' }}>
-                  <div style={{ fontSize: '0.8rem', color: '#94A3B8', fontWeight: 700, marginBottom: '4px' }}>ESTIMATED REVIEW</div>
-                  <div style={{ fontWeight: 700, color: '#0F172A' }}>2-3 Business Days</div>
+                  <EditableText 
+                    contentKey="progress.details.estimatedReviewLabel"
+                    value={progressContent.details.estimatedReviewLabel}
+                    style={{ fontSize: '0.8rem', color: '#94A3B8', fontWeight: 700, marginBottom: '4px' }}
+                  />
+                  <EditableText 
+                    contentKey="progress.details.estimatedReviewValue"
+                    value={progressContent.details.estimatedReviewValue}
+                    style={{ fontWeight: 700, color: '#0F172A' }}
+                  />
                 </div>
               </div>
             </div>
@@ -211,10 +250,22 @@ export default function ProgressPage() {
 
           <div className="support-box">
             <div>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '8px' }}>Need assistance?</h3>
-              <p style={{ color: '#94A3B8', fontSize: '0.9rem' }}>Your dedicated product manager is here to help you.</p>
+              <EditableText 
+                as="h3"
+                contentKey="progress.support.title"
+                value={progressContent.support.title}
+                style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '8px' }}
+              />
+              <EditableText 
+                as="p"
+                contentKey="progress.support.subtitle"
+                value={progressContent.support.subtitle}
+                style={{ color: '#94A3B8', fontSize: '0.9rem' }}
+              />
             </div>
-            <button className="support-btn">Contact Support</button>
+            <button className="support-btn">
+              <EditableText contentKey="progress.support.buttonText" value={progressContent.support.buttonText} />
+            </button>
           </div>
         </div>
       </main>

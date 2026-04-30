@@ -1,17 +1,17 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import useScrollReveal from '@/hooks/useScrollReveal';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import contactContent from '@/src/content/contact.json';
-
-// Effects & Hooks
 import GrainOverlay from '@/components/effects/GrainOverlay';
+import { useContent } from '@/context/ContentContext';
 import BorderBeam from '@/components/effects/BorderBeam';
-
+import EditableText from '@/components/admin/EditableText';
 
 export default function ContactPage() {
+  const { content, loading, error } = useContent();
+
   const [formData, setFormData] = useState({
     firstName: '',
     workEmail: '',
@@ -25,6 +25,12 @@ export default function ContactPage() {
     setFormData({ ...formData, serviceInterest: service });
   };
   useScrollReveal();
+  
+  if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#FAFAFA] font-manrope">Loading contact...</div>;
+  if (error) return <div className="flex items-center justify-center min-h-screen bg-[#FAFAFA] font-manrope text-red-500">Error: {error}</div>;
+  if (!content) return null;
+
+  const contactContent = content.contact;
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -584,12 +590,21 @@ export default function ContactPage() {
           <div className="section-container grid-2 pb-0" style={{ position: 'relative', zIndex: 1 }}>
             <div>
               <div className="hero-eyebrow-pill cc-reveal">CONTACT OUR EXPERTS</div>
-              <h1 className="hero-title">{contactContent.hero.title}</h1>
-              <p className="body-text cc-reveal cc-delay-2" style={{maxWidth: '480px', marginBottom: '40px'}}>
-                {contactContent.hero.subheading}
-              </p>
+              <EditableText 
+                as="h1"
+                contentKey="contact.hero.title"
+                value={contactContent.hero.title}
+                className="hero-title"
+              />
+              <EditableText 
+                as="p"
+                contentKey="contact.hero.subheading"
+                value={contactContent.hero.subheading}
+                className="body-text cc-reveal cc-delay-2"
+                style={{maxWidth: '480px', marginBottom: '40px'}}
+              />
               <button className="btn-dark cc-reveal cc-delay-3" onClick={() => document.getElementById('form-section')?.scrollIntoView()}>
-                {contactContent.hero.buttonText}
+                <EditableText contentKey="contact.hero.buttonText" value={contactContent.hero.buttonText} />
               </button>
             </div>
             <div className="hero-image-wrap"></div>
@@ -602,8 +617,19 @@ export default function ContactPage() {
             
             {/* Left Column: Services */}
             <div>
-              <h2 className="section-title cc-slide-left" style={{fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', marginTop: 0}}>{contactContent.services.title}</h2>
-              <p className="body-text cc-slide-left cc-delay-1">{contactContent.services.subtitle}</p>
+              <EditableText 
+                as="h2"
+                contentKey="contact.services.title"
+                value={contactContent.services.title}
+                className="section-title cc-slide-left"
+                style={{fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', marginTop: 0}}
+              />
+              <EditableText 
+                as="p"
+                contentKey="contact.services.subtitle"
+                value={contactContent.services.subtitle}
+                className="body-text cc-slide-left cc-delay-1"
+              />
               
               <div className="services-list">
                 {contactContent.services.services.map((service, index) => (
@@ -622,8 +648,18 @@ export default function ContactPage() {
                       ][index]}</svg>
                     </div>
                     <div>
-                      <h4 className="service-title">{service.title}</h4>
-                      <p className="service-desc">{service.description}</p>
+                      <EditableText 
+                        as="h4"
+                        contentKey={`contact.services.services.${index}.title`}
+                        value={service.title}
+                        className="service-title"
+                      />
+                      <EditableText 
+                        as="p"
+                        contentKey={`contact.services.services.${index}.description`}
+                        value={service.description}
+                        className="service-desc"
+                      />
                     </div>
                   </div>
                 ))}
@@ -635,12 +671,22 @@ export default function ContactPage() {
               <form onSubmit={handleSubmit} method="POST" name="contact-form" style={{padding: '48px'}}>
                 <div className="form-row-2">
                   <div className="form-group">
-                    <label className="form-label">{contactContent.form.nameLabel}</label>
+                    <EditableText 
+                      as="label"
+                      contentKey="contact.form.nameLabel"
+                      value={contactContent.form.nameLabel}
+                      className="form-label"
+                    />
                     <input type="text" name="firstName" className="form-input" placeholder="John Doe" 
                            value={formData.firstName} onChange={e => setFormData({...formData, firstName: e.target.value})} required/>
                   </div>
                   <div className="form-group">
-                    <label className="form-label">{contactContent.form.emailLabel}</label>
+                    <EditableText 
+                      as="label"
+                      contentKey="contact.form.emailLabel"
+                      value={contactContent.form.emailLabel}
+                      className="form-label"
+                    />
                     <input type="email" name="workEmail" className="form-input" placeholder="john@company.com" 
                            value={formData.workEmail} onChange={e => setFormData({...formData, workEmail: e.target.value})} required/>
                   </div>
@@ -648,12 +694,22 @@ export default function ContactPage() {
 
                 <div className="form-row-2">
                   <div className="form-group">
-                    <label className="form-label">{contactContent.form.companyLabel}</label>
+                    <EditableText 
+                      as="label"
+                      contentKey="contact.form.companyLabel"
+                      value={contactContent.form.companyLabel}
+                      className="form-label"
+                    />
                     <input type="text" name="company" className="form-input" placeholder="Acme Inc." 
                            value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})}/>
                   </div>
                   <div className="form-group">
-                    <label className="form-label">{contactContent.form.serviceLabel}</label>
+                    <EditableText 
+                      as="label"
+                      contentKey="contact.form.serviceLabel"
+                      value={contactContent.form.serviceLabel}
+                      className="form-label"
+                    />
                     <select className="form-input" value={formData.serviceInterest} onChange={e => handleServiceClick(e.target.value)}>
                       {contactContent.services.services.map(service => (
                         <option key={service.title} value={service.title}>{service.title}</option>
@@ -663,28 +719,42 @@ export default function ContactPage() {
                 </div>
 
                 <div className="form-group" style={{marginBottom: '32px'}}>
-                  <label className="form-label">{contactContent.form.stageLabel}</label>
+                  <EditableText 
+                    as="label"
+                    contentKey="contact.form.stageLabel"
+                    value={contactContent.form.stageLabel}
+                    className="form-label"
+                  />
                   <div className="radio-pill-group">
-                    {contactContent.form.stages.map(stage => (
+                    {contactContent.form.stages.map((stage, idx) => (
                       <label key={stage} className={`radio-pill ${formData.projectStage === stage ? 'active' : ''}`}>
                         <input type="radio" name="projectStage" value={stage} 
-                               checked={formData.projectStage === stage} 
-                               onChange={e => setFormData({...formData, projectStage: e.target.value})} />
+                                checked={formData.projectStage === stage} 
+                                onChange={e => setFormData({...formData, projectStage: e.target.value})} />
                         <div className="radio-circle"></div>
-                        <span>{stage}</span>
+                        <EditableText 
+                          as="span"
+                          contentKey={`contact.form.stages.${idx}`}
+                          value={stage}
+                        />
                       </label>
                     ))}
                   </div>
                 </div>
 
                 <div className="form-group" style={{marginBottom: '32px'}}>
-                  <label className="form-label">{contactContent.form.messageLabel}</label>
+                  <EditableText 
+                    as="label"
+                    contentKey="contact.form.messageLabel"
+                    value={contactContent.form.messageLabel}
+                    className="form-label"
+                  />
                   <textarea name="message" className="form-input" placeholder="Tell us about your project..." 
                             value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} required></textarea>
                 </div>
 
                 <button type="submit" className="btn-bright" style={{width: '100%', padding: '18px'}}>
-                  {contactContent.form.buttonText}
+                  <EditableText contentKey="contact.form.buttonText" value={contactContent.form.buttonText} />
                 </button>
               </form>
             </BorderBeam>
@@ -698,17 +768,33 @@ export default function ContactPage() {
               <div className="info-icon">
                 <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2h-4a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
               </div>
-              <h3 className="info-title">Email Us</h3>
-              <p className="info-desc">For general inquiries and hello's</p>
-              <a href={`mailto:${contactContent.contactInfo.email}`} className="info-link">{contactContent.contactInfo.email}</a>
+              <EditableText 
+                as="h3"
+                contentKey="contact.contactInfo.emailTitle"
+                value="Email Us"
+                className="info-title"
+              />
+              <EditableText 
+                as="p"
+                contentKey="contact.contactInfo.emailDesc"
+                value="For general inquiries and hello's"
+                className="info-desc"
+              />
+              <EditableText 
+                as="a"
+                contentKey="contact.contactInfo.email"
+                value={contactContent.contactInfo.email}
+                className="info-link"
+                href={`mailto:${contactContent.contactInfo.email}`}
+              />
             </div>
             <div className="info-card">
               <div className="info-icon">
                 <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2H5a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
               </div>
-              <h3 className="info-title">{contactContent.contactInfo.title}</h3>
-              <p className="info-desc">{contactContent.contactInfo.address}</p>
-              <a href={`tel:${contactContent.contactInfo.phone}`} className="info-link">{contactContent.contactInfo.phone}</a>
+              <EditableText as="h3" contentKey="contact.contactInfo.title" value={contactContent.contactInfo.title} className="info-title" />
+              <EditableText as="p" contentKey="contact.contactInfo.address" value={contactContent.contactInfo.address} className="info-desc" />
+              <EditableText as="a" contentKey="contact.contactInfo.phone" value={contactContent.contactInfo.phone} href={`tel:${contactContent.contactInfo.phone}`} className="info-link" />
             </div>
           </div>
         </section>
@@ -716,25 +802,17 @@ export default function ContactPage() {
         {/* Process Steps */}
         <section className="pb-0">
           <div className="section-container process-steps-wrap">
-            <h2 className="section-title">What Happens Next?</h2>
-            <p className="body-text text-center">Our transparent onboarding process to get your project moving.</p>
+            <EditableText as="h2" contentKey="contact.process.title" value={contactContent.process.title} className="section-title" />
+            <EditableText as="p" contentKey="contact.process.subtitle" value={contactContent.process.subtitle} className="body-text text-center" />
             
             <div className="steps-grid">
-              <div className="step-item cc-slide-left cc-delay-1">
-                <div className="step-circle">1</div>
-                <h4 className="step-title">Request Review</h4>
-                <p className="step-desc">Our senior team analyzes your project requirements within 24 hours.</p>
-              </div>
-              <div className="step-item cc-slide-center cc-delay-2">
-                <div className="step-circle">2</div>
-                <h4 className="step-title">Strategy Session</h4>
-                <p className="step-desc">A deep dive into your product vision and technical feasibility with our experts.</p>
-              </div>
-              <div className="step-item cc-slide-right cc-delay-3">
-                <div className="step-circle">3</div>
-                <h4 className="step-title">Proposal</h4>
-                <p className="step-desc">Receive a detailed roadmap, timeline, and budget tailored for your success.</p>
-              </div>
+              {contactContent.process.steps.map((step, idx) => (
+                <div key={idx} className="step-item cc-slide-left cc-delay-1">
+                  <div className="step-circle">{idx+1}</div>
+                  <EditableText as="h4" contentKey={`contact.process.steps.${idx}.title`} value={step.title} className="step-title" />
+                  <EditableText as="p" contentKey={`contact.process.steps.${idx}.description`} value={step.description} className="step-desc" />
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -742,8 +820,10 @@ export default function ContactPage() {
         {/* Bottom CTA Strip */}
         <div className="cta-strip">
           <div className="cta-strip-inner">
-            <h2 className="cta-strip-title">{contactContent.cta.title}</h2>
-            <button className="btn-white" onClick={() => document.getElementById('form-section')?.scrollIntoView({behavior: 'smooth'})}>{contactContent.cta.buttonText}</button>
+            <EditableText as="h2" contentKey="contact.cta.title" value={contactContent.cta.title} className="cta-strip-title" />
+            <button className="btn-white" onClick={() => document.getElementById('form-section')?.scrollIntoView({behavior: 'smooth'})}>
+              <EditableText contentKey="contact.cta.buttonText" value={contactContent.cta.buttonText} />
+            </button>
           </div>
         </div>
       </div>
@@ -751,12 +831,3 @@ export default function ContactPage() {
     </>
   );
 }
-
-
-
-
-
-
-
-
-

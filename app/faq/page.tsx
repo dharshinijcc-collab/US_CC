@@ -1,26 +1,31 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
 import useScrollReveal from '@/hooks/useScrollReveal';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import faqContent from '@/src/content/faq.json';
-
-// Effects & Hooks
-import TextReveal from '@/components/effects/TextReveal';
-import useMagneticHover from '@/hooks/useMagneticHover';
 import GrainOverlay from '@/components/effects/GrainOverlay';
+import { useContent } from '@/context/ContentContext';
+import useMagneticHover from '@/hooks/useMagneticHover';
 import BorderBeam from '@/components/effects/BorderBeam';
+import TextReveal from '@/components/effects/TextReveal';
 import GradientText from '@/components/effects/GradientText';
+import EditableText from '@/components/admin/EditableText';
 
-// Effects & Hooks
 export default function FaqPage() {
+  const { content, loading, error } = useContent();
   const [activeTab, setActiveTab] = useState('engagement');
   const [openFaq, setOpenFaq] = useState('engagement-1');
   useScrollReveal();
   const magBtn = useMagneticHover(15);
   const magBtn2 = useMagneticHover(15);
+  
+  if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#F4F5F7] font-manrope">Loading FAQs...</div>;
+  if (error) return <div className="flex items-center justify-center min-h-screen bg-[#F4F5F7] font-manrope text-red-500">Error: {error}</div>;
+  if (!content) return null;
+
+  const faqContent = content.faq;
 
   const toggleFaq = (id) => {
     setOpenFaq(openFaq === id ? null : id);
@@ -416,14 +421,23 @@ export default function FaqPage() {
                 </svg>
               </div>
               <div>
-                <TextReveal as="h1" className="hero-title" text={faqContent.hero.title} />
+                <EditableText 
+                  as="h1"
+                  contentKey="faq.hero.title"
+                  value={faqContent.hero.title}
+                  className="hero-title"
+                />
               </div>
               <div>
-                <p className="body-text" style={{ marginBottom: '32px' }}>
-                  {faqContent.hero.subheading}
-                </p>
+                <EditableText 
+                  as="p"
+                  contentKey="faq.hero.subheading"
+                  value={faqContent.hero.subheading}
+                  className="body-text"
+                  style={{ marginBottom: '32px' }}
+                />
                 <button ref={magBtn} className="btn-bright cc-magnetic" onClick={() => document.getElementById('faq-section')?.scrollIntoView({behavior: 'smooth'})}>
-                  {faqContent.hero.buttonText}
+                  <EditableText contentKey="faq.hero.buttonText" value={faqContent.hero.buttonText} />
                 </button>
               </div>
             </div>
@@ -436,15 +450,11 @@ export default function FaqPage() {
 
             {/* Tabs */}
             <div className="tabs-container">
-              <div className={`tab-item ${activeTab === 'engagement' ? 'active' : ''}`} onClick={() => setActiveTab('engagement')}>
-                <GradientText text={faqContent.tabs[0]} />
-              </div>
-              <div className={`tab-item ${activeTab === 'product' ? 'active' : ''}`} onClick={() => setActiveTab('product')}>
-                <GradientText text={faqContent.tabs[1]} />
-              </div>
-              <div className={`tab-item ${activeTab === 'security' ? 'active' : ''}`} onClick={() => setActiveTab('security')}>
-                <GradientText text={faqContent.tabs[2]} />
-              </div>
+              {faqContent.tabs.map((tab, idx) => (
+                <div key={idx} className={`tab-item ${activeTab === (idx === 0 ? 'engagement' : idx === 1 ? 'product' : 'security') ? 'active' : ''}`} onClick={() => setActiveTab(idx === 0 ? 'engagement' : idx === 1 ? 'product' : 'security')}>
+                  <GradientText text={<EditableText contentKey={`faq.tabs.${idx}`} value={tab} />} />
+                </div>
+              ))}
             </div>
 
             {/* Engagement Model Group */}
@@ -453,32 +463,31 @@ export default function FaqPage() {
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
-                {faqContent.categories.engagement.title}
+                <EditableText 
+                  contentKey="faq.categories.engagement.title"
+                  value={faqContent.categories.engagement.title}
+                />
               </div>
 
-              <div className={`accordion-item ${openFaq === 'engagement-1' ? 'open' : ''}`} onClick={() => toggleFaq('engagement-1')}>
-                <div className="accordion-header">
-                  {faqContent.categories.engagement.faqs[0].question}
-                  <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
+              {faqContent.categories.engagement.faqs.map((faq, idx) => (
+                <div key={idx} className={`accordion-item ${openFaq === `engagement-${idx + 1}` ? 'open' : ''}`} onClick={() => toggleFaq(`engagement-${idx + 1}`)}>
+                  <div className="accordion-header">
+                    <EditableText 
+                      contentKey={`faq.categories.engagement.faqs.${idx}.question`}
+                      value={faq.question}
+                    />
+                    <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                  <div className="accordion-body">
+                    <EditableText 
+                      contentKey={`faq.categories.engagement.faqs.${idx}.answer`}
+                      value={faq.answer}
+                    />
+                  </div>
                 </div>
-                <div className="accordion-body">
-                  {faqContent.categories.engagement.faqs[0].answer}
-                </div>
-              </div>
-
-              <div className={`accordion-item ${openFaq === 'engagement-2' ? 'open' : ''}`} onClick={() => toggleFaq('engagement-2')}>
-                <div className="accordion-header">
-                  {faqContent.categories.engagement.faqs[1].question}
-                  <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
-                <div className="accordion-body">
-                  {faqContent.categories.engagement.faqs[1].answer}
-                </div>
-              </div>
+              ))}
             </div>
 
             {/* Product Build Group */}
@@ -487,32 +496,31 @@ export default function FaqPage() {
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                {faqContent.categories.product.title}
+                <EditableText 
+                  contentKey="faq.categories.product.title"
+                  value={faqContent.categories.product.title}
+                />
               </div>
 
-              <div className={`accordion-item ${openFaq === 'product-1' ? 'open' : ''}`} onClick={() => toggleFaq('product-1')}>
-                <div className="accordion-header">
-                  {faqContent.categories.product.faqs[0].question}
-                  <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
+              {faqContent.categories.product.faqs.map((faq, idx) => (
+                <div key={idx} className={`accordion-item ${openFaq === `product-${idx + 1}` ? 'open' : ''}`} onClick={() => toggleFaq(`product-${idx + 1}`)}>
+                  <div className="accordion-header">
+                    <EditableText 
+                      contentKey={`faq.categories.product.faqs.${idx}.question`}
+                      value={faq.question}
+                    />
+                    <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                  <div className="accordion-body">
+                    <EditableText 
+                      contentKey={`faq.categories.product.faqs.${idx}.answer`}
+                      value={faq.answer}
+                    />
+                  </div>
                 </div>
-                <div className="accordion-body">
-                  {faqContent.categories.product.faqs[0].answer}
-                </div>
-              </div>
-
-              <div className={`accordion-item ${openFaq === 'product-2' ? 'open' : ''}`} onClick={() => toggleFaq('product-2')}>
-                <div className="accordion-header">
-                  {faqContent.categories.product.faqs[1].question}
-                  <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
-                <div className="accordion-body">
-                  {faqContent.categories.product.faqs[1].answer}
-                </div>
-              </div>
+              ))}
             </div>
 
             {/* Security & Support Group */}
@@ -521,41 +529,52 @@ export default function FaqPage() {
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
-                {faqContent.categories.security.title}
+                <EditableText 
+                  contentKey="faq.categories.security.title"
+                  value={faqContent.categories.security.title}
+                />
               </div>
 
-              <div className={`accordion-item ${openFaq === 'sec-1' ? 'open' : ''}`} onClick={() => toggleFaq('sec-1')}>
-                <div className="accordion-header">
-                  {faqContent.categories.security.faqs[0].question}
-                  <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
+              {faqContent.categories.security.faqs.map((faq, idx) => (
+                <div key={idx} className={`accordion-item ${openFaq === `sec-${idx + 1}` ? 'open' : ''}`} onClick={() => toggleFaq(`sec-${idx + 1}`)}>
+                  <div className="accordion-header">
+                    <EditableText 
+                      contentKey={`faq.categories.security.faqs.${idx}.question`}
+                      value={faq.question}
+                    />
+                    <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                  <div className="accordion-body">
+                    <EditableText 
+                      contentKey={`faq.categories.security.faqs.${idx}.answer`}
+                      value={faq.answer}
+                    />
+                  </div>
                 </div>
-                <div className="accordion-body">
-                  {faqContent.categories.security.faqs[0].answer}
-                </div>
-              </div>
-
-              <div className={`accordion-item ${openFaq === 'sec-2' ? 'open' : ''}`} onClick={() => toggleFaq('sec-2')}>
-                <div className="accordion-header">
-                  {faqContent.categories.security.faqs[1].question}
-                  <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
-                <div className="accordion-body">
-                  We offer SLA-backed maintenance packages, ongoing feature iteration cycles, and proactive infrastructure monitoring to ensure your product scales seamlessly.
-                </div>
-              </div>
+              ))}
             </div>
 
             {/* CTA Banner */}
             <BorderBeam className="cta-banner cc-reveal cc-delay-1 cc-shine" style={{ padding: 0 }}>
               <div style={{ padding: '48px', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                <h2 className="cta-title">{faqContent.cta.title}</h2>
-                <p className="cta-desc">{faqContent.cta.subtitle}</p>
+                <EditableText 
+                  as="h2"
+                  contentKey="faq.cta.title"
+                  value={faqContent.cta.title}
+                  className="cta-title"
+                />
+                <EditableText 
+                  as="p"
+                  contentKey="faq.cta.subtitle"
+                  value={faqContent.cta.subtitle}
+                  className="cta-desc"
+                />
                 <Link href="/contact">
-                  <button ref={magBtn2} className="btn-solid cc-magnetic">{faqContent.cta.buttonText}</button>
+                  <button ref={magBtn2} className="btn-solid cc-magnetic">
+                    <EditableText contentKey="faq.cta.buttonText" value={faqContent.cta.buttonText} />
+                  </button>
                 </Link>
               </div>
             </BorderBeam>

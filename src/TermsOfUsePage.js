@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import useScrollReveal from './useScrollReveal';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import termsContent from './content/terms.json';
+import config from '../backend/config.json';
+const termsContent = config.terms;
 
 import GrainOverlay from './components/effects/GrainOverlay';
 import TextReveal from './components/effects/TextReveal';

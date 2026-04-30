@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import useScrollReveal from './useScrollReveal';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import contactContent from './content/contact.json';
+import config from '../backend/config.json';
+const contactContent = config.contact;
 
 // Effects & Hooks
 import GrainOverlay from './components/effects/GrainOverlay';
