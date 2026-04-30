@@ -121,20 +121,20 @@
     "subtitle": "We are highly selective. Our resources are finite, which is why we only partner with ventures that meet our \"Future-Standard\" criteria.",
     "criteria": [
       {
-        "title": "Market Scape",
-        "description": "TAM over $1B with a clear, underserved niche or a massive inefficiency waiting to be disrupted."
+        "title": "Market Scale",
+        "description": "We look for ideas targeting massive TAM ($1B+) with clear, underserved niches or significant market inefficiencies."
       },
       {
-        "title": "Tech Leverage",
-        "description": "Opportunities where AI, Automation, or Proprietary Tech creates a \"moat\" that is difficult to copy."
+        "title": "Technical Edge",
+        "description": "Opportunities where AI, intelligent automation, or proprietary technology creates a sustainable competitive advantage."
+      },
+      {
+        "title": "High Conviction",
+        "description": "Ideas that solve critical, recurring pain points with a clear path to product-market fit and scalability."
       },
       {
         "title": "Founder Fit",
-        "description": "Domain expertise, relentless drive, and a willingness to be challenged as much as coached."
-      },
-      {
-        "title": "Ethical Moat",
-        "description": "Businesses that solve real-world problems and contribute positively to the tech ecosystem."
+        "description": "Partners who possess deep domain expertise, relentless drive, and a commitment to professional-grade execution."
       }
     ]
   },

@@ -90,3 +90,45 @@ collections:
               - {label: "Title", name: "title", widget: "string"}
               - {label: "Subtitle", name: "subtitle", widget: "text"}
 
+      - name: "careers"
+        label: "Careers Page"
+        file: "src/content/careers.json"
+        fields:
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - {label: "Eyebrow", name: "eyebrow", widget: "string"}
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Subheading", name: "subheading", widget: "text"}
+              - {label: "View Openings Button", name: "viewOpeningsButton", widget: "string"}
+              - {label: "Our Mission Button", name: "ourMissionButton", widget: "string"}
+          - label: "Values"
+            name: "values"
+            widget: "object"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Subtitle", name: "subtitle", widget: "text"}
+              - label: "Values List"
+                name: "values"
+                widget: "list"
+                fields:
+                  - {label: "Title", name: "title", widget: "string"}
+                  - {label: "Description", name: "description", widget: "text"}
+          - label: "Talent Pool"
+            name: "talentPool"
+            widget: "object"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Subtitle", name: "subtitle", widget: "text"}
+              - label: "Form"
+                name: "form"
+                widget: "object"
+                fields:
+                  - {label: "Name Label", name: "nameLabel", widget: "string"}
+                  - {label: "Email Label", name: "emailLabel", widget: "string"}
+                  - {label: "Role Label", name: "roleLabel", widget: "string"}
+                  - {label: "LinkedIn Label", name: "linkedinLabel", widget: "string"}
+                  - {label: "Button Text", name: "buttonText", widget: "string"}
+                  - {label: "Success Message", name: "successMessage", widget: "string"}
+

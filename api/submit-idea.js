@@ -17,11 +17,14 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { idea } = req.body;
-
+    const { idea, email, businessName, password } = req.body;
+    
     // Validate input
     if (!idea || idea.trim().length < 10) {
       return res.status(400).json({ error: 'Idea must be at least 10 characters' });
+    }
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
     }
 
     // Store in Supabase
@@ -30,6 +33,9 @@ export default async function handler(req, res) {
       .insert([
         {
           idea: idea.trim(),
+          email: email.trim(),
+          business_name: businessName?.trim() || '',
+          password: password || '', // In production, hash this or use Supabase Auth
           created_at: new Date().toISOString()
         }
       ])
@@ -48,8 +54,9 @@ export default async function handler(req, res) {
         subject: 'New Idea Submission',
         html: `
           <h2>New Idea Submission</h2>
-          <p><strong>Idea:</strong></p>
-          <p>${idea}</p>
+          <p><strong>Idea:</strong> ${idea}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Business Name:</strong> ${businessName || 'Not provided'}</p>
           <p><strong>Submitted:</strong> ${new Date().toLocaleString()}</p>
         `
       });

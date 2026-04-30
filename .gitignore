@@ -11,3 +11,9 @@ yarn-debug.log*
 yarn-error.log*
 scratch
 node_modules
+
+# Local Netlify folder
+.netlify
+.next
+out
+tsconfig.tsbuildinfo
