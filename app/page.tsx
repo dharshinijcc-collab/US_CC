@@ -110,7 +110,9 @@ export default function LandingPage() {
     };
   }, [loading]);
   
-  if (loading) return (
+  // We still show the loader if content isn't ready, 
+  // but loading.tsx will have already shown a similar state.
+  if (loading && !content) return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">
       <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
       <p className="text-gray-600 font-medium">Loading premium experience...</p>
