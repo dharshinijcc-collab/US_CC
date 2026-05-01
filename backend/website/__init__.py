@@ -24,7 +24,7 @@ def create_app(test_config=None):
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=24)
     
     # Initialize Extensions
-    CORS(app)
+    CORS(app, resources={r"/server/api/*": {"origins": "*"}})
     postgres.init_app()
     jwt.init_app(app)
     api.init_app(app)

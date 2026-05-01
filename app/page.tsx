@@ -10,6 +10,7 @@ import GlobalCursorGlow from '@/components/effects/GlobalCursorGlow';
 import EditableText from '@/components/admin/EditableText';
 import SpotlightCursor from '@/components/effects/SpotlightCursor';
 import BorderBeam from '@/components/effects/BorderBeam';
+import { API_URL } from '@/services/api';
 
 export default function LandingPage() {
   const { content, loading, error } = useContent();
@@ -21,9 +22,7 @@ export default function LandingPage() {
   const [submissionStep, setSubmissionStep] = useState(0); // 0: Idle, 1: Email, 2: Signup, 3: Success
   const [pendingIdea, setPendingIdea] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [businessName, setBusinessName] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [userName, setUserName] = useState('');
   const heroRef = useRef(null);
 
   useScrollReveal();
@@ -107,6 +106,21 @@ export default function LandingPage() {
       }
     };
   }, [loading]);
+
+  // Handle body scroll locking for modals
+  useEffect(() => {
+    if (submissionStep === 1 || submissionStep === 3) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = 'auto';
+    };
+  }, [submissionStep]);
   
   // We still show the loader if content isn't ready, 
   // but loading.tsx will have already shown a similar state.
@@ -151,32 +165,22 @@ export default function LandingPage() {
     setFormMessage('');
   };
 
-  const handleProceedToSignup = () => {
-    if (!userEmail || !userEmail.includes('@')) {
-      setFormMessage('Please enter a valid email');
-      setMessageType('error');
-      return;
-    }
-    setSubmissionStep(2);
-    setFormMessage('');
-  };
-
-  const handleCreateAccount = async () => {
-    if (!businessName || !password || password !== confirmPassword) {
-      setFormMessage('Please fill all fields correctly');
+  const handleFinalSubmit = async (e: any) => {
+    e.preventDefault();
+    if (!userName || !userEmail || !userEmail.includes('@')) {
+      setFormMessage('Please provide your name and a valid email');
       setMessageType('error');
       return;
     }
     setIsLoading(true);
     try {
-      const response = await fetch('/api/submit-idea', {
+      const response = await fetch(`${API_URL}/submit-idea`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           idea: pendingIdea, 
           email: userEmail,
-          businessName,
-          password
+          name: userName
         }),
       });
       if (response.ok) {
@@ -677,7 +681,7 @@ export default function LandingPage() {
         }
         .step-modal {
           background: white; border-radius: 32px; width: min(480px, 95vw);
-          padding: 48px 40px; text-align: center; position: relative;
+          padding: 32px 24px; text-align: center; position: relative;
           box-shadow: 0 40px 100px -20px rgba(0,0,0,0.25);
           animation: cc-popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
@@ -801,7 +805,7 @@ export default function LandingPage() {
             style={{ textAlign: 'center', color: '#475569', fontSize: '1.1rem', maxWidth: '540px', lineHeight: 1.6, marginBottom: '48px', fontWeight: 500 }}
           />
 
-          <form onSubmit={(e) => { e.preventDefault(); if (submissionStep === 0) handleIdeaSubmit(e); else if (submissionStep === 1) handleProceedToSignup(); }} method="POST" style={{ width: '100%', maxWidth: '480px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 10 }}>
+          <form onSubmit={handleIdeaSubmit} method="POST" style={{ width: '100%', maxWidth: '480px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 10 }}>
             <div style={{
               width: '100%',
               position: 'relative',
@@ -812,97 +816,48 @@ export default function LandingPage() {
               padding: '8px',
               marginBottom: '16px'
             }}>
-              {submissionStep === 0 ? (
-                <>
-                  <textarea
-                    id="idea"
-                    name="idea"
-                    className="idea-textarea"
-                    style={{
-                      width: '100%',
-                      height: '90px',
-                      border: 'none',
-                      resize: 'none',
-                      padding: '14px 16px',
-                      fontSize: '1rem',
-                      fontFamily: 'inherit',
-                      color: '#0A0F1C',
-                      backgroundColor: 'transparent',
-                      outline: 'none',
-                      borderRadius: '14px'
-                    }}
-                    placeholder={homeContent.hero.placeholder}
-                    value={idea}
-                    onChange={(e: any) => setIdea(e.target.value)}
-                    disabled={isLoading}
-                  />
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 8px 8px 0' }}>
-                    <button type="submit" disabled={isLoading} style={{
-                      backgroundColor: '#005AE2',
-                      color: '#FFFFFF',
-                      border: 'none',
-                      borderRadius: '100px',
-                      padding: '10px 24px',
-                      fontSize: '0.9rem',
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
-                      gap: '6px'
-                    }}>
-                      {isLoading ? '...' : <EditableText contentKey="home.hero.submitBtn" value={homeContent.hero.submitBtn} />}
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <div style={{ padding: '16px 16px 8px 16px', textAlign: 'left' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                    <EditableText 
-                      as="h3"
-                      contentKey="home.hero.emailStep.title"
-                      value={homeContent.hero.emailStep.title}
-                      style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0A0F1C', margin: 0 }}
-                    />
-                    <button type="button" onClick={() => setSubmissionStep(0)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.5rem', color: '#94A3B8', padding: '0 8px' }}>×</button>
-                  </div>
-                  <EditableText 
-                    as="p"
-                    contentKey="home.hero.emailStep.subtitle"
-                    value={homeContent.hero.emailStep.subtitle}
-                    style={{ color: '#64748B', fontSize: '0.9rem', marginBottom: '16px' }}
-                  />
-                  <input 
-                    type="email" 
-                    className="step-input" 
-                    placeholder={homeContent.hero.emailStep.placeholder}
-                    value={userEmail}
-                    onChange={(e) => setUserEmail(e.target.value)}
-                    style={{ width: '100%', marginBottom: '16px', boxSizing: 'border-box' }}
-                    autoFocus
-                  />
-                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <button type="submit" disabled={isLoading} style={{
-                      backgroundColor: '#005AE2',
-                      color: '#FFFFFF',
-                      border: 'none',
-                      borderRadius: '100px',
-                      padding: '10px 24px',
-                      fontSize: '0.9rem',
-                      fontWeight: 700,
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
-                      gap: '6px'
-                    }}>
-                      <EditableText contentKey="home.hero.emailStep.buttonText" value={homeContent.hero.emailStep.buttonText} />
-                    </button>
-                  </div>
-                </div>
-              )}
+              <textarea
+                id="idea"
+                name="idea"
+                className="idea-textarea"
+                style={{
+                  width: '100%',
+                  height: '90px',
+                  border: 'none',
+                  resize: 'none',
+                  padding: '14px 16px',
+                  fontSize: '1rem',
+                  fontFamily: 'inherit',
+                  color: '#0A0F1C',
+                  backgroundColor: 'transparent',
+                  outline: 'none',
+                  borderRadius: '14px'
+                }}
+                placeholder={homeContent.hero.placeholder}
+                value={idea}
+                onChange={(e: any) => setIdea(e.target.value)}
+                disabled={isLoading}
+              />
+              <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 8px 8px 0' }}>
+                <button type="submit" disabled={isLoading} style={{
+                  backgroundColor: '#005AE2',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '100px',
+                  padding: '10px 24px',
+                  fontSize: '0.9rem',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
+                  gap: '6px'
+                }}>
+                  {isLoading ? '...' : <EditableText contentKey="home.hero.submitBtn" value={homeContent.hero.submitBtn} />}
+                </button>
+              </div>
             </div>
-            {formMessage && submissionStep < 2 && <div className={`form-message ${messageType}`}>{formMessage}</div>}
+            {formMessage && submissionStep < 1 && <div className={`form-message ${messageType}`}>{formMessage}</div>}
             <p className="hero-note">{homeContent.hero.footerNote}</p>
           </form>
         </header>
@@ -910,145 +865,7 @@ export default function LandingPage() {
         {/* Step 2 inline implemented above */}
 
 
-        {/* Step 3: Signup Overlay */}
-        {submissionStep === 2 && (
-          <div className="signup-overlay">
-            <div className="signup-left">
-              <EditableText 
-                as="h1"
-                contentKey="home.hero.signupStep.brand"
-                value={homeContent.hero.signupStep.brand}
-                style={{ fontWeight: 800, fontSize: '1.5rem', marginBottom: '16px' }}
-              />
-              <EditableText 
-                as="h2"
-                contentKey="home.hero.signupStep.title"
-                value={homeContent.hero.signupStep.title}
-                style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '12px', lineHeight: 1.2, whiteSpace: 'pre-line' }}
-              />
-              <EditableText 
-                as="p"
-                contentKey="home.hero.signupStep.subtitle"
-                value={homeContent.hero.signupStep.subtitle}
-                style={{ color: '#94A3B8', fontSize: '1.1rem', lineHeight: 1.6, marginBottom: '32px' }}
-              />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                {homeContent.hero.signupStep.features.map((feature, idx) => (
-                  <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                    <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: '#005AE2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
-                    </div>
-                    <EditableText 
-                      as="span"
-                      contentKey={`home.hero.signupStep.features.${idx}`}
-                      value={feature}
-                      style={{ fontWeight: 600 }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="signup-right">
-              <div className="signup-form-box">
-                <EditableText 
-                  contentKey="home.hero.signupStep.form.badge"
-                  value={homeContent.hero.signupStep.form.badge}
-                  className="signup-badge"
-                />
-                <EditableText 
-                  as="h2"
-                  contentKey="home.hero.signupStep.form.title"
-                  value={homeContent.hero.signupStep.form.title}
-                  className="signup-title"
-                />
-                <EditableText 
-                  as="p"
-                  contentKey="home.hero.signupStep.form.subtitle"
-                  value={homeContent.hero.signupStep.form.subtitle}
-                  className="signup-subtitle"
-                />
-                
-                <div className="signup-field">
-                  <label className="signup-label">{homeContent.hero.signupStep.form.businessNameLabel}</label>
-                  <input 
-                    type="text" 
-                    className="signup-input" 
-                    placeholder={homeContent.hero.signupStep.form.businessNamePlaceholder}
-                    value={businessName}
-                    onChange={(e) => setBusinessName(e.target.value)}
-                  />
-                </div>
-                <div className="signup-field">
-                  <label className="signup-label">{homeContent.hero.signupStep.form.emailLabel}</label>
-                  <input 
-                    type="email" 
-                    className="signup-input" 
-                    placeholder="xyz@company.com" 
-                    value={userEmail}
-                    disabled
-                  />
-                </div>
-                <div className="signup-field">
-                  <label className="signup-label">{homeContent.hero.signupStep.form.passwordLabel}</label>
-                  <input 
-                    type="password" 
-                    className="signup-input" 
-                    placeholder={homeContent.hero.signupStep.form.passwordPlaceholder}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-                <div className="signup-field">
-                  <label className="signup-label">{homeContent.hero.signupStep.form.confirmPasswordLabel}</label>
-                  <input 
-                    type="password" 
-                    className="signup-input" 
-                    placeholder={homeContent.hero.signupStep.form.confirmPasswordPlaceholder}
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                  />
-                </div>
-                
-                {formMessage && <div className="form-message error" style={{ marginBottom: '20px' }}>{formMessage}</div>}
-                
-                <button className="btn-step-primary" onClick={handleCreateAccount} disabled={isLoading}>
-                  {isLoading ? homeContent.hero.signupStep.form.creatingBtn : homeContent.hero.signupStep.form.submitBtn}
-                </button>
 
-                <div className="signup-divider">
-                  <EditableText contentKey="home.hero.signupStep.form.orText" value={homeContent.hero.signupStep.form.orText} />
-                </div>
-
-                <button className="btn-google">
-                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google" />
-                  <EditableText contentKey="home.hero.signupStep.form.googleBtn" value={homeContent.hero.signupStep.form.googleBtn} />
-                </button>
-
-                <div className="signup-footer">
-                  <EditableText contentKey="home.hero.signupStep.form.footerText" value={homeContent.hero.signupStep.form.footerText} /> <Link href="/signin"><EditableText contentKey="home.hero.signupStep.form.footerLink" value={homeContent.hero.signupStep.form.footerLink} /></Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Step 4: Success / Next Steps */}
-        {submissionStep === 3 && (
-          <div className="step-modal-overlay">
-            <div className="step-modal">
-              <div className="step-modal-icon-wrap" style={{ background: '#ECFDF5', color: '#10B981' }}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
-              </div>
-              <h3><EditableText contentKey="home.hero.successModal.title" value={homeContent.hero.successModal.title} /></h3>
-              <p><EditableText contentKey="home.hero.successModal.description" value={homeContent.hero.successModal.description} /></p>
-              <Link href="/progress">
-                <button className="btn-step-primary">
-                  <EditableText contentKey="home.hero.successModal.buttonText" value={homeContent.hero.successModal.buttonText} />
-                </button>
-              </Link>
-            </div>
-          </div>
-        )}
 
         {/* Target Audiences Section */}
         <section className="section-light">
@@ -1386,6 +1203,73 @@ export default function LandingPage() {
 
         <Footer />
       </div>
+
+      {/* Step 1: Email/Name Modal */}
+      {submissionStep === 1 && (
+        <div className="step-modal-overlay">
+          <div className="step-modal">
+            <button className="step-modal-close" onClick={() => setSubmissionStep(0)}>&times;</button>
+            <div className="step-modal-icon-wrap" style={{ background: '#F0F5FF', color: '#005AE2', marginBottom: '16px' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </div>
+            <EditableText 
+              as="h3"
+              contentKey="home.hero.emailStep.title"
+              value={homeContent.hero.emailStep.title}
+            />
+            <EditableText 
+              as="p"
+              contentKey="home.hero.emailStep.subtitle"
+              value={homeContent.hero.emailStep.subtitle}
+              style={{ color: '#64748B', fontSize: '0.9rem', marginBottom: '24px' }}
+            />
+            <form onSubmit={handleFinalSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div className="step-input-wrap" style={{ marginBottom: 0, padding: '12px 16px' }}>
+                <input 
+                  type="text" 
+                  className="step-input" 
+                  placeholder={homeContent.hero.emailStep.namePlaceholder || "Your Name"}
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="step-input-wrap" style={{ marginBottom: 0, padding: '12px 16px' }}>
+                <input 
+                  type="email" 
+                  className="step-input" 
+                  placeholder={homeContent.hero.emailStep.placeholder || "businessname@email.com"}
+                  value={userEmail}
+                  onChange={(e) => setUserEmail(e.target.value)}
+                  required
+                />
+              </div>
+              {formMessage && <div className="form-message error">{formMessage}</div>}
+              <button type="submit" disabled={isLoading} className="btn-step-primary" style={{ marginTop: '8px', padding: '14px' }}>
+                {isLoading ? '...' : <EditableText contentKey="home.hero.emailStep.buttonText" value={homeContent.hero.emailStep.buttonText || "Register \u2192"} />}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Step 4: Success / Next Steps */}
+      {submissionStep === 3 && (
+        <div className="step-modal-overlay">
+          <div className="step-modal">
+            <div className="step-modal-icon-wrap" style={{ background: '#ECFDF5', color: '#10B981' }}>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+            </div>
+            <h3><EditableText contentKey="home.hero.successModal.title" value={homeContent.hero.successModal.title} /></h3>
+            <p><EditableText contentKey="home.hero.successModal.description" value={homeContent.hero.successModal.description} /></p>
+            <Link href="/progress">
+              <button className="btn-step-primary">
+                <EditableText contentKey="home.hero.successModal.buttonText" value={homeContent.hero.successModal.buttonText} />
+              </button>
+            </Link>
+          </div>
+        </div>
+      )}
     </>
   );
 }

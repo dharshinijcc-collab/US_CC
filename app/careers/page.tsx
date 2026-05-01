@@ -12,6 +12,7 @@ import { useContent } from '@/context/ContentContext';
 import BorderBeam from '@/components/effects/BorderBeam';
 import TextReveal from '@/components/effects/TextReveal';
 import EditableText from '@/components/admin/EditableText';
+import { API_URL } from '@/services/api';
 
 export default function CareersPage() {
   const { content, loading, error } = useContent();
@@ -22,6 +23,7 @@ export default function CareersPage() {
     interest: 'Engineering',
     linkedin: ''
   });
+  const [submitted, setSubmitted] = useState(false);
   useScrollReveal();
   
   if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#FAFAFA] font-manrope">Loading careers...</div>;
@@ -33,7 +35,7 @@ export default function CareersPage() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/submit-talent', {
+      const response = await fetch(`${API_URL}/submit-talent`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,10 +43,8 @@ export default function CareersPage() {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-
       if (response.ok) {
-        alert('Thank you for joining our talent pool! We have received your information.');
+        setSubmitted(true);
         setFormData({
           firstName: '',
           email: '',
@@ -52,6 +52,7 @@ export default function CareersPage() {
           linkedin: ''
         });
       } else {
+        const data = await response.json();
         alert(data.error || 'Submission failed. Please try again.');
       }
     } catch (error) {
@@ -571,85 +572,103 @@ export default function CareersPage() {
 
             <BorderBeam>
               <div className="talent-form-card">
-                <form onSubmit={handleSubmit}>
-                  <div className="form-row-2">
-                    <div className="form-group">
-                      <EditableText 
-                        as="label"
-                        contentKey="careers.talentPool.form.nameLabel"
-                        value={careersContent.talentPool.form.nameLabel}
-                        className="form-label"
-                      />
-                      <input 
-                        type="text" 
-                        className="form-input" 
-                        placeholder="John Doe"
-                        value={formData.firstName}
-                        onChange={(e: any) => setFormData({...formData, firstName: e.target.value})}
-                        required
-                      />
+                {submitted ? (
+                  <div className="text-center py-10 animate-fade-in">
+                    <div className="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
                     </div>
-                    <div className="form-group">
-                      <EditableText 
-                        as="label"
-                        contentKey="careers.talentPool.form.emailLabel"
-                        value={careersContent.talentPool.form.emailLabel}
-                        className="form-label"
-                      />
-                      <input 
-                        type="email" 
-                        className="form-input" 
-                        placeholder="john@example.com"
-                        value={formData.email}
-                        onChange={(e: any) => setFormData({...formData, email: e.target.value})}
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <EditableText 
-                      as="label"
-                      contentKey="careers.talentPool.form.roleLabel"
-                      value={careersContent.talentPool.form.roleLabel}
-                      className="form-label"
-                    />
-                    <select 
-                      className="form-input"
-                      value={formData.interest}
-                      onChange={(e: any) => setFormData({...formData, interest: e.target.value})}
-                      style={{cursor: 'pointer', appearance: 'none', backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748B%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 16px center', backgroundSize: '16px'}}
+                    <h3 className="text-2xl font-bold mb-4">Submission Successful!</h3>
+                    <p className="text-gray-600 mb-8">Thank you for joining our talent pool. We have received your information and will reach out if there's a match.</p>
+                    <button 
+                      onClick={() => setSubmitted(false)}
+                      className="btn-bright"
                     >
-                      <option value="Engineering">Engineering</option>
-                      <option value="Product">Product</option>
-                      <option value="Data">Data</option>
-                      <option value="Security">Security</option>
-                      <option value="Operations">Operations</option>
-                    </select>
-                  </div>
-
-                  <div className="form-group" style={{marginBottom: '32px'}}>
-                    <EditableText 
-                      as="label"
-                      contentKey="careers.talentPool.form.linkedinLabel"
-                      value={careersContent.talentPool.form.linkedinLabel}
-                      className="form-label"
-                    />
-                    <input 
-                      type="url" 
-                      className="form-input" 
-                      placeholder="https://linkedin.com/in/johndoe"
-                      value={formData.linkedin}
-                      onChange={(e: any) => setFormData({...formData, linkedin: e.target.value})}
-                    />
-                  </div>
-
-                  <div className="cc-reveal cc-delay-2" style={{marginTop: '32px'}}>
-                    <button type="submit" className="btn-bright w-full cc-magnetic" style={{padding: '16px'}}>
-                      <EditableText contentKey="careers.talentPool.form.buttonText" value={careersContent.talentPool.form.buttonText} />
+                      Submit Another
                     </button>
                   </div>
-                </form>
+                ) : (
+                  <form onSubmit={handleSubmit}>
+                    <div className="form-row-2">
+                      <div className="form-group">
+                        <EditableText 
+                          as="label"
+                          contentKey="careers.talentPool.form.nameLabel"
+                          value={careersContent.talentPool.form.nameLabel}
+                          className="form-label"
+                        />
+                        <input 
+                          type="text" 
+                          className="form-input" 
+                          placeholder="John Doe"
+                          value={formData.firstName}
+                          onChange={(e: any) => setFormData({...formData, firstName: e.target.value})}
+                          required
+                        />
+                      </div>
+                      <div className="form-group">
+                        <EditableText 
+                          as="label"
+                          contentKey="careers.talentPool.form.emailLabel"
+                          value={careersContent.talentPool.form.emailLabel}
+                          className="form-label"
+                        />
+                        <input 
+                          type="email" 
+                          className="form-input" 
+                          placeholder="john@example.com"
+                          value={formData.email}
+                          onChange={(e: any) => setFormData({...formData, email: e.target.value})}
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group">
+                      <EditableText 
+                        as="label"
+                        contentKey="careers.talentPool.form.roleLabel"
+                        value={careersContent.talentPool.form.roleLabel}
+                        className="form-label"
+                      />
+                      <select 
+                        className="form-input"
+                        value={formData.interest}
+                        onChange={(e: any) => setFormData({...formData, interest: e.target.value})}
+                        style={{cursor: 'pointer', appearance: 'none', backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748B%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 16px center', backgroundSize: '16px'}}
+                      >
+                        <option value="Engineering">Engineering</option>
+                        <option value="Product">Product</option>
+                        <option value="Data">Data</option>
+                        <option value="Security">Security</option>
+                        <option value="Operations">Operations</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group" style={{marginBottom: '32px'}}>
+                      <EditableText 
+                        as="label"
+                        contentKey="careers.talentPool.form.linkedinLabel"
+                        value={careersContent.talentPool.form.linkedinLabel}
+                        className="form-label"
+                      />
+                      <input 
+                        type="url" 
+                        className="form-input" 
+                        placeholder="https://linkedin.com/in/johndoe"
+                        value={formData.linkedin}
+                        onChange={(e: any) => setFormData({...formData, linkedin: e.target.value})}
+                      />
+                    </div>
+
+                    <div className="cc-reveal cc-delay-2" style={{marginTop: '32px'}}>
+                      <button type="submit" className="btn-bright w-full cc-magnetic" style={{padding: '16px'}}>
+                        <EditableText contentKey="careers.talentPool.form.buttonText" value={careersContent.talentPool.form.buttonText} />
+                      </button>
+                    </div>
+                  </form>
+                )}
               </div>
             </BorderBeam>
           </div>

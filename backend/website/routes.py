@@ -45,3 +45,80 @@ def admin_login():
         return jsonify({"status": "error", "payload": "Missing email or password"}), 400
     response = WebsiteModel.admin_login(data['email'], data['password'])
     return jsonify(response)
+
+@main_bp.route('/submit-idea', methods=['POST'])
+def submit_idea():
+    data = request.get_json()
+    name = data.get('name', '').strip() if data.get('name') else ''
+    email = data.get('email', '').strip() if data.get('email') else ''
+    idea = data.get('idea', '').strip() if data.get('idea') else ''
+
+    if not idea or len(idea) < 10:
+        return jsonify({"status": "error", "message": "Idea must be at least 10 characters"}), 400
+
+    try:
+        DBHelper.insert(
+            'idea_submissions',
+            return_column='id',
+            name=name,
+            email=email,
+            idea=idea
+        )
+        return jsonify({"status": "success", "message": "Idea submitted successfully!"})
+    except Exception as e:
+        print(f"Database error: {e}")
+        return jsonify({"status": "error", "message": "Failed to store submission"}), 500
+
+@main_bp.route('/submit-talent', methods=['POST'])
+def submit_talent():
+    data = request.get_json()
+    first_name = data.get('firstName', '').strip()
+    email = data.get('email', '').strip()
+    interest = data.get('interest', '').strip()
+    linkedin = data.get('linkedin', '').strip()
+
+    if not email or not first_name:
+        return jsonify({"status": "error", "message": "Name and Email are required"}), 400
+
+    try:
+        DBHelper.insert(
+            'talent_submissions',
+            return_column='id',
+            full_name=first_name,
+            email=email,
+            interest_area=interest,
+            linkedin_url=linkedin
+        )
+        return jsonify({"status": "success", "message": "Talent application submitted!"})
+    except Exception as e:
+        print(f"Database error: {e}")
+        return jsonify({"status": "error", "message": "Failed to store application"}), 500
+
+@main_bp.route('/submit-contact', methods=['POST'])
+def submit_contact():
+    data = request.get_json()
+    first_name = data.get('firstName', '').strip()
+    email = data.get('workEmail', '').strip()
+    company = data.get('company', '').strip()
+    service = data.get('serviceInterest', '').strip()
+    stage = data.get('projectStage', '').strip()
+    message = data.get('message', '').strip()
+
+    if not email or not first_name:
+        return jsonify({"status": "error", "message": "Name and Email are required"}), 400
+
+    try:
+        DBHelper.insert(
+            'contact_inquiries',
+            return_column='id',
+            full_name=first_name,
+            work_email=email,
+            company_name=company,
+            service_interest=service,
+            project_stage=stage,
+            message=message
+        )
+        return jsonify({"status": "success", "message": "Contact form submitted!"})
+    except Exception as e:
+        print(f"Database error: {e}")
+        return jsonify({"status": "error", "message": "Failed to store contact"}), 500

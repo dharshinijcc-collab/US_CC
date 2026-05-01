@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-export const API_URL = process.env.NEXT_PUBLIC_DOCKLY_API_URL;
+//export const API_URL = process.env.NEXT_PUBLIC_DOCKLY_API_URL;
+export const API_URL = "https://us-cc.onrender.com/server/api";
 
 console.log('🚀 ~ API_URL:', API_URL);
 declare module 'axios' {
@@ -51,8 +52,7 @@ api.interceptors.response.use(
       const duration = endTime - startTime;
 
       console.log(
-        `API LATENCY → ${response.config.method?.toUpperCase()} ${
-          response.config.url
+        `API LATENCY → ${response.config.method?.toUpperCase()} ${response.config.url
         } : ${duration.toFixed(2)} ms`
       );
     }
@@ -64,8 +64,7 @@ api.interceptors.response.use(
       const duration = performance.now() - error.config.metadata.startTime;
 
       console.error(
-        `API FAILED → ${error.config.method?.toUpperCase()} ${
-          error.config.url
+        `API FAILED → ${error.config.method?.toUpperCase()} ${error.config.url
         } : ${duration.toFixed(2)} ms`
       );
     }

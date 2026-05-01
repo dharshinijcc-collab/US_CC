@@ -36,7 +36,7 @@ exports.handler = async (event, context) => {
       .from('idea_submissions')
       .insert([
         {
-          full_name: name?.trim() || '',
+          name: name?.trim() || '',
           email: email?.trim() || '',
           idea: idea.trim(),
           created_at: new Date().toISOString()

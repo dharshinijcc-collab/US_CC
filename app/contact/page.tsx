@@ -10,6 +10,7 @@ import GrainOverlay from '@/components/effects/GrainOverlay';
 import { useContent } from '@/context/ContentContext';
 import BorderBeam from '@/components/effects/BorderBeam';
 import EditableText from '@/components/admin/EditableText';
+import { API_URL } from '@/services/api';
 
 export default function ContactPage() {
   const { content, loading, error } = useContent();
@@ -22,6 +23,7 @@ export default function ContactPage() {
     projectStage: 'Discovery',
     message: ''
   });
+  const [submitted, setSubmitted] = useState(false);
 
   const handleServiceClick = (service: any) => {
     setFormData({ ...formData, serviceInterest: service });
@@ -37,7 +39,7 @@ export default function ContactPage() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/submit-contact', {
+      const response = await fetch(`${API_URL}/submit-contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,10 +47,8 @@ export default function ContactPage() {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-
       if (response.ok) {
-        alert('Thank you for contacting us! We will get back to you soon.');
+        setSubmitted(true);
         setFormData({
           firstName: '',
           workEmail: '',
@@ -58,6 +58,7 @@ export default function ContactPage() {
           message: ''
         });
       } else {
+        const data = await response.json();
         alert(data.error || 'Submission failed. Please try again.');
       }
     } catch (error) {
@@ -670,95 +671,113 @@ export default function ContactPage() {
 
             {/* Right Column: Form */}
             <BorderBeam className="form-card cc-slide-right" style={{padding: 0}}>
-              <form onSubmit={handleSubmit} method="POST" name="contact-form" style={{padding: '48px'}}>
-                <div className="form-row-2">
-                  <div className="form-group">
-                    <EditableText 
-                      as="label"
-                      contentKey="contact.form.nameLabel"
-                      value={contactContent.form.nameLabel}
-                      className="form-label"
-                    />
-                    <input type="text" name="firstName" className="form-input" placeholder="John Doe" 
-                           value={formData.firstName} onChange={e => setFormData({...formData, firstName: e.target.value})} required/>
+              {submitted ? (
+                <div className="text-center py-20 px-10 animate-fade-in" style={{minHeight: '600px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                  <div className="w-20 h-20 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-6">
+                    <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
                   </div>
-                  <div className="form-group">
-                    <EditableText 
-                      as="label"
-                      contentKey="contact.form.emailLabel"
-                      value={contactContent.form.emailLabel}
-                      className="form-label"
-                    />
-                    <input type="email" name="workEmail" className="form-input" placeholder="john@company.com" 
-                           value={formData.workEmail} onChange={e => setFormData({...formData, workEmail: e.target.value})} required/>
-                  </div>
+                  <h3 className="text-3xl font-bold mb-4">Message Sent!</h3>
+                  <p className="text-gray-600 mb-8 max-w-sm">Thank you for reaching out. Our team will review your inquiry and get back to you within 24 hours.</p>
+                  <button 
+                    onClick={() => setSubmitted(false)}
+                    className="btn-bright"
+                  >
+                    Send Another Message
+                  </button>
                 </div>
-
-                <div className="form-row-2">
-                  <div className="form-group">
-                    <EditableText 
-                      as="label"
-                      contentKey="contact.form.companyLabel"
-                      value={contactContent.form.companyLabel}
-                      className="form-label"
-                    />
-                    <input type="text" name="company" className="form-input" placeholder="Acme Inc." 
-                           value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})}/>
+              ) : (
+                <form onSubmit={handleSubmit} method="POST" name="contact-form" style={{padding: '48px'}}>
+                  <div className="form-row-2">
+                    <div className="form-group">
+                      <EditableText 
+                        as="label"
+                        contentKey="contact.form.nameLabel"
+                        value={contactContent.form.nameLabel}
+                        className="form-label"
+                      />
+                      <input type="text" name="firstName" className="form-input" placeholder="John Doe" 
+                             value={formData.firstName} onChange={e => setFormData({...formData, firstName: e.target.value})} required/>
+                    </div>
+                    <div className="form-group">
+                      <EditableText 
+                        as="label"
+                        contentKey="contact.form.emailLabel"
+                        value={contactContent.form.emailLabel}
+                        className="form-label"
+                      />
+                      <input type="email" name="workEmail" className="form-input" placeholder="john@company.com" 
+                             value={formData.workEmail} onChange={e => setFormData({...formData, workEmail: e.target.value})} required/>
+                    </div>
                   </div>
-                  <div className="form-group">
+
+                  <div className="form-row-2">
+                    <div className="form-group">
+                      <EditableText 
+                        as="label"
+                        contentKey="contact.form.companyLabel"
+                        value={contactContent.form.companyLabel}
+                        className="form-label"
+                      />
+                      <input type="text" name="company" className="form-input" placeholder="Acme Inc." 
+                             value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})}/>
+                    </div>
+                    <div className="form-group">
+                      <EditableText 
+                        as="label"
+                        contentKey="contact.form.serviceLabel"
+                        value={contactContent.form.serviceLabel}
+                        className="form-label"
+                      />
+                      <select className="form-input" value={formData.serviceInterest} onChange={e => handleServiceClick(e.target.value)}>
+                        {contactContent.services.services.map(service => (
+                          <option key={service.title} value={service.title}>{service.title}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="form-group" style={{marginBottom: '32px'}}>
                     <EditableText 
                       as="label"
-                      contentKey="contact.form.serviceLabel"
-                      value={contactContent.form.serviceLabel}
+                      contentKey="contact.form.stageLabel"
+                      value={contactContent.form.stageLabel}
                       className="form-label"
                     />
-                    <select className="form-input" value={formData.serviceInterest} onChange={e => handleServiceClick(e.target.value)}>
-                      {contactContent.services.services.map(service => (
-                        <option key={service.title} value={service.title}>{service.title}</option>
+                    <div className="radio-pill-group">
+                      {contactContent.form.stages.map((stage, idx) => (
+                        <label key={stage} className={`radio-pill ${formData.projectStage === stage ? 'active' : ''}`}>
+                          <input type="radio" name="projectStage" value={stage} 
+                                  checked={formData.projectStage === stage} 
+                                  onChange={e => setFormData({...formData, projectStage: e.target.value})} />
+                          <div className="radio-circle"></div>
+                          <EditableText 
+                            as="span"
+                            contentKey={`contact.form.stages.${idx}`}
+                            value={stage}
+                          />
+                        </label>
                       ))}
-                    </select>
+                    </div>
                   </div>
-                </div>
 
-                <div className="form-group" style={{marginBottom: '32px'}}>
-                  <EditableText 
-                    as="label"
-                    contentKey="contact.form.stageLabel"
-                    value={contactContent.form.stageLabel}
-                    className="form-label"
-                  />
-                  <div className="radio-pill-group">
-                    {contactContent.form.stages.map((stage, idx) => (
-                      <label key={stage} className={`radio-pill ${formData.projectStage === stage ? 'active' : ''}`}>
-                        <input type="radio" name="projectStage" value={stage} 
-                                checked={formData.projectStage === stage} 
-                                onChange={e => setFormData({...formData, projectStage: e.target.value})} />
-                        <div className="radio-circle"></div>
-                        <EditableText 
-                          as="span"
-                          contentKey={`contact.form.stages.${idx}`}
-                          value={stage}
-                        />
-                      </label>
-                    ))}
+                  <div className="form-group" style={{marginBottom: '32px'}}>
+                    <EditableText 
+                      as="label"
+                      contentKey="contact.form.messageLabel"
+                      value={contactContent.form.messageLabel}
+                      className="form-label"
+                    />
+                    <textarea name="message" className="form-input" placeholder="Tell us about your project..." 
+                              value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} required></textarea>
                   </div>
-                </div>
 
-                <div className="form-group" style={{marginBottom: '32px'}}>
-                  <EditableText 
-                    as="label"
-                    contentKey="contact.form.messageLabel"
-                    value={contactContent.form.messageLabel}
-                    className="form-label"
-                  />
-                  <textarea name="message" className="form-input" placeholder="Tell us about your project..." 
-                            value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} required></textarea>
-                </div>
-
-                <button type="submit" className="btn-bright" style={{width: '100%', padding: '18px'}}>
-                  <EditableText contentKey="contact.form.buttonText" value={contactContent.form.buttonText} />
-                </button>
-              </form>
+                  <button type="submit" className="btn-bright" style={{width: '100%', padding: '18px'}}>
+                    <EditableText contentKey="contact.form.buttonText" value={contactContent.form.buttonText} />
+                  </button>
+                </form>
+              )}
             </BorderBeam>
           </div>
         </section>
