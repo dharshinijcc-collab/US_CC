@@ -4,7 +4,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // We use the default output to allow Netlify to handle dynamic features and better optimizations
+  output: 'export',
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },

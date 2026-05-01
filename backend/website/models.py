@@ -118,7 +118,7 @@ class WebsiteModel:
         Simple admin login check.
         """
         # Hardcoded for demonstration as requested
-        admin_email = "admin@dockly.com"
+        admin_email = "admin@ccus.com"
         admin_pass = "admin123"
         
         if email == admin_email and password == admin_pass:
