@@ -9,76 +9,58 @@ interface EditableTextProps {
   className?: string;
   as?: React.ElementType;
   style?: React.CSSProperties;
+  children?: React.ReactNode;
   [key: string]: any; // Allow for other props like href
 }
 
-export default function EditableText({ contentKey, value, className = '', as: Component = 'span', style, ...rest }: EditableTextProps) {
+export default function EditableText({ contentKey, value, className = '', as: Component = 'span', style, children, ...rest }: EditableTextProps) {
   const { isAdminMode, updateContent } = useAdmin();
-  const [isEditing, setIsEditing] = useState(false);
   const [localValue, setLocalValue] = useState(value);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const elementRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    setLocalValue(value);
+    // Clean the value from any accidental "EDITABLE" strings
+    const cleanValue = typeof value === 'string' ? value.replace(/EDITABLE/g, '').trim() : value;
+    setLocalValue(cleanValue);
   }, [value]);
 
-  useEffect(() => {
-    if (isEditing && inputRef.current) {
-      inputRef.current.focus();
-      // Auto-resize
-      inputRef.current.style.height = 'auto';
-      inputRef.current.style.height = inputRef.current.scrollHeight + 'px';
-    }
-  }, [isEditing]);
-
   const handleBlur = () => {
-    setIsEditing(false);
-    if (localValue !== value) {
-      updateContent(contentKey, localValue);
+    if (elementRef.current) {
+      // Get the text and strip any accidental "EDITABLE" strings
+      let newValue = elementRef.current.innerText;
+      newValue = newValue.replace(/EDITABLE/g, '').trim();
+      
+      if (newValue !== value) {
+        updateContent(contentKey, newValue);
+      }
     }
   };
 
-  const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setLocalValue(e.target.value);
-    e.target.style.height = 'auto';
-    e.target.style.height = e.target.scrollHeight + 'px';
-  };
-
+  // If not in admin mode, just render normally
   if (!isAdminMode) {
-    return <Component className={className} style={style} {...rest}>{value}</Component>;
+    const displayValue = typeof value === 'string' ? value.replace(/EDITABLE/g, '').trim() : value;
+    return <Component className={className} style={style} {...rest}>{children || displayValue}</Component>;
   }
 
-  if (isEditing) {
-    return (
-      <textarea
-        ref={inputRef}
-        value={localValue}
-        onChange={handleInput}
-        onBlur={handleBlur}
-        className={`${className} outline-none bg-blue-50/50 border-2 border-blue-400 rounded-lg p-1 w-full resize-none transition-all`}
-        style={{ ...style, minHeight: '1em' }}
-      />
-    );
-  }
+  // Strip animation/reveal classes in Admin Mode to prevent "vanishing" (opacity 0)
+  const sanitizedClassName = className
+    .split(' ')
+    .filter(cls => !cls.startsWith('cc-reveal') && !cls.startsWith('cc-delay') && !cls.startsWith('cc-slide') && !cls.startsWith('cc-blur'))
+    .join(' ');
 
+  // In admin mode, we use contentEditable to allow direct editing without breaking layout
+  // We removed the wrapper div and badge to prevent any layout or content pollution
   return (
     <Component 
-      className={`${className} relative group cursor-edit hover:outline hover:outline-2 hover:outline-blue-400 hover:outline-offset-4 rounded-sm transition-all`}
-      style={style}
+      ref={elementRef}
+      contentEditable={true}
+      suppressContentEditableWarning={true}
+      onBlur={handleBlur}
+      className={`${sanitizedClassName} outline-none focus:ring-2 focus:ring-blue-400 focus:bg-blue-50/10 rounded-md transition-all cursor-text hover:bg-blue-50/20`}
+      style={{ ...style, minWidth: '20px', minHeight: '1em', opacity: 1, visibility: 'visible' }}
       {...rest}
-      onClick={(e: React.MouseEvent) => {
-        if (isAdminMode) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-        if (rest.onClick) rest.onClick(e);
-        setIsEditing(true);
-      }}
     >
       {localValue}
-      <div className="absolute -top-6 right-0 bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
-        Click to Edit
-      </div>
     </Component>
   );
 }

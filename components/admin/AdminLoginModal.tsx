@@ -14,7 +14,7 @@ export default function AdminLoginModal() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'A') {
         e.preventDefault();
         setIsOpen(true);
       }
@@ -64,7 +64,7 @@ export default function AdminLoginModal() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
-                placeholder="admin@dockly.com"
+                placeholder="Email address"
                 required
               />
             </div>
@@ -90,10 +90,6 @@ export default function AdminLoginModal() {
               {loading ? 'Authenticating...' : 'Enter Editor Mode'}
             </button>
           </form>
-          
-          <p className="mt-4 text-center text-xs text-gray-400">
-            Hint: admin@dockly.com / admin123
-          </p>
         </div>
       </div>
     </div>

@@ -199,7 +199,7 @@
   },
   "global": {
     "site": {
-      "name": "Concrete Venture Studio",
+      "name": "Crestcode Product Studio",
       "description": "Building the next generation of venture-backed startups."
     },
     "header": {
@@ -208,16 +208,37 @@
         {
           "name": "Home",
           "href": "/"
-        },
-        {
-          "name": "Studio",
-          "href": "/studio"
         }
       ],
       "dropdowns": {
+        "studio": {
+          "label": "Studio",
+          "links": [
+            {
+              "name": "Our Methodology",
+              "href": "/studio#methodology"
+            },
+            {
+              "name": "Entrepreneurs",
+              "href": "/studio#entrepreneurs"
+            },
+            {
+              "name": "Investors",
+              "href": "/investors"
+            },
+            {
+              "name": "StudentStudio",
+              "href": "/studio#student-studio"
+            }
+          ]
+        },
         "company": {
           "label": "Company",
           "links": [
+            {
+              "name": "About Us",
+              "href": "/#about"
+            },
             {
               "name": "Careers",
               "href": "/careers"
@@ -225,12 +246,7 @@
             {
               "name": "Progress",
               "href": "/progress"
-            }
-          ]
-        },
-        "model": {
-          "label": "Our Model",
-          "links": [
+            },
             {
               "name": "FAQ",
               "href": "/faq"
@@ -238,14 +254,6 @@
             {
               "name": "Contact Us",
               "href": "/contact"
-            },
-            {
-              "name": "Privacy Policy",
-              "href": "/privacy"
-            },
-            {
-              "name": "Terms of Use",
-              "href": "/terms"
             }
           ]
         }
@@ -254,55 +262,65 @@
     },
     "footer": {
       "watermark": "CRESTCODE",
-      "brand": "Crestcode USA",
-      "tagline": "Building the next generation of digital products and ventures.",
+      "brand": "Crestcode Product Studio",
+      "tagline": "Building the next generation of digital infrastructure and consumer ventures.",
       "sections": [
         {
-          "title": "Company",
+          "title": "STUDIO",
           "links": [
             {
-              "name": "About Us",
-              "href": "/"
+              "name": "Portfolio",
+              "href": "/#portfolio"
             },
             {
-              "name": "Careers",
-              "href": "/careers"
+              "name": "Methodology",
+              "href": "/studio#methodology"
             },
             {
-              "name": "Contact",
+              "name": "Join the Lab",
               "href": "/contact"
             }
           ]
         },
         {
-          "title": "Services",
+          "title": "COMPANY",
           "links": [
             {
-              "name": "MVP Development",
-              "href": "/studio"
+              "name": "About Us",
+              "href": "/#about"
             },
             {
-              "name": "Product Design",
-              "href": "/studio"
+              "name": "Insights",
+              "href": "/progress"
             },
             {
-              "name": "Technical Consulting",
-              "href": "/studio"
+              "name": "Careers",
+              "href": "/careers"
             }
           ]
         },
         {
-          "title": "Connect",
+          "title": "CONNECT",
           "social": [
             {
               "name": "in",
-              "href": "#"
+              "href": "https://linkedin.com"
+            }
+          ],
+          "links": [
+            {
+              "name": "LinkedIn",
+              "href": "https://linkedin.com"
             },
             {
-              "name": "X",
-              "href": "#"
+              "name": "Contact Us",
+              "href": "/contact"
             }
-          ]
+          ],
+          "cta": {
+            "name": "Partner With Us",
+            "href": "/contact"
+          }
         }
       ]
     }
@@ -784,119 +802,192 @@
         {
           "phase": "PHASE 02",
           "duration": "1-2 WKS",
-          "title": "Research \u0026 Planning",
-          "description": "Technical feasibility and formulation of a strategic roadmap."
+          "title": "Strategy \u0026 Setup",
+          "description": "Technical planning and resource allocation."
         },
         {
           "phase": "PHASE 03",
-          "duration": "2-3 WKS",
-          "title": "UX \u0026 Wireframing",
-          "description": "Architecting intuitive experiences and high-performance user flow mapping."
+          "duration": "3-4 WKS",
+          "title": "Design \u0026 Prototyping",
+          "description": "High-fidelity UI/UX design and interaction mapping."
         },
         {
           "phase": "PHASE 04",
-          "duration": "2-3 WKS",
-          "title": "UI Design \u0026 Prototype",
-          "description": "Crafting visual interfaces that represent the final product aesthetic."
+          "duration": "8-12 WKS",
+          "title": "Agile Development",
+          "description": "Building core features with bi-weekly demos."
         },
         {
           "phase": "PHASE 05",
-          "duration": "6-8 WKS",
-          "title": "Agile Engineering",
-          "description": "Full-stack engineering through agile sprints and robust infrastructure."
+          "duration": "2 WKS",
+          "title": "QA \u0026 Launch",
+          "description": "Rigorous testing and production deployment."
         },
         {
           "phase": "PHASE 06",
-          "duration": "2-2 WKS",
-          "title": "Q \u0026 Launch",
-          "description": "Systematic deployment and monitoring with scale-ready architecture."
-        }
-      ],
-      "stats": [
-        {
-          "value": "12-20 Weeks",
-          "label": "AVERAGE DELIVERY"
-        },
-        {
-          "value": "Dedicated Pod",
-          "label": "PER BUILD CYCLE"
-        },
-        {
-          "value": "Sovereign Standard",
-          "label": "ENGINEERING QUALITY"
+          "duration": "Ongoing",
+          "title": "Growth \u0026 Scale",
+          "description": "Maintenance, optimization, and scaling."
         }
       ]
-    },
-    "faq": {
-      "title": "Studio FAQ",
-      "items": [
-        {
-          "question": "How much equity does the Studio take?",
-          "answer": "We operate on a variable equity and cash model depending on the stage of your venture and the level of support required. Our goal is to ensure founders retain majority control and the cap table remains attractive for future investors."
-        },
-        {
-          "question": "Do I need to be a technical founder?",
-          "answer": "No. We provide the full technical organization to build your product, allowing you to focus on business development and growth."
-        },
-        {
-          "question": "How long does the program last?",
-          "answer": "Our standard build cycle is 12-20 weeks, but our partnership model is designed for long-term growth and scaling support."
-        }
-      ]
-    },
-    "cta": {
-      "title": "Ready to Build What's Next?",
-      "subtitle": "Submit your idea or company for review. We evaluate new opportunities on a rolling basis and respond within 48 hours.",
-      "buttonText": "Submit Your Idea"
     }
   },
   "terms": {
     "title": "Terms of Use",
-    "lastUpdated": "October 20, 2023",
+    "lastUpdated": "October 26, 2023",
     "sections": [
       {
-        "number": "1",
-        "title": "Overview and Acceptance",
+        "number": "01",
+        "title": "Agreement to Terms",
         "content": [
-          "Welcome to Crestcode USA. These Terms of Use (\"Terms\") govern your access to and use of our website, services, and applications. Please read these Terms carefully before using the services.",
-          "By accessing or using our website, you agree to be bound by these Terms of Use and our Privacy Policy. If you do not agree to these terms, please do not use our services. We reserve the right to modify these terms at any time, and such modifications shall be effective immediately upon posting."
+          "By accessing or using the Crestcode USA website and services, you agree to be bound by these Terms of Use and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site.",
+          "We reserve the right to review and amend any of these terms at our sole discretion. Any change will take effect from the date of publication."
         ]
       },
       {
-        "number": "2",
-        "title": "Site Usage and Intellectual Property",
+        "number": "02",
+        "title": "Service Limitations",
         "content": [
-          "All content provided on this site, including but not limited to text, graphics, logos, icons, images, and software, is the property of Crestcode USA or its content suppliers and is protected by United States and international copyright laws."
-        ],
-        "indentedContent": [
-          "You are granted a limited, non-exclusive license to access the site for professional information.",
-          "You may not reproduce, duplicate, copy, sell, or otherwise exploit any portion of the site without express written consent.",
-          "Unauthorized use of any Crestcode USA trademark, service mark, or logo may be a violation of federal and state trademark laws."
-        ]
-      },
-      {
-        "number": "3",
-        "title": "Disclaimers and Liability",
-        "content": [
-          "The services and information on this website are provided on an \"as is\" and \"as available\" basis. Crestcode USA makes no representations or warranties of any kind, express or implied, as to the operation of the site or the information, content, or materials included."
-        ],
-        "highlightedContent": "In no event shall Crestcode USA be liable for any direct, indirect, incidental, special, or consequential damages arising out of or in any way connected with the use of this website or with the delay or inability to use this website."
-      },
-      {
-        "number": "4",
-        "title": "General Terms",
-        "content": [
-          "Terms of Use govern Your use of our Service. By accessing or using the Service, You agree to be bound by these Terms.",
-          "You agree to use the Service only for lawful purposes and in accordance with these Terms. You agree not to use the Service in any way that could damage the Service or interfere with anyone else's use of the Service.",
-          "We reserve the right to modify these Terms at any time. We will notify You of any changes by posting the new Terms on this page."
+          "Our services are provided on an \"as is\" and \"as available\" basis. We make no warranties, expressed or implied, regarding the accuracy, reliability, or availability of the website or its content."
         ]
       }
-    ],
-    "contact": {
-      "title": "Legal Questions \u0026 Contact",
-      "subtitle": "Have questions about our terms?",
-      "description": "Our legal team is here to help you understand your rights and responsibilities.",
-      "buttonText": "Contact Legal Dept"
+    ]
+  },
+  "investors": {
+    "hero": {
+      "title": "Not Just Capital. Build With Us.",
+      "subheading": "We provide the strategic technical leadership and execution power needed by founders at every stage.",
+      "primaryBtn": "Partner With Us",
+      "secondaryBtn": "Learn More"
+    },
+    "activeBuilders": {
+      "title": "From Passive Capital to Active Builders",
+      "description": "We are more than a check. We are a dedicated product team that acts as an extension of your venture, providing the technical depth and strategic clarity required to scale.",
+      "points": [
+        {
+          "title": "Technical Due Diligence",
+          "description": "We evaluate the technical feasibility and scalability of your portfolio companies."
+        },
+        {
+          "title": "Managed Scale-Up",
+          "description": "We provide the engineering talent and product strategy to accelerate growth."
+        }
+      ]
+    },
+    "infrastructure": {
+      "title": "An Infrastructure for Experts",
+      "subtitle": "Everything you need to build, launch, and scale ventures in one place.",
+      "cards": [
+        {
+          "title": "Product Studio",
+          "description": "End-to-end product development from ideation to launch."
+        },
+        {
+          "title": "Capital Network",
+          "description": "Access to a global network of venture capital and angel investors."
+        },
+        {
+          "title": "Venture Support",
+          "description": "Fractional C-suite support and strategic advisory."
+        },
+        {
+          "title": "Build Systems",
+          "description": "Reusable, validated frameworks for rapid product iteration."
+        }
+      ]
+    },
+    "operatorAdvantage": {
+      "title": "The Operator Advantage",
+      "cards": [
+        {
+          "title": "Product \u0026 Design",
+          "description": "Crafting high-fidelity user experiences that drive engagement and retention."
+        },
+        {
+          "title": "Engineering",
+          "description": "Building scalable, enterprise-grade architectures that support massive growth."
+        },
+        {
+          "title": "Growth \u0026 GTM",
+          "description": "Strategic market entry and data-driven growth experiments."
+        },
+        {
+          "title": "Strategy",
+          "description": "De-risking technical investments through rigorous market and technical analysis."
+        }
+      ]
+    },
+    "pathway": {
+      "title": "The Pathway to CC",
+      "description": "A structured journey designed to transform high-potential ideas into category-defining ventures.",
+      "points": [
+        {
+          "title": "Rigorous Selection",
+          "description": "We only partner with ventures that meet our Future-Standard criteria."
+        },
+        {
+          "title": "Accelerated Build",
+          "description": "10x faster execution through our validated engineering frameworks."
+        }
+      ]
+    },
+    "blueprint": {
+      "title": "A Repeatable Blueprint",
+      "description": "Our methodology minimizes risk and maximizes market impact through structured execution.",
+      "metrics": [
+        { "value": 120, "suffix": "+", "label": "Projects Completed" },
+        { "value": 450, "prefix": "$", "suffix": "M+", "label": "Portfolio Valuation" },
+        { "value": 15, "suffix": "+", "label": "Exits Managed" },
+        { "value": 24, "suffix": "/7", "label": "Global Support" },
+        { "value": 3, "suffix": "x", "label": "Faster To Market" },
+        { "value": 0, "label": "Failed Deliveries" }
+      ]
+    },
+    "evaluation": {
+      "title": "Evaluation Over Speculation",
+      "steps": [
+        { "number": "01", "title": "Market Fit", "description": "Validation against real market demand and competitive landscape." },
+        { "number": "02", "title": "Tech Depth", "description": "Assessment of technical feasibility and architectural scalability." },
+        { "number": "03", "title": "Growth Unit", "description": "Modeling the unit economics and path to profitability." },
+        { "number": "04", "title": "Exit Strategy", "description": "Defining the long-term value and potential acquisition landscape." }
+      ]
+    },
+    "impact": {
+      "title": "The Impact of Engine",
+      "description": "Our platform provides the foundation for the next generation of venture-backed startups.",
+      "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80"
+    },
+    "pricing": {
+      "title": "Choose Your Path",
+      "tiers": [
+        {
+          "name": "Partner",
+          "price": "Equity",
+          "features": ["Full Studio Build", "Strategic Advisory", "Capital Access"]
+        },
+        {
+          "name": "Co-Build",
+          "price": "$15k/mo",
+          "features": ["Dedicated Pod", "Technical Strategy", "Monthly Review"],
+          "highlight": true
+        },
+        {
+          "name": "Support",
+          "price": "$5k/mo",
+          "features": ["Fractional CTO", "Code Audits", "Advisory Sessions"]
+        }
+      ]
+    },
+    "cta": {
+      "title": "Don't Just Invest in Startups. Build Them.",
+      "subheading": "Join us in engineering the future of digital ventures.",
+      "form": {
+        "title": "Join the Network",
+        "nameLabel": "FULL NAME",
+        "emailLabel": "WORK EMAIL",
+        "companyLabel": "COMPANY / FUND",
+        "buttonText": "Partner With Us"
+      }
     }
   }
 }

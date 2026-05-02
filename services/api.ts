@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-//export const API_URL = process.env.NEXT_PUBLIC_DOCKLY_API_URL;
-export const API_URL = "https://us-cc.onrender.com/server/api";
+// export const API_URL = "https://us-cc.onrender.com/server/api";
+export const API_URL = "http://localhost:5000/server/api";
 
 console.log('🚀 ~ API_URL:', API_URL);
 declare module 'axios' {

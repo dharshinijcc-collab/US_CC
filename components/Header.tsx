@@ -45,7 +45,7 @@ export default function Header(props: any) {
         }
 
         .navbar { 
-          background: rgba(10, 15, 28, 0.85);
+          background: #0A0F1C;
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
           border: 1px solid rgba(255, 255, 255, 0.1);
@@ -70,10 +70,14 @@ export default function Header(props: any) {
 
         .navbar-brand { 
           font-weight: 800; 
-          font-size: 1rem; 
+          font-size: 1.25rem; 
           color: white;
           text-decoration: none;
           flex: 1;
+          letter-spacing: -0.02em;
+          display: flex;
+          align-items: center;
+          white-space: nowrap;
         }
 
         .navbar-links { 
@@ -261,7 +265,7 @@ export default function Header(props: any) {
       <div className="navbar-wrapper">
         <nav className="navbar">
           <Link href="/" className="navbar-brand">
-            <EditableText contentKey="global.header.brand" value={globalContent.header.brand} />
+            <EditableText contentKey="global.header.brand" value="Crestcode Product Studio" />
           </Link>
           
           <div className="navbar-links">
@@ -270,30 +274,20 @@ export default function Header(props: any) {
                 <EditableText contentKey={`global.header.links.${idx}.name`} value={link.name} />
               </Link>
             ))}
-            <div className="dropdown">
-              <button className="dropdown-toggle">
-                <EditableText contentKey="global.header.dropdowns.company.label" value={globalContent.header.dropdowns.company.label} /> &#x25BC;
-              </button>
-              <div className="dropdown-menu">
-                {globalContent.header.dropdowns.company.links.map((link, idx) => (
-                  <Link key={idx} href={link.href} className="dropdown-item">
-                    <EditableText contentKey={`global.header.dropdowns.company.links.${idx}.name`} value={link.name} />
-                  </Link>
-                ))}
+            {Object.entries(globalContent.header.dropdowns).map(([key, dropdown]: [string, any], dIdx) => (
+              <div className="dropdown" key={key}>
+                <button className="dropdown-toggle">
+                  <EditableText contentKey={`global.header.dropdowns.${key}.label`} value={dropdown.label} />
+                </button>
+                <div className="dropdown-menu">
+                  {dropdown.links.map((link: any, idx: number) => (
+                    <Link key={idx} href={link.href} className="dropdown-item">
+                      <EditableText contentKey={`global.header.dropdowns.${key}.links.${idx}.name`} value={link.name} />
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="dropdown">
-              <button className="dropdown-toggle">
-                <EditableText contentKey="global.header.dropdowns.model.label" value={globalContent.header.dropdowns.model.label} /> &#x25BC;
-              </button>
-              <div className="dropdown-menu">
-                {globalContent.header.dropdowns.model.links.map((link, idx) => (
-                  <Link key={idx} href={link.href} className="dropdown-item">
-                    <EditableText contentKey={`global.header.dropdowns.model.links.${idx}.name`} value={link.name} />
-                  </Link>
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
 
           <div className="btn-nav-wrapper">
@@ -316,15 +310,11 @@ export default function Header(props: any) {
         {globalContent.header.links.map((link, idx) => (
           <Link key={idx} href={link.href} className={`mobile-link ${pathname === link.href ? 'active-link' : ''}`}>{link.name}</Link>
         ))}
-        {globalContent.header.dropdowns.company.links.map((link, idx) => (
-          <Link key={idx} href={link.href} className={`mobile-link ${pathname === link.href ? 'active-link' : ''}`}>{link.name}</Link>
-        ))}
-        
-        <div className="mobile-sublinks">
-          {globalContent.header.dropdowns.model.links.map((link, idx) => (
-            <Link key={idx} href={link.href} className="mobile-sublink">{link.name}</Link>
-          ))}
-        </div>
+        {Object.values(globalContent.header.dropdowns).map((dropdown: any) => 
+          dropdown.links.map((link: any, idx: number) => (
+            <Link key={idx} href={link.href} className={`mobile-link ${pathname === link.href ? 'active-link' : ''}`}>{link.name}</Link>
+          ))
+        )}
       </div>
     </>
   );

@@ -824,7 +824,7 @@ export default function StudioPage() {
                     </li>
                   ))}
                 </ul>
-                <a href="#investors" className="card-link relative z-10" style={{ color: '#005AE2', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+                <a href="/investors" className="card-link relative z-10" style={{ color: '#005AE2', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
                   <EditableText contentKey="studio.foundersInvestors.investors.buttonText" value={studioContent.foundersInvestors.investors.buttonText} />
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px' }}><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
                 </a>

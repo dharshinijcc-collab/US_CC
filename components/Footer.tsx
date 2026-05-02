@@ -54,12 +54,13 @@ export default function Footer() {
           margin: 0; 
         }
         .cc-footer-wrapper .footer-links-group li { 
-          margin-bottom: 16px; 
+          margin-bottom: 20px; 
         }
         .cc-footer-wrapper .footer-links-group a { 
-          color: #9CA3AF; 
+          color: #94A3B8; 
           text-decoration: none; 
-          transition: color 0.2s; 
+          transition: all 0.3s ease; 
+          font-weight: 500;
         }
         .cc-footer-wrapper .footer-links-group a:hover { 
           color: var(--white, #FFFFFF); 
@@ -94,7 +95,7 @@ export default function Footer() {
           width: 100%;
           font-size: clamp(5rem, 13vw, 15rem); 
           font-weight: 900; 
-          color: rgba(255, 255, 255, 0.04);
+          color: #0d1425; /* Very close to #0A0F1C */
           pointer-events: none; 
           white-space: nowrap; 
           z-index: 0; 
@@ -104,6 +105,25 @@ export default function Footer() {
           line-height: 1;
           user-select: none;
         } 
+        
+        .cc-footer-wrapper .footer-logo-container {
+          margin-bottom: 24px;
+        }
+        
+        .cc-footer-wrapper .logo-circle {
+          width: 48px;
+          height: 48px;
+          background: linear-gradient(135deg, #005AE2 0%, #004ac2 100%);
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-weight: 900;
+          font-size: 1.5rem;
+          margin-bottom: 16px;
+          box-shadow: 0 10px 20px rgba(0, 90, 226, 0.2);
+        }
         
         @media(max-width: 768px) { 
           .cc-footer-wrapper .footer-container { 
@@ -123,11 +143,14 @@ export default function Footer() {
           </div>
           <div className="footer-container">
             <div>
-              <EditableText 
-                contentKey="global.footer.brand" 
-                value={globalContent.footer.brand} 
-                className="footer-logo"
-              />
+              <div className="footer-logo-container">
+                <div className="logo-circle">CC</div>
+                <EditableText 
+                  contentKey="global.footer.brand" 
+                  value={globalContent.footer.brand} 
+                  className="footer-logo"
+                />
+              </div>
               <EditableText 
                 as="p"
                 contentKey="global.footer.tagline" 
@@ -143,8 +166,19 @@ export default function Footer() {
                   value={section.title}
                   className="footer-heading"
                 />
-                {section.links ? (
-                  <ul>
+                {section.social && (
+                  <div className="social-icons" style={{ marginBottom: '16px' }}>
+                    {section.social.map((social, sIdx) => (
+                      <Link key={sIdx} href={social.href} className="social-icon" style={{ backgroundColor: '#005AE2', width: '32px', height: '32px', borderRadius: '6px' }}>
+                        {social.name === 'in' ? (
+                          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        ) : social.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+                {section.links && (
+                  <ul style={{ marginBottom: section.cta ? '24px' : '0' }}>
                     {section.links.map((link, lIdx) => (
                       <li key={lIdx}>
                         <Link href={link.href}>
@@ -153,15 +187,14 @@ export default function Footer() {
                       </li>
                     ))}
                   </ul>
-                ) : section.social ? (
-                  <div className="social-icons">
-                    {section.social.map((social, sIdx) => (
-                      <Link key={sIdx} href={social.href} className="social-icon">
-                        <EditableText contentKey={`global.footer.sections.${idx}.social.${sIdx}.name`} value={social.name} />
-                      </Link>
-                    ))}
-                  </div>
-                ) : null}
+                )}
+                {section.cta && (
+                  <Link href={section.cta.href}>
+                    <button className="btn-pill btn-primary" style={{ padding: '12px 28px', borderRadius: '100px', fontSize: '0.875rem', border: 'none', cursor: 'pointer' }}>
+                      <EditableText contentKey={`global.footer.sections.${idx}.cta.name`} value={section.cta.name} />
+                    </button>
+                  </Link>
+                )}
               </div>
             ))}
           </div>

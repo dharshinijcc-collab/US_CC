@@ -10,10 +10,13 @@ import GlobalCursorGlow from '@/components/effects/GlobalCursorGlow';
 import EditableText from '@/components/admin/EditableText';
 import SpotlightCursor from '@/components/effects/SpotlightCursor';
 import BorderBeam from '@/components/effects/BorderBeam';
-import { API_URL } from '@/services/api';
+import CountUp from '@/components/effects/CountUp';
+import { useAdmin } from '@/context/AdminContext';
+import { useInView } from 'framer-motion';
 
 export default function LandingPage() {
   const { content, loading, error } = useContent();
+  const { isAdminMode } = useAdmin();
 
   const [idea, setIdea] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -453,7 +456,7 @@ export default function LandingPage() {
         .hero-section { padding: clamp(160px, 15vw, 200px) 24px clamp(60px, 8vw, 100px); text-align: center; }
         .hero-description { font-size: clamp(0.95rem, 2vw, 1.125rem); font-weight: 500; color: var(--text-muted); line-height: 1.6; margin-bottom: 48px; }
         .email-form { max-width: 500px; margin: 0 auto; position: relative; }
-        .email-form-input { background-color: var(--white); border-radius: 24px; border: 1px solid var(--border-light); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+        .email-form-input { background-color: var(--white); border-radius: 24px; border: 1px solid var(--border-light); box-shadow: 0 40px 100px -20px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.04); position: relative; overflow: hidden; }
         .idea-textarea { width: 100%; height: 160px; padding: 24px; border: none; outline: none; font-family: inherit; font-size: clamp(0.95rem, 2vw, 1.125rem); resize: none; color: var(--text-black); }
         .idea-textarea::placeholder { color: var(--text-muted); }
         .submit-btn { position: absolute; bottom: 16px; right: 16px; background-color: var(--primary-blue); color: var(--white); padding: 12px 24px; border-radius: 100px; font-weight: 700; font-size: 14px; border: none; cursor: pointer; transition: background-color 0.2s; }
@@ -486,7 +489,7 @@ export default function LandingPage() {
           background: #ffffff;
           border-radius: 24px;
           padding: 40px 36px 36px;
-          box-shadow: 0 40px 80px -20px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.04);
+          box-shadow: 0 40px 80px -20px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.02);
           z-index: 51;
           animation: popupSlideIn 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
           text-align: center;
@@ -613,7 +616,8 @@ export default function LandingPage() {
         /* Stats Row */
         .stats-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; border-top: 1px solid var(--border-dark); padding-top: 80px; text-align: center; }
         @media(min-width: 768px) { .stats-row { grid-template-columns: repeat(4, 1fr); } }
-        .stat-num { font-size: clamp(2.5rem, 6vw, 3.5rem); font-weight: 800; margin-bottom: 8px; letter-spacing: -0.03em; }
+        .stat-item { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .stat-num { font-size: clamp(2.5rem, 6vw, 3.5rem); font-weight: 800; margin-bottom: 8px; letter-spacing: -0.03em; display: flex; align-items: baseline; justify-content: center; }
         .stat-label { color: #9CA3AF; font-size: clamp(0.6875rem, 1vw, 0.8125rem); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
 
         /* How We Make It Happen Features */
@@ -999,23 +1003,7 @@ export default function LandingPage() {
         {/* Metrics Section */}
         <section className="section-light" style={{ borderBottom: '1px solid var(--border-light)' }}>
           <div className="section-container" style={{ paddingTop: '60px', paddingBottom: '60px' }}>
-            <div className="stats-row" style={{ borderTop: 'none', padding: 0 }}>
-              {homeContent.metrics.map((metric, idx) => (
-                <div key={idx} className="stat-item">
-                  <div className="stat-num" style={{ color: 'var(--text-black)', display: 'flex', gap: '2px' }}>
-                    <EditableText contentKey={`home.metrics.${idx}.prefix`} value={metric.prefix} />
-                    <EditableText contentKey={`home.metrics.${idx}.value`} value={metric.value} />
-                    <EditableText contentKey={`home.metrics.${idx}.suffix`} value={metric.suffix} />
-                  </div>
-                  <EditableText 
-                    contentKey={`home.metrics.${idx}.label`}
-                    value={metric.label}
-                    className="stat-label"
-                    style={{ color: 'var(--text-muted)' }}
-                  />
-                </div>
-              ))}
-            </div>
+            <MetricsRow metrics={homeContent.metrics} />
           </div>
         </section>
 
@@ -1273,4 +1261,29 @@ export default function LandingPage() {
     </>
   );
 }
-
+function MetricsRow({ metrics }: { metrics: any[] }) {
+  const rowRef = useRef(null);
+  const isRowInView = useInView(rowRef, { once: true, margin: "-100px" });
+  
+  return (
+    <div className="stats-row" style={{ borderTop: 'none', padding: 0 }} ref={rowRef}>
+      {metrics.map((metric, idx) => (
+        <div key={idx} className="stat-item">
+          <div className="stat-num" style={{ color: metric.label === 'VALUE DELIVERED' ? '#005AE2' : 'var(--text-black)', display: 'flex', gap: '2px' }}>
+            <EditableText contentKey={`home.metrics.${idx}.prefix`} value={metric.prefix} />
+            <EditableText contentKey={`home.metrics.${idx}.value`} value={metric.value}>
+              <CountUp end={metric.value} start={isRowInView} />
+            </EditableText>
+            <EditableText contentKey={`home.metrics.${idx}.suffix`} value={metric.suffix} />
+          </div>
+          <EditableText 
+            contentKey={`home.metrics.${idx}.label`}
+            value={metric.label}
+            className="stat-label"
+            style={{ color: 'var(--text-muted)' }}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}

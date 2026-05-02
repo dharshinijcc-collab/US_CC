@@ -360,7 +360,7 @@ export default function CareersPage() {
           background-color: var(--white);
           border-radius: 16px;
           padding: 40px;
-          box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+          box-shadow: 0 40px 80px -20px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.02);
           text-align: left;
           margin-top: 40px;
           border: 1px solid var(--border-light);

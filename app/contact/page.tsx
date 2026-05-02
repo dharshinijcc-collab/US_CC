@@ -349,8 +349,8 @@ export default function ContactPage() {
           border-radius: 24px;
           padding: clamp(32px, 5vw, 48px);
           box-shadow: 
-            0 20px 50px rgba(0,0,0,0.08),
-            0 0 0 1px rgba(255, 255, 255, 0.5),
+            0 40px 80px -20px rgba(0,0,0,0.12),
+            0 0 0 1px rgba(0,0,0,0.02),
             inset 0 1px 0 rgba(255, 255, 255, 0.8);
           transform: translateZ(30px);
           transition: all 0.3s ease;
@@ -359,7 +359,7 @@ export default function ContactPage() {
         .form-card:hover {
           transform: translateY(-2px) translateZ(30px);
           box-shadow: 
-            0 30px 60px rgba(0,0,0,0.12),
+            0 60px 100px -30px rgba(0,0,0,0.15),
             0 0 0 1px rgba(255, 255, 255, 0.7),
             inset 0 1px 0 rgba(255, 255, 255, 1);
         }
