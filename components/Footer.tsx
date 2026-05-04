@@ -24,9 +24,10 @@ export default function Footer() {
           max-width: 1200px; 
           margin: 0 auto; 
           padding: 0 24px; 
-          display: grid; 
-          grid-template-columns: repeat(4, 1fr); 
-          gap: 64px; 
+          display: flex; 
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 40px; 
           position: relative;
           z-index: 1;
         }
