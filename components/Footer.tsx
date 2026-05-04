@@ -25,7 +25,7 @@ export default function Footer() {
           margin: 0 auto; 
           padding: 0 24px; 
           display: grid; 
-          grid-template-columns: 2fr 1fr 1fr 1fr; 
+          grid-template-columns: repeat(4, 1fr); 
           gap: 64px; 
           position: relative;
           z-index: 1;
@@ -145,9 +145,9 @@ export default function Footer() {
             <div>
               <div className="footer-logo-container" style={{ marginBottom: '8px' }}>
                 <img 
-                  src="/crestcode-logo-transparent.png" 
+                  src="/crestcode-logo.png" 
                   alt="Crestcode Product Studio" 
-                  style={{ maxWidth: '125px', height: 'auto', display: 'block', marginTop: '-16px', marginLeft: '-12px' }} 
+                  style={{ maxWidth: '125px', height: 'auto', display: 'block', borderRadius: '8px' }} 
                 />
               </div>
               <EditableText 
