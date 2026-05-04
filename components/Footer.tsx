@@ -146,9 +146,9 @@ export default function Footer() {
             <div>
               <div className="footer-logo-container" style={{ marginBottom: '8px' }}>
                 <img 
-                  src="/crestcode-logo.png" 
+                  src="/crestcode-logo-transparent.png" 
                   alt="Crestcode Product Studio" 
-                  style={{ maxWidth: '125px', height: 'auto', display: 'block', borderRadius: '8px' }} 
+                  style={{ maxWidth: '100px', height: 'auto', display: 'block', marginTop: '-12px', marginLeft: '-10px' }} 
                 />
               </div>
               <EditableText 
