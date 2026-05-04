@@ -35,7 +35,7 @@ export function AdminProvider({ children, initialContent }: { children: React.Re
 
   const saveChanges = async () => {
     try {
-      const response = await api.post('/content/update', { payload: fullContent });
+      const response = await api.post('content/update', { payload: fullContent });
       if (response.data.status === 'success') {
         alert('Changes saved successfully!');
       } else {

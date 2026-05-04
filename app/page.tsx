@@ -13,6 +13,7 @@ import BorderBeam from '@/components/effects/BorderBeam';
 import CountUp from '@/components/effects/CountUp';
 import { useAdmin } from '@/context/AdminContext';
 import { useInView } from 'framer-motion';
+import { API_URL } from '@/services/api';
 
 export default function LandingPage() {
   const { content, loading, error } = useContent();

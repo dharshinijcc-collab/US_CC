@@ -133,6 +133,12 @@ export default function InvestorsPage() {
         }
 
         /* Comparison Section */
+        @keyframes stroke-glow {
+          0% { border-color: rgba(0, 90, 226, 0.1); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15), 0 0 0 0 rgba(0, 90, 226, 0); }
+          50% { border-color: rgba(0, 90, 226, 0.5); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15), 0 0 15px 2px rgba(0, 90, 226, 0.2); }
+          100% { border-color: rgba(0, 90, 226, 0.1); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15), 0 0 0 0 rgba(0, 90, 226, 0); }
+        }
+
         .comp-card {
           padding: 60px 48px;
           border-radius: 32px;
@@ -141,10 +147,12 @@ export default function InvestorsPage() {
           height: 100%;
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           cursor: pointer;
+          border: 2px solid rgba(255,255,255,0.1);
+          box-shadow: 0 20px 40px -10px rgba(0,0,0,0.2);
         }
         .comp-card:hover {
-          transform: translateY(-12px);
-          box-shadow: 0 40px 80px -20px rgba(0,0,0,0.15);
+          transform: translateY(-8px);
+          animation: stroke-glow 2s infinite;
         }
         .comp-card-dark { background: var(--bg-dark); color: white; }
         .comp-card-light { background: #F1F5F9; color: var(--text-black); }
@@ -160,15 +168,6 @@ export default function InvestorsPage() {
           transform: translateY(-12px) scale(1.02);
           box-shadow: 0 40px 80px -20px rgba(0,0,0,0.12);
           border: 2px solid var(--primary-blue);
-        }
-        .orbit-card-recommended {
-          border: 2px solid var(--primary-blue) !important;
-          box-shadow: 0 25px 60px -15px rgba(0, 90, 226, 0.15) !important;
-          transform: scale(1.05);
-        }
-        .orbit-card-recommended:hover {
-          transform: translateY(-12px) scale(1.08) !important;
-          box-shadow: 0 45px 90px -20px rgba(0, 90, 226, 0.25) !important;
         }
 
         /* Custom Checkbox */
@@ -493,27 +492,28 @@ export default function InvestorsPage() {
           </div>
 
           {/* Card 2: Startup-Level */}
-          <div className="comp-card" style={{ background: '#E5E7EB', color: 'black', display: 'flex', flexDirection: 'row', padding: 0, overflow: 'hidden', borderRadius: '24px' }}>
-            <div style={{ flex: '1.2', padding: '60px 40px' }}>
-              <h2 style={{ fontSize: '2.5rem', marginBottom: '24px' }}>
-                <EditableText contentKey="investors.tiers.startup.title" value="Startup-Level" />
-              </h2>
-              <p style={{ color: '#4B5563', marginBottom: '40px', fontSize: '1.1rem', lineHeight: '1.6' }}>
-                <EditableText contentKey="investors.tiers.startup.description" value="High-conviction bets on specific incubated ventures where your domain expertise is a direct catalyst." />
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 48px 0' }}>
-                {['Targeted Impact', 'Domain Alignment', 'Direct Advisor Role'].map((pt, i) => (
-                  <li key={i} style={{ display: 'flex', gap: '16px', marginBottom: '18px', alignItems: 'center', fontWeight: 600 }}>
-                    <svg width="20" height="20" fill="none" stroke="var(--primary-blue)" strokeWidth="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" /></svg>
-                    {pt}
-                  </li>
-                ))}
-              </ul>
-              <Link href="/contact" className="btn-pill btn-primary" style={{ textAlign: 'center', width: 'fit-content' }}>
-                <EditableText contentKey="investors.tiers.startup.cta" value="Invest in Venture" />
-              </Link>
-            </div>
-            <div style={{ flex: '1', background: 'url("https://images.unsplash.com/photo-1551288049-bbbda536339a?auto=format&fit=crop&q=80")', backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.8 }}></div>
+          <div className="comp-card" style={{ 
+            background: '#F8FAFC', color: 'black', position: 'relative', overflow: 'hidden', padding: '48px 40px', borderRadius: '24px',
+            backgroundImage: 'linear-gradient(rgba(248, 250, 252, 0.85), rgba(248, 250, 252, 0.95)), url("https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80")',
+            backgroundSize: 'cover', backgroundPosition: 'center'
+          }}>
+            <h2 style={{ fontSize: '2.5rem', marginBottom: '24px', position: 'relative', zIndex: 2 }}>
+              <EditableText contentKey="investors.tiers.startup.title" value="Startup-Level" />
+            </h2>
+            <p style={{ color: '#4B5563', marginBottom: '40px', fontSize: '1.1rem', lineHeight: '1.6', position: 'relative', zIndex: 2 }}>
+              <EditableText contentKey="investors.tiers.startup.description" value="High-conviction bets on specific incubated ventures where your domain expertise is a direct catalyst." />
+            </p>
+            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 48px 0', position: 'relative', zIndex: 2 }}>
+              {['Targeted Impact', 'Domain Alignment', 'Direct Advisor Role'].map((pt, i) => (
+                <li key={i} style={{ display: 'flex', gap: '16px', marginBottom: '18px', alignItems: 'center', fontWeight: 600, position: 'relative', zIndex: 2 }}>
+                  <svg width="20" height="20" fill="none" stroke="var(--primary-blue)" strokeWidth="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" /></svg>
+                  {pt}
+                </li>
+              ))}
+            </ul>
+            <Link href="/contact" className="btn-pill btn-primary" style={{ textAlign: 'center', width: 'fit-content', position: 'relative', zIndex: 2 }}>
+              <EditableText contentKey="investors.tiers.startup.cta" value="Invest in Venture" />
+            </Link>
           </div>
         </div>
       </section>

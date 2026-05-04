@@ -145,6 +145,7 @@ export default function ContactPage() {
           letter-spacing: -0.03em; 
           margin-bottom: clamp(16px, 3vw, 24px); 
           line-height: 1.15; 
+          padding-bottom: 0.1em;
           color: var(--text-black);
           background: linear-gradient(135deg, #020617, #4a5568);
           -webkit-background-clip: text;

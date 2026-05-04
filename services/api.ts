@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-// export const API_URL = "https://us-cc.onrender.com/server/api";
-export const API_URL = "http://localhost:5000/server/api";
+export const API_URL = process.env.NEXT_PUBLIC_DOCKLY_API_URL || "https://us-cc.onrender.com/server/api";
 
 console.log('🚀 ~ API_URL:', API_URL);
 declare module 'axios' {
@@ -19,8 +18,9 @@ if (!API_URL) {
 }
 
 export const api = axios.create({
-  baseURL: API_URL,
+  baseURL: API_URL.endsWith('/') ? API_URL : `${API_URL}/`,
   headers: { 'Content-Type': 'application/json' },
+  timeout: 30000, // 30 seconds
 });
 
 api.interceptors.request.use(

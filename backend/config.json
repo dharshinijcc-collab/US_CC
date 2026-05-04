@@ -75,6 +75,14 @@
         {
           "title": "Scaling \u0026 Growth",
           "description": "Optimize your venture for long-term growth."
+        },
+        {
+          "title": "Product Design",
+          "description": "Create high-fidelity UI/UX interfaces."
+        },
+        {
+          "title": "Technical Consulting",
+          "description": "Expert guidance on system architecture."
         }
       ]
     },
@@ -262,23 +270,19 @@
     },
     "footer": {
       "watermark": "CRESTCODE",
-      "brand": "Crestcode Product Studio",
+      "brand": "Crestcode USA",
       "tagline": "Building the next generation of digital infrastructure and consumer ventures.",
       "sections": [
         {
           "title": "STUDIO",
           "links": [
             {
-              "name": "Portfolio",
-              "href": "/#portfolio"
+              "name": "Founder Relations",
+              "href": "/investors"
             },
             {
-              "name": "Methodology",
+              "name": "Selection Framework",
               "href": "/studio#methodology"
-            },
-            {
-              "name": "Join the Lab",
-              "href": "/contact"
             }
           ]
         },
@@ -296,6 +300,10 @@
             {
               "name": "Careers",
               "href": "/careers"
+            },
+            {
+              "name": "FAQ",
+              "href": "/faq"
             }
           ]
         },
@@ -308,10 +316,6 @@
             }
           ],
           "links": [
-            {
-              "name": "LinkedIn",
-              "href": "https://linkedin.com"
-            },
             {
               "name": "Contact Us",
               "href": "/contact"

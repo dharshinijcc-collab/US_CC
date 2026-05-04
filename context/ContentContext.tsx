@@ -20,8 +20,8 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
   const fetchContent = async () => {
     try {
       setLoading(true);
-      console.log('Fetching content from:', api.defaults.baseURL + '/content');
-      const response = await api.get('/content');
+      console.log('Fetching content from:', api.defaults.baseURL + 'content');
+      const response = await api.get('content');
       console.log('Content API response:', response.data);
       if (response.data.status === 'success') {
         if (!response.data.payload) {
