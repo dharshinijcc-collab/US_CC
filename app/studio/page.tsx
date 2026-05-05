@@ -504,7 +504,7 @@ export default function StudioPage() {
         .look-desc { font-size: 1rem; color: var(--text-muted); line-height: 1.6; font-weight: 500; }
 
         /* The Build Timeline Section */
-        .timeline-wrapper-new { padding: 48px 0 64px; overflow-x: auto; scrollbar-width: none; }
+        .timeline-wrapper-new { padding: 24px 0 32px; overflow-x: auto; scrollbar-width: none; }
         .timeline-wrapper-new::-webkit-scrollbar { display: none; }
         
         .timeline-grid-new { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; min-width: 1100px; margin-bottom: 40px; }
@@ -1117,19 +1117,20 @@ export default function StudioPage() {
 
         {/* The Build Timeline */}
         <section className="section-light text-center">
-          <div className="section-container">
+          <div className="section-container" style={{ paddingTop: '40px', paddingBottom: '40px' }}>
             <EditableText 
               as="h2"
               contentKey="studio.timeline.title"
               value={studioContent.timeline.title}
               className="section-title"
+              style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)' }}
             />
             <EditableText 
               as="p"
               contentKey="studio.timeline.subtitle"
               value={studioContent.timeline.subtitle}
               className="section-subtitle text-center mx-auto"
-              style={{ maxWidth: '750px', marginBottom: '64px' }}
+              style={{ maxWidth: '750px', marginBottom: '32px' }}
             />
 
             <div className="timeline-wrapper-new">
