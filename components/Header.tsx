@@ -264,7 +264,12 @@ export default function Header(props: any) {
 
       <div className="navbar-wrapper">
         <nav className="navbar">
-          <Link href="/" className="navbar-brand">
+          <Link href="/" className="navbar-brand" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <img 
+              src="/crestcode-logo-transparent.png" 
+              alt="Crestcode Logo" 
+              style={{ height: '38px', width: 'auto', objectFit: 'contain' }} 
+            />
             <EditableText contentKey="global.header.brand" value="Crestcode Product Studio" />
           </Link>
           

@@ -134,7 +134,7 @@ export default function ContactPage() {
         .animate-delay-4 { animation-delay: 0.4s; }
 
         .page-wrapper { min-height: 100vh; overflow-x: hidden; padding-bottom: 0; }
-        .section-container { max-width: 1200px; margin: 0 auto; padding: clamp(40px, 6vw, 80px) 24px; }
+        .section-container { max-width: 1200px; margin: 0 auto; padding: clamp(32px, 4vw, 48px) 24px; }
         .pt-0 { padding-top: 0 !important; }
         .pb-0 { padding-bottom: 0 !important; }
         
@@ -143,7 +143,7 @@ export default function ContactPage() {
           font-size: clamp(2.5rem, 5.5vw, 4.5rem); 
           font-weight: 800; 
           letter-spacing: -0.03em; 
-          margin-bottom: clamp(16px, 3vw, 24px); 
+          margin-bottom: clamp(12px, 2vw, 16px); 
           line-height: 1.15; 
           padding-bottom: 0.1em;
           color: var(--text-black);
@@ -183,7 +183,7 @@ export default function ContactPage() {
           font-weight: 800;
           letter-spacing: 0.1em;
           text-transform: uppercase;
-          margin-bottom: 24px;
+          margin-bottom: 16px;
         }
 
         .body-text {
@@ -279,12 +279,12 @@ export default function ContactPage() {
         .btn-nav { padding: 10px 24px; font-size: 14px; border-radius: 100px; background-color: var(--bright-blue);}
 
         /* Layout Grids */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 6vw, 80px); align-items: center; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 48px); align-items: center; }
         .grid-2-align-top { align-items: start; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 
         /* Hero Section */
-        .hero-section { padding-top: clamp(80px, 8vw, 120px); background-color: var(--bg-base); position: relative; }
+        .hero-section { padding-top: clamp(60px, 8vw, 90px); background-color: var(--bg-base); position: relative; }
         .hero-image-wrap {
           border-radius: 24px;
           overflow: hidden;
@@ -300,7 +300,7 @@ export default function ContactPage() {
         }
 
         /* Interactive Service Cards */
-        .services-list { display: flex; flex-direction: column; gap: 16px; margin-top: 40px;}
+        .services-list { display: flex; flex-direction: column; gap: 16px; margin-top: 24px;}
         .service-card {
           display: flex; align-items: center; gap: 20px;
           padding: 24px 32px;
@@ -348,7 +348,7 @@ export default function ContactPage() {
         .form-card {
           background: linear-gradient(135deg, #ffffff, #f8fafc);
           border-radius: 24px;
-          padding: clamp(32px, 5vw, 48px);
+          padding: clamp(24px, 4vw, 36px);
           box-shadow: 
             0 40px 80px -20px rgba(0,0,0,0.12),
             0 0 0 1px rgba(0,0,0,0.02),
@@ -448,11 +448,11 @@ export default function ContactPage() {
         .radio-pill input[type="radio"] { display: none; }
 
         /* Contact Info Cards */
-        .contact-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; max-width: 900px; margin: 80px auto 0; }
+        .contact-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; max-width: 900px; margin: 40px auto 0; }
         .info-card {
           background: linear-gradient(135deg, #ffffff, #f8fafc);
           border-radius: 24px;
-          padding: 48px 32px;
+          padding: 32px 24px;
           text-align: center;
           box-shadow: 
             0 10px 40px rgba(0,0,0,0.06),
@@ -484,8 +484,8 @@ export default function ContactPage() {
         .info-link:hover { text-decoration: underline; }
 
         /* Process Steps */
-        .process-steps-wrap { text-align: center; margin-top: 64px; }
-        .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 64px; position: relative; }
+        .process-steps-wrap { text-align: center; margin-top: 48px; }
+        .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 40px; position: relative; }
         /* Dotted line behind circles */
         .steps-grid::before { 
           content: ''; 
@@ -607,7 +607,7 @@ export default function ContactPage() {
                 className="body-text cc-reveal cc-delay-2"
                 style={{maxWidth: '480px', marginBottom: '40px'}}
               />
-              <button className="btn-dark cc-reveal cc-delay-3" onClick={() => document.getElementById('form-section')?.scrollIntoView()}>
+              <button className="btn-bright cc-reveal cc-delay-3" onClick={() => document.getElementById('form-section')?.scrollIntoView()}>
                 <EditableText contentKey="contact.hero.buttonText" value={contactContent.hero.buttonText} />
               </button>
             </div>

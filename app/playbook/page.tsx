@@ -27,13 +27,16 @@ export default function OurModelPage() {
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
         :root {
-          --bg-base: #F3F5F9;
-          --bg-light: #F8FAFC;
+          /* Color System */
+          --bg-base: #FAFAFA;
+          --bg-light: #FFFFFF;
           --bg-dark: #0A0F1C;
-          --bg-grey: #F1F5F9;
+          --bg-grey: #F4F5F7;
           
-          --primary: #4F46E5;
           --primary-blue: #005AE2;
+          --bright-blue: #0088FF;
+          --bright-blue-hover: #0070E0;
+          --light-blue-bg: #EBF5FF;
           
           --text-black: #020617;
           --text-main: #0F172A;
@@ -48,7 +51,7 @@ export default function OurModelPage() {
           margin: 0;
           padding: 0;
           font-family: 'Inter', sans-serif;
-          background-color: var(--bg-light);
+          background-color: var(--bg-base);
           color: var(--text-black);
           scroll-behavior: smooth;
         }
@@ -66,26 +69,25 @@ export default function OurModelPage() {
 
         .section-container { max-width: 1200px; margin: 0 auto; padding: clamp(40px, 6vw, 80px) 24px; }
         
-        .section-container { max-width: 1200px; margin: 0 auto; padding: clamp(40px, 6vw, 60px) 24px; }
-        
         /* Section 1: Hero */
         .hero-section {
-          background: #F8FAFC;
+          background: var(--bg-base);
           padding: 60px 0 40px;
           overflow: hidden;
         }
 
         .hero-eyebrow-pill {
-          display: inline-block;
-          background: #E0E7FF;
-          color: var(--primary-blue);
-          padding: 10px 24px;
+          display: inline-flex;
+          align-items: center;
+          background-color: var(--light-blue-bg);
+          color: var(--bright-blue);
+          padding: 6px 16px;
           border-radius: 100px;
           font-size: 0.75rem;
           font-weight: 800;
-          letter-spacing: 0.2em;
-          margin-bottom: 24px;
+          letter-spacing: 0.1em;
           text-transform: uppercase;
+          margin-bottom: 24px;
         }
 
         .hero-title {
@@ -97,19 +99,19 @@ export default function OurModelPage() {
           margin-bottom: 24px;
         }
 
-        .text-blue { color: var(--primary-blue); }
+        .text-blue { color: var(--bright-blue); }
 
         .hero-description {
           font-size: 1.125rem;
           line-height: 1.6;
-          color: #64748B;
+          color: var(--text-muted);
           margin-bottom: 32px;
           max-width: 600px;
         }
 
         .hero-info-box {
-          background: #EEF2FF;
-          border-left: 6px solid var(--primary-blue);
+          background: var(--light-blue-bg);
+          border-left: 6px solid var(--bright-blue);
           padding: 24px 32px;
           border-radius: 4px 24px 24px 4px;
           margin-bottom: 40px;
@@ -126,39 +128,65 @@ export default function OurModelPage() {
         }
 
         .btn-primary {
-          background: var(--primary-blue);
-          color: white;
-          padding: 20px 44px;
-          border-radius: 100px;
-          font-weight: 800;
-          text-decoration: none;
+          background: linear-gradient(135deg, var(--bright-blue), var(--primary-blue));
+          color: var(--white);
+          padding: 16px 32px;
+          border-radius: 8px;
+          font-weight: 700;
+          font-size: 15px;
+          border: none;
+          cursor: pointer;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 12px 28px -5px rgba(0, 90, 226, 0.4);
-          font-size: 1rem;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          transform: translateZ(15px);
+          box-shadow: 0 4px 15px rgba(0, 136, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+          position: relative;
+          overflow: hidden;
+          text-decoration: none;
+        }
+
+        .btn-primary::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+          transition: left 0.5s;
         }
 
         .btn-primary:hover {
-          background: #004ac2;
-          transform: translateY(-3px);
-          box-shadow: 0 18px 32px -5px rgba(0, 90, 226, 0.5);
+          transform: translateY(-3px) translateZ(15px) scale(1.05);
+          box-shadow: 0 8px 25px rgba(0, 136, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-primary:hover::before {
+          left: 100%;
+        }
+
+        .btn-primary:active {
+          transform: translateY(-1px) translateZ(15px) scale(0.98);
         }
 
         .btn-outline {
           background: transparent;
           border: 2px solid var(--border-light);
           color: var(--text-main);
-          padding: 20px 44px;
-          border-radius: 100px;
-          font-weight: 800;
+          padding: 16px 32px;
+          border-radius: 8px;
+          font-weight: 700;
           text-decoration: none;
           transition: all 0.3s ease;
-          font-size: 1rem;
+          font-size: 15px;
         }
 
         .btn-outline:hover {
-          background: #F8FAFC;
-          border-color: var(--primary-blue);
-          color: var(--primary-blue);
+          background: var(--light-blue-bg);
+          border-color: var(--bright-blue);
+          color: var(--bright-blue);
         }
 
         .hero-image-container {
