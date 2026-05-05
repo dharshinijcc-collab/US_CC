@@ -13,6 +13,7 @@ import EditableText from '@/components/admin/EditableText';
 export default function StudioPage() {
   const { content, loading, error } = useContent();
   const [activeStackIndex, setActiveStackIndex] = useState(0);
+  const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(0);
 
   useEffect(() => {
     // We can't derive stackCards here because it needs content.
@@ -1187,12 +1188,17 @@ export default function StudioPage() {
 
             <div style={{ maxWidth: '800px', margin: '0 auto' }}>
               {studioContent.faq?.items?.map((item, idx) => (
-                <div key={idx} className="faq-item">
+                <div
+                  key={idx}
+                  className="faq-item"
+                  onClick={() => setOpenFaqIdx(openFaqIdx === idx ? null : idx)}
+                  style={{ cursor: 'pointer' }}
+                >
                   <div className="faq-header">
                     <EditableText as="span" contentKey={`studio.faq.items.${idx}.question`} value={item.question} />
-                    <span className="faq-icon">{idx === 0 ? '-' : '+'}</span>
+                    <span className="faq-icon" style={{ transition: 'transform 0.3s', display: 'inline-block', transform: openFaqIdx === idx ? 'rotate(45deg)' : 'rotate(0deg)' }}>+</span>
                   </div>
-                  {idx === 0 && (
+                  {openFaqIdx === idx && (
                     <EditableText 
                       as="div"
                       contentKey={`studio.faq.items.${idx}.answer`}
