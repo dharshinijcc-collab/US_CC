@@ -802,17 +802,19 @@ function LandingPage() {
             <p className="section-subtitle text-center cc-reveal cc-delay-2">{homeContent.audiences.subtitle}</p>
 
             <div className="cards-grid">
-              <div className="sys-card cc-shine">
-                <div className="card-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <Link to="/investors" style={{ textDecoration: 'none' }}>
+                <div className="sys-card cc-shine" style={{ cursor: 'pointer' }}>
+                  <div className="card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                  </div>
+                  <h4 className="card-title">Investors</h4>
+                  <p className="card-description">Access pre-vetted, high-potential venture opportunities with our rigorous selection framework and due diligence process.</p>
+                  <ul className="card-features">
+                    <li><span className="check-icon">&#x2713;</span> Vetted Deal Flow</li>
+                    <li><span className="check-icon">&#x2713;</span> Portfolio Monitoring</li>
+                  </ul>
                 </div>
-                <h4 className="card-title">Solo Founders</h4>
-                <p className="card-description">Expert technical partnership to transform your vision into a robust, market-ready digital product without the overhead of hiring an internal team.</p>
-                <ul className="card-features">
-                  <li><span className="check-icon">&#x2713;</span> Rapid MVP Development</li>
-                  <li><span className="check-icon">&#x2713;</span> Strategic Product Roadmap</li>
-                </ul>
-              </div>
+              </Link>
               <div className="sys-card cc-shine">
                 <div className="card-icon">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
@@ -826,13 +828,13 @@ function LandingPage() {
               </div>
               <div className="sys-card cc-shine">
                 <div className="card-icon">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 1 7 7c0 2-1 3.9-2 5.5-.5.8-1.5 1.5-1.5 2.5v1H8.5v-1c0-1-1-1.7-1.5-2.5C6 12.9 5 11 5 9a7 7 0 0 1 7-7z"></path></svg>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
                 </div>
-                <h4 className="card-title">Non-technical Founders</h4>
-                <p className="card-description">A bridge between your business insight and complex technical implementation, ensuring quality code and scalable architecture from day one.</p>
+                <h4 className="card-title">Enterprise Partners</h4>
+                <p className="card-description">Strategic technology partnerships for enterprises seeking innovation acceleration and digital transformation at scale.</p>
                 <ul className="card-features">
-                  <li><span className="check-icon">&#x2713;</span> CTO-as-a-Service</li>
-                  <li><span className="check-icon">&#x2713;</span> Tech Strategy & Mentorship</li>
+                  <li><span className="check-icon">&#x2713;</span> Innovation Labs</li>
+                  <li><span className="check-icon">&#x2713;</span> Digital Transformation</li>
                 </ul>
               </div>
             </div>

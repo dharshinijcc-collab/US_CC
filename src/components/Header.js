@@ -253,15 +253,15 @@ export default function Header() {
           
           <div className="navbar-links">
             <Link to="/" className={location.pathname === '/' ? 'active-link' : ''}>Home</Link>
-            <Link to="/studio" className={location.pathname === '/studio' ? 'active-link' : ''}>Studio</Link>
-            <Link to="/careers" className={location.pathname === '/careers' ? 'active-link' : ''}>Careers</Link>
+            <Link to="/studio" className={location.pathname === '/studio' ? 'active-link' : ''}>Founder Relations</Link>
+            <Link to="/selection-framework" className={location.pathname === '/selection-framework' ? 'active-link' : ''}>Selection Framework</Link>
             <div className="dropdown">
-              <button className="dropdown-toggle">Our Model &#x25BC;</button>
+              <button className="dropdown-toggle">Company &#x25BC;</button>
               <div className="dropdown-menu">
-                <Link to="/faq" className="dropdown-item">FAQ</Link>
+                <Link to="/about" className="dropdown-item">About Us</Link>
+                <Link to="/careers" className="dropdown-item">Careers</Link>
                 <Link to="/contact" className="dropdown-item">Contact</Link>
-                <Link to="/privacy" className="dropdown-item">Privacy Policy</Link>
-                <Link to="/terms" className="dropdown-item">Terms of Use</Link>
+                <Link to="/faq" className="dropdown-item">FAQ</Link>
               </div>
             </div>
           </div>
@@ -282,14 +282,14 @@ export default function Header() {
 
       <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
         <Link to="/" className={`mobile-link ${location.pathname === '/' ? 'active-link' : ''}`}>Home</Link>
-        <Link to="/studio" className={`mobile-link ${location.pathname === '/studio' ? 'active-link' : ''}`}>Studio</Link>
-        <Link to="/careers" className={`mobile-link ${location.pathname === '/careers' ? 'active-link' : ''}`}>Careers</Link>
+        <Link to="/studio" className={`mobile-link ${location.pathname === '/studio' ? 'active-link' : ''}`}>Founder Relations</Link>
+        <Link to="/selection-framework" className={`mobile-link ${location.pathname === '/selection-framework' ? 'active-link' : ''}`}>Selection Framework</Link>
         <Link to="/contact" className={`mobile-link ${location.pathname === '/contact' ? 'active-link' : ''}`}>Contact</Link>
         
         <div className="mobile-sublinks">
+          <Link to="/about" className="mobile-sublink">About Us</Link>
+          <Link to="/careers" className="mobile-sublink">Careers</Link>
           <Link to="/faq" className="mobile-sublink">FAQ</Link>
-          <Link to="/privacy" className="mobile-sublink">Privacy Policy</Link>
-          <Link to="/terms" className="mobile-sublink">Terms of Use</Link>
         </div>
       </div>
     </>

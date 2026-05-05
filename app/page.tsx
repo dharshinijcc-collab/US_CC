@@ -786,6 +786,36 @@ export default function LandingPage() {
         }
         .aura-1 { background: radial-gradient(circle, #4F46E5, transparent 70%); top: -300px; left: -200px; }
         .aura-2 { background: radial-gradient(circle, #005AE2, transparent 70%); bottom: -200px; right: -200px; animation-delay: -7s; }
+
+        .hero-idea-box {
+          position: relative;
+          background: #FFFFFF;
+          border-radius: 20px;
+          padding: 1px; /* Single thin stroke */
+          box-shadow: 0 10px 40px -10px rgba(0, 90, 226, 0.1);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          width: 100%;
+          max-width: 480px;
+          /* Static gradient stroke for elegance */
+          background-image: linear-gradient(#FFFFFF, #FFFFFF), linear-gradient(180deg, rgba(0, 90, 226, 0.2) 0%, rgba(0, 90, 226, 0.05) 100%);
+          background-origin: border-box;
+          background-clip: padding-box, border-box;
+          border: 1px solid transparent;
+        }
+
+        .hero-idea-box:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 20px 50px -15px rgba(0, 90, 226, 0.15);
+        }
+
+        .hero-idea-inner {
+          position: relative;
+          background: white;
+          border-radius: 18px;
+          width: 100%;
+          height: 100%;
+          padding: 6px;
+        }
       `}} />
 
       <div className="landing-page" style={{ overflow: 'hidden', position: 'relative' }}>
@@ -797,72 +827,83 @@ export default function LandingPage() {
         
         {/* Step 1: Idea Submission Hero */}
         <header ref={heroRef} className="hero-section" style={{ position: 'relative', paddingTop: '160px', paddingBottom: '80px', backgroundColor: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <EditableText 
-            as="h1"
-            contentKey="home.hero.heading"
-            value={homeContent.hero.heading}
-            style={{ fontSize: '3.5rem', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}
-          />
-          <EditableText 
-            as="p"
-            contentKey="home.hero.subheading"
-            value={homeContent.hero.subheading}
-            style={{ textAlign: 'center', color: '#475569', fontSize: '1.1rem', maxWidth: '540px', lineHeight: 1.6, marginBottom: '48px', fontWeight: 500 }}
-          />
+          <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <EditableText 
+              as="h1"
+              contentKey="home.hero.heading"
+              value={homeContent.hero.heading}
+              style={{ fontSize: '3.5rem', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}
+            />
+            <EditableText 
+              as="p"
+              contentKey="home.hero.subheading"
+              value={homeContent.hero.subheading}
+              style={{ textAlign: 'center', color: '#475569', fontSize: '1.1rem', maxWidth: '540px', lineHeight: 1.6, marginBottom: '48px', fontWeight: 500 }}
+            />
+          </div>
 
-          <form onSubmit={handleIdeaSubmit} method="POST" style={{ width: '100%', maxWidth: '480px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 10 }}>
-            <div style={{
-              width: '100%',
-              position: 'relative',
-              background: 'linear-gradient(white, white) padding-box, linear-gradient(225deg, #E2E8F0 60%, #D8B4E2 100%) border-box',
-              borderRadius: '20px',
-              border: '1px solid transparent',
-              boxShadow: '0 10px 40px -10px rgba(0,0,0,0.07)',
-              padding: '8px',
-              marginBottom: '16px'
-            }}>
-              <textarea
-                id="idea"
-                name="idea"
-                className="idea-textarea"
-                style={{
-                  width: '100%',
-                  height: '90px',
-                  border: 'none',
-                  resize: 'none',
-                  padding: '14px 16px',
-                  fontSize: '1rem',
-                  fontFamily: 'inherit',
-                  color: '#0A0F1C',
-                  backgroundColor: 'transparent',
-                  outline: 'none',
-                  borderRadius: '14px'
-                }}
-                placeholder={homeContent.hero.placeholder}
-                value={idea}
-                onChange={(e: any) => setIdea(e.target.value)}
-                disabled={isLoading}
-              />
-              <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 8px 8px 0' }}>
-                <button type="submit" disabled={isLoading} style={{
-                  backgroundColor: '#005AE2',
-                  color: '#FFFFFF',
-                  border: 'none',
-                  borderRadius: '100px',
-                  padding: '10px 24px',
-                  fontSize: '0.9rem',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
-                  gap: '6px'
-                }}>
-                  {isLoading ? '...' : <EditableText contentKey="home.hero.submitBtn" value={homeContent.hero.submitBtn} />}
-                </button>
+          <form onSubmit={handleIdeaSubmit} method="POST" style={{ width: '100%', maxWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 10 }}>
+            <div className="hero-idea-box" style={{ maxWidth: '400px' }}>
+              <div className="hero-idea-inner">
+                <textarea
+                  id="idea"
+                  name="idea"
+                  className="idea-textarea"
+                  style={{
+                    width: '100%',
+                    height: '70px',
+                    border: 'none',
+                    resize: 'none',
+                    padding: '12px 14px',
+                    fontSize: '0.95rem',
+                    fontFamily: 'inherit',
+                    color: '#0A0F1C',
+                    backgroundColor: 'transparent',
+                    outline: 'none',
+                    borderRadius: '14px'
+                  }}
+                  placeholder={homeContent.hero.placeholder}
+                  value={idea}
+                  onChange={(e: any) => setIdea(e.target.value)}
+                  disabled={isLoading}
+                />
+                <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 8px 8px 0' }}>
+                  <button type="submit" disabled={isLoading} style={{
+                    backgroundColor: '#005AE2',
+                    color: '#FFFFFF',
+                    border: 'none',
+                    borderRadius: '100px',
+                    padding: '10px 20px',
+                    fontWeight: 700,
+                    fontSize: '0.875rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    boxShadow: '0 4px 12px rgba(0, 90, 226, 0.2)'
+                  }}
+                  onMouseOver={(e: any) => {
+                    e.currentTarget.style.backgroundColor = '#004ac2';
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                  }}
+                  onMouseOut={(e: any) => {
+                    e.currentTarget.style.backgroundColor = '#005AE2';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
+                  >
+                    <EditableText contentKey="home.hero.submitBtn" value={homeContent.hero.submitBtn} />
+                  </button>
+                </div>
               </div>
             </div>
-            {formMessage && submissionStep < 1 && <div className={`form-message ${messageType}`}>{formMessage}</div>}
+            {formMessage && submissionStep < 1 && (
+              <div className={`form-message ${messageType}`} style={{ 
+                marginTop: '12px', 
+                fontSize: '0.875rem', 
+                fontWeight: 600,
+                animation: 'cc-fadeIn 0.3s ease'
+              }}>
+                {formMessage}
+              </div>
+            )}
             <p className="hero-note">{homeContent.hero.footerNote}</p>
           </form>
         </header>

@@ -1,4 +1,18 @@
 {
+  "global": {
+    "footer": {
+      "brand": "Crestcode USA",
+      "watermark": "CRESTCODE USA PRODUCT STUDIO",
+      "social": {
+        "linkedin": "#",
+        "twitter": "#"
+      },
+      "copyright": "© 2024 Crestcode USA. All rights reserved."
+    },
+    "header": {
+      "cta": "Start a Project"
+    }
+  },
   "careers": {
     "hero": {
       "eyebrow": "OPEN POSITIONS",
@@ -216,31 +230,15 @@
         {
           "name": "Home",
           "href": "/"
+        },
+        {
+          "name": "Studio",
+          "href": "/studio"
         }
       ],
-      "dropdowns": {
-        "studio": {
-          "label": "Studio",
-          "links": [
-            {
-              "name": "Our Methodology",
-              "href": "/studio#methodology"
-            },
-            {
-              "name": "Entrepreneurs",
-              "href": "/studio#entrepreneurs"
-            },
-            {
-              "name": "Investors",
-              "href": "/investors"
-            },
-            {
-              "name": "StudentStudio",
-              "href": "/studio#student-studio"
-            }
-          ]
-        },
-        "company": {
+      "dropdowns": [
+        {
+          "id": "company",
           "label": "Company",
           "links": [
             {
@@ -264,12 +262,26 @@
               "href": "/contact"
             }
           ]
+        },
+        {
+          "id": "our_model",
+          "label": "Our Model",
+          "links": [
+            {
+              "name": "Our Methodology",
+              "href": "/playbook"
+            },
+            {
+              "name": "Selection Framework",
+              "href": "/playbook#selection"
+            }
+          ]
         }
-      },
+      ],
       "cta": "Contact Us"
     },
     "footer": {
-      "watermark": "CRESTCODE",
+      "watermark": "CRESTCODE USA",
       "brand": "Crestcode USA",
       "tagline": "Building the next generation of digital infrastructure and consumer ventures.",
       "sections": [
@@ -834,6 +846,116 @@
           "description": "Maintenance, optimization, and scaling."
         }
       ]
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "items": [
+        {
+          "question": "What types of ventures does Crestcode partner with?",
+          "answer": "We partner with high-conviction founders building technology-driven businesses. We look for ideas with a large addressable market, a clear technical edge, and a founder who is deeply committed to execution. We work across B2B SaaS, consumer apps, fintech, and AI-enabled products."
+        },
+        {
+          "question": "How long does a typical studio engagement take?",
+          "answer": "A full build engagement typically runs 16–24 weeks from discovery to launch, depending on complexity. We also offer support and co-development arrangements for teams that need targeted acceleration."
+        },
+        {
+          "question": "What is the Selection Framework?",
+          "answer": "Our Selection Framework is a proprietary assessment process that evaluates ideas across four dimensions: Market Scale, Technical Edge, High Conviction, and Founder Fit. Only ventures that meet our Future-Standard criteria are accepted into the studio."
+        },
+        {
+          "question": "Do you take equity in exchange for your services?",
+          "answer": "Our engagement models vary. We offer equity-based partnerships for full studio builds, as well as retainer and co-development arrangements for teams with capital. We'll find a structure that aligns incentives for both sides."
+        }
+      ]
+    },
+    "cta": {
+      "title": "A Better Way to Build\nNew Ventures",
+      "subtitle": "We don't just build software; we engineer businesses.\nOur validated build framework minimizes risk and maximizes market impact by aligning technical precision with commercial reality.",
+      "buttonText": "Start Your Venture"
+    }
+  },
+  "ourModel": {
+    "hero": {
+      "eyebrow": "THE PLAYBOOK",
+      "title": "From Raw Idea to Proven Product — in 5 Phases",
+      "description": "We don’t just build software; we engineer market dominance. Our proprietary playbook transforms nebulosity into high-performance digital assets through clinical validation and rapid execution.",
+      "quote": "The difference between a failed startup and a unicorn isn’t the idea—it’s the systematic elimination of risk at every stage of the lifecycle.",
+      "primaryButton": "Start a Project",
+      "secondaryButton": "View Playbook"
+    },
+    "selection": {
+      "eyebrow": "SELECTION FRAMEWORK",
+      "title": "How We Filter for Success",
+      "subtitle": "We are highly selective. Our resources are finite, which is why we only partner with ventures that meet our Future-Standard criteria.",
+      "cards": [
+        { "title": "Market Timing", "desc": "We analyze macroeconomic tailwinds to ensure we’re entering at the inflection point of adoption, avoiding the “too early” trap." },
+        { "title": "Technical Feasibility", "desc": "Clinical assessment of build complexity vs. available pods to ensure 12-week MVP delivery windows." },
+        { "title": "Competitive Whitespace", "desc": "Mapping the landscape to find the structural gaps where incumbents are too slow to move and startups are under-serving." },
+        { "title": "Founder-Market Fit", "desc": "Ensuring the core team possesses the domain expertise and obsession required to navigate the specific industry challenges." }
+      ]
+    },
+    "validation": {
+      "label": "PHASE 02 — CLINICAL VALIDATION",
+      "title": "The Validation Framework",
+      "steps": [
+        { "title": "Assumption Mapping", "desc": "Extracting every \"must-be-true\" statement." },
+        { "title": "Risk Ranking", "desc": "Identifying the deadliest uncertainties first." },
+        { "title": "Signal Testing", "desc": "Cold outreach, smoke tests, and MVP-0." },
+        { "title": "Evidence Review", "desc": "Data-backed go/no-go final decision." }
+      ],
+      "outcomes": [
+        { "title": "Proceed", "desc": "Strong market signal. Pre-commitments secured. Unit economics project a clear path to scale." },
+        { "title": "Iterate", "desc": "Problem confirmed but solution missed. Pivot core value prop and re-validate immediately." },
+        { "title": "Kill", "desc": "Market apathy or structural roadblocks. Stop execution now to preserve capital and focus." }
+      ]
+    },
+    "phases": {
+      "title": "What Happens After a Green Light",
+      "items": [
+        { "label": "PHASE 03", "title": "Build", "desc": "High-speed engineering of the MVP. We focus on core loops that deliver immediate value while maintaining architectural integrity." },
+        { "label": "PHASE 04", "title": "Launch", "desc": "Strategic deployment to the beachhead market. Controlled release, rapid feedback gathering, and community seeding." },
+        { "label": "PHASE 05", "title": "Scale", "desc": "Aggressive growth through analytics-driven optimization and infrastructure hardening for mass-market demand." }
+      ],
+      "table": {
+        "h1": "Gate Criteria",
+        "h2": "Action: Continue",
+        "h3": "Action: Iterate",
+        "h4": "Action: Stop",
+        "rows": [
+          { "c": "User Retention (Day 30)", "v1": "> 40%", "v2": "20% - 40%", "v3": "< 20%" },
+          { "c": "CAC / LTV Ratio", "v1": "< 3:1", "v2": "4:1 - 5:1", "v3": "> 5:1" },
+          { "c": "Platform Stability", "v1": "99.9% Uptime", "v2": "Minor Bugfixing", "v3": "Critical Failures" }
+        ]
+      }
+    },
+    "pods": {
+      "title": "The Five Pods That Run the Playbook",
+      "subtitle": "Cross-functional expertise deployed in surgical strikes. Every pod is incentivized by product success, not billable hours.",
+      "items": [
+        { "id": "POD 01", "title": "Product Engineering", "desc": "Scale-first architecture with modern stacks." },
+        { "id": "POD 02", "title": "Product Design", "desc": "Behavioral-led UI/UX that converts." },
+        { "id": "POD 03", "title": "Growth & Analytics", "desc": "Loop optimization and funnel hardening." },
+        { "id": "POD 04", "title": "AI Integration", "desc": "LLM-ops and predictive intelligence layers." },
+        { "id": "POD 05", "title": "Platform & Ops", "desc": "Cloud infra and CI/CD pipelines." }
+      ]
+    },
+    "comparison": {
+      "title": "An Honest Comparison",
+      "h1": "Capability",
+      "h2": "Traditional Agency",
+      "h3": "Freelance Network",
+      "h4": "Crestcode Playbook",
+      "rows": [
+        { "f": "Risk Management", "c1": "Minimal. They build what you ask.", "c2": "Non-existent. pure execution.", "c3": "Clinical validation before build." },
+        { "f": "Delivery Speed", "c1": "6-9 months (Heavy overhead)", "c2": "Unpredictable (Siloed tasks)", "c3": "10-12 Weeks (Parallel pods)" },
+        { "f": "Ownership Model", "c1": "Project-based (Fee for service)", "c2": "Hourly (Incentivized slowness)", "c3": "Equity-aligned performance goals." },
+        { "f": "Post-Launch", "c1": "Hand-off & Maintenance bills.", "c2": "Hard to re-engage same talent.", "c3": "Scale-up pods & growth ops." }
+      ]
+    },
+    "cta": {
+      "title": "Ready to Run the Playbook?",
+      "description": "Stop guessing and start engineering. Join the elite founders who have transformed their vision into high-valuation digital products with Crestcode.",
+      "button": "Apply for a Build Slot"
     }
   },
   "terms": {
@@ -859,139 +981,113 @@
   },
   "investors": {
     "hero": {
-      "title": "Not Just Capital. Build With Us.",
-      "subheading": "We provide the strategic technical leadership and execution power needed by founders at every stage.",
-      "primaryBtn": "Partner With Us",
-      "secondaryBtn": "Learn More"
+      "eyebrow": "STRATEGIC FUTURISM",
+      "title1": "Not Just Capital.",
+      "title2": "Build With Us.",
+      "subheading": "A different kind of engagement for high-conviction individuals. Crestcode Product Studio connects institutional operators with early-stage hypergrowth ventures.",
+      "ctaPrimary": "Become an Operator-Investor",
+      "ctaSecondary": "View Our Model"
     },
-    "activeBuilders": {
+    "builders": {
+      "quote": "\"Passive capital is a commodity. Strategic execution is the alpha.\"",
       "title": "From Passive Capital to Active Builders",
-      "description": "We are more than a check. We are a dedicated product team that acts as an extension of your venture, providing the technical depth and strategic clarity required to scale.",
-      "points": [
-        {
-          "title": "Technical Due Diligence",
-          "description": "We evaluate the technical feasibility and scalability of your portfolio companies."
-        },
-        {
-          "title": "Managed Scale-Up",
-          "description": "We provide the engineering talent and product strategy to accelerate growth."
-        }
-      ]
+      "description": "We believe that capital alone is no longer a competitive advantage. The modern venture landscape demands builders who have seen the patterns of scale before.",
+      "feature1": { "title": "Execution Focus", "desc": "Move beyond quarterly reports. Influence the product roadmap directly." },
+      "feature2": { "title": "Operator Network", "desc": "Deploy your specific expertise where it moves the needle most." }
     },
-    "infrastructure": {
-      "title": "An Infrastructure for Experts",
-      "subtitle": "Everything you need to build, launch, and scale ventures in one place.",
+    "architecture": {
+      "title": "An Architecture for Experts",
+      "subtitle": "We partner with individuals who bring more than a checkbook to the table.",
       "cards": [
-        {
-          "title": "Product Studio",
-          "description": "End-to-end product development from ideation to launch."
-        },
-        {
-          "title": "Capital Network",
-          "description": "Access to a global network of venture capital and angel investors."
-        },
-        {
-          "title": "Venture Support",
-          "description": "Fractional C-suite support and strategic advisory."
-        },
-        {
-          "title": "Build Systems",
-          "description": "Reusable, validated frameworks for rapid product iteration."
-        }
+        { "title": "Former Founders", "desc": "Those who have exited and want to build again without the 0-to-1 grind." },
+        { "title": "Operators & CXOs", "desc": "Scaling experts from unicorn-stage companies looking for diversification." },
+        { "title": "Domain Experts", "desc": "Specialists in deep tech, logistics, or fintech who can de-risk technical roadmaps." },
+        { "title": "Strategic Angels", "desc": "Seasoned investors who prefer the high-touch studio model over spray-and-pray." }
       ]
     },
-    "operatorAdvantage": {
+    "tiers": {
+      "studio": {
+        "title": "Studio-Level",
+        "description": "Invest in the infrastructure. Gain fractional equity across every venture Crestcode launches.",
+        "points": ["Diversified Exposure", "Operational Upside", "Governance Role"],
+        "cta": "Invest in Studio"
+      },
+      "startup": {
+        "title": "Startup-Level",
+        "description": "High-conviction bets on specific incubated ventures where your domain expertise is a direct catalyst.",
+        "points": ["Targeted Impact", "Domain Alignment", "Direct Advisor Role"],
+        "cta": "Invest in Venture"
+      }
+    },
+    "advantage": {
       "title": "The Operator Advantage",
       "cards": [
-        {
-          "title": "Product \u0026 Design",
-          "description": "Crafting high-fidelity user experiences that drive engagement and retention."
-        },
-        {
-          "title": "Engineering",
-          "description": "Building scalable, enterprise-grade architectures that support massive growth."
-        },
-        {
-          "title": "Growth \u0026 GTM",
-          "description": "Strategic market entry and data-driven growth experiments."
-        },
-        {
-          "title": "Strategy",
-          "description": "De-risking technical investments through rigorous market and technical analysis."
-        }
+        { "title": "Product Strategy", "desc": "Review roadmaps, participate in design sprints, and validate feature priorities with market reality." },
+        { "title": "Mentorship", "desc": "Guide young studio-hired founders through the psychological and operational hurdles of early growth." },
+        { "title": "GTM Decisions", "desc": "Open your network and help define the high-velocity sales and marketing playbooks." },
+        { "title": "Scaling Frameworks", "desc": "Implement organizational structures and operational rhythms that you've mastered elsewhere." }
       ]
     },
     "pathway": {
-      "title": "The Pathway to CC",
-      "description": "A structured journey designed to transform high-potential ideas into category-defining ventures.",
-      "points": [
-        {
-          "title": "Rigorous Selection",
-          "description": "We only partner with ventures that meet our Future-Standard criteria."
-        },
-        {
-          "title": "Accelerated Build",
-          "description": "10x faster execution through our validated engineering frameworks."
-        }
+      "title": "The Pathway to CEO",
+      "description": "For the right investor, the studio offers a unique transition. Move from strategic advisor to venture CEO as the startup hits its growth inflection point.",
+      "step1": { "num": "1", "title": "Advisory Phase:", "desc": "Engage with a venture during its incubation." },
+      "step2": { "num": "2", "title": "Operational Shift:", "desc": "Transition into a full-time leadership role." }
+    },
+    "outcomes": {
+      "title": "Asymmetric Outcomes",
+      "description": "Our model is built for significant multiples, de-risked by operational excellence.",
+      "multiplier": "12.4x",
+      "multiplierLabel": "Average Follow-on Valuation Multiplier",
+      "ventures": [
+        { "title": "LogiFlow AI", "sub": "SaaS" },
+        { "title": "Veritas Health", "sub": "ML" },
+        { "title": "Kernal Core", "sub": "Cyber" },
+        { "title": "Nexus Prop", "sub": "Fintech" },
+        { "title": "Arcade Commerce", "sub": "Retail" }
+      ],
+      "placeholder": "NEXT VENTURE INCUBATION"
+    },
+    "participation": {
+      "title": "Flexible Participation",
+      "card1": { "title": "Direct Equity", "description": "Standard cap table participation with clearly defined rights.", "link": "Preferred Stock Terms" },
+      "card2": { "title": "Studio Credits", "description": "Contribute expertise as \"Sweat Equity\" alongside your capital.", "link": "Performance Based" }
+    },
+    "execution": {
+      "title": "Execution Over Speculation",
+      "items": [
+        { "num": "01", "title": "Speed to Market", "desc": "Studio infrastructure reduces time to market by 40%." },
+        { "num": "02", "title": "Talent Density", "desc": "Centralized engineering and design teams ensure quality." },
+        { "num": "03", "title": "Shared Resources", "desc": "Legal and back-office costs are shared across portfolio." },
+        { "num": "04", "title": "Lower Failure Rates", "desc": "Systematic validation gates ensure commercial potential." }
       ]
     },
-    "blueprint": {
-      "title": "A Repeatable Blueprint",
-      "description": "Our methodology minimizes risk and maximizes market impact through structured execution.",
-      "metrics": [
-        { "value": 120, "suffix": "+", "label": "Projects Completed" },
-        { "value": 450, "prefix": "$", "suffix": "M+", "label": "Portfolio Valuation" },
-        { "value": 15, "suffix": "+", "label": "Exits Managed" },
-        { "value": 24, "suffix": "/7", "label": "Global Support" },
-        { "value": 3, "suffix": "x", "label": "Faster To Market" },
-        { "value": 0, "label": "Failed Deliveries" }
-      ]
+    "engine": {
+      "title": "The Repeatable Engine",
+      "description": "Our partnership with leading tech universities ensures a constant pipeline of breakthrough IP and hungry, world-class engineering talent.",
+      "tags": ["University R&D Bridge", "Talent Pipeline", "IP Moat"]
     },
-    "evaluation": {
-      "title": "Evaluation Over Speculation",
-      "steps": [
-        { "number": "01", "title": "Market Fit", "description": "Validation against real market demand and competitive landscape." },
-        { "number": "02", "title": "Tech Depth", "description": "Assessment of technical feasibility and architectural scalability." },
-        { "number": "03", "title": "Growth Unit", "description": "Modeling the unit economics and path to profitability." },
-        { "number": "04", "title": "Exit Strategy", "description": "Defining the long-term value and potential acquisition landscape." }
-      ]
-    },
-    "impact": {
-      "title": "The Impact of Engine",
-      "description": "Our platform provides the foundation for the next generation of venture-backed startups.",
-      "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80"
-    },
-    "pricing": {
-      "title": "Choose Your Path",
-      "tiers": [
-        {
-          "name": "Partner",
-          "price": "Equity",
-          "features": ["Full Studio Build", "Strategic Advisory", "Capital Access"]
-        },
-        {
-          "name": "Co-Build",
-          "price": "$15k/mo",
-          "features": ["Dedicated Pod", "Technical Strategy", "Monthly Review"],
-          "highlight": true
-        },
-        {
-          "name": "Support",
-          "price": "$5k/mo",
-          "features": ["Fractional CTO", "Code Audits", "Advisory Sessions"]
-        }
-      ]
+    "orbit": {
+      "title": "Choose Your Orbit",
+      "passive": { "title": "Passive", "quote": "\"Deploy and Watch\"", "points": ["Quarterly Reports", "Annual Meeting", "Exit Rights"] },
+      "strategic": { "label": "RECOMMENDED", "title": "Strategic", "quote": "\"The Operator-Investor\"", "points": ["Advisory Council Seat", "Deal Flow Preview", "Product Feedback Sprints"] },
+      "active": { "title": "Active", "quote": "\"Venture Partner\"", "points": ["Fractional Leadership", "Direct Incubation Access", "Carry/Bonus Participation"] }
     },
     "cta": {
       "title": "Don't Just Invest in Startups. Build Them.",
-      "subheading": "Join us in engineering the future of digital ventures.",
-      "form": {
-        "title": "Join the Network",
-        "nameLabel": "FULL NAME",
-        "emailLabel": "WORK EMAIL",
-        "companyLabel": "COMPANY / FUND",
-        "buttonText": "Partner With Us"
-      }
+      "description": "Join an elite circle of builders, operators, and visionary investors reshaping the architecture of innovation.",
+      "features": ["Exclusive Early Access to Incubations", "Proprietary Strategic Intel Reports", "Invite-Only Executive Summits"]
+    },
+    "form": {
+      "title": "Join as an Operator-Investor",
+      "labelName": "Full Name",
+      "labelEmail": "Email Address",
+      "labelExpertise": "Domain Expertise",
+      "expertise": { "options": ["Product Strategy", "Engineering / Architecture", "GTM / Sales", "Finance / M&A", "Legal / Compliance"] },
+      "labelRole": "Preferred Role",
+      "roles": { "options": ["Investor Only", "Strategic Advisor", "Venture CEO", "Network Partner"] },
+      "labelBackground": "Tell us about your builder background",
+      "submit": "Submit Application"
     }
   }
 }

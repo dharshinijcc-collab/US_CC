@@ -1154,7 +1154,7 @@ export default function StudioPage() {
 
               {/* Bottom Stat Pills */}
               <div className="timeline-stats-row">
-                {studioContent.timeline.stats.map((stat, sIdx) => (
+                {studioContent.timeline?.stats?.map((stat, sIdx) => (
                   <div key={sIdx} className="t-stat-pill">
                     <div className="t-stat-icon">
                       {sIdx === 0 ? <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> :
@@ -1173,18 +1173,19 @@ export default function StudioPage() {
         </section>
 
         {/* FAQ Section */}
+        {studioContent.faq && (
         <section id="faq" className="section-base">
           <div className="section-container">
             <EditableText 
               as="h2"
               contentKey="studio.faq.title"
-              value={studioContent.faq.title}
+              value={studioContent.faq?.title}
               className="section-title text-center"
               style={{ marginBottom: '64px' }}
             />
 
             <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-              {studioContent.faq.items.map((item, idx) => (
+              {studioContent.faq?.items?.map((item, idx) => (
                 <div key={idx} className="faq-item">
                   <div className="faq-header">
                     <EditableText as="span" contentKey={`studio.faq.items.${idx}.question`} value={item.question} />
@@ -1203,30 +1204,33 @@ export default function StudioPage() {
             </div>
           </div>
         </section>
+        )}
 
         {/* CTA */}
+        {studioContent.cta && (
         <section className="section-white text-center">
           <div className="section-container" style={{ paddingTop: 'clamp(80px, 10vw, 120px)', paddingBottom: 'clamp(80px, 10vw, 120px)' }}>
             <EditableText 
               as="h2"
               contentKey="studio.cta.title"
-              value={studioContent.cta.title}
+              value={studioContent.cta?.title}
               className="section-title"
               style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', marginBottom: '24px' }}
             />
             <EditableText 
               as="p"
               contentKey="studio.cta.subtitle"
-              value={studioContent.cta.subtitle}
+              value={studioContent.cta?.subtitle}
               className="section-subtitle text-center"
             />
             <Link href="/">
               <button className="btn-primary" style={{ marginTop: '32px', padding: '20px 48px', fontSize: '1.125rem' }}>
-                <EditableText contentKey="studio.cta.buttonText" value={studioContent.cta.buttonText} />
+                <EditableText contentKey="studio.cta.buttonText" value={studioContent.cta?.buttonText} />
               </button>
             </Link>
           </div>
         </section>
+        )}
 
         <Footer />
 

@@ -11,12 +11,60 @@ import CountUp from '@/components/effects/CountUp';
 import Link from 'next/link';
 import localConfig from '@/backend/config.json';
 
+import { API_URL } from '@/services/api';
+
 export default function InvestorsPage() {
   const { content, loading, error } = useContent();
+  const [formData, setFormData] = React.useState({
+    fullName: '',
+    email: '',
+    expertise: 'Product Strategy',
+    preferredRoles: [] as string[],
+    background: ''
+  });
+  const [submitted, setSubmitted] = React.useState(false);
 
-  if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">Loading...</div>;
+  if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">Loading our model...</div>;
   if (error) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope text-red-500">Error: {error}</div>;
-  
+  if (!content || !content.investors) return null;
+
+  const investorContent = content.investors;
+
+  const handleRoleChange = (role: string) => {
+    setFormData(prev => ({
+      ...prev,
+      preferredRoles: prev.preferredRoles.includes(role)
+        ? prev.preferredRoles.filter(r => r !== role)
+        : [...prev.preferredRoles, role]
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`${API_URL}/submit-investor`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+        setFormData({
+          fullName: '',
+          email: '',
+          expertise: 'Product Strategy',
+          preferredRoles: [],
+          background: ''
+        });
+      } else {
+        const data = await response.json();
+        alert(data.error || 'Submission failed. Please try again.');
+      }
+    } catch (error) {
+      alert('Network error. Please try again later.');
+    }
+  };
   const investors = content?.investors || (localConfig as any).investors;
   
   if (!investors) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">Investors content not found.</div>;
@@ -339,7 +387,8 @@ export default function InvestorsPage() {
 
       <Header />
 
-      {/* Hero Section */}
+      <div className="investors-page">
+        {/* Hero Section */}
       <section className="section-container" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', paddingTop: '160px' }}>
         <div style={{ maxWidth: '900px' }}>
           <div style={{ color: 'var(--primary-blue)', fontWeight: 800, fontSize: '0.8125rem', letterSpacing: '0.15em', marginBottom: '24px', textTransform: 'uppercase' }}>
@@ -482,7 +531,7 @@ export default function InvestorsPage() {
               {['Diversified Exposure', 'Operational Upside', 'Governance Role'].map((pt, i) => (
                 <li key={i} style={{ display: 'flex', gap: '16px', marginBottom: '18px', alignItems: 'center', fontWeight: 600 }}>
                   <svg width="20" height="20" fill="none" stroke="#10B981" strokeWidth="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" /></svg>
-                  {pt}
+                  <EditableText contentKey={`investors.tiers.studio.points.${i}`} value={pt} />
                 </li>
               ))}
             </ul>
@@ -507,7 +556,7 @@ export default function InvestorsPage() {
               {['Targeted Impact', 'Domain Alignment', 'Direct Advisor Role'].map((pt, i) => (
                 <li key={i} style={{ display: 'flex', gap: '16px', marginBottom: '18px', alignItems: 'center', fontWeight: 600, position: 'relative', zIndex: 2 }}>
                   <svg width="20" height="20" fill="none" stroke="var(--primary-blue)" strokeWidth="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" /></svg>
-                  {pt}
+                  <EditableText contentKey={`investors.tiers.startup.points.${i}`} value={pt} />
                 </li>
               ))}
             </ul>
@@ -553,7 +602,9 @@ export default function InvestorsPage() {
                <EditableText contentKey="investors.pathway.description" value="For the right investor, the studio offers a unique transition. Move from strategic advisor to venture CEO as the startup hits its growth inflection point." />
              </p>
             <div style={{ display: 'flex', gap: '20px', alignItems: 'center', marginBottom: '24px' }}>
-              <div style={{ minWidth: '40px', height: '40px', background: 'var(--primary-blue)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 800 }}>1</div>
+              <div style={{ minWidth: '40px', height: '40px', background: 'var(--primary-blue)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 800 }}>
+                <EditableText contentKey="investors.pathway.step1.num" value="1" />
+              </div>
               <div>
                 <h4 style={{ fontSize: '1.1rem', fontWeight: 800, marginBottom: 0 }}>
                   <EditableText contentKey="investors.pathway.step1.title" value="Advisory Phase:" />{' '}
@@ -564,7 +615,9 @@ export default function InvestorsPage() {
               </div>
             </div>
             <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-              <div style={{ minWidth: '40px', height: '40px', background: 'var(--primary-blue)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 800 }}>2</div>
+              <div style={{ minWidth: '40px', height: '40px', background: 'var(--primary-blue)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 800 }}>
+                <EditableText contentKey="investors.pathway.step2.num" value="2" />
+              </div>
               <div>
                 <h4 style={{ fontSize: '1.1rem', fontWeight: 800, marginBottom: 0 }}>
                   <EditableText contentKey="investors.pathway.step2.title" value="Operational Shift:" />{' '}
@@ -678,7 +731,9 @@ export default function InvestorsPage() {
             { num: '04', title: 'Lower Failure Rates', desc: 'Systematic validation gates ensure commercial potential.' }
           ].map((item, idx) => (
             <div key={idx} style={{ background: 'transparent', border: 'none', padding: 0, minHeight: 'auto' }}>
-              <div style={{ fontSize: '4rem', fontWeight: 800, color: '#E2E8F0', lineHeight: '1', marginBottom: '16px' }}>{item.num}</div>
+              <div style={{ fontSize: '4rem', fontWeight: 800, color: '#E2E8F0', lineHeight: '1', marginBottom: '16px' }}>
+                <EditableText contentKey={`investors.execution.items.${idx}.num`} value={item.num} />
+              </div>
               <h4 style={{ fontSize: '1.15rem', fontWeight: 800, marginBottom: '12px' }}>
                 <EditableText contentKey={`investors.execution.items.${idx}.title`} value={item.title} />
               </h4>
@@ -712,7 +767,7 @@ export default function InvestorsPage() {
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
               {['University R&D Bridge', 'Talent Pipeline', 'IP Moat'].map((p, i) => (
                 <span key={i} style={{ background: '#F1F5F9', padding: '10px 20px', borderRadius: '100px', fontSize: '0.85rem', fontWeight: 700, color: '#475569' }}>
-                  {p}
+                  <EditableText contentKey={`investors.engine.tags.${i}`} value={p} />
                 </span>
               ))}
             </div>
@@ -739,7 +794,8 @@ export default function InvestorsPage() {
             <ul style={{ listStyle: 'none', padding: 0, textAlign: 'left' }}>
               {['Quarterly Reports', 'Annual Meeting', 'Exit Rights'].map((pt, i) => (
                 <li key={i} style={{ display: 'flex', gap: '12px', marginBottom: '16px', alignItems: 'center', fontWeight: 600, fontSize: '0.95rem' }}>
-                  <div style={{ width: '18px', height: '18px', borderRadius: '50%', border: '2px solid var(--primary-blue)' }}></div>{pt}
+                  <div style={{ width: '18px', height: '18px', borderRadius: '50%', border: '2px solid var(--primary-blue)' }}></div>
+                  <EditableText contentKey={`investors.orbit.passive.points.${i}`} value={pt} />
                 </li>
               ))}
             </ul>
@@ -749,7 +805,9 @@ export default function InvestorsPage() {
             background: 'white', padding: '56px 32px', borderRadius: '24px', textAlign: 'center',
             position: 'relative', zIndex: 2
           }}>
-            <div style={{ position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)', background: 'var(--primary-blue)', color: 'white', padding: '4px 16px', borderRadius: '100px', fontSize: '0.7rem', fontWeight: 800 }}>RECOMMENDED</div>
+            <div style={{ position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)', background: 'var(--primary-blue)', color: 'white', padding: '4px 16px', borderRadius: '100px', fontSize: '0.7rem', fontWeight: 800 }}>
+              <EditableText contentKey="investors.orbit.strategic.label" value="RECOMMENDED" />
+            </div>
             <h3 style={{ fontSize: '1.75rem', marginBottom: '8px' }}>
               <EditableText contentKey="investors.orbit.strategic.title" value="Strategic" />
             </h3>
@@ -759,7 +817,8 @@ export default function InvestorsPage() {
             <ul style={{ listStyle: 'none', padding: 0, textAlign: 'left' }}>
               {['Advisory Council Seat', 'Deal Flow Preview', 'Product Feedback Sprints'].map((pt, i) => (
                 <li key={i} style={{ display: 'flex', gap: '12px', marginBottom: '16px', alignItems: 'center', fontWeight: 600, fontSize: '0.95rem' }}>
-                  <div style={{ width: '18px', height: '18px', borderRadius: '50%', border: '2px solid var(--primary-blue)' }}></div>{pt}
+                  <div style={{ width: '18px', height: '18px', borderRadius: '50%', border: '2px solid var(--primary-blue)' }}></div>
+                  <EditableText contentKey={`investors.orbit.strategic.points.${i}`} value={pt} />
                 </li>
               ))}
             </ul>
@@ -775,7 +834,8 @@ export default function InvestorsPage() {
             <ul style={{ listStyle: 'none', padding: 0, textAlign: 'left' }}>
               {['Fractional Leadership', 'Direct Incubation Access', 'Carry/Bonus Participation'].map((pt, i) => (
                 <li key={i} style={{ display: 'flex', gap: '12px', marginBottom: '16px', alignItems: 'center', fontWeight: 600, fontSize: '0.95rem' }}>
-                  <div style={{ width: '18px', height: '18px', borderRadius: '50%', border: '2px solid var(--primary-blue)' }}></div>{pt}
+                  <div style={{ width: '18px', height: '18px', borderRadius: '50%', border: '2px solid var(--primary-blue)' }}></div>
+                  <EditableText contentKey={`investors.orbit.active.points.${i}`} value={pt} />
                 </li>
               ))}
             </ul>
@@ -828,68 +888,120 @@ export default function InvestorsPage() {
           border: '1px solid #F1F5F9',
           width: '100%'
         }}>
-          <h3 style={{ fontSize: '1.5rem', marginBottom: '32px', fontWeight: 800 }}>
-            <EditableText contentKey="investors.form.title" value="Join as an Operator-Investor" />
-          </h3>
-          <form style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            <div className="grid-2" style={{ gap: '20px' }}>
-              <div>
-                <label style={{ fontSize: '0.75rem', fontWeight: 800, color: '#64748B', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>
-                  <EditableText contentKey="investors.form.labelName" value="Full Name" />
-                </label>
-                <input type="text" placeholder="John Doe" className="form-input" />
+          {submitted ? (
+            <div style={{ textAlign: 'center', padding: '40px 0' }}>
+              <div style={{ width: '80px', height: '80px', background: '#F0FDF4', color: '#22C55E', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
+                <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
               </div>
-              <div>
-                <label style={{ fontSize: '0.75rem', fontWeight: 800, color: '#64748B', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>
-                  <EditableText contentKey="investors.form.labelEmail" value="Email Address" />
-                </label>
-                <input type="email" placeholder="john@operator.vc" className="form-input" />
-              </div>
+              <h3 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '16px' }}>Application Received!</h3>
+              <p style={{ color: '#64748B', fontSize: '1.125rem', marginBottom: '32px' }}>Thank you for your interest. Our investment team will review your background and reach out within 48 hours.</p>
+              <button 
+                onClick={() => setSubmitted(false)}
+                className="btn-pill btn-primary"
+                style={{ border: 'none', cursor: 'pointer', padding: '16px 32px' }}
+              >
+                Submit Another Application
+              </button>
             </div>
-            
-            <div>
-              <label style={{ fontSize: '0.75rem', fontWeight: 800, color: '#64748B', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>
-                <EditableText contentKey="investors.form.labelExpertise" value="Domain Expertise" />
-              </label>
-              <select className="form-input" style={{ appearance: 'none' }}>
-                <option>Product Strategy</option>
-                <option>Engineering / Architecture</option>
-                <option>GTM / Sales</option>
-                <option>Finance / M&A</option>
-                <option>Legal / Compliance</option>
-              </select>
-            </div>
-
-            <div>
-              <label style={{ fontSize: '0.75rem', fontWeight: 800, color: '#64748B', display: 'block', marginBottom: '12px', textTransform: 'uppercase' }}>
-                <EditableText contentKey="investors.form.labelRole" value="Preferred Role" />
-              </label>
-              <div className="grid-2" style={{ gap: '12px' }}>
-                {['Investor Only', 'Strategic Advisor', 'Venture CEO', 'Network Partner'].map((role, idx) => (
-                  <label key={idx} className="custom-checkbox">
-                    <input type="checkbox" />
-                    <div className="checkmark"></div>
-                    {role}
+          ) : (
+            <>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '32px', fontWeight: 800 }}>
+                <EditableText contentKey="investors.form.title" value="Join as an Operator-Investor" />
+              </h3>
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                <div className="grid-2" style={{ gap: '20px' }}>
+                  <div>
+                    <label style={{ fontSize: '0.75rem', fontWeight: 800, color: '#64748B', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>
+                      <EditableText contentKey="investors.form.labelName" value="Full Name" />
+                    </label>
+                    <input 
+                      type="text" 
+                      placeholder="John Doe" 
+                      className="form-input" 
+                      value={formData.fullName}
+                      onChange={e => setFormData({...formData, fullName: e.target.value})}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: '0.75rem', fontWeight: 800, color: '#64748B', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>
+                      <EditableText contentKey="investors.form.labelEmail" value="Email Address" />
+                    </label>
+                    <input 
+                      type="email" 
+                      placeholder="john@operator.vc" 
+                      className="form-input" 
+                      value={formData.email}
+                      onChange={e => setFormData({...formData, email: e.target.value})}
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label style={{ fontSize: '0.75rem', fontWeight: 800, color: '#64748B', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>
+                    <EditableText contentKey="investors.form.labelExpertise" value="Domain Expertise" />
                   </label>
-                ))}
-              </div>
-            </div>
+                  <select 
+                    className="form-input" 
+                    style={{ appearance: 'none' }}
+                    value={formData.expertise}
+                    onChange={e => setFormData({...formData, expertise: e.target.value})}
+                  >
+                    {['Product Strategy', 'Engineering / Architecture', 'GTM / Sales', 'Finance / M&A', 'Legal / Compliance'].map((opt, idx) => (
+                      <option key={idx} value={opt}>
+                        {opt}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-            <div>
-              <label style={{ fontSize: '0.75rem', fontWeight: 800, color: '#64748B', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>
-                <EditableText contentKey="investors.form.labelBackground" value="Tell us about your builder background" />
-              </label>
-              <textarea placeholder="Tell us about your builder background..." className="form-input" style={{ minHeight: '120px', resize: 'none' }} />
-            </div>
+                <div>
+                  <label style={{ fontSize: '0.75rem', fontWeight: 800, color: '#64748B', display: 'block', marginBottom: '12px', textTransform: 'uppercase' }}>
+                    <EditableText contentKey="investors.form.labelRole" value="Preferred Role" />
+                  </label>
+                  <div className="grid-2" style={{ gap: '12px' }}>
+                    {['Investor Only', 'Strategic Advisor', 'Venture CEO', 'Network Partner'].map((role, idx) => (
+                      <label key={idx} className="custom-checkbox">
+                        <input 
+                          type="checkbox" 
+                          checked={formData.preferredRoles.includes(role)}
+                          onChange={() => handleRoleChange(role)}
+                        />
+                        <div className="checkmark"></div>
+                        <EditableText contentKey={`investors.form.roles.options.${idx}`} value={role} />
+                      </label>
+                    ))}
+                  </div>
+                </div>
 
-            <button className="btn-pill btn-primary" style={{ width: '100%', border: 'none', cursor: 'pointer', padding: '18px', fontSize: '1rem', marginTop: '8px' }}>
-              <EditableText contentKey="investors.form.submit" value="Submit Application" />
-            </button>
-          </form>
+                <div>
+                  <label style={{ fontSize: '0.75rem', fontWeight: 800, color: '#64748B', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>
+                    <EditableText contentKey="investors.form.labelBackground" value="Tell us about your builder background" />
+                  </label>
+                  <textarea 
+                    placeholder="Tell us about your builder background..." 
+                    className="form-input" 
+                    style={{ minHeight: '120px', resize: 'none' }} 
+                    value={formData.background}
+                    onChange={e => setFormData({...formData, background: e.target.value})}
+                    required
+                  />
+                </div>
+
+                <button type="submit" className="btn-pill btn-primary" style={{ width: '100%', border: 'none', cursor: 'pointer', padding: '18px', fontSize: '1rem', marginTop: '8px' }}>
+                  <EditableText contentKey="investors.form.submit" value="Submit Application" />
+                </button>
+              </form>
+            </>
+          )}
         </div>
       </section>
 
       <Footer />
-    </>
+    </div>
+  </>
   );
 }

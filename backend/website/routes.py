@@ -122,3 +122,30 @@ def submit_contact():
     except Exception as e:
         print(f"Database error: {e}")
         return jsonify({"status": "error", "message": "Failed to store contact"}), 500
+
+@main_bp.route('/submit-investor', methods=['POST'])
+def submit_investor():
+    data = request.get_json()
+    full_name = data.get('fullName', '').strip()
+    email = data.get('email', '').strip()
+    expertise = data.get('expertise', '').strip()
+    preferred_roles = data.get('preferredRoles', [])
+    background = data.get('background', '').strip()
+
+    if not email or not full_name:
+        return jsonify({"status": "error", "message": "Name and Email are required"}), 400
+
+    try:
+        DBHelper.insert(
+            'investor_submissions',
+            return_column='id',
+            full_name=full_name,
+            email=email,
+            expertise=expertise,
+            preferred_roles=preferred_roles,
+            background=background
+        )
+        return jsonify({"status": "success", "message": "Investor application submitted!"})
+    except Exception as e:
+        print(f"Database error: {e}")
+        return jsonify({"status": "error", "message": "Failed to store investor submission"}), 500

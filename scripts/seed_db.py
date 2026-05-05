@@ -9,13 +9,13 @@ def seed_database():
     db_uri = os.getenv("POSTGRES_URI")
     
     if not db_uri:
-        print("❌ POSTGRES_URI not found in .env")
+        print("[ERROR] POSTGRES_URI not found in .env")
         return
 
     # Load config.json
     config_path = "backend/config.json"
     if not os.path.exists(config_path):
-        print(f"❌ {config_path} not found")
+        print(f"[ERROR] {config_path} not found")
         return
 
     with open(config_path, 'r', encoding='utf-8') as f:
@@ -46,10 +46,10 @@ def seed_database():
         """, ("main_config", json.dumps(config_data), True))
 
         conn.commit()
-        print("✅ Database seeded successfully with config.json content!")
+        print("[OK] Database seeded successfully with config.json content!")
 
     except Exception as e:
-        print(f"❌ Error seeding database: {e}")
+        print(f"[ERROR] Error seeding database: {e}")
     finally:
         if cur: cur.close()
         if conn: conn.close()

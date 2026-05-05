@@ -16,6 +16,7 @@ interface EditableTextProps {
 export default function EditableText({ contentKey, value, className = '', as: Component = 'span', style, children, ...rest }: EditableTextProps) {
   const { isAdminMode, updateContent } = useAdmin();
   const [localValue, setLocalValue] = useState(value);
+  const [isEditing, setIsEditing] = useState(false);
   const elementRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function EditableText({ contentKey, value, className = '', as: Co
   }, [value]);
 
   const handleBlur = () => {
+    setIsEditing(false); // Turn off edit mode
     if (elementRef.current) {
       // Get the text and strip any accidental "EDITABLE" strings
       let newValue = elementRef.current.innerText;
@@ -33,6 +35,12 @@ export default function EditableText({ contentKey, value, className = '', as: Co
       if (newValue !== value) {
         updateContent(contentKey, newValue);
       }
+    }
+  };
+
+  const handleFocus = () => {
+    if (isAdminMode) {
+      setIsEditing(true);
     }
   };
 
@@ -48,15 +56,16 @@ export default function EditableText({ contentKey, value, className = '', as: Co
     .filter(cls => !cls.startsWith('cc-reveal') && !cls.startsWith('cc-delay') && !cls.startsWith('cc-slide') && !cls.startsWith('cc-blur'))
     .join(' ');
 
-  // In admin mode, we use contentEditable to allow direct editing without breaking layout
-  // We removed the wrapper div and badge to prevent any layout or content pollution
+  // In admin mode, elements are only editable when actively clicked (focused)
   return (
     <Component 
       ref={elementRef}
-      contentEditable={true}
+      contentEditable={isEditing}
       suppressContentEditableWarning={true}
+      onFocus={handleFocus}
+      onClick={handleFocus}
       onBlur={handleBlur}
-      className={`${sanitizedClassName} outline-none focus:ring-2 focus:ring-blue-400 focus:bg-blue-50/10 rounded-md transition-all cursor-text hover:bg-blue-50/20`}
+      className={`${sanitizedClassName} outline-none transition-all ${isEditing ? 'ring-2 ring-blue-400 bg-blue-50/10 cursor-text' : 'hover:bg-blue-50/20 cursor-pointer rounded-md'}`}
       style={{ ...style, minWidth: '20px', minHeight: '1em', opacity: 1, visibility: 'visible' }}
       {...rest}
     >

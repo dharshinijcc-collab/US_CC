@@ -274,15 +274,29 @@ export default function Header(props: any) {
                 <EditableText contentKey={`global.header.links.${idx}.name`} value={link.name} />
               </Link>
             ))}
-            {Object.entries(globalContent.header.dropdowns).map(([key, dropdown]: [string, any], dIdx) => (
+            {/* Dropdowns */}
+            {(Array.isArray(globalContent.header.dropdowns) 
+              ? globalContent.header.dropdowns.map((d, i) => [i.toString(), d])
+              : Object.entries(globalContent.header.dropdowns)
+            ).map(([key, dropdown]: [string, any], dIdx) => (
               <div className="dropdown" key={key}>
                 <button className="dropdown-toggle">
-                  <EditableText contentKey={`global.header.dropdowns.${key}.label`} value={dropdown.label} />
+                  <EditableText 
+                    contentKey={Array.isArray(globalContent.header.dropdowns) 
+                      ? `global.header.dropdowns.${key}.label` 
+                      : `global.header.dropdowns.${key}.label`} 
+                    value={dropdown.label} 
+                  />
                 </button>
                 <div className="dropdown-menu">
                   {dropdown.links.map((link: any, idx: number) => (
                     <Link key={idx} href={link.href} className="dropdown-item">
-                      <EditableText contentKey={`global.header.dropdowns.${key}.links.${idx}.name`} value={link.name} />
+                      <EditableText 
+                        contentKey={Array.isArray(globalContent.header.dropdowns)
+                          ? `global.header.dropdowns.${key}.links.${idx}.name`
+                          : `global.header.dropdowns.${key}.links.${idx}.name`} 
+                        value={link.name} 
+                      />
                     </Link>
                   ))}
                 </div>
@@ -310,7 +324,10 @@ export default function Header(props: any) {
         {globalContent.header.links.map((link, idx) => (
           <Link key={idx} href={link.href} className={`mobile-link ${pathname === link.href ? 'active-link' : ''}`}>{link.name}</Link>
         ))}
-        {Object.values(globalContent.header.dropdowns).map((dropdown: any) => 
+        {(Array.isArray(globalContent.header.dropdowns) 
+          ? globalContent.header.dropdowns 
+          : Object.values(globalContent.header.dropdowns)
+        ).map((dropdown: any) => 
           dropdown.links.map((link: any, idx: number) => (
             <Link key={idx} href={link.href} className={`mobile-link ${pathname === link.href ? 'active-link' : ''}`}>{link.name}</Link>
           ))
