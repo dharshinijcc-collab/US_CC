@@ -1,0 +1,134 @@
+backend:
+  name: git-gateway
+  branch: master
+
+media_folder: "public/assets"
+public_folder: "/assets"
+
+collections:
+  - name: "pages"
+    label: "Pages"
+    files:
+      - name: "home"
+        label: "Home Page"
+        file: "src/content/home.json"
+        fields:
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - {label: "Heading", name: "heading", widget: "string"}
+              - {label: "Subheading", name: "subheading", widget: "text"}
+              - {label: "Footer Note", name: "footerNote", widget: "string"}
+          - label: "Audiences"
+            name: "audiences"
+            widget: "object"
+            fields:
+              - {label: "Eyebrow", name: "eyebrow", widget: "string"}
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Subtitle", name: "subtitle", widget: "text"}
+          - label: "Partnership"
+            name: "partnership"
+            widget: "object"
+            fields:
+              - {label: "Eyebrow", name: "eyebrow", widget: "string"}
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Subtitle", name: "subtitle", widget: "text"}
+
+      - name: "studio"
+        label: "Studio Page"
+        file: "src/content/studio.json"
+        fields:
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - {label: "Eyebrow", name: "eyebrow", widget: "string"}
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Subheading", name: "subheading", widget: "text"}
+              - {label: "Button Text", name: "buttonText", widget: "string"}
+              - {label: "Badge Tag", name: "badgeTag", widget: "string"}
+              - {label: "Badge Value", name: "badgeValue", widget: "string"}
+              - {label: "Badge Label", name: "badgeLabel", widget: "string"}
+          - label: "Validation"
+            name: "validation"
+            widget: "object"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Description", name: "description", widget: "text"}
+              - {label: "Button Text", name: "buttonText", widget: "string"}
+          - label: "Timeline"
+            name: "timeline"
+            widget: "object"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Subtitle", name: "subtitle", widget: "text"}
+              - label: "Phases"
+                name: "phases"
+                widget: "list"
+                fields:
+                  - {label: "Phase", name: "phase", widget: "string"}
+                  - {label: "Duration", name: "duration", widget: "string"}
+                  - {label: "Title", name: "title", widget: "string"}
+                  - {label: "Description", name: "description", widget: "text"}
+
+      - name: "contact"
+        label: "Contact Page"
+        file: "src/content/contact.json"
+        fields:
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Subheading", name: "subheading", widget: "text"}
+              - {label: "Button Text", name: "buttonText", widget: "string"}
+          - label: "Services"
+            name: "services"
+            widget: "object"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Subtitle", name: "subtitle", widget: "text"}
+
+      - name: "careers"
+        label: "Careers Page"
+        file: "src/content/careers.json"
+        fields:
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - {label: "Eyebrow", name: "eyebrow", widget: "string"}
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Subheading", name: "subheading", widget: "text"}
+              - {label: "View Openings Button", name: "viewOpeningsButton", widget: "string"}
+              - {label: "Our Mission Button", name: "ourMissionButton", widget: "string"}
+          - label: "Values"
+            name: "values"
+            widget: "object"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Subtitle", name: "subtitle", widget: "text"}
+              - label: "Values List"
+                name: "values"
+                widget: "list"
+                fields:
+                  - {label: "Title", name: "title", widget: "string"}
+                  - {label: "Description", name: "description", widget: "text"}
+          - label: "Talent Pool"
+            name: "talentPool"
+            widget: "object"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Subtitle", name: "subtitle", widget: "text"}
+              - label: "Form"
+                name: "form"
+                widget: "object"
+                fields:
+                  - {label: "Name Label", name: "nameLabel", widget: "string"}
+                  - {label: "Email Label", name: "emailLabel", widget: "string"}
+                  - {label: "Role Label", name: "roleLabel", widget: "string"}
+                  - {label: "LinkedIn Label", name: "linkedinLabel", widget: "string"}
+                  - {label: "Button Text", name: "buttonText", widget: "string"}
+                  - {label: "Success Message", name: "successMessage", widget: "string"}
+
