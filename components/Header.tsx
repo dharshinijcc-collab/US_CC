@@ -120,9 +120,9 @@ export default function Header(props: any) {
           display: flex; 
           justify-content: space-between;
           align-items: center; 
-          padding: 12px 40px; 
+          padding: 12px 24px; 
           width: 100%; 
-          max-width: 1400px;
+          max-width: 1500px;
           margin: 0 auto;
           transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -204,7 +204,7 @@ export default function Header(props: any) {
           border-left: none;
           border-right: none;
           border-radius: 0; 
-          padding: 40px 0; 
+          padding: 20px 0; 
           width: 100%; 
           box-shadow: 0 15px 30px rgba(0,0,0,0.05);
           z-index: 1000;
@@ -214,7 +214,7 @@ export default function Header(props: any) {
           display: flex;
           justify-content: center;
           align-items: flex-start;
-          gap: 40px;
+          gap: 32px;
         }
         .dropdown:hover .dropdown-menu,
         .dropdown.open .dropdown-menu { 
@@ -226,38 +226,38 @@ export default function Header(props: any) {
           display: flex; 
           flex-direction: column;
           align-items: flex-start;
-          padding: 16px; 
+          padding: 8px 12px; 
           color: #0A0F1C; 
           text-decoration: none; 
           transition: all 0.2s ease;
-          border-radius: 12px;
+          border-radius: 8px;
           text-align: left;
-          width: 240px;
+          width: 220px;
         }
         .dropdown-item:hover { 
           background: rgba(0, 90, 226, 0.04);
         }
         .dropdown-icon {
-          width: 48px;
-          height: 48px;
+          width: 40px;
+          height: 40px;
           background: #F1F5F9;
-          border-radius: 12px;
+          border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 16px;
+          margin-bottom: 8px;
           color: #0A0F1C;
         }
         .dropdown-title {
-          font-size: 0.95rem;
+          font-size: 0.9rem;
           font-weight: 700;
-          margin-bottom: 4px;
+          margin-bottom: 2px;
           color: #0A0F1C;
         }
         .dropdown-desc {
-          font-size: 0.8rem;
+          font-size: 0.75rem;
           color: #64748B;
-          line-height: 1.4;
+          line-height: 1.3;
           font-weight: 400;
         }
         .dropdown-toggle {
