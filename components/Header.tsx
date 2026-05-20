@@ -96,13 +96,15 @@ export default function Header(props: any) {
       <style dangerouslySetInnerHTML={{ __html: `
         .navbar-wrapper { 
           position: fixed; 
-          top: ${isScrolled ? '0' : '8px'}; 
+          top: 0; 
           left: 0; 
           width: 100%; 
-          display: block; /* Change from flex to ensure width: 100% works predictably */
+          display: block;
           z-index: 1000; 
-          padding: ${isScrolled ? '0' : '0 12px'}; 
+          padding: 0;
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          background: #ffffff;
+          box-shadow: 0 1px 0 rgba(0,0,0,0.08);
         }
         
         /* @media (max-width: 768px) {
@@ -114,26 +116,13 @@ export default function Header(props: any) {
 
         .navbar { 
           background: transparent;
-          backdrop-filter: none;
-          color: #0A0F1C; 
-          display: flex; 
-          justify-content: space-between; 
-          align-items: center; 
-          padding: 12px 16px; 
-          width: 100%; 
-          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .navbar { 
-          background: transparent;
-          backdrop-filter: none;
           color: #0A0F1C; 
           display: flex; 
           justify-content: space-between;
           align-items: center; 
-          padding: 12px 16px; 
+          padding: 12px 40px; 
           width: 100%; 
-          max-width: 1600px;
+          max-width: 1400px;
           margin: 0 auto;
           transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -147,16 +136,12 @@ export default function Header(props: any) {
         .navbar-brand { 
           font-weight: 800; 
           font-size: 1.15rem; 
-          color: ${isDarkBg ? '#ffffff' : '#0A0F1C'};
+          color: #0A0F1C;
           text-decoration: none;
           letter-spacing: -0.04em;
           display: flex;
           align-items: center;
           white-space: nowrap;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          opacity: ${isScrolled ? '0' : '1'};
-          transform: ${isScrolled ? 'translateY(-10px)' : 'translateY(0)'};
-          pointer-events: ${isScrolled ? 'none' : 'auto'};
           border: none;
           outline: none;
           background: transparent;
@@ -210,65 +195,68 @@ export default function Header(props: any) {
         .dropdown { position: static; display: inline-block; }
         .dropdown-menu { 
           position: absolute; 
-          top: calc(100% + 5px); 
-          left: 50%;
-          transform: translateX(-50%) translateY(10px);
-          background: ${isDarkBg ? 'rgba(15, 23, 42, 0.98)' : 'rgba(255, 255, 255, 0.98)'};
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid ${isDarkBg ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'};
-          border-radius: 16px; 
-          padding: 24px; 
-          width: 90vw; 
-          max-width: 800px;
-          box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+          top: 100%; 
+          left: 0;
+          transform: translateY(10px);
+          background: #ffffff;
+          border-top: 1px solid rgba(0,0,0,0.08);
+          border-bottom: 1px solid rgba(0,0,0,0.08);
+          border-left: none;
+          border-right: none;
+          border-radius: 0; 
+          padding: 40px 0; 
+          width: 100%; 
+          box-shadow: 0 15px 30px rgba(0,0,0,0.05);
           z-index: 1000;
           opacity: 0;
           visibility: hidden;
           transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 16px;
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+          gap: 40px;
         }
         .dropdown:hover .dropdown-menu,
         .dropdown.open .dropdown-menu { 
           opacity: 1; 
           visibility: visible; 
-          transform: translateX(-50%) translateY(0);
+          transform: translateY(0);
         }
         .dropdown-item { 
           display: flex; 
           flex-direction: column;
           align-items: flex-start;
           padding: 16px; 
-          color: ${isDarkBg ? '#ffffff' : '#000000'}; 
+          color: #0A0F1C; 
           text-decoration: none; 
           transition: all 0.2s ease;
           border-radius: 12px;
           text-align: left;
+          width: 240px;
         }
         .dropdown-item:hover { 
-          background: ${isDarkBg ? 'rgba(255,255,255,0.05)' : 'rgba(0, 90, 226, 0.04)'};
+          background: rgba(0, 90, 226, 0.04);
         }
         .dropdown-icon {
-          width: 40px;
-          height: 40px;
-          background: ${isDarkBg ? 'rgba(255,255,255,0.1)' : '#F1F5F9'};
-          border-radius: 8px;
+          width: 48px;
+          height: 48px;
+          background: #F1F5F9;
+          border-radius: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 12px;
-          color: ${isDarkBg ? '#ffffff' : '#0A0F1C'};
+          margin-bottom: 16px;
+          color: #0A0F1C;
         }
         .dropdown-title {
           font-size: 0.95rem;
           font-weight: 700;
           margin-bottom: 4px;
+          color: #0A0F1C;
         }
         .dropdown-desc {
           font-size: 0.8rem;
-          color: ${isDarkBg ? 'rgba(255,255,255,0.6)' : '#64748B'};
+          color: #64748B;
           line-height: 1.4;
           font-weight: 400;
         }
@@ -287,11 +275,7 @@ export default function Header(props: any) {
 
         .btn-nav-wrapper { 
           display: flex; 
-          justify-content: flex-end; 
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          opacity: ${isScrolled ? '0' : '1'};
-          transform: ${isScrolled ? 'translateY(-10px)' : 'translateY(0)'};
-          pointer-events: ${isScrolled ? 'none' : 'auto'};
+          justify-content: flex-end;
         }
         .btn-nav { 
           padding: 12px 32px; 

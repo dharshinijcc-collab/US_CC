@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { usePathname } from 'next/navigation';
-import { Home, LayoutGrid, Briefcase, MessageSquare, ChevronUp, X, BookOpen, Layers } from 'lucide-react';
+import { Home, LayoutGrid, Briefcase, MessageSquare, ChevronUp, X, BookOpen, Layers, TrendingUp } from 'lucide-react';
 import NextLink from 'next/link';
 
 export default function Downbar() {
@@ -22,8 +22,9 @@ export default function Downbar() {
   const navItems = [
     { label: 'Home', href: '/', icon: <Home size={20} /> },
     { label: 'Studio', href: '/studio', icon: <LayoutGrid size={20} />, hasSubmenu: true },
-    { label: 'Careers', href: '/careers', icon: <Briefcase size={20} /> },
-    { label: 'Contact', href: '/contact', icon: <MessageSquare size={20} /> },
+    { label: 'Investors', href: '/investors', icon: <TrendingUp size={20} /> },
+    { label: 'Company', href: '/company', icon: <Briefcase size={20} /> },
+    { label: 'Resources', href: '/resources', icon: <BookOpen size={20} /> },
   ];
 
   return (
@@ -49,9 +50,12 @@ export default function Downbar() {
           box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
-        @media (max-width: 1100px) {
+         @media (max-width: 1100px) {
           .downbar-container {
             display: flex;
+          }
+          body {
+            padding-bottom: 100px !important;
           }
         }
 

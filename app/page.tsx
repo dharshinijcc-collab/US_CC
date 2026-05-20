@@ -1325,19 +1325,33 @@ export default function LandingPage() {
               value={homeContent.hero.heading}
               style={{ fontSize: '2.75rem', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}
             >
-              {homeContent.hero.heading?.split(' ').map((word: string, i: number) => {
-                const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
-                const isBlue = ['BOLD', 'IDEAS', 'REAL'].includes(cleanWord);
-                return (
-                  <React.Fragment key={i}>
-                    <span style={isBlue ? { color: '#005AE2' } : {}}>
-                      {word}
+              {(() => {
+                const words = (homeContent.hero.heading || '').split(' ');
+                const line1 = words.slice(0, 4);
+                const line2 = words.slice(4);
+                
+                const renderWord = (word: string, index: number) => {
+                  const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
+                  const isBlue = ['BOLD', 'IDEAS', 'REAL'].includes(cleanWord);
+                  return (
+                    <span key={index} style={isBlue ? { color: '#005AE2' } : {}}>
+                      {word}{' '}
                     </span>
-                    {i === 3 && <br />}
-                    {' '}
-                  </React.Fragment>
+                  );
+                };
+
+                return (
+                  <>
+                    <span style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
+                      {line1.map((w, idx) => renderWord(w, idx))}
+                    </span>
+                    <br />
+                    <span style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
+                      {line2.map((w, idx) => renderWord(w, idx + 4))}
+                    </span>
+                  </>
                 );
-              })}
+              })()}
             </EditableText>
             <EditableText
               as="p"
@@ -1505,13 +1519,8 @@ export default function LandingPage() {
             <div className="features-grid-4">
               {methodologyCards.map((card, idx) => (
                 <div key={idx} className={`sys-card-small ${idx % 2 === 0 ? 'cc-shine' : ''}`}>
-                  <div className="f-card-icon primary-bg">
-                    {card.icon === 'lambda' && 'Λ'}
-                    {card.icon === 'grid' && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>}
-                    {card.icon === 'layers' && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 3h5v5" /><path d="M4 20L21 3" /><path d="M21 16v5h-5" /><path d="M15 15l6 6" /><path d="M4 4l5 5" /></svg>}
-                    {card.icon === 'star' && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>}
-                    {card.icon === 'cpu' && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3"></path></svg>}
-                    {card.icon === 'target' && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>}
+                  <div className="f-card-icon primary-bg" style={{ fontSize: '1rem', fontWeight: 800 }}>
+                    {String(idx + 1).padStart(2, '0')}
                   </div>
                   <EditableText
                     as="h4"
