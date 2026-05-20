@@ -995,63 +995,7 @@ function LandingPage() {
           </div>
         </section>
 
-        {/* 6-Step Venture Process Section */}
-        <section className="section-grey border-y text-center">
-          <div className="section-container">
-            <h2 className="section-title text-center">The 6-Step Venture Process</h2>
-            <p className="section-subtitle text-center cc-reveal cc-delay-1">A rigorous methodology designed to de-risk startups and accelerate the path to Product-Market Fit.</p>
 
-            <div className="process-wrapper">
-              <div className="process-line"></div>
-              <div className="process-grid">
-                {[
-                  {
-                    title: "Ideation",
-                    desc: "Collaborative brainstorming to define core value propositions and product vision.",
-                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.989-2.386l-.548-.547z" /></svg>),
-                    color: '#FF8EBB'
-                  },
-                  {
-                    title: "Strategy & Setup",
-                    desc: "Deep market analysis, technical planning, and strategic resource allocation.",
-                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>),
-                    color: '#5C67FF'
-                  },
-                  {
-                    title: "Design",
-                    desc: "High-fidelity UX/UI design centered on intuitive user behavior and aesthetics.",
-                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 22s5-5 5-10V2L12 12M12 22s-5-5-5-10V2l5 10" /></svg>),
-                    color: '#99C26D'
-                  },
-                  {
-                    title: "Development",
-                    desc: "Scalable full-stack engineering with modular architecture and clean code.",
-                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>),
-                    color: '#A855F7'
-                  },
-                  {
-                    title: "Launch & Market",
-                    desc: "Strategic market deployment with real-time feedback loops and iterate cycles.",
-                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.5 8.5C15.5 8.5 17 6.5 21.5 6.5C21.5 6.5 19.5 8 19.5 12.5C19.5 12.5 21.5 14 21.5 14L18.5 17.5L14 13L9.5 17.5L6.5 14.5L11 10L6.5 5.5L10 2L14.5 6.5L15.5 8.5ZM15.5 8.5L12.5 11.5M10 16.5L8.5 20L6 22L4 20L2 18L4 15.5L7.5 14" /></svg>),
-                    color: '#FF8B42'
-                  },
-                  {
-                    title: "Scale",
-                    desc: "Continuous optimization and growth strategy for market dominance and scale.",
-                    icon: (<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" /></svg>),
-                    color: '#34D399'
-                  }
-                ].map((step, idx) => (
-                  <div key={idx} className="process-step">
-                    <div className="step-icon-peach" style={{ backgroundColor: step.color, color: 'white', border: 'none', boxShadow: `0 8px 16px -4px ${step.color}4D` }}>{step.icon}</div>
-                    <h5 className="step-title">{step.title}</h5>
-                    <p className="step-desc">{step.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* Testimonials Section */}
         <section className="section-light">

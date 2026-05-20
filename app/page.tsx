@@ -28,7 +28,71 @@ export default function LandingPage() {
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
   const heroRef = useRef(null);
-  const metricsVantaRef = useRef(null);
+  
+  // Carousel scrolling/dragging logic
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [isDown, setIsDown] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeftState, setScrollLeftState] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Auto-scroll logic (smooth loop without duplicate elements)
+  useEffect(() => {
+    if (isDown || isHovered) return;
+
+    const interval = setInterval(() => {
+      if (carouselRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+        const maxScroll = scrollWidth - clientWidth;
+        
+        // If we are at the end, scroll back smoothly to 0
+        if (scrollLeft >= maxScroll - 10) {
+          carouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          // Scroll by card width (420px card + 32px gap = 452px)
+          carouselRef.current.scrollBy({ left: 452, behavior: 'smooth' });
+        }
+      }
+    }, 3500); // Auto-scroll every 3.5 seconds
+
+    return () => clearInterval(interval);
+  }, [isDown, isHovered]);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!carouselRef.current) return;
+    setIsDown(true);
+    setStartX(e.pageX - carouselRef.current.offsetLeft);
+    setScrollLeftState(carouselRef.current.scrollLeft);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDown(false);
+    setIsHovered(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDown(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDown || !carouselRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - carouselRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5; // scroll speed multiplier
+    carouselRef.current.scrollLeft = scrollLeftState - walk;
+  };
+
+  const scrollLeftFunc = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: -450, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRightFunc = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: 450, behavior: 'smooth' });
+    }
+  };
 
   const loadScript = (src: string, id: string) => {
     return new Promise((resolve) => {
@@ -113,52 +177,7 @@ export default function LandingPage() {
     };
   }, [loading]);
 
-  // Vanta waves effect for metrics
-  useEffect(() => {
-    let vantaEffect: any = null;
-    let isUnmounted = false;
 
-    const initWaves = async () => {
-      if (!metricsVantaRef.current || isUnmounted) return;
-
-      try {
-        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js', 'three-script');
-        await loadScript('https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js', 'vanta-waves-script');
-
-        if (!isUnmounted && metricsVantaRef.current && (window as any).VANTA && (window as any).VANTA.WAVES && !vantaEffect) {
-          vantaEffect = (window as any).VANTA.WAVES({
-            el: metricsVantaRef.current,
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            scale: 1.20,
-            scaleMobile: 1.20,
-            color: 0x003a96,       // Deep brand-blue waves
-            shininess: 90.00,      // High gloss like a financial screen
-            waveHeight: 28.00,     // Dramatic peaks like market chart
-            waveSpeed: 0.55,       // Slow, confident rhythm
-            zoom: 0.82
-          });
-        }
-      } catch (err) {
-        console.error('Vanta Waves initialization failed:', err);
-      }
-    };
-
-    const timeoutId = setTimeout(() => {
-      initWaves();
-    }, 150);
-
-    return () => {
-      isUnmounted = true;
-      clearTimeout(timeoutId);
-      if (vantaEffect && vantaEffect.destroy) {
-        vantaEffect.destroy();
-      }
-    };
-  }, [loading]);
 
   // Handle body scroll locking for modals
   useEffect(() => {
@@ -205,6 +224,23 @@ export default function LandingPage() {
   );
 
   const homeContent = content.home;
+  const methodologyCards = homeContent.methodology.cards.length <= 4
+    ? [
+        ...homeContent.methodology.cards,
+        {
+          title: "AI & Automation Integration",
+          highlight: "INTELLIGENT WORKFLOWS. ELITE SPEED.",
+          description: "We infuse artificial intelligence and workflow automation directly into your venture’s core operations to minimize manual friction and accelerate scale.",
+          icon: "cpu"
+        },
+        {
+          title: "Silicon Valley Execution",
+          highlight: "GLOBAL TALENT. RAPID LAUNCH.",
+          description: "Access top-tier engineers, world-class designers, and product leaders working on a unified, high-velocity roadmap designed to optimize your runway.",
+          icon: "target"
+        }
+      ]
+    : homeContent.methodology.cards;
 
   const handleIdeaSubmit = (e: any) => {
     e.preventDefault();
@@ -589,7 +625,30 @@ export default function LandingPage() {
         /* Grid Systems */
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
         .cards-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 48px;}
-        .features-grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
+        .features-grid-4 {
+          display: grid;
+          grid-template-columns: repeat(1, 1fr);
+          gap: 20px;
+        }
+        @media (min-width: 640px) {
+          .features-grid-4 {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+        @media (min-width: 1024px) {
+          .features-grid-4 {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+        @media (min-width: 1280px) {
+          .features-grid-4 {
+            grid-template-columns: repeat(6, 1fr);
+            gap: 16px;
+          }
+          .features-grid-4 .sys-card-small {
+            padding: 32px 20px;
+          }
+        }
 
         /* System Cards */
         .sys-card { background-color: var(--bg-light); border: 1px solid var(--border-light); padding: 48px 40px; border-radius: 24px; display: flex; flex-direction: column; transition: all 0.3s ease; }
@@ -722,22 +781,13 @@ export default function LandingPage() {
           padding: 32px 24px;
           position: relative;
           overflow: hidden;
-          transform: perspective(800px) rotateX(0deg);
           transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s ease, background 0.3s ease;
           backdrop-filter: blur(10px);
-          animation: floatCard 4s ease-in-out infinite;
-        }
-        .stat-item:nth-child(2) { animation-delay: 0.5s; }
-        .stat-item:nth-child(3) { animation-delay: 1s; }
-        .stat-item:nth-child(4) { animation-delay: 1.5s; }
-        @keyframes floatCard {
-          0%, 100% { transform: perspective(800px) translateY(0px); }
-          50% { transform: perspective(800px) translateY(-6px); }
         }
         .stat-item:hover {
           transform: perspective(800px) rotateX(-6deg) translateY(-10px) scale(1.04);
           background: rgba(255, 255, 255, 0.1);
-          box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 40px rgba(0, 90, 226, 0.3), inset 0 1px 0 rgba(255,255,255,0.15);
+          box-shadow: 0 30px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
         }
         /* Shimmer line inside card */
         .stat-item::before {
@@ -756,7 +806,7 @@ export default function LandingPage() {
           top: 50%; left: 50%;
           transform: translate(-50%, -50%);
           width: 120px; height: 120px;
-          background: radial-gradient(circle, rgba(0, 90, 226, 0.18) 0%, transparent 70%);
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
           border-radius: 50%;
           pointer-events: none;
           opacity: 0;
@@ -773,11 +823,6 @@ export default function LandingPage() {
           align-items: baseline;
           justify-content: center;
           color: #ffffff;
-          text-shadow: 0 0 20px rgba(0, 180, 255, 0.4);
-          transition: text-shadow 0.3s ease;
-        }
-        .stat-item:hover .stat-num {
-          text-shadow: 0 0 30px rgba(0, 180, 255, 0.7), 0 0 60px rgba(0, 90, 226, 0.4);
         }
         .stat-label {
           color: rgba(255,255,255,0.85);
@@ -791,9 +836,9 @@ export default function LandingPage() {
 
         .metrics-bg-section {
           position: relative;
-          background-color: #040d1f;
-          border-top: 1px solid rgba(0,90,226,0.2);
-          border-bottom: 1px solid rgba(0,90,226,0.2);
+          background: #0A0F1C;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
           min-height: 220px;
           overflow: hidden;
           width: 100% !important;
@@ -837,22 +882,60 @@ export default function LandingPage() {
           right: 0;
           background: linear-gradient(to left, #F9FAFB, transparent);
         }
-        
         .carousel-track {
           display: flex;
           width: max-content;
-          animation: scroll-carousel 30s linear infinite;
           gap: 32px;
           padding: 20px 0;
         }
         
-        .carousel-track:hover {
-          animation-play-state: paused;
+        /* Optional: add smooth scrolling if users use trackpad */
+        .carousel-section-wrapper {
+          overflow-x: auto;
+          scrollbar-width: none; /* Firefox */
+          scroll-behavior: smooth;
+          user-select: none;
+        }
+        .carousel-section-wrapper::-webkit-scrollbar {
+          display: none; /* Chrome/Safari */
         }
         
-        @keyframes scroll-carousel {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(calc(-50% - 16px)); }
+        .carousel-nav-btn {
+          position: absolute;
+          top: 55%;
+          transform: translateY(-50%);
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.7);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(0, 90, 226, 0.15);
+          color: #0A0F1C;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          z-index: 10;
+          transition: all 0.3s ease;
+          box-shadow: 0 10px 30px rgba(0, 90, 226, 0.08);
+        }
+        .carousel-nav-btn:hover {
+          background: #005AE2;
+          color: white;
+          box-shadow: 0 15px 35px rgba(0, 90, 226, 0.25);
+          transform: translateY(-50%) scale(1.08);
+          border-color: transparent;
+        }
+        .carousel-nav-btn.left {
+          left: 40px;
+        }
+        .carousel-nav-btn.right {
+          right: 40px;
+        }
+        @media (max-width: 768px) {
+          .carousel-nav-btn {
+            display: none;
+          }
         }
         
         .carousel-card {
@@ -1246,9 +1329,13 @@ export default function LandingPage() {
                 const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
                 const isBlue = ['BOLD', 'IDEAS', 'REAL'].includes(cleanWord);
                 return (
-                  <span key={i} style={isBlue ? { color: '#005AE2' } : {}}>
-                    {word}{' '}
-                  </span>
+                  <React.Fragment key={i}>
+                    <span style={isBlue ? { color: '#005AE2' } : {}}>
+                      {word}
+                    </span>
+                    {i === 3 && <br />}
+                    {' '}
+                  </React.Fragment>
                 );
               })}
             </EditableText>
@@ -1401,7 +1488,7 @@ export default function LandingPage() {
 
         {/* How We Make It Happen */}
         <section className="section-light">
-          <div className="section-container">
+          <div className="section-container" style={{ maxWidth: '1440px' }}>
             <EditableText
               as="h2"
               contentKey="home.methodology.title"
@@ -1416,13 +1503,15 @@ export default function LandingPage() {
               style={{ margin: '0 0 clamp(32px, 5vw, 48px) 0', maxWidth: '800px', textAlign: 'left' }}
             />
             <div className="features-grid-4">
-              {homeContent.methodology.cards.map((card, idx) => (
+              {methodologyCards.map((card, idx) => (
                 <div key={idx} className={`sys-card-small ${idx % 2 === 0 ? 'cc-shine' : ''}`}>
                   <div className="f-card-icon primary-bg">
-                    {card.icon === 'lambda' && 'Î›'}
+                    {card.icon === 'lambda' && 'Λ'}
                     {card.icon === 'grid' && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>}
                     {card.icon === 'layers' && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 3h5v5" /><path d="M4 20L21 3" /><path d="M21 16v5h-5" /><path d="M15 15l6 6" /><path d="M4 4l5 5" /></svg>}
                     {card.icon === 'star' && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>}
+                    {card.icon === 'cpu' && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3"></path></svg>}
+                    {card.icon === 'target' && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>}
                   </div>
                   <EditableText
                     as="h4"
@@ -1449,129 +1538,19 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Horizontal 3D Glass Carousel Section */}
-        <section className="section-grey border-y" style={{ overflow: 'hidden' }}>
-          <div className="section-container" style={{ position: 'relative', zIndex: 1, paddingBottom: 0 }}>
-            <EditableText
-              as="h2"
-              contentKey="home.process.title"
-              value={homeContent.process.title}
-              className="section-title text-center"
-            />
-            <EditableText
-              as="p"
-              contentKey="home.process.subtitle"
-              value={homeContent.process.subtitle}
-              className="section-subtitle text-center cc-reveal cc-delay-1"
-            />
-          </div>
 
-          <div className="carousel-section-wrapper">
-            <div className="carousel-track">
-              {/* Duplicate array for infinite scroll effect */}
-              {[...homeContent.process.steps, ...homeContent.process.steps].map((step: any, idx: number) => {
-                const originalIdx = idx % homeContent.process.steps.length;
-                return (
-                  <div key={idx} className="carousel-card cc-reveal" style={{ transitionDelay: `${originalIdx * 0.1}s` }}>
-                    <div className="carousel-bg-number">0{originalIdx + 1}</div>
-                    <div className="carousel-icon-box">{originalIdx + 1}</div>
-                    <div className="carousel-content">
-                      <EditableText
-                        as="h5"
-                        contentKey={`home.process.steps.${originalIdx}.title`}
-                        value={step.title}
-                        className="carousel-title"
-                      />
-                      <EditableText
-                        as="p"
-                        contentKey={`home.process.steps.${originalIdx}.description`}
-                        value={step.description}
-                        className="carousel-desc"
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
 
         {/* Metrics Section */}
-        <section className="metrics-bg-section" ref={metricsVantaRef} style={{ borderBottom: '1px solid var(--border-light)', minHeight: '180px' }}>
-          <div className="section-container" style={{ paddingTop: '32px', paddingBottom: '32px', position: 'relative', zIndex: 2 }}>
+        <section className="metrics-bg-section" style={{ minHeight: '180px' }}>
+          <div className="section-container" style={{ paddingTop: '64px', paddingBottom: '64px', position: 'relative', zIndex: 2 }}>
+            <div className="text-center" style={{ marginBottom: '48px' }}>
+              <EditableText as="p" contentKey="home.metrics_section.eyebrow" value="CRESTCODE BY THE NUMBERS" className="section-eyebrow" style={{ color: '#94A3B8' }} />
+              <EditableText as="h2" contentKey="home.metrics_section.title" value="Our Track Record of Delivering High-Growth Results" className="section-title text-white" style={{ marginBottom: '0px' }} />
+            </div>
             <MetricsRow metrics={homeContent.metrics} />
           </div>
         </section>
 
-        {/* Dark Section: Why Partner With Us */}
-        <section className="section-dark" style={{ position: 'relative' }}>
-          <SpotlightCursor color="rgba(0, 90, 226, 0.15)" />
-          <div className="section-container" style={{ position: 'relative', zIndex: 1 }}>
-            <div className="dark-grid">
-              <div className="dark-content">
-                <EditableText
-                  as="h3"
-                  contentKey="home.partnership.eyebrow"
-                  value={homeContent.partnership.eyebrow}
-                  className="section-eyebrow cc-reveal"
-                />
-                <EditableText
-                  as="h2"
-                  contentKey="home.partnership.title"
-                  value={homeContent.partnership.title}
-                  className="section-title text-white cc-reveal cc-delay-1"
-                />
-                <div className="feature-list">
-                  {homeContent.partnership.features.map((feature, idx) => (
-                    <div key={idx} className="feature-item">
-                      <div className="feature-bullet">&#x2713;</div>
-                      <div>
-                        <EditableText
-                          as="h4"
-                          contentKey={`home.partnership.features.${idx}.title`}
-                          value={feature.title}
-                          className="feature-title"
-                        />
-                        <EditableText
-                          as="p"
-                          contentKey={`home.partnership.features.${idx}.description`}
-                          value={feature.description}
-                          className="feature-desc"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <BorderBeam className="testimonial-card-dark cc-reveal cc-delay-2 cc-card-3d cc-card-3d-dark cc-shine" style={{ padding: 0 }}>
-                <div style={{ padding: '32px', height: '100%' }}>
-                  <EditableText
-                    as="p"
-                    contentKey="home.partnership.testimonial.quote"
-                    value={homeContent.partnership.testimonial.quote}
-                    className="t-card-quote"
-                  />
-                  <div className="t-card-author">
-                    <div className="t-avatar"></div>
-                    <div>
-                      <EditableText
-                        contentKey="home.partnership.testimonial.author"
-                        value={homeContent.partnership.testimonial.author}
-                        className="t-name"
-                      />
-                      <EditableText
-                        contentKey="home.partnership.testimonial.role"
-                        value={homeContent.partnership.testimonial.role}
-                        className="t-role"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </BorderBeam>
-            </div>
-          </div>
-        </section>
 
         {/* Testimonials Section */}
         <section className="section-light">
@@ -1773,7 +1752,7 @@ function MetricsRow({ metrics }: { metrics: any[] }) {
             contentKey={`home.metrics.${idx}.label`}
             value={metric.label || ''}
             className="stat-label"
-            style={{ color: 'rgba(255,255,255,0.9)', fontWeight: 800, textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}
+            style={{ color: 'rgba(255,255,255,0.9)', fontWeight: 800 }}
           />
         </div>
       ))}

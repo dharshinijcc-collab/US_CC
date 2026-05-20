@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'react-router-dom'; // Wait, this is Next.js, should use next/link
+
 import { usePathname } from 'next/navigation';
 import { Home, LayoutGrid, Briefcase, MessageSquare, ChevronUp, X, BookOpen, Layers } from 'lucide-react';
 import NextLink from 'next/link';

@@ -13,9 +13,8 @@ export default function Header(props: any) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDarkBg, setIsDarkBg] = useState(false);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
   const pathname = usePathname();
-
-  if (!globalContent) return null;
 
   // Handle scroll effect and background detection
   useEffect(() => {
@@ -65,9 +64,6 @@ export default function Header(props: any) {
     setIsMenuOpen(false);
   }, [pathname]);
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
-  const [isMobileDevice, setIsMobileDevice] = useState(false);
   useEffect(() => {
     const checkMobile = () => {
       // Check physical screen width because viewport is forced to 1200
@@ -77,6 +73,10 @@ export default function Header(props: any) {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+  if (!globalContent) return null;
 
   return (
     <>
@@ -443,17 +443,18 @@ export default function Header(props: any) {
           </Link>
           
           <div className="navbar-links">
-            {globalContent.header.links.map((link, idx) => (
+            {globalContent.header.links.map((link: any, idx: number) => (
               <Link key={idx} href={link.href} className={pathname === link.href ? 'active-link' : ''}>
                 <EditableText contentKey={`global.header.links.${idx}.name`} value={link.name} />
               </Link>
             ))}
+
             {(Array.isArray(globalContent.header.dropdowns) 
               ? globalContent.header.dropdowns
               : Object.values(globalContent.header.dropdowns)
             ).map((dropdown: any, dIdx: number) => (
               <div className="dropdown" key={dIdx}>
-                <Link href={dropdown.label === 'Studio' ? '/studio' : '#'} className="dropdown-toggle" style={{ display: 'block', textDecoration: 'none' }}>
+                <Link href="#" className="dropdown-toggle" style={{ display: 'block', textDecoration: 'none' }}>
                   <EditableText 
                     contentKey={`global.header.dropdowns.${dIdx}.label`} 
                     value={dropdown.label} 
@@ -502,9 +503,9 @@ export default function Header(props: any) {
         </div>
 
         <div className="menu-section">
-          <span className="menu-label">Track</span>
+          <span className="menu-label">Menu</span>
           <div className="menu-links">
-            {globalContent.header.links.map((link, idx) => (
+            {globalContent.header.links.map((link: any, idx: number) => (
               <Link 
                 key={idx} 
                 href={link.href} 
@@ -514,38 +515,26 @@ export default function Header(props: any) {
                 <EditableText contentKey={`global.header.links.${idx}.name`} value={link.name} />
               </Link>
             ))}
-          </div>
-        </div>
 
-        <div className="menu-section">
-          <span className="menu-label">Explore</span>
-          <div className="menu-links">
             {(Array.isArray(globalContent.header.dropdowns) 
               ? globalContent.header.dropdowns 
               : Object.values(globalContent.header.dropdowns)
             ).map((dropdown: any, dIdx: number) => (
               <React.Fragment key={dIdx}>
-                {dropdown.label === 'Studio' && (
-                  <Link 
-                    href="/studio" 
-                    className={`menu-link ${pathname === '/studio' ? 'active' : ''}`}
-                    onClick={toggleMenu}
-                  >
-                    <EditableText contentKey={`global.header.dropdowns.${dIdx}.label`} value={dropdown.label} />
-                  </Link>
-                )}
+                <div className="menu-link" style={{ pointerEvents: 'none', opacity: 0.8 }}>
+                  <EditableText contentKey={`global.header.dropdowns.${dIdx}.label`} value={dropdown.label} />
+                </div>
                 {dropdown.links.map((link: any, idx: number) => (
                   <Link 
                     key={`${dIdx}-${idx}`} 
                     href={link.href} 
                     className={`menu-link ${pathname === link.href ? 'active' : ''}`}
                     onClick={toggleMenu}
-                    style={{ fontSize: '1.75rem', paddingLeft: dropdown.label === 'Studio' ? '20px' : '0' }}
+                    style={{ fontSize: '1.75rem', paddingLeft: '20px' }}
                   >
                     <EditableText contentKey={`global.header.dropdowns.${dIdx}.links.${idx}.name`} value={link.name} />
                   </Link>
-                ))
-              }
+                ))}
               </React.Fragment>
             ))}
           </div>
