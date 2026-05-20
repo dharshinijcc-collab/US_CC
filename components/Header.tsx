@@ -1,20 +1,33 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
+import { ChevronDown, RefreshCcw, TrendingUp, Rocket, Swords, Users } from 'lucide-react';
 
 export default function Header(props: any) {
   const { content } = useContent();
   const globalContent = content?.global;
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDarkBg, setIsDarkBg] = useState(false);
   const [isMobileDevice, setIsMobileDevice] = useState(false);
   const pathname = usePathname();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpenDropdown(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Handle scroll effect and background detection
   useEffect(() => {
@@ -158,77 +171,118 @@ export default function Header(props: any) {
         .navbar-links { 
           display: flex; /* Always visible for website look */
           align-items: center;
-          justify-content: center;
-          background: ${isDarkBg ? 'rgba(255, 255, 255, 0.15)' : 'rgba(241, 245, 249, 0.9)'};
-          padding: 8px 32px;
-          border-radius: 100px;
-          gap: 28px;
-          border: 1px solid ${isDarkBg ? 'rgba(255, 255, 255, 0.1)' : 'rgba(203, 213, 225, 0.5)'};
-          backdrop-filter: blur(16px);
+          justify-content: flex-end;
+          background: transparent;
+          padding: 8px 0;
+          border-radius: 0;
+          gap: 32px;
+          border: none;
+          backdrop-filter: none;
           transition: all 0.3s ease;
-          box-shadow: ${isScrolled ? '0 10px 30px -10px rgba(0,0,0,0.1)' : 'none'};
+          box-shadow: none;
+          margin-right: 32px;
         }
 
         .navbar-links a, .dropdown-toggle { 
-          color: ${isDarkBg ? 'rgba(255, 255, 255, 0.95)' : '#000000'}; 
+          color: ${isDarkBg ? 'rgba(255, 255, 255, 0.8)' : '#64748B'}; 
           text-decoration: none; 
           padding: 8px 0; 
           transition: all 0.3s ease;
           background: none;
           border: none;
           font-family: inherit;
-          font-size: 0.875rem; 
-          font-weight: 600; 
+          font-size: 0.8125rem; 
+          font-weight: 700; 
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
           cursor: pointer;
           outline: none !important;
         }
 
         .navbar-links a:hover, .dropdown-toggle:hover { 
-          color: #005AE2;
+          color: ${isDarkBg ? '#ffffff' : '#0A0F1C'};
         }
 
         .navbar-links a.active-link { 
-          color: #005AE2 !important; 
+          color: ${isDarkBg ? '#ffffff' : '#0A0F1C'} !important; 
         }
         
-        .dropdown { position: relative; display: inline-block; }
+        .dropdown { position: static; display: inline-block; }
         .dropdown-menu { 
           position: absolute; 
-          top: calc(100% + 15px); 
+          top: calc(100% + 5px); 
           left: 50%;
           transform: translateX(-50%) translateY(10px);
-          background: ${isDarkBg ? 'rgba(15, 23, 42, 0.95)' : 'rgba(255, 255, 255, 0.9)'};
+          background: ${isDarkBg ? 'rgba(15, 23, 42, 0.98)' : 'rgba(255, 255, 255, 0.98)'};
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
           border: 1px solid ${isDarkBg ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'};
-          border-radius: 20px; 
-          padding: 12px; 
-          min-width: 200px; 
-          box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+          border-radius: 16px; 
+          padding: 24px; 
+          width: 90vw; 
+          max-width: 800px;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.15);
           z-index: 1000;
           opacity: 0;
           visibility: hidden;
-          transition: all 0.3s ease;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
         }
-        .dropdown:hover .dropdown-menu { 
+        .dropdown:hover .dropdown-menu,
+        .dropdown.open .dropdown-menu { 
           opacity: 1; 
           visibility: visible; 
           transform: translateX(-50%) translateY(0);
         }
         .dropdown-item { 
-          display: block; 
-          padding: 12px 16px; 
-          color: #000000; 
+          display: flex; 
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 16px; 
+          color: ${isDarkBg ? '#ffffff' : '#000000'}; 
           text-decoration: none; 
           transition: all 0.2s ease;
-          font-size: 0.9rem;
-          font-weight: 600;
           border-radius: 12px;
-          text-align: center;
+          text-align: left;
         }
         .dropdown-item:hover { 
-          color: #005AE2; 
-          background: rgba(0, 0, 0, 0.08);
+          background: ${isDarkBg ? 'rgba(255,255,255,0.05)' : 'rgba(0, 90, 226, 0.04)'};
+        }
+        .dropdown-icon {
+          width: 40px;
+          height: 40px;
+          background: ${isDarkBg ? 'rgba(255,255,255,0.1)' : '#F1F5F9'};
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 12px;
+          color: ${isDarkBg ? '#ffffff' : '#0A0F1C'};
+        }
+        .dropdown-title {
+          font-size: 0.95rem;
+          font-weight: 700;
+          margin-bottom: 4px;
+        }
+        .dropdown-desc {
+          font-size: 0.8rem;
+          color: ${isDarkBg ? 'rgba(255,255,255,0.6)' : '#64748B'};
+          line-height: 1.4;
+          font-weight: 400;
+        }
+        .dropdown-toggle {
+          display: flex !important;
+          align-items: center;
+          gap: 6px;
+        }
+        .dropdown-toggle svg {
+          transition: transform 0.3s ease;
+        }
+        .dropdown:hover .dropdown-toggle svg,
+        .dropdown.open .dropdown-toggle svg {
+          transform: rotate(180deg);
         }
 
         .btn-nav-wrapper { 
@@ -278,24 +332,28 @@ export default function Header(props: any) {
 
         /* Force Desktop Proportions Always */
         .navbar {
-          display: grid;
-          grid-template-columns: 1fr auto 1fr;
-          padding: 12px 40px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 12px 60px;
           min-width: 1200px;
+          max-width: 1400px;
+          margin: 0 auto;
         }
 
         .navbar-links { 
           display: ${isMobileDevice ? 'none' : 'flex'} !important;
           align-items: center;
-          justify-content: center;
-          background: ${isDarkBg ? 'rgba(255, 255, 255, 0.15)' : 'rgba(241, 245, 249, 0.9)'};
-          padding: 8px 32px;
-          border-radius: 100px;
-          gap: 28px;
-          border: 1px solid ${isDarkBg ? 'rgba(255, 255, 255, 0.1)' : 'rgba(203, 213, 225, 0.5)'};
-          backdrop-filter: blur(16px);
+          justify-content: flex-end;
+          background: transparent;
+          padding: 8px 0;
+          border-radius: 0;
+          gap: 32px;
+          border: none;
+          backdrop-filter: none;
           transition: all 0.3s ease;
-          box-shadow: ${isScrolled ? '0 10px 30px -10px rgba(0,0,0,0.1)' : 'none'};
+          box-shadow: none;
+          margin-right: 32px;
         }
 
         .btn-nav-desktop { 
@@ -308,14 +366,13 @@ export default function Header(props: any) {
 
         /* Symmetrical Brand/CTA widths to keep links centered */
         .navbar-brand {
-          flex: 1;
           display: flex;
           justify-content: flex-start;
           align-items: center;
+          flex: 1;
         }
 
         .btn-nav-wrapper {
-          flex: 1;
           display: flex;
           justify-content: flex-end;
           align-items: center;
@@ -439,10 +496,10 @@ export default function Header(props: any) {
                 style={{ height: '50px', width: 'auto', objectFit: 'contain', position: 'relative', zIndex: 1 }} 
               />
             </div>
-            <EditableText contentKey="global.header.brand" value="Crestcode Product Studio" variant="ghost" />
+            <EditableText contentKey="global.header.brand" value="Crestcode Venture Studio" variant="ghost" />
           </Link>
           
-          <div className="navbar-links">
+          <div className="navbar-links" ref={dropdownRef}>
             {globalContent.header.links.map((link: any, idx: number) => (
               <Link key={idx} href={link.href} className={pathname === link.href ? 'active-link' : ''}>
                 <EditableText contentKey={`global.header.links.${idx}.name`} value={link.name} />
@@ -453,28 +510,55 @@ export default function Header(props: any) {
               ? globalContent.header.dropdowns
               : Object.values(globalContent.header.dropdowns)
             ).map((dropdown: any, dIdx: number) => (
-              <div className="dropdown" key={dIdx}>
-                <Link href="#" className="dropdown-toggle" style={{ display: 'block', textDecoration: 'none' }}>
+              <div className={`dropdown ${openDropdown === dIdx ? 'open' : ''}`} key={dIdx}>
+                <button 
+                  className="dropdown-toggle" 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setOpenDropdown(openDropdown === dIdx ? null : dIdx);
+                  }}
+                >
                   <EditableText 
                     contentKey={`global.header.dropdowns.${dIdx}.label`} 
                     value={dropdown.label} 
                   />
-                </Link>
+                  <ChevronDown size={14} />
+                </button>
                 <div className="dropdown-menu">
-                  {dropdown.links.map((link: any, idx: number) => (
-                    <Link key={idx} href={link.href} className={`dropdown-item ${pathname === link.href ? 'active-link' : ''}`}>
-                      <EditableText 
-                        contentKey={`global.header.dropdowns.${dIdx}.links.${idx}.name`}
-                        value={link.name} 
-                      />
-                    </Link>
-                  ))}
+                  {dropdown.links.map((link: any, idx: number) => {
+                    let IconComponent = Rocket;
+                    if (link.icon === 'refresh') IconComponent = RefreshCcw;
+                    if (link.icon === 'trending-up') IconComponent = TrendingUp;
+                    if (link.icon === 'users') IconComponent = Users;
+                    if (link.icon === 'swords') IconComponent = Swords;
+                    
+                    return (
+                      <Link 
+                        key={idx} 
+                        href={link.href} 
+                        className={`dropdown-item ${pathname === link.href ? 'active-link' : ''}`}
+                        onClick={() => setOpenDropdown(null)}
+                      >
+                        <div className="dropdown-icon">
+                          <IconComponent size={20} />
+                        </div>
+                        <div className="dropdown-title">
+                          <EditableText 
+                            contentKey={`global.header.dropdowns.${dIdx}.links.${idx}.name`}
+                            value={link.name} 
+                          />
+                        </div>
+                        <div className="dropdown-desc">{link.desc}</div>
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="btn-nav-wrapper">
+          <div className="btn-nav-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+            <div style={{ height: '24px', width: '1px', backgroundColor: isDarkBg ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)' }}></div>
             <Link href="/contact" className="btn-nav-desktop">
               <button className="btn-nav">
                 <EditableText contentKey="global.header.cta" value={globalContent.header.cta} />

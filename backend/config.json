@@ -22,13 +22,39 @@
         {
           "name": "Company",
           "href": "/company"
-        },
-        {
-          "name": "Resources",
-          "href": "/resources"
         }
       ],
-      "dropdowns": [],
+      "dropdowns": [
+        {
+          "label": "Resources",
+          "links": [
+            {
+              "name": "The Process",
+              "desc": "How we select and launch startups",
+              "href": "/studio",
+              "icon": "refresh"
+            },
+            {
+              "name": "For Investors",
+              "desc": "Investment opportunities in our network",
+              "href": "/investors",
+              "icon": "trending-up"
+            },
+            {
+              "name": "Founders",
+              "desc": "The co-founders of our startups",
+              "href": "/company",
+              "icon": "rocket"
+            },
+            {
+              "name": "Team",
+              "desc": "Our team and advisor network",
+              "href": "/#team",
+              "icon": "users"
+            }
+          ]
+        }
+      ],
       "cta": "Contact Us"
     },
     "footer": {
