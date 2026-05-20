@@ -15,6 +15,7 @@ export default function StudioPage() {
   const [activeStackIndex, setActiveStackIndex] = useState(0);
   const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(0);
   const [activeTimelineIndex, setActiveTimelineIndex] = useState<number | null>(null);
+  const [heroCarouselIndex, setHeroCarouselIndex] = useState(0);
 
   useEffect(() => {
     // We can't derive stackCards here because it needs content.
@@ -229,6 +230,165 @@ export default function StudioPage() {
 
         /* Hero Section */
         .hero-section { padding-top: 140px; }
+
+        /* Hero Carousel Stepper */
+        .hero-carousel-panel {
+          background: #F8FAFC;
+          border: 1px solid #E2E8F0;
+          border-radius: 24px;
+          overflow: hidden;
+          height: 100%;
+          min-height: 480px;
+          display: flex;
+          flex-direction: column;
+        }
+        .hero-carousel-tabs {
+          display: flex;
+          border-bottom: 1px solid #E2E8F0;
+          background: #FFFFFF;
+          overflow-x: auto;
+        }
+        .hero-carousel-tab {
+          flex: 1;
+          padding: 14px 10px;
+          border: none;
+          background: none;
+          font-family: 'Manrope', sans-serif;
+          font-size: 0.62rem;
+          font-weight: 800;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #94A3B8;
+          cursor: pointer;
+          border-bottom: 3px solid transparent;
+          transition: all 0.25s ease;
+          white-space: nowrap;
+        }
+        .hero-carousel-tab.active {
+          color: #005AE2;
+          border-bottom-color: #005AE2;
+          background: #F0F7FF;
+        }
+        .hero-carousel-body {
+          flex: 1;
+          padding: 28px 28px 20px;
+          overflow-y: auto;
+          animation: hcFadeIn 0.3s ease;
+        }
+        @keyframes hcFadeIn {
+          from { opacity: 0; transform: translateY(8px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .hc-phase-label {
+          font-size: 0.65rem;
+          font-weight: 800;
+          color: #005AE2;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          margin-bottom: 8px;
+        }
+        .hc-phase-title {
+          font-family: 'Manrope', sans-serif;
+          font-size: 1.35rem;
+          font-weight: 800;
+          color: #0F172A;
+          letter-spacing: -0.02em;
+          margin-bottom: 20px;
+          line-height: 1.2;
+        }
+        .hc-cards-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+        .hc-card {
+          background: #FFFFFF;
+          border: 1px solid #E2E8F0;
+          border-radius: 12px;
+          padding: 16px;
+          transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .hc-card:hover {
+          border-color: #005AE2;
+          box-shadow: 0 4px 16px rgba(0,90,226,0.08);
+        }
+        .hc-card-title {
+          font-family: 'Manrope', sans-serif;
+          font-size: 0.8rem;
+          font-weight: 800;
+          color: #0F172A;
+          margin-bottom: 6px;
+        }
+        .hc-card-desc {
+          font-size: 0.75rem;
+          color: #64748B;
+          line-height: 1.5;
+        }
+        /* Comparison table inside hero carousel */
+        .hc-comparison-table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 0.72rem;
+        }
+        .hc-comparison-table th {
+          background: #DBEAFE;
+          padding: 10px 12px;
+          text-align: left;
+          font-weight: 800;
+          color: #0F172A;
+          border-bottom: 1px solid #E2E8F0;
+        }
+        .hc-comparison-table td {
+          padding: 10px 12px;
+          border-bottom: 1px solid #F1F5F9;
+          color: #64748B;
+          line-height: 1.4;
+        }
+        .hc-comparison-table tr:last-child td { border-bottom: none; }
+        .hc-comparison-table td:first-child { font-weight: 700; color: #0F172A; }
+        .hc-comparison-table td:last-child  { color: #005AE2; font-weight: 700; }
+        .hero-carousel-nav {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 14px 28px;
+          border-top: 1px solid #E2E8F0;
+          background: #FFFFFF;
+        }
+        .hc-nav-dots {
+          display: flex;
+          gap: 6px;
+        }
+        .hc-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #CBD5E1;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+        .hc-dot.active {
+          background: #005AE2;
+          width: 18px;
+          border-radius: 4px;
+        }
+        .hc-nav-btn {
+          background: none;
+          border: 1px solid #E2E8F0;
+          border-radius: 8px;
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          color: #64748B;
+          font-size: 1rem;
+          transition: all 0.2s;
+        }
+        .hc-nav-btn:hover { background: #F0F7FF; border-color: #005AE2; color: #005AE2; }
+        .hc-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
         .hero-eyebrow-pill {
           display: inline-flex;
           background-color: #E6EFFF;
@@ -814,12 +974,331 @@ export default function StudioPage() {
                 </button>
               </div>
             </div>
+
+            {/* Original hero image */}
             <div className="hero-img-col">
               <div className="hero-img-bg"></div>
-
             </div>
+
           </div>
         </section>
+
+        {/* ═══════════════════════════════════════════════════════ */}
+        {/* SECTION A: Selection Process — 5 Phase Tabs + Cards   */}
+        {/* ═══════════════════════════════════════════════════════ */}
+        {content?.ourModel && (
+          <>
+            {/* Sticky phase tabs */}
+            <div style={{ background: 'white', borderBottom: '1px solid #E2E8F0', position: 'sticky', top: 0, zIndex: 100 }}>
+              <div className="section-container" style={{ paddingTop: 0, paddingBottom: 0 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '16px 0', maxWidth: '900px' }}>
+                  {[
+                    { n: '01.', t: 'SELECT',   id: 0 },
+                    { n: '02.', t: 'VALIDATE', id: 1 },
+                    { n: '03.', t: 'BUILD',    id: 2 },
+                    { n: '04.', t: 'LAUNCH',   id: 3 },
+                    { n: '05.', t: 'SCALE',    id: 4 },
+                  ].map((ph) => (
+                    <button
+                      key={ph.id}
+                      onClick={() => setHeroCarouselIndex(ph.id)}
+                      style={{
+                        background: 'none', border: 'none',
+                        fontFamily: "'Manrope', sans-serif",
+                        fontSize: '0.6875rem', fontWeight: 800,
+                        letterSpacing: '0.15em', textTransform: 'uppercase',
+                        cursor: 'pointer', padding: '8px 12px',
+                        color: heroCarouselIndex === ph.id ? '#005AE2' : '#64748B',
+                        borderBottom: heroCarouselIndex === ph.id ? '3px solid #005AE2' : '3px solid transparent',
+                        transition: 'all 0.2s',
+                      }}
+                    >
+                      <span style={{ color: '#005AE2', marginRight: 4 }}>{ph.n}</span>{ph.t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Phase content panel */}
+            <section style={{ background: 'white', padding: '16px 0' }}>
+              <div className="section-container">
+
+                {/* Header */}
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ color: '#005AE2', fontWeight: 800, fontSize: '0.6875rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8 }}>
+                    {heroCarouselIndex === 0 && <EditableText contentKey="ourModel.selection.label" value={content.ourModel.selection.label} />}
+                    {heroCarouselIndex === 1 && <EditableText contentKey="ourModel.validation.label" value={content.ourModel.validation.label} />}
+                    {heroCarouselIndex === 2 && 'PHASE 03 — BUILD'}
+                    {heroCarouselIndex === 3 && 'PHASE 04 — LAUNCH'}
+                    {heroCarouselIndex === 4 && 'PHASE 05 — SCALE'}
+                  </div>
+                  <h2 style={{ fontFamily: "'Manrope',sans-serif", fontSize: 'clamp(2rem,4vw,2.75rem)', fontWeight: 800, letterSpacing: '-0.03em', color: '#111827', margin: 0 }}>
+                    {heroCarouselIndex === 0 && <EditableText contentKey="ourModel.selection.title" value={content.ourModel.selection.title} />}
+                    {heroCarouselIndex === 1 && <EditableText contentKey="ourModel.validation.title" value={content.ourModel.validation.title} />}
+                    {heroCarouselIndex === 2 && <EditableText contentKey="ourModel.phases.items.0.title" value={content.ourModel.phases.items[0].title} />}
+                    {heroCarouselIndex === 3 && <EditableText contentKey="ourModel.phases.items.1.title" value={content.ourModel.phases.items[1].title} />}
+                    {heroCarouselIndex === 4 && <EditableText contentKey="ourModel.phases.items.2.title" value={content.ourModel.phases.items[2].title} />}
+                  </h2>
+                </div>
+
+                {/* Cards grid */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 32 }}>
+                  {heroCarouselIndex === 0 && content.ourModel.selection.cards.map((card: any, idx: number) => (
+                    <div key={idx} style={{ padding: 32, borderRadius: 20, background: '#F5F7FF', border: '1px solid transparent', transition: 'all 0.3s' }}>
+                      <h3 style={{ fontFamily: "'Manrope',sans-serif", fontSize: '1.25rem', fontWeight: 800, marginBottom: 12, color: '#111827' }}>
+                        <EditableText contentKey={`ourModel.selection.cards.${idx}.title`} value={card.title} />
+                      </h3>
+                      <p style={{ fontSize: '0.9375rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
+                        <EditableText contentKey={`ourModel.selection.cards.${idx}.desc`} value={card.desc} />
+                      </p>
+                    </div>
+                  ))}
+                  {heroCarouselIndex === 1 && (
+                    <>
+                      {content.ourModel.validation.steps.map((step: any, idx: number) => (
+                        <div key={idx} style={{ padding: 32, borderRadius: 20, background: '#F5F7FF' }}>
+                          <h3 style={{ fontFamily: "'Manrope',sans-serif", fontSize: '1.25rem', fontWeight: 800, marginBottom: 12, color: '#111827' }}>
+                            <EditableText contentKey={`ourModel.validation.steps.${idx}.title`} value={step.title} />
+                          </h3>
+                          <p style={{ fontSize: '0.9375rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
+                            <EditableText contentKey={`ourModel.validation.steps.${idx}.desc`} value={step.desc} />
+                          </p>
+                        </div>
+                      ))}
+                      {content.ourModel.validation.outcomes.map((out: any, idx: number) => (
+                        <div key={`out-${idx}`} style={{ padding: 32, borderRadius: 20, background: 'white', border: '1px solid #E2E8F0', borderLeft: `6px solid ${['#10B981','#F59E0B','#EF4444'][idx]}` }}>
+                          <h3 style={{ fontFamily: "'Manrope',sans-serif", fontSize: '1.25rem', fontWeight: 800, marginBottom: 12, color: ['#10B981','#F59E0B','#EF4444'][idx] }}>
+                            <EditableText contentKey={`ourModel.validation.outcomes.${idx}.title`} value={out.title} />
+                          </h3>
+                          <p style={{ fontSize: '0.9375rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
+                            <EditableText contentKey={`ourModel.validation.outcomes.${idx}.desc`} value={out.desc} />
+                          </p>
+                        </div>
+                      ))}
+                    </>
+                  )}
+                  {[2,3,4].includes(heroCarouselIndex) && (() => {
+                    const ph = content.ourModel.phases.items[heroCarouselIndex - 2];
+                    const colors = ['#10B981','#F59E0B','#EF4444'];
+                    const vKey = ['v1','v2','v3'][heroCarouselIndex - 2];
+                    return (
+                      <>
+                        <div style={{ padding: 32, borderRadius: 20, background: '#F5F7FF' }}>
+                          <h3 style={{ fontFamily: "'Manrope',sans-serif", fontSize: '1.25rem', fontWeight: 800, marginBottom: 12, color: '#111827' }}>
+                            <EditableText contentKey={`ourModel.phases.items.${heroCarouselIndex-2}.label`} value={ph.label} />
+                          </h3>
+                          <p style={{ fontSize: '0.9375rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
+                            <EditableText contentKey={`ourModel.phases.items.${heroCarouselIndex-2}.desc`} value={ph.desc} />
+                          </p>
+                        </div>
+                        {content.ourModel.phases.table.rows.map((row: any, idx: number) => (
+                          <div key={idx} style={{ padding: 32, borderRadius: 20, background: '#F5F7FF' }}>
+                            <h3 style={{ fontFamily: "'Manrope',sans-serif", fontSize: '1.25rem', fontWeight: 800, marginBottom: 8, color: '#111827' }}>
+                              <EditableText contentKey={`ourModel.phases.table.rows.${idx}.c`} value={row.c} />
+                            </h3>
+                            <p style={{ fontSize: '1rem', fontWeight: 700, color: colors[heroCarouselIndex-2], margin: 0 }}>
+                              <EditableText contentKey={`ourModel.phases.table.rows.${idx}.${vKey}`} value={(row as any)[vKey]} />
+                            </p>
+                          </div>
+                        ))}
+                      </>
+                    );
+                  })()}
+                </div>
+
+              </div>
+            </section>
+
+            {/* ═════════════════════════════════════════════ */}
+            {/* SECTION B: Clinical Validation Framework      */}
+            {/* ═════════════════════════════════════════════ */}
+            <section style={{ background: '#F0F5FF', padding: '24px 0', textAlign: 'center' }}>
+              <div className="section-container">
+                <div style={{ color: '#005AE2', fontWeight: 800, fontSize: '0.6875rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>
+                  <EditableText contentKey="ourModel.validation.label" value={content.ourModel.validation.label} />
+                </div>
+                <h2 style={{ fontFamily: "'Manrope',sans-serif", fontSize: 'clamp(2rem,4vw,2.75rem)', fontWeight: 800, letterSpacing: '-0.02em', color: '#111827', marginBottom: 20 }}>
+                  <EditableText contentKey="ourModel.validation.title" value={content.ourModel.validation.title} />
+                </h2>
+                {/* 4-step circles */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 24, marginBottom: 24 }}>
+                  {content.ourModel.validation.steps.map((step: any, idx: number) => (
+                    <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <div style={{ width: 44, height: 44, background: '#005AE2', color: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '1.125rem', marginBottom: 24, boxShadow: '0 8px 16px rgba(0,90,226,0.3)' }}>
+                        {idx + 1}
+                      </div>
+                      <h3 style={{ fontFamily: "'Manrope',sans-serif", fontWeight: 800, fontSize: '1rem', color: '#111827', marginBottom: 8 }}>
+                        <EditableText contentKey={`ourModel.validation.steps.${idx}.title`} value={step.title} />
+                      </h3>
+                      <p style={{ fontSize: '0.8125rem', color: '#64748B', lineHeight: 1.5, margin: 0 }}>
+                        <EditableText contentKey={`ourModel.validation.steps.${idx}.desc`} value={step.desc} />
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                {/* Outcome cards */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }}>
+                  {content.ourModel.validation.outcomes.map((out: any, idx: number) => (
+                    <div key={idx} style={{ background: 'white', padding: 32, borderRadius: 12, textAlign: 'left', border: '1px solid #E2E8F0', borderLeft: `6px solid ${['#10B981','#F59E0B','#EF4444'][idx]}` }}>
+                      <h3 style={{ fontFamily: "'Manrope',sans-serif", fontWeight: 800, fontSize: '1.25rem', color: ['#10B981','#F59E0B','#EF4444'][idx], marginBottom: 12 }}>
+                        <EditableText contentKey={`ourModel.validation.outcomes.${idx}.title`} value={out.title} />
+                      </h3>
+                      <p style={{ fontSize: '0.9375rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
+                        <EditableText contentKey={`ourModel.validation.outcomes.${idx}.desc`} value={out.desc} />
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* ═════════════════════════════════════════════ */}
+            {/* SECTION C: What Happens After a Green Light  */}
+            {/* ═════════════════════════════════════════════ */}
+            <section style={{ background: 'white', padding: '24px 0' }}>
+              <div className="section-container">
+                <h2 style={{ fontFamily: "'Manrope',sans-serif", fontSize: 'clamp(2rem,4vw,2.75rem)', fontWeight: 800, letterSpacing: '-0.02em', color: '#111827', marginBottom: 20 }}>
+                  <EditableText contentKey="ourModel.phases.title" value={content.ourModel.phases.title} />
+                </h2>
+                {/* 3 phase step cards */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 48, marginBottom: 24 }}>
+                  {content.ourModel.phases.items.map((item: any, idx: number) => (
+                    <div key={idx} style={{ paddingLeft: 20, borderLeft: '3px solid #005AE2' }}>
+                      <span style={{ display: 'block', fontSize: '0.6875rem', fontWeight: 800, color: '#005AE2', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 12 }}>
+                        <EditableText contentKey={`ourModel.phases.items.${idx}.label`} value={item.label} />
+                      </span>
+                      <h3 style={{ fontFamily: "'Manrope',sans-serif", fontSize: '1.5rem', fontWeight: 800, color: '#111827', marginBottom: 16 }}>
+                        <EditableText contentKey={`ourModel.phases.items.${idx}.title`} value={item.title} />
+                      </h3>
+                      <p style={{ fontSize: '0.875rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
+                        <EditableText contentKey={`ourModel.phases.items.${idx}.desc`} value={item.desc} />
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                {/* Gate criteria table */}
+                <div style={{ border: '1px solid #E2E8F0', borderRadius: 8, overflow: 'hidden' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
+                    <thead>
+                      <tr style={{ background: '#F1F1F9' }}>
+                        <th style={{ padding: '20px 24px', textAlign: 'left', fontWeight: 800, color: '#111827', borderBottom: '1px solid #E2E8F0' }}>
+                          <EditableText contentKey="ourModel.phases.table.h1" value={content.ourModel.phases.table.h1} />
+                        </th>
+                        <th style={{ padding: '20px 24px', textAlign: 'left', fontWeight: 800, color: '#10B981', borderBottom: '1px solid #E2E8F0' }}>
+                          <EditableText contentKey="ourModel.phases.table.h2" value={content.ourModel.phases.table.h2} />
+                        </th>
+                        <th style={{ padding: '20px 24px', textAlign: 'left', fontWeight: 800, color: '#F59E0B', borderBottom: '1px solid #E2E8F0' }}>
+                          <EditableText contentKey="ourModel.phases.table.h3" value={content.ourModel.phases.table.h3} />
+                        </th>
+                        <th style={{ padding: '20px 24px', textAlign: 'left', fontWeight: 800, color: '#EF4444', borderBottom: '1px solid #E2E8F0' }}>
+                          <EditableText contentKey="ourModel.phases.table.h4" value={content.ourModel.phases.table.h4} />
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {content.ourModel.phases.table.rows.map((row: any, idx: number) => (
+                        <tr key={idx} style={{ borderBottom: idx < content.ourModel.phases.table.rows.length - 1 ? '1px solid #E2E8F0' : 'none' }}>
+                          <td style={{ padding: '20px 24px', fontWeight: 700, color: '#111827' }}>
+                            <EditableText contentKey={`ourModel.phases.table.rows.${idx}.c`} value={row.c} />
+                          </td>
+                          <td style={{ padding: '20px 24px', color: '#10B981', fontWeight: 600 }}>
+                            <EditableText contentKey={`ourModel.phases.table.rows.${idx}.v1`} value={row.v1} />
+                          </td>
+                          <td style={{ padding: '20px 24px', color: '#F59E0B', fontWeight: 600 }}>
+                            <EditableText contentKey={`ourModel.phases.table.rows.${idx}.v2`} value={row.v2} />
+                          </td>
+                          <td style={{ padding: '20px 24px', color: '#EF4444', fontWeight: 600 }}>
+                            <EditableText contentKey={`ourModel.phases.table.rows.${idx}.v3`} value={row.v3} />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+
+            {/* ═══════════════════════════════════════════════════ */}
+            {/* SECTION D: The Five Pods That Run the Playbook     */}
+            {/* ═══════════════════════════════════════════════════ */}
+            <section style={{ background: '#0B1019', padding: '24px 0', color: 'white', textAlign: 'center' }}>
+              <div className="section-container">
+                <h2 style={{ fontFamily: "'Manrope',sans-serif", fontSize: 'clamp(2rem,4vw,2.75rem)', fontWeight: 800, letterSpacing: '-0.02em', color: 'white', marginBottom: 12 }}>
+                  <EditableText contentKey="ourModel.pods.title" value={content.ourModel.pods.title} />
+                </h2>
+                <p style={{ color: '#94A3B8', fontSize: '1.125rem', lineHeight: 1.6, maxWidth: 700, margin: '0 auto 24px' }}>
+                  <EditableText contentKey="ourModel.pods.subtitle" value={content.ourModel.pods.subtitle} />
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 20 }}>
+                  {content.ourModel.pods.items.map((pod: any, idx: number) => {
+                    const colors = ['#3B82F6','#1E40AF','#10B981','#06B6D4','#14B8A6'];
+                    return (
+                      <div key={idx} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', padding: '40px 24px', borderRadius: 24, textAlign: 'left', transition: 'all 0.3s' }}>
+                        <span style={{ display: 'block', color: colors[idx], fontWeight: 800, fontSize: '0.625rem', letterSpacing: '0.2em', marginBottom: 16 }}>
+                          <EditableText contentKey={`ourModel.pods.items.${idx}.id`} value={pod.id} />
+                        </span>
+                        <h3 style={{ fontFamily: "'Manrope',sans-serif", color: 'white', fontSize: '1.25rem', fontWeight: 800, marginBottom: 16 }}>
+                          <EditableText contentKey={`ourModel.pods.items.${idx}.title`} value={pod.title} />
+                        </h3>
+                        <p style={{ fontSize: '0.875rem', color: '#94A3B8', lineHeight: 1.5, margin: 0 }}>
+                          <EditableText contentKey={`ourModel.pods.items.${idx}.desc`} value={pod.desc} />
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </section>
+
+            {/* ═════════════════════════════════════════ */}
+            {/* SECTION E: An Honest Comparison           */}
+            {/* ═════════════════════════════════════════ */}
+            <section style={{ background: '#F0F7FF', padding: '24px 0' }}>
+              <div className="section-container">
+                <h2 style={{ fontFamily: "'Manrope',sans-serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, letterSpacing: '-0.02em', color: '#111827', textAlign: 'center', marginBottom: 24 }}>
+                  <EditableText contentKey="ourModel.comparison.title" value={content.ourModel.comparison.title} />
+                </h2>
+                <div style={{ background: 'white', borderRadius: 24, overflow: 'hidden', border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+                  {/* Header row */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr 1fr', background: '#DBEAFE', padding: '24px' }}>
+                    <div style={{ fontWeight: 800, fontSize: '0.875rem' }}>
+                      <EditableText contentKey="ourModel.comparison.h1" value={content.ourModel.comparison.h1} />
+                    </div>
+                    <div style={{ fontWeight: 800, fontSize: '0.875rem' }}>
+                      <EditableText contentKey="ourModel.comparison.h2" value={content.ourModel.comparison.h2} />
+                    </div>
+                    <div style={{ fontWeight: 800, fontSize: '0.875rem' }}>
+                      <EditableText contentKey="ourModel.comparison.h3" value={content.ourModel.comparison.h3} />
+                    </div>
+                    <div style={{ fontWeight: 800, fontSize: '0.875rem', color: '#005AE2' }}>
+                      <EditableText contentKey="ourModel.comparison.h4" value={content.ourModel.comparison.h4} />
+                    </div>
+                  </div>
+                  {/* Data rows */}
+                  {content.ourModel.comparison.rows.map((row: any, idx: number) => (
+                    <div key={idx} style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr 1fr', padding: '24px', borderBottom: idx < content.ourModel.comparison.rows.length - 1 ? '1px solid #E2E8F0' : 'none', background: idx % 2 === 0 ? 'white' : '#F0F7FF' }}>
+                      <div style={{ fontWeight: 700, color: '#111827' }}>
+                        <EditableText contentKey={`ourModel.comparison.rows.${idx}.f`} value={row.f} />
+                      </div>
+                      <div style={{ color: '#64748B' }}>
+                        <EditableText contentKey={`ourModel.comparison.rows.${idx}.c1`} value={row.c1} />
+                      </div>
+                      <div style={{ color: '#64748B' }}>
+                        <EditableText contentKey={`ourModel.comparison.rows.${idx}.c2`} value={row.c2} />
+                      </div>
+                      <div style={{ color: '#005AE2', fontWeight: 700 }}>
+                        <EditableText contentKey={`ourModel.comparison.rows.${idx}.c3`} value={row.c3} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </>
+        )}
+
+
 
         {/* Idea Validation Section */}
         <div className="validation-wrapper section-base" style={{ backgroundColor: 'var(--white)' }}>
