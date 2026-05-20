@@ -10,42 +10,25 @@
         {
           "name": "Home",
           "href": "/"
-        }
-      ],
-      "dropdowns": [
-        {
-          "id": "studio",
-          "label": "Studio",
-          "links": [
-            {
-              "name": "Overview",
-              "href": "/studio"
-            },
-            {
-              "name": "Our Methodology",
-              "href": "/playbook"
-            }
-          ]
         },
         {
-          "id": "company",
-          "label": "Company",
-          "links": [
-            {
-              "name": "About Us",
-              "href": "/#about"
-            },
-            {
-              "name": "Careers",
-              "href": "/careers"
-            },
-            {
-              "name": "FAQ",
-              "href": "/faq"
-            }
-          ]
+          "name": "Studio",
+          "href": "/studio"
+        },
+        {
+          "name": "Investors",
+          "href": "/investors"
+        },
+        {
+          "name": "Company",
+          "href": "/company"
+        },
+        {
+          "name": "Resources",
+          "href": "/resources"
         }
       ],
+      "dropdowns": [],
       "cta": "Contact Us"
     },
     "footer": {
@@ -108,6 +91,69 @@
         }
       ]
     }
+  },
+  "company": {
+    "hero": {
+      "title": "Crestcode Portfolio",
+      "subtitle": "Discover the high-growth ventures and transformative platforms we've built from the ground up."
+    },
+    "categories": ["All", "Fintech", "AI/ML", "HealthTech", "Enterprise SaaS"],
+    "companies": [
+      { 
+        "name": "Aura AI", 
+        "category": "AI/ML", 
+        "desc": "Predictive analytics and autonomous ML workflows for leading consumer brands.", 
+        "link": "#",
+        "initials": "AA",
+        "est": "Est. 2025",
+        "tags": ["LLMs", "Predictive", "B2C"]
+      },
+      { 
+        "name": "VaultPay", 
+        "category": "Fintech", 
+        "desc": "Multi-currency B2B ledger systems and instant settlement infrastructure.", 
+        "link": "#",
+        "initials": "VP",
+        "est": "Est. 2024",
+        "tags": ["Ledger", "APIs", "PCI-DSS"]
+      },
+      { 
+        "name": "HealthSync", 
+        "category": "HealthTech", 
+        "desc": "Unified secure patient data protocol connecting legacy hospitals with modern software.", 
+        "link": "#",
+        "initials": "HS",
+        "est": "Est. 2025",
+        "tags": ["HIPAA", "FHIR", "GraphQL"]
+      },
+      { 
+        "name": "CloudScale", 
+        "category": "Enterprise SaaS", 
+        "desc": "Intelligent resource management and automated cloud infrastructure cost optimization.", 
+        "link": "#",
+        "initials": "CS",
+        "est": "Est. 2023",
+        "tags": ["FinOps", "AWS", "Kubernetes"]
+      },
+      { 
+        "name": "NeuroFlow", 
+        "category": "AI/ML", 
+        "desc": "High-performance cognitive computing runtime optimized for constrained edge devices.", 
+        "link": "#",
+        "initials": "NF",
+        "est": "Est. 2025",
+        "tags": ["Edge AI", "Rust", "ONNX"]
+      },
+      { 
+        "name": "LedgerX", 
+        "category": "Fintech", 
+        "desc": "Secure institutional crypto trading desk and capital settlement network.", 
+        "link": "#",
+        "initials": "LX",
+        "est": "Est. 2024",
+        "tags": ["DeFi", "Liquidity", "Web3"]
+      }
+    ]
   },
   "careers": {
     "hero": {
@@ -539,6 +585,18 @@
           "highlight": "FROM IDEA TO SCALABLE GROWTH",
           "description": "From strategy and design to development and scaling, we provide complete product support to help ventures launch and grow confidently.",
           "icon": "star"
+        },
+        {
+          "title": "AI & Automation Integration",
+          "highlight": "INTELLIGENT WORKFLOWS. ELITE SPEED.",
+          "description": "We infuse artificial intelligence and workflow automation directly into your venture’s core operations to minimize manual friction and accelerate scale.",
+          "icon": "cpu"
+        },
+        {
+          "title": "Silicon Valley Execution",
+          "highlight": "GLOBAL TALENT. RAPID LAUNCH.",
+          "description": "Access top-tier engineers, world-class designers, and product leaders working on a unified, high-velocity roadmap designed to optimize your runway.",
+          "icon": "target"
         }
       ]
     },

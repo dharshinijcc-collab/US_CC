@@ -253,17 +253,10 @@ export default function Header() {
           
           <div className="navbar-links">
             <Link to="/" className={location.pathname === '/' ? 'active-link' : ''}>Home</Link>
-            <Link to="/studio" className={location.pathname === '/studio' ? 'active-link' : ''}>Founder Relations</Link>
-            <Link to="/selection-framework" className={location.pathname === '/selection-framework' ? 'active-link' : ''}>Selection Framework</Link>
-            <div className="dropdown">
-              <button className="dropdown-toggle">Company &#x25BC;</button>
-              <div className="dropdown-menu">
-                <Link to="/about" className="dropdown-item">About Us</Link>
-                <Link to="/careers" className="dropdown-item">Careers</Link>
-                <Link to="/contact" className="dropdown-item">Contact</Link>
-                <Link to="/faq" className="dropdown-item">FAQ</Link>
-              </div>
-            </div>
+            <Link to="/studio" className={location.pathname === '/studio' ? 'active-link' : ''}>Studio</Link>
+            <Link to="/investors" className={location.pathname === '/investors' ? 'active-link' : ''}>Investors</Link>
+            <Link to="/company" className={location.pathname === '/company' ? 'active-link' : ''}>Company</Link>
+            <Link to="/resources" className={location.pathname === '/resources' ? 'active-link' : ''}>Resources</Link>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -282,15 +275,10 @@ export default function Header() {
 
       <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
         <Link to="/" className={`mobile-link ${location.pathname === '/' ? 'active-link' : ''}`}>Home</Link>
-        <Link to="/studio" className={`mobile-link ${location.pathname === '/studio' ? 'active-link' : ''}`}>Founder Relations</Link>
-        <Link to="/selection-framework" className={`mobile-link ${location.pathname === '/selection-framework' ? 'active-link' : ''}`}>Selection Framework</Link>
-        <Link to="/contact" className={`mobile-link ${location.pathname === '/contact' ? 'active-link' : ''}`}>Contact</Link>
-        
-        <div className="mobile-sublinks">
-          <Link to="/about" className="mobile-sublink">About Us</Link>
-          <Link to="/careers" className="mobile-sublink">Careers</Link>
-          <Link to="/faq" className="mobile-sublink">FAQ</Link>
-        </div>
+        <Link to="/studio" className={`mobile-link ${location.pathname === '/studio' ? 'active-link' : ''}`}>Studio</Link>
+        <Link to="/investors" className={`mobile-link ${location.pathname === '/investors' ? 'active-link' : ''}`}>Investors</Link>
+        <Link to="/company" className={`mobile-link ${location.pathname === '/company' ? 'active-link' : ''}`}>Company</Link>
+        <Link to="/resources" className={`mobile-link ${location.pathname === '/resources' ? 'active-link' : ''}`}>Resources</Link>
       </div>
     </>
   );
