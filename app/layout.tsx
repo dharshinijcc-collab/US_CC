@@ -4,6 +4,7 @@ import './globals.css'
 import './animations.css'
 import GlobalCursorGlow from '@/components/effects/GlobalCursorGlow'
 import ScrollReveal from '@/components/ScrollReveal'
+import { Providers } from '@/components/Providers'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const manrope = Manrope({ subsets: ['latin'], variable: '--font-manrope' })
@@ -19,9 +20,6 @@ export const viewport = {
   initialScale: 0.3, // Adjust initial scale to fit 1200px on small screens
 }
 
-import { Providers } from '@/components/Providers'
-import Downbar from '@/components/Downbar'
-
 export default function RootLayout({
   children,
 }: {
@@ -29,10 +27,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${manrope.variable} antialiased`}>
+      <body className={`${inter.variable} ${manrope.variable} antialiased`}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          margin: 0,
+          padding: 0,
+        }}>
         <Providers>
           {children}
-          <Downbar />
         </Providers>
       </body>
     </html>

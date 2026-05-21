@@ -89,6 +89,19 @@ export default function Header(props: any) {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
+  // Fixed nav items to ensure consistent menu structure
+  const navItems = [
+    { label: 'Home', href: '/' },
+    { label: 'Studio', href: '/studio' },
+    { label: 'Investors', href: '/investors' },
+    { label: 'Company', href: '/company' },
+    { label: 'Resources', href: '/resources', dropdown: [
+      { label: 'Tools', href: '/resources/tools' },
+      { label: 'Blogs', href: '/resources/blogs' },
+      { label: 'Events', href: '/resources/events' },
+    ] }
+  ];
+
   if (!globalContent) return null;
 
   return (
@@ -117,14 +130,15 @@ export default function Header(props: any) {
         .navbar { 
           background: transparent;
           color: #0A0F1C; 
-          display: flex; 
-          justify-content: space-between;
+          display: grid; 
+          grid-template-columns: auto minmax(520px, 1fr) auto; /* logo - menus - contact */
           align-items: center; 
           padding: 12px 24px; 
           width: 100%; 
-          max-width: 1500px;
+          max-width: 1400px;
           margin: 0 auto;
           transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+          gap: 32px;
         }
 
         /* @media (max-width: 768px) {
@@ -314,31 +328,23 @@ export default function Header(props: any) {
           border-radius: 2px;
         }
 
-        /* Force Desktop Proportions Always */
+        /* Desktop layout: centered links with equal side spacing */
         .navbar {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 12px 60px;
-          min-width: 1200px;
-          max-width: 1400px;
-          margin: 0 auto;
+          padding: 12px 40px;
         }
 
+        .navbar-brand { justify-self: start; }
         .navbar-links { 
           display: ${isMobileDevice ? 'none' : 'flex'} !important;
+          justify-self: center; /* center menus in wide middle column */
           align-items: center;
-          justify-content: flex-end;
           background: transparent;
           padding: 8px 0;
-          border-radius: 0;
-          gap: 32px;
-          border: none;
-          backdrop-filter: none;
+          gap: 28px;
           transition: all 0.3s ease;
-          box-shadow: none;
-          margin-right: 32px;
         }
+
+        .btn-nav-wrapper { justify-self: end; }
 
         .btn-nav-desktop { 
           display: flex !important; /* Keep Contact button visible on mobile */
@@ -480,64 +486,37 @@ export default function Header(props: any) {
                 style={{ height: '50px', width: 'auto', objectFit: 'contain', position: 'relative', zIndex: 1 }} 
               />
             </div>
-            <EditableText contentKey="global.header.brand" value="Crestcode Venture Studio" variant="ghost" />
+            <EditableText contentKey="global.header.brand" value="Crestcode Product Studio" variant="ghost" />
           </Link>
           
           <div className="navbar-links" ref={dropdownRef}>
-            {globalContent.header.links.map((link: any, idx: number) => (
-              <Link key={idx} href={link.href} className={pathname === link.href ? 'active-link' : ''}>
-                <EditableText contentKey={`global.header.links.${idx}.name`} value={link.name} />
-              </Link>
-            ))}
-
-            {(Array.isArray(globalContent.header.dropdowns) 
-              ? globalContent.header.dropdowns
-              : Object.values(globalContent.header.dropdowns)
-            ).map((dropdown: any, dIdx: number) => (
-              <div className={`dropdown ${openDropdown === dIdx ? 'open' : ''}`} key={dIdx}>
-                <button 
-                  className="dropdown-toggle" 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setOpenDropdown(openDropdown === dIdx ? null : dIdx);
-                  }}
-                >
-                  <EditableText 
-                    contentKey={`global.header.dropdowns.${dIdx}.label`} 
-                    value={dropdown.label} 
-                  />
-                  <ChevronDown size={14} />
-                </button>
-                <div className="dropdown-menu">
-                  {dropdown.links.map((link: any, idx: number) => {
-                    let IconComponent = Rocket;
-                    if (link.icon === 'refresh') IconComponent = RefreshCcw;
-                    if (link.icon === 'trending-up') IconComponent = TrendingUp;
-                    if (link.icon === 'users') IconComponent = Users;
-                    if (link.icon === 'swords') IconComponent = Swords;
-                    
-                    return (
-                      <Link 
-                        key={idx} 
-                        href={link.href} 
-                        className={`dropdown-item ${pathname === link.href ? 'active-link' : ''}`}
+            {navItems.map((item, idx) => (
+              item.dropdown ? (
+                <div key={idx} className={`dropdown ${openDropdown === idx ? 'open' : ''}`}>
+                  <button
+                    className="dropdown-toggle"
+                    onClick={(e) => { e.preventDefault(); setOpenDropdown(openDropdown === idx ? null : idx); }}
+                  >
+                    {item.label} <ChevronDown size={14} />
+                  </button>
+                  <div className="dropdown-menu">
+                    {item.dropdown.map((s, sIdx) => (
+                      <Link
+                        key={sIdx}
+                        href={s.href}
+                        className={`dropdown-item ${pathname === s.href ? 'active-link' : ''}`}
                         onClick={() => setOpenDropdown(null)}
                       >
-                        <div className="dropdown-icon">
-                          <IconComponent size={20} />
-                        </div>
-                        <div className="dropdown-title">
-                          <EditableText 
-                            contentKey={`global.header.dropdowns.${dIdx}.links.${idx}.name`}
-                            value={link.name} 
-                          />
-                        </div>
-                        <div className="dropdown-desc">{link.desc}</div>
+                        <div className="dropdown-title">{s.label}</div>
                       </Link>
-                    );
-                  })}
+                    ))}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <Link key={idx} href={item.href} className={pathname === item.href ? 'active-link' : ''}>
+                  {item.label}
+                </Link>
+              )
             ))}
           </div>
 
