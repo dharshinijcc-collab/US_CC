@@ -16,8 +16,9 @@ export const metadata: Metadata = {
 }
 
 export const viewport = {
-  width: 1200,
-  initialScale: 0.3, // Adjust initial scale to fit 1200px on small screens
+  width: 'device-width',
+  initialScale: 1,
+  minimumScale: 1,
 }
 
 export default function RootLayout({
@@ -29,12 +30,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${manrope.variable} antialiased`}
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
           margin: 0,
           padding: 0,
+          width: '100%',
         }}>
         <Providers>
           {children}

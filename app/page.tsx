@@ -27,6 +27,7 @@ export default function LandingPage() {
   const [pendingIdea, setPendingIdea] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
+  const [flippedCards, setFlippedCards] = useState<Set<number>>(new Set());
   const heroRef = useRef(null);
 
   // Carousel scrolling/dragging logic
@@ -35,6 +36,7 @@ export default function LandingPage() {
   const [startX, setStartX] = useState(0);
   const [scrollLeftState, setScrollLeftState] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [activeMethodStep, setActiveMethodStep] = useState(0);
 
   // Auto-scroll logic (smooth loop without duplicate elements)
   useEffect(() => {
@@ -286,12 +288,7 @@ export default function LandingPage() {
       setIsLoading(false);
     }
   };
-
-  return (
-    <>
-
-      <style dangerouslySetInnerHTML={{
-        __html: `
+  const PAGE_STYLES = String.raw`
         @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
@@ -413,6 +410,95 @@ export default function LandingPage() {
         }
         .section-container { max-width: 1200px; margin: 0 auto; padding: 100px 24px; }
         @media(max-width: 768px) { .section-container { padding: 60px 20px; } }
+        @media(max-width: 480px) { .section-container { padding: 48px 16px; } }
+
+        /* ===== GLOBAL RESPONSIVE SYSTEM ===== */
+
+        /* --- Hero --- */
+        @media(max-width: 480px) {
+          .hero-section { padding: 110px 16px 48px !important; }
+          .hero-idea-box { max-width: 100% !important; }
+        }
+
+        /* --- Section titles --- */
+        @media(max-width: 480px) {
+          .section-title { font-size: 1.6rem !important; }
+          .section-subtitle { font-size: 0.9rem !important; }
+        }
+
+        /* --- Cards grid: force single column on phones --- */
+        @media(max-width: 540px) {
+          .cards-grid { grid-template-columns: 1fr !important; }
+          .cards-grid-2 { grid-template-columns: 1fr !important; }
+        }
+
+        /* --- Sys cards (audience / who we build for) --- */
+        @media(max-width: 768px) {
+          .sys-card { padding: 32px 24px; border-radius: 20px; }
+          .sys-card-small { padding: 28px 20px; border-radius: 20px; }
+        }
+        @media(max-width: 480px) {
+          .sys-card { padding: 24px 18px; }
+          .sys-card-small { padding: 20px 16px; }
+        }
+
+        /* --- Testimonials --- */
+        @media(max-width: 768px) {
+          .testimonial-card { padding: 32px 24px; border-radius: 24px; }
+        }
+        @media(max-width: 480px) {
+          .testimonial-card { padding: 24px 16px; border-radius: 20px; }
+        }
+
+        /* --- Founder quote card --- */
+        @media(max-width: 768px) {
+          .founder-quote-card {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 32px 24px !important;
+            border-radius: 28px !important;
+            margin-top: 40px !important;
+          }
+          .founder-img { width: 80px !important; height: 80px !important; }
+        }
+        @media(max-width: 480px) {
+          .founder-quote-card { padding: 24px 16px !important; border-radius: 20px !important; }
+          .fq-text { font-size: 1rem !important; }
+        }
+
+        /* --- Flip cards / audience grid --- */
+        @media(max-width: 768px) {
+          .flip-card-inner { min-height: 420px !important; }
+          .flip-card-front, .flip-card-back { padding: 28px 20px !important; border-radius: 20px !important; }
+        }
+        @media(max-width: 480px) {
+          .flip-card-inner { min-height: 380px !important; }
+          .audience-card-wrap .flip-card-inner { min-height: 420px !important; }
+        }
+
+        /* --- Metrics row --- */
+        @media(max-width: 640px) {
+          .metrics-row { flex-direction: column; align-items: center; gap: 32px; }
+        }
+
+        /* --- Signup overlay --- */
+        @media(max-width: 900px) {
+          .signup-left { display: none !important; }
+          .signup-right { padding: 32px 24px !important; }
+        }
+        @media(max-width: 480px) {
+          .signup-right { padding: 24px 16px !important; }
+          .signup-title { font-size: 1.6rem !important; }
+        }
+
+        /* --- Carousel cards --- */
+        @media(max-width: 480px) {
+          .carousel-card { width: 280px !important; height: 360px !important; padding: 24px 20px !important; }
+        }
+
+        /* --- Prevent horizontal scroll --- */
+        .landing-page { overflow-x: hidden; }
+        *, *::before, *::after { box-sizing: border-box; }
         .text-center { text-align: center; }
         .text-primary { color: var(--primary-blue); }
         .text-white { color: var(--white); }
@@ -731,7 +817,7 @@ export default function LandingPage() {
         .sys-card:hover .card-icon { background-color: var(--primary-blue); color: var(--white); }
         .card-title { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 800; margin-bottom: 16px; color: var(--text-black); letter-spacing: -0.02em; transition: color 0.3s; }
         .sys-card:hover .card-title { color: var(--white); }
-        .card-description { color: var(--text-muted); font-size: clamp(0.9rem, 1.5vw, 1rem); line-height: 1.6; font-weight: 500; margin-bottom: 32px; min-height: 80px; transition: color 0.3s; }
+        .card-description { color: var(--text-muted); font-size: clamp(0.9rem, 1.5vw, 1rem); line-height: 1.6; font-weight: 500; margin-bottom: 32px; transition: color 0.3s; }
         .sys-card:hover .card-description { color: #9CA3AF; }
         .card-features { list-style: none; padding: 0; margin: 0; }
         .card-features li { display: flex; align-items: center; font-size: clamp(0.9rem, 1.5vw, 1rem); color: var(--text-main); font-weight: 700; margin-bottom: 12px; transition: color 0.3s; }
@@ -1307,7 +1393,471 @@ export default function LandingPage() {
         .cc-footer-wrapper .footer {
           border-top: none !important;
         }
-      `}} />
+
+        /* ===== INFOGRAPHIC (How We Help) — CENTER CIRCLE + RIGHT CARDS ===== */
+        .inf-section-bg {
+          background: linear-gradient(135deg, rgba(240,245,255,0.85) 0%, rgba(238,242,255,0.9) 50%, rgba(235,240,255,0.85) 100%);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border-top: 1px solid rgba(0,90,226,0.07);
+          border-bottom: 1px solid rgba(0,90,226,0.07);
+        }
+
+        .inf-wrap {
+          display: flex;
+          align-items: center;
+          gap: 0;
+          margin-top: 56px;
+          position: relative;
+          min-height: 480px;
+        }
+
+        /* ── CENTER CIRCLE (left column, centered vertically) ── */
+        .inf-center-col {
+          flex: 0 0 220px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          align-self: stretch;
+        }
+
+        .inf-center-circle {
+          width: 180px;
+          height: 180px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.25) 100%);
+          border: 2px solid rgba(0,90,226,0.18);
+          box-shadow:
+            0 8px 40px rgba(0,90,226,0.15),
+            inset 0 1px 0 rgba(255,255,255,0.6),
+            0 0 0 12px rgba(0,90,226,0.05),
+            0 0 0 24px rgba(0,90,226,0.03);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          padding: 20px;
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          position: relative;
+          z-index: 2;
+          transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .inf-center-circle:hover {
+          transform: scale(1.06);
+          box-shadow:
+            0 16px 56px rgba(0,90,226,0.22),
+            inset 0 1px 0 rgba(255,255,255,0.7),
+            0 0 0 14px rgba(0,90,226,0.07),
+            0 0 0 28px rgba(0,90,226,0.04);
+        }
+        .inf-center-eyebrow {
+          font-size: 0.52rem;
+          font-weight: 800;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: #005AE2;
+          display: block;
+          margin-bottom: 6px;
+        }
+        .inf-center-title {
+          font-family: 'Manrope', sans-serif;
+          font-weight: 900;
+          font-size: 0.95rem;
+          color: #0A0F1C;
+          letter-spacing: -0.02em;
+          line-height: 1.2;
+          margin: 0 0 6px;
+        }
+        .inf-center-sub {
+          font-size: 0.65rem;
+          color: #64748B;
+          line-height: 1.5;
+          font-weight: 500;
+          margin: 0;
+        }
+
+        /* Vertical dashed line through center circle */
+        .inf-center-col::before {
+          content: '';
+          position: absolute;
+          left: 50%;
+          top: 0;
+          bottom: 0;
+          width: 2px;
+          transform: translateX(-50%);
+          background: repeating-linear-gradient(
+            to bottom,
+            rgba(0,90,226,0.25) 0px,
+            rgba(0,90,226,0.25) 6px,
+            transparent 6px,
+            transparent 14px
+          );
+          z-index: 0;
+        }
+
+        /* ── RIGHT CARDS COLUMN ── */
+        .inf-right-col {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+          padding-left: 48px;
+          position: relative;
+        }
+
+        .inf-item {
+          position: relative;
+          display: flex;
+          align-items: center;
+          gap: 0;
+        }
+
+        /* Numbered circle badge */
+        .inf-circle {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          background: #1A2744;
+          color: #ffffff;
+          font-weight: 900;
+          font-size: 0.82rem;
+          font-family: 'Manrope', sans-serif;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          letter-spacing: 0.04em;
+          box-shadow: 0 6px 18px rgba(0,0,0,0.28), 0 0 0 3px rgba(255,255,255,0.08);
+          z-index: 2;
+          flex-shrink: 0;
+          margin-right: 0;
+          transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease, background 0.3s ease;
+        }
+        .inf-item:hover .inf-circle {
+          transform: scale(1.14);
+          box-shadow: 0 10px 28px rgba(0,90,226,0.45);
+          background: linear-gradient(135deg, #005AE2 0%, #4F46E5 100%);
+        }
+
+        /* Dot node between circle and card */
+        .inf-dot-node {
+          width: 9px;
+          height: 9px;
+          border-radius: 50%;
+          background: #005AE2;
+          border: 2px solid rgba(255,255,255,0.9);
+          box-shadow: 0 0 0 3px rgba(0,90,226,0.2);
+          flex-shrink: 0;
+          z-index: 3;
+          margin: 0 4px;
+        }
+
+        /* Dashed horizontal connector */
+        .inf-h-connector {
+          height: 1.5px;
+          width: 28px;
+          flex-shrink: 0;
+          background-image: repeating-linear-gradient(
+            90deg,
+            rgba(0,90,226,0.55) 0px,
+            rgba(0,90,226,0.55) 5px,
+            transparent 5px,
+            transparent 10px
+          );
+        }
+
+        /* Pill card */
+        .inf-card {
+          background: linear-gradient(120deg, rgba(5,80,204,0.88) 0%, rgba(30,64,175,0.9) 45%, rgba(26,79,212,0.88) 100%);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border-radius: 100px;
+          padding: 14px 18px 14px 22px;
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          flex: 1;
+          position: relative;
+          overflow: hidden;
+          cursor: default;
+          border: 1px solid rgba(255,255,255,0.15);
+          box-shadow: 0 4px 20px rgba(0,90,226,0.2), inset 0 1px 0 rgba(255,255,255,0.12);
+          transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), box-shadow 0.35s ease;
+        }
+        .inf-card::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, rgba(255,255,255,0.13) 0%, transparent 60%);
+          border-radius: inherit;
+          pointer-events: none;
+        }
+        .inf-card:hover {
+          transform: translateX(8px) scale(1.012);
+          box-shadow: 0 10px 36px rgba(0,90,226,0.32), inset 0 1px 0 rgba(255,255,255,0.18);
+        }
+
+        .inf-card-body {
+          flex: 1;
+          position: relative;
+          z-index: 1;
+          min-width: 0;
+        }
+        .inf-card-highlight {
+          font-size: 0.5rem;
+          font-weight: 800;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.5);
+          display: block;
+          margin-bottom: 2px;
+        }
+        .inf-card-title {
+          font-family: 'Manrope', sans-serif;
+          font-weight: 800;
+          font-size: 0.92rem;
+          color: #ffffff;
+          letter-spacing: -0.02em;
+          margin: 0 0 3px;
+          line-height: 1.2;
+        }
+        .inf-card-desc {
+          font-size: 0.73rem;
+          color: rgba(255,255,255,0.72);
+          line-height: 1.5;
+          font-weight: 500;
+          margin: 0;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+
+        .inf-card-icon {
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.12);
+          border: 1.5px solid rgba(255,255,255,0.25);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          position: relative;
+          z-index: 1;
+          color: rgba(255,255,255,0.9);
+          transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .inf-card:hover .inf-card-icon {
+          background: rgba(255,255,255,0.22);
+          border-color: rgba(255,255,255,0.45);
+          transform: rotate(12deg) scale(1.12);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+          .inf-center-col { flex: 0 0 180px; }
+          .inf-center-circle { width: 150px; height: 150px; }
+          .inf-right-col { padding-left: 32px; }
+        }
+
+        @media (max-width: 768px) {
+          .inf-wrap {
+            flex-direction: column;
+            align-items: stretch;
+            min-height: auto;
+            gap: 32px;
+          }
+          .inf-center-col {
+            flex: none;
+            flex-direction: row;
+            align-self: auto;
+            gap: 20px;
+            padding: 0;
+            align-items: center;
+          }
+          .inf-center-col::before { display: none; }
+          .inf-center-circle {
+            width: 110px;
+            height: 110px;
+            flex-shrink: 0;
+          }
+          .inf-center-title { font-size: 0.8rem; }
+          .inf-center-sub { display: none; }
+          .inf-right-col { padding-left: 0; gap: 14px; }
+          .inf-card { border-radius: 20px; padding: 12px 14px; }
+          .inf-card:hover { transform: translateX(4px); }
+          .inf-card-desc { -webkit-line-clamp: 3; }
+          .inf-h-connector { width: 16px; }
+          .inf-circle { width: 40px; height: 40px; font-size: 0.72rem; }
+        }
+
+        @media (max-width: 480px) {
+          .inf-center-circle { width: 88px; height: 88px; }
+          .inf-center-eyebrow { font-size: 0.45rem; }
+          .inf-center-title { font-size: 0.7rem; }
+          .inf-card-title { font-size: 0.82rem; }
+          .inf-card-desc { font-size: 0.68rem; }
+          .inf-circle { width: 36px; height: 36px; font-size: 0.65rem; }
+          .inf-dot-node { width: 7px; height: 7px; }
+          .inf-h-connector { width: 10px; }
+        }
+
+        /* ===== FLIP CARDS (Who We Build For) ===== */
+        .audience-card-wrap {
+          perspective: 1200px;
+        }
+        .flip-card-inner {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          min-height: 440px;
+          transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+          transform-style: preserve-3d;
+        }
+        .flip-card-inner.is-flipped {
+          transform: rotateY(180deg);
+        }
+        .flip-card-front,
+        .flip-card-back {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+          border-radius: 24px;
+          padding: 40px 32px;
+          display: flex;
+          flex-direction: column;
+          background-color: var(--bg-light);
+          border: 1px solid var(--border-light);
+          overflow: hidden;
+        }
+        .flip-card-back {
+          transform: rotateY(180deg);
+          background: linear-gradient(135deg, #0A0F1C 0%, #1a2744 100%);
+          border-color: rgba(0,90,226,0.3);
+          color: #ffffff;
+          justify-content: space-between;
+        }
+        .flip-back-title {
+          font-family: 'Manrope', sans-serif;
+          font-weight: 800;
+          font-size: 1.25rem;
+          color: #ffffff;
+          margin-bottom: 8px;
+          letter-spacing: -0.02em;
+        }
+        .flip-back-eyebrow {
+          font-size: 0.7rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          color: #00E6A0;
+          margin-bottom: 24px;
+        }
+        .flip-back-features {
+          list-style: none;
+          padding: 0;
+          margin: 0 0 28px;
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+        .flip-back-features li {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          font-size: 0.95rem;
+          color: rgba(255,255,255,0.85);
+          font-weight: 500;
+          line-height: 1.4;
+        }
+        .flip-back-check {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: rgba(0, 230, 160, 0.15);
+          border: 1.5px solid #00E6A0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          margin-top: 1px;
+          color: #00E6A0;
+          font-size: 0.7rem;
+          font-weight: 800;
+        }
+        .flip-back-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: rgba(255,255,255,0.1);
+          color: #ffffff;
+          border: 1.5px solid rgba(255,255,255,0.25);
+          border-radius: 100px;
+          padding: 10px 22px;
+          font-weight: 700;
+          font-size: 0.875rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          width: fit-content;
+        }
+        .flip-back-btn:hover {
+          background: rgba(255,255,255,0.2);
+          border-color: rgba(255,255,255,0.5);
+        }
+
+        /* ===== AUDIENCE CARD WRAPPER (no hover color overrides) ===== */
+        .audience-card-wrap {
+          perspective: 1200px;
+        }
+        /* Prevent sys-card hover effects from bleeding into flip cards */
+        .audience-card-wrap .card-title,
+        .audience-card-wrap:hover .card-title {
+          color: var(--text-black) !important;
+        }
+        .audience-card-wrap .card-description,
+        .audience-card-wrap:hover .card-description {
+          color: var(--text-muted) !important;
+        }
+        .audience-card-wrap .card-learn-more-btn,
+        .audience-card-wrap:hover .card-learn-more-btn {
+          color: var(--primary-blue) !important;
+          border-color: var(--primary-blue) !important;
+          background-color: transparent !important;
+        }
+        .audience-card-wrap .card-icon,
+        .audience-card-wrap:hover .card-icon {
+          background-color: var(--white) !important;
+          color: var(--primary-blue) !important;
+        }
+        .audience-card-wrap .card-features li,
+        .audience-card-wrap:hover .card-features li {
+          color: var(--text-main) !important;
+        }
+        /* Keep learn-more hover working properly */
+        .audience-card-wrap .card-learn-more-btn:hover {
+          background-color: var(--primary-blue) !important;
+          color: var(--white) !important;
+          border-color: var(--primary-blue) !important;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 16px rgba(0, 90, 226, 0.2);
+        }
+        /* Fix flip-card-inner height to prevent text overflow */
+        .audience-card-wrap .flip-card-inner {
+          min-height: 490px;
+        }
+  `;
+
+  return (
+    <>
+
+      <style dangerouslySetInnerHTML={{ __html: PAGE_STYLES }} />
 
       <Header />
 
@@ -1455,94 +2005,167 @@ export default function LandingPage() {
             />
 
             <div className="cards-grid">
-              {homeContent.audiences.items.map((item, idx) => (
-                <div key={idx} className="sys-card cc-shine">
-                  <div className="card-icon">
-                    {item.icon === 'user' && <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>}
-                    {item.icon === 'building' && <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>}
-                    {item.icon === 'idea' && <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 1 7 7c0 2-1 3.9-2 5.5-.5.8-1.5 1.5-1.5 2.5v1H8.5v-1c0-1-1-1.7-1.5-2.5C6 12.9 5 11 5 9a7 7 0 0 1 7-7z"></path></svg>}
-                  </div>
-                  <EditableText
-                    as="h4"
-                    contentKey={`home.audiences.items.${idx}.title`}
-                    value={item.title}
-                    className="card-title"
-                  />
-                  <EditableText
-                    as="p"
-                    contentKey={`home.audiences.items.${idx}.description`}
-                    value={item.description}
-                    className="card-description"
-                  />
-                  <ul className="card-features">
-                    {item.features.map((feature, fIdx) => (
-                      <li key={fIdx}>
-                        <span className="check-icon">&#x2713;</span>
+              {homeContent.audiences.items.map((item, idx) => {
+                const isFlipped = flippedCards.has(idx);
+                return (
+                  <div key={idx} className="audience-card-wrap">
+                    <div className={`flip-card-inner ${isFlipped ? 'is-flipped' : ''}`}>
+                      {/* FRONT */}
+                      <div className="flip-card-front">
+                        <div className="card-icon">
+                          {item.icon === 'user' && <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>}
+                          {item.icon === 'building' && <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>}
+                          {item.icon === 'idea' && <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 1 7 7c0 2-1 3.9-2 5.5-.5.8-1.5 1.5-1.5 2.5v1H8.5v-1c0-1-1-1.7-1.5-2.5C6 12.9 5 11 5 9a7 7 0 0 1 7-7z"></path></svg>}
+                        </div>
                         <EditableText
-                          contentKey={`home.audiences.items.${idx}.features.${fIdx}`}
-                          value={feature}
+                          as="h4"
+                          contentKey={`home.audiences.items.${idx}.title`}
+                          value={item.title}
+                          className="card-title"
                         />
-                      </li>
-                    ))}
-                  </ul>
-                  <div style={{ marginTop: 'auto', paddingTop: '24px' }}>
-                    <Link href="/studio" className="card-learn-more-btn">
-                      Learn More
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                      </svg>
-                    </Link>
+                        <EditableText
+                          as="p"
+                          contentKey={`home.audiences.items.${idx}.description`}
+                          value={item.description}
+                          className="card-description"
+                        />
+                        <ul className="card-features">
+                          {item.features.slice(0, 2).map((feature, fIdx) => (
+                            <li key={fIdx}>
+                              <span className="check-icon">&#x2713;</span>
+                              <EditableText
+                                contentKey={`home.audiences.items.${idx}.features.${fIdx}`}
+                                value={feature}
+                              />
+                            </li>
+                          ))}
+                        </ul>
+                        <div style={{ marginTop: 'auto', paddingTop: '24px' }}>
+                          <button
+                            className="card-learn-more-btn"
+                            onClick={() => setFlippedCards(prev => { const n = new Set(prev); n.add(idx); return n; })}
+                          >
+                            Learn More
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <line x1="5" y1="12" x2="19" y2="12"></line>
+                              <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* BACK */}
+                      <div className="flip-card-back">
+                        <div>
+                          <p className="flip-back-eyebrow">What we offer</p>
+                          <h4 className="flip-back-title">{item.title}</h4>
+                          <ul className="flip-back-features">
+                            {item.features.map((feature, fIdx) => (
+                              <li key={fIdx}>
+                                <span className="flip-back-check">✓</span>
+                                <span>{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <button
+                          className="flip-back-btn"
+                          onClick={() => setFlippedCards(prev => { const n = new Set(prev); n.delete(idx); return n; })}
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                          Go Back
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
 
-        {/* How We Make It Happen */}
-        <section className="section-light">
-          <div className="section-container" style={{ maxWidth: '1440px' }}>
+        {/* How We Make It Happen — Infographic Timeline */}
+        <section className="section-light inf-section-bg">
+          <div className="section-container" style={{ maxWidth: '1100px' }}>
             <EditableText
               as="h2"
               contentKey="home.methodology.title"
               value={homeContent.methodology.title}
-              className="section-title"
+              className="section-title text-center"
             />
             <EditableText
               as="p"
               contentKey="home.methodology.subtitle"
               value={homeContent.methodology.subtitle}
-              className="section-subtitle"
-              style={{ margin: '0 0 clamp(32px, 5vw, 48px) 0', maxWidth: '800px', textAlign: 'left' }}
+              className="section-subtitle text-center"
+              style={{ margin: '0 auto clamp(24px, 4vw, 40px)', maxWidth: '640px' }}
             />
-            <div className="features-grid-4">
-              {methodologyCards.map((card, idx) => (
-                <div key={idx} className={`sys-card-small ${idx % 2 === 0 ? 'cc-shine' : ''}`}>
-                  <div className="f-card-icon primary-bg" style={{ fontSize: '1rem', fontWeight: 800 }}>
-                    {String(idx + 1).padStart(2, '0')}
-                  </div>
-                  <EditableText
-                    as="h4"
-                    contentKey={`home.methodology.cards.${idx}.title`}
-                    value={card.title}
-                    className="f-card-title"
-                    style={{ whiteSpace: 'pre-line' }}
-                  />
-                  <EditableText
-                    as="p"
-                    contentKey={`home.methodology.cards.${idx}.highlight`}
-                    value={card.highlight}
-                    className="f-card-highlight"
-                  />
-                  <EditableText
-                    as="p"
-                    contentKey={`home.methodology.cards.${idx}.description`}
-                    value={card.description}
-                    className="f-card-desc"
-                  />
+
+            <div className="inf-wrap">
+
+              {/* CENTER CIRCLE */}
+              <div className="inf-center-col">
+                <div className="inf-center-circle">
+                  <span className="inf-center-eyebrow">Our Process</span>
+                  <h3 className="inf-center-title">{homeContent.methodology.title}</h3>
+                  <p className="inf-center-sub">{homeContent.methodology.subtitle}</p>
                 </div>
-              ))}
+              </div>
+
+              {/* RIGHT: vertical timeline with pill cards */}
+              <div className="inf-right-col">
+                {methodologyCards.map((card, idx) => {
+                  const icons = [
+                    // Discovery
+                    <svg key="s" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
+                    // Strategy
+                    <svg key="t" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>,
+                    // Design
+                    <svg key="d" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
+                    // Build
+                    <svg key="b" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>,
+                    // Launch
+                    <svg key="l" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>,
+                    // AI
+                    <svg key="a" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>,
+                    // Silicon Valley
+                    <svg key="g" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>,
+                  ];
+                  return (
+                    <div key={idx} className="inf-item">
+                      {/* Dark numbered circle */}
+                      <div className="inf-circle">{String(idx + 1).padStart(2, '0')}</div>
+                      {/* dot node + dashed horizontal connector */}
+                      <div className="inf-dot-node"></div>
+                      <div className="inf-h-connector"></div>
+                      {/* Teal pill card */}
+                      <div className="inf-card">
+                        <div className="inf-card-body">
+                          {card.highlight && (
+                            <span className="inf-card-highlight">{card.highlight}</span>
+                          )}
+                          <h4 className="inf-card-title">
+                            <EditableText
+                              contentKey={`home.methodology.cards.${idx}.title`}
+                              value={card.title}
+                            />
+                          </h4>
+                          <p className="inf-card-desc">
+                            <EditableText
+                              contentKey={`home.methodology.cards.${idx}.description`}
+                              value={card.description}
+                            />
+                          </p>
+                        </div>
+                        <div className="inf-card-icon">
+                          {icons[idx] || icons[0]}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
             </div>
           </div>
         </section>
