@@ -96,9 +96,9 @@ export default function Header(props: any) {
     { label: 'Investors', href: '/investors' },
     { label: 'Company', href: '/company' },
     { label: 'Resources', href: '/resources', dropdown: [
-      { label: 'Tools', href: '/resources/tools', logo: '/images/logos/tools.png' },
-      { label: 'Blogs', href: '/resources/blogs', logo: '/images/logos/blogs.png' },
-      { label: 'Events', href: '/resources/events', logo: '/images/logos/events.png' },
+      { label: 'Tools', href: '/resources/tools', logo: '/images/logos/tools.svg' },
+      { label: 'Blogs', href: '/resources/blogs', logo: '/images/logos/blogs.svg' },
+      { label: 'Events', href: '/resources/events', logo: '/images/logos/events.svg' },
     ] }
   ];
 
@@ -180,6 +180,8 @@ export default function Header(props: any) {
           transition: all 0.3s ease;
           box-shadow: none;
           margin-right: 32px;
+          /* nudge menus slightly right for better visual balance */
+          transform: translateX(18px);
         }
 
         .navbar-links a, .dropdown-toggle { 
@@ -238,41 +240,47 @@ export default function Header(props: any) {
         }
         .dropdown-item { 
           display: flex; 
-          flex-direction: column;
-          align-items: flex-start;
-          padding: 8px 12px; 
+          flex-direction: row;
+          align-items: center;
+          padding: 10px 14px; 
           color: #0A0F1C; 
           text-decoration: none; 
-          transition: all 0.2s ease;
-          border-radius: 8px;
+          transition: all 0.18s ease;
+          border-radius: 12px;
           text-align: left;
-          width: 220px;
+          width: 260px;
+          gap: 12px;
+          background: transparent;
         }
         .dropdown-item:hover { 
           background: rgba(0, 90, 226, 0.04);
+          transform: translateY(-3px);
         }
         .dropdown-icon {
-          width: 40px;
-          height: 40px;
-          background: #F1F5F9;
+          width: 48px;
+          height: 48px;
+          background: #F8FAFC;
           border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 8px;
+          flex-shrink: 0;
           color: #0A0F1C;
+          overflow: hidden;
+          box-shadow: 0 4px 10px rgba(2,6,23,0.04);
         }
         .dropdown-title {
-          font-size: 0.9rem;
-          font-weight: 700;
-          margin-bottom: 2px;
+          font-size: 0.95rem;
+          font-weight: 800;
           color: #0A0F1C;
+          margin: 0;
         }
         .dropdown-desc {
-          font-size: 0.75rem;
+          font-size: 0.8rem;
           color: #64748B;
           line-height: 1.3;
-          font-weight: 400;
+          font-weight: 500;
+          margin: 0;
         }
         .dropdown-toggle {
           display: flex !important;
@@ -507,15 +515,16 @@ export default function Header(props: any) {
                         className={`dropdown-item ${pathname === s.href ? 'active-link' : ''}`}
                         onClick={() => setOpenDropdown(null)}
                       >
-                        <div className="dropdown-icon" style={{ marginRight: 12 }}>
+                        <div className="dropdown-icon">
                           {s.logo ? (
-                            <img src={s.logo} alt={`${s.label} logo`} style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 6 }} />
+                            <img src={s.logo} alt={`${s.label} logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                           ) : (
                             <RefreshCcw size={18} />
                           )}
                         </div>
-                        <div>
+                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                           <div className="dropdown-title">{s.label}</div>
+                          {s.desc && <div className="dropdown-desc">{s.desc}</div>}
                         </div>
                       </Link>
                     ))}
