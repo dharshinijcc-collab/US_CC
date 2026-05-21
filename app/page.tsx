@@ -28,7 +28,7 @@ export default function LandingPage() {
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
   const heroRef = useRef(null);
-  
+
   // Carousel scrolling/dragging logic
   const carouselRef = useRef<HTMLDivElement>(null);
   const [isDown, setIsDown] = useState(false);
@@ -44,7 +44,7 @@ export default function LandingPage() {
       if (carouselRef.current) {
         const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
         const maxScroll = scrollWidth - clientWidth;
-        
+
         // If we are at the end, scroll back smoothly to 0
         if (scrollLeft >= maxScroll - 10) {
           carouselRef.current.scrollTo({ left: 0, behavior: 'smooth' });
@@ -226,20 +226,20 @@ export default function LandingPage() {
   const homeContent = content.home;
   const methodologyCards = homeContent.methodology.cards.length <= 4
     ? [
-        ...homeContent.methodology.cards,
-        {
-          title: "AI & Automation Integration",
-          highlight: "INTELLIGENT WORKFLOWS. ELITE SPEED.",
-          description: "We infuse artificial intelligence and workflow automation directly into your venture’s core operations to minimize manual friction and accelerate scale.",
-          icon: "cpu"
-        },
-        {
-          title: "Silicon Valley Execution",
-          highlight: "GLOBAL TALENT. RAPID LAUNCH.",
-          description: "Access top-tier engineers, world-class designers, and product leaders working on a unified, high-velocity roadmap designed to optimize your runway.",
-          icon: "target"
-        }
-      ]
+      ...homeContent.methodology.cards,
+      {
+        title: "AI & Automation Integration",
+        highlight: "INTELLIGENT WORKFLOWS. ELITE SPEED.",
+        description: "We infuse artificial intelligence and workflow automation directly into your venture’s core operations to minimize manual friction and accelerate scale.",
+        icon: "cpu"
+      },
+      {
+        title: "Silicon Valley Execution",
+        highlight: "GLOBAL TALENT. RAPID LAUNCH.",
+        description: "Access top-tier engineers, world-class designers, and product leaders working on a unified, high-velocity roadmap designed to optimize your runway.",
+        icon: "target"
+      }
+    ]
     : homeContent.methodology.cards;
 
   const handleIdeaSubmit = (e: any) => {
@@ -1329,7 +1329,7 @@ export default function LandingPage() {
                 const words = (homeContent.hero.heading || '').split(' ');
                 const line1 = words.slice(0, 4);
                 const line2 = words.slice(4);
-                
+
                 const renderWord = (word: string, index: number) => {
                   const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
                   const isBlue = ['BOLD', 'IDEAS', 'REAL'].includes(cleanWord);
