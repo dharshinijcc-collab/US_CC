@@ -28,3 +28,10 @@ env/
 .env.*
 .vscode/
 .idea/
+
+# Large binary / local dev files
+node_portable.zip
+node-v20.11.1-win-x64/
+run_dev.bat
+update_config.py
+update_menu.py
