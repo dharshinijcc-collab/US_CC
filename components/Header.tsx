@@ -96,9 +96,9 @@ export default function Header(props: any) {
     { label: 'Investors', href: '/investors' },
     { label: 'Company', href: '/company' },
     { label: 'Resources', href: '/resources', dropdown: [
-      { label: 'Tools', href: '/resources/tools' },
-      { label: 'Blogs', href: '/resources/blogs' },
-      { label: 'Events', href: '/resources/events' },
+      { label: 'Tools', href: '/resources/tools', logo: '/images/logos/tools.png' },
+      { label: 'Blogs', href: '/resources/blogs', logo: '/images/logos/blogs.png' },
+      { label: 'Events', href: '/resources/events', logo: '/images/logos/events.png' },
     ] }
   ];
 
@@ -507,7 +507,16 @@ export default function Header(props: any) {
                         className={`dropdown-item ${pathname === s.href ? 'active-link' : ''}`}
                         onClick={() => setOpenDropdown(null)}
                       >
-                        <div className="dropdown-title">{s.label}</div>
+                        <div className="dropdown-icon" style={{ marginRight: 12 }}>
+                          {s.logo ? (
+                            <img src={s.logo} alt={`${s.label} logo`} style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: 6 }} />
+                          ) : (
+                            <RefreshCcw size={18} />
+                          )}
+                        </div>
+                        <div>
+                          <div className="dropdown-title">{s.label}</div>
+                        </div>
                       </Link>
                     ))}
                   </div>
