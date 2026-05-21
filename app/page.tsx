@@ -1500,8 +1500,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* How We Make It Happen — temporarily hidden, not pushed */}
-        {/* <section className="section-light">
+        {/* How We Make It Happen */}
+        <section className="section-light">
           <div className="section-container" style={{ maxWidth: '1440px' }}>
             <EditableText
               as="h2"
@@ -1545,7 +1545,7 @@ export default function LandingPage() {
               ))}
             </div>
           </div>
-        </section> */}
+        </section>
 
 
 
