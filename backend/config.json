@@ -70,8 +70,8 @@
               "href": "/investors"
             },
             {
-              "name": "Selection Framework",
-              "href": "/studio#methodology"
+              "name": "Our Methodology",
+              "href": "/contact#form"
             }
           ]
         },
@@ -123,61 +123,91 @@
       "title": "Crestcode Portfolio",
       "subtitle": "Discover the high-growth ventures and transformative platforms we've built from the ground up."
     },
-    "categories": ["All", "Fintech", "AI/ML", "HealthTech", "Enterprise SaaS"],
+    "categories": [
+      "All",
+      "Fintech",
+      "AI/ML",
+      "HealthTech",
+      "Enterprise SaaS"
+    ],
     "companies": [
-      { 
-        "name": "Aura AI", 
-        "category": "AI/ML", 
-        "desc": "Predictive analytics and autonomous ML workflows for leading consumer brands.", 
+      {
+        "name": "Aura AI",
+        "category": "AI/ML",
+        "desc": "Predictive analytics and autonomous ML workflows for leading consumer brands.",
         "link": "#",
         "initials": "AA",
         "est": "Est. 2025",
-        "tags": ["LLMs", "Predictive", "B2C"]
+        "tags": [
+          "LLMs",
+          "Predictive",
+          "B2C"
+        ]
       },
-      { 
-        "name": "VaultPay", 
-        "category": "Fintech", 
-        "desc": "Multi-currency B2B ledger systems and instant settlement infrastructure.", 
+      {
+        "name": "VaultPay",
+        "category": "Fintech",
+        "desc": "Multi-currency B2B ledger systems and instant settlement infrastructure.",
         "link": "#",
         "initials": "VP",
         "est": "Est. 2024",
-        "tags": ["Ledger", "APIs", "PCI-DSS"]
+        "tags": [
+          "Ledger",
+          "APIs",
+          "PCI-DSS"
+        ]
       },
-      { 
-        "name": "HealthSync", 
-        "category": "HealthTech", 
-        "desc": "Unified secure patient data protocol connecting legacy hospitals with modern software.", 
+      {
+        "name": "HealthSync",
+        "category": "HealthTech",
+        "desc": "Unified secure patient data protocol connecting legacy hospitals with modern software.",
         "link": "#",
         "initials": "HS",
         "est": "Est. 2025",
-        "tags": ["HIPAA", "FHIR", "GraphQL"]
+        "tags": [
+          "HIPAA",
+          "FHIR",
+          "GraphQL"
+        ]
       },
-      { 
-        "name": "CloudScale", 
-        "category": "Enterprise SaaS", 
-        "desc": "Intelligent resource management and automated cloud infrastructure cost optimization.", 
+      {
+        "name": "CloudScale",
+        "category": "Enterprise SaaS",
+        "desc": "Intelligent resource management and automated cloud infrastructure cost optimization.",
         "link": "#",
         "initials": "CS",
         "est": "Est. 2023",
-        "tags": ["FinOps", "AWS", "Kubernetes"]
+        "tags": [
+          "FinOps",
+          "AWS",
+          "Kubernetes"
+        ]
       },
-      { 
-        "name": "NeuroFlow", 
-        "category": "AI/ML", 
-        "desc": "High-performance cognitive computing runtime optimized for constrained edge devices.", 
+      {
+        "name": "NeuroFlow",
+        "category": "AI/ML",
+        "desc": "High-performance cognitive computing runtime optimized for constrained edge devices.",
         "link": "#",
         "initials": "NF",
         "est": "Est. 2025",
-        "tags": ["Edge AI", "Rust", "ONNX"]
+        "tags": [
+          "Edge AI",
+          "Rust",
+          "ONNX"
+        ]
       },
-      { 
-        "name": "LedgerX", 
-        "category": "Fintech", 
-        "desc": "Secure institutional crypto trading desk and capital settlement network.", 
+      {
+        "name": "LedgerX",
+        "category": "Fintech",
+        "desc": "Secure institutional crypto trading desk and capital settlement network.",
         "link": "#",
         "initials": "LX",
         "est": "Est. 2024",
-        "tags": ["DeFi", "Liquidity", "Web3"]
+        "tags": [
+          "DeFi",
+          "Liquidity",
+          "Web3"
+        ]
       }
     ]
   },
@@ -686,7 +716,7 @@
     "cta": {
       "title": "We Accelerate Product Development",
       "subtitle": "We help founders and businesses move from concept to launch faster with streamlined workflows and agile execution. Our team combines strategy, design, and engineering to accelerate every stage of product development.",
-      "buttonText": "Our Methodology →"
+      "buttonText": "Start a Conversation"
     }
   },
   "privacy": {

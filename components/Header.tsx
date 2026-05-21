@@ -5,12 +5,20 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
-import { ChevronDown, RefreshCcw, TrendingUp, Rocket, Swords, Users } from 'lucide-react';
+import { ChevronDown, RefreshCcw, TrendingUp, Rocket, Swords, Users, LucideIcon } from 'lucide-react';
+
+const iconMap: { [key: string]: LucideIcon } = {
+  'refresh': RefreshCcw,
+  'trending-up': TrendingUp,
+  'rocket': Rocket,
+  'swords': Swords,
+  'users': Users
+};
 
 export default function Header(props: any) {
   const { content } = useContent();
   const globalContent = content?.global;
-  
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -29,22 +37,20 @@ export default function Header(props: any) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Handle scroll effect and background detection
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
 
-      // Detect if header area overlaps a dark section or element
       const darkSelectors = [
-        '.section-dark', 
-        '.bg-dark', 
-        '.btn-primary', 
-        '.solving-card', 
+        '.section-dark',
+        '.bg-dark',
+        '.btn-primary',
+        '.solving-card',
         '.process-card',
         '.card-dark',
         '.metrics-bg-section',
         '.footer',
-        '.sys-card-small', // Methodology cards
+        '.sys-card-small',
         '.founder-quote-card',
         '[style*="background-color: #0A0F1C"]',
         '[style*="background-color: var(--bg-dark)"]',
@@ -55,11 +61,10 @@ export default function Header(props: any) {
       const darkElements = document.querySelectorAll(darkSelectors.join(', '));
       let foundDark = false;
       const headerTop = 0;
-      const headerBottom = 80; // Detect anything within the first 80px of viewport
+      const headerBottom = 80;
 
       darkElements.forEach((el: any) => {
         const rect = el.getBoundingClientRect();
-        // Check if the element overlaps the header's vertical zone
         if (rect.top <= headerBottom && rect.bottom >= headerTop) {
           foundDark = true;
         }
@@ -68,18 +73,16 @@ export default function Header(props: any) {
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial check
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, [pathname]);
 
-  // Close menu on route change
   useEffect(() => {
     setIsMenuOpen(false);
   }, [pathname]);
 
   useEffect(() => {
     const checkMobile = () => {
-      // Check physical screen width because viewport is forced to 1200
       setIsMobileDevice(window.screen.width < 1100 || (window.innerWidth < 1100 && window.innerWidth > 0));
     };
     checkMobile();
@@ -89,24 +92,26 @@ export default function Header(props: any) {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  // Fixed nav items to ensure consistent menu structure
   const navItems = [
     { label: 'Home', href: '/' },
     { label: 'Studio', href: '/studio' },
     { label: 'Investors', href: '/investors' },
     { label: 'Company', href: '/company' },
-    { label: 'Resources', href: '/resources', dropdown: [
-      { label: 'Tools', href: '/resources/tools', logo: '/images/logos/tools.svg' },
-      { label: 'Blogs', href: '/resources/blogs', logo: '/images/logos/blogs.svg' },
-      { label: 'Events', href: '/resources/events', logo: '/images/logos/events.svg' },
-    ] }
+    {
+      label: 'Resources', href: '/resources', dropdown: [
+        { label: 'Tools', href: '/resources/tools', logo: '/images/logos/tools.png', description: 'Powerful tools to accelerate your growth' },
+        { label: 'Blogs', href: '/resources/blogs', logo: '/images/logos/blogs.png', description: 'Insights and stories from our team' },
+        { label: 'Events', href: '/resources/events', logo: '/images/logos/events.png', description: 'Connect with us at industry events' },
+      ]
+    }
   ];
 
   if (!globalContent) return null;
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .navbar-wrapper { 
           position: fixed; 
           top: 0; 
@@ -119,19 +124,12 @@ export default function Header(props: any) {
           background: #ffffff;
           box-shadow: 0 1px 0 rgba(0,0,0,0.08);
         }
-        
-        /* @media (max-width: 768px) {
-          .navbar-wrapper {
-            top: 4px;
-            padding: 0 12px;
-          }
-        } */
 
         .navbar { 
           background: transparent;
           color: #0A0F1C; 
           display: grid; 
-          grid-template-columns: auto minmax(520px, 1fr) auto; /* logo - menus - contact */
+          grid-template-columns: auto minmax(520px, 1fr) auto;
           align-items: center; 
           padding: 12px 24px; 
           width: 100%; 
@@ -140,12 +138,6 @@ export default function Header(props: any) {
           transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
           gap: 32px;
         }
-
-        /* @media (max-width: 768px) {
-          .navbar {
-            padding: 10px 20px;
-          }
-        } */
 
         .navbar-brand { 
           font-weight: 800; 
@@ -161,14 +153,11 @@ export default function Header(props: any) {
           background: transparent;
           padding: 0;
           margin: 0;
+          gap: 10px;
         }
 
-        /* @media (max-width: 1200px) {
-          .navbar-brand { font-size: 1.1rem; }
-        } */
-
         .navbar-links { 
-          display: flex; /* Always visible for website look */
+          display: flex;
           align-items: center;
           justify-content: flex-end;
           background: transparent;
@@ -180,8 +169,6 @@ export default function Header(props: any) {
           transition: all 0.3s ease;
           box-shadow: none;
           margin-right: 32px;
-          /* nudge menus slightly right for better visual balance */
-          transform: translateX(18px);
         }
 
         .navbar-links a, .dropdown-toggle { 
@@ -209,78 +196,92 @@ export default function Header(props: any) {
         }
         
         .dropdown { position: static; display: inline-block; }
-        .dropdown-menu { 
-          position: absolute; 
-          top: 100%; 
+        .dropdown-menu {
+          position: absolute;
+          top: 100%;
           left: 0;
+          right: 0;
           transform: translateY(10px);
           background: #ffffff;
-          border-top: 1px solid rgba(0,0,0,0.08);
-          border-bottom: 1px solid rgba(0,0,0,0.08);
-          border-left: none;
-          border-right: none;
-          border-radius: 0; 
-          padding: 20px 0; 
-          width: 100%; 
-          box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+          border-radius: 0 0 12px 12px;
+          padding: 32px 48px;
+          width: 100vw;
+          margin-left: calc(-50vw + 50%);
+          box-shadow: 0 20px 40px rgba(0,0,0,0.1);
           z-index: 1000;
           opacity: 0;
           visibility: hidden;
           transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
           display: flex;
           justify-content: center;
-          align-items: flex-start;
-          gap: 32px;
+          gap: 48px;
+        }
+        @media (max-width: 1200px) {
+          .dropdown-menu {
+            gap: 32px;
+            padding: 24px 32px;
+          }
+          .dropdown-item {
+            min-width: 150px;
+            max-width: 200px;
+          }
         }
         .dropdown:hover .dropdown-menu,
-        .dropdown.open .dropdown-menu { 
-          opacity: 1; 
-          visibility: visible; 
+        .dropdown.open .dropdown-menu {
+          opacity: 1;
+          visibility: visible;
           transform: translateY(0);
         }
-        .dropdown-item { 
-          display: flex; 
-          flex-direction: row;
+        .dropdown-item {
+          display: flex;
+          flex-direction: column;
           align-items: center;
-          padding: 10px 14px; 
-          color: #0A0F1C; 
-          text-decoration: none; 
-          transition: all 0.18s ease;
+          text-align: center;
+          padding: 20px;
+          min-width: 180px;
+          max-width: 240px;
+          color: #0A0F1C;
+          text-decoration: none;
+          transition: all 0.2s ease;
           border-radius: 12px;
-          text-align: left;
-          width: 260px;
-          gap: 12px;
           background: transparent;
         }
-        .dropdown-item:hover { 
+        .dropdown-item:hover {
           background: rgba(0, 90, 226, 0.04);
-          transform: translateY(-3px);
+          transform: translateY(-2px);
+        }
+        .dropdown-logo {
+          width: 64px;
+          height: 64px;
+          margin-bottom: 16px;
+          object-fit: contain;
+          flex-shrink: 0;
         }
         .dropdown-icon {
-          width: 48px;
-          height: 48px;
-          background: #F8FAFC;
-          border-radius: 8px;
+          width: 64px;
+          height: 64px;
+          background: #F1F5F9;
+          border-radius: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
-          flex-shrink: 0;
           color: #0A0F1C;
-          overflow: hidden;
-          box-shadow: 0 4px 10px rgba(2,6,23,0.04);
+          margin-bottom: 16px;
+          flex-shrink: 0;
         }
         .dropdown-title {
-          font-size: 0.95rem;
-          font-weight: 800;
+          font-size: 1rem;
+          font-weight: 700;
+          margin-bottom: 8px;
           color: #0A0F1C;
-          margin: 0;
+          line-height: 1.3;
         }
         .dropdown-desc {
-          font-size: 0.8rem;
+          font-size: 0.85rem;
           color: #64748B;
-          line-height: 1.3;
-          font-weight: 500;
-          margin: 0;
+          line-height: 1.5;
+          font-weight: 400;
+          max-width: 200px;
         }
         .dropdown-toggle {
           display: flex !important;
@@ -298,12 +299,14 @@ export default function Header(props: any) {
         .btn-nav-wrapper { 
           display: flex; 
           justify-content: flex-end;
+          align-items: center;
+          gap: 32px;
         }
         .btn-nav { 
           padding: 12px 32px; 
           font-size: 15px; 
           border-radius: 100px; 
-          background: #005AE2; /* Original Premium Blue */
+          background: #005AE2;
           border: none;
           color: white;
           font-weight: 700;
@@ -317,7 +320,6 @@ export default function Header(props: any) {
           box-shadow: 0 8px 20px rgba(0, 90, 226, 0.3);
         }
 
-        /* Hamburger Menu */
         .hamburger {
           display: none;
           flex-direction: column;
@@ -336,7 +338,6 @@ export default function Header(props: any) {
           border-radius: 2px;
         }
 
-        /* Desktop layout: centered links with equal side spacing */
         .navbar {
           padding: 12px 40px;
         }
@@ -344,7 +345,7 @@ export default function Header(props: any) {
         .navbar-brand { justify-self: start; }
         .navbar-links { 
           display: ${isMobileDevice ? 'none' : 'flex'} !important;
-          justify-self: center; /* center menus in wide middle column */
+          justify-self: center;
           align-items: center;
           background: transparent;
           padding: 8px 0;
@@ -355,28 +356,13 @@ export default function Header(props: any) {
         .btn-nav-wrapper { justify-self: end; }
 
         .btn-nav-desktop { 
-          display: flex !important; /* Keep Contact button visible on mobile */
+          display: flex !important;
         }
         
         @media (max-width: 1200px) {
-          .btn-nav { padding: 8px 20px; font-size: 13px; } /* Slightly smaller for mobile layout */
+          .btn-nav { padding: 8px 20px; font-size: 13px; }
         }
 
-        /* Symmetrical Brand/CTA widths to keep links centered */
-        .navbar-brand {
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          flex: 1;
-        }
-
-        .btn-nav-wrapper {
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-        }
-
-        /* Mobile Menu Redesign (Hexa Style) */
         .hamburger {
           display: ${isMobileDevice ? 'flex' : 'none'} !important;
           flex-direction: column;
@@ -486,17 +472,17 @@ export default function Header(props: any) {
 
       <div className="navbar-wrapper">
         <nav className="navbar">
-          <Link href="/" className="navbar-brand" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <Link href="/" className="navbar-brand">
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-              <img 
-                src="/crestcode-logo-transparent.png" 
-                alt="Crestcode Logo" 
-                style={{ height: '50px', width: 'auto', objectFit: 'contain', position: 'relative', zIndex: 1 }} 
+              <img
+                src="/crestcode-logo-transparent.png"
+                alt="Crestcode Logo"
+                style={{ height: '50px', width: 'auto', objectFit: 'contain', position: 'relative', zIndex: 1 }}
               />
             </div>
             <EditableText contentKey="global.header.brand" value="Crestcode Product Studio" variant="ghost" />
           </Link>
-          
+
           <div className="navbar-links" ref={dropdownRef}>
             {navItems.map((item, idx) => (
               item.dropdown ? (
@@ -515,17 +501,19 @@ export default function Header(props: any) {
                         className={`dropdown-item ${pathname === s.href ? 'active-link' : ''}`}
                         onClick={() => setOpenDropdown(null)}
                       >
-                        <div className="dropdown-icon">
-                          {s.logo ? (
-                            <img src={s.logo} alt={`${s.label} logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                          ) : (
-                            <RefreshCcw size={18} />
-                          )}
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                          <div className="dropdown-title">{s.label}</div>
-                          {s.desc && <div className="dropdown-desc">{s.desc}</div>}
-                        </div>
+                        {s.logo ? (
+                          <img src={s.logo} alt={`${s.name} logo`} className="dropdown-logo" />
+                        ) : (
+                          <div className="dropdown-icon">
+                            {s.icon && iconMap[s.icon] ? (
+                              React.createElement(iconMap[s.icon], { size: 28 })
+                            ) : (
+                              <RefreshCcw size={28} />
+                            )}
+                          </div>
+                        )}
+                        <div className="dropdown-title">{s.name}</div>
+                        <div className="dropdown-desc">{s.desc}</div>
                       </Link>
                     ))}
                   </div>
@@ -538,14 +526,14 @@ export default function Header(props: any) {
             ))}
           </div>
 
-          <div className="btn-nav-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+          <div className="btn-nav-wrapper">
             <div style={{ height: '24px', width: '1px', backgroundColor: isDarkBg ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)' }}></div>
             <Link href="/contact" className="btn-nav-desktop">
               <button className="btn-nav">
                 <EditableText contentKey="global.header.cta" value={globalContent.header.cta} />
               </button>
             </Link>
-            
+
             <div className={`hamburger ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
               <span></span>
               <span></span>
@@ -571,9 +559,9 @@ export default function Header(props: any) {
           <span className="menu-label">Menu</span>
           <div className="menu-links">
             {globalContent.header.links.map((link: any, idx: number) => (
-              <Link 
-                key={idx} 
-                href={link.href} 
+              <Link
+                key={idx}
+                href={link.href}
                 className={`menu-link ${pathname === link.href ? 'active' : ''}`}
                 onClick={toggleMenu}
               >
@@ -581,8 +569,8 @@ export default function Header(props: any) {
               </Link>
             ))}
 
-            {(Array.isArray(globalContent.header.dropdowns) 
-              ? globalContent.header.dropdowns 
+            {(Array.isArray(globalContent.header.dropdowns)
+              ? globalContent.header.dropdowns
               : Object.values(globalContent.header.dropdowns)
             ).map((dropdown: any, dIdx: number) => (
               <React.Fragment key={dIdx}>
@@ -590,9 +578,9 @@ export default function Header(props: any) {
                   <EditableText contentKey={`global.header.dropdowns.${dIdx}.label`} value={dropdown.label} />
                 </div>
                 {dropdown.links.map((link: any, idx: number) => (
-                  <Link 
-                    key={`${dIdx}-${idx}`} 
-                    href={link.href} 
+                  <Link
+                    key={`${dIdx}-${idx}`}
+                    href={link.href}
                     className={`menu-link ${pathname === link.href ? 'active' : ''}`}
                     onClick={toggleMenu}
                     style={{ fontSize: '1.75rem', paddingLeft: '20px' }}
