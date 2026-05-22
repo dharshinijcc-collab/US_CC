@@ -87,6 +87,10 @@
             {
               "name": "FAQ",
               "href": "/faq"
+            },
+            {
+              "name": "Blogs",
+              "href": "/blogs"
             }
           ]
         },

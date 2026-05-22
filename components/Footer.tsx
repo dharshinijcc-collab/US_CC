@@ -241,13 +241,17 @@ export default function Footer() {
                 )}
                 {section.links && (
                   <ul style={{ marginBottom: section.cta ? '24px' : '0' }}>
-                    {section.links.map((link, lIdx) => (
-                      <li key={lIdx}>
-                        <Link href={link.href}>
-                          <EditableText contentKey={`global.footer.sections.${idx}.links.${lIdx}.name`} value={link.name} />
-                        </Link>
-                      </li>
-                    ))}
+                    {section.links.map((link, lIdx) => {
+                      const isBlogsLink = link.name?.toLowerCase() === 'blogs';
+                      const resolvedHref = isBlogsLink ? '/blogs' : link.href;
+                      return (
+                        <li key={lIdx}>
+                          <Link href={resolvedHref}>
+                            <EditableText contentKey={`global.footer.sections.${idx}.links.${lIdx}.name`} value={link.name} />
+                          </Link>
+                        </li>
+                      );
+                    })}
                   </ul>
                 )}
                 {section.contactLinks && (
