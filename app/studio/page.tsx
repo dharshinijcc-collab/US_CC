@@ -10,21 +10,199 @@ import ScrollStack, { ScrollStackItem } from '@/components/ScrollStack';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
 
+// Solving section — clean redesign
+// Small tight fan (9/17/23px offsets, 5/9/13deg), no dots, no progress bar
+// Icon stroke uses card accent color for a polished tinted look
+
+const INTERVAL = 3600;
+
+const FAN = [
+  { tx: 0,  ty: 0,  r: 0,  z: 40, op: 1,    shadow: '0 16px 48px -8px rgba(0,0,0,0.32), 0 4px 16px -4px rgba(0,0,0,0.16)' },
+  { tx: 9,  ty: 11, r: 5,  z: 30, op: 1,    shadow: 'none' },
+  { tx: 17, ty: 20, r: 9,  z: 20, op: 0.90, shadow: 'none' },
+  { tx: 23, ty: 27, r: 13, z: 10, op: 0.75, shadow: 'none' },
+];
+
+function SolvingSection({ stackCards, studioContent, EditableText }: any) {
+  const n = stackCards.length;
+  const [active, setActive] = useState(0);
+  const [exiting, setExiting] = useState<number | null>(null);
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setActive(prev => {
+        setExiting(prev);
+        setTimeout(() => setExiting(null), 380);
+        return (prev + 1) % n;
+      });
+    }, INTERVAL);
+    return () => clearInterval(t);
+  }, [n]);
+
+  return (
+    <section
+      className="section-dark"
+      style={{ backgroundColor: '#060B18', padding: '80px 48px' }}
+    >
+      <div style={{ maxWidth: '960px', margin: '0 auto' }}>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 'clamp(40px, 6vw, 72px)',
+          alignItems: 'center',
+        }}>
+
+          {/* ── Left ── */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <EditableText
+              as="h2"
+              contentKey="studio.solving.title"
+              value={studioContent.solving.title}
+              className="section-title title-dark"
+              style={{
+                textAlign: 'left',
+                fontSize: 'clamp(1.9rem, 4vw, 2.6rem)',
+                fontWeight: 800,
+                letterSpacing: '-0.02em',
+                color: '#fff',
+                marginBottom: '32px',
+              }}
+            />
+            <span style={{
+              fontSize: '0.68rem', fontWeight: 800,
+              letterSpacing: '0.18em', textTransform: 'uppercase',
+              color: '#2563EB', marginBottom: '20px',
+            }}>
+              {String(active + 1).padStart(2, '0')} — {String(n).padStart(2, '0')}
+            </span>
+
+            <EditableText
+              as="h3"
+              contentKey={`studio.solving.cards.${active}.title`}
+              value={stackCards[active].title}
+              style={{
+                fontSize: 'clamp(1.3rem, 2.5vw, 1.65rem)',
+                fontWeight: 800,
+                color: '#fff',
+                letterSpacing: '-0.01em',
+                lineHeight: 1.3,
+                marginBottom: '16px',
+              }}
+            />
+            <EditableText
+              as="p"
+              contentKey={`studio.solving.cards.${active}.problemDesc`}
+              value={stackCards[active].problemDesc}
+              style={{
+                fontSize: '0.95rem',
+                color: '#64748B',
+                lineHeight: 1.8,
+                fontWeight: 500,
+                margin: 0,
+              }}
+            />
+          </div>
+
+          {/* ── Right: deck ── */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+            <div style={{ position: 'relative', width: '280px', height: '310px' }}>
+
+              {/* Paint back-to-front */}
+              {[...Array(n)].map((_, rev) => {
+                const index = n - 1 - rev;
+                const slot = (index - active + n) % n;
+                const f = FAN[slot] ?? { tx: 30, ty: 34, r: 17, z: 0, op: 0, shadow: 'none' };
+                const card = stackCards[index];
+                const isOut = index === exiting;
+
+                return (
+                  <div
+                    key={card.id}
+                    style={{
+                      position: 'absolute',
+                      top: 0, left: 0,
+                      width: '280px',
+                      height: '300px',
+                      background: '#fff',
+                      borderRadius: '22px',
+                      padding: '32px 28px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '18px',
+                      transformOrigin: 'center center',
+                      transform: isOut
+                        ? 'translate(-80px, -52px) rotate(-18deg)'
+                        : `translate(${f.tx}px, ${f.ty}px) rotate(${f.r}deg)`,
+                      zIndex: isOut ? 0 : f.z,
+                      opacity: isOut ? 0 : f.op,
+                      boxShadow: f.shadow,
+                      border: '1px solid rgba(0,0,0,0.04)',
+                      transition: isOut
+                        ? 'transform 0.44s cubic-bezier(0.4,0,1,1), opacity 0.35s'
+                        : 'transform 0.7s cubic-bezier(0.34,1.38,0.64,1), opacity 0.5s, box-shadow 0.5s',
+                    }}
+                  >
+                    {/* Icon — stroke uses accent colour, bg is tinted */}
+                    <div style={{
+                      width: '58px', height: '58px',
+                      borderRadius: '14px',
+                      background: `${card.color}18`,
+                      border: `2px solid ${card.color}44`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      flexShrink: 0,
+                    }}>
+                      {React.cloneElement(card.icon as React.ReactElement<any>, {
+                        width: 26,
+                        height: 26,
+                        stroke: card.color,
+                        strokeWidth: 1.75,
+                      })}
+                    </div>
+
+                    <EditableText
+                      as="p"
+                      contentKey={`studio.solving.cards.${index}.solutionDesc`}
+                      value={card.solutionDesc}
+                      style={{
+                        fontSize: '0.84rem',
+                        color: '#475569',
+                        fontWeight: 500,
+                        lineHeight: 1.7,
+                        margin: 0,
+                        textAlign: 'center',
+                        maxWidth: '220px',
+                      }}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function StudioPage() {
   const { content, loading, error } = useContent();
   const [activeStackIndex, setActiveStackIndex] = useState(0);
   const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(0);
   const [activeTimelineIndex, setActiveTimelineIndex] = useState<number | null>(null);
   const [heroCarouselIndex, setHeroCarouselIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     // We can't derive stackCards here because it needs content.
     // But we can use an effect that only runs if content exists.
     if (!content) return;
-    
+
     const studioContent = content.studio;
     const cardsLength = studioContent.solving.cards.length;
-    
+
     const timer = setInterval(() => {
       setActiveStackIndex((prev) => (prev + 1) % cardsLength);
     }, 3500);
@@ -53,6 +231,26 @@ export default function StudioPage() {
     return () => observer.disconnect();
   }, [content, loading]);
 
+  // Auto-progression for hero carousel
+  useEffect(() => {
+    if (isPaused) return;
+
+    const timer = setInterval(() => {
+      setHeroCarouselIndex((prev) => (prev + 1) % 5);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [isPaused]);
+
+  // Handler for manual clicks with 3-second pause
+  const handleManualPhaseChange = (index: number) => {
+    setHeroCarouselIndex(index);
+    setIsPaused(true);
+    setTimeout(() => {
+      setIsPaused(false);
+    }, 3000);
+  };
+
   if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">Loading studio...</div>;
   if (error) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope text-red-500">Error: {error}</div>;
   if (!content) return null;
@@ -62,10 +260,10 @@ export default function StudioPage() {
   const stackCards = studioContent.solving.cards.map((card, index) => ({
     ...card,
     icon: index === 0 ? <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.989-2.386l-.548-.547z" /></svg> :
-         index === 1 ? <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" /></svg> :
-         index === 2 ? <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg> :
-         index === 3 ? <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> :
-         <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.407 2.67 1M12 17V7m0 10c-1.11 0-2.08-.407-2.67-1M12 17V7" /></svg>,
+      index === 1 ? <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" /></svg> :
+        index === 2 ? <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg> :
+          index === 3 ? <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> :
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.407 2.67 1M12 17V7m0 10c-1.11 0-2.08-.407-2.67-1M12 17V7" /></svg>,
     color: ["#FF8EBB", "#5C67FF", "#99C26D", "#9C27B0", "#8257e5"][index]
   }));
 
@@ -83,6 +281,7 @@ export default function StudioPage() {
         __html: `
         @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
 
         :root {
           /* Color System */
@@ -139,7 +338,8 @@ export default function StudioPage() {
 
         .studio-page { min-height: 100vh; overflow-x: hidden; animation: cc-pageSlide 0.7s cubic-bezier(0.4,0,0.2,1) both; }
 
-        .section-container { max-width: 1200px; margin: 0 auto; padding: clamp(40px, 6vw, 80px) 24px; }
+        .section-container { max-width: 100%; margin: 0 auto; padding: clamp(30px, 4vw, 50px) 160px; }
+        @media (max-width: 768px) { .section-container { padding: clamp(40px, 6vw, 80px) 24px; } }
         .pt-0 { padding-top: 0 !important; }
         .pb-0 { padding-bottom: 0 !important; }
         
@@ -151,6 +351,7 @@ export default function StudioPage() {
           margin-bottom: clamp(16px, 3vw, 24px); 
           line-height: 1.1; 
           color: var(--text-black);
+          max-width: 600px;
         }
         .text-blue { color: var(--primary-blue); }
         
@@ -215,6 +416,23 @@ export default function StudioPage() {
         }
         .btn-primary:active { transform: translateY(0) scale(0.98); }
         .btn-nav { padding: 10px 24px; font-size: 14px; box-shadow: none;}
+        .btn-secondary {
+          background-color: #004ac2;
+          color: var(--primary-white);
+          padding: 16px 40px;
+          border-radius: 100px;
+          font-weight: 700;
+          font-size: 16px;
+          border: 2px solid var(--primary-blue);
+          cursor: pointer;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          display: inline-block;
+        }
+        .btn-secondary:hover {
+          background-color: var(--primary-blue);
+          color: var(--white);
+          transform: translateY(-2px);
+        }
 
         /* Layout & Grids */
 
@@ -229,7 +447,7 @@ export default function StudioPage() {
         .section-dark { background-color: var(--bg-dark); color: var(--white); }
 
         /* Hero Section */
-        .hero-section { padding-top: 140px; }
+        .hero-section { padding-top: 140px; padding-bottom: 80px; }
 
         /* Hero Carousel Stepper */
         .hero-carousel-panel {
@@ -431,31 +649,6 @@ export default function StudioPage() {
         .hero-badge-val { font-size: 2rem; font-weight: 800; color: var(--white); line-height: 1; margin-bottom: 4px;}
         .hero-badge-lbl { font-size: 0.75rem; font-weight: 500; color: #9CA3AF; }
 
-        /* Idea Validation Section */
-        .validation-wrapper { padding: 80px 24px; max-width: 1200px; margin: 0 auto;}
-        .validation-card { 
-          background: #0B1019;
-          border-radius: 24px; 
-          padding: clamp(40px, 6vw, 80px);
-          color: var(--white);
-          box-shadow: 0 40px 80px rgba(0,20,60,0.15);
-        }
-        .score-panel {
-          background-color: #1A1F29;
-          border-radius: 16px;
-          padding: 32px;
-        }
-        .score-header {
-          display: flex; justify-content: space-between; align-items: center;
-          border-bottom: 1px solid rgba(255,255,255,0.05);
-          padding-bottom: 20px; margin-bottom: 24px;
-        }
-        .score-title-text { font-size: 0.75rem; font-weight: 800; color: #9CA3AF; letter-spacing: 0.1em; text-transform: uppercase;}
-        .score-number { font-size: 1.5rem; font-weight: 800; color: var(--primary-blue);}
-        .progress-row { margin-bottom: 20px;}
-        .progress-labels { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 500; color: #D1D5DB; margin-bottom: 8px;}
-        .progress-track { height: 6px; background-color: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden;}
-        .progress-fill { height: 100%; background-color: var(--primary-blue); border-radius: 4px;}
         .status-badge { 
           background-color: rgba(16, 185, 129, 0.1); 
           border: 1px solid rgba(16, 185, 129, 0.2);
@@ -662,9 +855,9 @@ export default function StudioPage() {
 
         .timeline-container-vertical { 
           position: relative; 
-          max-width: 1100px; 
-          margin: 48px auto 0; 
-          padding: 0 24px;
+          max-width: 100%; 
+          margin: 48px 32px 0; 
+          padding: 0 32px;
         }
 
         .timeline-center-line { 
@@ -919,6 +1112,131 @@ export default function StudioPage() {
           transform: translateY(-5px);
           box-shadow: 0 15px 40px rgba(0,0,0,0.3) !important;
         }
+        
+        /* Mobile padding overrides */
+        @media (max-width: 768px) {
+          [data-mobile-padding="40px 24px"] { padding: 40px 24px !important; }
+          [data-mobile-padding="100px 24px"] { padding: 100px 24px !important; }
+        }
+
+        /* Phase Section - Selection Process */
+        .phase-section-wrap {
+          position: relative;
+          background: #F0EEE9;
+          overflow: hidden;
+        }
+        .phase-mesh {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          z-index: 0;
+          background:
+            radial-gradient(ellipse 80% 60% at 20% 20%, rgba(191,219,254,0.45) 0%, transparent 60%),
+            radial-gradient(ellipse 60% 50% at 80% 80%, rgba(221,214,254,0.35) 0%, transparent 55%),
+            radial-gradient(ellipse 50% 40% at 60% 10%, rgba(254,215,170,0.3)  0%, transparent 50%);
+        }
+        .phase-watermark {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(6rem, 16vw, 10rem);
+          font-weight: 900;
+          line-height: 0.85;
+          position: absolute;
+          top: -10px;
+          left: -8px;
+          pointer-events: none;
+          user-select: none;
+          letter-spacing: -0.04em;
+          transition: opacity 0.5s ease, color 0.5s ease;
+          opacity: 0.08;
+        }
+        .phase-pill {
+          padding: 9px 20px;
+          border-radius: 100px;
+          font-family: 'Manrope', sans-serif;
+          font-size: 10px;
+          font-weight: 800;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          cursor: pointer;
+          border: 1.5px solid rgba(0,0,0,0.1);
+          background: rgba(255,255,255,0.5);
+          color: #888;
+          transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+        }
+        .phase-pill:hover {
+          background: rgba(255,255,255,0.8);
+          color: #333;
+          border-color: rgba(0,0,0,0.15);
+        }
+        .phase-pill.active {
+          background: #fff;
+          border-color: var(--pill-ac);
+          box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+          color: var(--pill-ac-dark);
+        }
+        .phase-pill.active .pill-num {
+          color: var(--pill-ac);
+        }
+        .gcard {
+          background: rgba(255,255,255,0.55);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(255,255,255,0.85);
+          border-radius: 18px;
+          padding: 24px 22px;
+          box-shadow: 0 4px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9);
+          transition: all 0.35s ease;
+          animation: gcardIn 0.5s cubic-bezier(0.34,1.15,0.64,1) both;
+        }
+        .gcard:hover {
+          background: rgba(255,255,255,0.75);
+          transform: translateY(-3px) scale(1.01);
+          box-shadow: 0 8px 32px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.9);
+        }
+        .gcard-green {
+          border-left: 3px solid #10B981 !important;
+          background: rgba(236,253,245,0.6) !important;
+        }
+        .gcard-amber {
+          border-left: 3px solid #F59E0B !important;
+          background: rgba(255,251,235,0.6) !important;
+        }
+        .gcard-red {
+          border-left: 3px solid #EF4444 !important;
+          background: rgba(254,242,242,0.6) !important;
+        }
+        @keyframes gcardIn {
+          from { opacity: 0; transform: translateY(20px) scale(0.97); }
+          to   { opacity: 1; transform: none; }
+        }
+        .phase-tag-anim {
+          animation: fadeUp 0.4s ease both;
+        }
+        .phase-title-anim {
+          animation: fadeUp 0.45s ease 0.06s both;
+        }
+        .phase-desc-anim {
+          animation: fadeUp 0.4s ease 0.12s both;
+        }
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(12px); }
+          to   { opacity: 1; transform: none; }
+        }
+        .counter-bar {
+          flex: 1;
+          height: 2px;
+          background: rgba(0,0,0,0.08);
+          border-radius: 1px;
+          overflow: hidden;
+          max-width: 120px;
+        }
+        .counter-fill {
+          height: 100%;
+          border-radius: 1px;
+          transition: width 0.7s cubic-bezier(0.4,0,0.2,1);
+        }
 
       `}} />
 
@@ -931,7 +1249,7 @@ export default function StudioPage() {
         <section className="section-white hero-section" style={{ position: 'relative' }}>
           <div className="section-container grid-2 pt-0 pb-0" style={{ position: 'relative', zIndex: 1 }}>
             <div>
-              <EditableText 
+              <EditableText
                 contentKey="studio.hero.eyebrow"
                 value={studioContent.hero.eyebrow}
                 className="hero-eyebrow-pill"
@@ -940,7 +1258,7 @@ export default function StudioPage() {
                 {studioContent.hero.title?.split(' ').map((word: string, i: number) => {
                   const cleanWord = word.replace(/[^a-zA-Z]/g, '');
                   const isBlue = ['Venture', 'Studio'].includes(cleanWord);
-                  
+
                   if (isBlue) {
                     const match = word.match(/^([a-zA-Z]+)(.*)$/);
                     if (match) {
@@ -953,7 +1271,7 @@ export default function StudioPage() {
                       );
                     }
                   }
-                  
+
                   return (
                     <span key={i}>
                       {word}{' '}
@@ -961,16 +1279,19 @@ export default function StudioPage() {
                   );
                 })}
               </h1>
-              <EditableText 
+              <EditableText
                 as="p"
                 contentKey="studio.hero.subheading"
                 value={studioContent.hero.subheading}
                 className="body-text"
                 style={{ marginBottom: '40px', maxWidth: '520px', textAlign: 'justify', lineHeight: '1.7' }}
               />
-              <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }} className="cc-reveal">
-                <button className="btn-primary" onClick={() => document.getElementById('methodology-section')?.scrollIntoView({behavior: 'smooth'})}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }} className="cc-reveal">
+                <button className="btn-primary" onClick={() => document.getElementById('methodology-section')?.scrollIntoView({ behavior: 'smooth' })}>
                   <EditableText contentKey="studio.hero.buttonText" value={studioContent.hero.buttonText} />
+                </button>
+                <button className="btn-primary" onClick={() => window.open('/studio-brochure.pdf', '_blank')}>
+                  Download Playbook
                 </button>
               </div>
             </div>
@@ -985,854 +1306,625 @@ export default function StudioPage() {
 
         {/* ═══════════════════════════════════════════════════════ */}
         {/* SECTION A: Selection Process — 5 Phase Tabs + Cards   */}
+        {/* Editorial + Glassmorphism Design                       */}
         {/* ═══════════════════════════════════════════════════════ */}
-        {content?.ourModel && (
-          <>
-            {/* Sticky phase tabs */}
-            <div style={{ background: 'white', borderBottom: '1px solid #E2E8F0', position: 'sticky', top: 0, zIndex: 100 }}>
-              <div className="section-container" style={{ paddingTop: 0, paddingBottom: 0 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '16px 0', maxWidth: '900px' }}>
-                  {[
-                    { n: '01.', t: 'SELECT',   id: 0 },
-                    { n: '02.', t: 'VALIDATE', id: 1 },
-                    { n: '03.', t: 'BUILD',    id: 2 },
-                    { n: '04.', t: 'LAUNCH',   id: 3 },
-                    { n: '05.', t: 'SCALE',    id: 4 },
-                  ].map((ph) => (
-                    <button
-                      key={ph.id}
-                      onClick={() => setHeroCarouselIndex(ph.id)}
-                      style={{
-                        background: 'none', border: 'none',
-                        fontFamily: "'Manrope', sans-serif",
-                        fontSize: '0.6875rem', fontWeight: 800,
-                        letterSpacing: '0.15em', textTransform: 'uppercase',
-                        cursor: 'pointer', padding: '8px 12px',
-                        color: heroCarouselIndex === ph.id ? '#005AE2' : '#64748B',
-                        borderBottom: heroCarouselIndex === ph.id ? '3px solid #005AE2' : '3px solid transparent',
-                        transition: 'all 0.2s',
-                      }}
-                    >
-                      <span style={{ color: '#005AE2', marginRight: 4 }}>{ph.n}</span>{ph.t}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
 
-            {/* Phase content panel */}
-            <section style={{ background: 'white', padding: '16px 0' }}>
-              <div className="section-container">
+        {/* ── ADD THIS <style> BLOCK once inside your page/component's global CSS or a <style> tag ── */}
+        {/*
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
 
-                {/* Header */}
-                <div style={{ marginBottom: 16 }}>
-                  <div style={{ color: '#005AE2', fontWeight: 800, fontSize: '0.6875rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8 }}>
-                    {heroCarouselIndex === 0 && <EditableText contentKey="ourModel.selection.label" value={content.ourModel.selection.label} />}
-                    {heroCarouselIndex === 1 && <EditableText contentKey="ourModel.validation.label" value={content.ourModel.validation.label} />}
-                    {heroCarouselIndex === 2 && 'PHASE 03 — BUILD'}
-                    {heroCarouselIndex === 3 && 'PHASE 04 — LAUNCH'}
-                    {heroCarouselIndex === 4 && 'PHASE 05 — SCALE'}
-                  </div>
-                  <h2 style={{ fontFamily: "'Manrope',sans-serif", fontSize: 'clamp(2rem,4vw,2.75rem)', fontWeight: 800, letterSpacing: '-0.03em', color: '#111827', margin: 0 }}>
-                    {heroCarouselIndex === 0 && <EditableText contentKey="ourModel.selection.title" value={content.ourModel.selection.title} />}
-                    {heroCarouselIndex === 1 && <EditableText contentKey="ourModel.validation.title" value={content.ourModel.validation.title} />}
-                    {heroCarouselIndex === 2 && <EditableText contentKey="ourModel.phases.items.0.title" value={content.ourModel.phases.items[0].title} />}
-                    {heroCarouselIndex === 3 && <EditableText contentKey="ourModel.phases.items.1.title" value={content.ourModel.phases.items[1].title} />}
-                    {heroCarouselIndex === 4 && <EditableText contentKey="ourModel.phases.items.2.title" value={content.ourModel.phases.items[2].title} />}
-                  </h2>
-                </div>
+.phase-section-wrap {
+  position: relative;
+  background: #F0EEE9;
+  overflow: hidden;
+}
+.phase-mesh {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 20%, rgba(79,70,229,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(0,90,226,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 60% 10%, rgba(139,92,246,0.1)  0%, transparent 50%);
+}
+.phase-watermark {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(6rem, 16vw, 10rem);
+  font-weight: 900;
+  line-height: 0.85;
+  position: absolute;
+  top: -10px;
+  left: -8px;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -0.04em;
+  transition: opacity 0.5s ease, color 0.5s ease;
+  opacity: 0.08;
+}
+.phase-pill {
+  padding: 9px 20px;
+  border-radius: 100px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1.5px solid rgba(0,0,0,0.1);
+  background: rgba(255,255,255,0.5);
+  color: #888;
+  transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.phase-pill:hover {
+  background: rgba(255,255,255,0.8);
+  color: #333;
+  border-color: rgba(0,0,0,0.15);
+}
+.phase-pill.active {
+  background: #fff;
+  border-color: var(--pill-ac);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  color: var(--pill-ac-dark);
+}
+.phase-pill.active .pill-num {
+  color: var(--pill-ac);
+}
+.gcard {
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.85);
+  border-radius: 18px;
+  padding: 24px 22px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9);
+  transition: all 0.35s ease;
+  animation: gcardIn 0.5s cubic-bezier(0.34,1.15,0.64,1) both;
+}
+.gcard:hover {
+  background: rgba(255,255,255,0.75);
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.9);
+}
+.gcard-green {
+  border-left: 3px solid #10B981 !important;
+  background: rgba(236,253,245,0.6) !important;
+}
+.gcard-amber {
+  border-left: 3px solid #F59E0B !important;
+  background: rgba(255,251,235,0.6) !important;
+}
+.gcard-red {
+  border-left: 3px solid #EF4444 !important;
+  background: rgba(254,242,242,0.6) !important;
+}
+@keyframes gcardIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+.phase-tag-anim {
+  animation: fadeUp 0.4s ease both;
+}
+.phase-title-anim {
+  animation: fadeUp 0.45s ease 0.06s both;
+}
+.phase-desc-anim {
+  animation: fadeUp 0.4s ease 0.12s both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+.counter-bar {
+  flex: 1;
+  height: 2px;
+  background: rgba(0,0,0,0.08);
+  border-radius: 1px;
+  overflow: hidden;
+  max-width: 120px;
+}
+.counter-fill {
+  height: 100%;
+  border-radius: 1px;
+  transition: width 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+*/}
 
-                {/* Cards grid */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 32 }}>
-                  {heroCarouselIndex === 0 && content.ourModel.selection.cards.map((card: any, idx: number) => (
-                    <div key={idx} style={{ padding: 32, borderRadius: 20, background: '#F5F7FF', border: '1px solid transparent', transition: 'all 0.3s' }}>
-                      <h3 style={{ fontFamily: "'Manrope',sans-serif", fontSize: '1.25rem', fontWeight: 800, marginBottom: 12, color: '#111827' }}>
-                        <EditableText contentKey={`ourModel.selection.cards.${idx}.title`} value={card.title} />
-                      </h3>
-                      <p style={{ fontSize: '0.9375rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
-                        <EditableText contentKey={`ourModel.selection.cards.${idx}.desc`} value={card.desc} />
-                      </p>
-                    </div>
-                  ))}
-                  {heroCarouselIndex === 1 && (
-                    <>
-                      {content.ourModel.validation.steps.map((step: any, idx: number) => (
-                        <div key={idx} style={{ padding: 32, borderRadius: 20, background: '#F5F7FF' }}>
-                          <h3 style={{ fontFamily: "'Manrope',sans-serif", fontSize: '1.25rem', fontWeight: 800, marginBottom: 12, color: '#111827' }}>
-                            <EditableText contentKey={`ourModel.validation.steps.${idx}.title`} value={step.title} />
-                          </h3>
-                          <p style={{ fontSize: '0.9375rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
-                            <EditableText contentKey={`ourModel.validation.steps.${idx}.desc`} value={step.desc} />
-                          </p>
-                        </div>
-                      ))}
-                      {content.ourModel.validation.outcomes.map((out: any, idx: number) => (
-                        <div key={`out-${idx}`} style={{ padding: 32, borderRadius: 20, background: 'white', border: '1px solid #E2E8F0', borderLeft: `6px solid ${['#10B981','#F59E0B','#EF4444'][idx]}` }}>
-                          <h3 style={{ fontFamily: "'Manrope',sans-serif", fontSize: '1.25rem', fontWeight: 800, marginBottom: 12, color: ['#10B981','#F59E0B','#EF4444'][idx] }}>
-                            <EditableText contentKey={`ourModel.validation.outcomes.${idx}.title`} value={out.title} />
-                          </h3>
-                          <p style={{ fontSize: '0.9375rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
-                            <EditableText contentKey={`ourModel.validation.outcomes.${idx}.desc`} value={out.desc} />
-                          </p>
-                        </div>
-                      ))}
-                    </>
-                  )}
-                  {[2,3,4].includes(heroCarouselIndex) && (() => {
-                    const ph = content.ourModel.phases.items[heroCarouselIndex - 2];
-                    const colors = ['#10B981','#F59E0B','#EF4444'];
-                    const vKey = ['v1','v2','v3'][heroCarouselIndex - 2];
-                    return (
-                      <>
-                        <div style={{ padding: 32, borderRadius: 20, background: '#F5F7FF' }}>
-                          <h3 style={{ fontFamily: "'Manrope',sans-serif", fontSize: '1.25rem', fontWeight: 800, marginBottom: 12, color: '#111827' }}>
-                            <EditableText contentKey={`ourModel.phases.items.${heroCarouselIndex-2}.label`} value={ph.label} />
-                          </h3>
-                          <p style={{ fontSize: '0.9375rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
-                            <EditableText contentKey={`ourModel.phases.items.${heroCarouselIndex-2}.desc`} value={ph.desc} />
-                          </p>
-                        </div>
-                        {content.ourModel.phases.table.rows.map((row: any, idx: number) => (
-                          <div key={idx} style={{ padding: 32, borderRadius: 20, background: '#F5F7FF' }}>
-                            <h3 style={{ fontFamily: "'Manrope',sans-serif", fontSize: '1.25rem', fontWeight: 800, marginBottom: 8, color: '#111827' }}>
-                              <EditableText contentKey={`ourModel.phases.table.rows.${idx}.c`} value={row.c} />
-                            </h3>
-                            <p style={{ fontSize: '1rem', fontWeight: 700, color: colors[heroCarouselIndex-2], margin: 0 }}>
-                              <EditableText contentKey={`ourModel.phases.table.rows.${idx}.${vKey}`} value={(row as any)[vKey]} />
-                            </p>
-                          </div>
-                        ))}
-                      </>
-                    );
-                  })()}
-                </div>
+        {content?.ourModel && (() => {
+          const phaseColors = ['#4F46E5', '#005AE2', '#6366F1', '#8B5CF6', '#A855F7'];
+          const phaseDarkColors = ['#3730A3', '#1E40AF', '#4338CA', '#6D28D9', '#7C3AED'];
+          const phaseLabels = [
+            content.ourModel.selection?.label || 'Phase 01 — Selection Framework',
+            content.ourModel.validation?.label || 'Phase 02 — Validation Framework',
+            'Phase 03 — Build Framework',
+            'Phase 04 — Launch Framework',
+            'Phase 05 — Scale Framework',
+          ];
+          const phaseTitles = [
+            content.ourModel.selection?.title || 'Selection Process',
+            content.ourModel.validation?.title || 'Validation Process',
+            content.ourModel.phases?.items?.[0]?.title || '12-Week Sprint Build',
+            content.ourModel.phases?.items?.[1]?.title || 'Go-To-Market Activation',
+            content.ourModel.phases?.items?.[2]?.title || 'Scaling for Growth',
+          ];
+          const phaseDescs = [
+            'We run every venture idea through a rigorous four-lens framework before committing a single resource. Ideas are plentiful — the right ones are rare.',
+            'No assumptions, no guesses. Every thesis is pressure-tested with real customers before a line of production code is written.',
+            'Small autonomous pods. Radical focus. Ship, learn, iterate — nothing else matters in these 84 days.',
+            'We launch with precision, not noise. Founder-led, community-first, metrics-gated. Growth is earned before it is amplified.',
+            'We scale what is proven. Hiring behind revenue, diversifying channels, hardening infrastructure — in that exact order.',
+          ];
 
-              </div>
-            </section>
+          const ac = phaseColors[heroCarouselIndex] || '#3B82F6';
+          const acDark = phaseDarkColors[heroCarouselIndex] || '#1d4ed8';
 
-            {/* ═════════════════════════════════════════════ */}
-            {/* SECTION B: Clinical Validation Framework      */}
-            {/* ═════════════════════════════════════════════ */}
-            <section style={{ background: '#F0F5FF', padding: '24px 0', textAlign: 'center' }}>
-              <div className="section-container">
-                <div style={{ color: '#005AE2', fontWeight: 800, fontSize: '0.6875rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>
-                  <EditableText contentKey="ourModel.validation.label" value={content.ourModel.validation.label} />
-                </div>
-                <h2 style={{ fontFamily: "'Manrope',sans-serif", fontSize: 'clamp(2rem,4vw,2.75rem)', fontWeight: 800, letterSpacing: '-0.02em', color: '#111827', marginBottom: 20 }}>
-                  <EditableText contentKey="ourModel.validation.title" value={content.ourModel.validation.title} />
-                </h2>
-                {/* 4-step circles */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 24, marginBottom: 24 }}>
-                  {content.ourModel.validation.steps.map((step: any, idx: number) => (
-                    <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <div style={{ width: 44, height: 44, background: '#005AE2', color: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '1.125rem', marginBottom: 24, boxShadow: '0 8px 16px rgba(0,90,226,0.3)' }}>
-                        {idx + 1}
-                      </div>
-                      <h3 style={{ fontFamily: "'Manrope',sans-serif", fontWeight: 800, fontSize: '1rem', color: '#111827', marginBottom: 8 }}>
-                        <EditableText contentKey={`ourModel.validation.steps.${idx}.title`} value={step.title} />
-                      </h3>
-                      <p style={{ fontSize: '0.8125rem', color: '#64748B', lineHeight: 1.5, margin: 0 }}>
-                        <EditableText contentKey={`ourModel.validation.steps.${idx}.desc`} value={step.desc} />
-                      </p>
-                    </div>
-                  ))}
-                </div>
-                {/* Outcome cards */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }}>
-                  {content.ourModel.validation.outcomes.map((out: any, idx: number) => (
-                    <div key={idx} style={{ background: 'white', padding: 32, borderRadius: 12, textAlign: 'left', border: '1px solid #E2E8F0', borderLeft: `6px solid ${['#10B981','#F59E0B','#EF4444'][idx]}` }}>
-                      <h3 style={{ fontFamily: "'Manrope',sans-serif", fontWeight: 800, fontSize: '1.25rem', color: ['#10B981','#F59E0B','#EF4444'][idx], marginBottom: 12 }}>
-                        <EditableText contentKey={`ourModel.validation.outcomes.${idx}.title`} value={out.title} />
-                      </h3>
-                      <p style={{ fontSize: '0.9375rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
-                        <EditableText contentKey={`ourModel.validation.outcomes.${idx}.desc`} value={out.desc} />
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
-
-            {/* ═════════════════════════════════════════════ */}
-            {/* SECTION C: What Happens After a Green Light  */}
-            {/* ═════════════════════════════════════════════ */}
-            <section style={{ background: 'white', padding: '24px 0' }}>
-              <div className="section-container">
-                <h2 style={{ fontFamily: "'Manrope',sans-serif", fontSize: 'clamp(2rem,4vw,2.75rem)', fontWeight: 800, letterSpacing: '-0.02em', color: '#111827', marginBottom: 20 }}>
-                  <EditableText contentKey="ourModel.phases.title" value={content.ourModel.phases.title} />
-                </h2>
-                {/* 3 phase step cards */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 48, marginBottom: 24 }}>
-                  {content.ourModel.phases.items.map((item: any, idx: number) => (
-                    <div key={idx} style={{ paddingLeft: 20, borderLeft: '3px solid #005AE2' }}>
-                      <span style={{ display: 'block', fontSize: '0.6875rem', fontWeight: 800, color: '#005AE2', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 12 }}>
-                        <EditableText contentKey={`ourModel.phases.items.${idx}.label`} value={item.label} />
-                      </span>
-                      <h3 style={{ fontFamily: "'Manrope',sans-serif", fontSize: '1.5rem', fontWeight: 800, color: '#111827', marginBottom: 16 }}>
-                        <EditableText contentKey={`ourModel.phases.items.${idx}.title`} value={item.title} />
-                      </h3>
-                      <p style={{ fontSize: '0.875rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
-                        <EditableText contentKey={`ourModel.phases.items.${idx}.desc`} value={item.desc} />
-                      </p>
-                    </div>
-                  ))}
-                </div>
-                {/* Gate criteria table */}
-                <div style={{ border: '1px solid #E2E8F0', borderRadius: 8, overflow: 'hidden' }}>
-                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
-                    <thead>
-                      <tr style={{ background: '#F1F1F9' }}>
-                        <th style={{ padding: '20px 24px', textAlign: 'left', fontWeight: 800, color: '#111827', borderBottom: '1px solid #E2E8F0' }}>
-                          <EditableText contentKey="ourModel.phases.table.h1" value={content.ourModel.phases.table.h1} />
-                        </th>
-                        <th style={{ padding: '20px 24px', textAlign: 'left', fontWeight: 800, color: '#10B981', borderBottom: '1px solid #E2E8F0' }}>
-                          <EditableText contentKey="ourModel.phases.table.h2" value={content.ourModel.phases.table.h2} />
-                        </th>
-                        <th style={{ padding: '20px 24px', textAlign: 'left', fontWeight: 800, color: '#F59E0B', borderBottom: '1px solid #E2E8F0' }}>
-                          <EditableText contentKey="ourModel.phases.table.h3" value={content.ourModel.phases.table.h3} />
-                        </th>
-                        <th style={{ padding: '20px 24px', textAlign: 'left', fontWeight: 800, color: '#EF4444', borderBottom: '1px solid #E2E8F0' }}>
-                          <EditableText contentKey="ourModel.phases.table.h4" value={content.ourModel.phases.table.h4} />
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {content.ourModel.phases.table.rows.map((row: any, idx: number) => (
-                        <tr key={idx} style={{ borderBottom: idx < content.ourModel.phases.table.rows.length - 1 ? '1px solid #E2E8F0' : 'none' }}>
-                          <td style={{ padding: '20px 24px', fontWeight: 700, color: '#111827' }}>
-                            <EditableText contentKey={`ourModel.phases.table.rows.${idx}.c`} value={row.c} />
-                          </td>
-                          <td style={{ padding: '20px 24px', color: '#10B981', fontWeight: 600 }}>
-                            <EditableText contentKey={`ourModel.phases.table.rows.${idx}.v1`} value={row.v1} />
-                          </td>
-                          <td style={{ padding: '20px 24px', color: '#F59E0B', fontWeight: 600 }}>
-                            <EditableText contentKey={`ourModel.phases.table.rows.${idx}.v2`} value={row.v2} />
-                          </td>
-                          <td style={{ padding: '20px 24px', color: '#EF4444', fontWeight: 600 }}>
-                            <EditableText contentKey={`ourModel.phases.table.rows.${idx}.v3`} value={row.v3} />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </section>
-
-            {/* ═══════════════════════════════════════════════════ */}
-            {/* SECTION D: The Five Pods That Run the Playbook     */}
-            {/* ═══════════════════════════════════════════════════ */}
-            <section style={{ background: '#0B1019', padding: '24px 0', color: 'white', textAlign: 'center' }}>
-              <div className="section-container">
-                <h2 style={{ fontFamily: "'Manrope',sans-serif", fontSize: 'clamp(2rem,4vw,2.75rem)', fontWeight: 800, letterSpacing: '-0.02em', color: 'white', marginBottom: 12 }}>
-                  <EditableText contentKey="ourModel.pods.title" value={content.ourModel.pods.title} />
-                </h2>
-                <p style={{ color: '#94A3B8', fontSize: '1.125rem', lineHeight: 1.6, maxWidth: 700, margin: '0 auto 24px' }}>
-                  <EditableText contentKey="ourModel.pods.subtitle" value={content.ourModel.pods.subtitle} />
-                </p>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 20 }}>
-                  {content.ourModel.pods.items.map((pod: any, idx: number) => {
-                    const colors = ['#3B82F6','#1E40AF','#10B981','#06B6D4','#14B8A6'];
-                    return (
-                      <div key={idx} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', padding: '40px 24px', borderRadius: 24, textAlign: 'left', transition: 'all 0.3s' }}>
-                        <span style={{ display: 'block', color: colors[idx], fontWeight: 800, fontSize: '0.625rem', letterSpacing: '0.2em', marginBottom: 16 }}>
-                          <EditableText contentKey={`ourModel.pods.items.${idx}.id`} value={pod.id} />
-                        </span>
-                        <h3 style={{ fontFamily: "'Manrope',sans-serif", color: 'white', fontSize: '1.25rem', fontWeight: 800, marginBottom: 16 }}>
-                          <EditableText contentKey={`ourModel.pods.items.${idx}.title`} value={pod.title} />
-                        </h3>
-                        <p style={{ fontSize: '0.875rem', color: '#94A3B8', lineHeight: 1.5, margin: 0 }}>
-                          <EditableText contentKey={`ourModel.pods.items.${idx}.desc`} value={pod.desc} />
-                        </p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </section>
-
-            {/* ═════════════════════════════════════════ */}
-            {/* SECTION E: An Honest Comparison           */}
-            {/* ═════════════════════════════════════════ */}
-            <section style={{ background: '#F0F7FF', padding: '24px 0' }}>
-              <div className="section-container">
-                <h2 style={{ fontFamily: "'Manrope',sans-serif", fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 800, letterSpacing: '-0.02em', color: '#111827', textAlign: 'center', marginBottom: 24 }}>
-                  <EditableText contentKey="ourModel.comparison.title" value={content.ourModel.comparison.title} />
-                </h2>
-                <div style={{ background: 'white', borderRadius: 24, overflow: 'hidden', border: '1px solid #E2E8F0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
-                  {/* Header row */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr 1fr', background: '#DBEAFE', padding: '24px' }}>
-                    <div style={{ fontWeight: 800, fontSize: '0.875rem' }}>
-                      <EditableText contentKey="ourModel.comparison.h1" value={content.ourModel.comparison.h1} />
-                    </div>
-                    <div style={{ fontWeight: 800, fontSize: '0.875rem' }}>
-                      <EditableText contentKey="ourModel.comparison.h2" value={content.ourModel.comparison.h2} />
-                    </div>
-                    <div style={{ fontWeight: 800, fontSize: '0.875rem' }}>
-                      <EditableText contentKey="ourModel.comparison.h3" value={content.ourModel.comparison.h3} />
-                    </div>
-                    <div style={{ fontWeight: 800, fontSize: '0.875rem', color: '#005AE2' }}>
-                      <EditableText contentKey="ourModel.comparison.h4" value={content.ourModel.comparison.h4} />
-                    </div>
-                  </div>
-                  {/* Data rows */}
-                  {content.ourModel.comparison.rows.map((row: any, idx: number) => (
-                    <div key={idx} style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr 1fr 1fr', padding: '24px', borderBottom: idx < content.ourModel.comparison.rows.length - 1 ? '1px solid #E2E8F0' : 'none', background: idx % 2 === 0 ? 'white' : '#F0F7FF' }}>
-                      <div style={{ fontWeight: 700, color: '#111827' }}>
-                        <EditableText contentKey={`ourModel.comparison.rows.${idx}.f`} value={row.f} />
-                      </div>
-                      <div style={{ color: '#64748B' }}>
-                        <EditableText contentKey={`ourModel.comparison.rows.${idx}.c1`} value={row.c1} />
-                      </div>
-                      <div style={{ color: '#64748B' }}>
-                        <EditableText contentKey={`ourModel.comparison.rows.${idx}.c2`} value={row.c2} />
-                      </div>
-                      <div style={{ color: '#005AE2', fontWeight: 700 }}>
-                        <EditableText contentKey={`ourModel.comparison.rows.${idx}.c3`} value={row.c3} />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
-          </>
-        )}
-
-
-
-        {/* Idea Validation Section */}
-        <div className="validation-wrapper section-base" style={{ backgroundColor: 'var(--white)' }}>
-          <div className="validation-card grid-2">
-            <div>
-              <EditableText 
-                as="h2"
-                contentKey="studio.validation.title"
-                value={studioContent.validation.title}
-                className="section-title section-title-left title-dark"
-              />
-              <EditableText 
-                as="p"
-                contentKey="studio.validation.description"
-                value={studioContent.validation.description}
-                className="body-text"
-                style={{ marginBottom: '40px', color: '#9CA3AF' }}
-              />
-              <Link href="/contact">
-                <button className="btn-primary" style={{ backgroundColor: '#005AE2', boxShadow: '0 8px 32px rgba(0, 90, 226, 0.4)', padding: '12px 32px', borderRadius: '100px' }}>
-                  <EditableText contentKey="studio.validation.buttonText" value={studioContent.validation.buttonText} />
-                </button>
-              </Link>
-            </div>
-
-            <div className="score-panel">
-              <div className="score-header">
-                <EditableText 
-                  contentKey="studio.validation.scoreLabel"
-                  value={studioContent.validation.scoreLabel}
-                  className="score-title-text"
-                  style={{ color: '#9CA3AF', fontSize: '0.7rem', fontWeight: 700 }}
-                />
-                <EditableText 
-                  contentKey="studio.validation.scoreValue"
-                  value={studioContent.validation.scoreValue}
-                  className="score-number"
-                  style={{ color: '#005AE2', fontSize: '1.5rem', fontWeight: 800 }}
-                />
-              </div>
-
-              <div className="progress-row">
-                <div className="progress-labels">
-                  <EditableText contentKey="studio.validation.marketFitLabel" value={studioContent.validation.marketFitLabel} style={{ color: '#9CA3AF', fontSize: '0.8rem' }} />
-                  <EditableText contentKey="studio.validation.marketFitValue" value={studioContent.validation.marketFitValue} style={{ color: '#9CA3AF', fontSize: '0.8rem' }} />
-                </div>
-                <div className="progress-track" style={{ backgroundColor: '#2A303C', height: '4px', borderRadius: '2px' }}>
-                  <div className="progress-fill" style={{ width: '92%', height: '4px', borderRadius: '2px', backgroundColor: '#005AE2' }}></div>
-                </div>
-              </div>
-
-              <div className="progress-row">
-                <div className="progress-labels">
-                  <EditableText contentKey="studio.validation.techFeasibilityLabel" value={studioContent.validation.techFeasibilityLabel} style={{ color: '#9CA3AF', fontSize: '0.8rem' }} />
-                  <EditableText contentKey="studio.validation.techFeasibilityValue" value={studioContent.validation.techFeasibilityValue} style={{ color: '#9CA3AF', fontSize: '0.8rem' }} />
-                </div>
-                <div className="progress-track" style={{ backgroundColor: '#2A303C', height: '4px', borderRadius: '2px' }}>
-                  <div className="progress-fill" style={{ width: '78%', height: '4px', borderRadius: '2px', backgroundColor: '#005AE2' }}></div>
-                </div>
-              </div>
-
-              <div className="progress-row" style={{ marginBottom: '24px' }}>
-                <div className="progress-labels">
-                  <EditableText contentKey="studio.validation.gtmStrategyLabel" value={studioContent.validation.gtmStrategyLabel} style={{ color: '#9CA3AF', fontSize: '0.8rem' }} />
-                  <EditableText contentKey="studio.validation.gtmStrategyValue" value={studioContent.validation.gtmStrategyValue} style={{ color: '#9CA3AF', fontSize: '0.8rem' }} />
-                </div>
-                <div className="progress-track" style={{ backgroundColor: '#2A303C', height: '4px', borderRadius: '2px' }}>
-                  <div className="progress-fill" style={{ width: '81%', height: '4px', borderRadius: '2px', backgroundColor: '#005AE2' }}></div>
-                </div>
-              </div>
-
-              <div style={{ backgroundColor: '#122624', color: '#00E6A0', padding: '12px 16px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" /></svg>
-                <EditableText contentKey="studio.validation.growthBadge" value={studioContent.validation.growthBadge} />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* For Founders vs. For Investors Section */}
-        <section className="section-base" style={{ position: 'relative' }}>
-          <div className="section-container" style={{ position: 'relative', zIndex: 1 }}>
-            <EditableText 
-              as="h2"
-              contentKey="studio.foundersInvestors.title"
-              value={studioContent.foundersInvestors.title}
-              className="section-title"
-            />
-            <div className="grid-2 grid-2-align-top" style={{ marginTop: '64px' }}>
-
-              <div className="card dark-shine-card" style={{ padding: '40px' }}>
-                <EditableText 
-                  as="h3"
-                  contentKey="studio.foundersInvestors.founders.title"
-                  value={studioContent.foundersInvestors.founders.title}
-                  className="card-title relative z-10"
-                  style={{ fontSize: '1.5rem', marginBottom: '24px', color: '#FFFFFF' }}
-                />
-                <EditableText 
-                  as="p"
-                  contentKey="studio.foundersInvestors.founders.description"
-                  value={studioContent.foundersInvestors.founders.description}
-                  className="card-desc relative z-10"
-                  style={{ color: '#9CA3AF', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.6' }}
-                />
-                <ul className="check-list relative z-10" style={{ marginBottom: '40px' }}>
-                  {studioContent.foundersInvestors.founders.benefits.map((benefit, bIdx) => (
-                    <li key={bIdx} style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#E2E8F0', fontSize: '0.9rem', fontWeight: 600 }}>
-                      <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#60A5FA" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                      <EditableText contentKey={`studio.foundersInvestors.founders.benefits.${bIdx}`} value={benefit} />
-                    </li>
-                  ))}
-                </ul>
-                <a href="#founders" className="card-link relative z-10" style={{ color: '#60A5FA', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-                  <EditableText contentKey="studio.foundersInvestors.founders.buttonText" value={studioContent.foundersInvestors.founders.buttonText} /> 
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px' }}><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
-                </a>
-              </div>
-
-              <div className="card dark-shine-card" style={{ padding: '40px' }}>
-                <EditableText 
-                  as="h3"
-                  contentKey="studio.foundersInvestors.investors.title"
-                  value={studioContent.foundersInvestors.investors.title}
-                  className="card-title relative z-10"
-                  style={{ fontSize: '1.5rem', marginBottom: '24px', color: '#FFFFFF' }}
-                />
-                <EditableText 
-                  as="p"
-                  contentKey="studio.foundersInvestors.investors.description"
-                  value={studioContent.foundersInvestors.investors.description}
-                  className="card-desc relative z-10"
-                  style={{ color: '#9CA3AF', fontSize: '0.95rem', marginBottom: '32px', lineHeight: '1.6' }}
-                />
-                <ul className="check-list relative z-10" style={{ marginBottom: '40px' }}>
-                  {studioContent.foundersInvestors.investors.benefits.map((benefit, bIdx) => (
-                    <li key={bIdx} style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', color: '#E2E8F0', fontSize: '0.9rem', fontWeight: 600 }}>
-                      <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#60A5FA" strokeWidth="2" style={{ marginRight: '12px' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                      <EditableText contentKey={`studio.foundersInvestors.investors.benefits.${bIdx}`} value={benefit} />
-                    </li>
-                  ))}
-                </ul>
-                <a href="/investors" className="card-link relative z-10" style={{ color: '#60A5FA', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-                  <EditableText contentKey="studio.foundersInvestors.investors.buttonText" value={studioContent.foundersInvestors.investors.buttonText} />
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px' }}><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
-                </a>
-              </div>
-
-            </div>
-          </div>
-        </section>
-
-        {/* How the Partnership Works */}
-        <section className="section-white" id="methodology-section">
-          <div className="section-container" style={{ maxWidth: '1280px' }}>
-            <EditableText 
-              as="h2"
-              contentKey="studio.partnership.title"
-              value={studioContent.partnership.title}
-              className="section-title"
-            />
-            <div className="grid-3" style={{ marginTop: '64px', gap: '32px' }}>
-
-              <div className="card" style={{ padding: '40px 32px', aspectRatio: 'auto' }}>
-                <div className="icon-circle">1</div>
-                <EditableText 
-                  as="h3"
-                  contentKey="studio.partnership.support.title"
-                  value={studioContent.partnership.support.title}
-                  className="card-title"
-                  style={{ fontSize: '1.25rem' }}
-                />
-                <div className="card-desc" style={{ fontSize: '0.9rem', marginBottom: 0 }}>
-                  <EditableText contentKey="studio.partnership.support.description" value={studioContent.partnership.support.description} />
-                  <br /><br />
-                  <span style={{ fontWeight: 700 }}>Best for:</span> <EditableText contentKey="studio.partnership.support.bestFor" value={studioContent.partnership.support.bestFor} />
-                </div>
-              </div>
-
-              <div className="card cc-slide-center" style={{ padding: '40px 32px', aspectRatio: 'auto' }}>
-                <div className="icon-circle">2</div>
-                <EditableText 
-                  as="h3"
-                  contentKey="studio.partnership.codevelopment.title"
-                  value={studioContent.partnership.codevelopment.title}
-                  className="card-title"
-                  style={{ fontSize: '1.25rem' }}
-                />
-                <div className="card-desc" style={{ fontSize: '0.9rem', marginBottom: 0 }}>
-                  <EditableText contentKey="studio.partnership.codevelopment.description" value={studioContent.partnership.codevelopment.description} />
-                  <br /><br />
-                  <span style={{ fontWeight: 700 }}>Best for:</span> <EditableText contentKey="studio.partnership.codevelopment.bestFor" value={studioContent.partnership.codevelopment.bestFor} />
-                </div>
-              </div>
-
-              <div className="card" style={{ padding: '40px 32px', aspectRatio: 'auto' }}>
-                <div className="icon-circle">3</div>
-                <EditableText 
-                  as="h3"
-                  contentKey="studio.partnership.fullBuild.title"
-                  value={studioContent.partnership.fullBuild.title}
-                  className="card-title"
-                  style={{ fontSize: '1.25rem' }}
-                />
-                <div className="card-desc" style={{ fontSize: '0.9rem', marginBottom: 0 }}>
-                  <EditableText contentKey="studio.partnership.fullBuild.description" value={studioContent.partnership.fullBuild.description} />
-                  <br /><br />
-                  <span style={{ fontWeight: 700 }}>Best for:</span> <EditableText contentKey="studio.partnership.fullBuild.bestFor" value={studioContent.partnership.fullBuild.bestFor} />
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </section>
-
-        <section className="section-dark" style={{ backgroundColor: '#0A0F1C', padding: '100px 24px' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            {/* Main Section Title */}
-            <EditableText 
-              as="h2"
-              contentKey="studio.solving.title"
-              value={studioContent.solving.title}
-              className="section-title title-dark"
-              style={{ marginBottom: '80px', textAlign: 'center', fontSize: '3.5rem', fontWeight: 800, transform: 'translateX(-40px)' }}
-            />
-            <div className="grid-2" style={{ alignItems: 'center', gap: 'clamp(40px, 8vw, 120px)', display: 'grid' }}>
-              {/* Left Column: Problem Step */}
-              <div className="solving-text-col" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                <EditableText 
-                  as="h3"
-                  contentKey={`studio.solving.cards.${activeStackIndex}.title`}
-                  value={stackCards[activeStackIndex].title}
-                  className="solving-subtitle"
-                  style={{ fontSize: '2.25rem', marginBottom: '24px', fontWeight: 800, color: '#FFFFFF', textAlign: 'center', width: '100%' }}
-                />
-                <EditableText 
-                  as="p"
-                  contentKey={`studio.solving.cards.${activeStackIndex}.problemDesc`}
-                  value={stackCards[activeStackIndex].problemDesc}
-                  className="solving-col-text"
-                  style={{ fontSize: '1.25rem', color: '#CBD5E1', maxWidth: '480px', lineHeight: '1.6', fontWeight: 500, margin: '0', textAlign: 'center' }}
-                />
-              </div>
-
-              {/* Right Column: Solution Stack */}
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-                <div className="card-stack-wrapper" onClick={handleNextCard} style={{ perspective: '1500px', height: '440px', width: '100%', position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <div className="card-stack-container" style={{ position: 'relative', width: 'min(400px, 100%)', height: 'min(400px, 100%)' }}>
-                    {stackCards.map((card, index) => {
-                      const isActive = index === activeStackIndex;
-                      const isPast = index < activeStackIndex;
-
-                      let transform = '';
-                      let zIndex = 50 - index;
-                      let opacity = 1;
-
-                      // Fanned calculation:
-                      const offset = index - activeStackIndex;
-                      if (isPast) {
-                        transform = 'translate(-150px, -100px) rotate(-45deg) scale(0.7)';
-                        opacity = 0;
-                        zIndex = 0;
-                      } else {
-                        // Creating a balanced arc fan where edges are visible on all sides
-                        // We use a combination of rotation and translation to spread them out
-                        const rotation = offset * 12.5; 
-                        const translateX = offset * 12; 
-                        const translateY = offset * 8;
-                        transform = `translate(${translateX}px, ${translateY}px) rotate(${rotation}deg)`;
-                        opacity = 1 - (offset * 0.1);
-                        zIndex = 50 - offset;
-                      }
-
-                      return (
-                        <div
-                          key={card.id}
-                          className={`card-stack-item ${isActive ? 'active-hover' : ''}`}
+          return (
+            <>
+              {/* ── STICKY PILL NAV ── */}
+              <div style={{
+                position: 'sticky', top: 0, zIndex: 100,
+                background: '#ffffff',
+                borderBottom: '1px solid rgba(0,0,0,0.06)',
+              }}>
+                <div className="section-container" style={{ paddingTop: 0, paddingBottom: 0 }}>
+                  <div style={{
+                    display: 'flex', justifyContent: 'center',
+                    padding: '20px 0', maxWidth: '800px',
+                    margin: '0 auto', alignItems: 'center',
+                  }}>
+                    {[
+                      { n: '01', t: 'SELECT', id: 0 },
+                      { n: '02', t: 'VALIDATE', id: 1 },
+                      { n: '03', t: 'BUILD', id: 2 },
+                      { n: '04', t: 'LAUNCH', id: 3 },
+                      { n: '05', t: 'SCALE', id: 4 },
+                    ].map((ph, idx) => (
+                      <React.Fragment key={ph.id}>
+                        <button
+                          onClick={() => handleManualPhaseChange(ph.id)}
                           style={{
-                            transform,
-                            zIndex,
-                            opacity,
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            transformOrigin: 'bottom center', // Creates a natural fan from the bottom
-                            transition: 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                            background: 'white',
-                            borderRadius: '32px',
-                            padding: '48px',
-                            width: '400px',
-                            height: '400px',
-                            boxShadow: isActive ? '0 40px 80px -15px rgba(0,0,0,0.2)' : '0 10px 30px rgba(0,0,0,0.1)',
-                            border: '1px solid rgba(0,0,0,0.05)',
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
-                            justifyContent: 'center',
-                            cursor: 'pointer'
+                            gap: '8px',
+                            cursor: 'pointer',
+                            background: 'transparent',
+                            border: 'none',
+                            padding: 0,
+                            minWidth: '80px',
                           }}
                         >
-                          <div className="card-stack-icon" style={{
-                            backgroundColor: card.color || '#FF8EBB',
-                            width: '80px', height: '80px',
-                            borderRadius: '16px', display: 'flex',
-                            alignItems: 'center', justifyContent: 'center',
-                            marginBottom: '32px', color: 'white',
-                            flexShrink: 0,
-                            opacity: 0.9
+                          <div style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '14px',
+                            fontWeight: 700,
+                            fontFamily: "'Manrope', sans-serif",
+                            background: heroCarouselIndex === ph.id ? '#4F46E5' : 
+                                      heroCarouselIndex > ph.id ? '#4F46E5' : '#ffffff',
+                            color: heroCarouselIndex === ph.id ? '#ffffff' : 
+                                   heroCarouselIndex > ph.id ? '#ffffff' : '#64748B',
+                            border: heroCarouselIndex === ph.id ? '3px solid #4F46E5' : 
+                                   heroCarouselIndex > ph.id ? '3px solid #4F46E5' : '2px solid #E2E8F0',
+                            transition: 'all 0.3s ease',
+                            boxShadow: heroCarouselIndex === ph.id ? '0 4px 12px rgba(79, 70, 229, 0.3)' : 'none',
                           }}>
-                            {React.cloneElement(card.icon as React.ReactElement<any>, { width: 32, height: 32 })}
+                            {heroCarouselIndex > ph.id ? '✓' : ph.n}
                           </div>
-                          <EditableText 
-                            as="p"
-                            contentKey={`studio.solving.cards.${index}.solutionDesc`}
-                            value={card.solutionDesc}
-                            className="card-stack-text"
-                            style={{ 
-                              fontSize: '1rem', 
-                              color: '#475569', 
-                              fontWeight: 500, 
-                              lineHeight: 1.7, 
-                              margin: 0, 
-                              textAlign: 'center',
-                              maxWidth: '320px'
+                          <span style={{
+                            fontSize: '11px',
+                            fontWeight: 600,
+                            fontFamily: "'Manrope', sans-serif",
+                            letterSpacing: '0.05em',
+                            textTransform: 'uppercase',
+                            color: heroCarouselIndex === ph.id ? '#4F46E5' : 
+                                   heroCarouselIndex > ph.id ? '#4F46E5' : '#64748B',
+                            transition: 'all 0.3s ease',
+                          }}>
+                            {ph.t}
+                          </span>
+                        </button>
+                        {idx < 4 && (
+                          <div style={{
+                            flex: 1,
+                            height: '2px',
+                            background: heroCarouselIndex > idx ? '#4F46E5' : '#E2E8F0',
+                            margin: '0 8px',
+                            transition: 'all 0.3s ease',
+                            maxWidth: '60px',
+                          }} />
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* ── MAIN SECTION ── */}
+              <section
+                className="phase-section-wrap"
+                style={{ padding: '48px 0 56px', position: 'relative', background: '#ffffff', overflow: 'hidden' }}
+              >
+                {/* Grid background */}
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  backgroundImage: `
+                    linear-gradient(rgba(79, 70, 229, 0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(79, 70, 229, 0.05) 1px, transparent 1px)
+                  `,
+                  backgroundSize: '50px 50px',
+                  opacity: 1,
+                }} />
+
+                {/* Light effect from center */}
+                <div style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: '800px',
+                  height: '800px',
+                  background: 'radial-gradient(circle, rgba(79, 70, 229, 0.08) 0%, transparent 70%)',
+                  pointerEvents: 'none',
+                  zIndex: 0,
+                }} />
+
+                <div className="section-container" style={{ position: 'relative', zIndex: 1, background: 'transparent' }}>
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1.15fr',
+                    gap: '40px',
+                    alignItems: 'start',
+                    maxWidth: '960px',
+                    margin: '0 auto',
+                  }}>
+
+                    {/* ── LEFT: Editorial ── */}
+                    <div style={{ position: 'relative', paddingTop: '8px', textAlign: 'left' }}>
+
+                      {/* Giant watermark number */}
+                      <div
+                        className="phase-watermark"
+                        style={{ color: 'rgba(79, 70, 229, 0.08)', left: '0', top: '-20px' }}
+                      >
+                        {String(heroCarouselIndex + 1).padStart(2, '0')}
+                      </div>
+
+                      {/* Tag */}
+                      <div
+                        key={`tag-${heroCarouselIndex}`}
+                        className="phase-tag-anim"
+                        style={{
+                          fontSize: '11px', fontWeight: 600, letterSpacing: '0.05em',
+                          textTransform: 'uppercase', color: '#4F46E5', marginBottom: '12px',
+                        }}
+                      >
+                        {heroCarouselIndex === 0 && <EditableText contentKey="ourModel.selection.label" value={phaseLabels[0]} />}
+                        {heroCarouselIndex === 1 && <EditableText contentKey="ourModel.validation.label" value={phaseLabels[1]} />}
+                        {heroCarouselIndex === 2 && phaseLabels[2]}
+                        {heroCarouselIndex === 3 && phaseLabels[3]}
+                        {heroCarouselIndex === 4 && phaseLabels[4]}
+                      </div>
+
+                      {/* Main title */}
+                      <h2
+                        key={`title-${heroCarouselIndex}`}
+                        className="phase-title-anim"
+                        style={{
+                          fontFamily: "'Manrope', sans-serif",
+                          fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
+                          fontWeight: 700,
+                          letterSpacing: '-0.01em',
+                          color: '#0F172A',
+                          lineHeight: 1.2,
+                          marginBottom: '16px',
+                        }}
+                      >
+                        {heroCarouselIndex === 0 && <EditableText contentKey="ourModel.selection.title" value={phaseTitles[0]} />}
+                        {heroCarouselIndex === 1 && <EditableText contentKey="ourModel.validation.title" value={phaseTitles[1]} />}
+                        {heroCarouselIndex === 2 && <EditableText contentKey="ourModel.phases.items.0.title" value={phaseTitles[2]} />}
+                        {heroCarouselIndex === 3 && <EditableText contentKey="ourModel.phases.items.1.title" value={phaseTitles[3]} />}
+                        {heroCarouselIndex === 4 && <EditableText contentKey="ourModel.phases.items.2.title" value={phaseTitles[4]} />}
+                      </h2>
+
+                      {/* Description with left border */}
+                      <p
+                        key={`desc-${heroCarouselIndex}`}
+                        className="phase-desc-anim"
+                        style={{
+                          fontSize: '0.95rem',
+                          color: '#64748B',
+                          lineHeight: 1.6,
+                          borderLeft: `3px solid #4F46E5`,
+                          paddingLeft: '16px',
+                          marginBottom: '24px',
+                        }}
+                      >
+                        {phaseDescs[heroCarouselIndex]}
+                      </p>
+
+                      {/* Progress counter */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div className="counter-bar">
+                          <div
+                            className="counter-fill"
+                            style={{
+                              width: `${((heroCarouselIndex + 1) / 5) * 100}%`,
+                              background: '#4F46E5',
                             }}
                           />
                         </div>
-                      );
-                    })}
+                        <span style={{ fontSize: '12px', fontWeight: 600, color: '#64748B', letterSpacing: '0.05em' }}>
+                          {heroCarouselIndex + 1} / 5
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* ── RIGHT: Cards ── */}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', minHeight: '400px' }}>
+
+                      {/* Phase 0 — Select */}
+                      {heroCarouselIndex === 0 && content.ourModel.selection?.cards?.map((card: any, idx: number) => (
+                        <div
+                          key={idx}
+                          style={{
+                            background: '#F8FAFC',
+                            border: '1px solid #E2E8F0',
+                            borderRadius: '12px',
+                            padding: '20px 18px',
+                            transition: 'all 0.2s ease',
+                            animationDelay: `${idx % 2 === 0 ? idx * 0.09 : 0.05 + idx * 0.09}s`,
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.borderColor = '#4F46E5';
+                            e.currentTarget.style.transform = 'translateY(-2px)';
+                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(79, 70, 229, 0.15)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.borderColor = '#E2E8F0';
+                            e.currentTarget.style.transform = 'translateY(0)';
+                            e.currentTarget.style.boxShadow = 'none';
+                          }}
+                        >
+                          <div style={{
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '12px',
+                            fontWeight: 700,
+                            fontFamily: "'Manrope', sans-serif",
+                            background: '#4F46E5',
+                            color: '#ffffff',
+                            marginBottom: '12px',
+                            border: '2px solid #4F46E5',
+                          }}>
+                            {String(idx + 1).padStart(2, '0')}
+                          </div>
+                          <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
+                            <EditableText contentKey={`ourModel.selection.cards.${idx}.title`} value={card.title} />
+                          </h3>
+                          <p style={{ fontSize: '0.8rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
+                            <EditableText contentKey={`ourModel.selection.cards.${idx}.desc`} value={card.desc} />
+                          </p>
+                        </div>
+                      ))}
+
+                      {/* Phase 1 — Validate */}
+                      {heroCarouselIndex === 1 && (
+                        <>
+                          {content.ourModel.validation?.steps?.map((step: any, idx: number) => (
+                            <div
+                              key={idx}
+                              style={{
+                                background: '#ffffff',
+                                border: '1px solid #E2E8F0',
+                                borderRadius: '12px',
+                                padding: '20px 18px',
+                                transition: 'all 0.2s ease',
+                                animationDelay: `${idx % 2 === 0 ? idx * 0.09 : 0.05 + idx * 0.09}s`,
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.borderColor = '#4F46E5';
+                                e.currentTarget.style.transform = 'translateY(-2px)';
+                                e.currentTarget.style.boxShadow = '0 4px 12px rgba(79, 70, 229, 0.15)';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.borderColor = '#E2E8F0';
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.boxShadow = 'none';
+                              }}
+                            >
+                              <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', color: '#4F46E5', marginBottom: '8px', opacity: 0.9 }}>
+                                {String(idx + 1).padStart(2, '0')}
+                              </div>
+                              <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
+                                <EditableText contentKey={`ourModel.validation.steps.${idx}.title`} value={step.title} />
+                              </h3>
+                              <p style={{ fontSize: '0.8rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
+                                <EditableText contentKey={`ourModel.validation.steps.${idx}.desc`} value={step.desc} />
+                              </p>
+                            </div>
+                          ))}
+                        </>
+                      )}
+
+                      {/* Phases 2, 3, 4 — Build / Launch / Scale */}
+                      {[2, 3, 4].includes(heroCarouselIndex) && (() => {
+                        const ph = content.ourModel.phases?.items?.[heroCarouselIndex - 2];
+                        const colors = ['#10B981', '#F59E0B', '#EF4444'];
+                        const vKey = ['v1', 'v2', 'v3'][heroCarouselIndex - 2];
+                        return (
+                          <>
+                            <div
+                              style={{
+                                background: '#ffffff',
+                                border: '1px solid #E2E8F0',
+                                borderRadius: '12px',
+                                padding: '20px 18px',
+                                transition: 'all 0.2s ease',
+                                animationDelay: '0s',
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.borderColor = '#4F46E5';
+                                e.currentTarget.style.transform = 'translateY(-2px)';
+                                e.currentTarget.style.boxShadow = '0 4px 12px rgba(79, 70, 229, 0.15)';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.borderColor = '#E2E8F0';
+                                e.currentTarget.style.transform = 'translateY(0)';
+                                e.currentTarget.style.boxShadow = 'none';
+                              }}
+                            >
+                              <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', color: '#4F46E5', marginBottom: '8px', opacity: 0.9 }}>01</div>
+                              <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
+                                <EditableText contentKey={`ourModel.phases.items.${heroCarouselIndex - 2}.label`} value={ph?.label} />
+                              </h3>
+                              <p style={{ fontSize: '0.8rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
+                                <EditableText contentKey={`ourModel.phases.items.${heroCarouselIndex - 2}.desc`} value={ph?.desc} />
+                              </p>
+                            </div>
+                            {content.ourModel.phases?.table?.rows?.map((row: any, idx: number) => (
+                              <div
+                                key={idx}
+                                style={{
+                                  background: '#ffffff',
+                                  border: '1px solid #E2E8F0',
+                                  borderRadius: '12px',
+                                  padding: '20px 18px',
+                                  transition: 'all 0.2s ease',
+                                  animationDelay: `${(idx + 1) * 0.09}s`,
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.borderColor = '#4F46E5';
+                                  e.currentTarget.style.transform = 'translateY(-2px)';
+                                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(79, 70, 229, 0.15)';
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.borderColor = '#E2E8F0';
+                                  e.currentTarget.style.transform = 'translateY(0)';
+                                  e.currentTarget.style.boxShadow = 'none';
+                                }}
+                              >
+                                <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', color: '#4F46E5', marginBottom: '8px', opacity: 0.9 }}>
+                                  {String(idx + 2).padStart(2, '0')}
+                                </div>
+                                <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
+                                  <EditableText contentKey={`ourModel.phases.table.rows.${idx}.c`} value={row.c} />
+                                </h3>
+                                <p style={{ fontSize: '0.85rem', fontWeight: 700, color: colors[heroCarouselIndex - 2], margin: 0 }}>
+                                  <EditableText contentKey={`ourModel.phases.table.rows.${idx}.${vKey}`} value={(row as any)[vKey]} />
+                                </p>
+                              </div>
+                            ))}
+                          </>
+                        );
+                      })()}
+
+                    </div>
                   </div>
                 </div>
-                {/* Caption below cards */}
-                <EditableText 
-                  as="p"
-                  contentKey="studio.solving.caption"
-                  value={studioContent.solving.caption}
-                  style={{ 
-                    color: '#005AE2', 
-                    fontSize: '0.75rem', 
-                    fontWeight: 800, 
-                    letterSpacing: '0.1em', 
-                    textTransform: 'uppercase',
-                    marginTop: '40px',
-                    marginLeft: '80px'
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-        {/* Why Ideas Never Launch */}
-        <section className="section-base">
-          <div className="section-container grid-2">
-            <div>
-              <EditableText 
-                as="h2"
-                contentKey="studio.whyIdeasFail.title"
-                value={studioContent.whyIdeasFail.title}
-                className="section-title section-title-left"
-              />
-              <EditableText 
-                as="p"
-                contentKey="studio.whyIdeasFail.description"
-                value={studioContent.whyIdeasFail.description}
-                className="body-text"
-                style={{ marginBottom: '48px' }}
-              />
+              </section>
+            </>
+          );
+        })()}
 
-              <div className="feature-box">
-                <div className="feature-box-icon">
-                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                </div>
-                <div>
-                  <EditableText as="h4" contentKey="studio.whyIdeasFail.problems.0.title" value={studioContent.whyIdeasFail.problems[0].title} />
-                  <EditableText as="p" contentKey="studio.whyIdeasFail.problems.0.description" value={studioContent.whyIdeasFail.problems[0].description} />
-                </div>
-              </div>
-
-              <div className="feature-box">
-                <div className="feature-box-icon">
-                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                </div>
-                <div>
-                  <EditableText as="h4" contentKey="studio.whyIdeasFail.problems.1.title" value={studioContent.whyIdeasFail.problems[1].title} />
-                  <EditableText as="p" contentKey="studio.whyIdeasFail.problems.1.description" value={studioContent.whyIdeasFail.problems[1].description} />
-                </div>
-              </div>
-            </div>
-
-            <div className="image-box-abstract" style={{ position: 'relative', minHeight: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-              <img 
-                src={studioContent.whyIdeasFail.image || "/images/core_capabilities.png"} 
-                alt="Our Core Capabilities" 
-                style={{ 
-                  width: '100%', 
-                  height: '100%', 
-                  objectFit: 'cover', 
-                  objectPosition: 'center',
-                  borderRadius: '24px',
-                  transform: 'scale(1.1)' /* Subtle zoom as requested earlier, while staying centered */
-                }} 
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* What We Look For */}
-        <section className="section-white" style={{ paddingBottom: '20px' }}>
+        {/* ═══════════════════════════════════════════════════ */}
+        {/* SECTION D: The Five Pods That Run the Playbook     */}
+        {/* ═══════════════════════════════════════════════════ */}
+        <section style={{ background: '#ffffff', padding: '24px 0', color: '#0F172A', textAlign: 'center' }}>
           <div className="section-container">
-            <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-              <EditableText 
-                as="h2"
-                contentKey="studio.whatWeLookFor.title"
-                value={studioContent.whatWeLookFor.title}
-                className="section-title"
-                style={{ marginBottom: '24px' }}
-              />
-              <EditableText 
-                as="p"
-                contentKey="studio.whatWeLookFor.subtitle"
-                value={studioContent.whatWeLookFor.subtitle}
-                className="section-subtitle"
-                style={{ maxWidth: '700px', margin: '0 auto', color: '#64748B', lineHeight: 1.6 }}
-              />
-            </div>
-            
-            <div className="grid-4" style={{ gap: '24px' }}>
-              {studioContent.whatWeLookFor.criteria.map((criterion, cIdx) => (
-                <div key={cIdx} className="look-card">
-                  <div className="look-icon">
-                    {cIdx === 0 ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg> :
-                     cIdx === 1 ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2-2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg> :
-                     cIdx === 2 ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> :
-                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>}
+            <h2 style={{ fontFamily: "'Manrope',sans-serif", fontSize: 'clamp(2rem,4vw,2.75rem)', fontWeight: 800, letterSpacing: '-0.02em', color: '#0F172A', marginBottom: 12 }}>
+              <EditableText contentKey="ourModel.pods.title" value={content.ourModel.pods.title} />
+            </h2>
+            <p style={{ color: '#64748B', fontSize: '1.125rem', lineHeight: 1.6, maxWidth: 700, margin: '0 auto 24px' }}>
+              <EditableText contentKey="ourModel.pods.subtitle" value={content.ourModel.pods.subtitle} />
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 20 }}>
+              {content.ourModel.pods.items.map((pod: any, idx: number) => {
+                const colors = ['#3B82F6', '#1E40AF', '#10B981', '#06B6D4', '#14B8A6'];
+                return (
+                  <div key={idx} style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', padding: '40px 32px', borderRadius: 24, textAlign: 'left', transition: 'all 0.3s' }} data-mobile-padding="40px 24px">
+                    <span style={{ display: 'block', color: colors[idx], fontWeight: 800, fontSize: '0.625rem', letterSpacing: '0.2em', marginBottom: 16 }}>
+                      <EditableText contentKey={`ourModel.pods.items.${idx}.id`} value={pod.id} />
+                    </span>
+                    <h3 style={{ fontFamily: "'Manrope',sans-serif", color: '#0F172A', fontSize: '1.25rem', fontWeight: 800, marginBottom: 16 }}>
+                      <EditableText contentKey={`ourModel.pods.items.${idx}.title`} value={pod.title} />
+                    </h3>
+                    <p style={{ fontSize: '0.875rem', color: '#64748B', lineHeight: 1.5, margin: 0 }}>
+                      <EditableText contentKey={`ourModel.pods.items.${idx}.desc`} value={pod.desc} />
+                    </p>
                   </div>
-                  <EditableText as="h4" contentKey={`studio.whatWeLookFor.criteria.${cIdx}.title`} value={criterion.title} className="look-title" />
-                  <EditableText as="p" contentKey={`studio.whatWeLookFor.criteria.${cIdx}.description`} value={criterion.description} className="look-desc" />
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
 
-        {/* The Build Timeline */}
-        <section className="timeline-section-vertical">
-          <div className="section-container">
-            <EditableText 
-              as="h2"
-              contentKey="studio.timeline.title"
-              value={studioContent.timeline.title}
-              className="section-title"
-              style={{ fontSize: 'clamp(2.2rem, 5vw, 3rem)', fontWeight: 800, color: '#FFFFFF' }}
-            />
-            <EditableText 
-              as="p"
-              contentKey="studio.timeline.subtitle"
-              value={studioContent.timeline.subtitle}
-              className="section-subtitle text-center mx-auto"
-              style={{ maxWidth: '800px', marginBottom: '16px', color: 'rgba(255, 255, 255, 0.7)', lineHeight: 1.6 }}
-            />
 
-            <div className="timeline-container-vertical">
-              <div className="timeline-center-line"></div>
-              
-              {studioContent.timeline.phases.map((phase, pIdx) => (
-                <div key={pIdx} className="timeline-row-vertical" data-timeline-index={pIdx}>
-                  <div className="timeline-dot"></div>
-                  <div className={`timeline-phase-pill ${activeTimelineIndex === pIdx ? 'active-scroll' : ''}`}>
-                     <div className="timeline-badge">
-                        {pIdx + 1 < 10 ? `0${pIdx + 1}` : pIdx + 1}
-                     </div>
-                     <div className="timeline-right-side">
-                        <EditableText as="h4" contentKey={`studio.timeline.phases.${pIdx}.title`} value={phase.title} className="t-title-new" />
-                        <EditableText as="p" contentKey={`studio.timeline.phases.${pIdx}.description`} value={phase.description} className="t-desc-new" />
-                        <div className="t-duration-label">{phase.duration}</div>
-                     </div>
+      <SolvingSection stackCards={stackCards} studioContent={studioContent} EditableText={EditableText} />
+
+      {/* The Build Timeline */}
+      <section className="timeline-section-vertical">
+        <div className="section-container">
+          <EditableText
+            as="h2"
+            contentKey="studio.timeline.title"
+            value={studioContent.timeline.title}
+            className="section-title"
+            style={{ fontSize: 'clamp(2.2rem, 5vw, 3rem)', fontWeight: 800, color: '#FFFFFF' }}
+          />
+          <EditableText
+            as="p"
+            contentKey="studio.timeline.subtitle"
+            value={studioContent.timeline.subtitle}
+            className="section-subtitle text-center mx-auto"
+            style={{ maxWidth: '800px', marginBottom: '16px', color: 'rgba(255, 255, 255, 0.7)', lineHeight: 1.6 }}
+          />
+
+          <div className="timeline-container-vertical">
+            <div className="timeline-center-line"></div>
+
+            {studioContent.timeline.phases.map((phase, pIdx) => (
+              <div key={pIdx} className="timeline-row-vertical" data-timeline-index={pIdx}>
+                <div className="timeline-dot"></div>
+                <div className={`timeline-phase-pill ${activeTimelineIndex === pIdx ? 'active-scroll' : ''}`}>
+                  <div className="timeline-badge">
+                    {pIdx + 1 < 10 ? `0${pIdx + 1}` : pIdx + 1}
+                  </div>
+                  <div className="timeline-right-side">
+                    <EditableText as="h4" contentKey={`studio.timeline.phases.${pIdx}.title`} value={phase.title} className="t-title-new" />
+                    <EditableText as="p" contentKey={`studio.timeline.phases.${pIdx}.description`} value={phase.description} className="t-desc-new" />
+                    <div className="t-duration-label">{phase.duration}</div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* FAQ Section */}
-        {studioContent.faq && (
-        <section id="faq" className="section-base" style={{ paddingTop: '0' }}>
-          <div className="section-container">
-            <EditableText 
-              as="h2"
-              contentKey="studio.faq.title"
-              value={studioContent.faq?.title}
-              className="section-title text-center"
-              style={{ marginBottom: '64px' }}
-            />
-
-            <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-              {studioContent.faq?.items?.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="faq-item"
-                  onClick={() => setOpenFaqIdx(openFaqIdx === idx ? null : idx)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <div className="faq-header">
-                    <EditableText as="span" contentKey={`studio.faq.items.${idx}.question`} value={item.question} />
-                    <span className="faq-icon" style={{ transition: 'transform 0.3s', display: 'inline-block', transform: openFaqIdx === idx ? 'rotate(45deg)' : 'rotate(0deg)' }}>+</span>
-                  </div>
-                  {openFaqIdx === idx && (
-                    <EditableText 
-                      as="div"
-                      contentKey={`studio.faq.items.${idx}.answer`}
-                      value={item.answer}
-                      className="faq-content"
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-        )}
-
-        {/* CTA */}
-        {studioContent.cta && (
+      {/* CTA */}
+      {studioContent.cta && (
         <section className="section-white text-center">
           <div className="section-container" style={{ paddingTop: 'clamp(80px, 10vw, 120px)', paddingBottom: 'clamp(80px, 10vw, 120px)' }}>
-            <EditableText 
+            <EditableText
               as="h2"
               contentKey="studio.cta.title"
               value={studioContent.cta?.title}
               className="section-title"
               style={{ marginBottom: '24px' }}
             />
-            <EditableText 
+            <EditableText
               as="p"
               contentKey="studio.cta.subtitle"
               value={studioContent.cta?.subtitle}
@@ -1845,11 +1937,11 @@ export default function StudioPage() {
             </Link>
           </div>
         </section>
-        )}
+      )}
 
-        <Footer />
+      <Footer />
 
-      </div>
+    </div >
     </>
   );
 }

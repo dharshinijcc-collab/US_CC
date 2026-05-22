@@ -101,10 +101,11 @@ export default function InvestorsPage() {
         }
 
         .section-container {
-          max-width: 1200px;
+          max-width: 100%;
           margin: 0 auto;
-          padding: clamp(40px, 6vw, 80px) 24px;
+          padding: clamp(40px, 6vw, 80px) 32px;
         }
+        @media (max-width: 768px) { .section-container { padding: clamp(40px, 6vw, 80px) 24px; } }
 
         .hero-title {
           font-size: clamp(2.5rem, 5vw, 4.5rem);
@@ -383,6 +384,10 @@ export default function InvestorsPage() {
           /* .section-container { padding: 60px 24px; } */
           /* .hero-title { font-size: 2.5rem; } */
           /* .comp-card { padding: 40px 24px; } */
+
+          [data-mobile-padding="60px 24px"] { padding: 60px 24px !important; }
+          [data-mobile-padding="80px 24px"] { padding: 80px 24px !important; }
+          [data-mobile-padding="120px 24px"] { padding: 120px 24px !important; }
         }
       `}} />
 
@@ -419,7 +424,7 @@ export default function InvestorsPage() {
       </section>
 
       {/* Active Builders Section */}
-      <section className="section-container" id="more" style={{ padding: '60px 24px' }}>
+      <section className="section-container" id="more" style={{ padding: '60px 32px' }} data-mobile-padding="60px 24px">
         <div className="grid-2" style={{ gap: '60px' }}>
           <div style={{ position: 'relative' }}>
             <div style={{ borderRadius: '32px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}>
@@ -593,7 +598,7 @@ export default function InvestorsPage() {
       </section>
 
       {/* Pathway Section */}
-      <section style={{ background: 'black', color: 'white', padding: '80px 24px' }}>
+      <section style={{ background: 'black', color: 'white', padding: '80px 32px' }} data-mobile-padding="80px 24px">
         <div className="section-container grid-2" style={{ gap: '60px', padding: 0 }}>
           <div>
              <h2 style={{ fontSize: '2.75rem', marginBottom: '24px' }}>
@@ -663,7 +668,7 @@ export default function InvestorsPage() {
       </section>
 
       {/* The Repeatable Engine */}
-      <section className="section-container" style={{ padding: '60px 24px' }}>
+      <section className="section-container" style={{ padding: '60px 32px' }} data-mobile-padding="60px 24px">
         <div style={{ 
           background: 'white', 
           borderRadius: '40px', 
@@ -758,7 +763,7 @@ export default function InvestorsPage() {
       </section>
 
       {/* CTA Form Section */}
-      <section className="section-container" style={{ textAlign: 'center', padding: '120px 24px' }}>
+      <section className="section-container" style={{ textAlign: 'center', padding: '120px 32px' }} data-mobile-padding="120px 24px">
         <h2 style={{ fontSize: '3.5rem', marginBottom: '24px', maxWidth: '800px', margin: '0 auto 24px auto' }}>
           <EditableText contentKey="investors.cta.title" value={investors.cta.title} />
         </h2>

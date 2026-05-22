@@ -29,28 +29,22 @@
           "label": "Resources",
           "links": [
             {
-              "name": "The Process",
-              "desc": "How we select and launch startups",
-              "href": "/studio",
-              "icon": "refresh"
+              "name": "Tools",
+              "desc": "Explore our curated tools and resources for startup success",
+              "href": "/tools",
+              "icon": "tool"
             },
             {
-              "name": "For Investors",
-              "desc": "Investment opportunities in our network",
-              "href": "/investors",
-              "icon": "trending-up"
+              "name": "Blogs",
+              "desc": "Insights and stories from our startup journey",
+              "href": "/blogs",
+              "icon": "file-text"
             },
             {
-              "name": "Founders",
-              "desc": "The co-founders of our startups",
-              "href": "/company",
-              "icon": "rocket"
-            },
-            {
-              "name": "Samurai",
-              "desc": "Our team and advisor network",
-              "href": "/#team",
-              "icon": "swords"
+              "name": "Events",
+              "desc": "Join our upcoming workshops and networking events",
+              "href": "/events",
+              "icon": "calendar"
             }
           ]
         }
@@ -1073,88 +1067,6 @@
           "desc": "Ensuring the core team possesses the domain expertise and obsession required to navigate the specific industry challenges."
         }
       ]
-    },
-    "validation": {
-      "label": "PHASE 02 — CLINICAL VALIDATION",
-      "title": "The Validation Framework",
-      "steps": [
-        {
-          "title": "Assumption Mapping",
-          "desc": "Extracting every \"must-be-true\" statement."
-        },
-        {
-          "title": "Risk Ranking",
-          "desc": "Identifying the deadliest uncertainties first."
-        },
-        {
-          "title": "Signal Testing",
-          "desc": "Cold outreach, smoke tests, and MVP-0."
-        },
-        {
-          "title": "Evidence Review",
-          "desc": "Data-backed go/no-go final decision."
-        }
-      ],
-      "outcomes": [
-        {
-          "title": "Proceed",
-          "desc": "Strong market signal. Pre-commitments secured. Unit economics project a clear path to scale."
-        },
-        {
-          "title": "Iterate",
-          "desc": "Problem confirmed but solution missed. Pivot core value prop and re-validate immediately."
-        },
-        {
-          "title": "Kill",
-          "desc": "Market apathy or structural roadblocks. Stop execution now to preserve capital and focus."
-        }
-      ]
-    },
-    "phases": {
-      "title": "What Happens After a Green Light",
-      "items": [
-        {
-          "label": "PHASE 03",
-          "title": "Build",
-          "desc": "High-speed engineering of the MVP. We focus on core loops that deliver immediate value while maintaining architectural integrity."
-        },
-        {
-          "label": "PHASE 04",
-          "title": "Launch",
-          "desc": "Strategic deployment to the beachhead market. Controlled release, rapid feedback gathering, and community seeding."
-        },
-        {
-          "label": "PHASE 05",
-          "title": "Scale",
-          "desc": "Aggressive growth through analytics-driven optimization and infrastructure hardening for mass-market demand."
-        }
-      ],
-      "table": {
-        "h1": "Gate Criteria",
-        "h2": "Action: Continue",
-        "h3": "Action: Iterate",
-        "h4": "Action: Stop",
-        "rows": [
-          {
-            "c": "User Retention (Day 30)",
-            "v1": "> 40%",
-            "v2": "20% - 40%",
-            "v3": "< 20%"
-          },
-          {
-            "c": "CAC / LTV Ratio",
-            "v1": "< 3:1",
-            "v2": "4:1 - 5:1",
-            "v3": "> 5:1"
-          },
-          {
-            "c": "Platform Stability",
-            "v1": "99.9% Uptime",
-            "v2": "Minor Bugfixing",
-            "v3": "Critical Failures"
-          }
-        ]
-      }
     },
     "pods": {
       "title": "The Five Pods That Run Our Methodology",

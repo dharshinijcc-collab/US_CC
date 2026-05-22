@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Studio — CrestCode</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue: #2563EB;
+    --blue-light: #3B82F6;
+    --blue-dim: rgba(37,99,235,0.12);
+    --blue-border: rgba(37,99,235,0.3);
+    --bg: #060912;
+    --bg-2: #0c1120;
+    --bg-3: #111827;
+    --border: rgba(255,255,255,0.08);
+    --border-hover: rgba(255,255,255,0.16);
+    --text: #ffffff;
+    --text-muted: rgba(255,255,255,0.55);
+    --text-faint: rgba(255,255,255,0.3);
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 4rem;
+    background: rgba(6,9,18,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.4rem;
+    border-radius: 100px;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .nav-cta:hover { background: var(--blue-light); transform: translateY(-1px); }
+
+  section { position: relative; }
+
+  .label {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    margin-bottom: 1.25rem;
+  }
+
+  h1, h2, h3, h4 { font-family: var(--font-display); }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    border-radius: 100px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--blue);
+    color: #fff;
+  }
+
+  .btn-primary:hover { background: var(--blue-light); transform: translateY(-2px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+
+  .btn-ghost:hover { border-color: var(--border-hover); color: var(--text); }
+
+  .arrow { font-size: 1rem; }
+
+
+  /* ── HERO ─────────────────────────────────────────── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10rem 2rem 6rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 0%, transparent 80%);
+    opacity: 0.4;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--blue-dim);
+    border: 1px solid var(--blue-border);
+    border-radius: 100px;
+    padding: 0.4rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .hero-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--blue-light);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  #hero h1 {
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 900px;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .h1-accent { color: var(--blue-light); }
+
+  #hero p {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    max-width: 560px;
+    margin-bottom: 3rem;
+    line-height: 1.75;
+    position: relative;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    position: relative;
+  }
+
+  .hero-stat-row {
+    display: flex;
+    gap: 4rem;
+    margin-top: 6rem;
+    position: relative;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .hero-stat { text-align: center; }
+
+  .hero-stat .num {
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--text);
+    display: block;
+  }
+
+  .hero-stat .desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── VISION / MISSION ─────────────────────────────── */
+  #vision {
+    padding: 8rem 4rem;
+    background: var(--bg-2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .vm-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .vm-intro {
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+  }
+
+  .vm-intro h2 {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    max-width: 500px;
+  }
+
+  .vm-card {
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .vm-card:hover { border-color: var(--border-hover); }
+
+  .vm-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--blue) 0%, transparent 100%);
+  }
+
+  .vm-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .vm-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+  }
+
+  .vm-card p {
+    color: var(--text-muted);
+    font-size: 0.975rem;
+    line-height: 1.75;
+  }
+
+  /* ── SELECTION ────────────────────────────────────── */
+  #selection {
+    padding: 8rem 4rem;
+  }
+
+  .section-header {
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+  }
+
+  .section-header h2 {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    max-width: 520px;
+  }
+
+  .section-header p {
+    color: var(--text-muted);
+    font-size: 0.975rem;
+    max-width: 340px;
+    line-height: 1.7;
+  }
+
+  .sel-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .sel-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .sel-card:hover {
+    border-color: var(--blue-border);
+    transform: translateY(-3px);
+  }
+
+  .sel-num {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--blue-light);
+    background: var(--blue-dim);
+    border: 1px solid var(--blue-border);
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .sel-body h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .sel-body p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* ── TIMELINE ─────────────────────────────────────── */
+  #timeline {
+    padding: 8rem 4rem;
+    background: var(--bg-2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tl-header {
+    max-width: 1200px;
+    margin: 0 auto 5rem;
+  }
+
+  .tl-header h2 {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    max-width: 600px;
+    margin-bottom: 1rem;
+  }
+
+  .tl-header p {
+    color: var(--text-muted);
+    max-width: 480px;
+    font-size: 0.975rem;
+    line-height: 1.7;
+  }
+
+  .tl-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .tl-line {
+    position: absolute;
+    left: 28px;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--blue) 0%, rgba(37,99,235,0.1) 100%);
+  }
+
+  .tl-item {
+    display: flex;
+    gap: 2.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .tl-item:last-child { margin-bottom: 0; }
+
+  .tl-dot-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .tl-dot {
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--blue-light);
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+    z-index: 1;
+    transition: background 0.3s, border-color 0.3s;
+  }
+
+  .tl-item:hover .tl-dot {
+    background: var(--blue-dim);
+    border-color: var(--blue-border);
+  }
+
+  .tl-content {
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem 2.5rem;
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    transition: border-color 0.3s;
+  }
+
+  .tl-item:hover .tl-content { border-color: var(--border-hover); }
+
+  .tl-content-main h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+
+  .tl-content-main p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 560px;
+  }
+
+  .tl-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: var(--blue-dim);
+    border: 1px solid var(--blue-border);
+    border-radius: 100px;
+    padding: 0.35rem 0.9rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--blue-light);
+    white-space: nowrap;
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+  .tl-badge-split {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-self: center;
+    flex-shrink: 0;
+  }
+
+  .tl-badge-alt {
+    background: rgba(255,255,255,0.05);
+    border-color: var(--border);
+    color: var(--text-muted);
+  }
+
+  .tl-total {
+    max-width: 1200px;
+    margin: 3rem auto 0;
+    background: var(--blue-dim);
+    border: 1px solid var(--blue-border);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .tl-total p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .tl-total strong {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--blue-light);
+  }
+
+  /* ── DIFFERENTIATION ──────────────────────────────── */
+  #diff {
+    padding: 8rem 4rem;
+  }
+
+  .diff-header {
+    max-width: 1200px;
+    margin: 0 auto 5rem;
+    text-align: center;
+  }
+
+  .diff-header h2 {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    max-width: 680px;
+    margin: 0 auto 1rem;
+  }
+
+  .diff-header p {
+    color: var(--text-muted);
+    font-size: 0.975rem;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .diff-table-wrap {
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .diff-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .diff-table th {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 1.25rem 2rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+
+  .diff-table th.highlight {
+    background: var(--blue-dim);
+    color: var(--blue-light);
+    border-bottom-color: var(--blue-border);
+  }
+
+  .diff-table td {
+    padding: 1.25rem 2rem;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    vertical-align: middle;
+  }
+
+  .diff-table tr:last-child td { border-bottom: none; }
+
+  .diff-table td.feature {
+    color: var(--text);
+    font-weight: 500;
+    font-size: 0.925rem;
+  }
+
+  .diff-table td.highlight {
+    background: var(--blue-dim);
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .diff-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .diff-table tr:hover td.highlight { background: rgba(37,99,235,0.15); }
+
+  .check { color: #22c55e; font-size: 1rem; }
+  .cross { color: rgba(255,255,255,0.25); font-size: 1rem; }
+  .partial { color: #f59e0b; font-size: 0.8rem; font-style: italic; }
+
+  .diff-cards {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .diff-card {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .diff-card:hover {
+    border-color: var(--blue-border);
+    transform: translateY(-3px);
+  }
+
+  .diff-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: var(--blue-dim);
+    border: 1px solid var(--blue-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .diff-card h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .diff-card p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* ── CTA ──────────────────────────────────────────── */
+  #cta {
+    padding: 8rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(37,99,235,0.14) 0%, transparent 70%);
+  }
+
+  #cta h2 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    max-width: 700px;
+    margin: 0 auto 1.25rem;
+    position: relative;
+  }
+
+  #cta p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    max-width: 440px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+    position: relative;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    position: relative;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-size: 0.8rem;
+    color: var(--text-faint);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 0.8rem;
+    color: var(--text-faint);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">CRESTCODE</a>
+  <ul class="nav-links">
+    <li><a href="#">Studio</a></li>
+    <li><a href="#">Methodology</a></li>
+    <li><a href="#">Companies</a></li>
+    <li><a href="#">Insights</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+  <a class="nav-cta" href="#">Start a Conversation</a>
+</nav>
+
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-eyebrow">
+    <span class="hero-dot"></span>
+    The Studio
+  </div>
+
+  <h1>
+    Where Bold Ideas<br>
+    Become <span class="h1-accent">Real Ventures</span>
+  </h1>
+
+  <p>
+    CrestCode Studio partners with founders and business owners to build world-class digital products — from the first spark of an idea to a product in market.
+  </p>
+
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="#">Apply to the Studio <span class="arrow">→</span></a>
+    <a class="btn btn-ghost" href="#">See Our Process</a>
+  </div>
+
+  <div class="hero-stat-row">
+    <div class="hero-stat">
+      <span class="num">5</span>
+      <span class="desc">Delivery Stages</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">~6mo</span>
+      <span class="desc">Avg. Time to Market</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">3</span>
+      <span class="desc">Client Profiles Served</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">100%</span>
+      <span class="desc">In-House Execution</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- VISION & MISSION -->
+<section id="vision">
+  <div class="vm-intro">
+    <span class="label">Who We Are</span>
+    <h2>Not an agency.<br>Not an accelerator.<br>A venture partner.</h2>
+  </div>
+
+  <div class="vm-inner">
+    <div class="vm-card">
+      <span class="vm-tag">Our Vision</span>
+      <h3>To be the most trusted venture partner for founders and operators who refuse to build alone.</h3>
+      <p style="margin-top:1rem;">
+        We envision a world where great ideas — regardless of technical background or startup experience — get the strategic and engineering firepower they deserve. CrestCode exists to level the playing field.
+      </p>
+    </div>
+
+    <div class="vm-card">
+      <span class="vm-tag">Our Mission</span>
+      <h3>To turn bold ideas and real-world problems into world-class digital products.</h3>
+      <p style="margin-top:1rem;">
+        We partner with visionary founders and business owners through strategy, elite engineering, and relentless execution — building ventures that are built to last, not just launched.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- SELECTION PROCESS -->
+<section id="selection">
+  <div class="section-header">
+    <div>
+      <span class="label">Selection Process</span>
+      <h2>We are selective<br>for a reason.</h2>
+    </div>
+    <p>
+      We partner with a small number of founders and business owners each year. Every engagement gets our full attention — which means we choose carefully.
+    </p>
+  </div>
+
+  <div class="sel-grid">
+
+    <div class="sel-card">
+      <div class="sel-num">01</div>
+      <div class="sel-body">
+        <h4>A Problem Worth Solving</h4>
+        <p>We look for ideas and problems with clear market demand — not solutions looking for a problem. Whether you're a founder with a thesis or a business owner who has lived the pain, the problem must be real and the opportunity must be large.</p>
+      </div>
+    </div>
+
+    <div class="sel-card">
+      <div class="sel-num">02</div>
+      <div class="sel-body">
+        <h4>Founder or Operator Commitment</h4>
+        <p>We need a committed champion on your side. You don't need a technical background — but you do need skin in the game, domain conviction, and the drive to see this through from idea to market and beyond.</p>
+      </div>
+    </div>
+
+    <div class="sel-card">
+      <div class="sel-num">03</div>
+      <div class="sel-body">
+        <h4>Scalable Business Potential</h4>
+        <p>We build products designed to grow. We evaluate whether the opportunity has the potential to scale — whether that means SaaS subscriptions, marketplace dynamics, or a platform that compounds over time. Small thinking need not apply.</p>
+      </div>
+    </div>
+
+    <div class="sel-card">
+      <div class="sel-num">04</div>
+      <div class="sel-body">
+        <h4>Strategic Fit with CrestCode</h4>
+        <p>We are most effective when our strengths align with your needs. We look for opportunities where our expertise in product strategy, full-stack engineering, and go-to-market execution can meaningfully move the needle — not just fill a gap.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- HOW WE OPERATE / TIMELINE -->
+<section id="timeline">
+  <div class="tl-header">
+    <span class="label">How We Operate</span>
+    <h2>A proven process.<br>From idea to market.</h2>
+    <p>Every engagement follows a structured five-stage journey — built for clarity, speed, and quality at every step.</p>
+  </div>
+
+  <div class="tl-wrap">
+    <div class="tl-line"></div>
+
+    <div class="tl-item">
+      <div class="tl-dot-wrap">
+        <div class="tl-dot">01</div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-content-main">
+          <h3>Finalize the Idea</h3>
+          <p>We pressure-test your concept together. We define the core problem, identify the target user, validate market potential, and align on a product vision that is ambitious but buildable. No vague briefs — we leave with a clear north star.</p>
+        </div>
+        <div class="tl-badge">2 Weeks</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot-wrap">
+        <div class="tl-dot">02</div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-content-main">
+          <h3>Operating Agreement</h3>
+          <p>Before a single line of code is written, we align on ownership, engagement terms, and mutual expectations. Transparency here prevents friction later. We move fast, but we move clean.</p>
+        </div>
+        <div class="tl-badge">1 Week</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot-wrap">
+        <div class="tl-dot">03</div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-content-main">
+          <h3>Requirements & Business Case</h3>
+          <p>We go deep. Working sessions, user story mapping, PRFAQs, and a formal business case — so every build decision has a strategic rationale. This stage is what separates ventures that succeed from products that miss the mark.</p>
+        </div>
+        <div class="tl-badge">2 Weeks</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot-wrap">
+        <div class="tl-dot">04</div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-content-main">
+          <h3>Build the Product</h3>
+          <p>Our senior engineering and design team builds your product in-house — no outsourcing. We follow agile delivery cycles with bi-weekly demos, continuous feedback, and a relentless focus on quality. You choose the scope: MVP or a full Minimum Lovable Product.</p>
+        </div>
+        <div class="tl-badge-split">
+          <div class="tl-badge">MVP — 12 Weeks</div>
+          <div class="tl-badge tl-badge-alt">MLP — 18 Weeks</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot-wrap">
+        <div class="tl-dot">05</div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-content-main">
+          <h3>Go to Market</h3>
+          <p>Launch is a strategy, not an event. We shape your positioning, prepare your pitch materials for investors, clients, or partners, and support your first user acquisition push. You go to market ready — not just live.</p>
+        </div>
+        <div class="tl-badge">2 Weeks</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="tl-total">
+    <p>Total engagement: <strong>19–25 weeks (MVP)</strong> or <strong>25–31 weeks (MLP)</strong> — from first conversation to market.</p>
+    <a class="btn btn-ghost" href="#" style="font-size:0.8rem; padding:0.5rem 1.2rem;">View Methodology →</a>
+  </div>
+</section>
+
+
+<!-- DIFFERENTIATION -->
+<section id="diff">
+  <div class="diff-header">
+    <span class="label">Why CrestCode</span>
+    <h2>Not a vendor.<br>Not a studio that vanishes.<br>A co-builder.</h2>
+    <p>Here is how we compare to the alternatives — and why it matters for your venture.</p>
+  </div>
+
+  <div class="diff-table-wrap">
+    <table class="diff-table">
+      <thead>
+        <tr>
+          <th style="width:28%;">Capability</th>
+          <th class="highlight" style="width:18%;">CrestCode Studio</th>
+          <th style="width:18%;">Dev Agencies</th>
+          <th style="width:18%;">Other Studios</th>
+          <th style="width:18%;">Freelancers</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="feature">End-to-end product ownership</td>
+          <td class="highlight"><span class="check">✓</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="partial">Sometimes</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td class="feature">Works with business owners</td>
+          <td class="highlight"><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature">Strategic product thinking</td>
+          <td class="highlight"><span class="check">✓</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td class="feature">In-house engineering team</td>
+          <td class="highlight"><span class="check">✓</span></td>
+          <td><span class="partial">Varies</span></td>
+          <td><span class="partial">Varies</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td class="feature">Go-to-market support</td>
+          <td class="highlight"><span class="check">✓</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="partial">Sometimes</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td class="feature">Pitch & stakeholder prep</td>
+          <td class="highlight"><span class="check">✓</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="partial">Sometimes</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td class="feature">Defined delivery timeline</td>
+          <td class="highlight"><span class="check">✓</span></td>
+          <td><span class="partial">Varies</span></td>
+          <td><span class="partial">Varies</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td class="feature">AI & automation built-in</td>
+          <td class="highlight"><span class="check">✓</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="partial">Rarely</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="diff-cards">
+    <div class="diff-card">
+      <div class="diff-icon">🤝</div>
+      <h4>Partner, Not Vendor</h4>
+      <p>We don't take a brief and disappear. We are in the room with you — from shaping the idea to your first 100 users. Your success is our success.</p>
+    </div>
+    <div class="diff-card">
+      <div class="diff-icon">⚡</div>
+      <h4>Senior Talent Only</h4>
+      <p>No juniors, no outsourcing. Every engagement is staffed with senior engineers, designers, and product strategists who have built at scale before.</p>
+    </div>
+    <div class="diff-card">
+      <div class="diff-icon">🎯</div>
+      <h4>Amazon-Discipline, Startup Speed</h4>
+      <p>We bring enterprise-grade rigor — PRFAQs, business cases, defined timelines — with the urgency and adaptability of an early-stage team.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-bg"></div>
+  <span class="label" style="position:relative;">Ready to Build?</span>
+  <h2>Your idea deserves<br>the right partner.</h2>
+  <p>Tell us what you're building — or what problem you're trying to solve. We'll take it from there.</p>
+  <div class="cta-actions">
+    <a class="btn btn-primary" href="#">Start a Conversation <span class="arrow">→</span></a>
+    <a class="btn btn-ghost" href="#">See Our Work</a>
+  </div>
+</section>
+
+
+<footer>
+  <p>© 2025 CrestCode USA. All rights reserved.</p>
+  <ul class="footer-links">
+    <li><a href="#">Studio</a></li>
+    <li><a href="#">Methodology</a></li>
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</footer>
+
+</body>
+</html>

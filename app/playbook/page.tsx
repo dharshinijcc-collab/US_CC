@@ -472,6 +472,9 @@ export default function OurModelPage() {
           background: #F0F5FF;
           padding: 80px 0;
           text-align: center;
+          position: relative;
+          overflow: hidden;
+          z-index: 1;
         }
 
         .step-circles-row {
@@ -521,6 +524,8 @@ export default function OurModelPage() {
           grid-template-columns: repeat(3, 1fr);
           gap: 24px;
           margin-top: 48px;
+          position: relative;
+          z-index: 1;
         }
 
         .outcome-card {
@@ -530,6 +535,8 @@ export default function OurModelPage() {
           text-align: left;
           border: 1px solid var(--border-light);
           position: relative;
+          z-index: 1;
+          overflow: hidden;
         }
 
         .outcome-card.proceed { border-left: 6px solid #10B981; }

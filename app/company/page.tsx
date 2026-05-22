@@ -54,12 +54,13 @@ export default function CompanyPage() {
       <style dangerouslySetInnerHTML={{ __html: `
         /* ===== HERO ===== */
         .company-hero {
-          padding: 160px 24px 80px;
+          padding: 160px 32px 80px;
           background: #0A0F1C;
           color: white;
           text-align: center;
           position: relative;
           overflow: hidden;
+          z-index: 1;
         }
         .hero-glow {
           position: absolute;
@@ -71,6 +72,7 @@ export default function CompanyPage() {
           transform: translateX(-50%);
           filter: blur(80px);
           pointer-events: none;
+          z-index: 0;
         }
         .hero-title {
           font-size: clamp(2.5rem, 6vw, 4.5rem);
@@ -93,7 +95,7 @@ export default function CompanyPage() {
           gap: 10px;
           justify-content: center;
           flex-wrap: wrap;
-          padding: 28px 20px;
+          padding: 28px 32px;
           background: #F8FAFC;
           border-bottom: 1px solid #E2E8F0;
         }
@@ -124,14 +126,14 @@ export default function CompanyPage() {
         /* ===== COMPANIES GRID ===== */
         .companies-section {
           background: #FFFFFF;
-          padding: 60px 24px 80px;
+          padding: 60px 32px 80px;
         }
         .companies-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
           gap: 28px;
-          max-width: 1200px;
-          margin: 0 auto;
+          width: 100%;
+          max-width: 100%;
         }
 
         /* ===== COMPANY CARD ===== */
@@ -237,9 +239,9 @@ export default function CompanyPage() {
           overflow: hidden;
         }
         .section-container {
-          max-width: 1200px;
+          max-width: 100%;
           margin: 0 auto;
-          padding: 100px 24px;
+          padding: 100px 32px;
         }
         .section-eyebrow {
           color: #005AE2;
@@ -343,6 +345,27 @@ export default function CompanyPage() {
           font-family: 'Manrope', sans-serif;
         }
 
+        /* ===== FOOTER WRAPPER ===== */
+        .cc-footer-wrapper {
+          width: 100%;
+          position: relative;
+          z-index: 1;
+        }
+        .cc-footer-wrapper .footer {
+          width: 100%;
+          max-width: 100%;
+        }
+
+        /* ===== PAGE LAYOUT FIX ===== */
+        main {
+          position: relative;
+          z-index: 1;
+        }
+        .company-hero {
+          position: relative;
+          z-index: 1;
+        }
+
         /* ===== RESPONSIVE: TABLET (max 900px) ===== */
         @media (min-width: 900px) {
           .dark-grid {
@@ -354,14 +377,14 @@ export default function CompanyPage() {
         /* ===== RESPONSIVE: MOBILE (max 768px) ===== */
         @media (max-width: 768px) {
           .company-hero {
-            padding: 120px 20px 60px;
+            padding: 120px 24px 60px;
           }
           .hero-glow {
             width: 300px;
             height: 300px;
           }
           .filter-bar {
-            padding: 20px 16px;
+            padding: 20px 24px;
             gap: 8px;
           }
           .filter-pill {
@@ -369,7 +392,7 @@ export default function CompanyPage() {
             font-size: 0.8125rem;
           }
           .companies-section {
-            padding: 40px 16px 60px;
+            padding: 40px 24px 60px;
           }
           .companies-grid {
             grid-template-columns: 1fr;
@@ -392,7 +415,7 @@ export default function CompanyPage() {
             margin-bottom: 20px;
           }
           .section-container {
-            padding: 64px 20px;
+            padding: 64px 24px;
           }
           .testimonial-card-dark {
             padding: 28px 24px;
@@ -544,7 +567,10 @@ export default function CompanyPage() {
                   </div>
 
                   <Link href={company.link || '#'} className="c-link">
-                    Visit Website
+                    <EditableText
+                      contentKey={`company.companies.${idx}.linkLabel`}
+                      value="Visit Website"
+                    />
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
                       <polyline points="12 5 19 12 12 19"></polyline>
@@ -627,7 +653,9 @@ export default function CompanyPage() {
         </section>
       </main>
 
-      <Footer />
+      <div className="cc-footer-wrapper">
+        <Footer />
+      </div>
     </>
   );
 }
