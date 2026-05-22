@@ -32,6 +32,7 @@ export default function Footer() {
               <h5 className="footer-heading">Company</h5>
               <ul>
                 <li><Link to="/">About Us</Link></li>
+                <li><a href="/blogs">Blogs</a></li>
                 <li><Link to="/careers">Careers</Link></li>
                 <li><Link to="/contact">Contact</Link></li>
               </ul>

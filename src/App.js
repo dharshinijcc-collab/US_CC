@@ -531,6 +531,7 @@ function LandingPage() {
 
         /* Target Audience Elements */
         .card-icon { width: 56px; height: 56px; background-color: var(--white); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 24px; transition: all 0.3s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .card-icon svg { width: 24px !important; height: 24px !important; min-width: 24px !important; min-height: 24px !important; flex-shrink: 0; }
         .sys-card:hover .card-icon { background-color: var(--primary-blue); color: var(--white); }
         .card-title { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 800; margin-bottom: 16px; color: var(--text-black); letter-spacing: -0.02em; transition: color 0.3s; }
         .sys-card:hover .card-title { color: var(--white); }
@@ -1049,7 +1050,7 @@ function LandingPage() {
               We don't just build software; we engineer businesses.<br />
               Our validated build framework minimizes risk and maximizes market impact by aligning technical precision with commercial reality.
             </p>
-            <Link to="/studio">
+            <Link to="/contact">
               <button className="btn-primary" style={{ marginTop: '16px' }}>
                 Our Methodology &#x2192;
               </button>

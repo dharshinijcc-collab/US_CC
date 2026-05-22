@@ -93,7 +93,7 @@ export default function Header(props: any) {
         },
         {
           label: 'Blogs',
-          href: '/resources/blogs',
+          href: '/blogs',
           icon: 'bookopen',
         },
         {

@@ -14,6 +14,7 @@ import CountUp from '@/components/effects/CountUp';
 import { useAdmin } from '@/context/AdminContext';
 import { useInView } from 'framer-motion';
 import { API_URL } from '@/services/api';
+import { User, Building, Lightbulb } from 'lucide-react';
 
 export default function LandingPage() {
   const { content, loading, error } = useContent();
@@ -408,9 +409,9 @@ export default function LandingPage() {
           transform: scale(1.15) rotate(-5deg);
           box-shadow: 0 8px 20px rgba(255,120,60,0.2);
         }
-        .section-container { max-width: 1200px; margin: 0 auto; padding: 100px 24px; }
-        @media(max-width: 768px) { .section-container { padding: 60px 20px; } }
-        @media(max-width: 480px) { .section-container { padding: 48px 16px; } }
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 60px 24px; }
+        @media(max-width: 768px) { .section-container { padding: 40px 20px; } }
+        @media(max-width: 480px) { .section-container { padding: 32px 16px; } }
 
         /* ===== GLOBAL RESPONSIVE SYSTEM ===== */
 
@@ -596,8 +597,8 @@ export default function LandingPage() {
 
         /* Hero Section */
         /* Hero gets extra top padding to clear the fixed navbar (~80px) on top of the standard 100px */
-        .hero-section { padding: 180px 24px 100px; text-align: center; }
-        @media(max-width: 768px) { .hero-section { padding: 140px 20px 60px; } }
+        .hero-section { padding: 180px 24px 48px; text-align: center; }
+        @media(max-width: 768px) { .hero-section { padding: 140px 20px 40px; } }
         .hero-description { font-size: clamp(0.95rem, 2vw, 1.125rem); font-weight: 500; color: var(--text-muted); line-height: 1.6; margin-bottom: 48px; }
         .email-form { max-width: 500px; margin: 0 auto; position: relative; }
         .email-form-input { background-color: var(--white); border-radius: 24px; border: 1px solid var(--border-light); box-shadow: 0 40px 100px -20px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.04); position: relative; overflow: hidden; }
@@ -814,6 +815,7 @@ export default function LandingPage() {
 
         /* Target Audience Elements */
         .card-icon { width: 56px; height: 56px; background-color: var(--white); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 24px; transition: all 0.3s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .card-icon svg { width: 24px !important; height: 24px !important; min-width: 24px !important; min-height: 24px !important; flex-shrink: 0; }
         .sys-card:hover .card-icon { background-color: var(--primary-blue); color: var(--white); }
         .card-title { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 800; margin-bottom: 16px; color: var(--text-black); letter-spacing: -0.02em; transition: color 0.3s; }
         .sys-card:hover .card-title { color: var(--white); }
@@ -2013,9 +2015,9 @@ export default function LandingPage() {
                       {/* FRONT */}
                       <div className="flip-card-front">
                         <div className="card-icon">
-                          {item.icon === 'user' && <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>}
-                          {item.icon === 'building' && <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>}
-                          {item.icon === 'idea' && <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 1 7 7c0 2-1 3.9-2 5.5-.5.8-1.5 1.5-1.5 2.5v1H8.5v-1c0-1-1-1.7-1.5-2.5C6 12.9 5 11 5 9a7 7 0 0 1 7-7z"></path></svg>}
+                          {item.icon === 'user' && <User size={24} style={{ width: '24px', height: '24px', minWidth: '24px', minHeight: '24px' }} />}
+                          {item.icon === 'building' && <Building size={24} style={{ width: '24px', height: '24px', minWidth: '24px', minHeight: '24px' }} />}
+                          {item.icon === 'idea' && <Lightbulb size={24} style={{ width: '24px', height: '24px', minWidth: '24px', minHeight: '24px' }} />}
                         </div>
                         <EditableText
                           as="h4"
@@ -2269,9 +2271,9 @@ export default function LandingPage() {
               className="section-subtitle text-center"
               style={{ margin: '0 auto 24px' }}
             />
-            <Link href="/studio">
+            <Link href="/contact">
               <button className="btn-primary" style={{ marginTop: '16px' }}>
-                <EditableText contentKey="home.cta.buttonText" value={homeContent.cta.buttonText} />
+                <EditableText contentKey="home.cta.buttonText" value={homeContent.cta.buttonText || "Start a Conversation"} />
               </button>
             </Link>
           </div>
