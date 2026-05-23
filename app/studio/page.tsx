@@ -323,6 +323,9 @@ export default function StudioPage() {
         h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .section-eyebrow, .card-title, .navbar-brand, .feature-title, .t-name-light, .t-name, .fq-author, .footer-logo, .footer-heading {
           font-family: 'Manrope', sans-serif;
         }
+        h1 {
+          text-align: center !important;
+        }
 
         /* Sub-text - Manrope */
         .section-subtitle, .hero-description, .card-description, .feature-desc, .t-quote, .t-role-light, .t-role, .fq-role, .footer-tagline, .stat-label, .step-desc {
@@ -351,7 +354,13 @@ export default function StudioPage() {
           margin-bottom: clamp(16px, 3vw, 24px); 
           line-height: 1.1; 
           color: var(--text-black);
-          max-width: 600px;
+          text-align: center !important;
+          width: 100%;
+        }
+        .hero-title-text {
+          text-align: center !important;
+          display: block;
+          width: 100%;
         }
         .text-blue { color: var(--primary-blue); }
         
@@ -447,7 +456,7 @@ export default function StudioPage() {
         .section-dark { background-color: var(--bg-dark); color: var(--white); }
 
         /* Hero Section */
-        .hero-section { padding-top: 140px; padding-bottom: 80px; }
+        .hero-section { padding-top: 180px; padding-bottom: 120px; }
 
         /* Hero Carousel Stepper */
         .hero-carousel-panel {
@@ -1207,6 +1216,38 @@ export default function StudioPage() {
           border-left: 3px solid #EF4444 !important;
           background: rgba(254,242,242,0.6) !important;
         }
+
+        .section-header {
+          max-width: 1200px;
+          margin: 0 auto 2rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          gap: 1rem;
+        }
+
+        .section-header h2 {
+          font-size: clamp(2rem, 3.5vw, 3rem);
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          line-height: 1.1;
+          max-width: 520px;
+        }
+
+        .section-header p {
+          color: var(--text-muted);
+          font-size: 0.975rem;
+          max-width: 340px;
+          line-height: 1.7;
+        }
+
+        .section-header .label {
+          color: #64748B;
+          font-size: 0.75rem;
+          font-weight: 800;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+        }
         @keyframes gcardIn {
           from { opacity: 0; transform: translateY(20px) scale(0.97); }
           to   { opacity: 1; transform: none; }
@@ -1238,6 +1279,113 @@ export default function StudioPage() {
           transition: width 0.7s cubic-bezier(0.4,0,0.2,1);
         }
 
+        /* ── DIFFERENTIATION ──────────────────────────────── */
+        #diff {
+          padding: 8rem 4rem;
+        }
+
+        .diff-header {
+          max-width: 1200px;
+          margin: 0 auto 5rem;
+          text-align: center;
+        }
+
+        .diff-header .label {
+          color: #005AE2;
+          font-weight: 800;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          font-size: 0.75rem;
+          display: block;
+          margin-bottom: 16px;
+        }
+
+        .diff-header h2 {
+          font-size: clamp(2rem, 3.5vw, 3rem);
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          line-height: 1.1;
+          max-width: 680px;
+          margin: 0 auto 1rem;
+          color: #0F172A;
+        }
+
+        .diff-header p {
+          color: #64748B;
+          font-size: 0.975rem;
+          max-width: 480px;
+          margin: 0 auto;
+          line-height: 1.7;
+        }
+
+        .diff-table-wrap {
+          max-width: 1200px;
+          margin: 0 auto 4rem;
+          background: #F8FAFC;
+          border: 1px solid #E2E8F0;
+          border-radius: 20px;
+          overflow: hidden;
+        }
+
+        .diff-table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        .diff-table th {
+          font-family: 'Manrope', sans-serif;
+          font-size: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          padding: 1.25rem 2rem;
+          text-align: left;
+          border-bottom: 1px solid #E2E8F0;
+          color: #64748B;
+        }
+
+        .diff-table th.highlight {
+          background: #E0E7FF;
+          color: #005AE2;
+          border-bottom-color: #C7D2FE;
+        }
+
+        .diff-table td {
+          padding: 1.25rem 2rem;
+          font-size: 0.9rem;
+          border-bottom: 1px solid #E2E8F0;
+          color: #64748B;
+          vertical-align: middle;
+        }
+
+        .diff-table tr:last-child td { border-bottom: none; }
+
+        .diff-table td.feature {
+          color: #0F172A;
+          font-weight: 500;
+          font-size: 0.925rem;
+        }
+
+        .diff-table td.highlight {
+          background: #E0E7FF;
+          color: #0F172A;
+          font-weight: 500;
+        }
+
+        .diff-table tr:hover td { background: rgba(255,255,255,0.5); }
+        .diff-table tr:hover td.highlight { background: rgba(37,99,235,0.15); }
+
+        .check { color: #22c55e; font-size: 1rem; }
+        .cross { color: rgba(0,0,0,0.25); font-size: 1rem; }
+        .partial { color: #f59e0b; font-size: 0.8rem; font-style: italic; }
+
+        @media (max-width: 768px) {
+          #diff { padding: 4rem 1.5rem; }
+          .diff-header { margin-bottom: 3rem; }
+          .diff-table-wrap { overflow-x: auto; }
+          .diff-table th, .diff-table td { padding: 1rem; font-size: 0.8rem; }
+        }
+
       `}} />
 
       <Header />
@@ -1247,60 +1395,87 @@ export default function StudioPage() {
 
         {/* Hero Section */}
         <section className="section-white hero-section" style={{ position: 'relative' }}>
-          <div className="section-container grid-2 pt-0 pb-0" style={{ position: 'relative', zIndex: 1 }}>
-            <div>
-              <EditableText
-                contentKey="studio.hero.eyebrow"
-                value={studioContent.hero.eyebrow}
-                className="hero-eyebrow-pill"
-              />
-              <h1 className="hero-title">
-                {studioContent.hero.title?.split(' ').map((word: string, i: number) => {
-                  const cleanWord = word.replace(/[^a-zA-Z]/g, '');
-                  const isBlue = ['Venture', 'Studio'].includes(cleanWord);
-
-                  if (isBlue) {
-                    const match = word.match(/^([a-zA-Z]+)(.*)$/);
-                    if (match) {
-                      return (
-                        <span key={i}>
-                          <span style={{ color: '#005AE2' }}>{match[1]}</span>
-                          {match[2]}
-                          {' '}
-                        </span>
-                      );
-                    }
-                  }
-
-                  return (
-                    <span key={i}>
-                      {word}{' '}
-                    </span>
-                  );
-                })}
-              </h1>
-              <EditableText
-                as="p"
-                contentKey="studio.hero.subheading"
-                value={studioContent.hero.subheading}
-                className="body-text"
-                style={{ marginBottom: '40px', maxWidth: '520px', textAlign: 'justify', lineHeight: '1.7' }}
-              />
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }} className="cc-reveal">
-                <button className="btn-primary" onClick={() => document.getElementById('methodology-section')?.scrollIntoView({ behavior: 'smooth' })}>
-                  <EditableText contentKey="studio.hero.buttonText" value={studioContent.hero.buttonText} />
-                </button>
-                <button className="btn-primary" onClick={() => window.open('/studio-brochure.pdf', '_blank')}>
-                  Download Playbook
-                </button>
+          <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', left: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', right: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div className="section-container pt-0 pb-0" style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ textAlign: 'center', width: '100%' }}>
+                <EditableText
+                  contentKey="studio.hero.eyebrow"
+                  value={studioContent.hero.eyebrow}
+                  className="hero-eyebrow-pill"
+                />
+                <div style={{ width: '100%', textAlign: 'center' }}>
+                  <h1 className="hero-title" style={{ textAlign: 'center !important', margin: '0 auto', display: 'inline-block' }}>
+                    Build <span style={{ color: '#005AE2' }}>Ventures</span>,<br />Not Just <span style={{ color: '#005AE2' }}>Products</span>
+                  </h1>
+                </div>
+                <EditableText
+                  as="p"
+                  contentKey="studio.hero.subheading"
+                  value={studioContent.hero.subheading}
+                  className="body-text"
+                  style={{ marginBottom: '40px', maxWidth: '520px', margin: '0 auto 40px', textAlign: 'center', lineHeight: '1.7' }}
+                />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'center' }} className="cc-reveal">
+                  <button className="btn-primary" onClick={() => document.getElementById('methodology-section')?.scrollIntoView({ behavior: 'smooth' })}>
+                    <EditableText contentKey="studio.hero.buttonText" value={studioContent.hero.buttonText} />
+                  </button>
+                  <button className="btn-primary" onClick={() => window.open('/studio-brochure.pdf', '_blank')}>
+                    Download Playbook
+                  </button>
+                </div>
               </div>
+          </div>
+        </section>
+
+        {/* Vision & Mission Section */}
+        <section id="vision" style={{ padding: '8rem 4rem', backgroundColor: '#F1F5F9', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0', position: 'relative', overflow: 'hidden' }}>
+          {/* Grid Background */}
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(rgba(0, 90, 226, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 90, 226, 0.03) 1px, transparent 1px)', backgroundSize: '50px 50px', opacity: 0.5 }}></div>
+          
+          {/* Light Effects */}
+          <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.1) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(60px)' }}></div>
+          <div style={{ position: 'absolute', bottom: '-100px', left: '-100px', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(60px)' }}></div>
+          
+          <div className="vm-intro" style={{ maxWidth: '1200px', margin: '0 auto 4rem', position: 'relative', zIndex: 1, textAlign: 'center' }}>
+            <span className="label" style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#005AE2', marginBottom: '1rem', display: 'inline-block' }}>
+              <EditableText contentKey="studio.vision.label" value="Who We Are" />
+            </span>
+            <h2 style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.1, maxWidth: '800px', margin: '0 auto', fontFamily: 'Manrope, sans-serif' }}>
+              <EditableText contentKey="studio.vision.title" value="Not an agency. Not an accelerator. A venture partner." />
+            </h2>
+            <p style={{ marginTop: '1.5rem', fontSize: '1.125rem', color: '#64748B', lineHeight: 1.6, maxWidth: '700px', margin: '1.5rem auto 0', fontFamily: 'Inter, sans-serif' }}>
+              <EditableText contentKey="studio.vision.keyMessage" value="We build world-class digital products by combining elite engineering with strategic partnership — turning bold ideas into scalable ventures." />
+            </p>
+          </div>
+
+          <div className="vm-inner" style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'stretch', position: 'relative', zIndex: 1 }}>
+            <div className="vm-card" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: '20px', padding: '2.5rem', position: 'relative', overflow: 'hidden', transition: 'border-color 0.3s', display: 'flex', flexDirection: 'column', height: '100%' }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, #005AE2 0%, transparent 100%)' }}></div>
+              <span className="vm-tag" style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#005AE2', marginBottom: '1.25rem', display: 'block' }}>
+                <EditableText contentKey="studio.vision.visionTag" value="Our Vision" />
+              </span>
+              <h3 style={{ fontSize: '1.5rem', fontWeight: 700, lineHeight: 1.3, marginBottom: '1rem', fontFamily: 'Manrope, sans-serif' }}>
+                <EditableText contentKey="studio.vision.visionTitle" value="To be the most trusted venture partner for founders and operators who refuse to build alone." />
+              </h3>
+              <p style={{ marginTop: '1rem', color: '#64748B', fontSize: '0.975rem', lineHeight: 1.75, fontFamily: 'Inter, sans-serif', flex: 1 }}>
+                <EditableText contentKey="studio.vision.visionDesc" value="We envision a world where great ideas — regardless of technical background or startup experience — get the strategic and engineering firepower they deserve. CrestCode exists to level the playing field." />
+              </p>
             </div>
 
-            {/* Original hero image */}
-            <div className="hero-img-col">
-              <div className="hero-img-bg"></div>
+            <div className="vm-card" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: '20px', padding: '2.5rem', position: 'relative', overflow: 'hidden', transition: 'border-color 0.3s', display: 'flex', flexDirection: 'column', height: '100%' }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, #005AE2 0%, transparent 100%)' }}></div>
+              <span className="vm-tag" style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#005AE2', marginBottom: '1.25rem', display: 'block' }}>
+                <EditableText contentKey="studio.vision.missionTag" value="Our Mission" />
+              </span>
+              <h3 style={{ fontSize: '1.5rem', fontWeight: 700, lineHeight: 1.3, marginBottom: '1rem', fontFamily: 'Manrope, sans-serif' }}>
+                <EditableText contentKey="studio.vision.missionTitle" value="To turn bold ideas and real-world problems into world-class digital products." />
+              </h3>
+              <p style={{ marginTop: '1rem', color: '#64748B', fontSize: '0.975rem', lineHeight: 1.75, fontFamily: 'Inter, sans-serif', flex: 1 }}>
+                <EditableText contentKey="studio.vision.missionDesc" value="We partner with visionary founders and business owners through strategy, elite engineering, and relentless execution — building ventures that are built to last, not just launched." />
+              </p>
             </div>
-
           </div>
         </section>
 
@@ -1838,91 +2013,16 @@ export default function StudioPage() {
           );
         })()}
 
-        {/* ═══════════════════════════════════════════════════ */}
-        {/* SECTION D: The Five Pods That Run the Playbook     */}
-        {/* ═══════════════════════════════════════════════════ */}
-        <section style={{ background: '#ffffff', padding: '24px 0', color: '#0F172A', textAlign: 'center' }}>
-          <div className="section-container">
-            <h2 style={{ fontFamily: "'Manrope',sans-serif", fontSize: 'clamp(2rem,4vw,2.75rem)', fontWeight: 800, letterSpacing: '-0.02em', color: '#0F172A', marginBottom: 12 }}>
-              <EditableText contentKey="ourModel.pods.title" value={content.ourModel.pods.title} />
-            </h2>
-            <p style={{ color: '#64748B', fontSize: '1.125rem', lineHeight: 1.6, maxWidth: 700, margin: '0 auto 24px' }}>
-              <EditableText contentKey="ourModel.pods.subtitle" value={content.ourModel.pods.subtitle} />
-            </p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 20 }}>
-              {content.ourModel.pods.items.map((pod: any, idx: number) => {
-                const colors = ['#3B82F6', '#1E40AF', '#10B981', '#06B6D4', '#14B8A6'];
-                return (
-                  <div key={idx} style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', padding: '40px 32px', borderRadius: 24, textAlign: 'left', transition: 'all 0.3s' }} data-mobile-padding="40px 24px">
-                    <span style={{ display: 'block', color: colors[idx], fontWeight: 800, fontSize: '0.625rem', letterSpacing: '0.2em', marginBottom: 16 }}>
-                      <EditableText contentKey={`ourModel.pods.items.${idx}.id`} value={pod.id} />
-                    </span>
-                    <h3 style={{ fontFamily: "'Manrope',sans-serif", color: '#0F172A', fontSize: '1.25rem', fontWeight: 800, marginBottom: 16 }}>
-                      <EditableText contentKey={`ourModel.pods.items.${idx}.title`} value={pod.title} />
-                    </h3>
-                    <p style={{ fontSize: '0.875rem', color: '#64748B', lineHeight: 1.5, margin: 0 }}>
-                      <EditableText contentKey={`ourModel.pods.items.${idx}.desc`} value={pod.desc} />
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
+      {/* Selection Process Sub-Section */}
+      <section id="selection" style={{ padding: '20px 160px 40px', backgroundColor: '#F3F5F9' }}>
+        <div className="section-header">
+          <div style={{ marginLeft: '100px' }}>
+            <span className="label">Selection Process</span>
+            <h2>We are selective<br />for a reason.</h2>
           </div>
-        </section>
-
-
-      <SolvingSection stackCards={stackCards} studioContent={studioContent} EditableText={EditableText} />
-
-      {/* Core Values Section */}
-      <section style={{ backgroundColor: '#F8FAFC', padding: '100px 20px', fontFamily: "'Manrope', sans-serif" }}>
-        <div style={{ maxWidth: '1000px', margin: '0 auto 80px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center' }}>
-          <div style={{ width: '100%', height: '400px', backgroundColor: '#CBD5E1', borderRadius: '16px' }}>
-            {/* Placeholder for 3D abstract graphic */}
-          </div>
-          <div>
-            <span style={{ color: '#005AE2', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-              <EditableText contentKey="studio.coreValues.missionLabel" value="Our Mission" />
-            </span>
-            <h2 style={{ fontSize: '24px', fontWeight: 700, margin: '20px 0' }}>
-              <EditableText contentKey="studio.coreValues.missionTitle" value="Disrupt Industries to Exponentially Improve Customer Experience" />
-            </h2>
-            <p style={{ color: '#64748B', lineHeight: 1.6 }}>
-              <EditableText contentKey="studio.coreValues.missionDesc" value="We build customer-focused digital products through innovation, rapid execution, and scalable technology solutions that create long-term impact. Our studio philosophy merges technical rigor with high-end aesthetic storytelling." />
-            </p>
-          </div>
-        </div>
-
-        <div style={{ maxWidth: '1000px', margin: '0 auto', textAlign: 'center' }}>
-          <span style={{ color: '#005AE2', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-            <EditableText contentKey="studio.coreValues.valuesLabel" value="Our Values" />
-          </span>
-          <h1 style={{ fontSize: '40px', fontWeight: 800, margin: '20px 0 60px' }}>
-            <EditableText contentKey="studio.coreValues.valuesTitle" value="Core Values That Drive Everything We Build" />
-          </h1>
-          
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
-            {[
-              { title: 'Disruptive', desc: 'Unwavering ethical standards in every line of code and business decision we make.', icon: 'shield' },
-              { title: 'Obsessed with Customer', desc: 'Pushing the boundaries of what\'s possible through architectural engineering and creative vision.', icon: 'lightbulb' },
-              { title: 'Focus on innovation', desc: 'Deep partnership with founders to transform ambitious ideas into category-defining products.', icon: 'users' },
-              { title: 'Innovation', desc: 'A relentless pursuit of technical perfection and aesthetic rigor in every project detail.', icon: 'star' },
-              { title: 'Trust', desc: 'Radical ownership of outcomes, ensuring we deliver on our promises to partners and users.', icon: 'check-shield' },
-            ].map((val, index) => (
-              <div key={index} style={{ backgroundColor: '#FFFFFF', padding: '40px', borderRadius: '16px', border: '1px solid #E2E8F0', textAlign: 'left', position: 'relative', overflow: 'hidden' }}>
-                <div style={{ backgroundColor: '#E0E7FF', width: '40px', height: '40px', borderRadius: '8px', marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <div style={{ width: '20px', height: '20px', backgroundColor: '#4F46E5', borderRadius: '2px' }}></div>
-                </div>
-                <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '15px' }}>
-                  <EditableText contentKey={`studio.coreValues.values.${index}.title`} value={val.title} />
-                </h3>
-                <p style={{ color: '#64748B', fontSize: '14px', lineHeight: 1.6, zIndex: 1, position: 'relative' }}>
-                  <EditableText contentKey={`studio.coreValues.values.${index}.desc`} value={val.desc} />
-                </p>
-                
-                <div style={{ position: 'absolute', right: 0, top: 0, width: '40%', height: '100%', background: 'linear-gradient(90deg, transparent, rgba(0, 90, 226, 0.1))', zIndex: 0 }}></div>
-              </div>
-            ))}
-          </div>
+          <p style={{ marginRight: '100px' }}>
+            We partner with a small number of founders and business owners each year. Every engagement gets our full attention — which means we choose carefully.
+          </p>
         </div>
       </section>
 
@@ -1963,6 +2063,123 @@ export default function StudioPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Core Values Section */}
+      <section style={{ backgroundColor: '#F8FAFC', padding: '20px 20px 60px', fontFamily: 'Manrope, sans-serif' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto', textAlign: 'center' }}>
+          <span style={{ color: '#005AE2', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            <EditableText contentKey="studio.coreValues.valuesLabel" value="Our Values" />
+          </span>
+          <h1 style={{ fontSize: '40px', fontWeight: 800, margin: '20px 0 40px' }}>
+            <EditableText contentKey="studio.coreValues.valuesTitle" value="Core Values That Drive Everything We Build" />
+          </h1>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+          {[
+            { title: 'Disruptive', desc: 'Unwavering ethical standards in every line of code and business decision we make.', icon: 'shield' },
+            { title: 'Obsessed with Customer', desc: 'Pushing the boundaries of what\'s possible through architectural engineering and creative vision.', icon: 'lightbulb' },
+            { title: 'Focus on innovation', desc: 'Deep partnership with founders to transform ambitious ideas into category-defining products.', icon: 'users' },
+            { title: 'Innovation', desc: 'A relentless pursuit of technical perfection and aesthetic rigor in every project detail.', icon: 'star' },
+            { title: 'Trust', desc: 'Radical ownership of outcomes, ensuring we deliver on our promises to partners and users.', icon: 'check-shield' },
+          ].map((val, index) => (
+            <div key={index} style={{ backgroundColor: '#FFFFFF', padding: '40px', borderRadius: '16px', border: '1px solid #E2E8F0', textAlign: 'left', position: 'relative', overflow: 'hidden' }}>
+              <div style={{ backgroundColor: '#E0E7FF', width: '40px', height: '40px', borderRadius: '8px', marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ width: '20px', height: '20px', backgroundColor: '#4F46E5', borderRadius: '2px' }}></div>
+              </div>
+              <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '15px' }}>
+                <EditableText contentKey={`studio.coreValues.values.${index}.title`} value={val.title} />
+              </h3>
+              <p style={{ color: '#64748B', fontSize: '14px', lineHeight: 1.6, zIndex: 1, position: 'relative' }}>
+                <EditableText contentKey={`studio.coreValues.values.${index}.desc`} value={val.desc} />
+              </p>
+
+              <div style={{ position: 'absolute', right: 0, top: 0, width: '40%', height: '100%', background: 'linear-gradient(90deg, transparent, rgba(0, 90, 226, 0.1))', zIndex: 0 }}></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+      {/* DIFFERENTIATION */}
+      <section id="diff">
+        <div className="diff-header">
+          <span className="label">Why CrestCode</span>
+          <h2>Not a vendor.<br />Not a studio that vanishes.<br />A co-builder.</h2>
+          <p>Here is how we compare to the alternatives — and why it matters for your venture.</p>
+        </div>
+
+        <div className="diff-table-wrap">
+          <table className="diff-table">
+            <thead>
+              <tr>
+                <th style={{width: '28%'}}>Capability</th>
+                <th className="highlight" style={{width: '18%'}}>CrestCode Studio</th>
+                <th style={{width: '18%'}}>Dev Agencies</th>
+                <th style={{width: '18%'}}>Other Studios</th>
+                <th style={{width: '18%'}}>Freelancers</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="feature">End-to-end product ownership</td>
+                <td className="highlight"><span className="check">✓</span></td>
+                <td><span className="cross">✗</span></td>
+                <td><span className="partial">Sometimes</span></td>
+                <td><span className="cross">✗</span></td>
+              </tr>
+              <tr>
+                <td className="feature">Works with business owners</td>
+                <td className="highlight"><span className="check">✓</span></td>
+                <td><span className="check">✓</span></td>
+                <td><span className="cross">✗</span></td>
+                <td><span className="check">✓</span></td>
+              </tr>
+              <tr>
+                <td className="feature">Strategic product thinking</td>
+                <td className="highlight"><span className="check">✓</span></td>
+                <td><span className="cross">✗</span></td>
+                <td><span className="check">✓</span></td>
+                <td><span className="cross">✗</span></td>
+              </tr>
+              <tr>
+                <td className="feature">In-house engineering team</td>
+                <td className="highlight"><span className="check">✓</span></td>
+                <td><span className="partial">Varies</span></td>
+                <td><span className="partial">Varies</span></td>
+                <td><span className="cross">✗</span></td>
+              </tr>
+              <tr>
+                <td className="feature">Go-to-market support</td>
+                <td className="highlight"><span className="check">✓</span></td>
+                <td><span className="cross">✗</span></td>
+                <td><span className="partial">Sometimes</span></td>
+                <td><span className="cross">✗</span></td>
+              </tr>
+              <tr>
+                <td className="feature">Pitch & stakeholder prep</td>
+                <td className="highlight"><span className="check">✓</span></td>
+                <td><span className="cross">✗</span></td>
+                <td><span className="partial">Sometimes</span></td>
+                <td><span className="cross">✗</span></td>
+              </tr>
+              <tr>
+                <td className="feature">Defined delivery timeline</td>
+                <td className="highlight"><span className="check">✓</span></td>
+                <td><span className="partial">Varies</span></td>
+                <td><span className="partial">Varies</span></td>
+                <td><span className="cross">✗</span></td>
+              </tr>
+              <tr>
+                <td className="feature">AI & automation built-in</td>
+                <td className="highlight"><span className="check">✓</span></td>
+                <td><span className="cross">✗</span></td>
+                <td><span className="partial">Rarely</span></td>
+                <td><span className="cross">✗</span></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
 

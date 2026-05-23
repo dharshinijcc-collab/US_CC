@@ -36,27 +36,77 @@ const CATEGORY_THEMES: Record<string, { gradient: string; glow: string; text: st
 
 export default function CompanyPage() {
   const { content } = useContent();
-  const [activeFilter, setActiveFilter] = useState('All');
 
   // CMS-driven content with fallback to localConfig
   const companyContent = (content as any)?.company || (localConfig as any).company;
   const homeContent = (content as any)?.home || (localConfig as any).home;
 
-  const categories: string[] = companyContent?.categories || ['All'];
-  const companies: any[] = companyContent?.companies || [];
+  const problemsWeLove = [
+    {
+      title: "Complex Workflows",
+      desc: "Processes too tangled for off-the-shelf tools. We map, simplify, and build around them.",
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="6" height="6" rx="1"></rect><rect x="15" y="3" width="6" height="6" rx="1"></rect><rect x="15" y="15" width="6" height="6" rx="1"></rect><rect x="3" y="15" width="6" height="6" rx="1"></rect><path d="M9 6h6"></path><path d="M21 9v6"></path><path d="M15 18H9"></path><path d="M3 15V9"></path></svg>
+      )
+    },
+    {
+      title: "Broken User Experiences",
+      desc: "Products that frustrate instead of flow. We find where users drop off and redesign from there.",
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 15l-3-3m0 0l-3 3m3-3v8"></path><path d="M12 3a9 9 0 100 18 9 9 0 000-18z"></path></svg>
+      )
+    },
+    {
+      title: "Systems That Don't Talk",
+      desc: "Disconnected tools, siloed data, integration nightmares. We make them work as one.",
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>
+      )
+    },
+    {
+      title: "Ideas That Need Technical Co-Thinking",
+      desc: "You have the vision but need a product partner who can think through the build with you, not just execute orders.",
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83M12 12m-4 0a4 4 0 108 0 4 4 0 10-8 0"></path></svg>
+      )
+    }
+  ];
 
-  const filteredCompanies = companies.filter(
-    (c: any) => activeFilter === 'All' || c.category === activeFilter
-  );
+  const processSteps = [
+    {
+      num: "01",
+      title: "Pressure Test",
+      desc: "Vetting ideas against market physics and scalability.",
+      icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 2v7.31"></path><path d="M14 9.3V1.99"></path><path d="M8.5 2h7"></path><path d="M14 9.3a6.5 6.5 0 11-4 0"></path><path d="M5.52 16h12.96"></path></svg>
+    },
+    {
+      num: "02",
+      title: "Blueprint",
+      desc: "Defining technical architecture and user experience flows.",
+      icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+    },
+    {
+      num: "03",
+      title: "Build in Sprints",
+      desc: "Rapid execution with iterative feedback loops.",
+      icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+    },
+    {
+      num: "04",
+      title: "Ship & Sustain",
+      desc: "Operationalizing growth and scaling infrastructure.",
+      icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13.5 10.5L21 3m-7.5 7.5L9 21M13.5 10.5l-3-3m3 3l3 3m-3-3L3 21"></path></svg>
+    }
+  ];
 
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: `
         /* ===== HERO ===== */
         .company-hero {
-          padding: 160px 32px 80px;
-          background: #0A0F1C;
-          color: white;
+          padding: 220px 32px 160px;
+          background: #FFFFFF;
+          color: #0A0F1C;
           text-align: center;
           position: relative;
           overflow: hidden;
@@ -64,13 +114,35 @@ export default function CompanyPage() {
         }
         .hero-glow {
           position: absolute;
-          width: 600px;
-          height: 600px;
-          background: radial-gradient(circle, rgba(0, 90, 226, 0.2), transparent 70%);
+          width: 700px;
+          height: 700px;
+          background: radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%);
           top: -200px;
           left: 50%;
           transform: translateX(-50%);
-          filter: blur(80px);
+          filter: blur(100px);
+          pointer-events: none;
+          z-index: 0;
+        }
+        .hero-glow-2 {
+          position: absolute;
+          width: 400px;
+          height: 400px;
+          background: radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%);
+          bottom: -100px;
+          left: -50px;
+          filter: blur(60px);
+          pointer-events: none;
+          z-index: 0;
+        }
+        .hero-glow-3 {
+          position: absolute;
+          width: 400px;
+          height: 400px;
+          background: radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%);
+          bottom: -100px;
+          right: -50px;
+          filter: blur(60px);
           pointer-events: none;
           z-index: 0;
         }
@@ -83,7 +155,7 @@ export default function CompanyPage() {
         }
         .hero-subtitle {
           font-size: clamp(1rem, 2.5vw, 1.25rem);
-          color: #94A3B8;
+          color: #64748B;
           max-width: 600px;
           margin: 0 auto;
           line-height: 1.6;
@@ -133,7 +205,8 @@ export default function CompanyPage() {
           grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
           gap: 28px;
           width: 100%;
-          max-width: 100%;
+          max-width: 1200px;
+          margin: 0 auto;
         }
 
         /* ===== COMPANY CARD ===== */
@@ -229,6 +302,203 @@ export default function CompanyPage() {
         }
         .c-link:hover {
           color: #005AE2;
+        }
+
+        /* ===== PROBLEMS WE LOVE SECTION ===== */
+        .problems-section {
+          background: #FFFFFF;
+          padding: 80px 32px 100px;
+        }
+        .problems-container {
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+        .problems-header {
+          margin-bottom: 48px;
+        }
+        .problems-title {
+          font-size: clamp(2rem, 4vw, 2.5rem);
+          font-weight: 800;
+          color: #0A0F1C;
+          margin-bottom: 12px;
+          letter-spacing: -0.02em;
+        }
+        .problems-subtitle {
+          font-size: 1.125rem;
+          color: #64748B;
+          font-weight: 500;
+        }
+        .problems-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+          gap: 24px;
+        }
+        .problem-card {
+          border: 1px solid #E2E8F0;
+          border-radius: 24px;
+          padding: 40px;
+          background: #FFFFFF;
+          transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .problem-card:hover {
+          box-shadow: 0 20px 40px -10px rgba(0,0,0,0.05);
+          border-color: #CBD5E1;
+        }
+        .problem-icon {
+          width: 48px;
+          height: 48px;
+          background: #F0F5FF;
+          color: #005AE2;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 24px;
+        }
+        .problem-card-title {
+          font-size: 1.25rem;
+          font-weight: 800;
+          color: #0A0F1C;
+          margin-bottom: 12px;
+        }
+        .problem-card-desc {
+          color: #64748B;
+          line-height: 1.6;
+          font-size: 0.9375rem;
+        }
+        @media (max-width: 768px) {
+          .problems-grid { grid-template-columns: 1fr; }
+          .problem-card { padding: 32px 24px; }
+        }
+
+        /* ===== HOW IT GETS BORN (PROCESS) SECTION ===== */
+        .process-section {
+          background: #FAFAFA;
+          padding: 100px 32px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .process-header-box {
+          background: #FFFFFF;
+          border: 1px solid #E2E8F0;
+          border-radius: 24px;
+          padding: 48px 32px;
+          text-align: center;
+          max-width: 600px;
+          width: 100%;
+          margin-bottom: 64px;
+          box-shadow: 0 10px 30px -10px rgba(0,0,0,0.03);
+          position: relative;
+          z-index: 2;
+        }
+        .process-title {
+          font-size: clamp(1.5rem, 3vw, 2rem);
+          font-weight: 800;
+          color: #0A0F1C;
+          margin-bottom: 16px;
+          letter-spacing: -0.02em;
+        }
+        .process-subtitle {
+          color: #64748B;
+          font-size: 1rem;
+          line-height: 1.6;
+        }
+        .process-list-container {
+          max-width: 500px;
+          width: 100%;
+          position: relative;
+          margin-bottom: 80px;
+        }
+        /* Vertical connecting line */
+        .process-list-container::before {
+          content: '';
+          position: absolute;
+          left: 28px;
+          top: 24px;
+          bottom: 24px;
+          width: 2px;
+          background: #E2E8F0;
+          z-index: 0;
+        }
+        .process-item {
+          display: flex;
+          gap: 32px;
+          align-items: flex-start;
+          margin-bottom: 48px;
+          position: relative;
+          z-index: 1;
+        }
+        .process-item:last-child {
+          margin-bottom: 0;
+        }
+        .process-icon {
+          width: 56px;
+          height: 56px;
+          background: #0F172A;
+          color: #FFFFFF;
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          box-shadow: 0 0 0 8px #FAFAFA; /* creates space matching background to cut the line */
+        }
+        .process-content {
+          padding-top: 6px;
+        }
+        .process-item-title {
+          font-size: 1.125rem;
+          font-weight: 800;
+          color: #0A0F1C;
+          margin-bottom: 8px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .process-item-num {
+          font-weight: 800;
+          color: #0A0F1C;
+        }
+        .process-item-desc {
+          color: #64748B;
+          line-height: 1.6;
+          font-size: 0.9375rem;
+        }
+        .process-image-wrapper {
+          max-width: 700px;
+          width: 100%;
+          border-radius: 32px;
+          overflow: hidden;
+          box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+          position: relative;
+        }
+        /* Overlay to give it that faded abstract look */
+        .process-image-wrapper::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: rgba(250, 250, 250, 0.4);
+          mix-blend-mode: overlay;
+          pointer-events: none;
+        }
+        .process-image {
+          width: 100%;
+          height: auto;
+          display: block;
+          filter: grayscale(100%) contrast(1.2) brightness(1.1);
+          opacity: 0.8;
+          transition: transform 0.5s ease, filter 0.5s ease;
+        }
+        .process-image-wrapper:hover .process-image {
+          transform: scale(1.02);
+          filter: grayscale(50%) contrast(1.1) brightness(1);
+        }
+        @media (max-width: 640px) {
+          .process-list-container::before { left: 24px; }
+          .process-icon { width: 48px; height: 48px; }
+          .process-item { gap: 20px; }
+          .process-header-box { padding: 32px 20px; }
         }
 
         /* ===== DARK SECTION (Make Innovation Accessible) ===== */
@@ -464,12 +734,11 @@ export default function CompanyPage() {
         <section className="company-hero bg-dark">
           <SpotlightCursor color="rgba(0, 90, 226, 0.15)" />
           <div className="hero-glow"></div>
+          <div className="hero-glow-2"></div>
+          <div className="hero-glow-3"></div>
           <div style={{ position: 'relative', zIndex: 1 }}>
             <h1 className="hero-title">
-              <EditableText
-                contentKey="company.hero.title"
-                value={companyContent?.hero?.title || 'Crestcode Portfolio'}
-              />
+              Crestcode <span style={{ color: '#005AE2' }}>Portfolio</span>
             </h1>
             <p className="hero-subtitle">
               <EditableText
@@ -480,105 +749,45 @@ export default function CompanyPage() {
           </div>
         </section>
 
-        {/* FILTER BAR */}
-        <section className="filter-bar">
-          {categories.map((cat: string, idx: number) => (
-            <button
-              key={idx}
-              className={`filter-pill ${activeFilter === cat ? 'active' : ''}`}
-              onClick={() => setActiveFilter(cat)}
-            >
-              <EditableText
-                contentKey={`company.categories.${idx}`}
-                value={cat}
-              />
-            </button>
-          ))}
-        </section>
+        {/* SECTION: THE KIND OF PROBLEMS WE LOVE */}
+        <section className="problems-section">
+          <div className="problems-container">
+            <div className="problems-header">
+              <h2 className="problems-title">
+                <EditableText
+                  contentKey="company.problems.title"
+                  value={companyContent?.problems?.title || 'The Kind of Problems We Love'}
+                />
+              </h2>
+              <p className="problems-subtitle">
+                <EditableText
+                  contentKey="company.problems.subtitle"
+                  value={companyContent?.problems?.subtitle || 'We don\'t shy away from the hard ones.'}
+                />
+              </p>
+            </div>
 
-        {/* COMPANIES GRID */}
-        <section className="companies-section">
-          <div className="companies-grid">
-            {filteredCompanies.map((company: any, idx: number) => {
-              const theme = CATEGORY_THEMES[company.category] || {
-                gradient: 'linear-gradient(135deg, #005AE2, #4F46E5)',
-                glow: 'rgba(0, 90, 226, 0.15)',
-                text: '#005AE2'
-              };
-
-              return (
-                <div
-                  key={idx}
-                  className="company-card"
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.boxShadow = `0 30px 60px -15px ${theme.glow}`;
-                    e.currentTarget.style.borderColor = theme.text;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.boxShadow = 'none';
-                    e.currentTarget.style.borderColor = '#E2E8F0';
-                  }}
-                >
-                  <div className="c-header-row">
-                    <div className="c-logo-avatar" style={{ background: theme.gradient }}>
-                      <EditableText
-                        contentKey={`company.companies.${idx}.initials`}
-                        value={company.initials}
-                      />
-                    </div>
-                    <span className="c-est-badge">
-                      <EditableText
-                        contentKey={`company.companies.${idx}.est`}
-                        value={company.est}
-                      />
-                    </span>
+            <div className="problems-grid">
+              {problemsWeLove.map((item, index) => (
+                <div key={index} className="problem-card">
+                  <div className="problem-icon">
+                    {item.icon}
                   </div>
-
-                  <div className="c-cat" style={{ color: theme.text }}>
+                  <h3 className="problem-card-title">
                     <EditableText
-                      contentKey={`company.companies.${idx}.category`}
-                      value={company.category}
-                    />
-                  </div>
-
-                  <h3 className="c-name">
-                    <EditableText
-                      contentKey={`company.companies.${idx}.name`}
-                      value={company.name}
+                      contentKey={`company.problems.items.${index}.title`}
+                      value={item.title}
                     />
                   </h3>
-
-                  <p className="c-desc">
+                  <p className="problem-card-desc">
                     <EditableText
-                      contentKey={`company.companies.${idx}.desc`}
-                      value={company.desc}
+                      contentKey={`company.problems.items.${index}.desc`}
+                      value={item.desc}
                     />
                   </p>
-
-                  <div className="c-tag-list">
-                    {(company.tags || []).map((tag: string, tIdx: number) => (
-                      <span key={tIdx} className="c-tag-badge">
-                        <EditableText
-                          contentKey={`company.companies.${idx}.tags.${tIdx}`}
-                          value={tag}
-                        />
-                      </span>
-                    ))}
-                  </div>
-
-                  <Link href={company.link || '#'} className="c-link">
-                    <EditableText
-                      contentKey={`company.companies.${idx}.linkLabel`}
-                      value="Visit Website"
-                    />
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                  </Link>
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
         </section>
 
@@ -649,6 +858,49 @@ export default function CompanyPage() {
                 </div>
               </BorderBeam>
             </div>
+          </div>
+        </section>
+
+        {/* SECTION: HOW A PRODUCT GETS BORN */}
+        <section className="process-section">
+          <div className="process-header-box">
+            <h2 className="process-title">
+              <EditableText
+                contentKey="company.process.title"
+                value={companyContent?.process?.title || 'How a Product Gets Born at Crestcode'}
+              />
+            </h2>
+            <p className="process-subtitle">
+              <EditableText
+                contentKey="company.process.subtitle"
+                value={companyContent?.process?.subtitle || 'Every product we\'ve shipped followed the same discipline.'}
+              />
+            </p>
+          </div>
+
+          <div className="process-list-container">
+            {processSteps.map((step, index) => (
+              <div key={index} className="process-item">
+                <div className="process-icon">
+                  {step.icon}
+                </div>
+                <div className="process-content">
+                  <h4 className="process-item-title">
+                    <span className="process-item-num">{step.num}</span>{' '}
+                    <EditableText
+                      contentKey={`company.process.steps.${index}.title`}
+                      value={step.title}
+                    />
+                  </h4>
+                  <p className="process-item-desc">
+                    <EditableText
+                      contentKey={`company.process.steps.${index}.desc`}
+                      value={step.desc}
+                    />
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
       </main>

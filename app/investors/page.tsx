@@ -395,14 +395,17 @@ export default function InvestorsPage() {
 
       <div className="investors-page">
         {/* Hero Section */}
-      <section className="section-container" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', paddingTop: '160px' }}>
-        <div style={{ maxWidth: '900px' }}>
+      <section className="section-container" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', paddingTop: '160px', position: 'relative' }}>
+        <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
+        <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', left: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+        <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', right: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+        <div style={{ maxWidth: '900px', position: 'relative', zIndex: 1 }}>
           <div style={{ color: 'var(--primary-blue)', fontWeight: 800, fontSize: '0.8125rem', letterSpacing: '0.15em', marginBottom: '24px', textTransform: 'uppercase' }}>
             <EditableText contentKey="investors.hero.eyebrow" value={investors.hero.eyebrow} />
           </div>
           <h1 className="hero-title" style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', marginBottom: '24px' }}>
-            <EditableText contentKey="investors.hero.title1" value={investors.hero.title1} /><br />
-            <EditableText contentKey="investors.hero.title2" value={investors.hero.title2} />
+            Partner with <span style={{ color: 'var(--primary-blue)' }}>us</span> for<br />
+            Smart <span style={{ color: 'var(--primary-blue)' }}>capital</span> & Strategic Growth
           </h1>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <EditableText 
