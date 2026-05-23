@@ -14,7 +14,7 @@ import CountUp from '@/components/effects/CountUp';
 import { useAdmin } from '@/context/AdminContext';
 import { useInView } from 'framer-motion';
 import { API_URL } from '@/services/api';
-import { User, Building, Lightbulb } from 'lucide-react';
+import { User, Building, Lightbulb, Compass, Zap, Users, TrendingUp, Cpu, Globe } from 'lucide-react';
 
 export default function LandingPage() {
   const { content, loading, error } = useContent();
@@ -29,6 +29,7 @@ export default function LandingPage() {
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
   const [flippedCards, setFlippedCards] = useState<Set<number>>(new Set());
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const heroRef = useRef(null);
 
   // Carousel scrolling/dragging logic
@@ -710,7 +711,7 @@ export default function LandingPage() {
         }
 
         /* Grid Systems */
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; align-items: stretch; grid-auto-rows: 1fr; }
         .cards-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 48px;}
         .features-grid-4 {
           display: grid;
@@ -757,7 +758,6 @@ export default function LandingPage() {
           text-decoration: none;
           cursor: pointer;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          margin-top: auto;
         }
         .card-learn-more-btn svg {
           transition: transform 0.3s ease;
@@ -814,8 +814,8 @@ export default function LandingPage() {
         }
 
         /* Target Audience Elements */
-        .card-icon { width: 56px; height: 56px; background-color: var(--white); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 24px; transition: all 0.3s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .card-icon svg { width: 24px !important; height: 24px !important; min-width: 24px !important; min-height: 24px !important; flex-shrink: 0; }
+        .card-icon { width: 56px; height: 56px; background-color: var(--white); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 24px; transition: all 0.3s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); flex-shrink: 0; }
+        .card-icon svg { width: 24px !important; height: 24px !important; min-width: 24px !important; min-height: 24px !important; flex-shrink: 0; display: block; }
         .sys-card:hover .card-icon { background-color: var(--primary-blue); color: var(--white); }
         .card-title { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 800; margin-bottom: 16px; color: var(--text-black); letter-spacing: -0.02em; transition: color 0.3s; }
         .sys-card:hover .card-title { color: var(--white); }
@@ -1711,12 +1711,14 @@ export default function LandingPage() {
         /* ===== FLIP CARDS (Who We Build For) ===== */
         .audience-card-wrap {
           perspective: 1200px;
+          display: flex;
+          flex-direction: column;
         }
         .flip-card-inner {
           position: relative;
           width: 100%;
-          height: 100%;
-          min-height: 440px;
+          flex: 1;
+          min-height: 520px;
           transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
           transform-style: preserve-3d;
         }
@@ -1734,9 +1736,15 @@ export default function LandingPage() {
           padding: 40px 32px;
           display: flex;
           flex-direction: column;
+          justify-content: space-between;
           background-color: var(--bg-light);
           border: 1px solid var(--border-light);
           overflow: hidden;
+        }
+        .flip-card-front-body {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
         }
         .flip-card-back {
           transform: rotateY(180deg);
@@ -1837,6 +1845,9 @@ export default function LandingPage() {
         .audience-card-wrap:hover .card-icon {
           background-color: var(--white) !important;
           color: var(--primary-blue) !important;
+          width: 56px !important;
+          height: 56px !important;
+          flex-shrink: 0 !important;
         }
         .audience-card-wrap .card-features li,
         .audience-card-wrap:hover .card-features li {
@@ -1850,9 +1861,277 @@ export default function LandingPage() {
           transform: translateY(-2px);
           box-shadow: 0 8px 16px rgba(0, 90, 226, 0.2);
         }
-        /* Fix flip-card-inner height to prevent text overflow */
+        /* Fix flip-card-inner height — all cards same height, button always at bottom */
+        .audience-card-wrap {
+          height: auto;
+        }
         .audience-card-wrap .flip-card-inner {
-          min-height: 490px;
+          min-height: 520px;
+        }
+
+        /* ===== TECH HUB-AND-SPOKE SYSTEM ===== */
+        .tech-hub-section {
+          background: #ffffff;
+          border-top: 1px solid rgba(0,90,226,0.07);
+          border-bottom: 1px solid rgba(0,90,226,0.07);
+          padding: 20px 0 60px;
+          overflow: hidden;
+          position: relative;
+        }
+
+        .tech-hub-outer {
+          width: 100%;
+          max-width: 1050px;
+          height: 660px;
+          margin: 10px auto 0;
+          position: relative;
+        }
+
+        /* SVG lines container */
+        .tech-hub-svg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          pointer-events: none;
+        }
+
+        .tech-path {
+          fill: none;
+          stroke-width: 2.5px;
+          stroke-dasharray: 4 4;
+          transition: stroke 0.4s ease, stroke-width 0.4s ease, stroke-dasharray 0.4s ease, filter 0.4s ease;
+        }
+
+        /* Glowing animation when path is active */
+        .tech-path.active {
+          stroke-width: 4px;
+          stroke-dasharray: 0;
+          filter: drop-shadow(0 0 8px rgba(0, 90, 226, 0.6));
+        }
+
+        /* Center Node */
+        .hub-center-node {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 140px;
+          height: 140px;
+          border-radius: 24px;
+          background: linear-gradient(135deg, #005AE2 0%, #002D72 100%);
+          padding: 3px;
+          box-shadow: 0 20px 50px rgba(0, 90, 226, 0.25), 0 0 0 8px rgba(0, 90, 226, 0.05);
+          z-index: 10;
+          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+        }
+        .hub-center-node:hover {
+          transform: translate(-50%, -50%) scale(1.06);
+          box-shadow: 0 30px 60px rgba(0, 90, 226, 0.35), 0 0 0 12px rgba(0, 90, 226, 0.08);
+        }
+        .hub-center-inner {
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, #003EB5 0%, #002D72 100%);
+          border-radius: 21px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          gap: 4px;
+          padding: 12px;
+          overflow: hidden;
+        }
+        .hub-center-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 6px;
+          padding: 8px;
+        }
+        .hub-center-label {
+          font-size: 0.62rem;
+          font-weight: 800;
+          color: #005AE2;
+          text-align: center;
+          letter-spacing: 0.02em;
+          line-height: 1.2;
+          text-transform: uppercase;
+        }
+
+        /* Branches & Wrappers */
+        .hub-branch-wrapper {
+          position: absolute;
+          width: 250px;
+          z-index: 5;
+          transform: translateY(-50%);
+        }
+        .branch-top-left { top: 110px; left: -30px; }
+        .branch-middle-left { top: 330px; left: -30px; }
+        .branch-bottom-left { top: 550px; left: -30px; }
+
+        .branch-top-right { top: 110px; left: 830px; }
+        .branch-middle-right { top: 330px; left: 830px; }
+        .branch-bottom-right { top: 550px; left: 830px; }
+
+        .hub-branch {
+          padding: 16px 20px;
+          border-radius: 20px;
+          background: rgba(255, 255, 255, 0.9);
+          border: 1px solid rgba(0, 90, 226, 0.08);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          box-shadow: 0 4px 20px rgba(0, 90, 226, 0.06);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          cursor: pointer;
+        }
+        
+        .branch-left {
+          text-align: right;
+        }
+        .branch-right {
+          text-align: left;
+        }
+
+        .hub-branch:hover,
+        .hub-branch.active {
+          background: #ffffff;
+          border-color: rgba(0, 90, 226, 0.18);
+          box-shadow: 0 20px 40px -15px rgba(0, 90, 226, 0.15), 0 0 0 1px rgba(0, 90, 226, 0.08);
+        }
+        .branch-left .hub-branch:hover,
+        .branch-left .hub-branch.active {
+          transform: translateX(-8px);
+        }
+        .branch-right .hub-branch:hover,
+        .branch-right .hub-branch.active {
+          transform: translateX(8px);
+        }
+
+        /* Typography & Header inside Branch */
+        .hub-branch-header {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 8px;
+        }
+        .branch-left .hub-branch-header {
+          flex-direction: row-reverse;
+        }
+
+        .hub-branch-icon {
+          width: 22px;
+          height: 22px;
+          color: #005AE2;
+          flex-shrink: 0;
+          transition: transform 0.3s ease;
+        }
+        .branch-right .hub-branch-icon {
+          color: #4F46E5;
+        }
+        .hub-branch:hover .hub-branch-icon {
+          transform: scale(1.18) rotate(-5deg);
+        }
+        .hub-branch-num {
+          width: 26px;
+          height: 26px;
+          border-radius: 8px;
+          background: linear-gradient(135deg, #005AE2, #003EB5);
+          color: #ffffff;
+          font-size: 0.78rem;
+          font-weight: 900;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          letter-spacing: -0.02em;
+          transition: transform 0.3s ease;
+        }
+        .branch-right .hub-branch-num {
+          background: linear-gradient(135deg, #4F46E5, #3730A3);
+        }
+        .hub-branch:hover .hub-branch-num {
+          transform: scale(1.15);
+        }
+
+        .hub-branch-title {
+          font-size: 0.88rem;
+          font-weight: 800;
+          color: #0F172A;
+          letter-spacing: -0.01em;
+          margin: 0;
+        }
+
+        .hub-branch-desc {
+          font-size: 0.7rem;
+          line-height: 1.4;
+          color: #64748B;
+          margin: 0;
+          font-weight: 500;
+          transition: color 0.3s ease;
+        }
+        .hub-branch:hover .hub-branch-desc {
+          color: #1e293b;
+        }
+
+        /* Responsive Mobile Layout */
+        @media (max-width: 900px) {
+          .tech-hub-outer {
+            display: none; /* Hide interactive diagram on smaller screens */
+          }
+          
+          /* Show a beautiful grid layout instead */
+          .tech-hub-mobile-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+          }
+        }
+        
+        .tech-hub-mobile-grid {
+          display: none;
+        }
+        
+        .mobile-hub-card {
+          background: rgba(255, 255, 255, 0.7);
+          border: 1px solid rgba(0, 90, 226, 0.08);
+          border-radius: 24px;
+          padding: 24px;
+          backdrop-filter: blur(10px);
+          box-shadow: 0 10px 30px -10px rgba(0, 90, 226, 0.05);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+        .mobile-hub-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 15px 35px -10px rgba(0, 90, 226, 0.12);
+          background: #ffffff;
+        }
+        .mobile-card-header {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+        .mobile-card-title {
+          font-size: 1.05rem;
+          font-weight: 800;
+          color: #005AE2;
+          margin: 0;
+        }
+        .mobile-hub-card:nth-child(even) .mobile-card-title {
+          color: #4F46E5;
+        }
+        .mobile-card-desc {
+          font-size: 0.8rem;
+          line-height: 1.45;
+          color: #64748B;
+          margin: 0;
+          font-weight: 500;
         }
   `;
 
@@ -2014,35 +2293,37 @@ export default function LandingPage() {
                     <div className={`flip-card-inner ${isFlipped ? 'is-flipped' : ''}`}>
                       {/* FRONT */}
                       <div className="flip-card-front">
-                        <div className="card-icon">
-                          {item.icon === 'user' && <User size={24} style={{ width: '24px', height: '24px', minWidth: '24px', minHeight: '24px' }} />}
-                          {item.icon === 'building' && <Building size={24} style={{ width: '24px', height: '24px', minWidth: '24px', minHeight: '24px' }} />}
-                          {item.icon === 'idea' && <Lightbulb size={24} style={{ width: '24px', height: '24px', minWidth: '24px', minHeight: '24px' }} />}
+                        <div>
+                          <div className="card-icon">
+                            {item.icon === 'user' && <User size={24} style={{ width: '24px', height: '24px', minWidth: '24px', minHeight: '24px' }} />}
+                            {item.icon === 'building' && <Building size={24} style={{ width: '24px', height: '24px', minWidth: '24px', minHeight: '24px' }} />}
+                            {item.icon === 'idea' && <Lightbulb size={24} style={{ width: '24px', height: '24px', minWidth: '24px', minHeight: '24px' }} />}
+                          </div>
+                          <EditableText
+                            as="h4"
+                            contentKey={`home.audiences.items.${idx}.title`}
+                            value={item.title}
+                            className="card-title"
+                          />
+                          <EditableText
+                            as="p"
+                            contentKey={`home.audiences.items.${idx}.description`}
+                            value={item.description}
+                            className="card-description"
+                          />
+                          <ul className="card-features">
+                            {item.features.slice(0, 2).map((feature, fIdx) => (
+                              <li key={fIdx}>
+                                <span className="check-icon">&#x2713;</span>
+                                <EditableText
+                                  contentKey={`home.audiences.items.${idx}.features.${fIdx}`}
+                                  value={feature}
+                                />
+                              </li>
+                            ))}
+                          </ul>
                         </div>
-                        <EditableText
-                          as="h4"
-                          contentKey={`home.audiences.items.${idx}.title`}
-                          value={item.title}
-                          className="card-title"
-                        />
-                        <EditableText
-                          as="p"
-                          contentKey={`home.audiences.items.${idx}.description`}
-                          value={item.description}
-                          className="card-description"
-                        />
-                        <ul className="card-features">
-                          {item.features.slice(0, 2).map((feature, fIdx) => (
-                            <li key={fIdx}>
-                              <span className="check-icon">&#x2713;</span>
-                              <EditableText
-                                contentKey={`home.audiences.items.${idx}.features.${fIdx}`}
-                                value={feature}
-                              />
-                            </li>
-                          ))}
-                        </ul>
-                        <div style={{ marginTop: 'auto', paddingTop: '24px' }}>
+                        <div style={{ paddingTop: '24px' }}>
                           <button
                             className="card-learn-more-btn"
                             onClick={() => setFlippedCards(prev => { const n = new Set(prev); n.add(idx); return n; })}
@@ -2086,89 +2367,256 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* How We Make It Happen — Infographic Timeline */}
-        <section className="section-light inf-section-bg">
-          <div className="section-container" style={{ maxWidth: '1100px' }}>
-            <EditableText
-              as="h2"
-              contentKey="home.methodology.title"
-              value={homeContent.methodology.title}
-              className="section-title text-center"
-            />
-            <EditableText
-              as="p"
-              contentKey="home.methodology.subtitle"
-              value={homeContent.methodology.subtitle}
-              className="section-subtitle text-center"
-              style={{ margin: '0 auto clamp(24px, 4vw, 40px)', maxWidth: '640px' }}
-            />
+        {/* How We Help — Interactive Tech Hub-and-Spoke Layout */}
+        <section className="tech-hub-section" style={{ marginTop: '-2px' }}>
+          <div className="section-container" style={{ maxWidth: '1100px', position: 'relative' }}>
 
-            <div className="inf-wrap">
 
-              {/* CENTER CIRCLE */}
-              <div className="inf-center-col">
-                <div className="inf-center-circle">
-                  <span className="inf-center-eyebrow">Our Process</span>
-                  <h3 className="inf-center-title">{homeContent.methodology.title}</h3>
-                  <p className="inf-center-sub">{homeContent.methodology.subtitle}</p>
+
+            {/* DESKTOP INTERACTIVE DIAGRAM */}
+            <div className="tech-hub-outer">
+              <svg className="tech-hub-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet">
+                {/* Left Side Paths */}
+                <path 
+                  d="M 450 300 C 370 300, 370 100, 290 100 L 220 100" 
+                  className={`tech-path ${activeCategory === 'frontend' ? 'active' : ''}`}
+                  stroke={activeCategory === 'frontend' ? '#005AE2' : 'rgba(0, 90, 226, 0.2)'}
+                />
+                <path 
+                  d="M 450 300 L 220 300" 
+                  className={`tech-path ${activeCategory === 'backend' ? 'active' : ''}`}
+                  stroke={activeCategory === 'backend' ? '#005AE2' : 'rgba(0, 90, 226, 0.2)'}
+                />
+                <path 
+                  d="M 450 300 C 370 300, 370 500, 290 500 L 220 500" 
+                  className={`tech-path ${activeCategory === 'devops' ? 'active' : ''}`}
+                  stroke={activeCategory === 'devops' ? '#005AE2' : 'rgba(0, 90, 226, 0.2)'}
+                />
+
+                {/* Right Side Paths */}
+                <path 
+                  d="M 550 300 C 630 300, 630 100, 710 100 L 780 100" 
+                  className={`tech-path ${activeCategory === 'mobile' ? 'active' : ''}`}
+                  stroke={activeCategory === 'mobile' ? '#4F46E5' : 'rgba(79, 70, 229, 0.2)'}
+                />
+                <path 
+                  d="M 550 300 L 780 300" 
+                  className={`tech-path ${activeCategory === 'payments' ? 'active' : ''}`}
+                  stroke={activeCategory === 'payments' ? '#4F46E5' : 'rgba(79, 70, 229, 0.2)'}
+                />
+                <path 
+                  d="M 550 300 C 630 300, 630 500, 710 500 L 780 500" 
+                  className={`tech-path ${activeCategory === 'database' ? 'active' : ''}`}
+                  stroke={activeCategory === 'database' ? '#4F46E5' : 'rgba(79, 70, 229, 0.2)'}
+                />
+              </svg>
+
+              {/* CENTER NODE */}
+              <div className="hub-center-node">
+                <div className="hub-center-inner">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                    <path d="M2 17l10 5 10-5"/>
+                    <path d="M2 12l10 5 10-5"/>
+                  </svg>
+                  <span style={{
+                    fontSize: '0.72rem',
+                    fontWeight: 800,
+                    color: '#ffffff',
+                    textAlign: 'center',
+                    lineHeight: 1.25,
+                    letterSpacing: '0.01em',
+                    textTransform: 'uppercase',
+                  }}>How We<br/>Help</span>
                 </div>
               </div>
 
-              {/* RIGHT: vertical timeline with pill cards */}
-              <div className="inf-right-col">
-                {methodologyCards.map((card, idx) => {
-                  const icons = [
-                    // Discovery
-                    <svg key="s" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
-                    // Strategy
-                    <svg key="t" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>,
-                    // Design
-                    <svg key="d" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
-                    // Build
-                    <svg key="b" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>,
-                    // Launch
-                    <svg key="l" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>,
-                    // AI
-                    <svg key="a" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>,
-                    // Silicon Valley
-                    <svg key="g" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>,
-                  ];
-                  return (
-                    <div key={idx} className="inf-item">
-                      {/* Dark numbered circle */}
-                      <div className="inf-circle">{String(idx + 1).padStart(2, '0')}</div>
-                      {/* dot node + dashed horizontal connector */}
-                      <div className="inf-dot-node"></div>
-                      <div className="inf-h-connector"></div>
-                      {/* Teal pill card */}
-                      <div className="inf-card">
-                        <div className="inf-card-body">
-                          {card.highlight && (
-                            <span className="inf-card-highlight">{card.highlight}</span>
-                          )}
-                          <h4 className="inf-card-title">
-                            <EditableText
-                              contentKey={`home.methodology.cards.${idx}.title`}
-                              value={card.title}
-                            />
-                          </h4>
-                          <p className="inf-card-desc">
-                            <EditableText
-                              contentKey={`home.methodology.cards.${idx}.description`}
-                              value={card.description}
-                            />
-                          </p>
-                        </div>
-                        <div className="inf-card-icon">
-                          {icons[idx] || icons[0]}
-                        </div>
-                      </div>
+              {/* Top Left Branch (Co-Building) */}
+              {methodologyCards[0] && (
+                <div 
+                  className="hub-branch-wrapper branch-top-left"
+                  onMouseEnter={() => setActiveCategory('frontend')}
+                  onMouseLeave={() => setActiveCategory(null)}
+                >
+                  <div className={`hub-branch branch-left ${activeCategory === 'frontend' ? 'active' : ''}`}>
+                    <div className="hub-branch-header">
+                      <span className="hub-branch-num">1</span>
+                      <h4 className="hub-branch-title">
+                        <EditableText
+                          contentKey="home.methodology.cards.0.title"
+                          value={methodologyCards[0].title}
+                        />
+                      </h4>
                     </div>
-                  );
-                })}
-              </div>
+                    <p className="hub-branch-desc">
+                      <EditableText
+                        contentKey="home.methodology.cards.0.description"
+                        value={methodologyCards[0].description}
+                      />
+                    </p>
+                  </div>
+                </div>
+              )}
 
+              {/* Middle Left Branch (Execution) */}
+              {methodologyCards[1] && (
+                <div 
+                  className="hub-branch-wrapper branch-middle-left"
+                  onMouseEnter={() => setActiveCategory('backend')}
+                  onMouseLeave={() => setActiveCategory(null)}
+                >
+                  <div className={`hub-branch branch-left ${activeCategory === 'backend' ? 'active' : ''}`}>
+                    <div className="hub-branch-header">
+                      <span className="hub-branch-num">2</span>
+                      <h4 className="hub-branch-title">
+                        <EditableText
+                          contentKey="home.methodology.cards.1.title"
+                          value={methodologyCards[1].title}
+                        />
+                      </h4>
+                    </div>
+                    <p className="hub-branch-desc">
+                      <EditableText
+                        contentKey="home.methodology.cards.1.description"
+                        value={methodologyCards[1].description}
+                      />
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Bottom Left Branch (Collaboration) */}
+              {methodologyCards[2] && (
+                <div 
+                  className="hub-branch-wrapper branch-bottom-left"
+                  onMouseEnter={() => setActiveCategory('devops')}
+                  onMouseLeave={() => setActiveCategory(null)}
+                >
+                  <div className={`hub-branch branch-left ${activeCategory === 'devops' ? 'active' : ''}`}>
+                    <div className="hub-branch-header">
+                      <span className="hub-branch-num">3</span>
+                      <h4 className="hub-branch-title">
+                        <EditableText
+                          contentKey="home.methodology.cards.2.title"
+                          value={methodologyCards[2].title}
+                        />
+                      </h4>
+                    </div>
+                    <p className="hub-branch-desc">
+                      <EditableText
+                        contentKey="home.methodology.cards.2.description"
+                        value={methodologyCards[2].description}
+                      />
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Top Right Branch (Support) */}
+              {methodologyCards[3] && (
+                <div 
+                  className="hub-branch-wrapper branch-top-right"
+                  onMouseEnter={() => setActiveCategory('mobile')}
+                  onMouseLeave={() => setActiveCategory(null)}
+                >
+                  <div className={`hub-branch branch-right ${activeCategory === 'mobile' ? 'active' : ''}`}>
+                    <div className="hub-branch-header">
+                      <span className="hub-branch-num">4</span>
+                      <h4 className="hub-branch-title">
+                        <EditableText
+                          contentKey="home.methodology.cards.3.title"
+                          value={methodologyCards[3].title}
+                        />
+                      </h4>
+                    </div>
+                    <p className="hub-branch-desc">
+                      <EditableText
+                        contentKey="home.methodology.cards.3.description"
+                        value={methodologyCards[3].description}
+                      />
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Middle Right Branch (AI & Automation) */}
+              {methodologyCards[4] && (
+                <div 
+                  className="hub-branch-wrapper branch-middle-right"
+                  onMouseEnter={() => setActiveCategory('payments')}
+                  onMouseLeave={() => setActiveCategory(null)}
+                >
+                  <div className={`hub-branch branch-right ${activeCategory === 'payments' ? 'active' : ''}`}>
+                    <div className="hub-branch-header">
+                      <span className="hub-branch-num">5</span>
+                      <h4 className="hub-branch-title">
+                        <EditableText
+                          contentKey="home.methodology.cards.4.title"
+                          value={methodologyCards[4].title}
+                        />
+                      </h4>
+                    </div>
+                    <p className="hub-branch-desc">
+                      <EditableText
+                        contentKey="home.methodology.cards.4.description"
+                        value={methodologyCards[4].description}
+                      />
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Bottom Right Branch (Silicon Valley Execution) */}
+              {methodologyCards[5] && (
+                <div 
+                  className="hub-branch-wrapper branch-bottom-right"
+                  onMouseEnter={() => setActiveCategory('database')}
+                  onMouseLeave={() => setActiveCategory(null)}
+                >
+                  <div className={`hub-branch branch-right ${activeCategory === 'database' ? 'active' : ''}`}>
+                    <div className="hub-branch-header">
+                      <span className="hub-branch-num">6</span>
+                      <h4 className="hub-branch-title">
+                        <EditableText
+                          contentKey="home.methodology.cards.5.title"
+                          value={methodologyCards[5].title}
+                        />
+                      </h4>
+                    </div>
+                    <p className="hub-branch-desc">
+                      <EditableText
+                        contentKey="home.methodology.cards.5.description"
+                        value={methodologyCards[5].description}
+                      />
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
+
+            {/* MOBILE ADAPTIVE GRID LAYOUT */}
+            <div className="tech-hub-mobile-grid">
+              {methodologyCards.map((card, idx) => (
+                <div key={idx} className="mobile-hub-card">
+                  <div className="mobile-card-header">
+                    {getCardIcon(card.icon)}
+                    <h4 className="mobile-card-title">
+                      <EditableText
+                        contentKey={`home.methodology.cards.${idx}.title`}
+                        value={card.title}
+                      />
+                    </h4>
+                  </div>
+                  <p className="mobile-card-desc">
+                    <EditableText
+                      contentKey={`home.methodology.cards.${idx}.description`}
+                      value={card.description}
+                    />
+                  </p>
+                </div>
+              ))}
+            </div>
+
           </div>
         </section>
 
@@ -2392,4 +2840,151 @@ function MetricsRow({ metrics }: { metrics: any[] }) {
       ))}
     </div>
   );
+}
+
+function TechLogo({ name }: { name: string }) {
+  switch (name.toLowerCase()) {
+    case 'next.js':
+      return (
+        <svg viewBox="0 0 128 128" width="24" height="24" style={{ flexShrink: 0 }}>
+          <circle cx="64" cy="64" r="64" fill="#000"/>
+          <path d="M101.4 101.4L55.2 42.8H48v42.4h7.2V51.8l38 48.6c4.2-5.4 7.2-11.8 8.2-18.8zM80.8 42.8h7.2v42.4h-7.2z" fill="#fff"/>
+        </svg>
+      );
+    case 'react.js':
+    case 'react native':
+      return (
+        <svg viewBox="-11.5 -10.23174 23 20.46348" width="24" height="24" style={{ flexShrink: 0 }} className="react-spin-logo">
+          <circle cx="0" cy="0" r="2.05" fill="#61dafb"/>
+          <g stroke="#61dafb" strokeWidth="1.5" fill="none">
+            <ellipse rx="11" ry="4.2"/>
+            <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
+            <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
+          </g>
+        </svg>
+      );
+    case 'angular':
+      return (
+        <svg viewBox="0 0 250 250" width="24" height="24" style={{ flexShrink: 0 }}>
+          <polygon points="125,30 31.9,63.2 46.1,186.3 125,230 203.9,186.3 218.1,63.2" fill="#DD0031"/>
+          <polygon points="125,30 125,52.2 125,230 203.9,186.3 218.1,63.2" fill="#C3002F"/>
+          <path d="M125,52.1L66.8,182.6h21.7l11.7-29.2h49.7l11.7,29.2h21.7L125,52.1z M125,75.4l18.5,46.1h-37L125,75.4z" fill="#FFFFFF"/>
+        </svg>
+      );
+    case 'fastapi':
+      return (
+        <svg viewBox="0 0 128 128" width="24" height="24" style={{ flexShrink: 0 }}>
+          <rect width="128" height="128" rx="24" fill="#05998b"/>
+          <path d="M74.8 17.5L34.1 68.2h26.2l-9.7 42.3 54.1-59H69.1l5.7-34z" fill="#fff"/>
+        </svg>
+      );
+    case 'django':
+      return (
+        <svg viewBox="0 0 128 128" width="24" height="24" style={{ flexShrink: 0 }}>
+          <rect width="128" height="128" rx="24" fill="#092e20"/>
+          <text x="20" y="86" fill="#fff" fontFamily="'Manrope', sans-serif" fontSize="62" fontWeight="900" letterSpacing="-4">dj</text>
+        </svg>
+      );
+    case 'node.js':
+      return (
+        <svg viewBox="0 0 128 128" width="24" height="24" style={{ flexShrink: 0 }}>
+          <path d="M64 16.5L25.5 38.7v44.3L64 105.2l38.5-22.2V38.7L64 16.5z" fill="#339933"/>
+          <path d="M64 16.5v88.7l38.5-22.2V38.7L64 16.5z" fill="#215732"/>
+          <path d="M64 45l22 12.7V83L64 95.7 42 83V57.7L64 45z" fill="#fff"/>
+        </svg>
+      );
+    case 'aws':
+      return (
+        <svg viewBox="0 0 128 128" width="24" height="24" style={{ flexShrink: 0 }}>
+          <rect width="128" height="128" rx="24" fill="#232f3e"/>
+          <path d="M40 75c12 8 28 8 40 0" stroke="#ff9900" strokeWidth="6" strokeLinecap="round" fill="none"/>
+          <path d="M78 74l4 4-2-8-6 2z" fill="#ff9900"/>
+          <text x="34" y="58" fill="#fff" fontFamily="sans-serif" fontSize="26" fontWeight="900">aws</text>
+        </svg>
+      );
+    case 'docker':
+      return (
+        <svg viewBox="0 0 24 24" width="24" height="24" style={{ flexShrink: 0 }} fill="#2496ED">
+          <path d="M13.983 11.078h2.119c.102 0 .186-.083.186-.188V8.918c0-.103-.084-.188-.186-.188h-2.119c-.103 0-.188.085-.188.188v1.972c0 .105.085.188.188.188zM11.266 11.078h2.119c.102 0 .188-.083.188-.188V8.918c0-.103-.086-.188-.188-.188h-2.119c-.103 0-.188.085-.188.188v1.972c0 .105.085.188.188.188zM11.266 8.357h2.119c.102 0 .188-.083.188-.186V6.197c0-.103-.086-.186-.188-.186h-2.119c-.103 0-.188.083-.188.186v1.974c0 .103.085.186.188.186zM8.548 11.078h2.119c.103 0 .188-.083.188-.188V8.918c0-.103-.085-.188-.188-.188H8.548c-.103 0-.188.085-.188.188v1.972c0 .105.085.188.188.188zM8.548 8.357h2.119c.103 0 .188-.083.188-.186V6.197c0-.103-.085-.186-.188-.186H8.548c-.103 0-.188.083-.188.186v1.974c0 .103.085.186.188.186zM5.83 11.078h2.119c.103 0 .188-.083.188-.188V8.918c0-.103-.085-.188-.188-.188H5.83c-.103 0-.188.085-.188.188v1.972c0 .105.085.188.188.188zM3.114 11.078h2.119c.102 0 .188-.083.188-.188V8.918c0-.103-.086-.188-.188-.188H3.114c-.103 0-.188.085-.188.188v1.972c0 .105.085.188.188.188zM20.614 9.176c-.234-1.025-1.127-1.802-2.193-1.802-.093 0-.188.006-.281.018-.68-1.503-2.186-2.529-3.924-2.529-.092 0-.187.004-.28.014V11.23h5.922c.456 0 .756-.372.756-.91 0-.374-.15-.815-.174-1.144zM22.097 12.3c-.632-.375-1.397-.47-2.11-.41-.18.016-.368.03-.553.03H1.054c-.185 0-.353.035-.502.1-.295.13-.487.397-.533.725-.333 2.37.585 5.568 2.03 6.953 1.258 1.205 2.87 1.3 3.655 1.3 7.828 0 11.517-4.225 13.6-5.83.916-.704 1.76-1.5 2.338-2.427.35-.563.606-1.22.45-1.84z" fill="#2496ED"/></svg>
+      );
+    case 'nginx':
+      return (
+        <svg viewBox="0 0 128 128" width="24" height="24" style={{ flexShrink: 0 }}>
+          <rect width="128" height="128" rx="24" fill="#009639"/>
+          <path d="M96 28L32 64v36l64-36V28zM32 28l64 36v36L32 64V28z" fill="#fff" opacity="0.3"/>
+          <path d="M32 28l64 36v36L32 64V28z" fill="#fff"/>
+          <path d="M96 28L32 64v36l64-36V28z" fill="#006424"/>
+        </svg>
+      );
+    case 'swift':
+      return (
+        <svg viewBox="0 0 128 128" width="24" height="24" style={{ flexShrink: 0 }}>
+          <rect width="128" height="128" rx="24" fill="#fa7343"/>
+          <path d="M106.6 96c-13.4-15.5-35.8-24.3-51.2-24.3-10.7 0-20.7 4.2-28.7 11.2 18.2-19.6 46.2-25.2 67.2-25.2 5.6 0 10.9.4 15.7 1.1-23.8-19.6-54.3-21.3-73.4-11.8-7.8 3.9-14 10.1-18.2 17.6 15.7-28 49-37 72.8-37 3.1 0 6.2.2 9 .5C68.9 9.5 32 25.2 21.6 57.1c-2.2 6.7-3.1 13.4-2.5 19.9 8.7-22.1 32-35.6 56-35.6 5.6 0 11.2.7 16.5 2.2-28.6 2.5-54.9 19.3-64.4 42-2 4.8-3.4 10.1-4 15.7 18.5-12.6 44-16.2 66.4-16.2 13.4 0 25.5 1.3 35.8 4.2-14-11.2-31.4-16.5-48.7-16.5-7.8 0-15.7.8-23.2 2.5 19-8.4 43.1-9.5 62.2-1.7 5 2 9.2 4.8 12.5 8.2z" fill="#fff"/>
+        </svg>
+      );
+    case 'flutter':
+      return (
+        <svg viewBox="0 0 128 128" width="24" height="24" style={{ flexShrink: 0 }}>
+          <path d="M74.8 15.5L25.5 64.8l16.4 16.4L91.2 31.9z" fill="#02539a"/>
+          <path d="M91.2 31.9L74.8 15.5 25.5 64.8l24.7 24.7z" fill="#45d1fd"/>
+          <path d="M74.8 112.5L42 79.6 25.5 96.1l49.3 49.3 49.3-49.3-16.4-16.4z" fill="#02539a"/>
+          <path d="M74.8 112.5L42 79.6l24.7-24.7 32.9 32.9z" fill="#45d1fd"/>
+        </svg>
+      );
+    case 'stripe':
+      return (
+        <svg viewBox="0 0 128 128" width="24" height="24" style={{ flexShrink: 0 }}>
+          <rect width="128" height="128" rx="24" fill="#635bff"/>
+          <path d="M69.8 45.4c0-4.1-3.2-5.7-8.7-5.7-7.9 0-14.7 2.4-19.6 5.1V32.7c5.4-2.2 12.9-3.7 20.3-3.7 16.5 0 26.6 8 26.6 22.3v30.9c0 10.3 3.6 14.5 6.9 16.6H77.1c-1.8-1.8-3.2-4.5-3.5-7.4-4.8 5-11.9 8.4-20 8.4-14 0-23.7-8.1-23.7-20.7 0-15.5 13.5-22.1 31.5-22.1 3.5 0 6-.3 8.4-.9v-.7zm-8.4 25.2c-7.4 0-11.9 2.8-11.9 8.2 0 5 4 8 10.7 8 7.4 0 12.6-4.5 12.6-11v-4c-2.4.6-6 .8-11.4.8z" fill="#fff"/>
+        </svg>
+      );
+    case 'paypal':
+      return (
+        <svg viewBox="0 0 128 128" width="24" height="24" style={{ flexShrink: 0 }}>
+          <rect width="128" height="128" rx="24" fill="#003087"/>
+          <path d="M85.7 38.3c-2-8.5-9.1-14.3-19.5-14.3H39.5c-2.2 0-4.1 1.6-4.4 3.8L22.2 108.6c-.3 1.9 1.2 3.6 3.1 3.6h15.2c2.2 0 4.1-1.6 4.4-3.8L53 58h5.7c10.4 0 18.5-4.2 20.9-14.3.9-3.7.8-6.9-.9-9.4z" fill="#0079C1"/>
+          <path d="M78 52.8c-2 8.5-9.1 14.3-19.5 14.3H46.3l-8 51.5c-.3 1.9 1.2 3.6 3.1 3.6h15.2c2.2 0 4.1-1.6 4.4-3.8l8-51.5H74.7c10.4 0 18.5-4.2 20.9-14.3.9-3.7.8-6.9-.9-9.4-2 8.5-9.1 14.3-19.5 14.3H78v-.1z" fill="#00457C"/>
+        </svg>
+      );
+    case 'postgresql':
+      return (
+        <svg viewBox="0 0 128 128" width="24" height="24" style={{ flexShrink: 0 }}>
+          <rect width="128" height="128" rx="24" fill="#336791"/>
+          <path d="M92.2 64c0-11-7.2-19.5-16-19.5h-10v39h10c8.8 0 16-8.5 16-19.5z" fill="#fff"/>
+          <path d="M56.2 30h-10v58h10c8.8 0 16-8.5 16-19.5s-7.2-19.5-16-19.5z" fill="#fff" opacity="0.8"/>
+          <circle cx="56.2" cy="45" r="4" fill="#336791"/>
+        </svg>
+      );
+    case 'mongodb':
+      return (
+        <svg viewBox="0 0 128 128" width="24" height="24" style={{ flexShrink: 0 }}>
+          <rect width="128" height="128" rx="24" fill="#13aa52"/>
+          <path d="M64 16c0 0-20 28-20 48s12 36 20 48c0 0 20-28 20-48s-20-48-20-48z" fill="#499d4a"/>
+          <path d="M64 16v96c0 0 20-28 20-48S64 16 64 16z" fill="#3fa049"/>
+          <path d="M64 40v48c0 0 8-12 8-24S64 40 64 40z" fill="#fff" opacity="0.6"/>
+        </svg>
+      );
+    default:
+      return null;
+  }
+}
+
+function getCardIcon(iconName: string) {
+  switch (iconName.toLowerCase()) {
+    case 'lambda':
+      return <Compass className="hub-branch-icon" />;
+    case 'grid':
+      return <Zap className="hub-branch-icon" />;
+    case 'layers':
+      return <Users className="hub-branch-icon" strokeWidth={2} />;
+    case 'star':
+      return <TrendingUp className="hub-branch-icon" />;
+    case 'cpu':
+      return <Cpu className="hub-branch-icon" />;
+    case 'target':
+      return <Globe className="hub-branch-icon" />;
+    default:
+      return <Compass className="hub-branch-icon" />;
+  }
 }
