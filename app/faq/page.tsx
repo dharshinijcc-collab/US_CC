@@ -255,62 +255,114 @@ export default function FaqPage() {
           color: var(--text-black);
         }
 
-        /* FAQ Accordions */
-        .faq-group { margin-bottom: 48px; }
+        /* FAQ Accordions - New Style */
+        .faq-group { margin-bottom: 80px; }
         .faq-group-header {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          font-size: 1.25rem;
+          margin-bottom: 32px;
+        }
+        .faq-group-header h2 {
+          font-size: 2rem;
           font-weight: 800;
           color: var(--text-black);
-          margin-bottom: 24px;
+          margin-bottom: 8px;
+          letter-spacing: -0.02em;
         }
-        .faq-group-header svg { color: var(--bright-blue); width: 28px; height: 28px; padding: 6px; background: rgba(0, 132, 255, 0.08); border-radius: 8px; }
+        .faq-group-header p {
+          font-size: 1rem;
+          color: var(--text-muted);
+          font-weight: 500;
+        }
+        .faq-group-header a {
+          color: var(--primary-blue);
+          text-decoration: none;
+          font-weight: 600;
+        }
+        .faq-group-header a:hover {
+          text-decoration: underline;
+        }
         
         .accordion-item {
           background: var(--white);
-          border-radius: 12px;
-          padding: 24px 32px;
+          border-radius: 16px;
           margin-bottom: 16px;
-          box-shadow: 0 4px 10px rgba(0,0,0,0.02);
           cursor: pointer;
-          border: 1px solid rgba(0,0,0,0.03);
+          border: 1px solid var(--border-light);
           transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+          overflow: hidden;
         }
         .accordion-item:hover { 
-          box-shadow: 0 12px 28px rgba(0, 132, 255, 0.08); 
-          transform: translateY(-3px); 
-          background-color: #F8FBFF;
-          border-color: rgba(0, 132, 255, 0.1);
+          border-color: rgba(0, 90, 226, 0.2);
         }
         .accordion-item.open { 
-          border-color: rgba(0, 90, 226, 0.2); 
-          box-shadow: 0 8px 24px rgba(0, 90, 226, 0.08); 
-          background-color: #F0F7FF;
+          border-color: rgba(0, 90, 226, 0.3);
+          background-color: #F8FAFC;
         }
-        .accordion-header {
+        .accordion-question {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          font-weight: 800;
+          padding: 24px 32px;
+          font-weight: 600;
           font-size: 1rem;
-          color: var(--text-black);
+          color: var(--text-main);
         }
-        .chevron {
-          color: #CBD5E1;
+        .faq-icon-wrapper {
+          flex-shrink: 0;
+          width: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           transition: transform 0.3s ease;
         }
-        .accordion-item.open .chevron { transform: rotate(180deg); color: var(--text-muted); }
-        .accordion-body {
-          margin-top: 16px;
-          font-size: 0.9rem;
-          color: var(--text-muted);
-          line-height: 1.6;
-          font-weight: 500;
-          display: none;
+        .accordion-item.open .faq-icon-wrapper {
+          transform: rotate(45deg);
         }
-        .accordion-item.open .accordion-body { display: block; }
+        .faq-icon-wrapper svg {
+          color: var(--text-muted);
+          transition: color 0.3s ease;
+        }
+        .accordion-item.open .faq-icon-wrapper svg {
+          color: var(--primary-blue);
+        }
+        .faq_line-icon {
+          transition: opacity 0.3s ease;
+        }
+        .accordion-answer {
+          height: 0;
+          opacity: 0;
+          overflow: hidden;
+          transition: height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
+        }
+        .accordion-item.open .accordion-answer {
+          height: auto;
+          opacity: 1;
+        }
+        .faq_rich-text {
+          padding: 0 32px 32px 32px;
+          font-size: 0.95rem;
+          color: var(--text-muted);
+          line-height: 1.7;
+          font-weight: 500;
+        }
+        .faq_rich-text p {
+          margin-bottom: 16px;
+        }
+        .faq_rich-text a {
+          color: var(--primary-blue);
+          text-decoration: none;
+          font-weight: 600;
+        }
+        .faq_rich-text a:hover {
+          text-decoration: underline;
+        }
+        .faq_rich-text ul, .faq_rich-text ol {
+          margin: 16px 0;
+          padding-left: 24px;
+        }
+        .faq_rich-text li {
+          margin-bottom: 8px;
+        }
 
         /* CTA Banner */
         .cta-banner {
@@ -454,55 +506,43 @@ export default function FaqPage() {
         <section id="faq-section">
           <div className="section-container pt-0">
 
-            {/* Tabs */}
-            <div className="tabs-container">
-              {faqContent.tabs.map((tab, idx) => {
-                const categoryId = idx === 0 ? 'engagement' : idx === 1 ? 'product' : 'security';
-                return (
-                  <div 
-                    key={idx} 
-                    className={`tab-item ${activeTab === categoryId ? 'active' : ''}`} 
-                    onClick={() => {
-                      setActiveTab(categoryId);
-                      document.getElementById('faq-section')?.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                  >
-                    <EditableText contentKey={`faq.tabs.${idx}`} value={tab} />
-                  </div>
-                );
-              })}
-            </div>
-
             {/* Dynamic Category Rendering with Reordering */}
             {[
               { id: 'engagement', content: (
                 <div id="engagement-group" className="faq-group cc-slide-left cc-delay-1">
                   <div className="faq-group-header">
-                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                    </svg>
-                    <EditableText 
-                      contentKey="faq.categories.engagement.title"
-                      value={faqContent.categories.engagement.title}
-                    />
+                    <h2>
+                      <EditableText 
+                        contentKey="faq.categories.engagement.title"
+                        value={faqContent.categories.engagement.title}
+                      />
+                    </h2>
+                    <p>
+                      Everything you need to know about the <a href="/studio">Studio track</a>
+                    </p>
                   </div>
 
                   {faqContent.categories.engagement.faqs.map((faq, idx) => (
                     <div key={idx} className={`accordion-item ${openFaq === `engagement-${idx + 1}` ? 'open' : ''}`} onClick={() => toggleFaq(`engagement-${idx + 1}`)}>
-                      <div className="accordion-header">
+                      <div className="accordion-question">
                         <EditableText 
                           contentKey={`faq.categories.engagement.faqs.${idx}.question`}
                           value={faq.question}
                         />
-                        <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
+                        <div className="faq-icon-wrapper">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 13V11H19V13H5Z" fill="currentColor" className="faq_line-icon horizontal"></path>
+                            <path d="M13 19L11 19L11 5L13 5L13 19Z" fill="currentColor" className="faq_line-icon vertical"></path>
+                          </svg>
+                        </div>
                       </div>
-                      <div className="accordion-body">
-                        <EditableText 
-                          contentKey={`faq.categories.engagement.faqs.${idx}.answer`}
-                          value={faq.answer}
-                        />
+                      <div className="accordion-answer">
+                        <div className="faq_rich-text">
+                          <EditableText 
+                            contentKey={`faq.categories.engagement.faqs.${idx}.answer`}
+                            value={faq.answer}
+                          />
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -511,31 +551,38 @@ export default function FaqPage() {
               { id: 'product', content: (
                 <div id="product-group" className="faq-group cc-slide-center cc-delay-2">
                   <div className="faq-group-header">
-                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    <EditableText 
-                      contentKey="faq.categories.product.title"
-                      value={faqContent.categories.product.title}
-                    />
+                    <h2>
+                      <EditableText 
+                        contentKey="faq.categories.product.title"
+                        value={faqContent.categories.product.title}
+                      />
+                    </h2>
+                    <p>
+                      Everything you need to know about the <a href="/contact">Product track</a>
+                    </p>
                   </div>
 
                   {faqContent.categories.product.faqs.map((faq, idx) => (
                     <div key={idx} className={`accordion-item ${openFaq === `product-${idx + 1}` ? 'open' : ''}`} onClick={() => toggleFaq(`product-${idx + 1}`)}>
-                      <div className="accordion-header">
+                      <div className="accordion-question">
                         <EditableText 
                           contentKey={`faq.categories.product.faqs.${idx}.question`}
                           value={faq.question}
                         />
-                        <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
+                        <div className="faq-icon-wrapper">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 13V11H19V13H5Z" fill="currentColor" className="faq_line-icon horizontal"></path>
+                            <path d="M13 19L11 19L11 5L13 5L13 19Z" fill="currentColor" className="faq_line-icon vertical"></path>
+                          </svg>
+                        </div>
                       </div>
-                      <div className="accordion-body">
-                        <EditableText 
-                          contentKey={`faq.categories.product.faqs.${idx}.answer`}
-                          value={faq.answer}
-                        />
+                      <div className="accordion-answer">
+                        <div className="faq_rich-text">
+                          <EditableText 
+                            contentKey={`faq.categories.product.faqs.${idx}.answer`}
+                            value={faq.answer}
+                          />
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -544,31 +591,38 @@ export default function FaqPage() {
               { id: 'security', content: (
                 <div id="security-group" className="faq-group cc-slide-right cc-delay-3">
                   <div className="faq-group-header">
-                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                    </svg>
-                    <EditableText 
-                      contentKey="faq.categories.security.title"
-                      value={faqContent.categories.security.title}
-                    />
+                    <h2>
+                      <EditableText 
+                        contentKey="faq.categories.security.title"
+                        value={faqContent.categories.security.title}
+                      />
+                    </h2>
+                    <p>
+                      Everything you need to know about the <a href="/contact">Security track</a>
+                    </p>
                   </div>
 
                   {faqContent.categories.security.faqs.map((faq, idx) => (
                     <div key={idx} className={`accordion-item ${openFaq === `sec-${idx + 1}` ? 'open' : ''}`} onClick={() => toggleFaq(`sec-${idx + 1}`)}>
-                      <div className="accordion-header">
+                      <div className="accordion-question">
                         <EditableText 
                           contentKey={`faq.categories.security.faqs.${idx}.question`}
                           value={faq.question}
                         />
-                        <svg className="chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
+                        <div className="faq-icon-wrapper">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 13V11H19V13H5Z" fill="currentColor" className="faq_line-icon horizontal"></path>
+                            <path d="M13 19L11 19L11 5L13 5L13 19Z" fill="currentColor" className="faq_line-icon vertical"></path>
+                          </svg>
+                        </div>
                       </div>
-                      <div className="accordion-body">
-                        <EditableText 
-                          contentKey={`faq.categories.security.faqs.${idx}.answer`}
-                          value={faq.answer}
-                        />
+                      <div className="accordion-answer">
+                        <div className="faq_rich-text">
+                          <EditableText 
+                            contentKey={`faq.categories.security.faqs.${idx}.answer`}
+                            value={faq.answer}
+                          />
+                        </div>
                       </div>
                     </div>
                   ))}

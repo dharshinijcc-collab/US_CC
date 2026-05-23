@@ -1873,6 +1873,59 @@ export default function StudioPage() {
 
       <SolvingSection stackCards={stackCards} studioContent={studioContent} EditableText={EditableText} />
 
+      {/* Core Values Section */}
+      <section style={{ backgroundColor: '#F8FAFC', padding: '100px 20px', fontFamily: "'Manrope', sans-serif" }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto 80px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center' }}>
+          <div style={{ width: '100%', height: '400px', backgroundColor: '#CBD5E1', borderRadius: '16px' }}>
+            {/* Placeholder for 3D abstract graphic */}
+          </div>
+          <div>
+            <span style={{ color: '#005AE2', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              <EditableText contentKey="studio.coreValues.missionLabel" value="Our Mission" />
+            </span>
+            <h2 style={{ fontSize: '24px', fontWeight: 700, margin: '20px 0' }}>
+              <EditableText contentKey="studio.coreValues.missionTitle" value="Disrupt Industries to Exponentially Improve Customer Experience" />
+            </h2>
+            <p style={{ color: '#64748B', lineHeight: 1.6 }}>
+              <EditableText contentKey="studio.coreValues.missionDesc" value="We build customer-focused digital products through innovation, rapid execution, and scalable technology solutions that create long-term impact. Our studio philosophy merges technical rigor with high-end aesthetic storytelling." />
+            </p>
+          </div>
+        </div>
+
+        <div style={{ maxWidth: '1000px', margin: '0 auto', textAlign: 'center' }}>
+          <span style={{ color: '#005AE2', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+            <EditableText contentKey="studio.coreValues.valuesLabel" value="Our Values" />
+          </span>
+          <h1 style={{ fontSize: '40px', fontWeight: 800, margin: '20px 0 60px' }}>
+            <EditableText contentKey="studio.coreValues.valuesTitle" value="Core Values That Drive Everything We Build" />
+          </h1>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+            {[
+              { title: 'Disruptive', desc: 'Unwavering ethical standards in every line of code and business decision we make.', icon: 'shield' },
+              { title: 'Obsessed with Customer', desc: 'Pushing the boundaries of what\'s possible through architectural engineering and creative vision.', icon: 'lightbulb' },
+              { title: 'Focus on innovation', desc: 'Deep partnership with founders to transform ambitious ideas into category-defining products.', icon: 'users' },
+              { title: 'Innovation', desc: 'A relentless pursuit of technical perfection and aesthetic rigor in every project detail.', icon: 'star' },
+              { title: 'Trust', desc: 'Radical ownership of outcomes, ensuring we deliver on our promises to partners and users.', icon: 'check-shield' },
+            ].map((val, index) => (
+              <div key={index} style={{ backgroundColor: '#FFFFFF', padding: '40px', borderRadius: '16px', border: '1px solid #E2E8F0', textAlign: 'left', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ backgroundColor: '#E0E7FF', width: '40px', height: '40px', borderRadius: '8px', marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ width: '20px', height: '20px', backgroundColor: '#4F46E5', borderRadius: '2px' }}></div>
+                </div>
+                <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '15px' }}>
+                  <EditableText contentKey={`studio.coreValues.values.${index}.title`} value={val.title} />
+                </h3>
+                <p style={{ color: '#64748B', fontSize: '14px', lineHeight: 1.6, zIndex: 1, position: 'relative' }}>
+                  <EditableText contentKey={`studio.coreValues.values.${index}.desc`} value={val.desc} />
+                </p>
+                
+                <div style={{ position: 'absolute', right: 0, top: 0, width: '40%', height: '100%', background: 'linear-gradient(90deg, transparent, rgba(0, 90, 226, 0.1))', zIndex: 0 }}></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* The Build Timeline */}
       <section className="timeline-section-vertical">
         <div className="section-container">
