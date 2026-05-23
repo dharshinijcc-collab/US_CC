@@ -1406,7 +1406,7 @@ export default function StudioPage() {
                   className="hero-eyebrow-pill"
                 />
                 <div style={{ width: '100%', textAlign: 'center' }}>
-                  <h1 className="hero-title" style={{ textAlign: 'center !important', margin: '0 auto', display: 'inline-block' }}>
+                  <h1 className="hero-title" style={{ textAlign: 'center', margin: '0 auto', display: 'inline-block' }}>
                     Build <span style={{ color: '#005AE2' }}>Ventures</span>,<br />Not Just <span style={{ color: '#005AE2' }}>Products</span>
                   </h1>
                 </div>
