@@ -173,7 +173,7 @@ export default function Header(props: any) {
 
         .navbar-links a,
         .dropdown-toggle {
-          color: ${isDarkBg ? 'rgba(255,255,255,0.8)' : '#64748B'};
+          color: #64748B;
           text-decoration: none;
           padding: 8px 0;
           transition: color 0.3s ease;
@@ -191,11 +191,11 @@ export default function Header(props: any) {
 
         .navbar-links a:hover,
         .dropdown-toggle:hover {
-          color: ${isDarkBg ? '#ffffff' : '#0A0F1C'};
+          color: #0A0F1C;
         }
 
         .navbar-links a.active-link {
-          color: ${isDarkBg ? '#ffffff' : '#0A0F1C'} !important;
+          color: #0A0F1C !important;
         }
 
         /* ─── Dropdown Container ───────────────────────────── */
@@ -311,7 +311,7 @@ export default function Header(props: any) {
         .nav-divider {
           height: 24px;
           width: 1px;
-          background-color: ${isDarkBg ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)'};
+          background-color: rgba(0,0,0,0.1);
         }
 
         .btn-nav {
@@ -349,7 +349,7 @@ export default function Header(props: any) {
           display: block;
           width: 26px;
           height: 2px;
-          background: ${isDarkBg ? '#ffffff' : '#0A0F1C'};
+          background: #0A0F1C;
           border-radius: 2px;
           transition: all 0.3s ease;
         }

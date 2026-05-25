@@ -22,7 +22,25 @@ export default function EventsPage() {
   const events = eventsContent.items || defaultEvents;
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F9F9FB', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+        body, html {
+          margin: 0;
+          padding: 0;
+          font-family: 'Inter', sans-serif;
+          -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+          font-family: 'Manrope', sans-serif;
+        }
+        `
+      }} />
+      <div className="min-h-screen" style={{ backgroundColor: '#F9F9FB' }}>
       <Header />
       {/* Header Section */}
       <section className="text-center px-5 pt-[100px] pb-[60px]">
@@ -109,5 +127,6 @@ export default function EventsPage() {
       </section>
       <Footer />
     </div>
+    </>
   );
 }
