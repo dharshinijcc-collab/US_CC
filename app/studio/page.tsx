@@ -42,7 +42,7 @@ function SolvingSection({ stackCards, studioContent, EditableText }: any) {
   return (
     <section
       className="section-dark"
-      style={{ backgroundColor: '#060B18', padding: '80px 48px' }}
+      style={{ backgroundColor: '#060B18', padding: '48px 48px' }}
     >
       <div style={{ maxWidth: '960px', margin: '0 auto' }}>
 
@@ -341,8 +341,8 @@ export default function StudioPage() {
 
         .studio-page { min-height: 100vh; overflow-x: hidden; animation: cc-pageSlide 0.7s cubic-bezier(0.4,0,0.2,1) both; }
 
-        .section-container { max-width: 100%; margin: 0 auto; padding: clamp(30px, 4vw, 50px) 160px; }
-        @media (max-width: 768px) { .section-container { padding: clamp(40px, 6vw, 80px) 24px; } }
+        .section-container { max-width: 100%; margin: 0 auto; padding: clamp(24px, 3vw, 36px) 160px; }
+        @media (max-width: 768px) { .section-container { padding: clamp(24px, 4vw, 40px) 24px; } }
         .pt-0 { padding-top: 0 !important; }
         .pb-0 { padding-bottom: 0 !important; }
         
@@ -456,7 +456,7 @@ export default function StudioPage() {
         .section-dark { background-color: var(--bg-dark); color: var(--white); }
 
         /* Hero Section */
-        .hero-section { padding-top: 180px; padding-bottom: 120px; }
+        .hero-section { padding: 130px 24px 48px; }
 
         /* Hero Carousel Stepper */
         .hero-carousel-panel {
@@ -838,9 +838,9 @@ export default function StudioPage() {
         .look-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 20px; color: var(--text-black); }
         .look-desc { font-size: 1rem; color: var(--text-muted); line-height: 1.6; font-weight: 500; }
 
-        /* The Build Timeline Section */
+        /* The Build Timeline Section - Compacted */
         .timeline-section-vertical { 
-          padding: 80px 0;
+          padding: 48px 0;
           background-color: #0B1019;
           position: relative; 
           overflow: hidden;
@@ -865,7 +865,7 @@ export default function StudioPage() {
         .timeline-container-vertical { 
           position: relative; 
           max-width: 100%; 
-          margin: 48px 32px 0; 
+          margin: 24px 32px 0; 
           padding: 0 32px;
         }
 
@@ -884,30 +884,30 @@ export default function StudioPage() {
           display: flex; 
           align-items: stretch; 
           position: relative; 
-          margin-bottom: 28px; 
+          margin-bottom: 16px; 
           z-index: 2;
           width: 100%;
         }
 
         .timeline-row-vertical:nth-child(odd) { 
-          padding-right: calc(50% + 32px); 
+          padding-right: calc(50% + 24px); 
           justify-content: flex-end;
         }
 
         .timeline-row-vertical:nth-child(even) { 
-          padding-left: calc(50% + 32px); 
+          padding-left: calc(50% + 24px); 
           justify-content: flex-start;
         }
 
         .timeline-phase-pill { 
           width: 100%;
-          min-height: 120px; 
+          min-height: auto; 
           background: rgba(255, 255, 255, 0.03); 
-          padding: 28px 32px; 
-          border-radius: 16px; 
+          padding: 16px 20px; 
+          border-radius: 12px; 
           display: flex; 
-          align-items: flex-start; 
-          gap: 20px; 
+          align-items: center; 
+          gap: 16px; 
           border: 1px solid rgba(255, 255, 255, 0.07);
           transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
           position: relative;
@@ -917,34 +917,34 @@ export default function StudioPage() {
         .timeline-phase-pill.active-scroll {
           background: rgba(255, 255, 255, 0.08);
           border-color: rgba(255, 255, 255, 0.15);
-          transform: translateY(-3px);
-          box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+          transform: translateY(-2px);
+          box-shadow: 0 12px 30px rgba(0,0,0,0.25);
         }
 
-        /* Step number badge — matches site's blue accent */
+        /* Step number badge — matches site's blue accent - Compacted */
         .timeline-badge {
           flex-shrink: 0;
-          width: 44px;
-          height: 44px;
+          width: 34px;
+          height: 34px;
           background: var(--primary-blue);
-          border-radius: 12px;
+          border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: white;
-          font-size: 0.875rem;
+          font-size: 0.75rem;
           font-weight: 800;
           font-family: 'Manrope', sans-serif;
           letter-spacing: -0.01em;
           transition: all 0.4s;
-          box-shadow: 0 4px 12px rgba(0, 90, 226, 0.3);
+          box-shadow: 0 4px 10px rgba(0, 90, 226, 0.25);
           position: static;
           top: auto;
           right: auto;
         }
 
         .timeline-phase-pill.active-scroll .timeline-badge {
-          box-shadow: 0 6px 20px rgba(0, 90, 226, 0.5);
+          box-shadow: 0 6px 15px rgba(0, 90, 226, 0.4);
           transform: scale(1.05);
         }
 
@@ -955,15 +955,15 @@ export default function StudioPage() {
         .timeline-right-side { 
           flex: 1;
           min-width: 0;
-          padding-top: 2px;
+          padding-top: 0px;
         }
 
         .timeline-dot { 
           position: absolute; 
           left: 50%; 
           top: 50%;
-          width: 9px; 
-          height: 9px; 
+          width: 6px; 
+          height: 6px; 
           background: rgba(255, 255, 255, 0.15); 
           border-radius: 50%; 
           transform: translate(-50%, -50%); 
@@ -974,8 +974,66 @@ export default function StudioPage() {
         .timeline-row-vertical:has(.active-scroll) .timeline-dot {
           background: var(--primary-blue);
           box-shadow: 0 0 0 4px rgba(0, 90, 226, 0.25);
-          transform: translate(-50%, -50%) scale(1.3);
+          transform: translate(-50%, -50%) scale(1.2);
         }
+
+        /* ── NEW STYLES: Selection Steps & Premium Values ── */
+        .selection-step-card {
+          background: #FFFFFF;
+          border: 1px solid #E2E8F0;
+          border-radius: 20px;
+          padding: 32px 24px;
+          position: relative;
+          transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          min-height: 280px;
+        }
+        .selection-step-card:hover {
+          transform: translateY(-6px);
+          border-color: #005AE2 !important;
+          box-shadow: 0 20px 40px -10px rgba(0,90,226,0.1) !important;
+        }
+        
+        .value-premium-card {
+          background: #F8FAFC !important;
+          border: 1px solid #E2E8F0 !important;
+          border-radius: 24px;
+          padding: 40px 32px;
+          transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+          position: relative;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          min-height: 320px;
+          z-index: 1;
+        }
+        .value-premium-card:hover {
+          transform: translateY(-8px) scale(1.02);
+          background: #FFFFFF !important;
+          border-color: var(--card-glow) !important;
+          box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.06) !important;
+        }
+        .value-card-bg-num {
+          position: absolute;
+          bottom: -15px;
+          right: 15px;
+          font-size: 6.5rem;
+          font-weight: 900;
+          font-family: 'Manrope', sans-serif;
+          color: rgba(0, 0, 0, 0.015);
+          line-height: 1;
+          pointer-events: none;
+          user-select: none;
+          transition: all 0.4s ease;
+        }
+        .value-premium-card:hover .value-card-bg-num {
+          color: rgba(0, 0, 0, 0.03);
+          transform: scale(1.05) translateY(-5px);
+        }
+
 
         .t-title-new {
           font-family: 'Manrope', sans-serif !important;
@@ -1345,9 +1403,9 @@ export default function StudioPage() {
         }
 
         .diff-table th.highlight {
-          background: #E0E7FF;
+          background: #F0F7FF;
           color: #005AE2;
-          border-bottom-color: #C7D2FE;
+          border-bottom-color: #BFDBFE;
         }
 
         .diff-table td {
@@ -1367,13 +1425,13 @@ export default function StudioPage() {
         }
 
         .diff-table td.highlight {
-          background: #E0E7FF;
-          color: #0F172A;
-          font-weight: 500;
+          background: #F0F7FF;
+          color: #005AE2;
+          font-weight: 600;
         }
 
-        .diff-table tr:hover td { background: rgba(255,255,255,0.5); }
-        .diff-table tr:hover td.highlight { background: rgba(37,99,235,0.15); }
+        .diff-table tr:hover td { background: #F8FAFC; }
+        .diff-table tr:hover td.highlight { background: #E0F2FE; }
 
         .check { color: #22c55e; font-size: 1rem; }
         .cross { color: rgba(0,0,0,0.25); font-size: 1rem; }
@@ -1418,19 +1476,18 @@ export default function StudioPage() {
                   style={{ marginBottom: '40px', maxWidth: '520px', margin: '0 auto 40px', textAlign: 'center', lineHeight: '1.7' }}
                 />
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'center' }} className="cc-reveal">
-                  <button className="btn-primary" onClick={() => document.getElementById('methodology-section')?.scrollIntoView({ behavior: 'smooth' })}>
-                    <EditableText contentKey="studio.hero.buttonText" value={studioContent.hero.buttonText} />
-                  </button>
-                  <button className="btn-primary" onClick={() => window.open('/studio-brochure.pdf', '_blank')}>
-                    Download Playbook
-                  </button>
+                  <Link href="/contact">
+                    <button className="btn-primary">
+                      Contact Us
+                    </button>
+                  </Link>
                 </div>
               </div>
           </div>
         </section>
 
         {/* Vision & Mission Section */}
-        <section id="vision" style={{ padding: '8rem 4rem', backgroundColor: '#F1F5F9', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0', position: 'relative', overflow: 'hidden' }}>
+        <section id="vision" style={{ padding: '4.5rem 4rem', backgroundColor: '#F1F5F9', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0', position: 'relative', overflow: 'hidden' }}>
           {/* Grid Background */}
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(rgba(0, 90, 226, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 90, 226, 0.03) 1px, transparent 1px)', backgroundSize: '50px 50px', opacity: 0.5 }}></div>
           
@@ -1439,10 +1496,8 @@ export default function StudioPage() {
           <div style={{ position: 'absolute', bottom: '-100px', left: '-100px', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(60px)' }}></div>
           
           <div className="vm-intro" style={{ maxWidth: '1200px', margin: '0 auto 4rem', position: 'relative', zIndex: 1, textAlign: 'center' }}>
-            <span className="label" style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#005AE2', marginBottom: '1rem', display: 'inline-block' }}>
-              <EditableText contentKey="studio.vision.label" value="Who We Are" />
-            </span>
-            <h2 style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.1, maxWidth: '800px', margin: '0 auto', fontFamily: 'Manrope, sans-serif' }}>
+            <h2 style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.25rem)', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.2, maxWidth: '900px', margin: '0 auto', fontFamily: 'Manrope, sans-serif' }}>
+              <span style={{ color: '#005AE2', marginRight: '12px' }}>Who We Are:</span>
               <EditableText contentKey="studio.vision.title" value="Not an agency. Not an accelerator. A venture partner." />
             </h2>
             <p style={{ marginTop: '1.5rem', fontSize: '1.125rem', color: '#64748B', lineHeight: 1.6, maxWidth: '700px', margin: '1.5rem auto 0', fontFamily: 'Inter, sans-serif' }}>
@@ -1475,6 +1530,66 @@ export default function StudioPage() {
               <p style={{ marginTop: '1rem', color: '#64748B', fontSize: '0.975rem', lineHeight: 1.75, fontFamily: 'Inter, sans-serif', flex: 1 }}>
                 <EditableText contentKey="studio.vision.missionDesc" value="We partner with visionary founders and business owners through strategy, elite engineering, and relentless execution — building ventures that are built to last, not just launched." />
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Selection Process Heading & Description Section */}
+        <section style={{ padding: '3.5rem 4rem 1.5rem', backgroundColor: '#FFFFFF', position: 'relative' }}>
+          <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+              <span className="label" style={{
+                color: '#005AE2',
+                fontSize: '0.75rem',
+                fontWeight: 800,
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                marginBottom: '16px',
+                display: 'block'
+              }}>
+                Selection Process
+              </span>
+              <h2 style={{
+                fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+                fontWeight: 800,
+                letterSpacing: '-0.03em',
+                color: '#0F172A',
+                lineHeight: 1.15,
+                maxWidth: '800px',
+                margin: '0 auto 20px',
+                fontFamily: "'Manrope', sans-serif"
+              }}>
+                We are selective<br />for a reason.
+              </h2>
+              <p style={{
+                color: '#64748B',
+                fontSize: '1.05rem',
+                maxWidth: '640px',
+                margin: '0 auto',
+                lineHeight: 1.7,
+                fontWeight: 500
+              }}>
+                We partner with a small number of founders and business owners each year. Every engagement gets our full attention — which means we choose carefully.
+              </p>
+            </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1.2fr', gap: '4rem', marginTop: '3rem', alignItems: 'start' }}>
+              {/* Left Column */}
+              <div>
+                <span style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#005AE2', display: 'block', marginBottom: '1rem' }}>
+                  LET'S START FROM HERE
+                </span>
+                <h3 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', fontWeight: 800, color: '#0F172A', lineHeight: 1.25, letterSpacing: '-0.02em', textTransform: 'uppercase', fontFamily: 'Manrope, sans-serif' }}>
+                  INVESTMENT THESIS: THE PROCESS OF CREATING A STARTUP WITHIN VENTURE BUILDER CRESTCODE
+                </h3>
+              </div>
+              
+              {/* Right Column */}
+              <div>
+                <p style={{ fontSize: '1rem', color: '#475569', lineHeight: 1.8, fontFamily: 'Inter, sans-serif', margin: 0 }}>
+                  Crestcode Startup Studio's startups aim to shift the paradigm of analog services, customer experience, and process management. Micro and small businesses that are still under-digitalized are the primary targets of this transformation. The solutions we will build together will put customers at the center, enabling them to access the services of artisans and professionals with a simple click, enabling them to continue to succeed in a rapidly evolving digital landscape. We create plug-and-play platforms that streamline processes, improve customer experience, and create cross-functional tools for digital transformation. The goal is to reduce inefficiencies and enable professionals to attract, manage, and retain clients, allowing them to focus exclusively on their specific profession.
+                </p>
+              </div>
             </div>
           </div>
         </section>
@@ -2013,18 +2128,174 @@ export default function StudioPage() {
           );
         })()}
 
-      {/* Selection Process Sub-Section */}
-      <section id="selection" style={{ padding: '20px 160px 40px', backgroundColor: '#F3F5F9' }}>
-        <div className="section-header">
-          <div style={{ marginLeft: '100px' }}>
-            <span className="label">Selection Process</span>
-            <h2>We are selective<br />for a reason.</h2>
+      {/* Selection Process Sub-Section & 5-Step Process */}
+      <section id="selection" style={{ padding: '80px 48px', backgroundColor: '#FFFFFF', borderBottom: '1px solid #E2E8F0' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+            <span className="label" style={{
+              color: '#005AE2',
+              fontSize: '0.75rem',
+              fontWeight: 800,
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              marginBottom: '16px',
+              display: 'block'
+            }}>
+              Selection Steps
+            </span>
+            <h2 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.75rem)',
+              fontWeight: 800,
+              letterSpacing: '-0.02em',
+              color: '#0F172A',
+              lineHeight: 1.15,
+              maxWidth: '800px',
+              margin: '0 auto 20px',
+              fontFamily: "'Manrope', sans-serif"
+            }}>
+              Venture Creation Steps
+            </h2>
+            <p style={{
+              color: '#64748B',
+              fontSize: '1rem',
+              maxWidth: '600px',
+              margin: '0 auto',
+              lineHeight: 1.6,
+              fontWeight: 500
+            }}>
+              A structured roadmap from your initial product proposal to assembly, build, and market launch.
+            </p>
           </div>
-          <p style={{ marginRight: '100px' }}>
-            We partner with a small number of founders and business owners each year. Every engagement gets our full attention — which means we choose carefully.
-          </p>
+
+          <div style={{ maxWidth: '640px', margin: '0 auto', position: 'relative', paddingLeft: '24px' }}>
+            {/* Vertical timeline connector line */}
+            <div style={{
+              position: 'absolute',
+              left: '18px',
+              top: '24px',
+              bottom: '24px',
+              width: '2px',
+              background: '#F1F5F9',
+              zIndex: 0
+            }}></div>
+
+            {[
+              {
+                step: '01',
+                title: 'Submit your idea',
+                desc: "Don't submit the how. Just the idea and why (1 page at max)."
+              },
+              {
+                step: '02',
+                title: 'Get invited for a meeting with partners',
+                bullets: [
+                  'You will learn what crestcode does',
+                  'You will learn the support we will provide',
+                  'You will learn the overall process involved'
+                ]
+              },
+              {
+                step: '03',
+                title: 'Submit the full proposal',
+                desc: 'Detailing the business model, strategic alignment, and technical specifications for the product.'
+              },
+              {
+                step: '04',
+                title: 'Get a team assigned & build product',
+                desc: 'Elite engineers and product leads are allocated to build the product to institutional quality standards.'
+              },
+              {
+                step: '05',
+                title: 'Prepare go to market launch',
+                desc: 'Launching with precision, refining distribution channels, and optimizing the acquisition funnel for impact.'
+              }
+            ].map((item, idx) => (
+              <div key={idx} style={{
+                display: 'flex',
+                gap: '24px',
+                marginBottom: idx === 4 ? '0' : '48px',
+                position: 'relative',
+                zIndex: 1
+              }}>
+                {/* Left Bullet Icon Circle */}
+                <div style={{
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '50%',
+                  backgroundColor: '#FFFFFF',
+                  border: '2px solid #005AE2',
+                  color: '#005AE2',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: 800,
+                  fontSize: '0.85rem',
+                  flexShrink: 0,
+                  boxShadow: '0 4px 10px rgba(0, 90, 226, 0.08)'
+                }}>
+                  {item.step}
+                </div>
+
+                {/* Right Content */}
+                <div style={{ paddingTop: '4px' }}>
+                  <h3 style={{
+                    fontSize: '1.25rem',
+                    fontWeight: 800,
+                    color: '#0F172A',
+                    marginBottom: '8px',
+                    fontFamily: "'Manrope', sans-serif",
+                    letterSpacing: '-0.01em'
+                  }}>
+                    {item.title}
+                  </h3>
+                  {item.desc && (
+                    <p style={{
+                      fontSize: '0.95rem',
+                      color: '#64748B',
+                      lineHeight: 1.6,
+                      margin: 0,
+                      fontWeight: 500
+                    }}>
+                      {item.desc}
+                    </p>
+                  )}
+                  {item.bullets && (
+                    <ul style={{
+                      listStyle: 'none',
+                      padding: 0,
+                      margin: '12px 0 0 0',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '10px'
+                    }}>
+                      {item.bullets.map((bullet, bIdx) => (
+                        <li key={bIdx} style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '12px',
+                          fontSize: '0.925rem',
+                          color: '#64748B',
+                          fontWeight: 500
+                        }}>
+                          <span style={{
+                            width: '6px',
+                            height: '6px',
+                            borderRadius: '50%',
+                            backgroundColor: '#005AE2',
+                            flexShrink: 0
+                          }}></span>
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
+
 
       {/* The Build Timeline */}
       <section className="timeline-section-vertical">
@@ -2066,41 +2337,179 @@ export default function StudioPage() {
         </div>
       </section>
 
-      {/* Core Values Section */}
-      <section style={{ backgroundColor: '#F8FAFC', padding: '20px 20px 60px', fontFamily: 'Manrope, sans-serif' }}>
-        <div style={{ maxWidth: '1000px', margin: '0 auto', textAlign: 'center' }}>
-          <span style={{ color: '#005AE2', fontSize: '12px', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-            <EditableText contentKey="studio.coreValues.valuesLabel" value="Our Values" />
-          </span>
-          <h1 style={{ fontSize: '40px', fontWeight: 800, margin: '20px 0 40px' }}>
-            <EditableText contentKey="studio.coreValues.valuesTitle" value="Core Values That Drive Everything We Build" />
-          </h1>
+      {/* Core Values Section - Premium Light Mode Grid with 6 Cards */}
+      <section style={{ backgroundColor: '#FFFFFF', padding: '100px 48px', fontFamily: 'Manrope, sans-serif', position: 'relative', overflow: 'hidden', borderBottom: '1px solid #E2E8F0' }}>
+        {/* Subtle glowing radial background lights */}
+        <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.04), transparent 70%)', top: '-100px', left: '-100px', pointerEvents: 'none' }}></div>
+        <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.03), transparent 70%)', bottom: '-100px', right: '-100px', pointerEvents: 'none' }}></div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
-          {[
-            { title: 'Disruptive', desc: 'Unwavering ethical standards in every line of code and business decision we make.', icon: 'shield' },
-            { title: 'Obsessed with Customer', desc: 'Pushing the boundaries of what\'s possible through architectural engineering and creative vision.', icon: 'lightbulb' },
-            { title: 'Focus on innovation', desc: 'Deep partnership with founders to transform ambitious ideas into category-defining products.', icon: 'users' },
-            { title: 'Innovation', desc: 'A relentless pursuit of technical perfection and aesthetic rigor in every project detail.', icon: 'star' },
-            { title: 'Trust', desc: 'Radical ownership of outcomes, ensuring we deliver on our promises to partners and users.', icon: 'check-shield' },
-          ].map((val, index) => (
-            <div key={index} style={{ backgroundColor: '#FFFFFF', padding: '40px', borderRadius: '16px', border: '1px solid #E2E8F0', textAlign: 'left', position: 'relative', overflow: 'hidden' }}>
-              <div style={{ backgroundColor: '#E0E7FF', width: '40px', height: '40px', borderRadius: '8px', marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ width: '20px', height: '20px', backgroundColor: '#4F46E5', borderRadius: '2px' }}></div>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+            <span style={{ color: '#005AE2', fontSize: '0.85rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', marginBottom: '16px' }}>
+              OUR ETHOS & BELIEFS
+            </span>
+            <h2 style={{ fontSize: 'clamp(2.2rem, 4vw, 3rem)', fontWeight: 800, margin: '0 auto 20px', color: '#0F172A', maxWidth: '800px', letterSpacing: '-0.02em', lineHeight: 1.15 }}>
+              Core Values That Guide Everything We Build
+            </h2>
+            <p style={{ color: '#64748B', fontSize: '1.05rem', maxWidth: '600px', margin: '0 auto', lineHeight: 1.6, fontWeight: 500 }}>
+              We aren't here to build commodities. We partner with founders to construct enduring, high-performance tech enterprises.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px' }}>
+            {[
+              {
+                num: '01',
+                title: 'Ownership',
+                subheading: 'FOUNDER MINDSET',
+                desc: "We treat every product as if it's our own.",
+                icon: (
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                ),
+                color: '#3B82F6', // Blue
+                shadow: 'rgba(59, 130, 246, 0.08)'
+              },
+              {
+                num: '02',
+                title: 'Honesty',
+                subheading: 'FEARLESS TRANSPARENCY',
+                desc: "We challenge clients when we need to, even when it's uncomfortable.",
+                icon: (
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                ),
+                color: '#EC4899', // Pink
+                shadow: 'rgba(236, 72, 153, 0.08)'
+              },
+              {
+                num: '03',
+                title: 'End-customer obsession',
+                subheading: 'USER-FIRST PARADIGM',
+                desc: "Success is measured by the people who use the product, not just the people who commissioned it.",
+                icon: (
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                ),
+                color: '#10B981', // Green
+                shadow: 'rgba(16, 185, 129, 0.08)'
+              },
+              {
+                num: '04',
+                title: 'Craft',
+                subheading: 'MLP QUALITY STANDARD',
+                desc: "We build to MLP standard because good enough never is.",
+                icon: (
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.907c.961 0 1.36 1.242.588 1.81l-3.97 2.883a1 1 0 00-.364 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.971-2.883a1 1 0 00-1.17 0l-3.97 2.883c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.364-1.118l-3.97-2.883c-.77-.568-.371-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                  </svg>
+                ),
+                color: '#F59E0B', // Amber
+                shadow: 'rgba(245, 158, 11, 0.08)'
+              },
+              {
+                num: '05',
+                title: 'Partnership',
+                subheading: 'LONG-TERM ENGAGEMENT',
+                desc: "We are in it for the long run, not just the launch.",
+                icon: (
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                ),
+                color: '#8B5CF6', // Purple
+                shadow: 'rgba(139, 92, 246, 0.08)'
+              },
+              {
+                num: '06',
+                title: 'Innovation',
+                subheading: 'AI-DRIVEN PRODUCT THINKING',
+                desc: "We bring the latest thinking in product, engineering, and AI to every engagement.",
+                icon: (
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                ),
+                color: '#06B6D4', // Cyan
+                shadow: 'rgba(6, 182, 212, 0.08)'
+              }
+            ].map((val, index) => (
+              <div
+                key={index}
+                className="value-premium-card"
+                style={{
+                  '--card-glow': val.color,
+                  '--card-glow-shadow': val.shadow
+                } as React.CSSProperties}
+              >
+                {/* Background Large Number */}
+                <div className="value-card-bg-num">{val.num}</div>
+
+                {/* Top subheading tag */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontSize: '0.68rem',
+                  fontWeight: 800,
+                  letterSpacing: '0.12em',
+                  color: val.color,
+                  textTransform: 'uppercase',
+                  marginBottom: '16px'
+                }}>
+                  <span>{val.num}</span>
+                  <span style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'rgba(0,0,0,0.08)' }}></span>
+                  <span>{val.subheading}</span>
+                </div>
+
+                {/* Colored Icon Container */}
+                <div style={{
+                  width: '50px',
+                  height: '50px',
+                  borderRadius: '14px',
+                  background: `${val.color}10`,
+                  border: `1.5px solid ${val.color}25`,
+                  color: val.color,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: '24px'
+                }}>
+                  {val.icon}
+                </div>
+
+                {/* Title */}
+                <h3 style={{
+                  fontSize: '1.2rem',
+                  fontWeight: 800,
+                  color: '#0F172A',
+                  marginBottom: '12px',
+                  letterSpacing: '-0.01em',
+                  textTransform: 'capitalize'
+                }}>
+                  {val.title}
+                </h3>
+
+                {/* Description */}
+                <p style={{
+                  color: '#64748B',
+                  fontSize: '0.9rem',
+                  lineHeight: 1.6,
+                  margin: 0,
+                  fontWeight: 500,
+                  position: 'relative',
+                  zIndex: 1
+                }}>
+                  {val.desc}
+                </p>
               </div>
-              <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '15px' }}>
-                <EditableText contentKey={`studio.coreValues.values.${index}.title`} value={val.title} />
-              </h3>
-              <p style={{ color: '#64748B', fontSize: '14px', lineHeight: 1.6, zIndex: 1, position: 'relative' }}>
-                <EditableText contentKey={`studio.coreValues.values.${index}.desc`} value={val.desc} />
-              </p>
-
-              <div style={{ position: 'absolute', right: 0, top: 0, width: '40%', height: '100%', background: 'linear-gradient(90deg, transparent, rgba(0, 90, 226, 0.1))', zIndex: 0 }}></div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
       {/* DIFFERENTIATION */}
       <section id="diff">
@@ -2115,13 +2524,20 @@ export default function StudioPage() {
             <thead>
               <tr>
                 <th style={{width: '28%'}}>Capability</th>
-                <th className="highlight" style={{width: '18%'}}>CrestCode Studio</th>
+                <th className="highlight" style={{width: '18%'}}>CrestCode</th>
                 <th style={{width: '18%'}}>Dev Agencies</th>
                 <th style={{width: '18%'}}>Other Studios</th>
                 <th style={{width: '18%'}}>Freelancers</th>
               </tr>
             </thead>
             <tbody>
+              <tr>
+                <td className="feature">Zero to one expertise</td>
+                <td className="highlight"><span className="check">✓</span></td>
+                <td><span className="partial">Sometimes</span></td>
+                <td><span className="partial">Sometimes</span></td>
+                <td><span className="cross">✗</span></td>
+              </tr>
               <tr>
                 <td className="feature">End-to-end product ownership</td>
                 <td className="highlight"><span className="check">✓</span></td>
@@ -2130,52 +2546,45 @@ export default function StudioPage() {
                 <td><span className="cross">✗</span></td>
               </tr>
               <tr>
-                <td className="feature">Works with business owners</td>
-                <td className="highlight"><span className="check">✓</span></td>
-                <td><span className="check">✓</span></td>
-                <td><span className="cross">✗</span></td>
-                <td><span className="check">✓</span></td>
-              </tr>
-              <tr>
-                <td className="feature">Strategic product thinking</td>
-                <td className="highlight"><span className="check">✓</span></td>
-                <td><span className="cross">✗</span></td>
-                <td><span className="check">✓</span></td>
-                <td><span className="cross">✗</span></td>
-              </tr>
-              <tr>
-                <td className="feature">In-house engineering team</td>
-                <td className="highlight"><span className="check">✓</span></td>
-                <td><span className="partial">Varies</span></td>
-                <td><span className="partial">Varies</span></td>
-                <td><span className="cross">✗</span></td>
-              </tr>
-              <tr>
-                <td className="feature">Go-to-market support</td>
+                <td className="feature">Strategic product & business guidance</td>
                 <td className="highlight"><span className="check">✓</span></td>
                 <td><span className="cross">✗</span></td>
                 <td><span className="partial">Sometimes</span></td>
                 <td><span className="cross">✗</span></td>
               </tr>
               <tr>
-                <td className="feature">Pitch & stakeholder prep</td>
+                <td className="feature">MLP standard — not just MVP</td>
+                <td className="highlight"><span className="check">✓</span></td>
+                <td><span className="cross">✗</span></td>
+                <td><span className="partial" style={{ color: '#94A3B8' }}>Rarely</span></td>
+                <td><span className="cross">✗</span></td>
+              </tr>
+              <tr>
+                <td className="feature">In-house senior team, no outsourcing</td>
+                <td className="highlight"><span className="check">✓</span></td>
+                <td><span className="partial">Varies</span></td>
+                <td><span className="partial">Varies</span></td>
+                <td><span className="cross">✗</span></td>
+              </tr>
+              <tr>
+                <td className="feature">Go-to-market & pitch support</td>
                 <td className="highlight"><span className="check">✓</span></td>
                 <td><span className="cross">✗</span></td>
                 <td><span className="partial">Sometimes</span></td>
                 <td><span className="cross">✗</span></td>
               </tr>
               <tr>
-                <td className="feature">Defined delivery timeline</td>
+                <td className="feature">Co-founder network access</td>
                 <td className="highlight"><span className="check">✓</span></td>
-                <td><span className="partial">Varies</span></td>
-                <td><span className="partial">Varies</span></td>
+                <td><span className="cross">✗</span></td>
+                <td><span className="cross">✗</span></td>
                 <td><span className="cross">✗</span></td>
               </tr>
               <tr>
-                <td className="feature">AI & automation built-in</td>
+                <td className="feature">Lifelong partnership model</td>
                 <td className="highlight"><span className="check">✓</span></td>
                 <td><span className="cross">✗</span></td>
-                <td><span className="partial">Rarely</span></td>
+                <td><span className="partial" style={{ color: '#94A3B8' }}>Rarely</span></td>
                 <td><span className="cross">✗</span></td>
               </tr>
             </tbody>

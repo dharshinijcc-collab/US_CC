@@ -2,33 +2,25 @@
 
 export const dynamic = 'force-dynamic';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
-import CountUp from '@/components/effects/CountUp';
 import Link from 'next/link';
-import localConfig from '@/backend/config.json';
-
 import { API_URL } from '@/services/api';
 
 export default function InvestorsPage() {
   const { content, loading, error } = useContent();
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     expertise: 'Product Strategy',
     preferredRoles: [] as string[],
     background: ''
   });
-  const [submitted, setSubmitted] = React.useState(false);
-
-  if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">Loading our model...</div>;
-  if (error) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope text-red-500">Error: {error}</div>;
-  if (!content || !content.investors) return null;
-
-  const investorContent = content.investors;
+  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleRoleChange = (role: string) => {
     setFormData(prev => ({
@@ -41,6 +33,7 @@ export default function InvestorsPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
       const response = await fetch(`${API_URL}/submit-investor`, {
         method: 'POST',
@@ -63,11 +56,13 @@ export default function InvestorsPage() {
       }
     } catch (error) {
       alert('Network error. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
-  const investors = content?.investors || (localConfig as any).investors;
-  
-  if (!investors) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">Investors content not found.</div>;
+
+  if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">Loading investor relations...</div>;
+  if (error) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope text-red-500">Error: {error}</div>;
 
   return (
     <>
@@ -77,179 +72,271 @@ export default function InvestorsPage() {
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
         :root {
+          /* Color System matching Studio page */
           --primary-blue: #005AE2;
+          --accent-gold: #c5a880; /* Elegant gold for 'Built to Last' heading highlight */
           --text-black: #020617;
+          --text-main: #0F172A;
           --text-muted: #64748B;
           --bg-light: #F8FAFC;
-          --bg-dark: #0A0F1C;
+          --bg-grey: #F1F5F9;
           --white: #FFFFFF;
-          --accent-green: #10B981;
+          --border-light: #E2E8F0;
         }
 
         body {
           font-family: 'Inter', sans-serif;
-          background-color: var(--white);
+          background-color: var(--bg-light);
           color: var(--text-black);
           margin: 0;
           overflow-x: hidden;
+          -webkit-font-smoothing: antialiased;
         }
 
-        h1, h2, h3, h4 {
+        /* Hide scrollbars */
+        ::-webkit-scrollbar { display: none; }
+        * { -ms-overflow-style: none; scrollbar-width: none; }
+
+        h1, h2, h3, h4, h5, h6 {
           font-family: 'Manrope', sans-serif;
           font-weight: 800;
-          letter-spacing: -0.03em;
+          letter-spacing: -0.02em;
+          margin: 0;
         }
 
         .section-container {
-          max-width: 100%;
+          max-width: 1200px;
           margin: 0 auto;
-          padding: clamp(40px, 6vw, 80px) 32px;
+          padding: 48px 24px;
         }
-        @media (max-width: 768px) { .section-container { padding: clamp(40px, 6vw, 80px) 24px; } }
 
-        .hero-title {
-          font-size: clamp(2.5rem, 5vw, 4.5rem);
-          line-height: 1.1;
-          margin-bottom: 24px;
+        .hero-eyebrow-pill {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #E6EFFF;
+          color: #005AE2;
+          font-size: 0.75rem;
           font-weight: 800;
-        }
-
-        .text-blue { color: var(--primary-blue); }
-
-        .btn-pill {
-          padding: 16px 40px;
+          letter-spacing: 0.05em;
+          padding: 6px 14px;
           border-radius: 100px;
-          font-weight: 700;
-          text-decoration: none;
-          display: inline-block;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          font-size: 0.95rem;
+          margin-bottom: 24px;
+          text-transform: uppercase;
         }
 
-        .btn-primary {
-          background: linear-gradient(135deg, var(--primary-blue), #4F46E5);
-          color: white;
-          box-shadow: 0 10px 24px -6px rgba(0, 90, 226, 0.4);
-          border: none;
-          cursor: pointer;
+        /* Premium Center-Aligned Headings Structure */
+        .section-header-centered {
+          text-align: center;
+          margin-bottom: 64px;
         }
-        .btn-primary:hover { 
-          transform: translateY(-4px) scale(1.02); 
-          box-shadow: 0 20px 40px -8px rgba(0, 90, 226, 0.5); 
-        }
-
-        .btn-secondary {
-          background-color: white;
-          color: var(--text-black);
-          border: 1.5px solid #E2E8F0;
-          cursor: pointer;
-        }
-        .btn-secondary:hover { 
-          background: #F8FAFC; 
-          border-color: var(--primary-blue);
+        .section-header-centered .label {
           color: var(--primary-blue);
-          transform: translateY(-4px);
-          box-shadow: 0 15px 30px -10px rgba(0,0,0,0.1);
+          font-weight: 800;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          font-size: 0.75rem;
+          display: block;
+          margin-bottom: 16px;
+          font-family: 'Manrope', sans-serif;
+        }
+        .section-header-centered h2 {
+          font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+          color: var(--text-black);
+          line-height: 1.15;
+          max-width: 800px;
+          margin: 0 auto 20px;
+        }
+        .section-header-centered p {
+          color: var(--text-muted);
+          font-size: 1.05rem;
+          line-height: 1.65;
+          max-width: 680px;
+          margin: 0 auto;
+          font-weight: 500;
+          font-family: 'Inter', sans-serif;
         }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-
-        .card-standard {
-          padding: 40px;
-          border-radius: 24px;
-          background: #FFFFFF;
-          border: 1px solid #F1F5F9;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Why Invest Stack Cards */
+        .why-invest-card {
+          background: var(--white);
+          border: 1px solid var(--border-light);
+          border-radius: 20px;
+          padding: 28px;
+          display: flex;
+          align-items: flex-start;
+          gap: 20px;
+          transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .card-standard:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 30px 60px -12px rgba(0,0,0,0.06);
-        }
-
-        /* Operator Advantage Grid */
-        .advantage-card {
-          padding: 32px;
-          border-left: 4px solid var(--primary-blue);
-          background: #FDFDFF;
-          transition: background 0.3s;
-        }
-        .advantage-card:hover { 
-          background: #F0F5FF; 
+        .why-invest-card:hover {
           transform: translateY(-5px);
-          box-shadow: 0 10px 30px -10px rgba(0, 90, 226, 0.15);
+          border-color: var(--primary-blue);
+          box-shadow: 0 16px 32px rgba(0, 90, 226, 0.05);
         }
 
-        /* Comparison Section */
-        @keyframes stroke-glow {
-          0% { border-color: rgba(0, 90, 226, 0.1); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15), 0 0 0 0 rgba(0, 90, 226, 0); }
-          50% { border-color: rgba(0, 90, 226, 0.5); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15), 0 0 15px 2px rgba(0, 90, 226, 0.2); }
-          100% { border-color: rgba(0, 90, 226, 0.1); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15), 0 0 0 0 rgba(0, 90, 226, 0); }
+        /* Two Paths Cards */
+        .path-card {
+          background: var(--white);
+          border: 1px solid var(--border-light);
+          border-radius: 24px;
+          padding: 48px 40px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 100%;
+          transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .path-card:hover {
+          transform: translateY(-6px);
+          border-color: var(--primary-blue);
+          box-shadow: 0 24px 48px rgba(0, 90, 226, 0.08);
         }
 
-        .comp-card {
-          padding: 60px 48px;
-          border-radius: 32px;
+        /* Premium Benefit Cards */
+        .benefit-card-new {
+          background: var(--white);
+          border: 1px solid var(--border-light);
+          border-radius: 24px;
+          padding: 40px 32px;
+          position: relative;
+          transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
           display: flex;
           flex-direction: column;
           height: 100%;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          cursor: pointer;
-          border: 2px solid rgba(255,255,255,0.1);
-          box-shadow: 0 20px 40px -10px rgba(0,0,0,0.2);
+          overflow: hidden;
+          z-index: 1;
         }
-        .comp-card:hover {
-          transform: translateY(-8px);
-          animation: stroke-glow 2s infinite;
+        .benefit-card-new:hover {
+          transform: translateY(-8px) scale(1.01);
+          border-color: var(--card-glow);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
         }
-        .comp-card-dark { background: var(--bg-dark); color: white; }
-        .comp-card-light { background: #F1F5F9; color: var(--text-black); }
+        .benefit-badge {
+          align-self: flex-start;
+          background: #F1F5F9;
+          border: 1px solid var(--border-light);
+          border-radius: 8px;
+          padding: 4px 10px;
+          font-family: 'Manrope', sans-serif;
+          font-size: 0.72rem;
+          font-weight: 800;
+          color: #475569;
+          margin-bottom: 24px;
+          letter-spacing: 0.05em;
+        }
 
-        .orbit-card {
-          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 10px 40px -15px rgba(0,0,0,0.08);
+        /* Selective Item Checklist */
+        .selective-item {
+          background: var(--white);
+          border: 1px solid var(--border-light);
+          border-radius: 16px;
+          padding: 24px;
+          display: flex;
+          align-items: flex-start;
+          gap: 16px;
+          transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.01);
+        }
+        .selective-item:hover {
+          transform: translateY(-2px);
+          border-color: var(--primary-blue);
+          box-shadow: 0 12px 24px rgba(0, 90, 226, 0.04);
+        }
+        .selective-check {
+          flex-shrink: 0;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: #F0F7FF;
+          color: var(--primary-blue);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.85rem;
+          font-weight: 800;
+        }
+
+        /* Clear Terms Cards */
+        .term-card {
+          background: var(--white);
+          border: 1px solid var(--border-light);
+          border-radius: 24px;
+          padding: 40px 32px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
           height: 100%;
-          cursor: default;
-          border: 1px solid #F1F5F9;
+          transition: all 0.3s ease;
         }
-        .orbit-card:hover {
-          transform: translateY(-12px) scale(1.02);
-          box-shadow: 0 40px 80px -20px rgba(0,0,0,0.12);
-          border: 2px solid var(--primary-blue);
+        .term-card:hover {
+          transform: translateY(-4px);
+          border-color: var(--primary-blue);
+          box-shadow: 0 16px 32px rgba(0, 90, 226, 0.04);
         }
 
-        /* Custom Checkbox */
+        /* Premium Bottom CTA Strategic Interest Form */
+        .form-section-card {
+          background: #0A0F1C;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 36px;
+          padding: 80px 48px;
+          box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.35);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .form-input {
+          width: 100%;
+          padding: 14px 18px;
+          border-radius: 12px;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: rgba(255, 255, 255, 0.04);
+          font-size: 0.95rem;
+          color: white;
+          transition: all 0.25s ease;
+          outline: none;
+          font-family: 'Inter', sans-serif;
+        }
+        .form-input::placeholder {
+          color: rgba(255, 255, 255, 0.35);
+        }
+        .form-input:focus {
+          border-color: var(--primary-blue);
+          background: rgba(255, 255, 255, 0.08);
+          box-shadow: 0 0 0 4px rgba(0, 90, 226, 0.15);
+        }
+
         .custom-checkbox {
           display: flex;
           align-items: center;
           gap: 12px;
-          padding: 14px 20px;
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          padding: 12px 16px;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 12px;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all 0.25s ease;
           font-size: 0.85rem;
-          font-weight: 600;
+          color: rgba(255, 255, 255, 0.8);
+          font-family: 'Inter', sans-serif;
         }
         .custom-checkbox:hover {
           border-color: var(--primary-blue);
-          background: #F0F7FF;
+          background: rgba(255, 255, 255, 0.06);
         }
         .custom-checkbox input {
           display: none;
         }
         .checkmark {
-          width: 20px;
-          height: 20px;
-          border: 2px solid #CBD5E1;
-          border-radius: 6px;
+          width: 18px;
+          height: 18px;
+          border: 2.2px solid rgba(255, 255, 255, 0.3);
+          border-radius: 5px;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: all 0.2s ease;
-          background: white;
+          background: transparent;
           flex-shrink: 0;
         }
         .custom-checkbox input:checked + .checkmark {
@@ -258,8 +345,8 @@ export default function InvestorsPage() {
         }
         .custom-checkbox input:checked + .checkmark::after {
           content: "";
-          width: 5px;
-          height: 10px;
+          width: 4px;
+          height: 8px;
           border: solid white;
           border-width: 0 2px 2px 0;
           transform: rotate(45deg);
@@ -267,590 +354,717 @@ export default function InvestorsPage() {
         }
         .custom-checkbox:has(input:checked) {
           border-color: var(--primary-blue);
-          background: #F0F7FF;
-          color: var(--primary-blue);
-        }
-
-        .form-input {
-          width: 100%;
-          padding: 14px 18px;
-          border-radius: 12px;
-          border: 1px solid #E2E8F0;
-          background: #F8FAFC;
-          font-size: 0.95rem;
-          transition: all 0.2s ease;
-          outline: none;
-        }
-        .form-input:focus {
-          border-color: var(--primary-blue);
-          background: white;
-          box-shadow: 0 0 0 4px rgba(0, 90, 226, 0.1);
-        }
-
-
-        /* Metrics Styling */
-        .metric-value {
-          font-size: 3.5rem;
-          font-weight: 800;
-          color: var(--primary-blue);
-          line-height: 1;
-          margin-bottom: 12px;
-        }
-        .metric-bar {
-          height: 4px;
-          width: 60px;
-          background: var(--primary-blue);
-          margin: 12px auto 20px auto;
-          border-radius: 2px;
-        }
-
-        /* Evaluation Steps */
-        .step-number {
-          font-size: 4rem;
-          font-weight: 800;
-          color: #E2E8F0;
-          line-height: 1;
-          margin-bottom: 16px;
-          transition: color 0.3s ease;
-        }
-        .step-number:hover {
-          color: var(--primary-blue);
-          opacity: 0.2;
-        }
-
-        .section-dark {
-          background-color: var(--bg-dark);
+          background: rgba(0, 90, 226, 0.12);
           color: white;
-          border-radius: 64px;
-          margin: 0 24px;
         }
 
-        /* Outcomes Section Cards */
-        .outcome-card {
-          background: white;
-          padding: 24px;
-          border-radius: 20px;
-          border: 1px solid #F1F5F9;
-          transition: all 0.3s ease;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          min-height: 180px;
+        .btn-pill {
+          padding: 16px 36px;
+          border-radius: 100px;
+          font-weight: 700;
+          font-family: 'Inter', sans-serif;
+          text-decoration: none;
+          display: inline-block;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          font-size: 0.95rem;
+          border: none;
           cursor: pointer;
         }
-        .outcome-card:hover {
-          transform: translateY(-8px);
-          border-color: var(--primary-blue);
-          box-shadow: 0 20px 40px -10px rgba(0, 90, 226, 0.1);
-        }
-        .outcome-placeholder {
-          border: 2px dashed #CBD5E1;
-          padding: 24px;
-          border-radius: 20px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          min-height: 180px;
-          transition: all 0.3s ease;
-          cursor: pointer;
-        }
-        .outcome-placeholder:hover {
-          border-color: var(--primary-blue);
-          background: #F8FAFC;
-          transform: translateY(-8px);
-        }
 
-        .participation-card {
-          background: white;
-          padding: 48px 40px;
-          border-radius: 32px;
-          border: 1px solid #F1F5F9;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          cursor: pointer;
-        }
-        .participation-card:hover {
-          transform: translateY(-10px);
-          border-color: var(--primary-blue);
-          box-shadow: 0 40px 80px -20px rgba(0, 90, 226, 0.12);
-        }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1.15fr; gap: 48px; align-items: start; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
 
-        /* Responsive Overrides Disabled to maintain desktop view */
-        @media (max-width: 991px) {
-          /* .grid-4 { grid-template-columns: 1fr 1fr; } */
-        }
-        @media (max-width: 768px) {
-          /* .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; gap: 32px; } */
-          /* .section-container { padding: 60px 24px; } */
-          /* .hero-title { font-size: 2.5rem; } */
-          /* .comp-card { padding: 40px 24px; } */
-
-          [data-mobile-padding="60px 24px"] { padding: 60px 24px !important; }
-          [data-mobile-padding="80px 24px"] { padding: 80px 24px !important; }
-          [data-mobile-padding="120px 24px"] { padding: 120px 24px !important; }
+        @media (max-width: 900px) {
+          .grid-2, .grid-3, .grid-4 {
+            grid-template-columns: 1fr !important;
+            gap: 32px !important;
+          }
+          .section-container {
+            padding: 60px 20px !important;
+          }
+          .form-section-card {
+            padding: 48px 24px !important;
+          }
         }
       `}} />
 
       <Header />
 
-      <div className="investors-page">
-        {/* Hero Section */}
-      <section className="section-container" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', paddingTop: '160px', position: 'relative' }}>
-        <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
-        <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', left: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
-        <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', right: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
-        <div style={{ maxWidth: '900px', position: 'relative', zIndex: 1 }}>
-          <div style={{ color: 'var(--primary-blue)', fontWeight: 800, fontSize: '0.8125rem', letterSpacing: '0.15em', marginBottom: '24px', textTransform: 'uppercase' }}>
-            <EditableText contentKey="investors.hero.eyebrow" value={investors.hero.eyebrow} />
-          </div>
-          <h1 className="hero-title" style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', marginBottom: '24px' }}>
-            Partner with <span style={{ color: 'var(--primary-blue)' }}>us</span> for<br />
-            Smart <span style={{ color: 'var(--primary-blue)' }}>capital</span> & Strategic Growth
-          </h1>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <EditableText 
-              as="p"
-              contentKey="investors.hero.subheading"
-              value={investors.hero.subheading}
-              style={{ fontSize: '1.15rem', color: 'var(--text-muted)', marginBottom: '40px', lineHeight: '1.6', fontWeight: 500, maxWidth: '700px' }}
-            />
-          </div>
-          <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
-            <Link href="/contact" className="btn-pill btn-primary">
-              <EditableText contentKey="investors.hero.ctaPrimary" value={investors.hero.ctaPrimary} />
-            </Link>
-            <a href="#more" className="btn-pill btn-secondary">
-              <EditableText contentKey="investors.hero.ctaSecondary" value={investors.hero.ctaSecondary} />
-            </a>
-          </div>
-        </div>
-      </section>
+      <div className="investors-page" style={{ position: 'relative', overflow: 'hidden' }}>
 
-      {/* Active Builders Section */}
-      <section className="section-container" id="more" style={{ padding: '60px 32px' }} data-mobile-padding="60px 24px">
-        <div className="grid-2" style={{ gap: '60px' }}>
-          <div style={{ position: 'relative' }}>
-            <div style={{ borderRadius: '32px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}>
-              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80" alt="Active Builders" style={{ width: '100%', height: 'auto', display: 'block' }} />
+        {/* ── 1. HERO SECTION (Image 1) ── */}
+        <section style={{ backgroundColor: '#FFFFFF', padding: '130px 24px 48px', position: 'relative', overflow: 'hidden' }}>
+          {/* Ambient Glows */}
+          <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.08), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none' }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(197, 168, 128, 0.08), transparent 70%)', bottom: '-50px', left: '10%', filter: 'blur(80px)', pointerEvents: 'none' }}></div>
+
+          <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+            <div className="hero-eyebrow-pill">
+              <EditableText contentKey="investors.hero.eyebrow" value={content?.investors?.hero?.eyebrow || 'INVESTOR RELATIONS'} />
             </div>
-            <div style={{ 
-              position: 'absolute', 
-              bottom: '-20px', 
-              right: '-10px', 
-              background: 'black', 
-              color: 'white', 
-              padding: '30px', 
-              borderRadius: '20px', 
-              maxWidth: '280px',
-              boxShadow: '0 15px 30px rgba(0,0,0,0.3)',
-              zIndex: 2
+            <h1 style={{
+              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+              fontWeight: 800,
+              letterSpacing: '-0.03em',
+              color: 'var(--text-black)',
+              lineHeight: 1.15,
+              marginBottom: '24px',
+              fontFamily: "'Manrope', sans-serif"
             }}>
-              <p style={{ fontSize: '1.1rem', fontWeight: 700, lineHeight: '1.4', margin: 0 }}>
-                <EditableText contentKey="investors.builders.quote" value={investors.builders.quote} />
-              </p>
-            </div>
-          </div>
-          <div style={{ paddingLeft: '0' }}>
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '24px', lineHeight: '1.1' }}>
-              <EditableText contentKey="investors.builders.title" value={investors.builders.title} />
-            </h2>
-            <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', marginBottom: '40px', lineHeight: '1.6', fontWeight: 500 }}>
-              <EditableText contentKey="investors.builders.description" value={investors.builders.description} />
+              Invest in Ventures <br />
+              <span style={{ color: 'var(--primary-blue)' }}>Built to Last</span>
+            </h1>
+            <p style={{
+              color: 'var(--text-muted)',
+              fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
+              lineHeight: 1.7,
+              maxWidth: '750px',
+              margin: '0 auto',
+              fontWeight: 500,
+              fontFamily: "'Inter', sans-serif"
+            }}>
+              CrestCode partners with strategic investors who believe in the long game — backing the studio, the ventures, or both. We offer full transparency, shared conviction, and two clear paths to participate.
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div style={{ background: 'white', padding: '24px', borderRadius: '20px', border: '1px solid #F1F5F9', display: 'flex', gap: '20px', alignItems: 'center' }}>
-                <div style={{ color: 'var(--primary-blue)', background: '#F0F5FF', padding: '10px', borderRadius: '12px' }}>
-                  <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                </div>
-                <div>
-                  <h4 style={{ marginBottom: '4px', fontSize: '1.1rem', fontWeight: 800 }}>
-                    <EditableText contentKey="investors.builders.feature1.title" value={investors.builders.feature1.title} />
-                  </h4>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 500, margin: 0 }}>
-                    <EditableText contentKey="investors.builders.feature1.desc" value={investors.builders.feature1.desc} />
-                  </p>
-                </div>
-              </div>
-              <div style={{ background: 'white', padding: '24px', borderRadius: '20px', border: '1px solid #F1F5F9', display: 'flex', gap: '20px', alignItems: 'center' }}>
-                <div style={{ color: 'var(--primary-blue)', background: '#F0F5FF', padding: '10px', borderRadius: '12px' }}>
-                  <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 4V2m0 20v-2m8-8h2M2 12h2m13.657-5.657l1.414-1.414m-14.142 14.142l1.414-1.414m0-14.142l-1.414-1.414m14.142 14.142l-1.414-1.414M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/></svg>
-                </div>
-                <div>
-                  <h4 style={{ marginBottom: '4px', fontSize: '1.1rem', fontWeight: 800 }}>
-                    <EditableText contentKey="investors.builders.feature2.title" value={investors.builders.feature2.title} />
-                  </h4>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 500, margin: 0 }}>
-                    <EditableText contentKey="investors.builders.feature2.desc" value={investors.builders.feature2.desc} />
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Infrastructure Section */}
-      <section className="section-container" style={{ background: '#F8FAFC', borderRadius: '40px', margin: '40px auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: '60px', maxWidth: '700px', margin: '0 auto 60px auto' }}>
-          <h2 style={{ fontSize: '2.75rem', marginBottom: '16px' }}>
-            <EditableText contentKey="investors.architecture.title" value={investors.architecture.title} />
-          </h2>
-          <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', fontWeight: 500 }}>
-            <EditableText contentKey="investors.architecture.subtitle" value={investors.architecture.subtitle} />
-          </p>
-        </div>
-        <div className="grid-4">
-          {[
-            { title: "Former Founders", desc: "Those who have exited and want to build again without the 0-to-1 grind.", icon: <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14H11V21L20 7H13Z"/></svg> },
-            { title: "Operators & CXOs", desc: "Scaling experts from unicorn-stage companies looking for diversification.", icon: <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg> },
-            { title: "Domain Experts", desc: "Specialists in deep tech, logistics, or fintech who can de-risk technical roadmaps.", icon: <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.989-2.386l-.548-.547z" /></svg> },
-            { title: "Strategic Angels", desc: "Seasoned investors who prefer the high-touch studio model over spray-and-pray.", icon: <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg> }
-          ].map((card, idx) => (
-            <div key={idx} className="card-standard" style={{ borderRadius: '20px', padding: '32px' }}>
-              <div style={{ width: '40px', height: '40px', background: '#F0F5FF', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary-blue)', marginBottom: '24px' }}>
-                {card.icon}
-              </div>
-              <h3 style={{ fontSize: '1.2rem', marginBottom: '12px' }}>
-                <EditableText contentKey={`investors.architecture.cards.${idx}.title`} value={investors.architecture.cards[idx].title} />
-              </h3>
-              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.6', fontWeight: 500 }}>
-                <EditableText contentKey={`investors.architecture.cards.${idx}.desc`} value={investors.architecture.cards[idx].desc} />
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+        {/* ── Divider ── */}
+        <div style={{ width: '100%', height: '1px', backgroundColor: 'var(--border-light)' }}></div>
 
-      {/* Tier Section (Studio vs Startup) */}
-      <section className="section-container">
-        <div className="grid-2" style={{ gap: '32px', alignItems: 'stretch' }}>
-          {/* Card 1: Studio-Level */}
-          <div className="comp-card" style={{ 
-            background: 'black', color: 'white', position: 'relative', overflow: 'hidden', padding: '48px 40px', borderRadius: '24px',
-            backgroundImage: 'linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url("https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80")',
-            backgroundSize: 'cover', backgroundPosition: 'center'
-          }}>
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '24px', position: 'relative', zIndex: 2 }}>
-              <EditableText contentKey="investors.tiers.studio.title" value={investors.tiers.studio.title} />
-            </h2>
-            <p style={{ color: '#94A3B8', marginBottom: '40px', fontSize: '1.1rem', lineHeight: '1.6', position: 'relative', zIndex: 2 }}>
-              <EditableText contentKey="investors.tiers.studio.description" value={investors.tiers.studio.description} />
-            </p>
-            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 48px 0', position: 'relative', zIndex: 2 }}>
-              {['Diversified Exposure', 'Operational Upside', 'Governance Role'].map((pt, i) => (
-                <li key={i} style={{ display: 'flex', gap: '16px', marginBottom: '18px', alignItems: 'center', fontWeight: 600 }}>
-                  <svg width="20" height="20" fill="none" stroke="#10B981" strokeWidth="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" /></svg>
-                  <EditableText contentKey={`investors.tiers.studio.points.${i}`} value={investors.tiers.studio.points[i]} />
-                </li>
-              ))}
-            </ul>
-            <Link href="/contact" className="btn-pill btn-secondary" style={{ textAlign: 'center', background: 'white', color: 'black', border: 'none', width: 'fit-content', position: 'relative', zIndex: 2 }}>
-              <EditableText contentKey="investors.tiers.studio.cta" value={investors.tiers.studio.cta} />
-            </Link>
-          </div>
-
-          {/* Card 2: Startup-Level */}
-          <div className="comp-card" style={{ 
-            background: '#F8FAFC', color: 'black', position: 'relative', overflow: 'hidden', padding: '48px 40px', borderRadius: '24px',
-            backgroundImage: 'linear-gradient(rgba(248, 250, 252, 0.85), rgba(248, 250, 252, 0.95)), url("https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80")',
-            backgroundSize: 'cover', backgroundPosition: 'center'
-          }}>
-            <h2 style={{ fontSize: '2.5rem', marginBottom: '24px', position: 'relative', zIndex: 2 }}>
-              <EditableText contentKey="investors.tiers.startup.title" value={investors.tiers.startup.title} />
-            </h2>
-            <p style={{ color: '#4B5563', marginBottom: '40px', fontSize: '1.1rem', lineHeight: '1.6', position: 'relative', zIndex: 2 }}>
-              <EditableText contentKey="investors.tiers.startup.description" value={investors.tiers.startup.description} />
-            </p>
-            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 48px 0', position: 'relative', zIndex: 2 }}>
-              {['Targeted Impact', 'Domain Alignment', 'Direct Advisor Role'].map((pt, i) => (
-                <li key={i} style={{ display: 'flex', gap: '16px', marginBottom: '18px', alignItems: 'center', fontWeight: 600, position: 'relative', zIndex: 2 }}>
-                  <svg width="20" height="20" fill="none" stroke="var(--primary-blue)" strokeWidth="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" /></svg>
-                  <EditableText contentKey={`investors.tiers.startup.points.${i}`} value={investors.tiers.startup.points[i]} />
-                </li>
-              ))}
-            </ul>
-            <Link href="/contact" className="btn-pill btn-primary" style={{ textAlign: 'center', width: 'fit-content', position: 'relative', zIndex: 2 }}>
-              <EditableText contentKey="investors.tiers.startup.cta" value={investors.tiers.startup.cta} />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Operator Advantage */}
-      <section className="section-container">
-        <h2 style={{ fontSize: '2.75rem', textAlign: 'center', marginBottom: '60px' }}>
-          <EditableText contentKey="investors.advantage.title" value={investors.advantage.title} />
-        </h2>
-        <div className="grid-4">
-          {[
-            { title: "Product Strategy", desc: "Review roadmaps, participate in design sprints, and validate feature priorities with market reality." },
-            { title: "Mentorship", desc: "Guide young studio-hired founders through the psychological and operational hurdles of early growth." },
-            { title: "GTM Decisions", desc: "Open your network and help define the high-velocity sales and marketing playbooks." },
-            { title: "Scaling Frameworks", desc: "Implement organizational structures and operational rhythms that you've mastered elsewhere." }
-          ].map((card, idx) => (
-            <div key={idx} className="advantage-card" style={{ padding: '32px 24px', borderRadius: '20px', background: '#F8FAFC', borderLeft: '4px solid var(--primary-blue)' }}>
-              <h3 style={{ fontSize: '1.15rem', marginBottom: '12px' }}>
-                <EditableText contentKey={`investors.advantage.cards.${idx}.title`} value={investors.advantage.cards[idx].title} />
-              </h3>
-              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.6', fontWeight: 500 }}>
-                <EditableText contentKey={`investors.advantage.cards.${idx}.desc`} value={investors.advantage.cards[idx].desc} />
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Pathway Section */}
-      <section style={{ background: 'black', color: 'white', padding: '80px 32px' }} data-mobile-padding="80px 24px">
-        <div className="section-container grid-2" style={{ gap: '60px', padding: 0 }}>
-          <div>
-             <h2 style={{ fontSize: '2.75rem', marginBottom: '24px' }}>
-               <EditableText contentKey="investors.pathway.title" value={investors.pathway.title} />
-             </h2>
-             <p style={{ fontSize: '1.1rem', color: '#94A3B8', marginBottom: '40px', lineHeight: '1.6' }}>
-               <EditableText contentKey="investors.pathway.description" value={investors.pathway.description} />
-             </p>
-            <div style={{ display: 'flex', gap: '20px', alignItems: 'center', marginBottom: '24px' }}>
-              <div style={{ minWidth: '40px', height: '40px', background: 'var(--primary-blue)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 800 }}>
-                <EditableText contentKey="investors.pathway.step1.num" value={investors.pathway.step1.num} />
-              </div>
-              <div>
-                <h4 style={{ fontSize: '1.1rem', fontWeight: 800, marginBottom: 0 }}>
-                  <EditableText contentKey="investors.pathway.step1.title" value={investors.pathway.step1.title} />{' '}
-                  <span style={{ fontWeight: 500, color: '#94A3B8' }}>
-                    <EditableText contentKey="investors.pathway.step1.desc" value={investors.pathway.step1.desc} />
-                  </span>
-                </h4>
-              </div>
-            </div>
-            <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-              <div style={{ minWidth: '40px', height: '40px', background: 'var(--primary-blue)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', fontWeight: 800 }}>
-                <EditableText contentKey="investors.pathway.step2.num" value={investors.pathway.step2.num} />
-              </div>
-              <div>
-                <h4 style={{ fontSize: '1.1rem', fontWeight: 800, marginBottom: 0 }}>
-                  <EditableText contentKey="investors.pathway.step2.title" value={investors.pathway.step2.title} />{' '}
-                  <span style={{ fontWeight: 500, color: '#94A3B8' }}>
-                    <EditableText contentKey="investors.pathway.step2.desc" value={investors.pathway.step2.desc} />
-                  </span>
-                </h4>
-              </div>
-            </div>
-          </div>
-          <div style={{ borderRadius: '24px', overflow: 'hidden' }}>
-            <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80" alt="Pathway" style={{ width: '100%', height: 'auto' }} />
-          </div>
-        </div>
-      </section>
-
-      {/* Execution Over Speculation */}
-      <section className="section-container">
-        <h2 style={{ fontSize: '2.75rem', textAlign: 'center', marginBottom: '60px' }}>
-          <EditableText contentKey="investors.execution.title" value={investors.execution.title} />
-        </h2>
-        <div className="grid-4" style={{ gap: '32px' }}>
-          {[
-            { num: '01', title: 'Speed to Market', desc: 'Studio infrastructure reduces time to market by 40%.' },
-            { num: '02', title: 'Talent Density', desc: 'Centralized engineering and design teams ensure quality.' },
-            { num: '03', title: 'Shared Resources', desc: 'Legal and back-office costs are shared across portfolio.' },
-            { num: '04', title: 'Lower Failure Rates', desc: 'Systematic validation gates ensure commercial potential.' }
-          ].map((item, idx) => (
-            <div key={idx} style={{ background: 'transparent', border: 'none', padding: 0, minHeight: 'auto' }}>
-              <div style={{ fontSize: '4rem', fontWeight: 800, color: '#E2E8F0', lineHeight: '1', marginBottom: '16px' }}>
-                <EditableText contentKey={`investors.execution.items.${idx}.num`} value={investors.execution.items[idx].num} />
-              </div>
-              <h4 style={{ fontSize: '1.15rem', fontWeight: 800, marginBottom: '12px' }}>
-                <EditableText contentKey={`investors.execution.items.${idx}.title`} value={investors.execution.items[idx].title} />
-              </h4>
-              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.6', fontWeight: 500 }}>
-                <EditableText contentKey={`investors.execution.items.${idx}.desc`} value={investors.execution.items[idx].desc} />
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* The Repeatable Engine */}
-      <section className="section-container" style={{ padding: '60px 32px' }} data-mobile-padding="60px 24px">
-        <div style={{ 
-          background: 'white', 
-          borderRadius: '40px', 
-          overflow: 'hidden', 
-          display: 'grid', 
-          gridTemplateColumns: '1.2fr 1fr',
-          boxShadow: '0 40px 100px -20px rgba(0,0,0,0.1)',
-          border: '1px solid #F1F5F9',
-          minHeight: '450px'
-        }}>
-          <div style={{ padding: '80px 60px' }}>
-            <h2 style={{ fontSize: '2.75rem', marginBottom: '24px' }}>
-              <EditableText contentKey="investors.engine.title" value={investors.engine.title} />
-            </h2>
-            <p style={{ fontSize: '1.1rem', color: 'var(--text-muted)', marginBottom: '40px', lineHeight: '1.7' }}>
-              <EditableText contentKey="investors.engine.description" value={investors.engine.description} />
-            </p>
-            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-              {['University R&D Bridge', 'Talent Pipeline', 'IP Moat'].map((p, i) => (
-                <span key={i} style={{ background: '#F1F5F9', padding: '10px 20px', borderRadius: '100px', fontSize: '0.85rem', fontWeight: 700, color: '#475569' }}>
-                   <EditableText contentKey={`investors.engine.tags.${i}`} value={investors.engine.tags[i]} />
-                </span>
-              ))}
-            </div>
-          </div>
-          <div style={{ position: 'relative' }}>
-            <img src="/repeatable_engine_v2.png" alt="Repeatable Engine" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-          </div>
-        </div>
-      </section>
-
-      {/* Choose Your Orbit (Tiers) */}
-      <section className="section-container">
-        <h2 style={{ fontSize: '3rem', textAlign: 'center', marginBottom: '60px' }}>
-          <EditableText contentKey="investors.orbit.title" value={investors.orbit.title} />
-        </h2>
-        <div className="grid-3" style={{ gap: '24px', alignItems: 'center' }}>
-          <div className="orbit-card" style={{ background: 'white', padding: '48px 32px', borderRadius: '24px', textAlign: 'center' }}>
-            <h3 style={{ fontSize: '1.75rem', marginBottom: '8px' }}>
-              <EditableText contentKey="investors.orbit.passive.title" value={investors.orbit.passive.title} />
-            </h3>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', fontStyle: 'italic', marginBottom: '32px' }}>
-              <EditableText contentKey="investors.orbit.passive.quote" value={investors.orbit.passive.quote} />
-            </p>
-            <ul style={{ listStyle: 'none', padding: 0, textAlign: 'left' }}>
-              {['Quarterly Reports', 'Annual Meeting', 'Exit Rights'].map((pt, i) => (
-                <li key={i} style={{ display: 'flex', gap: '12px', marginBottom: '16px', alignItems: 'center', fontWeight: 600, fontSize: '0.95rem' }}>
-                  <div style={{ width: '18px', height: '18px', borderRadius: '50%', border: '2px solid var(--primary-blue)' }}></div>
-                  <EditableText contentKey={`investors.orbit.passive.points.${i}`} value={investors.orbit.passive.points[i]} />
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="orbit-card featured" style={{ background: 'var(--primary-blue)', color: 'white', padding: '60px 32px', borderRadius: '32px', textAlign: 'center', boxShadow: '0 30px 60px -12px rgba(0, 90, 226, 0.4)', position: 'relative' }}>
-            <div style={{ position: 'absolute', top: '24px', left: '50%', transform: 'translateX(-50%)', background: 'rgba(255,255,255,0.2)', padding: '6px 16px', borderRadius: '100px', fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.1em' }}>
-              <EditableText contentKey="investors.orbit.strategic.label" value={investors.orbit.strategic.label} />
-            </div>
-            <h3 style={{ fontSize: '2rem', marginBottom: '8px' }}>
-              <EditableText contentKey="investors.orbit.strategic.title" value={investors.orbit.strategic.title} />
-            </h3>
-            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1rem', fontStyle: 'italic', marginBottom: '40px' }}>
-              <EditableText contentKey="investors.orbit.strategic.quote" value={investors.orbit.strategic.quote} />
-            </p>
-            <ul style={{ listStyle: 'none', padding: 0, textAlign: 'left' }}>
-              {['Advisory Council Seat', 'Deal Flow Preview', 'Product Feedback Sprints'].map((pt, i) => (
-                <li key={i} style={{ display: 'flex', gap: '16px', marginBottom: '20px', alignItems: 'center', fontWeight: 700 }}>
-                  <svg width="24" height="24" fill="none" stroke="white" strokeWidth="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" /></svg>
-                  <EditableText contentKey={`investors.orbit.strategic.points.${i}`} value={investors.orbit.strategic.points[i]} />
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="orbit-card" style={{ background: 'white', padding: '48px 32px', borderRadius: '24px', textAlign: 'center' }}>
-            <h3 style={{ fontSize: '1.75rem', marginBottom: '8px' }}>
-              <EditableText contentKey="investors.orbit.active.title" value={investors.orbit.active.title} />
-            </h3>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', fontStyle: 'italic', marginBottom: '32px' }}>
-              <EditableText contentKey="investors.orbit.active.quote" value={investors.orbit.active.quote} />
-            </p>
-            <ul style={{ listStyle: 'none', padding: 0, textAlign: 'left' }}>
-              {['Fractional Leadership', 'Direct Incubation Access', 'Carry/Bonus Participation'].map((pt, i) => (
-                <li key={i} style={{ display: 'flex', gap: '12px', marginBottom: '16px', alignItems: 'center', fontWeight: 600, fontSize: '0.95rem' }}>
-                  <div style={{ width: '18px', height: '18px', borderRadius: '50%', border: '2px solid var(--primary-blue)' }}></div>
-                  <EditableText contentKey={`investors.orbit.active.points.${i}`} value={investors.orbit.active.points[i]} />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Form Section */}
-      <section className="section-container" style={{ textAlign: 'center', padding: '120px 32px' }} data-mobile-padding="120px 24px">
-        <h2 style={{ fontSize: '3.5rem', marginBottom: '24px', maxWidth: '800px', margin: '0 auto 24px auto' }}>
-          <EditableText contentKey="investors.cta.title" value={investors.cta.title} />
-        </h2>
-        <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', marginBottom: '48px', maxWidth: '700px', margin: '0 auto 48px auto', lineHeight: '1.6', fontWeight: 500 }}>
-          <EditableText contentKey="investors.cta.description" value={investors.cta.description} />
-        </p>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '40px', flexWrap: 'wrap' }}>
-          {['Exclusive Early Access to Incubations', 'Proprietary Strategic Intel Reports', 'Invite-Only Executive Summits'].map((f, i) => (
-            <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'center', fontWeight: 700, fontSize: '0.9rem' }}>
-              <svg width="20" height="20" fill="none" stroke="var(--primary-blue)" strokeWidth="3" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" /></svg>
-              <EditableText contentKey={`investors.cta.features.${i}`} value={investors.cta.features[i]} />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section style={{ padding: '80px 24px', background: '#0A0F1C', borderRadius: '40px', margin: '0 24px 80px 24px' }}>
-          <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
-            <h2 style={{ fontSize: '2.5rem', color: 'white', marginBottom: '16px' }}>
-              <EditableText contentKey="investors.form.title" value={investors.form.title} />
-            </h2>
-            <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: '48px' }}>Register your interest and we will contact you for a private briefing.</p>
+        {/* ── 2. WHY INVEST IN CRESTCODE? (Image 1) ── */}
+        <section style={{ backgroundColor: '#FFFFFF', padding: '48px 24px', position: 'relative' }}>
+          <div className="section-container" style={{ padding: 0 }}>
             
-            <form style={{ textAlign: 'left' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
-                <div className="form-group">
-                  <label style={{ display: 'block', color: 'white', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                    <EditableText contentKey="investors.form.labelName" value={investors.form.labelName} />
-                  </label>
-                  <input type="text" placeholder="John Doe" style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '16px', borderRadius: '12px', color: 'white' }} />
+            {/* Centered Heading & Intro Lead */}
+            <div className="section-header-centered" style={{ marginBottom: '56px' }}>
+              <span className="label">THE OPPORTUNITY</span>
+              <h2>Why invest in CrestCode?</h2>
+              <p style={{
+                color: 'var(--text-muted)',
+                fontSize: '1.15rem',
+                lineHeight: 1.75,
+                maxWidth: '780px',
+                margin: '24px auto 0',
+                fontWeight: 500,
+                textAlign: 'center'
+              }}>
+                We don't just build products — we build ventures with staying power. Every company we back goes through rigorous validation, senior engineering, and a structured go-to-market process. You're not betting on ideas. You're betting on execution.
+              </p>
+            </div>
+
+            {/* Premium 2x2 Balanced Cards Grid */}
+            <div className="grid-2" style={{ gridTemplateColumns: '1fr 1fr', gap: '24px', alignItems: 'stretch' }}>
+              {[
+                {
+                  title: 'Execution-first model',
+                  desc: 'Every venture is built in-house by senior engineers, designers, and product strategists — not outsourced, not staffed with juniors.',
+                  color: '#005AE2',
+                  icon: (
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  )
+                },
+                {
+                  title: 'Validated before built',
+                  desc: 'Every product goes through a rigorous two-week ideation, business case, and PRFAQ process before a single line of code is written.',
+                  color: '#EC4899',
+                  icon: (
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  )
+                },
+                {
+                  title: 'Full transparency',
+                  desc: "Investors get access to a live dashboard showing where capital is deployed, what's being built, and how each venture is progressing.",
+                  color: '#10B981',
+                  icon: (
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z" />
+                    </svg>
+                  )
+                },
+                {
+                  title: 'Long-term partnership',
+                  desc: "We're not looking for a transaction. We want investors who are aligned with the mission and can contribute beyond capital.",
+                  color: '#F59E0B',
+                  icon: (
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.407 2.67 1M12 17V7m0 10c-1.11 0-2.08-.407-2.67-1M12 17V7" />
+                    </svg>
+                  )
+                }
+              ].map((item, idx) => (
+                <div key={idx} className="why-invest-card">
+                  <div style={{
+                    width: '46px',
+                    height: '46px',
+                    borderRadius: '12px',
+                    background: `${item.color}10`,
+                    border: `1.5px solid ${item.color}25`,
+                    color: item.color,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0
+                  }}>
+                    {item.icon}
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '6px' }}>
+                      {item.title}
+                    </h3>
+                    <p style={{ fontSize: '0.925rem', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
+                      {item.desc}
+                    </p>
+                  </div>
                 </div>
-                <div className="form-group">
-                  <label style={{ display: 'block', color: 'white', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                    <EditableText contentKey="investors.form.labelEmail" value={investors.form.labelEmail} />
-                  </label>
-                  <input type="email" placeholder="john@company.com" style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '16px', borderRadius: '12px', color: 'white' }} />
-                </div>
-              </div>
-              
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
-                <div className="form-group">
-                  <label style={{ display: 'block', color: 'white', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                    <EditableText contentKey="investors.form.labelExpertise" value={investors.form.labelExpertise} />
-                  </label>
-                  <select style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '16px', borderRadius: '12px', color: 'white' }}>
-                    <option style={{ background: '#0A0F1C' }}>Select Expertise</option>
-                    {['Product Strategy', 'Engineering / Architecture', 'GTM / Sales', 'Finance / M&A', 'Legal / Compliance'].map((opt, i) => (
-                      <option key={i} style={{ background: '#0A0F1C' }} value={investors.form.expertise.options[i]}>
-                        {investors.form.expertise.options[i]}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label style={{ display: 'block', color: 'white', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                    <EditableText contentKey="investors.form.labelRole" value={investors.form.labelRole} />
-                  </label>
-                  <select style={{ width: '100%', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', padding: '16px', borderRadius: '12px', color: 'white' }}>
-                    <option style={{ background: '#0A0F1C' }}>Select Role</option>
-                    {['Investor Only', 'Strategic Advisor', 'Venture CEO', 'Network Partner'].map((opt, i) => (
-                      <option key={i} style={{ background: '#0A0F1C' }} value={investors.form.roles.options[i]}>
-                        {investors.form.roles.options[i]}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              
-              <div className="form-group" style={{ marginBottom: '32px' }}>
-                <label style={{ display: 'block', color: 'white', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                  <EditableText contentKey="investors.form.labelBackground" value={investors.form.labelBackground} />
-                </label>
-                <textarea rows={4} placeholder="Briefly describe your background..." style={{ width: '100%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '16px', borderRadius: '12px', color: 'white', resize: 'none' }}></textarea>
-              </div>
-              
-              <button type="button" className="btn-pill" style={{ width: '100%', background: 'white', color: 'black', border: 'none', padding: '18px', fontWeight: 800, fontSize: '1rem' }}>
-                <EditableText contentKey="investors.form.submit" value={investors.form.submit} />
-              </button>
-            </form>
+              ))}
+            </div>
+
           </div>
-      </section>
+        </section>
+
+        {/* ── 3. TWO WAYS TO INVEST (Image 2) ── */}
+        <section style={{ backgroundColor: '#F8FAFC', padding: '48px 24px', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', position: 'relative' }}>
+          <div className="section-container" style={{ padding: 0 }}>
+            
+            {/* Centered Heading */}
+            <div className="section-header-centered">
+              <span className="label">INVESTMENT PATHS</span>
+              <h2>Two ways to invest. <br /><span style={{ color: 'var(--primary-blue)' }}>One shared goal.</span></h2>
+              <p>
+                Choose the path that fits your investment thesis — or participate in both. Each path offers distinct exposure, return mechanics, and involvement.
+              </p>
+            </div>
+
+            {/* Responsive Paths Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px', alignItems: 'stretch' }}>
+              
+              {/* Path 1 Card */}
+              <div className="path-card">
+                <div>
+                  <span style={{
+                    display: 'inline-block',
+                    background: '#EEF2F6',
+                    border: '1px solid var(--border-light)',
+                    color: 'var(--primary-blue)',
+                    fontSize: '0.72rem',
+                    fontWeight: 800,
+                    letterSpacing: '0.1em',
+                    padding: '6px 14px',
+                    borderRadius: '100px',
+                    marginBottom: '24px'
+                  }}>
+                    PATH 01
+                  </span>
+                  <h3 style={{ fontSize: '1.65rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '16px' }}>
+                    Invest in CrestCode Studio
+                  </h3>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.975rem', lineHeight: 1.65, marginBottom: '32px', fontWeight: 500 }}>
+                    Back the studio itself — gaining exposure to every venture CrestCode builds, incubates, or advises. This is a bet on the model, the team, and the portfolio of companies we build over time.
+                  </p>
+                  
+                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 40px 0', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    {[
+                      'Choose between equity stake in CrestCode or a revenue share arrangement',
+                      'Exposure across all current and future ventures in the studio portfolio',
+                      'Access to the investor dashboard covering studio-wide metrics and deployment',
+                      'Quarterly strategic reviews and direct access to CrestCode leadership'
+                    ].map((pt, i) => (
+                      <li key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', fontSize: '0.925rem', color: '#475569', fontWeight: 500 }}>
+                        <span style={{ color: 'var(--primary-blue)', fontWeight: 800, fontSize: '1.1rem', lineHeight: '1' }}>•</span>
+                        <span>{pt}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div style={{
+                  background: 'var(--bg-light)',
+                  border: '1px solid var(--border-light)',
+                  padding: '20px 24px',
+                  borderRadius: '16px',
+                  fontSize: '0.875rem',
+                  color: '#475569',
+                  lineHeight: 1.5,
+                  fontWeight: 500
+                }}>
+                  <strong style={{ color: 'var(--text-black)' }}>Best for:</strong> Investors who want diversified exposure across multiple ventures and believe in the studio model as a category.
+                </div>
+              </div>
+
+              {/* Path 2 Card */}
+              <div className="path-card">
+                <div>
+                  <span style={{
+                    display: 'inline-block',
+                    background: '#FFFBEB',
+                    border: '1px solid #FEF3C7',
+                    color: '#D97706',
+                    fontSize: '0.72rem',
+                    fontWeight: 800,
+                    letterSpacing: '0.1em',
+                    padding: '6px 14px',
+                    borderRadius: '100px',
+                    marginBottom: '24px'
+                  }}>
+                    PATH 02
+                  </span>
+                  <h3 style={{ fontSize: '1.65rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '16px' }}>
+                    Invest in a Specific Venture
+                  </h3>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.975rem', lineHeight: 1.65, marginBottom: '32px', fontWeight: 500 }}>
+                    Back a specific company in the CrestCode portfolio through a dedicated Special Purpose Vehicle (SPV). Your capital goes directly into one venture — clean, targeted, and legally isolated from the rest of the portfolio.
+                  </p>
+                  
+                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 40px 0', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    {[
+                      'Direct equity in a single venture via a dedicated SPV structure',
+                      'Investment isolated per venture — one company\'s performance doesn\'t affect another',
+                      'Access to venture-specific dashboard showing build progress, milestones, and financials',
+                      'Opportunity to play an active role in product adoption and operations'
+                    ].map((pt, i) => (
+                      <li key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', fontSize: '0.925rem', color: '#475569', fontWeight: 500 }}>
+                        <span style={{ color: '#D97706', fontWeight: 800, fontSize: '1.1rem', lineHeight: '1' }}>•</span>
+                        <span>{pt}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div style={{
+                  background: '#FFFBEB',
+                  border: '1px solid #FEF3C7',
+                  padding: '20px 24px',
+                  borderRadius: '16px',
+                  fontSize: '0.875rem',
+                  color: '#B45309',
+                  lineHeight: 1.5,
+                  fontWeight: 500
+                }}>
+                  <strong style={{ color: '#78350F' }}>Best for:</strong> Investors with conviction in a specific market, product, or domain — and who want to contribute hands-on to that venture\'s growth.
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </section>
+
+        {/* ── 4. WHAT YOU GET AS AN INVESTOR (Image 3) ── */}
+        <section style={{ backgroundColor: '#FFFFFF', padding: '48px 24px', position: 'relative' }}>
+          <div className="section-container" style={{ padding: 0 }}>
+            
+            {/* Centered Heading */}
+            <div className="section-header-centered">
+              <span className="label">INVESTOR BENEFITS</span>
+              <h2>What you get as an investor.</h2>
+              <p>
+                Beyond capital deployment, CrestCode investors get a front-row seat to how ventures are built — with the visibility and access to make that meaningful.
+              </p>
+            </div>
+
+            {/* 6 Grid Cards */}
+            <div className="grid-3">
+              {[
+                {
+                  badge: '01',
+                  title: 'Live Investor Dashboard',
+                  desc: 'A dedicated dashboard showing exactly where your capital is deployed, what\'s being built, milestone progress, and key metrics across your investment — updated in real time.',
+                  color: '#3B82F6',
+                  icon: <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z" /></svg>
+                },
+                {
+                  badge: '02',
+                  title: 'Full Financial Transparency',
+                  desc: 'No black boxes. You see how capital is allocated across engineering, design, product, and operations — with clear accountability at every stage of the build.',
+                  color: '#10B981',
+                  icon: <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.407 2.67 1M12 17V7m0 10c-1.11 0-2.08-.407-2.67-1M12 17V7" /></svg>
+                },
+                {
+                  badge: '03',
+                  title: 'Strategic Involvement',
+                  desc: 'We actively want investors who can open doors, support adoption, and contribute domain expertise. Your network and experience are as valuable to us as your capital.',
+                  color: '#8B5CF6',
+                  icon: <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                },
+                {
+                  badge: '04',
+                  title: 'Quarterly Reviews',
+                  desc: 'Structured quarterly sessions with CrestCode leadership covering portfolio performance, upcoming ventures, strategic direction, and your investment position.',
+                  color: '#EC4899',
+                  icon: <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                },
+                {
+                  badge: '05',
+                  title: 'Early Access to New Ventures',
+                  desc: 'Studio investors get first visibility into new ventures before they are opened to outside investors — with the option to participate at the earliest stage.',
+                  color: '#F59E0B',
+                  icon: <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                },
+                {
+                  badge: '06',
+                  title: 'Co-Founder Network Access',
+                  desc: 'Join a growing network of founders, operators, and builders across the CrestCode portfolio — and help shape the ecosystem we\'re building together.',
+                  color: '#06B6D4',
+                  icon: <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                }
+              ].map((val, idx) => (
+                <div key={idx} className="benefit-card-new" style={{ '--card-glow': val.color } as React.CSSProperties}>
+
+                  <div style={{
+                    width: '46px',
+                    height: '46px',
+                    borderRadius: '12px',
+                    background: `${val.color}12`,
+                    border: `1.5px solid ${val.color}25`,
+                    color: val.color,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '24px'
+                  }}>
+                    {val.icon}
+                  </div>
+
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '12px' }}>
+                    {val.title}
+                  </h3>
+
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
+                    {val.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </section>
+
+        {/* ── 5. WE'RE SELECTIVE. ON PURPOSE. (Image 4) ── */}
+        <section style={{ backgroundColor: '#F8FAFC', padding: '48px 24px', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', position: 'relative' }}>
+          <div className="section-container" style={{ padding: 0 }}>
+            
+            {/* Centered Heading */}
+            <div className="section-header-centered">
+              <span className="label">INVESTOR PROFILE</span>
+              <h2>We're selective. <br /><span style={{ color: 'var(--primary-blue)' }}>On purpose.</span></h2>
+            </div>
+
+            {/* Spanning Center-Aligned Description Block */}
+            <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 56px' }}>
+              <p style={{
+                color: 'var(--text-muted)',
+                fontSize: '1.1rem',
+                lineHeight: 1.75,
+                fontWeight: 500,
+                marginBottom: '20px',
+                textAlign: 'center'
+              }}>
+                We prefer investors who bring more than capital. Our ideal partner is aligned with the product, believes in the long-term, and wants to play an active role in helping ventures succeed — whether through their network, domain expertise, or hands-on operational support.
+              </p>
+              <p style={{
+                color: 'var(--text-muted)',
+                fontSize: '1.1rem',
+                lineHeight: 1.75,
+                fontWeight: 500,
+                margin: 0,
+                textAlign: 'center'
+              }}>
+                Pure financial investors are welcome, but investors who can actively contribute to product adoption, customer introductions, or operations will always be prioritized.
+              </p>
+            </div>
+
+            {/* 3-Column / Auto-balanced Responsive Trait Cards Grid */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gap: '24px',
+              marginBottom: '40px'
+            }}>
+              {[
+                {
+                  title: 'Domain-aligned operators',
+                  desc: 'you understand the market the venture is targeting and can help open doors.'
+                },
+                {
+                  title: 'Long-term thinkers',
+                  desc: "you're patient, believe in building real businesses, and aren't looking for a quick exit."
+                },
+                {
+                  title: 'Strategic connectors',
+                  desc: 'you have a network that can accelerate customer acquisition, partnerships, or hiring.'
+                },
+                {
+                  title: 'Hands-on contributors',
+                  desc: "you're willing to roll up your sleeves and support a venture in its early stages of operations or adoption."
+                },
+                {
+                  title: 'Transparent communicators',
+                  desc: 'you engage honestly, ask hard questions, and hold us accountable the same way we hold ourselves.'
+                }
+              ].map((item, idx) => (
+                <div key={idx} className="selective-item">
+                  <div className="selective-check">✓</div>
+                  <div style={{ fontSize: '0.925rem', lineHeight: 1.5, fontWeight: 500, color: '#475569' }}>
+                    <strong style={{ color: 'var(--text-black)', display: 'block', marginBottom: '2px', fontWeight: 700 }}>
+                      {item.title}
+                    </strong>
+                    {item.desc}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Centered Amber Full-Width Warning Risk Banner */}
+            <div style={{
+              background: '#FFFBEB',
+              border: '1px solid #FEF3C7',
+              borderRadius: '16px',
+              padding: '24px',
+              fontSize: '0.875rem',
+              color: '#B45309',
+              lineHeight: 1.6,
+              fontWeight: 500,
+              maxWidth: '820px',
+              margin: '32px auto 0',
+              textAlign: 'center'
+            }}>
+              <strong style={{ color: '#78350F' }}>Note:</strong> CrestCode is an early-stage studio. All investments carry inherent risk. We are committed to full transparency — and we will always tell you the truth about where things stand.
+            </div>
+
+          </div>
+        </section>
+
+        {/* ── 6. CLEAR TERMS. NO SURPRISES. (Image 5) ── */}
+        <section style={{ backgroundColor: '#FFFFFF', padding: '48px 24px', position: 'relative' }}>
+          <div className="section-container" style={{ padding: 0 }}>
+            
+            {/* Centered Heading */}
+            <div className="section-header-centered">
+              <span className="label">INVESTMENT TERMS</span>
+              <h2>Clear terms. <br /><span style={{ color: 'var(--primary-blue)' }}>No surprises.</span></h2>
+            </div>
+
+            {/* 3 Columns Grid */}
+            <div className="grid-3" style={{ marginBottom: '40px' }}>
+              
+              {/* Card 1 */}
+              <div className="term-card">
+                <div>
+                  <span style={{ fontSize: '0.68rem', fontWeight: 800, color: '#D97706', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '24px', fontFamily: "'Manrope', sans-serif" }}>
+                    MINIMUM INVESTMENT
+                  </span>
+                  <h3 style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '16px', letterSpacing: '-0.02em' }}>
+                    $50K/yr
+                  </h3>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.925rem', lineHeight: 1.65, margin: 0, fontWeight: 500 }}>
+                    Minimum annual commitment for both studio-level and venture-specific investments. Flexible structuring available for multi-year commitments.
+                  </p>
+                </div>
+              </div>
+
+              {/* Card 2 */}
+              <div className="term-card">
+                <div>
+                  <span style={{ fontSize: '0.68rem', fontWeight: 800, color: 'var(--primary-blue)', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '24px', fontFamily: "'Manrope', sans-serif" }}>
+                    INVESTMENT HORIZON
+                  </span>
+                  <h3 style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '16px', letterSpacing: '-0.02em' }}>
+                    Long-term
+                  </h3>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.925rem', lineHeight: 1.65, margin: 0, fontWeight: 500 }}>
+                    We build ventures designed to last. We expect investors to share a 5–7 year horizon and believe in compounding value over time — not short-term exits.
+                  </p>
+                </div>
+              </div>
+
+              {/* Card 3 */}
+              <div className="term-card">
+                <div>
+                  <span style={{ fontSize: '0.68rem', fontWeight: 800, color: '#8B5CF6', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '24px', fontFamily: "'Manrope', sans-serif" }}>
+                    RETURN STRUCTURE
+                  </span>
+                  <h3 style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '16px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+                    Equity or <br />Revenue
+                  </h3>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.925rem', lineHeight: 1.65, margin: 0, fontWeight: 500 }}>
+                    Studio investors choose between an equity stake in CrestCode or a revenue share arrangement. Venture-specific investments are equity via SPV.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Bottom Non-binding Text */}
+            <div style={{
+              background: 'var(--bg-light)',
+              border: '1px solid var(--border-light)',
+              borderRadius: '16px',
+              padding: '20px 24px',
+              fontSize: '0.85rem',
+              color: 'var(--text-muted)',
+              lineHeight: 1.6,
+              fontWeight: 500,
+              textAlign: 'center',
+              maxWidth: '1200px',
+              margin: '0 auto'
+            }}>
+              Investment terms, legal structure, and formal agreements are subject to negotiation and applicable securities regulations. CrestCode is currently establishing its formal legal investment framework. All terms discussed are indicative and non-binding until a formal agreement is executed.
+            </div>
+
+          </div>
+        </section>
+
+        {/* ── 7. CTA APPLICATION FORM (Bottom Form) ── */}
+        <section id="apply-form" style={{ padding: '48px 24px', background: '#F8FAFC' }}>
+          <div className="section-container" style={{ padding: 0 }}>
+            
+            <div className="form-section-card">
+              <div style={{ position: 'absolute', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.15), transparent 70%)', top: '-100px', right: '-100px', filter: 'blur(80px)', pointerEvents: 'none' }}></div>
+              <div style={{ position: 'absolute', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(139, 92, 246, 0.1), transparent 70%)', bottom: '-100px', left: '-100px', filter: 'blur(80px)', pointerEvents: 'none' }}></div>
+
+              <div style={{ maxWidth: '640px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+                <h2 style={{ fontSize: 'clamp(2rem, 4vw, 2.75rem)', color: '#FFFFFF', marginBottom: '16px', letterSpacing: '-0.02em' }}>
+                  Register Your Interest
+                </h2>
+                <p style={{ color: 'rgba(255, 255, 255, 0.65)', marginBottom: '48px', fontSize: '1.05rem', fontWeight: 500, lineHeight: 1.6 }}>
+                  Complete the briefing form below and our team will get in touch to schedule a private briefing session.
+                </p>
+
+                {submitted ? (
+                  <div style={{
+                    background: 'rgba(16, 185, 129, 0.12)',
+                    border: '1px solid rgba(16, 185, 129, 0.25)',
+                    color: '#10B981',
+                    padding: '36px',
+                    borderRadius: '20px',
+                    textAlign: 'center'
+                  }}>
+                    <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" style={{ margin: '0 auto 16px auto' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <h3 style={{ color: '#FFFFFF', fontSize: '1.4rem', fontWeight: 800, margin: '0 0 8px 0', fontFamily: "'Manrope', sans-serif" }}>Interest Registered Successfully</h3>
+                    <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.95rem', margin: 0, fontFamily: "'Inter', sans-serif" }}>Thank you for reaching out. A CrestCode partner will contact you shortly.</p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} style={{ textAlign: 'left' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+                      <div className="form-group">
+                        <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Manrope', sans-serif" }}>
+                          FULL NAME
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="John Doe"
+                          className="form-input"
+                          value={formData.fullName}
+                          onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Manrope', sans-serif" }}>
+                          EMAIL ADDRESS
+                        </label>
+                        <input
+                          type="email"
+                          required
+                          placeholder="john@company.com"
+                          className="form-input"
+                          value={formData.email}
+                          onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                        />
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '24px' }}>
+                      <div className="form-group">
+                        <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Manrope', sans-serif" }}>
+                          PRIMARY EXPERTISE
+                        </label>
+                        <select
+                          className="form-input"
+                          style={{ background: '#131926', color: '#FFFFFF', cursor: 'pointer' }}
+                          value={formData.expertise}
+                          onChange={(e) => setFormData(prev => ({ ...prev, expertise: e.target.value }))}
+                        >
+                          {['Product Strategy', 'Engineering / Architecture', 'GTM / Sales', 'Finance / M&A', 'Legal / Compliance'].map((opt, i) => (
+                            <option key={i} style={{ background: '#0A0F1C' }} value={opt}>
+                              {opt}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Manrope', sans-serif" }}>
+                          PREFERRED ENGAGEMENT ROLE
+                        </label>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '4px' }}>
+                          {['Investor Only', 'Strategic Advisor', 'Venture CEO', 'Network Partner'].map((role, idx) => {
+                            const isChecked = formData.preferredRoles.includes(role);
+                            return (
+                              <label key={idx} className="custom-checkbox">
+                                <input
+                                  type="checkbox"
+                                  checked={isChecked}
+                                  onChange={() => handleRoleChange(role)}
+                                />
+                                <div className="checkmark"></div>
+                                <span>{role}</span>
+                              </label>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="form-group" style={{ marginBottom: '36px' }}>
+                      <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Manrope', sans-serif" }}>
+                        BACKGROUND & CONTEXT
+                      </label>
+                      <textarea
+                        rows={4}
+                        required
+                        placeholder="Briefly tell us about your investment background and strategic focus..."
+                        className="form-input"
+                        style={{ resize: 'none' }}
+                        value={formData.background}
+                        onChange={(e) => setFormData(prev => ({ ...prev, background: e.target.value }))}
+                      ></textarea>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="btn-pill"
+                      style={{
+                        width: '100%',
+                        background: '#FFFFFF',
+                        color: '#0A0F1C',
+                        padding: '18px',
+                        fontWeight: 800,
+                        fontSize: '1rem',
+                        boxShadow: '0 8px 24px rgba(255,255,255,0.15)',
+                        opacity: isSubmitting ? 0.7 : 1,
+                        cursor: isSubmitting ? 'not-allowed' : 'pointer'
+                      }}
+                    >
+                      {isSubmitting ? 'Registering...' : 'Register Strategic Interest'}
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
 
       <Footer />
-    </div>
-  </>
+    </>
   );
 }

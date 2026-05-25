@@ -321,6 +321,21 @@ export default function LandingPage() {
         @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
+        .hero-eyebrow-pill {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #E6EFFF;
+          color: #005AE2;
+          font-size: 0.75rem;
+          font-weight: 800;
+          letter-spacing: 0.05em;
+          padding: 6px 14px;
+          border-radius: 100px;
+          margin-bottom: 24px;
+          text-transform: uppercase;
+        }
+
         :root {
           /* Color System */
           --bg-base: #F3F5F9;
@@ -437,7 +452,7 @@ export default function LandingPage() {
           transform: scale(1.15) rotate(-5deg);
           box-shadow: 0 8px 20px rgba(255,120,60,0.2);
         }
-        .section-container { max-width: 1200px; margin: 0 auto; padding: 60px 24px; }
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 48px 24px; }
         @media(max-width: 768px) { .section-container { padding: 40px 20px; } }
         @media(max-width: 480px) { .section-container { padding: 32px 16px; } }
 
@@ -625,7 +640,7 @@ export default function LandingPage() {
 
         /* Hero Section */
         /* Hero gets extra top padding to clear the fixed navbar (~80px) on top of the standard 100px */
-        .hero-section { padding: 180px 24px 48px; text-align: center; }
+        .hero-section { padding: 130px 24px 32px; text-align: center; }
         @media(max-width: 768px) { .hero-section { padding: 140px 20px 40px; } }
         .hero-description { font-size: clamp(0.95rem, 2vw, 1.125rem); font-weight: 500; color: var(--text-muted); line-height: 1.6; margin-bottom: 48px; }
         .email-form { max-width: 500px; margin: 0 auto; position: relative; }
@@ -1901,7 +1916,7 @@ export default function LandingPage() {
           background: #ffffff;
           border-top: 1px solid rgba(0,90,226,0.07);
           border-bottom: 1px solid rgba(0,90,226,0.07);
-          padding: 80px 0 100px;
+          padding: 60px 0 80px;
           overflow: hidden;
           position: relative;
         }
@@ -2045,7 +2060,7 @@ export default function LandingPage() {
         /* Partnered Products Carousel Section */
         .partnered-products-section {
           background-color: #FAFAFA;
-          padding: 80px 24px;
+          padding: 60px 24px;
           position: relative;
         }
         .product-carousel-card {
@@ -2243,13 +2258,16 @@ export default function LandingPage() {
       <div className="landing-page" style={{ overflow: 'hidden', position: 'relative', backgroundColor: '#FFFFFF' }}>
 
         {/* Step 1: Idea Submission Hero */}
-        <header ref={heroRef} className="hero-section" style={{ position: 'relative', paddingTop: '140px', paddingBottom: '80px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <header ref={heroRef} className="hero-section" style={{ position: 'relative', paddingTop: '130px', paddingBottom: '32px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div className="hero-eyebrow-pill">
+              <EditableText contentKey="home.hero.eyebrow" value={homeContent.hero.eyebrow} />
+            </div>
             <EditableText
               as="h1"
               contentKey="home.hero.heading"
               value={homeContent.hero.heading}
-              style={{ fontSize: '2.75rem', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}
+              style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}
             >
               {(() => {
                 const words = (homeContent.hero.heading || '').split(' ');

@@ -134,13 +134,13 @@ export default function ContactPage() {
         .animate-delay-4 { animation-delay: 0.4s; }
 
         .page-wrapper { min-height: 100vh; overflow-x: hidden; padding-bottom: 0; }
-        .section-container { max-width: 1200px; margin: 0 auto; padding: clamp(32px, 4vw, 48px) 24px; }
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
         .pt-0 { padding-top: 0 !important; }
         .pb-0 { padding-bottom: 0 !important; }
         
         /* Typography */
         .hero-title { 
-          font-size: clamp(2.5rem, 5.5vw, 4.5rem); 
+          font-size: clamp(2.5rem, 5vw, 4rem); 
           font-weight: 800; 
           letter-spacing: -0.03em; 
           margin-bottom: clamp(12px, 2vw, 16px); 
@@ -175,15 +175,16 @@ export default function ContactPage() {
         .hero-eyebrow-pill {
           display: inline-flex;
           align-items: center;
-          background-color: var(--light-blue-bg);
-          color: var(--bright-blue);
-          padding: 6px 16px;
+          justify-content: center;
+          background-color: #E6EFFF;
+          color: #005AE2;
+          padding: 6px 14px;
           border-radius: 100px;
           font-size: 0.75rem;
           font-weight: 800;
-          letter-spacing: 0.1em;
+          letter-spacing: 0.05em;
           text-transform: uppercase;
-          margin-bottom: 16px;
+          margin-bottom: 24px;
         }
 
         .body-text {
@@ -283,7 +284,7 @@ export default function ContactPage() {
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 
         /* Hero Section */
-        .hero-section { padding-top: 140px; background-color: var(--bg-base); position: relative; }
+        .hero-section { padding-top: 130px; padding-bottom: 24px; background-color: var(--bg-base); position: relative; }
         .hero-image-wrap {
           border-radius: 24px;
           overflow: hidden;
@@ -527,7 +528,7 @@ export default function ContactPage() {
         /* Full Width CTA Strip */
         .cta-strip {
           background: linear-gradient(135deg, var(--bright-blue), var(--primary-blue));
-          padding: clamp(40px, 6vw, 64px) 24px;
+          padding: clamp(32px, 4vw, 40px) 24px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -828,7 +829,7 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Info Cards */}
-        <section className="pt-0">
+        <section className="pt-0 pb-0">
           <div className="section-container contact-info-grid">
             <div className="info-card">
               <div className="info-icon">
@@ -866,7 +867,7 @@ export default function ContactPage() {
         </section>
 
         {/* Process Steps */}
-        <section className="pb-0">
+        <section className="pt-0 pb-0">
           <div className="section-container process-steps-wrap">
             <EditableText as="h2" contentKey="contact.process.title" value={contactContent.process.title} className="section-title" />
             <EditableText as="p" contentKey="contact.process.subtitle" value={contactContent.process.subtitle} className="body-text text-center" />

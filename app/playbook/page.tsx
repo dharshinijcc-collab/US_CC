@@ -74,20 +74,21 @@ export default function OurModelPage() {
         /* Section 1: Hero */
         .hero-section {
           background: var(--bg-base);
-          padding: 140px 0 80px;
+          padding: 130px 0 24px;
           overflow: hidden;
         }
 
         .hero-eyebrow-pill {
           display: inline-flex;
           align-items: center;
-          background-color: var(--light-blue-bg);
-          color: var(--bright-blue);
-          padding: 6px 16px;
+          justify-content: center;
+          background-color: #E6EFFF;
+          color: #005AE2;
+          padding: 6px 14px;
           border-radius: 100px;
           font-size: 0.75rem;
           font-weight: 800;
-          letter-spacing: 0.1em;
+          letter-spacing: 0.05em;
           text-transform: uppercase;
           margin-bottom: 24px;
         }
@@ -572,7 +573,7 @@ export default function OurModelPage() {
         /* Execution Section (Section 4) */
         .post-greenlight-section {
           background: white;
-          padding: 80px 0;
+          padding: 48px 0;
         }
 
         .post-greenlight-grid {
@@ -650,7 +651,7 @@ export default function OurModelPage() {
         /* Pods Section */
         .pods-section {
           background: var(--bg-dark);
-          padding: 120px 0;
+          padding: 60px 0;
           color: white;
           text-align: center;
           position: relative;
@@ -747,7 +748,7 @@ export default function OurModelPage() {
         /* Comparison Section */
         .comparison-section {
           background: #F8FAFC;
-          padding: 100px 0;
+          padding: 48px 0;
         }
 
         .comparison-table-wrapper {
@@ -805,7 +806,7 @@ export default function OurModelPage() {
         /* Final CTA Section */
         .final-cta-section {
           background: var(--bg-light);
-          padding: 100px 24px;
+          padding: 60px 24px;
           text-align: center;
         }
 
@@ -813,7 +814,7 @@ export default function OurModelPage() {
           max-width: 1000px;
           margin: 0 auto;
           background: var(--primary-blue);
-          padding: 80px 40px;
+          padding: 48px 40px;
           border-radius: 24px;
           color: white;
           position: relative;
@@ -929,14 +930,14 @@ export default function OurModelPage() {
 
 
         {/* SECTION 1: HERO */}
-        <section className="hero-section" style={{ background: 'white' }}>
+        <section className="hero-section" style={{ background: 'white', paddingTop: '130px', paddingBottom: '24px' }}>
           <div className="section-container">
             <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: '80px', alignItems: 'center' }}>
               <div className="hero-content">
-                <div className="hero-eyebrow-pill" style={{ background: '#DBEAFE', color: '#2563EB', fontWeight: 700, padding: '8px 16px', fontSize: '0.6875rem' }}>
+                <div className="hero-eyebrow-pill" style={{ background: '#E6EFFF', color: '#005AE2', fontWeight: 800, padding: '6px 14px', fontSize: '0.75rem' }}>
                   <EditableText contentKey="ourModel.hero.eyebrow" value={modelContent.hero.eyebrow} />
                 </div>
-                <h1 className="hero-title" style={{ fontSize: '4rem', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.1, marginTop: '24px' }}>
+                <h1 className="hero-title" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.1, marginTop: '24px' }}>
                   From Raw Idea to <span style={{ color: '#2563EB' }}>Proven Product</span> — in 5 Phases
                 </h1>
                 <p className="hero-description" style={{ fontSize: '1rem', color: '#4B5563', lineHeight: 1.6, marginTop: '24px' }}>
@@ -1026,7 +1027,7 @@ export default function OurModelPage() {
         </div>
 
         {/* DYNAMIC PHASES SECTION */}
-        <section className="dynamic-phases-section" style={{ padding: '60px 0', minHeight: '600px', background: 'white' }}>
+        <section className="dynamic-phases-section" style={{ padding: '40px 0', minHeight: '600px', background: 'white' }}>
           <div className="section-container">
             {/* PHASE 01: SELECT */}
             {activePhase === 0 && (
@@ -1252,7 +1253,7 @@ export default function OurModelPage() {
         </section>
 
         {/* SECTION 6: THE FIVE PODS */}
-        <section className="pods-section" style={{ padding: '40px 0', background: '#0F172A' }}>
+        <section className="pods-section" style={{ padding: '60px 0', background: '#0F172A' }}>
           <div className="section-container" style={{ maxWidth: '1400px', width: '95%' }}>
             <div style={{ textAlign: 'center', maxWidth: '1000px', margin: '0 auto 64px' }}>
               <h2 className="phase-title" style={{ color: 'white', fontSize: '2.75rem', fontWeight: 800, marginBottom: '24px', whiteSpace: 'nowrap' }}>
@@ -1349,7 +1350,7 @@ export default function OurModelPage() {
         </section>
 
         {/* SECTION 8: COMPARISON */}
-        <section className="comparison-section" style={{ padding: '60px 0', background: '#F0F7FF' }}>
+        <section className="comparison-section" style={{ padding: '48px 0', background: '#F0F7FF' }}>
           <div className="section-container" style={{ maxWidth: '1200px' }}>
             <h2 className="phase-title" style={{ textAlign: 'center', fontSize: '3rem', fontWeight: 800, marginBottom: '64px' }}>
               <EditableText contentKey="ourModel.comparison.title" value={modelContent.comparison.title} />
@@ -1397,7 +1398,7 @@ export default function OurModelPage() {
             maxWidth: '1200px', 
             background: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)', 
             borderRadius: '48px', 
-            padding: '80px 40px',
+            padding: '48px 40px',
             textAlign: 'center',
             color: 'white',
             boxShadow: '0 20px 40px rgba(37, 99, 235, 0.2)'

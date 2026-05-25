@@ -103,12 +103,27 @@ export default function FaqPage() {
         .animate-delay-2 { animation-delay: 0.2s; }
         .animate-delay-3 { animation-delay: 0.3s; }
         .animate-delay-4 { animation-delay: 0.4s; }
-        .section-container { max-width: 1200px; margin: 0 auto; padding: clamp(40px, 6vw, 80px) 24px; }
+        .section-container { max-width: 1200px; margin: 0 auto; padding: clamp(24px, 4vw, 48px) 24px; }
         .pt-0 { padding-top: 0 !important; }
+
+        .hero-eyebrow-pill {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #E6EFFF;
+          color: #005AE2;
+          padding: 6px 14px;
+          border-radius: 100px;
+          font-size: 0.75rem;
+          font-weight: 800;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          margin-bottom: 24px;
+        }
         
         /* Typography */
         .hero-title { 
-          font-size: clamp(2rem, 4vw, 3rem); 
+          font-size: clamp(2.5rem, 5vw, 4rem); 
           font-weight: 800; 
           letter-spacing: -0.02em; 
           margin-bottom: 16px; 
@@ -192,7 +207,7 @@ export default function FaqPage() {
 
 
         /* Hero Card Section */
-        .hero-section { padding-top: 140px; }
+        .hero-section { padding-top: 130px; padding-bottom: 24px; }
         .hero-card {
           background: linear-gradient(to bottom right, #FFFFFF, #F8FAFC);
           border: 1px solid rgba(0, 132, 255, 0.05);
@@ -477,6 +492,9 @@ export default function FaqPage() {
                 </svg>
               </div>
               <div className="hero-content-stack">
+                <div className="hero-eyebrow-pill">
+                  <EditableText contentKey="faq.hero.eyebrow" value={faqContent.hero.eyebrow || "FREQUENTLY ASKED QUESTIONS"} />
+                </div>
                 <h1 className="hero-title">
                   {faqContent.hero.title?.split(' ').map((word: string, i: number) => {
                     const isBlue = ['Answers'].includes(word.replace(/[^a-zA-Z]/g, ''));

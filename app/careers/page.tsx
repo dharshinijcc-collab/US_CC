@@ -231,16 +231,18 @@ export default function CareersPage() {
         }
 
         .hero-eyebrow-style {
-          color: var(--primary-blue);
-          background: var(--light-blue-bg);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #E6EFFF;
+          color: #005AE2;
+          font-size: 0.75rem;
+          font-weight: 800;
+          letter-spacing: 0.05em;
           padding: 6px 14px;
           border-radius: 100px;
-          font-size: 11px;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
           margin-bottom: 24px;
-          display: inline-block;
+          text-transform: uppercase;
         }
 
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px 40px; }
@@ -311,7 +313,7 @@ export default function CareersPage() {
       
       <div className="careers-page">
         {/* --- 1. HERO SECTION --- */}
-        <section style={{ padding: '140px 0 60px', backgroundColor: '#FFFFFF', minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
+        <section style={{ padding: '130px 0 40px', backgroundColor: '#FFFFFF', display: 'flex', alignItems: 'center' }}>
           <div className="section-container hero-grid pt-0" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center' }}>
             <div>
               <span className="hero-eyebrow-style">
@@ -362,7 +364,7 @@ export default function CareersPage() {
         </section>
 
         {/* --- 2. WHY JOIN CRESTCODE --- */}
-        <section style={{ padding: '100px 0', backgroundColor: '#F8FAFC', minHeight: '80vh' }}>
+        <section style={{ padding: '48px 0', backgroundColor: '#F8FAFC' }}>
           <div className="section-container">
             <div style={{ textAlign: 'center', marginBottom: '80px' }}>
               <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '16px', letterSpacing: '-0.02em' }} className="font-manrope">
@@ -397,7 +399,7 @@ export default function CareersPage() {
         </section>
 
         {/* --- 3. LIFE AT CRESTCODE --- */}
-        <section style={{ padding: '100px 0', backgroundColor: '#FFFFFF', minHeight: '80vh' }}>
+        <section style={{ padding: '48px 0', backgroundColor: '#FFFFFF' }}>
           <div className="section-container">
             <div style={{ backgroundColor: 'var(--primary-blue)', borderRadius: '24px', padding: '60px', display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: '60px', alignItems: 'center', color: '#FFF' }} className="life-grid">
               <div>
@@ -429,7 +431,7 @@ export default function CareersPage() {
         </section>
 
         {/* --- 4. BENEFITS & PERKS --- */}
-        <section id="benefits" style={{ padding: '100px 0', backgroundColor: '#0A0F1C', minHeight: '80vh', color: '#FFF' }}>
+        <section id="benefits" style={{ padding: '48px 0', backgroundColor: '#0A0F1C', color: '#FFF' }}>
           <div className="section-container">
             <div style={{ marginBottom: '40px', textAlign: 'left' }}>
               <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '16px', letterSpacing: '-0.02em', color: '#FFF' }} className="font-manrope">
@@ -468,7 +470,7 @@ export default function CareersPage() {
         </section>
 
         {/* --- 5. OPEN POSITIONS --- */}
-        <section id="open-positions" style={{ padding: '100px 0', backgroundColor: '#FFFFFF', minHeight: '80vh' }}>
+        <section id="open-positions" style={{ padding: '48px 0', backgroundColor: '#FFFFFF' }}>
           <div className="section-container">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px', flexWrap: 'wrap', gap: '24px' }}>
               <div>
@@ -528,7 +530,7 @@ export default function CareersPage() {
         </section>
 
         {/* --- 6. CTA (RESUME SUBMISSION) --- */}
-        <section id="apply-now" style={{ padding: '100px 0', backgroundColor: '#FFFFFF', minHeight: 'auto' }}>
+        <section id="apply-now" style={{ padding: '48px 0', backgroundColor: '#FFFFFF' }}>
           <div className="section-container">
             <div className="cta-card" style={{ backgroundColor: '#0052FF', border: 'none', borderRadius: '32px', padding: '80px 60px', textAlign: 'center', color: '#FFFFFF' }}>
               {!submitted ? (

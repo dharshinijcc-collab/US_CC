@@ -54,16 +54,31 @@ export default function ToolsPage() {
 
         /* Hero styles */
         .tools-hero {
-          padding: 120px 24px 10px;
+          padding: 130px 24px 32px;
           background: #FFFFFF;
           text-align: center;
           position: relative;
           overflow: hidden;
         }
 
+        .hero-eyebrow-pill {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #E6EFFF;
+          color: #005AE2;
+          padding: 6px 14px;
+          border-radius: 100px;
+          font-size: 0.75rem;
+          font-weight: 800;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          margin-bottom: 24px;
+        }
+
         .hero-title-main {
           font-family: 'Manrope', sans-serif;
-          font-size: clamp(2.5rem, 6vw, 4.5rem);
+          font-size: clamp(2.5rem, 5vw, 4rem);
           font-weight: 800;
           line-height: 1.15;
           letter-spacing: -0.03em;
@@ -146,7 +161,7 @@ export default function ToolsPage() {
         /* Evaluate Section */
         .evaluate-section {
           background-color: #FFFFFF;
-          padding: 16px 24px;
+          padding: 24px 24px;
           text-align: center;
         }
 
@@ -172,7 +187,7 @@ export default function ToolsPage() {
         /* Dark Idea Validation Section */
         .idea-validation-dark {
           background: #0A0F1C;
-          padding: 60px 24px;
+          padding: 48px 0;
           color: #FFFFFF;
           position: relative;
           overflow: hidden;
@@ -310,7 +325,7 @@ export default function ToolsPage() {
         /* De-risk Roadmap Section */
         .roadmap-section {
           background-color: #FFFFFF;
-          padding: 60px 24px;
+          padding: 40px 24px;
         }
 
         .roadmap-container {
@@ -405,7 +420,7 @@ export default function ToolsPage() {
         /* Our Validation Engine */
         .engine-section {
           background: #0A0F1C;
-          padding: 60px 24px;
+          padding: 40px 24px;
           color: #FFFFFF;
         }
 
@@ -537,7 +552,7 @@ export default function ToolsPage() {
         /* Market Intelligence Section */
         .market-intel-section {
           background-color: #FFFFFF;
-          padding: 60px 24px;
+          padding: 40px 24px;
         }
 
         .market-intel-container {
@@ -648,7 +663,7 @@ export default function ToolsPage() {
         /* Bottom CTA Section */
         .bottom-cta-section {
           background: #0A0F1C;
-          padding: 60px 24px;
+          padding: 40px 24px;
           color: #FFFFFF;
           text-align: center;
           position: relative;
@@ -702,6 +717,7 @@ export default function ToolsPage() {
         <section className="tools-hero">
           <SpotlightCursor color="rgba(0, 90, 226, 0.08)" />
           <div style={{ position: 'relative', zIndex: 1 }}>
+            <div className="hero-eyebrow-pill">STUDIO TOOLS</div>
             <h1 className="hero-title-main">
               <EditableText
                 contentKey="tools.hero.title"
