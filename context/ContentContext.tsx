@@ -28,7 +28,7 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
           console.warn('Content fetched successfully but payload is empty');
           setError('Content payload is empty. Please seed the database.');
         } else {
-          setContent(response.data.payload); 
+          setContent(response.data.payload);
           setError(null);
         }
       } else {
@@ -36,7 +36,14 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (err: any) {
       console.error('Error fetching content:', err);
-      setError(err.message || 'An error occurred while fetching content');
+      // Provide more helpful error message
+      if (err.code === 'ECONNABORTED' || err.message.includes('timeout')) {
+        setError('API request timed out. The server may be slow or unavailable. Please try again.');
+      } else if (err.code === 'ERR_NETWORK') {
+        setError('Network error. Please check your internet connection and ensure the backend server is running.');
+      } else {
+        setError(err.message || 'An error occurred while fetching content');
+      }
     } finally {
       setLoading(false);
     }

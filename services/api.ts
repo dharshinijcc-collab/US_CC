@@ -23,7 +23,7 @@ if (!API_URL) {
 export const api = axios.create({
   baseURL: API_URL.endsWith('/') ? API_URL : `${API_URL}/`,
   headers: { 'Content-Type': 'application/json' },
-  timeout: 30000, // 30 seconds
+  timeout: 60000, // 60 seconds - increased timeout
 });
 
 // Fallback to render API if local fails
