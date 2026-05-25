@@ -653,7 +653,7 @@ export default function StudioPage() {
         <div className="validation-wrapper section-base" style={{ backgroundColor: 'var(--white)' }}>
           <div className="validation-card grid-2">
             <div>
-              <div className="section-eyebrow">Idea Validation</div>
+              <div className="section-eyebrow">Who We Are</div>
               <h2 className="section-title section-title-left title-dark">{studioContent.validation.title}</h2>
               <p className="body-text" style={{ marginBottom: '40px', color: '#9CA3AF' }}>
                 {studioContent.validation.description}
