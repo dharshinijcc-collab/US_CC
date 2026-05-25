@@ -6,6 +6,7 @@ import useScrollReveal from '@/hooks/useScrollReveal';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import { useContent } from '@/context/ContentContext';
+import localConfig from '@/backend/config.json';
 import GlobalCursorGlow from '@/components/effects/GlobalCursorGlow';
 import EditableText from '@/components/admin/EditableText';
 import SpotlightCursor from '@/components/effects/SpotlightCursor';
@@ -14,7 +15,7 @@ import CountUp from '@/components/effects/CountUp';
 import { useAdmin } from '@/context/AdminContext';
 import { useInView } from 'framer-motion';
 import { API_URL } from '@/services/api';
-import { User, Building, Lightbulb, Compass, Zap, Users, TrendingUp, Cpu, Globe } from 'lucide-react';
+import { User, Building, Lightbulb, Compass, Zap, Users, TrendingUp, Cpu, Globe, Brain } from 'lucide-react';
 
 export default function LandingPage() {
   const { content, loading, error } = useContent();
@@ -31,6 +32,74 @@ export default function LandingPage() {
   const [flippedCards, setFlippedCards] = useState<Set<number>>(new Set());
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const heroRef = useRef(null);
+
+  const [currentProductIndex, setCurrentProductIndex] = useState(0);
+
+  const partneredProducts = [
+    {
+      id: "01",
+      status: "Live",
+      category: "Web Development",
+      title: "Lifestyle & Legacy Management Website",
+      company: "Dockly",
+      description: "A comprehensive lifestyle and legacy management website that helps individuals securely organize and preserve their digital footprint and inheritance.",
+      features: [
+        "Secure Legacy Preserves",
+        "Digital Footprint Care"
+      ],
+      tech: [
+        "Frontend",
+        "Backend"
+      ],
+      industry: "Lifestyle / Legacy",
+      duration: "4 months",
+      teamSize: "3 members",
+      image: "/images/dockly_showcase.png",
+      caseStudyLink: "/contact"
+    },
+    {
+      id: "02",
+      status: "Live",
+      category: "Web Development",
+      title: "E-Commerce Platform",
+      company: "TechMart Solutions",
+      description: "A comprehensive e-commerce platform for management.",
+      features: [
+        "Payment Gateway",
+        "Inventory System"
+      ],
+      tech: [
+        "React",
+        "Node.js",
+        "MongoDB",
+        "Stripe"
+      ],
+      industry: "Retail",
+      duration: "6 months",
+      teamSize: "5 members",
+      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80",
+      caseStudyLink: "/contact"
+    }
+  ];
+
+  const backFeaturesFallback = [
+    // Card 0: Visionary Founders
+    [
+      "Validated product concept and market positioning",
+      "Technical architecture and product roadmap",
+      "A Minimum Lovable Product — built to delight, not just function",
+      "Go-to-market strategy and launch support",
+      "Pitch materials for investors or partners"
+    ],
+    // Card 1: Business Owners
+    [
+      "Clear problem definition and solution scope",
+      "Business case and requirements documentation",
+      "A Minimum Lovable Product your users will actually love",
+      "Operational workflows and automation built in",
+      "A long-term partner who grows with your business"
+    ]
+  ];
 
   // Carousel scrolling/dragging logic
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -132,53 +201,10 @@ export default function LandingPage() {
 
   useScrollReveal();
 
-  // Vanta clouds effect
+  // Vanta clouds effect (Disabled to follow investor page hero background style)
   useEffect(() => {
-    let vantaEffect: any = null;
-    let isUnmounted = false;
-
-    const initVanta = async () => {
-      // Check ref inside the function to ensure it's captured correctly
-      if (!heroRef.current || isUnmounted) return;
-
-      try {
-        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js', 'three-script');
-        await loadScript('https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.clouds.min.js', 'vanta-script');
-
-        if (!isUnmounted && heroRef.current && (window as any).VANTA && (window as any).VANTA.CLOUDS && !vantaEffect) {
-          vantaEffect = (window as any).VANTA.CLOUDS({
-            el: heroRef.current,
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 500.00,
-            minWidth: 200.00,
-            backgroundColor: 0xffffff,
-            skyColor: 0x68b8d7,
-            cloudColor: 0xadc1d1,
-            cloudShadowColor: 0x183550,
-            sunColor: 0xff9919,
-            sunGlareColor: 0xff6633,
-            sunlightColor: 0xff9933
-          });
-        }
-      } catch (err) {
-        console.error('Vanta initialization failed:', err);
-      }
-    };
-
-    // Small timeout to ensure DOM is ready and styles are applied
-    const timeoutId = setTimeout(() => {
-      initVanta();
-    }, 50);
-
-    return () => {
-      isUnmounted = true;
-      clearTimeout(timeoutId);
-      if (vantaEffect && vantaEffect.destroy) {
-        vantaEffect.destroy();
-      }
-    };
+    // Vanta disabled for a clean, premium background design
+    return;
   }, [loading]);
 
 
@@ -209,7 +235,7 @@ export default function LandingPage() {
 
   if (error) return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope px-4 text-center">
-      <div className="text-red-500 text-5xl mb-4">âš ï¸</div>
+      <div className="text-red-500 text-5xl mb-4">⚠️</div>
       <h1 className="text-2xl font-bold text-gray-800 mb-2">Content Loading Failed</h1>
       <p className="text-gray-600 mb-6">{error}</p>
       <button
@@ -221,13 +247,14 @@ export default function LandingPage() {
     </div>
   );
 
-  if (!content) return (
+  const homeContent = content?.home || (localConfig as any).home;
+
+  if (!homeContent) return (
     <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">
-      <p className="text-gray-500 italic">No content available. Please ensure the backend is running and seeded.</p>
+      <p className="text-gray-500 italic">No content available. Please ensure the backend is running or config.json is populated.</p>
     </div>
   );
 
-  const homeContent = content.home;
   const methodologyCards = homeContent.methodology.cards.length <= 4
     ? [
       ...homeContent.methodology.cards,
@@ -1869,26 +1896,25 @@ export default function LandingPage() {
           min-height: 520px;
         }
 
-        /* ===== TECH HUB-AND-SPOKE SYSTEM ===== */
+        /* ===== NEW CIRCULAR METHODOLOGY HUB-AND-SPOKE ===== */
         .tech-hub-section {
           background: #ffffff;
           border-top: 1px solid rgba(0,90,226,0.07);
           border-bottom: 1px solid rgba(0,90,226,0.07);
-          padding: 20px 0 60px;
+          padding: 80px 0 100px;
           overflow: hidden;
           position: relative;
         }
 
-        .tech-hub-outer {
+        .radial-hub-container {
           width: 100%;
-          max-width: 1050px;
-          height: 660px;
-          margin: 10px auto 0;
+          max-width: 1000px;
+          height: 700px;
+          margin: 40px auto 0;
           position: relative;
         }
 
-        /* SVG lines container */
-        .tech-hub-svg {
+        .radial-hub-svg {
           position: absolute;
           top: 0;
           left: 0;
@@ -1898,257 +1924,326 @@ export default function LandingPage() {
           pointer-events: none;
         }
 
-        .tech-path {
-          fill: none;
-          stroke-width: 2.5px;
-          stroke-dasharray: 4 4;
-          transition: stroke 0.4s ease, stroke-width 0.4s ease, stroke-dasharray 0.4s ease, filter 0.4s ease;
-        }
-
-        /* Glowing animation when path is active */
-        .tech-path.active {
-          stroke-width: 4px;
-          stroke-dasharray: 0;
-          filter: drop-shadow(0 0 8px rgba(0, 90, 226, 0.6));
-        }
-
-        /* Center Node */
-        .hub-center-node {
+        .hub-center-circle {
           position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 140px;
-          height: 140px;
-          border-radius: 24px;
-          background: linear-gradient(135deg, #005AE2 0%, #002D72 100%);
-          padding: 3px;
-          box-shadow: 0 20px 50px rgba(0, 90, 226, 0.25), 0 0 0 8px rgba(0, 90, 226, 0.05);
-          z-index: 10;
-          transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
-        }
-        .hub-center-node:hover {
-          transform: translate(-50%, -50%) scale(1.06);
-          box-shadow: 0 30px 60px rgba(0, 90, 226, 0.35), 0 0 0 12px rgba(0, 90, 226, 0.08);
-        }
-        .hub-center-inner {
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(135deg, #003EB5 0%, #002D72 100%);
-          border-radius: 21px;
+          width: 160px;
+          height: 160px;
+          border-radius: 50%;
+          background: #EBF5FF;
+          border: 3px solid #005AE2;
           display: flex;
+          flex-direction: column;
           align-items: center;
           justify-content: center;
-          flex-direction: column;
-          gap: 4px;
-          padding: 12px;
-          overflow: hidden;
+          box-shadow: 0 12px 36px rgba(0, 90, 226, 0.12), 0 0 0 10px rgba(0, 90, 226, 0.04);
+          z-index: 10;
+          padding: 16px;
+          transition: transform 0.3s ease;
         }
-        .hub-center-content {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 6px;
-          padding: 8px;
+
+        .hub-center-circle:hover {
+          transform: translate(-50%, -50%) scale(1.05);
         }
-        .hub-center-label {
-          font-size: 0.62rem;
-          font-weight: 800;
+
+        .brain-pulsing-icon {
           color: #005AE2;
+          margin-bottom: 6px;
+          animation: brainPulse 2.5s infinite ease-in-out;
+        }
+
+        @keyframes brainPulse {
+          0% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(0, 90, 226, 0)); }
+          50% { transform: scale(1.08); filter: drop-shadow(0 0 8px rgba(0, 90, 226, 0.3)); }
+          100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(0, 90, 226, 0)); }
+        }
+
+        .hub-center-text {
+          font-family: 'Manrope', sans-serif;
+          font-size: 0.8rem;
+          font-weight: 800;
+          color: #002D72;
           text-align: center;
+          line-height: 1.3;
           letter-spacing: 0.02em;
-          line-height: 1.2;
           text-transform: uppercase;
         }
 
-        /* Branches & Wrappers */
-        .hub-branch-wrapper {
+        .spoke-card {
           position: absolute;
           width: 250px;
-          z-index: 5;
-          transform: translateY(-50%);
-        }
-        .branch-top-left { top: 110px; left: -30px; }
-        .branch-middle-left { top: 330px; left: -30px; }
-        .branch-bottom-left { top: 550px; left: -30px; }
-
-        .branch-top-right { top: 110px; left: 830px; }
-        .branch-middle-right { top: 330px; left: 830px; }
-        .branch-bottom-right { top: 550px; left: 830px; }
-
-        .hub-branch {
+          background: #EEF9F6;
+          border: 1.5px solid #CCEFE7;
+          border-radius: 14px;
           padding: 16px 20px;
-          border-radius: 20px;
-          background: rgba(255, 255, 255, 0.9);
-          border: 1px solid rgba(0, 90, 226, 0.08);
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
-          box-shadow: 0 4px 20px rgba(0, 90, 226, 0.06);
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          cursor: pointer;
-        }
-        
-        .branch-left {
-          text-align: right;
-        }
-        .branch-right {
-          text-align: left;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.02);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: 5;
         }
 
-        .hub-branch:hover,
-        .hub-branch.active {
-          background: #ffffff;
-          border-color: rgba(0, 90, 226, 0.18);
-          box-shadow: 0 20px 40px -15px rgba(0, 90, 226, 0.15), 0 0 0 1px rgba(0, 90, 226, 0.08);
-        }
-        .branch-left .hub-branch:hover,
-        .branch-left .hub-branch.active {
-          transform: translateX(-8px);
-        }
-        .branch-right .hub-branch:hover,
-        .branch-right .hub-branch.active {
-          transform: translateX(8px);
+        .spoke-card:hover {
+          transform: translateY(-5px);
+          border-color: #14B8A6;
+          background-color: #FFFFFF;
+          box-shadow: 0 15px 35px -10px rgba(20, 184, 166, 0.15);
         }
 
-        /* Typography & Header inside Branch */
-        .hub-branch-header {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          margin-bottom: 8px;
-        }
-        .branch-left .hub-branch-header {
-          flex-direction: row-reverse;
+        .spoke-card-title {
+          font-family: 'Manrope', sans-serif;
+          font-size: 0.92rem;
+          font-weight: 800;
+          color: #0F5132;
+          margin: 0 0 6px 0;
+          text-align: center;
+          letter-spacing: -0.01em;
         }
 
-        .hub-branch-icon {
-          width: 22px;
-          height: 22px;
-          color: #005AE2;
-          flex-shrink: 0;
-          transition: transform 0.3s ease;
+        .spoke-card-desc {
+          font-family: 'Inter', sans-serif;
+          font-size: 0.75rem;
+          line-height: 1.45;
+          color: #157347;
+          margin: 0;
+          text-align: center;
+          font-weight: 500;
         }
-        .branch-right .hub-branch-icon {
-          color: #4F46E5;
+
+        @media (max-width: 900px) {
+          .radial-hub-container {
+            display: none !important;
+          }
+          .hub-mobile-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 0 20px;
+            margin-top: 40px;
+          }
+          .mobile-spoke-card {
+            background: #EEF9F6;
+            border: 1.5px solid #CCEFE7;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+            transition: all 0.3s ease;
+          }
+          .mobile-spoke-card:hover {
+            transform: translateY(-4px);
+            border-color: #14B8A6;
+            background: #ffffff;
+            box-shadow: 0 12px 28px rgba(20, 184, 166, 0.1);
+          }
         }
-        .hub-branch:hover .hub-branch-icon {
-          transform: scale(1.18) rotate(-5deg);
+
+        .hub-mobile-grid {
+          display: none;
         }
-        .hub-branch-num {
-          width: 26px;
-          height: 26px;
-          border-radius: 8px;
-          background: linear-gradient(135deg, #005AE2, #003EB5);
-          color: #ffffff;
-          font-size: 0.78rem;
-          font-weight: 900;
+
+        /* Partnered Products Carousel Section */
+        .partnered-products-section {
+          background-color: #FAFAFA;
+          padding: 80px 24px;
+          position: relative;
+        }
+        .product-carousel-card {
+          background: #FFFFFF;
+          border: 1px solid #E2E8F0;
+          border-radius: 24px;
+          display: block;
+          overflow: visible; /* to allow chevrons to float half-outside */
+          max-width: 680px;
+          margin: 0 auto;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+          position: relative;
+        }
+        .carousel-nav-btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          background: #FFFFFF;
+          border: 1px solid #E2E8F0;
+          color: #64748B;
           display: flex;
           align-items: center;
           justify-content: center;
-          flex-shrink: 0;
-          letter-spacing: -0.02em;
-          transition: transform 0.3s ease;
+          cursor: pointer;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+          transition: all 0.2s ease;
+          z-index: 15;
         }
-        .branch-right .hub-branch-num {
-          background: linear-gradient(135deg, #4F46E5, #3730A3);
+        .carousel-nav-btn:hover {
+          background: #005AE2;
+          color: #FFFFFF;
+          border-color: #005AE2;
         }
-        .hub-branch:hover .hub-branch-num {
-          transform: scale(1.15);
+        .carousel-nav-btn.prev {
+          left: -22px;
         }
-
-        .hub-branch-title {
-          font-size: 0.88rem;
-          font-weight: 800;
-          color: #0F172A;
-          letter-spacing: -0.01em;
-          margin: 0;
+        .carousel-nav-btn.next {
+          right: -22px;
         }
-
-        .hub-branch-desc {
-          font-size: 0.7rem;
-          line-height: 1.4;
-          color: #64748B;
-          margin: 0;
-          font-weight: 500;
-          transition: color 0.3s ease;
-        }
-        .hub-branch:hover .hub-branch-desc {
-          color: #1e293b;
-        }
-
-        /* Responsive Mobile Layout */
-        @media (max-width: 900px) {
-          .tech-hub-outer {
-            display: none; /* Hide interactive diagram on smaller screens */
-          }
-          
-          /* Show a beautiful grid layout instead */
-          .tech-hub-mobile-grid {
-            display: grid !important;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            margin-top: 40px;
-          }
-        }
-        
-        .tech-hub-mobile-grid {
-          display: none;
-        }
-        
-        .mobile-hub-card {
-          background: rgba(255, 255, 255, 0.7);
-          border: 1px solid rgba(0, 90, 226, 0.08);
-          border-radius: 24px;
-          padding: 24px;
-          backdrop-filter: blur(10px);
-          box-shadow: 0 10px 30px -10px rgba(0, 90, 226, 0.05);
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .product-card-right {
+          padding: 48px;
           display: flex;
           flex-direction: column;
-          gap: 12px;
+          justify-content: space-between;
         }
-        .mobile-hub-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 15px 35px -10px rgba(0, 90, 226, 0.12);
-          background: #ffffff;
-        }
-        .mobile-card-header {
+        .product-category-wrap {
           display: flex;
           align-items: center;
-          gap: 10px;
-        }
-        .mobile-card-title {
-          font-size: 1.05rem;
-          font-weight: 800;
+          gap: 6px;
           color: #005AE2;
-          margin: 0;
+          font-weight: 700;
+          font-size: 0.8125rem;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-bottom: 12px;
         }
-        .mobile-hub-card:nth-child(even) .mobile-card-title {
-          color: #4F46E5;
+        .product-title-h3 {
+          font-size: 1.75rem;
+          font-weight: 800;
+          color: #0A0F1C;
+          margin-bottom: 6px;
+          line-height: 1.2;
         }
-        .mobile-card-desc {
-          font-size: 0.8rem;
-          line-height: 1.45;
+        .product-company-blue {
+          color: #005AE2;
+          font-weight: 700;
+          font-size: 0.95rem;
+          margin-bottom: 16px;
+        }
+        .product-description-p {
+          color: #475569;
+          font-size: 0.95rem;
+          line-height: 1.6;
+          margin-bottom: 24px;
+        }
+        .product-subtitle-h4 {
+          font-size: 0.875rem;
+          font-weight: 800;
+          text-transform: uppercase;
+          color: #0A0F1C;
+          letter-spacing: 0.05em;
+          margin-bottom: 12px;
+        }
+        .features-list-inline {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px;
+          margin-bottom: 24px;
+        }
+        .feature-item-bullet {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 0.875rem;
           color: #64748B;
-          margin: 0;
           font-weight: 500;
+        }
+        .feature-bullet-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #005AE2;
+        }
+        .tech-badges-wrap {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin-bottom: 32px;
+        }
+        .tech-badge-item {
+          background: #F8FAFC;
+          border: 1px solid #E2E8F0;
+          color: #005AE2;
+          padding: 6px 14px;
+          border-radius: 8px;
+          font-size: 0.8125rem;
+          font-weight: 600;
+        }
+        .product-card-divider {
+          border-top: 1px solid #F1F5F9;
+          margin-bottom: 24px;
+        }
+        .product-stats-cols {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+          margin-bottom: 8px;
+        }
+        .product-stat-col-item {
+          display: flex;
+          flex-direction: column;
+        }
+        .product-stat-col-label {
+          font-size: 0.75rem;
+          color: #94A3B8;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-bottom: 4px;
+        }
+        .product-stat-col-val {
+          font-size: 0.95rem;
+          color: #0A0F1C;
+          font-weight: 800;
+        }
+        .carousel-dots-indicator {
+          display: flex;
+          justify-content: center;
+          gap: 8px;
+          margin-top: 32px;
+        }
+        .carousel-dot-btn {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #E2E8F0;
+          border: none;
+          padding: 0;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        .carousel-dot-btn.active {
+          background: #005AE2;
+          width: 24px;
+          border-radius: 4px;
+        }
+        
+        /* Mobile Responsive for Carousel */
+        @media (max-width: 768px) {
+          .product-card-right {
+            padding: 24px;
+          }
+          .product-stats-cols {
+            grid-template-columns: 1fr;
+            gap: 12px;
+          }
+          .carousel-nav-btn.prev {
+            left: 10px;
+          }
+          .carousel-nav-btn.next {
+            right: 10px;
+          }
         }
   `;
 
   return (
     <>
-
       <style dangerouslySetInnerHTML={{ __html: PAGE_STYLES }} />
 
       <Header />
 
-      <div className="landing-page" style={{ overflow: 'hidden', position: 'relative' }}>
-        {/* Ambient aura animation */}
-        <div className="hero-aura aura-1"></div>
-        <div className="hero-aura aura-2"></div>
+      <div className="landing-page" style={{ overflow: 'hidden', position: 'relative', backgroundColor: '#FFFFFF' }}>
 
         {/* Step 1: Idea Submission Hero */}
-        <header ref={heroRef} className="hero-section" style={{ position: 'relative', paddingTop: '140px', paddingBottom: '80px', backgroundColor: 'transparent', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <header ref={heroRef} className="hero-section" style={{ position: 'relative', paddingTop: '140px', paddingBottom: '80px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <EditableText
               as="h1"
@@ -2285,14 +2380,14 @@ export default function LandingPage() {
               className="section-subtitle text-center cc-reveal cc-delay-2"
             />
 
-            <div className="cards-grid">
-              {homeContent.audiences.items.map((item, idx) => {
+            <div className="cards-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '32px', maxWidth: '900px', margin: '0 auto' }}>
+              {(homeContent.audiences.items || []).slice(0, 2).map((item: any, idx: number) => {
                 const isFlipped = flippedCards.has(idx);
                 return (
                   <div key={idx} className="audience-card-wrap">
                     <div className={`flip-card-inner ${isFlipped ? 'is-flipped' : ''}`}>
                       {/* FRONT */}
-                      <div className="flip-card-front">
+                      <div className="flip-card-front" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'between', height: '100%' }}>
                         <div>
                           <div className="card-icon">
                             {item.icon === 'user' && <User size={24} style={{ width: '24px', height: '24px', minWidth: '24px', minHeight: '24px' }} />}
@@ -2310,9 +2405,10 @@ export default function LandingPage() {
                             contentKey={`home.audiences.items.${idx}.description`}
                             value={item.description}
                             className="card-description"
+                            style={{ minHeight: '80px' }}
                           />
                           <ul className="card-features">
-                            {item.features.slice(0, 2).map((feature, fIdx) => (
+                            {(item.features || []).slice(0, 2).map((feature: string, fIdx: number) => (
                               <li key={fIdx}>
                                 <span className="check-icon">&#x2713;</span>
                                 <EditableText
@@ -2323,7 +2419,7 @@ export default function LandingPage() {
                             ))}
                           </ul>
                         </div>
-                        <div style={{ paddingTop: '24px' }}>
+                        <div style={{ paddingTop: '24px', marginTop: 'auto' }}>
                           <button
                             className="card-learn-more-btn"
                             onClick={() => setFlippedCards(prev => { const n = new Set(prev); n.add(idx); return n; })}
@@ -2338,26 +2434,73 @@ export default function LandingPage() {
                       </div>
 
                       {/* BACK */}
-                      <div className="flip-card-back">
-                        <div>
-                          <p className="flip-back-eyebrow">What we offer</p>
+                      <div className="flip-card-back" style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '32px' }}>
+                        <div style={{ flexGrow: 1 }}>
+                          <p className="flip-back-eyebrow">What you walk away with:</p>
                           <h4 className="flip-back-title">{item.title}</h4>
-                          <ul className="flip-back-features">
-                            {item.features.map((feature, fIdx) => (
-                              <li key={fIdx}>
-                                <span className="flip-back-check">✓</span>
-                                <span>{feature}</span>
-                              </li>
-                            ))}
+                          <ul className="flip-back-features" style={{ marginBottom: '24px' }}>
+                            {(() => {
+                              const itemsToUse = (item.backFeatures && item.backFeatures.length >= 5) 
+                                ? item.backFeatures 
+                                : (backFeaturesFallback[idx] || item.features || []);
+                              return itemsToUse.slice(0, 5).map((feature: string, fIdx: number) => (
+                                <li key={fIdx}>
+                                  <span className="flip-back-check">✓</span>
+                                  <EditableText
+                                    contentKey={`home.audiences.items.${idx}.backFeatures.${fIdx}`}
+                                    value={feature}
+                                  />
+                                </li>
+                              ));
+                            })()}
                           </ul>
                         </div>
-                        <button
-                          className="flip-back-btn"
-                          onClick={() => setFlippedCards(prev => { const n = new Set(prev); n.delete(idx); return n; })}
-                        >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                          Go Back
-                        </button>
+
+                        {item.backNote && (
+                          <div style={{ marginBottom: '20px', textAlign: 'left' }}>
+                            <EditableText
+                              as="p"
+                              contentKey={`home.audiences.items.${idx}.backNote`}
+                              value={item.backNote}
+                              style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.7)', fontStyle: 'italic', margin: 0, lineHeight: '1.45', fontWeight: 500 }}
+                            />
+                          </div>
+                        )}
+
+                        <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginTop: 'auto', width: '100%' }}>
+                          <Link
+                            href={idx === 0 ? "/studio" : "/contact"}
+                            className="btn-pill"
+                            style={{
+                              flexGrow: 1,
+                              padding: '12px 24px',
+                              borderRadius: '100px',
+                              background: '#FFFFFF',
+                              color: 'var(--primary-blue)',
+                              fontWeight: 700,
+                              fontSize: '0.875rem',
+                              textAlign: 'center',
+                              textDecoration: 'none',
+                              boxShadow: '0 4px 12px rgba(255,255,255,0.1)'
+                            }}
+                          >
+                            <EditableText
+                              contentKey={`home.audiences.items.${idx}.backCtaText`}
+                              value={idx === 0 ? "Apply to Studio" : "Start a Conversation"}
+                            />
+                          </Link>
+                          <button
+                            className="flip-back-btn"
+                            style={{ padding: '12px', borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: 'rgba(255,255,255,0.1)', border: '1.5px solid rgba(255,255,255,0.25)', color: '#ffffff' }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setFlippedCards(prev => { const n = new Set(prev); n.delete(idx); return n; });
+                            }}
+                            title="Go Back"
+                          >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -2367,247 +2510,188 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* How We Help — Interactive Tech Hub-and-Spoke Layout */}
+        {/* How We Help — Interactive circular diagram */}
         <section className="tech-hub-section" style={{ marginTop: '-2px' }}>
           <div className="section-container" style={{ maxWidth: '1100px', position: 'relative' }}>
+            <div className="text-center" style={{ marginBottom: '48px' }}>
+              <EditableText
+                as="h2"
+                contentKey="home.methodology.title"
+                value={homeContent.methodology?.title || "How We Help"}
+                className="section-title"
+                style={{ fontSize: '2.5rem', marginBottom: '12px' }}
+              />
+              <EditableText
+                as="p"
+                contentKey="home.methodology.subtitle"
+                value={homeContent.methodology?.subtitle || "Our collaborative venture-building methodology designed to de-risk startups and scale high-growth products from day one."}
+                className="section-subtitle"
+                style={{ maxWidth: '700px', margin: '0 auto', fontSize: '1.05rem', color: '#64748B' }}
+              />
+            </div>
 
+            {/* DESKTOP CIRCULAR HUB-AND-SPOKE DIAGRAM */}
+            <div className="radial-hub-container">
+              <svg className="radial-hub-svg" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                  <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#0A0F1C" />
+                  </marker>
+                </defs>
 
+                {/* Concentric Dashed Background Circles */}
+                <circle cx="500" cy="350" r="130" stroke="#E2E8F0" strokeWidth="1.5" strokeDasharray="4 4" fill="none" />
+                <circle cx="500" cy="350" r="240" stroke="#E2E8F0" strokeWidth="1.5" strokeDasharray="4 4" fill="none" />
+                <circle cx="500" cy="350" r="350" stroke="#E2E8F0" strokeWidth="1.5" strokeDasharray="4 4" fill="none" />
 
-            {/* DESKTOP INTERACTIVE DIAGRAM */}
-            <div className="tech-hub-outer">
-              <svg className="tech-hub-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet">
-                {/* Left Side Paths */}
-                <path 
-                  d="M 450 300 C 370 300, 370 100, 290 100 L 220 100" 
-                  className={`tech-path ${activeCategory === 'frontend' ? 'active' : ''}`}
-                  stroke={activeCategory === 'frontend' ? '#005AE2' : 'rgba(0, 90, 226, 0.2)'}
-                />
-                <path 
-                  d="M 450 300 L 220 300" 
-                  className={`tech-path ${activeCategory === 'backend' ? 'active' : ''}`}
-                  stroke={activeCategory === 'backend' ? '#005AE2' : 'rgba(0, 90, 226, 0.2)'}
-                />
-                <path 
-                  d="M 450 300 C 370 300, 370 500, 290 500 L 220 500" 
-                  className={`tech-path ${activeCategory === 'devops' ? 'active' : ''}`}
-                  stroke={activeCategory === 'devops' ? '#005AE2' : 'rgba(0, 90, 226, 0.2)'}
-                />
+                {/* Spokes Connecting Center to Cards */}
+                {/* 1. Outcome Ownership (Top Center) */}
+                <line x1="500" y1="260" x2="500" y2="155" stroke="#0A0F1C" strokeWidth="1.5" markerEnd="url(#arrow)" />
 
-                {/* Right Side Paths */}
-                <path 
-                  d="M 550 300 C 630 300, 630 100, 710 100 L 780 100" 
-                  className={`tech-path ${activeCategory === 'mobile' ? 'active' : ''}`}
-                  stroke={activeCategory === 'mobile' ? '#4F46E5' : 'rgba(79, 70, 229, 0.2)'}
-                />
-                <path 
-                  d="M 550 300 L 780 300" 
-                  className={`tech-path ${activeCategory === 'payments' ? 'active' : ''}`}
-                  stroke={activeCategory === 'payments' ? '#4F46E5' : 'rgba(79, 70, 229, 0.2)'}
-                />
-                <path 
-                  d="M 550 300 C 630 300, 630 500, 710 500 L 780 500" 
-                  className={`tech-path ${activeCategory === 'database' ? 'active' : ''}`}
-                  stroke={activeCategory === 'database' ? '#4F46E5' : 'rgba(79, 70, 229, 0.2)'}
-                />
+                {/* 2. Built to Scale (Top Right) */}
+                <line x1="560" y1="290" x2="690" y2="210" stroke="#0A0F1C" strokeWidth="1.5" />
+
+                {/* 3. We Challenge You (Middle Right) */}
+                <line x1="580" y1="365" x2="720" y2="400" stroke="#0A0F1C" strokeWidth="1.5" />
+
+                {/* 4. Lifelong Partner (Bottom Center) */}
+                <line x1="500" y1="440" x2="500" y2="520" stroke="#0A0F1C" strokeWidth="1.5" />
+
+                {/* 5. Rigorous Validation (Bottom Left) */}
+                <line x1="420" y1="410" x2="270" y2="510" stroke="#0A0F1C" strokeWidth="1.5" />
+
+                {/* 6. Senior In-House Team (Top Left) */}
+                <line x1="420" y1="290" x2="250" y2="210" stroke="#0A0F1C" strokeWidth="1.5" />
               </svg>
 
-              {/* CENTER NODE */}
-              <div className="hub-center-node">
-                <div className="hub-center-inner">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                    <path d="M2 17l10 5 10-5"/>
-                    <path d="M2 12l10 5 10-5"/>
-                  </svg>
-                  <span style={{
-                    fontSize: '0.72rem',
-                    fontWeight: 800,
-                    color: '#ffffff',
-                    textAlign: 'center',
-                    lineHeight: 1.25,
-                    letterSpacing: '0.01em',
-                    textTransform: 'uppercase',
-                  }}>How We<br/>Help</span>
-                </div>
+              {/* CENTER CIRCLE WITH PULSING BRAIN */}
+              <div className="hub-center-circle">
+                <Brain size={38} className="brain-pulsing-icon" />
+                <span className="hub-center-text">
+                  Crestcode<br/>Studio
+                </span>
               </div>
 
-              {/* Top Left Branch (Co-Building) */}
+              {/* 1. Outcome Ownership */}
               {methodologyCards[0] && (
-                <div 
-                  className="hub-branch-wrapper branch-top-left"
-                  onMouseEnter={() => setActiveCategory('frontend')}
-                  onMouseLeave={() => setActiveCategory(null)}
-                >
-                  <div className={`hub-branch branch-left ${activeCategory === 'frontend' ? 'active' : ''}`}>
-                    <div className="hub-branch-header">
-                      <span className="hub-branch-num">1</span>
-                      <h4 className="hub-branch-title">
-                        <EditableText
-                          contentKey="home.methodology.cards.0.title"
-                          value={methodologyCards[0].title}
-                        />
-                      </h4>
-                    </div>
-                    <p className="hub-branch-desc">
-                      <EditableText
-                        contentKey="home.methodology.cards.0.description"
-                        value={methodologyCards[0].description}
-                      />
-                    </p>
-                  </div>
+                <div className="spoke-card" style={{ left: '50%', top: '40px', transform: 'translateX(-50%)' }}>
+                  <h4 className="spoke-card-title">
+                    <EditableText
+                      contentKey="home.methodology.cards.0.title"
+                      value={methodologyCards[0].title}
+                    />
+                  </h4>
+                  <p className="spoke-card-desc">
+                    <EditableText
+                      contentKey="home.methodology.cards.0.description"
+                      value={methodologyCards[0].description}
+                    />
+                  </p>
                 </div>
               )}
 
-              {/* Middle Left Branch (Execution) */}
+              {/* 2. Built to Scale */}
               {methodologyCards[1] && (
-                <div 
-                  className="hub-branch-wrapper branch-middle-left"
-                  onMouseEnter={() => setActiveCategory('backend')}
-                  onMouseLeave={() => setActiveCategory(null)}
-                >
-                  <div className={`hub-branch branch-left ${activeCategory === 'backend' ? 'active' : ''}`}>
-                    <div className="hub-branch-header">
-                      <span className="hub-branch-num">2</span>
-                      <h4 className="hub-branch-title">
-                        <EditableText
-                          contentKey="home.methodology.cards.1.title"
-                          value={methodologyCards[1].title}
-                        />
-                      </h4>
-                    </div>
-                    <p className="hub-branch-desc">
-                      <EditableText
-                        contentKey="home.methodology.cards.1.description"
-                        value={methodologyCards[1].description}
-                      />
-                    </p>
-                  </div>
+                <div className="spoke-card" style={{ left: '66%', top: '140px' }}>
+                  <h4 className="spoke-card-title">
+                    <EditableText
+                      contentKey="home.methodology.cards.1.title"
+                      value={methodologyCards[1].title}
+                    />
+                  </h4>
+                  <p className="spoke-card-desc">
+                    <EditableText
+                      contentKey="home.methodology.cards.1.description"
+                      value={methodologyCards[1].description}
+                    />
+                  </p>
                 </div>
               )}
 
-              {/* Bottom Left Branch (Collaboration) */}
+              {/* 3. We Challenge You */}
               {methodologyCards[2] && (
-                <div 
-                  className="hub-branch-wrapper branch-bottom-left"
-                  onMouseEnter={() => setActiveCategory('devops')}
-                  onMouseLeave={() => setActiveCategory(null)}
-                >
-                  <div className={`hub-branch branch-left ${activeCategory === 'devops' ? 'active' : ''}`}>
-                    <div className="hub-branch-header">
-                      <span className="hub-branch-num">3</span>
-                      <h4 className="hub-branch-title">
-                        <EditableText
-                          contentKey="home.methodology.cards.2.title"
-                          value={methodologyCards[2].title}
-                        />
-                      </h4>
-                    </div>
-                    <p className="hub-branch-desc">
-                      <EditableText
-                        contentKey="home.methodology.cards.2.description"
-                        value={methodologyCards[2].description}
-                      />
-                    </p>
-                  </div>
+                <div className="spoke-card" style={{ left: '72%', top: '380px' }}>
+                  <h4 className="spoke-card-title">
+                    <EditableText
+                      contentKey="home.methodology.cards.2.title"
+                      value={methodologyCards[2].title}
+                    />
+                  </h4>
+                  <p className="spoke-card-desc">
+                    <EditableText
+                      contentKey="home.methodology.cards.2.description"
+                      value={methodologyCards[2].description}
+                    />
+                  </p>
                 </div>
               )}
 
-              {/* Top Right Branch (Support) */}
+              {/* 4. Lifelong Partner */}
               {methodologyCards[3] && (
-                <div 
-                  className="hub-branch-wrapper branch-top-right"
-                  onMouseEnter={() => setActiveCategory('mobile')}
-                  onMouseLeave={() => setActiveCategory(null)}
-                >
-                  <div className={`hub-branch branch-right ${activeCategory === 'mobile' ? 'active' : ''}`}>
-                    <div className="hub-branch-header">
-                      <span className="hub-branch-num">4</span>
-                      <h4 className="hub-branch-title">
-                        <EditableText
-                          contentKey="home.methodology.cards.3.title"
-                          value={methodologyCards[3].title}
-                        />
-                      </h4>
-                    </div>
-                    <p className="hub-branch-desc">
-                      <EditableText
-                        contentKey="home.methodology.cards.3.description"
-                        value={methodologyCards[3].description}
-                      />
-                    </p>
-                  </div>
+                <div className="spoke-card" style={{ left: '50%', bottom: '40px', transform: 'translateX(-50%)' }}>
+                  <h4 className="spoke-card-title">
+                    <EditableText
+                      contentKey="home.methodology.cards.3.title"
+                      value={methodologyCards[3].title}
+                    />
+                  </h4>
+                  <p className="spoke-card-desc">
+                    <EditableText
+                      contentKey="home.methodology.cards.3.description"
+                      value={methodologyCards[3].description}
+                    />
+                  </p>
                 </div>
               )}
 
-              {/* Middle Right Branch (AI & Automation) */}
+              {/* 5. Rigorous Validation */}
               {methodologyCards[4] && (
-                <div 
-                  className="hub-branch-wrapper branch-middle-right"
-                  onMouseEnter={() => setActiveCategory('payments')}
-                  onMouseLeave={() => setActiveCategory(null)}
-                >
-                  <div className={`hub-branch branch-right ${activeCategory === 'payments' ? 'active' : ''}`}>
-                    <div className="hub-branch-header">
-                      <span className="hub-branch-num">5</span>
-                      <h4 className="hub-branch-title">
-                        <EditableText
-                          contentKey="home.methodology.cards.4.title"
-                          value={methodologyCards[4].title}
-                        />
-                      </h4>
-                    </div>
-                    <p className="hub-branch-desc">
-                      <EditableText
-                        contentKey="home.methodology.cards.4.description"
-                        value={methodologyCards[4].description}
-                      />
-                    </p>
-                  </div>
+                <div className="spoke-card" style={{ left: '10%', top: '480px' }}>
+                  <h4 className="spoke-card-title">
+                    <EditableText
+                      contentKey="home.methodology.cards.4.title"
+                      value={methodologyCards[4].title}
+                    />
+                  </h4>
+                  <p className="spoke-card-desc">
+                    <EditableText
+                      contentKey="home.methodology.cards.4.description"
+                      value={methodologyCards[4].description}
+                    />
+                  </p>
                 </div>
               )}
 
-              {/* Bottom Right Branch (Silicon Valley Execution) */}
+              {/* 6. Senior In-House Team */}
               {methodologyCards[5] && (
-                <div 
-                  className="hub-branch-wrapper branch-bottom-right"
-                  onMouseEnter={() => setActiveCategory('database')}
-                  onMouseLeave={() => setActiveCategory(null)}
-                >
-                  <div className={`hub-branch branch-right ${activeCategory === 'database' ? 'active' : ''}`}>
-                    <div className="hub-branch-header">
-                      <span className="hub-branch-num">6</span>
-                      <h4 className="hub-branch-title">
-                        <EditableText
-                          contentKey="home.methodology.cards.5.title"
-                          value={methodologyCards[5].title}
-                        />
-                      </h4>
-                    </div>
-                    <p className="hub-branch-desc">
-                      <EditableText
-                        contentKey="home.methodology.cards.5.description"
-                        value={methodologyCards[5].description}
-                      />
-                    </p>
-                  </div>
+                <div className="spoke-card" style={{ left: '8%', top: '160px' }}>
+                  <h4 className="spoke-card-title">
+                    <EditableText
+                      contentKey="home.methodology.cards.5.title"
+                      value={methodologyCards[5].title}
+                    />
+                  </h4>
+                  <p className="spoke-card-desc">
+                    <EditableText
+                      contentKey="home.methodology.cards.5.description"
+                      value={methodologyCards[5].description}
+                    />
+                  </p>
                 </div>
               )}
             </div>
 
-            {/* MOBILE ADAPTIVE GRID LAYOUT */}
-            <div className="tech-hub-mobile-grid">
-              {methodologyCards.map((card, idx) => (
-                <div key={idx} className="mobile-hub-card">
-                  <div className="mobile-card-header">
-                    {getCardIcon(card.icon)}
-                    <h4 className="mobile-card-title">
-                      <EditableText
-                        contentKey={`home.methodology.cards.${idx}.title`}
-                        value={card.title}
-                      />
-                    </h4>
-                  </div>
-                  <p className="mobile-card-desc">
+            {/* MOBILE GRID LAYOUT */}
+            <div className="hub-mobile-grid">
+              {methodologyCards.slice(0, 6).map((card: any, idx: number) => (
+                <div key={idx} className="mobile-spoke-card">
+                  <h4 className="spoke-card-title">
+                    <EditableText
+                      contentKey={`home.methodology.cards.${idx}.title`}
+                      value={card.title}
+                    />
+                  </h4>
+                  <p className="spoke-card-desc">
                     <EditableText
                       contentKey={`home.methodology.cards.${idx}.description`}
                       value={card.description}
@@ -2622,14 +2706,116 @@ export default function LandingPage() {
 
 
 
-        {/* Metrics Section */}
-        <section className="metrics-bg-section" style={{ minHeight: '180px' }}>
-          <div className="section-container" style={{ paddingTop: '64px', paddingBottom: '64px', position: 'relative', zIndex: 2 }}>
-            <div className="text-center" style={{ marginBottom: '48px' }}>
-              <EditableText as="p" contentKey="home.metrics_section.eyebrow" value="CRESTCODE BY THE NUMBERS" className="section-eyebrow" style={{ color: '#94A3B8' }} />
-              <EditableText as="h2" contentKey="home.metrics_section.title" value="Our Track Record of Delivering High-Growth Results" className="section-title text-white" style={{ marginBottom: '0px' }} />
+        {/* Partnered Products Section */}
+        <section className="partnered-products-section">
+          <div className="section-container" style={{ position: 'relative', zIndex: 2 }}>
+            <div className="text-center" style={{ marginBottom: '40px' }}>
+              <h2 className="section-title text-center" style={{ fontSize: '2.5rem', marginBottom: '12px' }}>
+                Partner <span style={{ color: '#005AE2' }}>Products</span>
+              </h2>
+              <p className="section-subtitle text-center" style={{ maxWidth: '600px', margin: '0 auto 8px', fontSize: '1.05rem', color: '#64748B' }}>
+                Innovative solutions delivering measurable results across industries
+              </p>
             </div>
-            <MetricsRow metrics={homeContent.metrics} />
+
+            <div className="product-carousel-card" style={{ position: 'relative' }}>
+              {/* Navigation Chevron Left */}
+              <button 
+                className="carousel-nav-btn prev"
+                onClick={() => setCurrentProductIndex(prev => (prev - 1 + partneredProducts.length) % partneredProducts.length)}
+                aria-label="Previous Project"
+                type="button"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+
+              {/* Centered Details Card */}
+              <div className="product-card-right">
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                    <span style={{ fontSize: '0.8125rem', fontWeight: 800, color: '#005AE2', background: '#F0F5FF', padding: '6px 12px', borderRadius: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      Project {partneredProducts[currentProductIndex].id}
+                    </span>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#15803D', background: '#DCFCE7', padding: '4px 10px', borderRadius: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                      {partneredProducts[currentProductIndex].status}
+                    </span>
+                  </div>
+
+                  <div className="product-category-wrap">
+                    <Globe size={14} />
+                    <span>{partneredProducts[currentProductIndex].category}</span>
+                  </div>
+                  <h3 className="product-title-h3">{partneredProducts[currentProductIndex].title}</h3>
+                  <div className="product-company-blue">{partneredProducts[currentProductIndex].company}</div>
+                  <p className="product-description-p">{partneredProducts[currentProductIndex].description}</p>
+                  
+                  <h4 className="product-subtitle-h4">Key Features</h4>
+                  <div className="features-list-inline">
+                    {partneredProducts[currentProductIndex].features.map((feature, fIdx) => (
+                      <div key={fIdx} className="feature-item-bullet">
+                        <span className="feature-bullet-dot"></span>
+                        <span>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <h4 className="product-subtitle-h4">Technology Stack</h4>
+                  <div className="tech-badges-wrap">
+                    {partneredProducts[currentProductIndex].tech.map((techItem, tIdx) => (
+                      <div key={tIdx} className="tech-badge-item">
+                        {techItem}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="product-card-divider"></div>
+                  
+                  <div className="product-stats-cols">
+                    <div className="product-stat-col-item">
+                      <span className="product-stat-col-label">Industry</span>
+                      <span className="product-stat-col-val">{partneredProducts[currentProductIndex].industry}</span>
+                    </div>
+                    <div className="product-stat-col-item">
+                      <span className="product-stat-col-label">Duration</span>
+                      <span className="product-stat-col-val">{partneredProducts[currentProductIndex].duration}</span>
+                    </div>
+                    <div className="product-stat-col-item">
+                      <span className="product-stat-col-label">Team Size</span>
+                      <span className="product-stat-col-val">{partneredProducts[currentProductIndex].teamSize}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Navigation Chevron Right */}
+              <button 
+                className="carousel-nav-btn next"
+                onClick={() => setCurrentProductIndex(prev => (prev + 1) % partneredProducts.length)}
+                aria-label="Next Project"
+                type="button"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+
+            {/* Carousel Dots */}
+            <div className="carousel-dots-indicator">
+              {partneredProducts.map((_, dotIdx) => (
+                <button 
+                  key={dotIdx}
+                  className={`carousel-dot-btn ${currentProductIndex === dotIdx ? 'active' : ''}`}
+                  onClick={() => setCurrentProductIndex(dotIdx)}
+                  aria-label={`Go to project slide ${dotIdx + 1}`}
+                  type="button"
+                />
+              ))}
+            </div>
           </div>
         </section>
 
@@ -2646,7 +2832,9 @@ export default function LandingPage() {
             />
 
             <div className="cards-grid-2">
-              {homeContent.testimonials.items.map((item, idx) => (
+              {(homeContent.testimonials.items || [])
+                .filter((item: any) => item.author && !item.author.toLowerCase().includes('abdul') && !item.author.toLowerCase().includes('adbul'))
+                .map((item: any, idx: number) => (
                 <div key={idx} className="testimonial-card cc-shine">
                   <EditableText
                     as="p"
@@ -2673,32 +2861,6 @@ export default function LandingPage() {
               ))}
             </div>
 
-            <div className="founder-quote-card">
-              <div className="founder-img">
-                <img src="/images/founder-asfarul.jpg" alt={homeContent.testimonials.founder.author} className="founder-photo" />
-              </div>
-              <div className="fq-content">
-                <div className="fq-marks">""</div>
-                <EditableText
-                  as="p"
-                  contentKey="home.testimonials.founder.quote"
-                  value={homeContent.testimonials.founder.quote}
-                  className="fq-text"
-                />
-                <div className="fq-meta">
-                  <EditableText
-                    contentKey="home.testimonials.founder.author"
-                    value={homeContent.testimonials.founder.author}
-                    className="fq-author"
-                  />
-                  <EditableText
-                    contentKey="home.testimonials.founder.role"
-                    value={homeContent.testimonials.founder.role}
-                    className="fq-role"
-                  />
-                </div>
-              </div>
-            </div>
           </div>
         </section>
 
