@@ -74,7 +74,7 @@
           "links": [
             {
               "name": "About Us",
-              "href": "/#about"
+              "href": "/about"
             },
             {
               "name": "Insights",
@@ -118,6 +118,7 @@
   },
   "company": {
     "hero": {
+      "eyebrow": "ABOUT THE STUDIO",
       "title": "Crestcode Portfolio",
       "subtitle": "Discover the high-growth ventures and transformative platforms we've built from the ground up."
     },
@@ -489,6 +490,7 @@
   },
   "home": {
     "hero": {
+      "eyebrow": "CO-FOUNDER ON DEMAND",
       "heading": "Where BOLD IDEAS become REAL products",
       "subheading": "Crestcode is a venture builder that partners with founders to turn ambitious ideas into high-growth digital businesses.",
       "placeholder": "Submit your idea...",
@@ -541,30 +543,41 @@
       "items": [
         {
           "title": "Visionary Founders",
-          "description": "We help founders validate ideas, define product strategy, and build scalable MVPs with strong technical execution and market readiness.",
+          "description": "You have an idea — with or without a technical background. We help you validate it, define the product strategy, and build a scalable MVP with the engineering and execution power most early-stage founders can't access alone.",
           "features": [
             "Rapid MVP Development",
             "Strategic Product Roadmap"
           ],
+          "backFeatures": [
+            "Validated product concept and market positioning",
+            "Technical architecture and product roadmap",
+            "A Minimum Lovable Product — built to delight, not just function",
+            "Go-to-market strategy and launch support",
+            "Pitch materials for investors or partners"
+          ],
+          "backNote": "You don't need to have it all figured out. We're not just here for the launch — we're in it with you for the long run.",
+          "backCtaText": "Apply to Studio",
+          "backCtaLink": "/studio",
           "icon": "user"
         },
         {
-          "title": "Startups & SMEs",
-          "description": "From product enhancement to platform scaling, we support growing businesses with agile development, UI/UX optimization, and long-term technology partnership.",
+          "title": "Business Owners",
+          "description": "You've built a business and identified a problem worth solving. We turn your domain expertise and operational insight into a digital product — handling everything from scoping the right solution to building and launching it.",
           "features": [
-            "Digital Product Innovation",
-            "Legacy Modernization"
+            "Problem-to-Product Scoping",
+            "Domain-Led Development"
           ],
+          "backFeatures": [
+            "Clear problem definition and solution scope",
+            "Business case and requirements documentation",
+            "A Minimum Lovable Product your users will actually love",
+            "Operational workflows and automation built in",
+            "A long-term partner who grows with your business"
+          ],
+          "backNote": "You already understand the problem better than anyone. We bring the product thinking and engineering — and we stay at the table long after launch.",
+          "backCtaText": "Start a Conversation",
+          "backCtaLink": "/contact",
           "icon": "building"
-        },
-        {
-          "title": "Enterprises & Innovation Teams",
-          "description": "We collaborate with enterprises and innovation teams to accelerate digital transformation, modernize systems, and launch impactful technology solutions.",
-          "features": [
-            "CTO-as-a-Service",
-            "Tech Strategy & Mentorship"
-          ],
-          "icon": "idea"
         }
       ]
     },
@@ -613,44 +626,89 @@
       }
     ],
     "methodology": {
-      "title": "The Way We Work",
-      "subtitle": "We don’t just execute tasks — we become your product build partner. With senior product thinking, in-house delivery, and proven systems, we help you move from idea to launch with less risk, less delay, and far more clarity.",
+      "title": "How We Help",
+      "subtitle": "We sit at the intersection of product strategy, engineering, and business to help you make better decisions and build products that succeed.",
       "cards": [
         {
-          "title": "Strategic Co-Building",
-          "highlight": "PRODUCT THINKING MEETS EXECUTION",
-          "description": "We collaborate closely with founders to shape product direction, validate ideas, and build scalable solutions with long-term vision in mind.",
-          "icon": "lambda"
-        },
-        {
-          "title": "Rapid Product Execution",
-          "highlight": "FAST ITERATIONS. SMART DELIVERY.",
-          "description": "Using agile workflows and in-house expertise, we accelerate development cycles while maintaining quality, speed, and scalability.",
-          "icon": "grid"
-        },
-        {
-          "title": "Founder-Friendly Collaboration",
-          "highlight": "TRANSPARENT. FLEXIBLE. FOUNDER-FIRST.",
-          "description": "We work as an extension of your team with open communication, adaptive execution, and partnership-driven collaboration at every stage.",
-          "icon": "layers"
-        },
-        {
-          "title": "End-to-End Venture Support",
-          "highlight": "FROM IDEA TO SCALABLE GROWTH",
-          "description": "From strategy and design to development and scaling, we provide complete product support to help ventures launch and grow confidently.",
+          "title": "Outcome ownership",
+          "description": "We own the result, not the ticket",
           "icon": "star"
         },
         {
-          "title": "AI & Automation Integration",
-          "highlight": "INTELLIGENT WORKFLOWS. ELITE SPEED.",
-          "description": "We infuse artificial intelligence and workflow automation directly into your venture’s core operations to minimize manual friction and accelerate scale.",
+          "title": "Built to scale",
+          "description": "Architecture for 10x from day one",
           "icon": "cpu"
         },
         {
-          "title": "Silicon Valley Execution",
-          "highlight": "GLOBAL TALENT. RAPID LAUNCH.",
-          "description": "Access top-tier engineers, world-class designers, and product leaders working on a unified, high-velocity roadmap designed to optimize your runway.",
+          "title": "We challenge you",
+          "description": "We push back to drive success",
+          "icon": "grid"
+        },
+        {
+          "title": "Lifelong partner",
+          "description": "With you beyond the launch",
           "icon": "target"
+        },
+        {
+          "title": "Rigorous validation",
+          "description": "Every build challenged before ship",
+          "icon": "lambda"
+        },
+        {
+          "title": "Senior in-house team",
+          "description": "No outsourcing, no juniors",
+          "icon": "layers"
+        }
+      ]
+    },
+    "partnered_products": {
+      "title": "Partner Products",
+      "subtitle": "Innovative solutions delivering measurable results across industries",
+      "badge": "4+ Successful Projects",
+      "items": [
+        {
+          "id": "01",
+          "status": "Live",
+          "category": "Web Development",
+          "title": "Lifestyle & Legacy Management Website",
+          "company": "Dockly",
+          "description": "A comprehensive lifestyle and legacy management website that helps individuals securely organize and preserve their digital footprint and inheritance.",
+          "features": [
+            "Secure Legacy Preserves",
+            "Digital Footprint Care"
+          ],
+          "tech": [
+            "Frontend",
+            "Backend"
+          ],
+          "industry": "Lifestyle / Legacy",
+          "duration": "4 months",
+          "teamSize": "3 members",
+          "image": "/images/dockly_showcase.png",
+          "caseStudyLink": "/contact"
+        },
+        {
+          "id": "02",
+          "status": "Live",
+          "category": "Web Development",
+          "title": "E-Commerce Platform",
+          "company": "TechMart Solutions",
+          "description": "A comprehensive e-commerce platform for management.",
+          "features": [
+            "Payment Gateway",
+            "Inventory System"
+          ],
+          "tech": [
+            "React",
+            "Node.js",
+            "MongoDB",
+            "Stripe"
+          ],
+          "industry": "Retail",
+          "duration": "6 months",
+          "teamSize": "5 members",
+          "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80",
+          "caseStudyLink": "/contact"
         }
       ]
     },
@@ -1177,7 +1235,7 @@
   },
   "investors": {
     "hero": {
-      "eyebrow": "STRATEGIC FUTURISM",
+      "eyebrow": "INVESTOR RELATIONS",
       "title1": "Not Just Capital.",
       "title2": "Build With Us.",
       "subheading": "A different kind of engagement for high-conviction individuals. Crestcode Product Studio connects institutional operators with early-stage hypergrowth ventures.",

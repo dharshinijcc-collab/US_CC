@@ -78,10 +78,9 @@ export default function Header(props: any) {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const navItems = [
-    { label: 'Home', href: '/' },
     { label: 'Studio', href: '/studio' },
+    { label: 'Founder', href: '/' },
     { label: 'Investors', href: '/investors' },
-    { label: 'Company', href: '/company' },
     {
       label: 'Resources',
       href: '/resources',
@@ -591,15 +590,17 @@ export default function Header(props: any) {
         <div className="menu-section">
           <span className="menu-label">Menu</span>
           <div className="menu-links">
-            {globalContent.header.links.map((link: any, idx: number) => (
-              <Link
-                key={idx}
-                href={link.href}
-                className={`menu-link ${pathname === link.href ? 'active' : ''}`}
-                onClick={toggleMenu}
-              >
-                <EditableText contentKey={`global.header.links.${idx}.name`} value={link.name} />
-              </Link>
+            {navItems.map((item, idx) => (
+              !item.dropdown && (
+                <Link
+                  key={idx}
+                  href={item.href}
+                  className={`menu-link ${pathname === item.href ? 'active' : ''}`}
+                  onClick={toggleMenu}
+                >
+                  {item.label}
+                </Link>
+              )
             ))}
 
             {/* Resources sub-links in mobile */}

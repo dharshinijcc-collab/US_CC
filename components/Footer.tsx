@@ -243,7 +243,8 @@ export default function Footer() {
                   <ul style={{ marginBottom: section.cta ? '24px' : '0' }}>
                     {section.links.map((link, lIdx) => {
                       const isBlogsLink = link.name?.toLowerCase() === 'blogs';
-                      const resolvedHref = isBlogsLink ? '/blogs' : link.href;
+                      const isAboutLink = link.name?.toLowerCase() === 'about us';
+                      const resolvedHref = isBlogsLink ? '/blogs' : (isAboutLink ? '/about' : link.href);
                       return (
                         <li key={lIdx}>
                           <Link href={resolvedHref}>
