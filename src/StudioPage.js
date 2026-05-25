@@ -653,6 +653,7 @@ export default function StudioPage() {
         <div className="validation-wrapper section-base" style={{ backgroundColor: 'var(--white)' }}>
           <div className="validation-card grid-2">
             <div>
+              <div className="section-eyebrow">Idea Validation</div>
               <h2 className="section-title section-title-left title-dark">{studioContent.validation.title}</h2>
               <p className="body-text" style={{ marginBottom: '40px', color: '#9CA3AF' }}>
                 {studioContent.validation.description}
@@ -709,6 +710,7 @@ export default function StudioPage() {
         {/* For Founders vs. For Investors Section */}
         <section className="section-base" style={{ position: 'relative' }}>
           <div className="section-container" style={{ position: 'relative', zIndex: 1 }}>
+            <div className="section-eyebrow">Target Audiences</div>
             <h2 className="section-title">{studioContent.foundersInvestors.title}</h2>
             <div className="grid-2 grid-2-align-top" style={{ marginTop: '64px' }}>
 
@@ -767,6 +769,7 @@ export default function StudioPage() {
         {/* How the Partnership Works */}
         <section className="section-white" id="methodology-section">
           <div className="section-container" style={{ maxWidth: '1280px' }}>
+            <div className="section-eyebrow">Partnership Models</div>
             <h2 className="section-title">{studioContent.partnership.title}</h2>
             <div className="grid-3" style={{ marginTop: '64px', gap: '32px' }}>
 
@@ -813,6 +816,7 @@ export default function StudioPage() {
         <section className="section-dark" style={{ backgroundColor: '#0A0F1C', padding: '100px 24px' }}>
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             {/* Main Section Title */}
+            <div className="section-eyebrow" style={{ textAlign: 'center', color: '#005AE2' }}>Problem Solving</div>
             <h2 className="section-title title-dark" style={{ marginBottom: '80px', textAlign: 'center', fontSize: '3.5rem', fontWeight: 800, transform: 'translateX(-40px)' }}>{studioContent.solving.title}</h2>
             <div className="grid-2" style={{ alignItems: 'center', gap: '120px', display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
               {/* Left Column: Problem Step */}
@@ -916,6 +920,7 @@ export default function StudioPage() {
         <section className="section-base">
           <div className="section-container grid-2">
             <div>
+              <div className="section-eyebrow">Common Pitfalls</div>
               <h2 className="section-title section-title-left">
                 {studioContent.whyIdeasFail.title}
               </h2>
@@ -952,6 +957,7 @@ export default function StudioPage() {
         <section className="section-white">
           <div className="section-container">
             <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+              <div className="section-eyebrow">Selection Criteria</div>
               <h2 className="section-title">{studioContent.whatWeLookFor.title}</h2>
               <p className="section-subtitle" style={{ maxWidth: '700px', margin: '0 auto' }}>
                 {studioContent.whatWeLookFor.subtitle}
@@ -1001,6 +1007,7 @@ export default function StudioPage() {
         {/* The Build Timeline */}
         <section className="section-light text-center">
           <div className="section-container">
+            <div className="section-eyebrow">Development Process</div>
             <h2 className="section-title">{studioContent.timeline.title}</h2>
             <p className="section-subtitle text-center mx-auto" style={{ maxWidth: '750px', marginBottom: '64px' }}>
               {studioContent.timeline.subtitle}
