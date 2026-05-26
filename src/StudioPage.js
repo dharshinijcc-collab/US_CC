@@ -126,8 +126,10 @@ export default function StudioPage() {
           text-transform: uppercase;
           font-size: clamp(0.6875rem, 1vw, 0.8125rem);
           margin-bottom: 16px;
+          filter: blur(0.5px);
+          text-shadow: 0 0 10px rgba(0, 90, 226, 0.3);
         }
-        
+
         .hero-eyebrow-pill {
           display: inline-block;
           background-color: #F0F5FF;
@@ -138,6 +140,8 @@ export default function StudioPage() {
           font-weight: 800;
           letter-spacing: 0.1em;
           margin-bottom: 24px;
+          filter: blur(0.5px);
+          text-shadow: 0 0 10px rgba(0, 90, 226, 0.3);
         }
 
         .body-text {
