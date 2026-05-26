@@ -31,8 +31,8 @@ export default function ContactPage() {
   };
   useScrollReveal();
   
-  if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#FAFAFA] font-manrope">Loading contact...</div>;
-  if (error) return <div className="flex items-center justify-center min-h-screen bg-[#FAFAFA] font-manrope text-red-500">Error: {error}</div>;
+  if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#FFFFFF] font-manrope">Loading contact...</div>;
+  if (error) return <div className="flex items-center justify-center min-h-screen bg-[#FFFFFF] font-manrope text-red-500">Error: {error}</div>;
   if (!content) return null;
 
   const contactContent = content.contact;
@@ -75,7 +75,7 @@ export default function ContactPage() {
 
         :root {
           /* Color System */
-          --bg-base: #FAFAFA;
+          --bg-base: #FFFFFF;
           --bg-light: #FFFFFF;
           --bg-dark: #0A0F1C;
           --bg-grey: #F4F5F7;
@@ -141,19 +141,14 @@ export default function ContactPage() {
         
         /* Typography */
         .hero-title { 
-          font-size: clamp(2.5rem, 5vw, 4rem); 
+          font-size: clamp(2.25rem, 4.5vw, 3.25rem); 
           font-weight: 800; 
           letter-spacing: -0.03em; 
-          margin-bottom: clamp(12px, 2vw, 16px); 
+          margin: 0 auto clamp(16px, 3vw, 24px); 
           line-height: 1.15; 
-          padding-bottom: 0.1em;
           color: var(--text-black);
-          background: linear-gradient(135deg, #020617, #4a5568);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          text-shadow: 0 4px 8px rgba(0,0,0,0.1);
-          transform: translateZ(20px);
+          text-align: center !important;
+          width: 100%;
         }
         .text-bright-blue { 
           color: var(--bright-blue);
@@ -196,6 +191,26 @@ export default function ContactPage() {
         }
 
         /* 3D Buttons */
+        .btn-primary { 
+          background-color: var(--primary-blue); 
+          color: var(--white); 
+          padding: 16px 40px; 
+          border-radius: 100px; 
+          font-weight: 700; 
+          font-size: 16px; 
+          border: none; 
+          cursor: pointer; 
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+          display: inline-block;
+          box-shadow: 0 10px 20px -5px rgba(0, 90, 226, 0.3);
+          text-decoration: none;
+        }
+        .btn-primary:hover { 
+          background-color: #004ac2; 
+          transform: translateY(-2px); 
+          box-shadow: 0 15px 30px -5px rgba(0, 90, 226, 0.4);
+        }
+        .btn-primary:active { transform: translateY(0) scale(0.98); }
         .btn-bright { 
           background: linear-gradient(135deg, var(--bright-blue), var(--primary-blue));
           color: var(--white); 
@@ -285,7 +300,12 @@ export default function ContactPage() {
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 
         /* Hero Section */
-        .hero-section { background-color: var(--bg-base); }
+        .hero-section { 
+          background-color: #FFFFFF; 
+          padding: 120px 24px 80px; 
+          position: relative; 
+          overflow: hidden; 
+        }
         .hero-image-wrap {
           border-radius: 24px;
           overflow: hidden;
@@ -624,40 +644,63 @@ export default function ContactPage() {
 
         {/* Hero Section */}
         <section className="hero-section">
+          {/* Ambient glow orbs - Blue only, matching studio page */}
+          <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-250px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.15), transparent 70%)', bottom: '-150px', left: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.15), transparent 70%)', bottom: '-150px', right: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+
           <GrainOverlay opacity={0.02} />
-          <div className="section-container grid-2 pt-0 pb-0" style={{ position: 'relative', zIndex: 1 }}>
-            <div className="cc-reveal">
+          
+          <div className="section-container pt-0 pb-0" style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+            <div className="cc-reveal" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
               <div className="hero-eyebrow-pill">
                 <EditableText contentKey="contact.hero.eyebrow" value={contactContent.hero.eyebrow || "CONTACT OUR EXPERTS"} />
               </div>
-              <h1 className="hero-title">
-                {contactContent.hero.title?.split(' ').map((word: string, i: number) => {
-                  const isBlue = ['Great'].includes(word.replace(/[^a-zA-Z]/g, ''));
-                  return (
-                    <span key={i} style={isBlue ? { color: '#005AE2', WebkitTextFillColor: '#005AE2' } : {}}>
-                      {word}{' '}
-                    </span>
-                  );
-                })}
-              </h1>
+              
+              <div style={{ width: '100%', textAlign: 'center' }}>
+                <h1 className="hero-title" style={{ textAlign: 'center', margin: '0 auto', display: 'inline-block' }}>
+                  {contactContent.hero.title?.split(' ').map((word: string, i: number) => {
+                    const isBlue = ['Great'].includes(word.replace(/[^a-zA-Z]/g, ''));
+                    return (
+                      <span key={i} style={isBlue ? { color: '#005AE2' } : {}}>
+                        {word}{' '}
+                      </span>
+                    );
+                  })}
+                </h1>
+              </div>
+
               <EditableText 
                 as="p"
                 contentKey="contact.hero.subheading"
                 value={contactContent.hero.subheading}
                 className="body-text cc-delay-2"
-                style={{maxWidth: '480px', marginBottom: '40px'}}
+                style={{ maxWidth: '520px', margin: '0 auto 40px', textAlign: 'center', lineHeight: '1.7' }}
               />
-              <button className="btn-bright cc-delay-3" onClick={() => document.getElementById('form-section')?.scrollIntoView()}>
-                <EditableText contentKey="contact.hero.buttonText" value={contactContent.hero.buttonText} />
-              </button>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'center' }} className="cc-reveal">
+                <button className="btn-primary cc-delay-3" onClick={() => document.getElementById('form-section')?.scrollIntoView({ behavior: 'smooth' })}>
+                  <EditableText contentKey="contact.hero.buttonText" value={contactContent.hero.buttonText} />
+                </button>
+              </div>
             </div>
-            <div className="hero-image-wrap"></div>
           </div>
         </section>
 
         {/* Form and Services Section */}
-        <section id="form-section">
-          <div className="section-container grid-2 grid-2-align-top">
+        <section id="form-section" style={{ 
+          backgroundColor: '#F0F7FF', 
+          borderTop: '1px solid #E2E8F0', 
+          borderBottom: '1px solid #E2E8F0', 
+          position: 'relative', 
+          overflow: 'hidden',
+          padding: '80px 0'
+        }}>
+          {/* Grid Background */}
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(rgba(0, 90, 226, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 90, 226, 0.03) 1px, transparent 1px)', backgroundSize: '50px 50px', opacity: 0.5, pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.08) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          
+          <div className="section-container grid-2 grid-2-align-top" style={{ position: 'relative', zIndex: 1 }}>
             
             {/* Left Column: Services */}
             <div>
@@ -866,15 +909,15 @@ export default function ContactPage() {
         </section>
 
         {/* Process Steps */}
-        <section className="pt-0 pb-0">
-          <div className="section-container process-steps-wrap">
+        <section style={{ backgroundColor: '#F8FAFC', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0', padding: '80px 0' }}>
+          <div className="section-container process-steps-wrap" style={{ paddingTop: 0, paddingBottom: 0 }}>
             <EditableText as="h2" contentKey="contact.process.title" value={contactContent.process.title} className="section-title" />
             <EditableText as="p" contentKey="contact.process.subtitle" value={contactContent.process.subtitle} className="body-text text-center" />
             
             <div className="steps-grid">
               {contactContent.process.steps.map((step, idx) => (
                 <div key={idx} className="step-item cc-slide-left cc-delay-1">
-                  <div className="step-circle">{idx+1}</div>
+                  <div className="step-circle" style={{ boxShadow: '0 0 0 8px #F8FAFC' }}>{idx+1}</div>
                   <EditableText as="h4" contentKey={`contact.process.steps.${idx}.title`} value={step.title} className="step-title" />
                   <EditableText as="p" contentKey={`contact.process.steps.${idx}.description`} value={step.description} className="step-desc" />
                 </div>
