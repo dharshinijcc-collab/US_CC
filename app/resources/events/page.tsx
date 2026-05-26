@@ -38,6 +38,38 @@ export default function EventsPage() {
         h1, h2, h3, h4, h5, h6 {
           font-family: 'Manrope', sans-serif;
         }
+
+        .section-eyebrow {
+          color: #005AE2;
+          font-weight: 800;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          font-size: clamp(0.6875rem, 1vw, 0.8125rem);
+          margin-bottom: 16px;
+          filter: blur(0.5px);
+          text-shadow: 0 0 10px rgba(0, 90, 226, 0.3);
+        }
+
+        .section-title {
+          font-size: clamp(2rem, 4vw, 2.75rem);
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          margin-bottom: clamp(16px, 3vw, 24px);
+          line-height: 1.1;
+          text-align: center;
+          color: #0A0F1C;
+        }
+
+        .title-dark {
+          color: #FFFFFF;
+        }
+
+        .body-text {
+          font-size: clamp(0.95rem, 2vw, 1.125rem);
+          line-height: 1.6;
+          color: #64748B;
+          font-weight: 500;
+        }
         `
       }} />
       <div className="min-h-screen" style={{ backgroundColor: '#F9F9FB' }}>
@@ -47,10 +79,10 @@ export default function EventsPage() {
         <EditableText
           contentKey="resources.events.header.label"
           value={eventsContent.header?.label || 'Curated Gatherings'}
-          className="text-[#005AE2] text-[12px] font-bold tracking-[0.2em] uppercase mb-5"
+          className="section-eyebrow"
           as="p"
         />
-        <h1 className="text-[48px] font-extrabold text-[#0A0F1C] mb-5 leading-tight">
+        <h1 className="section-title">
           Where / ideas / <EditableText
             contentKey="resources.events.header.highlight"
             value={eventsContent.header?.highlight || 'convene.'}
@@ -61,7 +93,7 @@ export default function EventsPage() {
         <EditableText
           contentKey="resources.events.header.description"
           value={eventsContent.header?.description || 'Exclusive salons and experimental workshops designed for the modern creator, founder, and visionary architect.'}
-          className="text-[#64748B] max-w-[500px] mx-auto text-[16px] leading-[1.6]"
+          className="body-text max-w-[500px] mx-auto"
           as="p"
         />
       </section>
@@ -74,7 +106,7 @@ export default function EventsPage() {
               <EditableText
                 contentKey={`resources.events.items.${index}.month`}
                 value={event.month}
-                className="text-[#005AE2] text-[11px] font-bold tracking-[0.1em]"
+                className="section-eyebrow"
                 as="div"
               />
               <EditableText
@@ -92,7 +124,7 @@ export default function EventsPage() {
               <EditableText
                 contentKey={`resources.events.items.${index}.desc`}
                 value={event.desc}
-                className="text-[14px] text-[#64748B] leading-[1.6] mb-[30px] flex-grow"
+                className="body-text mb-[30px] flex-grow"
                 as="p"
               />
               <button className="border border-[#CBD5E1] bg-transparent py-3 text-[12px] font-bold cursor-pointer tracking-[0.1em] hover:bg-[#F1F5F9] transition-colors">
@@ -109,14 +141,14 @@ export default function EventsPage() {
           <EditableText
             contentKey="resources.events.cta.title"
             value={eventsContent.cta?.title || 'An invitation only circle.'}
-            className="text-[16px] font-semibold mb-4"
+            className="section-title title-dark"
             as="h4"
           />
           <div className="flex justify-between items-center flex-wrap gap-5">
             <EditableText
               contentKey="resources.events.cta.description"
               value={eventsContent.cta?.description || 'Join our registry to be considered for upcoming curated events and private studio launches.'}
-              className="text-[#94A3B8] text-[14px] max-w-[400px]"
+              className="body-text max-w-[400px]"
               as="p"
             />
             <button className="bg-[#005AE2] text-white border-none px-8 py-4 font-bold cursor-pointer hover:bg-[#004ac2] transition-colors">

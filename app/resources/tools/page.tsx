@@ -69,19 +69,21 @@ export default function ToolsPage() {
           color: #005AE2;
           padding: 6px 14px;
           border-radius: 100px;
-          font-size: 0.75rem;
+          font-size: clamp(0.6875rem, 1vw, 0.8125rem);
           font-weight: 800;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.1em;
           text-transform: uppercase;
           margin-bottom: 24px;
+          filter: blur(0.5px);
+          text-shadow: 0 0 10px rgba(0, 90, 226, 0.3);
         }
 
         .hero-title-main {
           font-family: 'Manrope', sans-serif;
-          font-size: clamp(2.5rem, 5vw, 4rem);
+          font-size: clamp(2rem, 4vw, 2.75rem);
           font-weight: 800;
-          line-height: 1.15;
-          letter-spacing: -0.03em;
+          line-height: 1.1;
+          letter-spacing: -0.02em;
           color: #0A0F1C;
           margin-bottom: 24px;
         }
@@ -97,7 +99,7 @@ export default function ToolsPage() {
 
         .hero-description-text {
           font-family: 'Manrope', sans-serif;
-          font-size: clamp(1rem, 2vw, 1.15rem);
+          font-size: clamp(0.95rem, 2vw, 1.125rem);
           color: #64748B;
           max-width: 700px;
           margin: 0 auto 24px;
@@ -167,7 +169,7 @@ export default function ToolsPage() {
 
         .eval-title {
           font-family: 'Manrope', sans-serif;
-          font-size: clamp(2rem, 5vw, 3rem);
+          font-size: clamp(2rem, 4vw, 2.75rem);
           font-weight: 800;
           color: #0A0F1C;
           margin-bottom: 24px;
@@ -176,7 +178,7 @@ export default function ToolsPage() {
 
         .eval-description {
           font-family: 'Manrope', sans-serif;
-          font-size: clamp(0.95rem, 2vw, 1.1rem);
+          font-size: clamp(0.95rem, 2vw, 1.125rem);
           color: #64748B;
           max-width: 800px;
           margin: 0 auto;
@@ -225,16 +227,16 @@ export default function ToolsPage() {
 
         .validation-left h2 {
           font-family: 'Manrope', sans-serif;
-          font-size: clamp(2rem, 5vw, 3.25rem);
+          font-size: clamp(2rem, 4vw, 2.75rem);
           font-weight: 800;
-          letter-spacing: -0.03em;
+          letter-spacing: -0.02em;
           margin-bottom: 24px;
           line-height: 1.1;
           color: #FFFFFF;
         }
 
         .validation-left p {
-          font-size: clamp(0.95rem, 2vw, 1.1rem);
+          font-size: clamp(0.95rem, 2vw, 1.125rem);
           color: #94A3B8;
           line-height: 1.6;
           margin-bottom: 40px;
@@ -336,7 +338,7 @@ export default function ToolsPage() {
 
         .roadmap-title {
           font-family: 'Manrope', sans-serif;
-          font-size: clamp(2rem, 5vw, 3rem);
+          font-size: clamp(2rem, 4vw, 2.75rem);
           font-weight: 800;
           color: #0A0F1C;
           margin-bottom: 24px;
@@ -345,7 +347,7 @@ export default function ToolsPage() {
 
         .roadmap-subtitle {
           font-family: 'Manrope', sans-serif;
-          font-size: clamp(0.95rem, 2vw, 1.1rem);
+          font-size: clamp(0.95rem, 2vw, 1.125rem);
           color: #64748B;
           max-width: 600px;
           margin: 0 auto 60px;
@@ -432,7 +434,7 @@ export default function ToolsPage() {
 
         .engine-title {
           font-family: 'Manrope', sans-serif;
-          font-size: clamp(2rem, 5vw, 3rem);
+          font-size: clamp(2rem, 4vw, 2.75rem);
           font-weight: 800;
           margin-bottom: 24px;
           letter-spacing: -0.02em;
@@ -441,7 +443,7 @@ export default function ToolsPage() {
 
         .engine-subtitle {
           font-family: 'Manrope', sans-serif;
-          font-size: clamp(0.95rem, 2vw, 1.1rem);
+          font-size: clamp(0.95rem, 2vw, 1.125rem);
           color: #94A3B8;
           max-width: 600px;
           margin: 0 auto 60px;
@@ -562,7 +564,7 @@ export default function ToolsPage() {
 
         .market-intel-title {
           font-family: 'Manrope', sans-serif;
-          font-size: clamp(2rem, 5vw, 3rem);
+          font-size: clamp(2rem, 4vw, 2.75rem);
           font-weight: 800;
           color: #0A0F1C;
           margin-bottom: 60px;
@@ -691,17 +693,17 @@ export default function ToolsPage() {
 
         .bottom-cta-title {
           font-family: 'Manrope', sans-serif;
-          font-size: clamp(2.25rem, 5vw, 3.5rem);
+          font-size: clamp(2rem, 4vw, 2.75rem);
           font-weight: 800;
           margin-bottom: 24px;
           line-height: 1.1;
-          letter-spacing: -0.03em;
+          letter-spacing: -0.02em;
           color: #FFFFFF;
         }
 
         .bottom-cta-subtitle {
           font-family: 'Manrope', sans-serif;
-          font-size: clamp(1rem, 2.5vw, 1.25rem);
+          font-size: clamp(0.95rem, 2vw, 1.125rem);
           color: #94A3B8;
           max-width: 600px;
           margin: 0 auto 48px;
