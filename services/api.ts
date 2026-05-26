@@ -3,7 +3,7 @@ import axios from 'axios';
 export const LOCAL_API_URL = "http://localhost:5000/server/api";
 export const RENDER_API_URL = "https://us-cc.onrender.com/server/api";
 
-export const API_URL = process.env.NEXT_PUBLIC_DOCKLY_API_URL || RENDER_API_URL;
+export const API_URL = RENDER_API_URL; // Use render API as primary since local backend is having issues
 
 console.log('🚀 ~ API_URL:', API_URL);
 declare module 'axios' {
@@ -11,6 +11,8 @@ declare module 'axios' {
     metadata?: {
       startTime: number;
     };
+    _retry?: boolean;
+    __retryCount?: number;
   }
 }
 
@@ -45,6 +47,47 @@ api.interceptors.response.use(
       originalRequest.baseURL = RENDER_API_URL.endsWith('/') ? RENDER_API_URL : `${RENDER_API_URL}/`;
 
       return api(originalRequest);
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+// Automatic Retry on timeout or network errors (helps with Render free tier cold starts)
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const config = error.config;
+    if (!config) {
+      return Promise.reject(error);
+    }
+
+    // Initialize/increment retry counter
+    config.__retryCount = config.__retryCount || 0;
+    const MAX_RETRIES = 3;
+    const RETRY_DELAY = 3000; // 3 seconds
+
+    const isTimeoutOrNetworkError =
+      error.code === 'ECONNABORTED' ||
+      error.code === 'ERR_NETWORK' ||
+      error.message?.includes('timeout') ||
+      error.response?.status === 504 ||
+      error.response?.status === 502;
+
+    if (isTimeoutOrNetworkError && config.__retryCount < MAX_RETRIES) {
+      config.__retryCount += 1;
+      console.warn(
+        `🔄 API request failed (${error.message || error.code}). Retrying attempt ${config.__retryCount}/${MAX_RETRIES} in ${RETRY_DELAY}ms...`
+      );
+
+      await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY));
+
+      // Reset start time so latency logging is accurate for the retry attempt
+      if (config.metadata) {
+        config.metadata.startTime = performance.now();
+      }
+
+      return api(config);
     }
 
     return Promise.reject(error);

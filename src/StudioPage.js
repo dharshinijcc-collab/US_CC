@@ -577,7 +577,16 @@ export default function StudioPage() {
         .time-card-new.blue-bg { background-color: #005AE2; border-color: #005AE2; }
 
         .t-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .t-phase-text { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.05em; }
+        .t-phase-text { 
+          display: inline-block;
+          background-color: #F0F5FF;
+          color: var(--primary-blue);
+          padding: 6px 16px;
+          border-radius: 100px;
+          font-size: 0.75rem;
+          font-weight: 800;
+          letter-spacing: 0.1em;
+        }
         .t-week-pill { background-color: var(--bg-base); color: var(--text-muted); font-size: 0.65rem; font-weight: 800; padding: 4px 8px; border-radius: 100px; letter-spacing: 0.05em;}
         .t-week-pill.dark-pill { background-color: rgba(255,255,255,0.1); color: var(--white); }
         .t-week-pill.blue-pill { background-color: rgba(255,255,255,0.2); color: var(--white); }
@@ -957,7 +966,7 @@ export default function StudioPage() {
         <section className="section-white">
           <div className="section-container">
             <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-              <div className="section-eyebrow">Selection Criteria</div>
+              <div className="hero-eyebrow-pill">Selection Criteria</div>
               <h2 className="section-title">{studioContent.whatWeLookFor.title}</h2>
               <p className="section-subtitle" style={{ maxWidth: '700px', margin: '0 auto' }}>
                 {studioContent.whatWeLookFor.subtitle}
