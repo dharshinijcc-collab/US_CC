@@ -6,28 +6,15 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
-import { ChevronDown, Wrench, BookOpen, CalendarDays } from 'lucide-react';
 
 export default function Header(props: any) {
   const { content } = useContent();
   const globalContent = content?.global;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<number | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDarkBg, setIsDarkBg] = useState(false);
   const pathname = usePathname();
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setOpenDropdown(null);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -66,7 +53,6 @@ export default function Header(props: any) {
 
   useEffect(() => {
     setIsMenuOpen(false);
-    setOpenDropdown(null);
   }, [pathname]);
 
   // Lock body scroll when mobile menu is open
@@ -81,37 +67,8 @@ export default function Header(props: any) {
     { label: 'Studio', href: '/studio' },
     { label: 'Founder', href: '/' },
     { label: 'Investors', href: '/investors' },
-    {
-      label: 'Resources',
-      href: '/resources',
-      dropdown: [
-        {
-          label: 'Tools',
-          href: '/resources/tools',
-          icon: 'wrench',
-        },
-        {
-          label: 'Blogs',
-          href: '/blogs',
-          icon: 'bookopen',
-        },
-        {
-          label: 'Events',
-          href: '/resources/events',
-          icon: 'calendar',
-        },
-      ],
-    },
+    { label: 'Resources', href: '/resources' },
   ];
-
-  const getDropdownIcon = (icon: string) => {
-    switch (icon) {
-      case 'wrench':    return <Wrench size={20} strokeWidth={1.75} />;
-      case 'bookopen':  return <BookOpen size={20} strokeWidth={1.75} />;
-      case 'calendar':  return <CalendarDays size={20} strokeWidth={1.75} />;
-      default:          return <Wrench size={20} strokeWidth={1.75} />;
-    }
-  };
 
   if (!globalContent) return null;
 
@@ -509,51 +466,16 @@ export default function Header(props: any) {
           </Link>
 
           {/* Desktop Nav Links */}
-          <div className="navbar-links" ref={dropdownRef}>
-            {navItems.map((item, idx) =>
-              item.dropdown ? (
-                <div
-                  key={idx}
-                  className={`dropdown ${openDropdown === idx ? 'open' : ''}`}
-                  onMouseEnter={() => setOpenDropdown(idx)}
-                  onMouseLeave={() => setOpenDropdown(null)}
-                >
-                  <button
-                    className="dropdown-toggle"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setOpenDropdown(openDropdown === idx ? null : idx);
-                    }}
-                  >
-                    {item.label} <ChevronDown size={13} />
-                  </button>
-
-                  <div className="dropdown-menu">
-                    {item.dropdown.map((s: any, sIdx: number) => (
-                      <Link
-                        key={sIdx}
-                        href={s.href}
-                        className={`dropdown-item ${pathname === s.href ? 'active-link' : ''}`}
-                        onClick={() => setOpenDropdown(null)}
-                      >
-                        <div className="dropdown-icon-box">
-                          {getDropdownIcon(s.icon)}
-                        </div>
-                        <div className="dropdown-item-title">{s.label}</div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <Link
-                  key={idx}
-                  href={item.href}
-                  className={pathname === item.href ? 'active-link' : ''}
-                >
-                  {item.label}
-                </Link>
-              )
-            )}
+          <div className="navbar-links">
+            {navItems.map((item, idx) => (
+              <Link
+                key={idx}
+                href={item.href}
+                className={pathname === item.href ? 'active-link' : ''}
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
 
           {/* CTA + Hamburger */}
@@ -591,30 +513,13 @@ export default function Header(props: any) {
           <span className="menu-label">Menu</span>
           <div className="menu-links">
             {navItems.map((item, idx) => (
-              !item.dropdown && (
-                <Link
-                  key={idx}
-                  href={item.href}
-                  className={`menu-link ${pathname === item.href ? 'active' : ''}`}
-                  onClick={toggleMenu}
-                >
-                  {item.label}
-                </Link>
-              )
-            ))}
-
-            {/* Resources sub-links in mobile */}
-            <div className="menu-link" style={{ pointerEvents: 'none', opacity: 0.5, fontSize: '1rem', letterSpacing: '0.1em' }}>
-              Resources
-            </div>
-            {navItems.find(n => n.label === 'Resources')?.dropdown?.map((s: any, i: number) => (
               <Link
-                key={i}
-                href={s.href}
-                className="menu-link-sub"
+                key={idx}
+                href={item.href}
+                className={`menu-link ${pathname === item.href ? 'active' : ''}`}
                 onClick={toggleMenu}
               >
-                {s.label}
+                {item.label}
               </Link>
             ))}
           </div>
