@@ -28,31 +28,6 @@ export const api = axios.create({
   timeout: 60000, // 60 seconds - increased timeout
 });
 
-// Fallback to render API if local fails
-api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-
-    // If local API fails with network error or 403, try render API
-    if (
-      (error.code === 'ERR_NETWORK' || error.response?.status === 403) &&
-      API_URL === LOCAL_API_URL &&
-      !originalRequest._retry
-    ) {
-      originalRequest._retry = true;
-      console.log('🔄 Local API failed, trying render API...');
-
-      // Update baseURL to render
-      originalRequest.baseURL = RENDER_API_URL.endsWith('/') ? RENDER_API_URL : `${RENDER_API_URL}/`;
-
-      return api(originalRequest);
-    }
-
-    return Promise.reject(error);
-  }
-);
-
 // Automatic Retry on timeout or network errors (helps with Render free tier cold starts)
 api.interceptors.response.use(
   (response) => response,

@@ -9,6 +9,7 @@ import NextLink from 'next/link';
 export default function Downbar() {
   const pathname = usePathname();
   const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -17,14 +18,23 @@ export default function Downbar() {
 
   if (!isMounted) return null;
 
-  const toggleSubmenu = () => setIsSubmenuOpen(!isSubmenuOpen);
+  const toggleSubmenu = (e: React.MouseEvent, label: string) => {
+    e.preventDefault();
+    if (activeSubmenu === label) {
+      setIsSubmenuOpen(!isSubmenuOpen);
+      if (!isSubmenuOpen) setActiveSubmenu(null);
+    } else {
+      setActiveSubmenu(label);
+      setIsSubmenuOpen(true);
+    }
+  };
 
   const navItems = [
     { label: 'Home', href: '/', icon: <Home size={20} /> },
     { label: 'Studio', href: '/studio', icon: <LayoutGrid size={20} />, hasSubmenu: true },
     { label: 'Investors', href: '/investors', icon: <TrendingUp size={20} /> },
     { label: 'Company', href: '/company', icon: <Briefcase size={20} /> },
-    { label: 'Resources', href: '/resources', icon: <BookOpen size={20} /> },
+    { label: 'Resources', href: '/resources', icon: <BookOpen size={20} />, hasSubmenu: true },
   ];
 
   return (
@@ -148,25 +158,45 @@ export default function Downbar() {
       `}} />
 
       <div className={`submenu-overlay ${isSubmenuOpen ? 'open' : ''}`}>
-        <NextLink href="/studio" className="submenu-item" onClick={() => setIsSubmenuOpen(false)}>
-          <div className="submenu-item-icon"><Layers size={18} /></div>
-          <span>Studio Overview</span>
-        </NextLink>
-        <NextLink href="/playbook" className="submenu-item" onClick={() => setIsSubmenuOpen(false)}>
-          <div className="submenu-item-icon"><BookOpen size={18} /></div>
-          <span>Our Methodology</span>
-        </NextLink>
+        {activeSubmenu === 'Studio' && (
+          <>
+            <NextLink href="/studio" className="submenu-item" onClick={() => setIsSubmenuOpen(false)}>
+              <div className="submenu-item-icon"><Layers size={18} /></div>
+              <span>Studio Overview</span>
+            </NextLink>
+            <NextLink href="/playbook" className="submenu-item" onClick={() => setIsSubmenuOpen(false)}>
+              <div className="submenu-item-icon"><BookOpen size={18} /></div>
+              <span>Our Methodology</span>
+            </NextLink>
+          </>
+        )}
+        {activeSubmenu === 'Resources' && (
+          <>
+            <NextLink href="/resources/tools" className="submenu-item" onClick={() => setIsSubmenuOpen(false)}>
+              <div className="submenu-item-icon"><TrendingUp size={18} /></div>
+              <span>Studio Tools</span>
+            </NextLink>
+            <NextLink href="/blogs" className="submenu-item" onClick={() => setIsSubmenuOpen(false)}>
+              <div className="submenu-item-icon"><BookOpen size={18} /></div>
+              <span>Insights & Blog</span>
+            </NextLink>
+            <NextLink href="/resources/events" className="submenu-item" onClick={() => setIsSubmenuOpen(false)}>
+              <div className="submenu-item-icon"><MessageSquare size={18} /></div>
+              <span>Events</span>
+            </NextLink>
+          </>
+        )}
       </div>
 
       <div className="downbar-container">
         {navItems.map((item) => (
           item.hasSubmenu ? (
-            <button 
-              key={item.label} 
+            <button
+              key={item.label}
               className={`downbar-item ${pathname.startsWith(item.href) ? 'active' : ''}`}
-              onClick={toggleSubmenu}
+              onClick={(e) => toggleSubmenu(e, item.label)}
             >
-              {isSubmenuOpen ? <X size={20} /> : item.icon}
+              {isSubmenuOpen && activeSubmenu === item.label ? <X size={20} /> : item.icon}
               <span>{item.label}</span>
               <div className="indicator"></div>
             </button>
