@@ -121,7 +121,7 @@ export default function ResourcesPage() {
         }
         .hero-title {
           font-family: 'Manrope', sans-serif !important;
-          font-size: 48px !important;
+          font-size: 36px !important;
           font-weight: 800 !important;
           letter-spacing: -0.03em !important;
           line-height: 1.15 !important;
@@ -418,7 +418,7 @@ export default function ResourcesPage() {
 
       <Header />
 
-      <main className="resources-page pt-32">
+      <main className="resources-page">
         
         {/* ===== SECTION 1: HERO ===== */}
         <section className="hero-section" style={{ position: 'relative', overflow: 'hidden' }}>

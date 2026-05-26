@@ -318,13 +318,14 @@ export default function Footer() {
                 {section.links && (
                   <ul style={{ marginBottom: section.cta ? '24px' : '0' }}>
                     {section.links.map((link, lIdx) => {
-                      const isBlogsLink = link.name?.toLowerCase() === 'blogs';
+                      const isBlogsLink = link.name?.toLowerCase() === 'blogs' || link.name?.toLowerCase() === 'blog';
                       const isAboutLink = link.name?.toLowerCase() === 'about us';
                       const resolvedHref = isBlogsLink ? '/blogs' : (isAboutLink ? '/about' : link.href);
+                      const displayName = (link.name?.toLowerCase() === 'blog' || link.name?.toLowerCase() === 'blogs') ? 'Blog' : link.name;
                       return (
                         <li key={lIdx}>
                           <Link href={resolvedHref}>
-                            <EditableText contentKey={`global.footer.sections.${idx}.links.${lIdx}.name`} value={link.name} />
+                            <EditableText contentKey={`global.footer.sections.${idx}.links.${lIdx}.name`} value={displayName} />
                           </Link>
                         </li>
                       );

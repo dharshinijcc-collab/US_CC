@@ -141,7 +141,7 @@ export default function ContactPage() {
         
         /* Typography */
         .hero-title { 
-          font-size: clamp(2.25rem, 4.5vw, 3.25rem); 
+          font-size: 36px !important; 
           font-weight: 800; 
           letter-spacing: -0.03em; 
           margin: 0 auto clamp(16px, 3vw, 24px); 
@@ -160,7 +160,7 @@ export default function ContactPage() {
         }
         
         .section-title { 
-          font-size: clamp(32px, 5vw, 48px) !important; 
+          font-size: 36px !important; 
           font-weight: 800; 
           letter-spacing: -0.02em; 
           margin-bottom: clamp(12px, 2vw, 16px); 
@@ -582,7 +582,7 @@ export default function ContactPage() {
           z-index: 1;
         }
         .cta-strip-title { 
-          font-size: clamp(2rem, 4vw, 2.5rem); 
+          font-size: 36px !important; 
           font-weight: 800; 
           color: var(--white); 
           letter-spacing: -0.02em; 
@@ -605,7 +605,7 @@ export default function ContactPage() {
           /* Standardized via global-styles */
           
           .hero-title {
-            font-size: 2.5rem !important;
+            font-size: 36px !important;
             margin-bottom: 24px !important;
           }
           
@@ -662,9 +662,12 @@ export default function ContactPage() {
                   {contactContent.hero.title?.split(' ').map((word: string, i: number) => {
                     const isBlue = ['Great'].includes(word.replace(/[^a-zA-Z]/g, ''));
                     return (
-                      <span key={i} style={isBlue ? { color: '#005AE2' } : {}}>
-                        {word}{' '}
-                      </span>
+                      <React.Fragment key={i}>
+                        <span style={isBlue ? { color: '#005AE2' } : {}}>
+                          {word}{' '}
+                        </span>
+                        {i === 2 && <br />}
+                      </React.Fragment>
                     );
                   })}
                 </h1>
