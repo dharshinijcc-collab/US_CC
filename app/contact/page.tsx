@@ -11,6 +11,7 @@ import { useContent } from '@/context/ContentContext';
 import BorderBeam from '@/components/effects/BorderBeam';
 import EditableText from '@/components/admin/EditableText';
 import { API_URL } from '@/services/api';
+import '@/app/global-styles.css';
 
 export default function ContactPage() {
   const { content, loading, error } = useContent();
@@ -134,7 +135,7 @@ export default function ContactPage() {
         .animate-delay-4 { animation-delay: 0.4s; }
 
         .page-wrapper { min-height: 100vh; overflow-x: hidden; padding-bottom: 0; }
-        .section-container { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 24px 24px; }
         .pt-0 { padding-top: 0 !important; }
         .pb-0 { padding-bottom: 0 !important; }
         
@@ -176,13 +177,13 @@ export default function ContactPage() {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          background-color: #E6EFFF;
+          background-color: #F0F5FF;
           color: #005AE2;
-          padding: 6px 14px;
+          padding: 6px 16px;
           border-radius: 100px;
           font-size: 0.75rem;
           font-weight: 800;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.1em;
           text-transform: uppercase;
           margin-bottom: 24px;
         }
@@ -284,7 +285,7 @@ export default function ContactPage() {
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 
         /* Hero Section */
-        .hero-section { padding-top: 130px; padding-bottom: 24px; background-color: var(--bg-base); position: relative; }
+        .hero-section { background-color: var(--bg-base); }
         .hero-image-wrap {
           border-radius: 24px;
           overflow: hidden;
@@ -303,7 +304,7 @@ export default function ContactPage() {
         .services-list { display: flex; flex-direction: column; gap: 16px; margin-top: 24px;}
         .service-card {
           display: flex; align-items: center; gap: 20px;
-          padding: 24px 32px;
+          padding: 16px 20px;
           border-radius: 16px;
           background: var(--white);
           border: 1px solid var(--border-light);
@@ -348,7 +349,7 @@ export default function ContactPage() {
         .form-card {
           background: linear-gradient(135deg, #ffffff, #f8fafc);
           border-radius: 24px;
-          padding: clamp(24px, 4vw, 36px);
+          padding: 24px;
           box-shadow: 
             0 40px 80px -20px rgba(0,0,0,0.12),
             0 0 0 1px rgba(0,0,0,0.02),
@@ -452,7 +453,7 @@ export default function ContactPage() {
         .info-card {
           background: linear-gradient(135deg, #ffffff, #f8fafc);
           border-radius: 24px;
-          padding: 32px 24px;
+          padding: 20px 20px;
           text-align: center;
           box-shadow: 
             0 10px 40px rgba(0,0,0,0.06),
@@ -528,7 +529,7 @@ export default function ContactPage() {
         /* Full Width CTA Strip */
         .cta-strip {
           background: linear-gradient(135deg, var(--bright-blue), var(--primary-blue));
-          padding: clamp(32px, 4vw, 40px) 24px;
+          padding: 24px 24px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -572,7 +573,7 @@ export default function ContactPage() {
         /* Responsive Design */
         @media (max-width: 900px) {
           .section-container {
-            padding: 40px 20px !important;
+            padding: 24px 20px !important;
           }
           
           .grid-2 {
@@ -581,9 +582,7 @@ export default function ContactPage() {
             text-align: center !important;
           }
           
-          .hero-section {
-            padding-top: 40px !important;
-          }
+          /* Standardized via global-styles */
           
           .hero-title {
             font-size: 2.5rem !important;
@@ -609,7 +608,7 @@ export default function ContactPage() {
           }
           
           .form-card form {
-            padding: 24px !important;
+            padding: 20px !important;
           }
           
           .cta-strip-inner {
@@ -667,7 +666,7 @@ export default function ContactPage() {
                 contentKey="contact.services.title"
                 value={contactContent.services.title}
                 className="section-title cc-slide-left"
-                style={{fontSize: 'clamp(1.75rem, 3vw, 2.25rem)', marginTop: 0}}
+                style={{marginTop: 0}}
               />
               <EditableText 
                 as="p"
@@ -734,7 +733,7 @@ export default function ContactPage() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} method="POST" name="contact-form" style={{padding: '48px'}}>
+                <form onSubmit={handleSubmit} method="POST" name="contact-form" style={{padding: '24px'}}>
                   <div className="form-row-2">
                     <div className="form-group">
                       <EditableText 
@@ -819,7 +818,7 @@ export default function ContactPage() {
                                value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} required></textarea>
                   </div>
 
-                  <button type="submit" className="btn-bright" style={{width: '100%', padding: '18px'}}>
+                  <button type="submit" className="btn-bright" style={{width: '100%', padding: '14px'}}>
                     <EditableText contentKey="contact.form.buttonText" value={contactContent.form.buttonText} />
                   </button>
                 </form>

@@ -16,6 +16,7 @@ import { useAdmin } from '@/context/AdminContext';
 import { useInView } from 'framer-motion';
 import { API_URL } from '@/services/api';
 import { User, Building, Lightbulb, Compass, Zap, Users, TrendingUp, Cpu, Globe, Brain } from 'lucide-react';
+import '@/app/global-styles.css';
 
 export default function LandingPage() {
   const { content, loading, error } = useContent();
@@ -329,11 +330,12 @@ export default function LandingPage() {
           color: #005AE2;
           font-size: 0.75rem;
           font-weight: 800;
-          letter-spacing: 0.05em;
-          padding: 6px 14px;
+          letter-spacing: 0.1em;
+          padding: 6px 16px;
           border-radius: 100px;
-          margin-bottom: 24px;
+          margin-bottom: 16px;
           text-transform: uppercase;
+          font-family: 'Manrope', sans-serif;
         }
 
         :root {
@@ -452,15 +454,14 @@ export default function LandingPage() {
           transform: scale(1.15) rotate(-5deg);
           box-shadow: 0 8px 20px rgba(255,120,60,0.2);
         }
-        .section-container { max-width: 1200px; margin: 0 auto; padding: 48px 24px; }
-        @media(max-width: 768px) { .section-container { padding: 40px 20px; } }
-        @media(max-width: 480px) { .section-container { padding: 32px 16px; } }
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 24px 24px; }
+        @media(max-width: 768px) { .section-container { padding: 20px 20px; } }
+        @media(max-width: 480px) { .section-container { padding: 16px 16px; } }
 
         /* ===== GLOBAL RESPONSIVE SYSTEM ===== */
 
         /* --- Hero --- */
         @media(max-width: 480px) {
-          .hero-section { padding: 110px 16px 48px !important; }
           .hero-idea-box { max-width: 100% !important; }
         }
 
@@ -478,20 +479,20 @@ export default function LandingPage() {
 
         /* --- Sys cards (audience / who we build for) --- */
         @media(max-width: 768px) {
-          .sys-card { padding: 32px 24px; border-radius: 20px; }
-          .sys-card-small { padding: 28px 20px; border-radius: 20px; }
+          .sys-card { padding: 20px 20px; border-radius: 20px; }
+          .sys-card-small { padding: 16px 16px; border-radius: 20px; }
         }
         @media(max-width: 480px) {
-          .sys-card { padding: 24px 18px; }
-          .sys-card-small { padding: 20px 16px; }
+          .sys-card { padding: 16px 16px; }
+          .sys-card-small { padding: 14px 14px; }
         }
 
         /* --- Testimonials --- */
         @media(max-width: 768px) {
-          .testimonial-card { padding: 32px 24px; border-radius: 24px; }
+          .testimonial-card { padding: 20px 20px; border-radius: 24px; }
         }
         @media(max-width: 480px) {
-          .testimonial-card { padding: 24px 16px; border-radius: 20px; }
+          .testimonial-card { padding: 16px 16px; border-radius: 20px; }
         }
 
         /* --- Founder quote card --- */
@@ -499,25 +500,26 @@ export default function LandingPage() {
           .founder-quote-card {
             flex-direction: column;
             align-items: flex-start;
-            padding: 32px 24px !important;
+            padding: 20px 20px !important;
             border-radius: 28px !important;
-            margin-top: 40px !important;
+            margin-top: 24px !important;
           }
           .founder-img { width: 80px !important; height: 80px !important; }
         }
         @media(max-width: 480px) {
-          .founder-quote-card { padding: 24px 16px !important; border-radius: 20px !important; }
+          .founder-quote-card { padding: 16px 16px !important; border-radius: 20px !important; }
           .fq-text { font-size: 1rem !important; }
         }
 
         /* --- Flip cards / audience grid --- */
         @media(max-width: 768px) {
           .flip-card-inner { min-height: 420px !important; }
-          .flip-card-front, .flip-card-back { padding: 28px 20px !important; border-radius: 20px !important; }
+          .flip-card-front, .flip-card-back { padding: 20px 16px !important; border-radius: 20px !important; }
         }
         @media(max-width: 480px) {
           .flip-card-inner { min-height: 380px !important; }
           .audience-card-wrap .flip-card-inner { min-height: 420px !important; }
+          .flip-card-front, .flip-card-back { padding: 16px 14px !important; border-radius: 16px !important; }
         }
 
         /* --- Metrics row --- */
@@ -528,16 +530,16 @@ export default function LandingPage() {
         /* --- Signup overlay --- */
         @media(max-width: 900px) {
           .signup-left { display: none !important; }
-          .signup-right { padding: 32px 24px !important; }
+          .signup-right { padding: 20px 20px !important; }
         }
         @media(max-width: 480px) {
-          .signup-right { padding: 24px 16px !important; }
+          .signup-right { padding: 16px 16px !important; }
           .signup-title { font-size: 1.6rem !important; }
         }
 
         /* --- Carousel cards --- */
         @media(max-width: 480px) {
-          .carousel-card { width: 280px !important; height: 360px !important; padding: 24px 20px !important; }
+          .carousel-card { width: 280px !important; height: 360px !important; padding: 16px 16px !important; }
         }
 
         /* --- Prevent horizontal scroll --- */
@@ -581,7 +583,7 @@ export default function LandingPage() {
         }
 
         /* Sections - all share a unified 100px top/bottom padding via .section-container */
-        .section-light { background-color: var(--white); }
+        .section-light { background-color: #F0F7FF; }
         .section-cta-sky {
           background-image: url('/images/studio/footer_no_faces.png');
           background-size: cover;
@@ -640,8 +642,9 @@ export default function LandingPage() {
 
         /* Hero Section */
         /* Hero gets extra top padding to clear the fixed navbar (~80px) on top of the standard 100px */
-        .hero-section { padding: 130px 24px 32px; text-align: center; }
-        @media(max-width: 768px) { .hero-section { padding: 140px 20px 40px; } }
+        .hero-section {
+          padding: 100px 24px 24px;
+        }
         .hero-description { font-size: clamp(0.95rem, 2vw, 1.125rem); font-weight: 500; color: var(--text-muted); line-height: 1.6; margin-bottom: 48px; }
         .email-form { max-width: 500px; margin: 0 auto; position: relative; }
         .email-form-input { background-color: var(--white); border-radius: 24px; border: 1px solid var(--border-light); box-shadow: 0 40px 100px -20px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.04); position: relative; overflow: hidden; }
@@ -676,7 +679,7 @@ export default function LandingPage() {
           width: min(440px, 90vw);
           background: #ffffff;
           border-radius: 24px;
-          padding: 40px 36px 36px;
+          padding: 24px 24px 24px;
           box-shadow: 0 40px 80px -20px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.02);
           z-index: 51;
           animation: popupSlideIn 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
@@ -781,9 +784,9 @@ export default function LandingPage() {
         }
 
         /* System Cards */
-        .sys-card { background-color: var(--bg-light); border: 1px solid var(--border-light); padding: 48px 40px; border-radius: 24px; display: flex; flex-direction: column; transition: all 0.3s ease; }
+        .sys-card { background-color: var(--bg-light); border: 1px solid var(--border-light); padding: 24px 24px; border-radius: 24px; display: flex; flex-direction: column; transition: all 0.3s ease; }
         .sys-card:hover { transform: perspective(900px) rotateX(-3deg) rotateY(3deg) translateY(-10px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.4); background-color: var(--bg-dark); color: var(--white); border-color: var(--border-dark); }
-        .sys-card-small { background-color: var(--bg-light); border: 1px solid var(--border-light); padding: 40px 32px; border-radius: 24px; display: flex; flex-direction: column; transition: all 0.3s ease; }
+        .sys-card-small { background-color: var(--bg-light); border: 1px solid var(--border-light); padding: 20px 20px; border-radius: 24px; display: flex; flex-direction: column; transition: all 0.3s ease; }
         .sys-card-small:hover { transform: perspective(900px) rotateX(-3deg) rotateY(3deg) translateY(-10px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.4); background-color: var(--bg-dark); color: var(--white); border-color: var(--border-dark); }
 
         .card-learn-more-btn {
@@ -1916,7 +1919,7 @@ export default function LandingPage() {
           background: #ffffff;
           border-top: 1px solid rgba(0,90,226,0.07);
           border-bottom: 1px solid rgba(0,90,226,0.07);
-          padding: 60px 0 80px;
+          padding: 24px 0 24px;
           overflow: hidden;
           position: relative;
         }
@@ -2060,7 +2063,7 @@ export default function LandingPage() {
         /* Partnered Products Carousel Section */
         .partnered-products-section {
           background-color: #FAFAFA;
-          padding: 60px 24px;
+          padding: 24px 24px;
           position: relative;
         }
         .product-carousel-card {
@@ -2258,7 +2261,11 @@ export default function LandingPage() {
       <div className="landing-page" style={{ overflow: 'hidden', position: 'relative', backgroundColor: '#FFFFFF' }}>
 
         {/* Step 1: Idea Submission Hero */}
-        <header ref={heroRef} className="hero-section" style={{ position: 'relative', paddingTop: '130px', paddingBottom: '32px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <header ref={heroRef} className="hero-section" style={{ position: 'relative' }}>
+          {/* Ambient Glows */}
+          <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', left: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', right: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
           <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div className="hero-eyebrow-pill">
               <EditableText contentKey="home.hero.eyebrow" value={homeContent.hero.eyebrow} />
@@ -2267,7 +2274,7 @@ export default function LandingPage() {
               as="h1"
               contentKey="home.hero.heading"
               value={homeContent.hero.heading}
-              style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}
+              style={{ fontSize: '3rem', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}
             >
               {(() => {
                 const words = (homeContent.hero.heading || '').split(' ');
@@ -2379,17 +2386,21 @@ export default function LandingPage() {
         {/* Target Audiences Section */}
         <section className="section-light">
           <div className="section-container">
-            <EditableText
-              as="h3"
-              contentKey="home.audiences.eyebrow"
-              value={homeContent.audiences.eyebrow}
-              className="section-eyebrow text-center cc-reveal"
-            />
+            <div className="text-center" style={{ marginBottom: '24px' }}>
+              <div className="hero-eyebrow-pill">
+                <EditableText
+                  as="span"
+                  contentKey="home.audiences.eyebrow"
+                  value={homeContent.audiences.eyebrow}
+                />
+              </div>
+            </div>
             <EditableText
               as="h2"
               contentKey="home.audiences.title"
               value={homeContent.audiences.title}
               className="section-title text-center cc-reveal cc-delay-1"
+              style={{ fontSize: '3rem' }}
             />
             <EditableText
               as="p"
@@ -2532,12 +2543,13 @@ export default function LandingPage() {
         <section className="tech-hub-section" style={{ marginTop: '-2px' }}>
           <div className="section-container" style={{ maxWidth: '1100px', position: 'relative' }}>
             <div className="text-center" style={{ marginBottom: '48px' }}>
+              <div className="hero-eyebrow-pill">Our Methodology</div>
               <EditableText
                 as="h2"
                 contentKey="home.methodology.title"
                 value={homeContent.methodology?.title || "How We Help"}
                 className="section-title"
-                style={{ fontSize: '2.5rem', marginBottom: '12px' }}
+                style={{ marginBottom: '12px', fontSize: '3rem' }}
               />
               <EditableText
                 as="p"
@@ -2728,7 +2740,8 @@ export default function LandingPage() {
         <section className="partnered-products-section">
           <div className="section-container" style={{ position: 'relative', zIndex: 2 }}>
             <div className="text-center" style={{ marginBottom: '40px' }}>
-              <h2 className="section-title text-center" style={{ fontSize: '2.5rem', marginBottom: '12px' }}>
+              <div className="hero-eyebrow-pill">Partner Products</div>
+              <h2 className="section-title text-center" style={{ marginBottom: '12px', fontSize: '3rem' }}>
                 Partner <span style={{ color: '#005AE2' }}>Products</span>
               </h2>
               <p className="section-subtitle text-center" style={{ maxWidth: '600px', margin: '0 auto 8px', fontSize: '1.05rem', color: '#64748B' }}>
@@ -2841,13 +2854,16 @@ export default function LandingPage() {
         {/* Testimonials Section */}
         <section className="section-light">
           <div className="section-container">
-            <EditableText
-              as="h2"
-              contentKey="home.testimonials.title"
-              value={homeContent.testimonials.title}
-              className="section-title text-center cc-reveal"
-              style={{ marginBottom: 'clamp(40px, 6vw, 80px)' }}
-            />
+            <div className="text-center" style={{ marginBottom: 'clamp(40px, 6vw, 80px)' }}>
+              <div className="hero-eyebrow-pill">Testimonials</div>
+              <EditableText
+                as="h2"
+                contentKey="home.testimonials.title"
+                value={homeContent.testimonials.title}
+                className="section-title text-center cc-reveal"
+                style={{ fontSize: '3rem', marginBottom: 'clamp(40px, 6vw, 80px)' }}
+              />
+            </div>
 
             <div className="cards-grid-2">
               {(homeContent.testimonials.items || [])
@@ -2885,12 +2901,15 @@ export default function LandingPage() {
         {/* CTA Section */}
         <section className="section-cta-sky text-center">
           <div className="section-container" style={{ position: 'relative', zIndex: 3 }}>
+            <div className="text-center" style={{ marginBottom: '24px' }}>
+              <div className="hero-eyebrow-pill">Get Started</div>
+            </div>
             <EditableText
               as="h2"
               contentKey="home.cta.title"
               value={homeContent.cta.title}
               className="section-title cc-reveal"
-              style={{ whiteSpace: 'pre-line', marginTop: 0, marginBottom: '12px' }}
+              style={{ fontSize: '3rem', whiteSpace: 'pre-line', marginTop: 0, marginBottom: '12px' }}
             />
             <EditableText
               as="p"

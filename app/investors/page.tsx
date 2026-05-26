@@ -9,6 +9,7 @@ import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
 import Link from 'next/link';
 import { API_URL } from '@/services/api';
+import '@/app/global-styles.css';
 
 export default function InvestorsPage() {
   const { content, loading, error } = useContent();
@@ -107,7 +108,11 @@ export default function InvestorsPage() {
         .section-container {
           max-width: 1200px;
           margin: 0 auto;
-          padding: 48px 24px;
+          padding: 24px 24px;
+        }
+
+        .hero-section {
+          padding: 100px 24px 24px;
         }
 
         .hero-eyebrow-pill {
@@ -118,17 +123,18 @@ export default function InvestorsPage() {
           color: #005AE2;
           font-size: 0.75rem;
           font-weight: 800;
-          letter-spacing: 0.05em;
-          padding: 6px 14px;
+          letter-spacing: 0.1em;
+          padding: 6px 16px;
           border-radius: 100px;
-          margin-bottom: 24px;
+          margin-bottom: 12px;
           text-transform: uppercase;
+          font-family: 'Manrope', sans-serif;
         }
 
         /* Premium Center-Aligned Headings Structure */
         .section-header-centered {
           text-align: center;
-          margin-bottom: 64px;
+          margin-bottom: 24px;
         }
         .section-header-centered .label {
           color: var(--primary-blue);
@@ -141,7 +147,7 @@ export default function InvestorsPage() {
           font-family: 'Manrope', sans-serif;
         }
         .section-header-centered h2 {
-          font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+          font-size: 3rem;
           color: var(--text-black);
           line-height: 1.15;
           max-width: 800px;
@@ -162,7 +168,7 @@ export default function InvestorsPage() {
           background: var(--white);
           border: 1px solid var(--border-light);
           border-radius: 20px;
-          padding: 28px;
+          padding: 20px;
           display: flex;
           align-items: flex-start;
           gap: 20px;
@@ -179,7 +185,7 @@ export default function InvestorsPage() {
           background: var(--white);
           border: 1px solid var(--border-light);
           border-radius: 24px;
-          padding: 48px 40px;
+          padding: 24px 24px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -197,7 +203,7 @@ export default function InvestorsPage() {
           background: var(--white);
           border: 1px solid var(--border-light);
           border-radius: 24px;
-          padding: 40px 32px;
+          padding: 20px 20px;
           position: relative;
           transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
           display: flex;
@@ -230,7 +236,7 @@ export default function InvestorsPage() {
           background: var(--white);
           border: 1px solid var(--border-light);
           border-radius: 16px;
-          padding: 24px;
+          padding: 20px;
           display: flex;
           align-items: flex-start;
           gap: 16px;
@@ -261,7 +267,7 @@ export default function InvestorsPage() {
           background: var(--white);
           border: 1px solid var(--border-light);
           border-radius: 24px;
-          padding: 40px 32px;
+          padding: 20px 20px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -279,7 +285,7 @@ export default function InvestorsPage() {
           background: #0A0F1C;
           border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 36px;
-          padding: 80px 48px;
+          padding: 24px 24px;
           box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.35);
           position: relative;
           overflow: hidden;
@@ -381,10 +387,10 @@ export default function InvestorsPage() {
             gap: 32px !important;
           }
           .section-container {
-            padding: 60px 20px !important;
+            padding: 24px 20px !important;
           }
           .form-section-card {
-            padding: 48px 24px !important;
+            padding: 24px 24px !important;
           }
         }
       `}} />
@@ -394,17 +400,18 @@ export default function InvestorsPage() {
       <div className="investors-page" style={{ position: 'relative', overflow: 'hidden' }}>
 
         {/* ── 1. HERO SECTION (Image 1) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '130px 24px 48px', position: 'relative', overflow: 'hidden' }}>
+        <section className="hero-section" style={{ position: 'relative' }}>
           {/* Ambient Glows */}
-          <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.08), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none' }}></div>
-          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(197, 168, 128, 0.08), transparent 70%)', bottom: '-50px', left: '10%', filter: 'blur(80px)', pointerEvents: 'none' }}></div>
+          <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', left: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', right: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
 
           <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
             <div className="hero-eyebrow-pill">
               <EditableText contentKey="investors.hero.eyebrow" value={content?.investors?.hero?.eyebrow || 'INVESTOR RELATIONS'} />
             </div>
             <h1 style={{
-              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+              fontSize: '3rem',
               fontWeight: 800,
               letterSpacing: '-0.03em',
               color: 'var(--text-black)',
@@ -429,16 +436,13 @@ export default function InvestorsPage() {
           </div>
         </section>
 
-        {/* ── Divider ── */}
-        <div style={{ width: '100%', height: '1px', backgroundColor: 'var(--border-light)' }}></div>
-
         {/* ── 2. WHY INVEST IN CRESTCODE? (Image 1) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '48px 24px', position: 'relative' }}>
+        <section style={{ backgroundColor: '#F0F7FF', padding: '24px 24px', position: 'relative', boxShadow: '0 4px 20px rgba(0, 90, 226, 0.08)' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading & Intro Lead */}
             <div className="section-header-centered" style={{ marginBottom: '56px' }}>
-              <span className="label">THE OPPORTUNITY</span>
+              <div className="hero-eyebrow-pill">The Opportunity</div>
               <h2>Why invest in CrestCode?</h2>
               <p style={{
                 color: 'var(--text-muted)',
@@ -529,12 +533,12 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 3. TWO WAYS TO INVEST (Image 2) ── */}
-        <section style={{ backgroundColor: '#F8FAFC', padding: '48px 24px', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', position: 'relative' }}>
+        <section style={{ backgroundColor: '#F8FAFC', padding: '24px 24px', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
             <div className="section-header-centered">
-              <span className="label">INVESTMENT PATHS</span>
+              <div className="hero-eyebrow-pill">Investment Paths</div>
               <h2>Two ways to invest. <br /><span style={{ color: 'var(--primary-blue)' }}>One shared goal.</span></h2>
               <p>
                 Choose the path that fits your investment thesis — or participate in both. Each path offers distinct exposure, return mechanics, and involvement.
@@ -656,12 +660,12 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 4. WHAT YOU GET AS AN INVESTOR (Image 3) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '48px 24px', position: 'relative' }}>
+        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
             <div className="section-header-centered">
-              <span className="label">INVESTOR BENEFITS</span>
+              <div className="hero-eyebrow-pill">Investor Benefits</div>
               <h2>What you get as an investor.</h2>
               <p>
                 Beyond capital deployment, CrestCode investors get a front-row seat to how ventures are built — with the visibility and access to make that meaningful.
@@ -746,12 +750,12 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 5. WE'RE SELECTIVE. ON PURPOSE. (Image 4) ── */}
-        <section style={{ backgroundColor: '#F8FAFC', padding: '48px 24px', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', position: 'relative' }}>
+        <section style={{ backgroundColor: '#F8FAFC', padding: '24px 24px', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
             <div className="section-header-centered">
-              <span className="label">INVESTOR PROFILE</span>
+              <div className="hero-eyebrow-pill">Investor Profile</div>
               <h2>We're selective. <br /><span style={{ color: 'var(--primary-blue)' }}>On purpose.</span></h2>
             </div>
 
@@ -841,12 +845,12 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 6. CLEAR TERMS. NO SURPRISES. (Image 5) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '48px 24px', position: 'relative' }}>
+        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
             <div className="section-header-centered">
-              <span className="label">INVESTMENT TERMS</span>
+              <div className="hero-eyebrow-pill">Investment Terms</div>
               <h2>Clear terms. <br /><span style={{ color: 'var(--primary-blue)' }}>No surprises.</span></h2>
             </div>
 
@@ -929,7 +933,8 @@ export default function InvestorsPage() {
               <div style={{ position: 'absolute', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(139, 92, 246, 0.1), transparent 70%)', bottom: '-100px', left: '-100px', filter: 'blur(80px)', pointerEvents: 'none' }}></div>
 
               <div style={{ maxWidth: '640px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
-                <h2 style={{ fontSize: 'clamp(2rem, 4vw, 2.75rem)', color: '#FFFFFF', marginBottom: '16px', letterSpacing: '-0.02em' }}>
+                <div className="hero-eyebrow-pill" style={{ marginBottom: '16px' }}>Get Started</div>
+                <h2 style={{ fontSize: '3rem', color: '#FFFFFF', marginBottom: '16px', letterSpacing: '-0.02em' }}>
                   Register Your Interest
                 </h2>
                 <p style={{ color: 'rgba(255, 255, 255, 0.65)', marginBottom: '48px', fontSize: '1.05rem', fontWeight: 500, lineHeight: 1.6 }}>

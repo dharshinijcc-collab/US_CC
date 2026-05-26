@@ -14,6 +14,7 @@ import BorderBeam from '@/components/effects/BorderBeam';
 import TextReveal from '@/components/effects/TextReveal';
 import GradientText from '@/components/effects/GradientText';
 import EditableText from '@/components/admin/EditableText';
+import '@/app/global-styles.css';
 
 export default function FaqPage() {
   const { content, loading, error } = useContent();
@@ -103,20 +104,20 @@ export default function FaqPage() {
         .animate-delay-2 { animation-delay: 0.2s; }
         .animate-delay-3 { animation-delay: 0.3s; }
         .animate-delay-4 { animation-delay: 0.4s; }
-        .section-container { max-width: 1200px; margin: 0 auto; padding: clamp(24px, 4vw, 48px) 24px; }
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 24px 24px; }
         .pt-0 { padding-top: 0 !important; }
 
         .hero-eyebrow-pill {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          background-color: #E6EFFF;
+          background-color: #F0F5FF;
           color: #005AE2;
-          padding: 6px 14px;
+          padding: 6px 16px;
           border-radius: 100px;
           font-size: 0.75rem;
           font-weight: 800;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.1em;
           text-transform: uppercase;
           margin-bottom: 24px;
         }
@@ -207,12 +208,11 @@ export default function FaqPage() {
 
 
         /* Hero Card Section */
-        .hero-section { padding-top: 130px; padding-bottom: 24px; }
         .hero-card {
           background: linear-gradient(to bottom right, #FFFFFF, #F8FAFC);
           border: 1px solid rgba(0, 132, 255, 0.05);
           border-radius: 24px;
-          padding: clamp(32px, 5vw, 56px);
+          padding: 24px;
           display: grid;
           grid-template-columns: 1fr;
           gap: clamp(32px, 5vw, 48px);
@@ -316,7 +316,7 @@ export default function FaqPage() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 24px 32px;
+          padding: 16px 20px;
           font-weight: 600;
           font-size: 1rem;
           color: var(--text-main);
@@ -354,7 +354,7 @@ export default function FaqPage() {
           opacity: 1;
         }
         .faq_rich-text {
-          padding: 0 32px 32px 32px;
+          padding: 0 20px 20px 20px;
           font-size: 0.95rem;
           color: var(--text-muted);
           line-height: 1.7;
@@ -408,7 +408,7 @@ export default function FaqPage() {
         .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
         /* Footer */
-        .footer { background-color: var(--bg-dark); color: #9CA3AF; padding: 80px 0 60px; font-size: clamp(0.875rem, 1.5vw, 1rem); font-weight: 500;}
+        .footer { background-color: var(--bg-dark); color: #9CA3AF; padding: 24px 0 24px; font-size: clamp(0.875rem, 1.5vw, 1rem); font-weight: 500;}
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 48px; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
         .footer-logo { color: var(--white); font-weight: 800; font-size: clamp(1.125rem, 2.5vw, 1.25rem); margin-bottom: 16px; letter-spacing: -0.02em; }
         .footer-heading { color: var(--white); font-weight: 700; margin-bottom: 24px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
@@ -419,12 +419,12 @@ export default function FaqPage() {
 
         @media (max-width: 900px) {
           .section-container {
-            padding: 40px 20px !important;
+            padding: 24px 20px !important;
           }
           
           .hero-card {
             grid-template-columns: 1fr !important;
-            padding: 32px 20px !important;
+            padding: 24px 20px !important;
             text-align: center !important;
             gap: 24px !important;
           }
@@ -460,7 +460,7 @@ export default function FaqPage() {
           }
           
           .cta-banner {
-            padding: 32px 20px !important;
+            padding: 24px 20px !important;
           }
           
           .cta-buttons {
@@ -481,7 +481,7 @@ export default function FaqPage() {
         <Header currentPage="faq" />
 
         {/* Hero Section */}
-        <section className="hero-section" style={{ position: 'relative' }}>
+        <section className="hero-section">
           <GrainOverlay opacity={0.02} />
           <div id="faq-section" className="section-container pt-0" style={{ position: 'relative', zIndex: 1 }}>
             <div className="hero-card cc-reveal">
@@ -651,7 +651,7 @@ export default function FaqPage() {
             {/* CTA Banner */}
             <BorderBeam className="cta-banner cc-reveal cc-delay-1 cc-shine" style={{ padding: 0 }}>
               <div style={{ 
-                padding: '80px 40px', 
+                padding: '24px 24px', 
                 textAlign: 'center', 
                 width: '100%', 
                 background: 'linear-gradient(135deg, #005AE2 0%, #002D72 100%)', 
@@ -665,14 +665,14 @@ export default function FaqPage() {
               }}>
                 <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)', borderRadius: '50%' }}></div>
                 <div style={{ position: 'relative', zIndex: 1, maxWidth: '600px', margin: '0 auto' }}>
-                  <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '16px', color: '#FFFFFF' }} className="font-manrope">
+                  <h2 style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.25rem)', fontWeight: 900, marginBottom: '16px', color: '#FFFFFF' }} className="font-manrope">
                     <EditableText contentKey="faq.cta.title" value={faqContent.cta.title} />
                   </h2>
                   <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.125rem', fontWeight: 500, marginBottom: '40px', lineHeight: 1.6 }}>
                     <EditableText contentKey="faq.cta.subtitle" value={faqContent.cta.subtitle} />
                   </p>
                   <Link href="/contact" style={{ textDecoration: 'none' }}>
-                    <button ref={magBtn2} className="cc-magnetic" style={{ backgroundColor: '#FFFFFF', color: '#005AE2', padding: '16px 40px', borderRadius: '100px', fontWeight: 800, fontSize: '15px', border: 'none', cursor: 'pointer', boxShadow: '0 10px 30px rgba(0,0,0,0.15)', transition: 'all 0.3s ease' }}>
+                    <button ref={magBtn2} className="cc-magnetic" style={{ backgroundColor: '#FFFFFF', color: '#005AE2', padding: '14px 32px', borderRadius: '100px', fontWeight: 800, fontSize: '15px', border: 'none', cursor: 'pointer', boxShadow: '0 10px 30px rgba(0,0,0,0.15)', transition: 'all 0.3s ease' }}>
                       <EditableText contentKey="faq.cta.buttonText" value={faqContent.cta.buttonText} />
                     </button>
                   </Link>
