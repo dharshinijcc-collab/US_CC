@@ -16,7 +16,6 @@ import { useAdmin } from '@/context/AdminContext';
 import { useInView } from 'framer-motion';
 import { API_URL } from '@/services/api';
 import { User, Building, Lightbulb, Compass, Zap, Users, TrendingUp, Cpu, Globe, Brain } from 'lucide-react';
-import '@/app/global-styles.css';
 
 export default function LandingPage() {
   const { content, loading, error } = useContent();
@@ -40,8 +39,8 @@ export default function LandingPage() {
     {
       id: "01",
       status: "Live",
-      category: "Web Development",
-      title: "Lifestyle & Legacy Management Website",
+      category: "",
+      title: "Lifestyle & Legacy Management",
       company: "Dockly",
       description: "A comprehensive lifestyle and legacy management website that helps individuals securely organize and preserve their digital footprint and inheritance.",
       features: [
@@ -61,24 +60,92 @@ export default function LandingPage() {
     {
       id: "02",
       status: "Live",
-      category: "Web Development",
-      title: "E-Commerce Platform",
-      company: "TechMart Solutions",
-      description: "A comprehensive e-commerce platform for management.",
+      category: "Trading Analytics",
+      title: "Trading Analytics Dashboard & Trade Prediction",
+      company: "Open Cap",
+      description: "Options trading analytics platform with real-time performance tracking, open positions management, and AI-driven trade predictions.",
       features: [
-        "Payment Gateway",
-        "Inventory System"
+        "Portfolio Analytics",
+        "Trade Prediction",
+        "Premium Charts",
+        "Positions Tracker"
       ],
       tech: [
-        "React",
+        "React.js",
         "Node.js",
-        "MongoDB",
-        "Stripe"
+        "PostgreSQL",
+        "AWS"
       ],
-      industry: "Retail",
-      duration: "6 months",
-      teamSize: "5 members",
-      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80",
+      industry: "Fintech / Trading",
+      duration: "5 months",
+      teamSize: "4 members",
+      image: "/images/opencap_showcase.png",
+      caseStudyLink: "/contact"
+    },
+    {
+      id: "03",
+      status: "Coming Soon",
+      category: "Health & Wellness",
+      title: "Personal Health Tracker",
+      company: "PulseFit",
+      description: "An intuitive mobile application that aggregates health metrics, tracks daily exercises, and offers personalized nutritional coaching.",
+      features: [
+        "Biometric Sync",
+        "AI Meal Coach"
+      ],
+      tech: [
+        "React Native",
+        "Expo",
+        "FastAPI"
+      ],
+      industry: "Healthcare",
+      duration: "TBD",
+      teamSize: "2 members",
+      image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80",
+      caseStudyLink: "/contact"
+    },
+    {
+      id: "04",
+      status: "In Concept",
+      category: "Finance Tech",
+      title: "Micro-Investing Platform",
+      company: "PennyWise",
+      description: "A simple micro-investing solution that rounds up user transactions and invests the spare change into diversified ETF portfolios.",
+      features: [
+        "Auto Round-up",
+        "Custom Portfolios"
+      ],
+      tech: [
+        "Next.js",
+        "Python",
+        "PostgreSQL"
+      ],
+      industry: "Fintech",
+      duration: "TBD",
+      teamSize: "1 member",
+      image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80",
+      caseStudyLink: "/contact"
+    },
+    {
+      id: "05",
+      status: "In Development",
+      category: "EdTech",
+      title: "Interactive Coding Hub",
+      company: "CodeSprint",
+      description: "A gamified educational workspace offering interactive coding lessons, peer-to-peer code challenges, and live instructor-led debugging rooms.",
+      features: [
+        "Code Playground",
+        "Real-time Debug rooms"
+      ],
+      tech: [
+        "Vue.js",
+        "Express",
+        "Docker"
+      ],
+      industry: "Education",
+      duration: "TBD",
+      teamSize: "3 members",
+      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80",
       caseStudyLink: "/contact"
     }
   ];
@@ -330,12 +397,11 @@ export default function LandingPage() {
           color: #005AE2;
           font-size: 0.75rem;
           font-weight: 800;
-          letter-spacing: 0.1em;
-          padding: 6px 16px;
+          letter-spacing: 0.05em;
+          padding: 6px 14px;
           border-radius: 100px;
-          margin-bottom: 16px;
+          margin-bottom: 24px;
           text-transform: uppercase;
-          font-family: 'Manrope', sans-serif;
         }
 
         :root {
@@ -454,14 +520,15 @@ export default function LandingPage() {
           transform: scale(1.15) rotate(-5deg);
           box-shadow: 0 8px 20px rgba(255,120,60,0.2);
         }
-        .section-container { max-width: 1200px; margin: 0 auto; padding: 24px 24px; }
-        @media(max-width: 768px) { .section-container { padding: 20px 20px; } }
-        @media(max-width: 480px) { .section-container { padding: 16px 16px; } }
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 48px 24px; }
+        @media(max-width: 768px) { .section-container { padding: 40px 20px; } }
+        @media(max-width: 480px) { .section-container { padding: 32px 16px; } }
 
         /* ===== GLOBAL RESPONSIVE SYSTEM ===== */
 
         /* --- Hero --- */
         @media(max-width: 480px) {
+          .hero-section { padding: 110px 16px 48px !important; }
           .hero-idea-box { max-width: 100% !important; }
         }
 
@@ -479,20 +546,20 @@ export default function LandingPage() {
 
         /* --- Sys cards (audience / who we build for) --- */
         @media(max-width: 768px) {
-          .sys-card { padding: 20px 20px; border-radius: 20px; }
-          .sys-card-small { padding: 16px 16px; border-radius: 20px; }
+          .sys-card { padding: 32px 24px; border-radius: 20px; }
+          .sys-card-small { padding: 28px 20px; border-radius: 20px; }
         }
         @media(max-width: 480px) {
-          .sys-card { padding: 16px 16px; }
-          .sys-card-small { padding: 14px 14px; }
+          .sys-card { padding: 24px 18px; }
+          .sys-card-small { padding: 20px 16px; }
         }
 
         /* --- Testimonials --- */
         @media(max-width: 768px) {
-          .testimonial-card { padding: 20px 20px; border-radius: 24px; }
+          .testimonial-card { padding: 32px 24px; border-radius: 24px; }
         }
         @media(max-width: 480px) {
-          .testimonial-card { padding: 16px 16px; border-radius: 20px; }
+          .testimonial-card { padding: 24px 16px; border-radius: 20px; }
         }
 
         /* --- Founder quote card --- */
@@ -500,26 +567,25 @@ export default function LandingPage() {
           .founder-quote-card {
             flex-direction: column;
             align-items: flex-start;
-            padding: 20px 20px !important;
+            padding: 32px 24px !important;
             border-radius: 28px !important;
-            margin-top: 24px !important;
+            margin-top: 40px !important;
           }
           .founder-img { width: 80px !important; height: 80px !important; }
         }
         @media(max-width: 480px) {
-          .founder-quote-card { padding: 16px 16px !important; border-radius: 20px !important; }
+          .founder-quote-card { padding: 24px 16px !important; border-radius: 20px !important; }
           .fq-text { font-size: 1rem !important; }
         }
 
         /* --- Flip cards / audience grid --- */
         @media(max-width: 768px) {
           .flip-card-inner { min-height: 420px !important; }
-          .flip-card-front, .flip-card-back { padding: 20px 16px !important; border-radius: 20px !important; }
+          .flip-card-front, .flip-card-back { padding: 28px 20px !important; border-radius: 20px !important; }
         }
         @media(max-width: 480px) {
           .flip-card-inner { min-height: 380px !important; }
           .audience-card-wrap .flip-card-inner { min-height: 420px !important; }
-          .flip-card-front, .flip-card-back { padding: 16px 14px !important; border-radius: 16px !important; }
         }
 
         /* --- Metrics row --- */
@@ -530,16 +596,16 @@ export default function LandingPage() {
         /* --- Signup overlay --- */
         @media(max-width: 900px) {
           .signup-left { display: none !important; }
-          .signup-right { padding: 20px 20px !important; }
+          .signup-right { padding: 32px 24px !important; }
         }
         @media(max-width: 480px) {
-          .signup-right { padding: 16px 16px !important; }
+          .signup-right { padding: 24px 16px !important; }
           .signup-title { font-size: 1.6rem !important; }
         }
 
         /* --- Carousel cards --- */
         @media(max-width: 480px) {
-          .carousel-card { width: 280px !important; height: 360px !important; padding: 16px 16px !important; }
+          .carousel-card { width: 280px !important; height: 360px !important; padding: 24px 20px !important; }
         }
 
         /* --- Prevent horizontal scroll --- */
@@ -583,7 +649,7 @@ export default function LandingPage() {
         }
 
         /* Sections - all share a unified 100px top/bottom padding via .section-container */
-        .section-light { background-color: #F0F7FF; }
+        .section-light { background-color: var(--white); }
         .section-cta-sky {
           background-image: url('/images/studio/footer_no_faces.png');
           background-size: cover;
@@ -642,9 +708,8 @@ export default function LandingPage() {
 
         /* Hero Section */
         /* Hero gets extra top padding to clear the fixed navbar (~80px) on top of the standard 100px */
-        .hero-section {
-          padding: 100px 24px 24px;
-        }
+        .hero-section { padding: 130px 24px 32px; text-align: center; }
+        @media(max-width: 768px) { .hero-section { padding: 140px 20px 40px; } }
         .hero-description { font-size: clamp(0.95rem, 2vw, 1.125rem); font-weight: 500; color: var(--text-muted); line-height: 1.6; margin-bottom: 48px; }
         .email-form { max-width: 500px; margin: 0 auto; position: relative; }
         .email-form-input { background-color: var(--white); border-radius: 24px; border: 1px solid var(--border-light); box-shadow: 0 40px 100px -20px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.04); position: relative; overflow: hidden; }
@@ -679,7 +744,7 @@ export default function LandingPage() {
           width: min(440px, 90vw);
           background: #ffffff;
           border-radius: 24px;
-          padding: 24px 24px 24px;
+          padding: 40px 36px 36px;
           box-shadow: 0 40px 80px -20px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.02);
           z-index: 51;
           animation: popupSlideIn 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
@@ -784,9 +849,9 @@ export default function LandingPage() {
         }
 
         /* System Cards */
-        .sys-card { background-color: var(--bg-light); border: 1px solid var(--border-light); padding: 24px 24px; border-radius: 24px; display: flex; flex-direction: column; transition: all 0.3s ease; }
+        .sys-card { background-color: var(--bg-light); border: 1px solid var(--border-light); padding: 48px 40px; border-radius: 24px; display: flex; flex-direction: column; transition: all 0.3s ease; }
         .sys-card:hover { transform: perspective(900px) rotateX(-3deg) rotateY(3deg) translateY(-10px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.4); background-color: var(--bg-dark); color: var(--white); border-color: var(--border-dark); }
-        .sys-card-small { background-color: var(--bg-light); border: 1px solid var(--border-light); padding: 20px 20px; border-radius: 24px; display: flex; flex-direction: column; transition: all 0.3s ease; }
+        .sys-card-small { background-color: var(--bg-light); border: 1px solid var(--border-light); padding: 40px 32px; border-radius: 24px; display: flex; flex-direction: column; transition: all 0.3s ease; }
         .sys-card-small:hover { transform: perspective(900px) rotateX(-3deg) rotateY(3deg) translateY(-10px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.4); background-color: var(--bg-dark); color: var(--white); border-color: var(--border-dark); }
 
         .card-learn-more-btn {
@@ -1919,7 +1984,7 @@ export default function LandingPage() {
           background: #ffffff;
           border-top: 1px solid rgba(0,90,226,0.07);
           border-bottom: 1px solid rgba(0,90,226,0.07);
-          padding: 24px 0 24px;
+          padding: 60px 0 80px;
           overflow: hidden;
           position: relative;
         }
@@ -2063,18 +2128,21 @@ export default function LandingPage() {
         /* Partnered Products Carousel Section */
         .partnered-products-section {
           background-color: #FAFAFA;
-          padding: 24px 24px;
+          padding: 60px 24px;
           position: relative;
         }
         .product-carousel-card {
           background: #FFFFFF;
           border: 1px solid #E2E8F0;
           border-radius: 24px;
-          display: block;
-          overflow: visible; /* to allow chevrons to float half-outside */
-          max-width: 680px;
+          display: flex; /* side-by-side flex layout */
+          flex-direction: row;
+          overflow: hidden; /* crop image corners */
+          max-width: 1250px;
+          min-height: 480px; /* fixed height so all cards are the same size */
+          height: 480px;
           margin: 0 auto;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+          box-shadow: 0 20px 40px rgba(0,0,0,0.06);
           position: relative;
         }
         .carousel-nav-btn {
@@ -2101,16 +2169,43 @@ export default function LandingPage() {
           border-color: #005AE2;
         }
         .carousel-nav-btn.prev {
-          left: -22px;
+          left: 16px;
         }
         .carousel-nav-btn.next {
-          right: -22px;
+          right: 16px;
+        }
+        .product-card-left {
+          width: 62%;
+          flex-shrink: 0;
+          position: relative;
+          background: #F8FAFC;
+          border-right: 1px solid #E2E8F0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          padding: 0;
+          height: 100%; /* stretch to fill fixed card height */
+        }
+        .product-card-image {
+          width: 100%;
+          height: 100%; /* fill the full left panel */
+          object-fit: cover; /* fill without distortion */
+          object-position: top left;
+          transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .product-carousel-card:hover .product-card-image {
+          transform: scale(1.02);
         }
         .product-card-right {
-          padding: 48px;
+          width: 38%;
+          flex-shrink: 0;
+          padding: 32px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
+          overflow: hidden;
+          height: 100%;
         }
         .product-category-wrap {
           display: flex;
@@ -2118,49 +2213,49 @@ export default function LandingPage() {
           gap: 6px;
           color: #005AE2;
           font-weight: 700;
-          font-size: 0.8125rem;
+          font-size: 0.75rem;
           text-transform: uppercase;
           letter-spacing: 0.05em;
-          margin-bottom: 12px;
+          margin-bottom: 6px;
         }
         .product-title-h3 {
-          font-size: 1.75rem;
+          font-size: 1.45rem;
           font-weight: 800;
           color: #0A0F1C;
-          margin-bottom: 6px;
+          margin-bottom: 4px;
           line-height: 1.2;
         }
         .product-company-blue {
           color: #005AE2;
           font-weight: 700;
           font-size: 0.95rem;
-          margin-bottom: 16px;
+          margin-bottom: 12px; /* reduced */
         }
         .product-description-p {
           color: #475569;
-          font-size: 0.95rem;
-          line-height: 1.6;
-          margin-bottom: 24px;
+          font-size: 0.8rem;
+          line-height: 1.45;
+          margin-bottom: 8px;
         }
         .product-subtitle-h4 {
-          font-size: 0.875rem;
+          font-size: 0.75rem;
           font-weight: 800;
           text-transform: uppercase;
           color: #0A0F1C;
           letter-spacing: 0.05em;
-          margin-bottom: 12px;
+          margin-bottom: 6px;
         }
         .features-list-inline {
           display: flex;
           flex-wrap: wrap;
-          gap: 20px;
-          margin-bottom: 24px;
+          gap: 8px;
+          margin-bottom: 8px;
         }
         .feature-item-bullet {
           display: flex;
           align-items: center;
-          gap: 8px;
-          font-size: 0.875rem;
+          gap: 6px;
+          font-size: 0.78rem;
           color: #64748B;
           font-weight: 500;
         }
@@ -2173,21 +2268,21 @@ export default function LandingPage() {
         .tech-badges-wrap {
           display: flex;
           flex-wrap: wrap;
-          gap: 8px;
-          margin-bottom: 32px;
+          gap: 6px;
+          margin-bottom: 8px;
         }
         .tech-badge-item {
           background: #F8FAFC;
           border: 1px solid #E2E8F0;
           color: #005AE2;
-          padding: 6px 14px;
-          border-radius: 8px;
-          font-size: 0.8125rem;
+          padding: 4px 10px;
+          border-radius: 6px;
+          font-size: 0.75rem;
           font-weight: 600;
         }
         .product-card-divider {
           border-top: 1px solid #F1F5F9;
-          margin-bottom: 24px;
+          margin-bottom: 10px;
         }
         .product-stats-cols {
           display: grid;
@@ -2236,8 +2331,38 @@ export default function LandingPage() {
         
         /* Mobile Responsive for Carousel */
         @media (max-width: 768px) {
+          .product-carousel-card {
+            flex-direction: column;
+            overflow: visible;
+          }
+          .product-carousel-card {
+            height: auto;
+            min-height: unset;
+          }
+          .product-card-left {
+            width: 100%;
+            height: 260px;
+            flex-shrink: 0;
+            border-right: none;
+            border-bottom: 1px solid #E2E8F0;
+            border-radius: 24px 24px 0 0;
+            padding: 0;
+            background: #F8FAFC;
+            overflow: hidden;
+          }
+          .product-card-image {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            object-position: top left;
+          }
           .product-card-right {
+            position: relative;
+            width: 100%;
+            height: auto;
             padding: 24px;
+            overflow-y: visible;
           }
           .product-stats-cols {
             grid-template-columns: 1fr;
@@ -2261,11 +2386,7 @@ export default function LandingPage() {
       <div className="landing-page" style={{ overflow: 'hidden', position: 'relative', backgroundColor: '#FFFFFF' }}>
 
         {/* Step 1: Idea Submission Hero */}
-        <header ref={heroRef} className="hero-section" style={{ position: 'relative' }}>
-          {/* Ambient Glows */}
-          <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', left: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', right: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+        <header ref={heroRef} className="hero-section" style={{ position: 'relative', paddingTop: '130px', paddingBottom: '32px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div className="hero-eyebrow-pill">
               <EditableText contentKey="home.hero.eyebrow" value={homeContent.hero.eyebrow} />
@@ -2274,7 +2395,7 @@ export default function LandingPage() {
               as="h1"
               contentKey="home.hero.heading"
               value={homeContent.hero.heading}
-              style={{ fontSize: '3rem', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}
+              style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}
             >
               {(() => {
                 const words = (homeContent.hero.heading || '').split(' ');
@@ -2386,21 +2507,17 @@ export default function LandingPage() {
         {/* Target Audiences Section */}
         <section className="section-light">
           <div className="section-container">
-            <div className="text-center" style={{ marginBottom: '24px' }}>
-              <div className="hero-eyebrow-pill">
-                <EditableText
-                  as="span"
-                  contentKey="home.audiences.eyebrow"
-                  value={homeContent.audiences.eyebrow}
-                />
-              </div>
-            </div>
+            <EditableText
+              as="h3"
+              contentKey="home.audiences.eyebrow"
+              value={homeContent.audiences.eyebrow}
+              className="section-eyebrow text-center cc-reveal"
+            />
             <EditableText
               as="h2"
               contentKey="home.audiences.title"
               value={homeContent.audiences.title}
               className="section-title text-center cc-reveal cc-delay-1"
-              style={{ fontSize: '3rem' }}
             />
             <EditableText
               as="p"
@@ -2543,13 +2660,12 @@ export default function LandingPage() {
         <section className="tech-hub-section" style={{ marginTop: '-2px' }}>
           <div className="section-container" style={{ maxWidth: '1100px', position: 'relative' }}>
             <div className="text-center" style={{ marginBottom: '48px' }}>
-              <div className="hero-eyebrow-pill">Our Methodology</div>
               <EditableText
                 as="h2"
                 contentKey="home.methodology.title"
                 value={homeContent.methodology?.title || "How We Help"}
                 className="section-title"
-                style={{ marginBottom: '12px', fontSize: '3rem' }}
+                style={{ fontSize: '2.5rem', marginBottom: '12px' }}
               />
               <EditableText
                 as="p"
@@ -2740,8 +2856,7 @@ export default function LandingPage() {
         <section className="partnered-products-section">
           <div className="section-container" style={{ position: 'relative', zIndex: 2 }}>
             <div className="text-center" style={{ marginBottom: '40px' }}>
-              <div className="hero-eyebrow-pill">Partner Products</div>
-              <h2 className="section-title text-center" style={{ marginBottom: '12px', fontSize: '3rem' }}>
+              <h2 className="section-title text-center" style={{ fontSize: '2.5rem', marginBottom: '12px' }}>
                 Partner <span style={{ color: '#005AE2' }}>Products</span>
               </h2>
               <p className="section-subtitle text-center" style={{ maxWidth: '600px', margin: '0 auto 8px', fontSize: '1.05rem', color: '#64748B' }}>
@@ -2762,10 +2877,19 @@ export default function LandingPage() {
                 </svg>
               </button>
 
-              {/* Centered Details Card */}
+              {/* Product Image / Left Content */}
+              <div className="product-card-left">
+                <img 
+                  src={partneredProducts[currentProductIndex].image} 
+                  alt={partneredProducts[currentProductIndex].company} 
+                  className="product-card-image"
+                />
+              </div>
+
+              {/* Centered Details Card / Right Content */}
               <div className="product-card-right">
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                     <span style={{ fontSize: '0.8125rem', fontWeight: 800, color: '#005AE2', background: '#F0F5FF', padding: '6px 12px', borderRadius: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                       Project {partneredProducts[currentProductIndex].id}
                     </span>
@@ -2774,12 +2898,24 @@ export default function LandingPage() {
                     </span>
                   </div>
 
-                  <div className="product-category-wrap">
-                    <Globe size={14} />
-                    <span>{partneredProducts[currentProductIndex].category}</span>
+                  {/* Render category if not empty */}
+                  {partneredProducts[currentProductIndex].category && (
+                    <div className="product-category-wrap">
+                      <Globe size={14} />
+                      <span>{partneredProducts[currentProductIndex].category}</span>
+                    </div>
+                  )}
+
+                  {/* Big title: Company / Product Name */}
+                  <h3 className="product-title-h3" style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0A0F1C', marginBottom: '4px', lineHeight: 1.1 }}>
+                    {partneredProducts[currentProductIndex].company}
+                  </h3>
+                  
+                  {/* Subtitle below Dockly: Lifestyle & Legacy Management */}
+                  <div className="product-subtitle-tagline" style={{ color: '#005AE2', fontWeight: 700, fontSize: '1.1rem', marginBottom: '12px' }}>
+                    {partneredProducts[currentProductIndex].title}
                   </div>
-                  <h3 className="product-title-h3">{partneredProducts[currentProductIndex].title}</h3>
-                  <div className="product-company-blue">{partneredProducts[currentProductIndex].company}</div>
+
                   <p className="product-description-p">{partneredProducts[currentProductIndex].description}</p>
                   
                   <h4 className="product-subtitle-h4">Key Features</h4>
@@ -2854,16 +2990,13 @@ export default function LandingPage() {
         {/* Testimonials Section */}
         <section className="section-light">
           <div className="section-container">
-            <div className="text-center" style={{ marginBottom: 'clamp(40px, 6vw, 80px)' }}>
-              <div className="hero-eyebrow-pill">Testimonials</div>
-              <EditableText
-                as="h2"
-                contentKey="home.testimonials.title"
-                value={homeContent.testimonials.title}
-                className="section-title text-center cc-reveal"
-                style={{ fontSize: '3rem', marginBottom: 'clamp(40px, 6vw, 80px)' }}
-              />
-            </div>
+            <EditableText
+              as="h2"
+              contentKey="home.testimonials.title"
+              value={homeContent.testimonials.title}
+              className="section-title text-center cc-reveal"
+              style={{ marginBottom: 'clamp(40px, 6vw, 80px)' }}
+            />
 
             <div className="cards-grid-2">
               {(homeContent.testimonials.items || [])
@@ -2901,15 +3034,12 @@ export default function LandingPage() {
         {/* CTA Section */}
         <section className="section-cta-sky text-center">
           <div className="section-container" style={{ position: 'relative', zIndex: 3 }}>
-            <div className="text-center" style={{ marginBottom: '24px' }}>
-              <div className="hero-eyebrow-pill">Get Started</div>
-            </div>
             <EditableText
               as="h2"
               contentKey="home.cta.title"
               value={homeContent.cta.title}
               className="section-title cc-reveal"
-              style={{ fontSize: '3rem', whiteSpace: 'pre-line', marginTop: 0, marginBottom: '12px' }}
+              style={{ whiteSpace: 'pre-line', marginTop: 0, marginBottom: '12px' }}
             />
             <EditableText
               as="p"
