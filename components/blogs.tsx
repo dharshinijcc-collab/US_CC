@@ -27,18 +27,19 @@ const BLOG_CONFIG = {
 };
 
 const COLORS = {
-  heroBg: 'radial-gradient(at 0% 0%, #EEF2FF 0, transparent 50%), radial-gradient(at 100% 0%, #E0F2FE 0, transparent 50%), radial-gradient(at 50% 100%, #F8FAFC 0, transparent 50%), #F1F5F9',
+  heroBg: '#FFFFFF',
   bgBase: '#F3F5F9',
-  primary: '#4F46E5',
+  primary: '#005AE2',
   textBlack: '#020617',
   textMuted: '#64748B',
   white: '#FFFFFF',
   border: '#E2E8F0',
 };
 
-const FONT_PRIMARY = "'Plus Jakarta Sans', sans-serif";
+const FONT_PRIMARY = "'Inter', sans-serif";
+const FONT_HEADING = "'Manrope', sans-serif";
 
-export default function BlogsPage() {
+export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
@@ -51,45 +52,74 @@ export default function BlogsPage() {
   });
 
   return (
-    <div style={{ backgroundColor: COLORS.bgBase, minHeight: '100vh', fontFamily: FONT_PRIMARY }}>
+    <div style={{ backgroundColor: showHero ? COLORS.bgBase : 'transparent', minHeight: showHero ? '100vh' : 'auto', fontFamily: FONT_PRIMARY }}>
 
-      {/* 1. HERO SECTION - Aligned with Careers/Vacancies */}
-      <section style={{ 
-        padding: 'clamp(80px, 12vw, 120px) 24px clamp(40px, 8vw, 80px)', 
-        background: COLORS.heroBg, 
-        position: 'relative', 
-        overflow: 'hidden', 
-        textAlign: 'center' 
-      }}>
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.4, backgroundImage: `linear-gradient(${COLORS.textMuted}11 1px, transparent 1px), linear-gradient(90deg, ${COLORS.textMuted}11 1px, transparent 1px)`, backgroundSize: '60px 60px' }} />
-        
-        <div style={{ maxWidth: 'min(850px, 95%)', margin: '0 auto', position: 'relative', zIndex: 10 }}>
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} 
-            style={{ 
-              fontSize: 'clamp(2.2rem, 5vw, 4.5rem)', 
-              fontWeight: 800, 
-              color: COLORS.textBlack, 
-              letterSpacing: '-0.03em', 
-              margin: 'clamp(16px, 3vw, 24px) 0', 
-              lineHeight: 1.1 
-            }}>
-            {BLOG_CONFIG.header.title} <span style={{ color: COLORS.primary }}>{BLOG_CONFIG.header.accent}</span> {BLOG_CONFIG.header.suffix}
-          </motion.h1>
-          
-          <p style={{ 
-            fontSize: 'clamp(16px, 2.5vw, 18px)', 
-            color: COLORS.textMuted, 
-            fontWeight: 500, 
-            lineHeight: 1.6, 
-            marginBottom: 'clamp(20px, 4vw, 32px)' 
-          }}>
-            {BLOG_CONFIG.header.description}
-          </p>
-        </div>
-      </section>
+      {/* 1. HERO SECTION - Styled like Studio page hero */}
+      {showHero && (
+        <section style={{ 
+          padding: '100px 24px clamp(40px, 8vw, 60px)', 
+          backgroundColor: '#FFFFFF', 
+          position: 'relative', 
+          overflow: 'hidden', 
+          textAlign: 'center' 
+        }}>
+          {/* Ambient glow orbs - Blue only, matching studio page */}
+          <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.15), transparent 70%)', bottom: '-100px', left: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.15), transparent 70%)', bottom: '-100px', right: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+
+          <div style={{ maxWidth: 'min(850px, 95%)', margin: '0 auto', position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+              style={{
+                display: 'inline-block',
+                backgroundColor: '#F0F5FF',
+                color: '#005AE2',
+                padding: '6px 16px',
+                borderRadius: '100px',
+                fontSize: '0.75rem',
+                fontWeight: 800,
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                marginBottom: '24px',
+                fontFamily: FONT_HEADING
+              }}
+            >
+              Our Blog
+            </motion.div>
+
+            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} 
+              style={{ 
+                fontFamily: FONT_HEADING,
+                fontSize: 'clamp(2.25rem, 4.5vw, 3.25rem)', 
+                fontWeight: 800, 
+                color: COLORS.textBlack, 
+                letterSpacing: '-0.03em', 
+                margin: '0 auto clamp(16px, 3vw, 24px)', 
+                lineHeight: 1.15,
+                textAlign: 'center'
+              }}>
+              {BLOG_CONFIG.header.title} <span style={{ color: COLORS.primary }}>{BLOG_CONFIG.header.accent}</span> {BLOG_CONFIG.header.suffix}
+            </motion.h1>
+            
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+              style={{ 
+                fontFamily: FONT_PRIMARY,
+                fontSize: 'clamp(0.95rem, 2vw, 1.125rem)', 
+                color: COLORS.textMuted, 
+                fontWeight: 500, 
+                lineHeight: 1.7, 
+                maxWidth: '520px',
+                margin: '0 auto 40px',
+                textAlign: 'center'
+              }}>
+              {BLOG_CONFIG.header.description}
+            </motion.p>
+          </div>
+        </section>
+      )}
 
       {/* 2. FILTER & SEARCH BAR */}
-      <main style={{ maxWidth: '1200px', margin: 'clamp(-20px, -4vw, -40px) auto 80px auto', padding: '0 20px', position: 'relative', zIndex: 20 }}>
+      <main style={{ maxWidth: '1200px', margin: showHero ? 'clamp(-20px, -4vw, -40px) auto 80px auto' : '0 auto 80px auto', padding: '0 20px', position: 'relative', zIndex: 20 }}>
         <div style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(20px)', borderRadius: '20px', padding: '20px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.05)', border: `1px solid ${COLORS.white}`, marginBottom: '36px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '20px' }}>
           <div style={{ position: 'relative', flex: '1 1 300px' }}>
             <Search style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: COLORS.textMuted }} size={20} />
@@ -176,7 +206,7 @@ export default function BlogsPage() {
       </main>
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
       `}</style>
     </div>
   );
