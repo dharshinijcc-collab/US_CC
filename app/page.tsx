@@ -520,15 +520,15 @@ export default function LandingPage() {
           transform: scale(1.15) rotate(-5deg);
           box-shadow: 0 8px 20px rgba(255,120,60,0.2);
         }
-        .section-container { max-width: 1200px; margin: 0 auto; padding: 48px 24px; }
-        @media(max-width: 768px) { .section-container { padding: 40px 20px; } }
-        @media(max-width: 480px) { .section-container { padding: 32px 16px; } }
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 24px 24px; }
+        @media(max-width: 768px) { .section-container { padding: 20px 20px; } }
+        @media(max-width: 480px) { .section-container { padding: 16px 16px; } }
 
         /* ===== GLOBAL RESPONSIVE SYSTEM ===== */
 
         /* --- Hero --- */
         @media(max-width: 480px) {
-          .hero-section { padding: 110px 16px 48px !important; }
+          .hero-section { padding: 100px 16px 32px !important; }
           .hero-idea-box { max-width: 100% !important; }
         }
 
@@ -618,26 +618,43 @@ export default function LandingPage() {
 
         /* Typography */
         .hero-title { 
-          font-size: clamp(2.5rem, 5vw, 4rem); 
-          font-weight: 800; 
-          letter-spacing: -0.03em; 
-          margin-bottom: clamp(16px, 3vw, 24px); 
-          line-height: 1.1; 
+          font-family: 'Manrope', sans-serif !important;
+          font-size: 36px !important;
+          font-weight: 800 !important;
+          letter-spacing: -0.03em !important;
+          line-height: 1.15 !important;
+          color: #020617 !important;
+          margin: 0 auto 16px !important;
+          text-align: center !important;
+          max-width: 800px !important;
+        }
+        @media(max-width: 768px) {
+          .hero-title {
+            font-size: 26px !important;
+          }
         }
         .section-title { 
-          font-size: clamp(2rem, 4vw, 2.75rem); 
-          font-weight: 800; 
-          letter-spacing: -0.02em; 
-          margin-bottom: clamp(16px, 3vw, 24px); 
-          line-height: 1.1; 
+          font-family: 'Manrope', sans-serif !important;
+          font-size: 36px !important;
+          font-weight: 800 !important;
+          letter-spacing: -0.02em !important;
+          margin-bottom: 12px !important;
+          line-height: 1.25 !important;
+          text-align: center !important;
+        }
+        @media(max-width: 768px) {
+          .section-title {
+            font-size: 26px !important;
+          }
         }
         .section-subtitle { 
+          font-family: 'Inter', sans-serif !important;
           color: var(--text-muted); 
-          font-size: clamp(0.95rem, 2vw, 1.125rem); 
-          line-height: 1.6; 
+          font-size: clamp(0.85rem, 1.5vw, 0.925rem) !important; 
+          line-height: 1.6 !important; 
           font-weight: 500;
           max-width: 600px; 
-          margin: 0 auto clamp(32px, 5vw, 48px); 
+          margin: 0 auto 24px !important; 
         }
         .section-eyebrow { 
           color: var(--primary-blue); 
@@ -707,10 +724,33 @@ export default function LandingPage() {
         .idea-textarea::placeholder { color: #CBD5E1; }
 
         /* Hero Section */
-        /* Hero gets extra top padding to clear the fixed navbar (~80px) on top of the standard 100px */
-        .hero-section { padding: 130px 24px 32px; text-align: center; }
-        @media(max-width: 768px) { .hero-section { padding: 140px 20px 40px; } }
-        .hero-description { font-size: clamp(0.95rem, 2vw, 1.125rem); font-weight: 500; color: var(--text-muted); line-height: 1.6; margin-bottom: 48px; }
+        .hero-section {
+          padding: 120px 24px 60px !important;
+          text-align: center !important;
+          background-color: #FFFFFF !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          min-height: auto !important;
+          width: 100% !important;
+          position: relative !important;
+        }
+        @media(max-width: 768px) {
+          .hero-section {
+            padding: 100px 20px 40px !important;
+          }
+        }
+        .hero-description {
+          font-family: 'Inter', sans-serif !important;
+          font-size: clamp(0.9rem, 2vw, 0.975rem) !important;
+          font-weight: 500 !important;
+          color: #64748B !important;
+          line-height: 1.6 !important;
+          max-width: 650px !important;
+          margin: 0 auto 24px !important;
+          text-align: center !important;
+        }
         .email-form { max-width: 500px; margin: 0 auto; position: relative; }
         .email-form-input { background-color: var(--white); border-radius: 24px; border: 1px solid var(--border-light); box-shadow: 0 40px 100px -20px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.04); position: relative; overflow: hidden; }
         .idea-textarea { width: 100%; height: 160px; padding: 24px; border: none; outline: none; font-family: inherit; font-size: clamp(0.95rem, 2vw, 1.125rem); resize: none; color: var(--text-black); }
@@ -924,12 +964,12 @@ export default function LandingPage() {
         }
 
         /* Target Audience Elements */
-        .card-icon { width: 56px; height: 56px; background-color: var(--white); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 24px; transition: all 0.3s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); flex-shrink: 0; }
-        .card-icon svg { width: 24px !important; height: 24px !important; min-width: 24px !important; min-height: 24px !important; flex-shrink: 0; display: block; }
+        .card-icon { width: 44px !important; height: 44px !important; background-color: var(--white); color: var(--primary-blue); display: flex; align-items: center; justify-content: center; border-radius: 12px !important; margin-bottom: 16px !important; transition: all 0.3s; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); flex-shrink: 0; }
+        .card-icon svg { width: 20px !important; height: 20px !important; min-width: 20px !important; min-height: 20px !important; flex-shrink: 0; display: block; }
         .sys-card:hover .card-icon { background-color: var(--primary-blue); color: var(--white); }
-        .card-title { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 800; margin-bottom: 16px; color: var(--text-black); letter-spacing: -0.02em; transition: color 0.3s; }
+        .card-title { font-size: clamp(1.05rem, 2vw, 1.15rem) !important; font-weight: 800; margin-bottom: 8px !important; color: var(--text-black); letter-spacing: -0.02em; transition: color 0.3s; }
         .sys-card:hover .card-title { color: var(--white); }
-        .card-description { color: var(--text-muted); font-size: clamp(0.9rem, 1.5vw, 1rem); line-height: 1.6; font-weight: 500; margin-bottom: 32px; transition: color 0.3s; }
+        .card-description { color: var(--text-muted); font-size: 0.85rem !important; line-height: 1.45 !important; font-weight: 500; margin-bottom: 16px !important; transition: color 0.3s; }
         .sys-card:hover .card-description { color: #9CA3AF; }
         .card-features { list-style: none; padding: 0; margin: 0; }
         .card-features li { display: flex; align-items: center; font-size: clamp(0.9rem, 1.5vw, 1rem); color: var(--text-main); font-weight: 700; margin-bottom: 12px; transition: color 0.3s; }
@@ -1842,8 +1882,8 @@ export default function LandingPage() {
           height: 100%;
           backface-visibility: hidden;
           -webkit-backface-visibility: hidden;
-          border-radius: 24px;
-          padding: 40px 32px;
+          border-radius: 20px;
+          padding: 24px 20px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -1976,7 +2016,7 @@ export default function LandingPage() {
           height: auto;
         }
         .audience-card-wrap .flip-card-inner {
-          min-height: 520px;
+          min-height: 420px;
         }
 
         /* ===== NEW CIRCULAR METHODOLOGY HUB-AND-SPOKE ===== */
@@ -1984,7 +2024,7 @@ export default function LandingPage() {
           background: #ffffff;
           border-top: 1px solid rgba(0,90,226,0.07);
           border-bottom: 1px solid rgba(0,90,226,0.07);
-          padding: 60px 0 80px;
+          padding: 32px 0 40px;
           overflow: hidden;
           position: relative;
         }
@@ -2128,7 +2168,7 @@ export default function LandingPage() {
         /* Partnered Products Carousel Section */
         .partnered-products-section {
           background-color: #FAFAFA;
-          padding: 60px 24px;
+          padding: 32px 24px;
           position: relative;
         }
         .product-carousel-card {
@@ -2386,8 +2426,13 @@ export default function LandingPage() {
       <div className="landing-page" style={{ overflow: 'hidden', position: 'relative', backgroundColor: '#FFFFFF' }}>
 
         {/* Step 1: Idea Submission Hero */}
-        <header ref={heroRef} className="hero-section" style={{ position: 'relative', paddingTop: '130px', paddingBottom: '32px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <header ref={heroRef} className="hero-section" style={{ position: 'relative', overflow: 'hidden' }}>
+          {/* Ambient Glows */}
+          <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', left: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', right: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+
+          <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '800px', width: '100%' }}>
             <div className="hero-eyebrow-pill">
               <EditableText contentKey="home.hero.eyebrow" value={homeContent.hero.eyebrow} />
             </div>
@@ -2395,7 +2440,7 @@ export default function LandingPage() {
               as="h1"
               contentKey="home.hero.heading"
               value={homeContent.hero.heading}
-              style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '24px' }}
+              style={{ fontSize: '36px', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '16px' }}
             >
               {(() => {
                 const words = (homeContent.hero.heading || '').split(' ');
@@ -2404,7 +2449,8 @@ export default function LandingPage() {
 
                 const renderWord = (word: string, index: number) => {
                   const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
-                  const isBlue = ['BOLD', 'IDEAS', 'REAL'].includes(cleanWord);
+                  const cleanWordUpper = cleanWord.toUpperCase();
+                  const isBlue = ['BOLD', 'IDEAS', 'REAL', 'IDEA', 'CUSTOMER', 'CUSTOMERS'].includes(cleanWordUpper);
                   return (
                     <span key={index} style={isBlue ? { color: '#005AE2' } : {}}>
                       {word}{' '}
@@ -2429,7 +2475,7 @@ export default function LandingPage() {
               as="p"
               contentKey="home.hero.subheading"
               value={homeContent.hero.subheading}
-              style={{ textAlign: 'center', color: '#475569', fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto 48px', lineHeight: 1.6, fontWeight: 500, textWrap: 'balance' }}
+              style={{ textAlign: 'center', color: '#475569', fontSize: 'clamp(0.9rem, 2vw, 0.975rem)', maxWidth: '600px', margin: '0 auto 24px', lineHeight: 1.6, fontWeight: 500, textWrap: 'balance' }}
             />
           </div>
 
@@ -2665,7 +2711,7 @@ export default function LandingPage() {
                 contentKey="home.methodology.title"
                 value={homeContent.methodology?.title || "How We Help"}
                 className="section-title"
-                style={{ fontSize: '2.5rem', marginBottom: '12px' }}
+                style={{ marginBottom: '12px' }}
               />
               <EditableText
                 as="p"
@@ -2856,7 +2902,7 @@ export default function LandingPage() {
         <section className="partnered-products-section">
           <div className="section-container" style={{ position: 'relative', zIndex: 2 }}>
             <div className="text-center" style={{ marginBottom: '40px' }}>
-              <h2 className="section-title text-center" style={{ fontSize: '2.5rem', marginBottom: '12px' }}>
+              <h2 className="section-title text-center" style={{ marginBottom: '12px' }}>
                 Partner <span style={{ color: '#005AE2' }}>Products</span>
               </h2>
               <p className="section-subtitle text-center" style={{ maxWidth: '600px', margin: '0 auto 8px', fontSize: '1.05rem', color: '#64748B' }}>

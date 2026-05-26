@@ -57,28 +57,73 @@ export default function AboutPage() {
         .section-container {
           max-width: 1200px;
           margin: 0 auto;
-          padding: 48px 24px;
+          padding: 24px 24px;
         }
 
+        /* Unified Hero Section Style */
+        .hero-section {
+          padding: 120px 24px 60px !important;
+          text-align: center !important;
+          background-color: #FFFFFF !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          min-height: auto !important;
+          width: 100% !important;
+          position: relative !important;
+        }
+        @media(max-width: 768px) {
+          .hero-section {
+            padding: 100px 20px 40px !important;
+          }
+        }
         .hero-eyebrow-pill {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          background-color: #E6EFFF;
-          color: #005AE2;
-          font-size: 0.75rem;
-          font-weight: 800;
-          letter-spacing: 0.05em;
-          padding: 6px 14px;
-          border-radius: 100px;
-          margin-bottom: 24px;
-          text-transform: uppercase;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          background-color: #E6EFFF !important;
+          color: #005AE2 !important;
+          font-size: 0.72rem !important;
+          font-weight: 800 !important;
+          letter-spacing: 0.05em !important;
+          padding: 6px 14px !important;
+          border-radius: 100px !important;
+          margin-bottom: 16px !important;
+          text-transform: uppercase !important;
+          font-family: 'Manrope', sans-serif !important;
+        }
+        .hero-title {
+          font-family: 'Manrope', sans-serif !important;
+          font-size: 48px !important;
+          font-weight: 800 !important;
+          letter-spacing: -0.03em !important;
+          line-height: 1.15 !important;
+          color: #020617 !important;
+          margin: 0 auto 16px !important;
+          text-align: center !important;
+          max-width: 800px !important;
+        }
+        @media(max-width: 768px) {
+          .hero-title {
+            font-size: 32px !important;
+          }
+        }
+        .hero-description {
+          font-family: 'Inter', sans-serif !important;
+          font-size: clamp(0.9rem, 2vw, 0.975rem) !important;
+          font-weight: 500 !important;
+          color: #64748B !important;
+          line-height: 1.6 !important;
+          max-width: 650px !important;
+          margin: 0 auto 24px !important;
+          text-align: center !important;
         }
 
         /* Centered Headings matching Studio page */
         .section-header-centered {
           text-align: center;
-          margin-bottom: 64px;
+          margin-bottom: 24px;
         }
         .section-header-centered .label {
           color: var(--primary-blue);
@@ -87,19 +132,19 @@ export default function AboutPage() {
           text-transform: uppercase;
           font-size: 0.75rem;
           display: block;
-          margin-bottom: 16px;
+          margin-bottom: 12px;
           font-family: 'Manrope', sans-serif;
         }
         .section-header-centered h2 {
-          font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+          font-size: clamp(1.5rem, 3vw, 1.85rem) !important;
           color: var(--text-black);
-          line-height: 1.15;
+          line-height: 1.25 !important;
           max-width: 800px;
-          margin: 0 auto 20px;
+          margin: 0 auto 12px;
         }
         .section-header-centered p {
           color: var(--text-muted);
-          font-size: 1.05rem;
+          font-size: clamp(0.85rem, 1.5vw, 0.925rem) !important;
           line-height: 1.65;
           max-width: 680px;
           margin: 0 auto;
@@ -158,20 +203,20 @@ export default function AboutPage() {
         .about-card {
           background: var(--white);
           border: 1px solid var(--border-light);
-          border-radius: 24px;
-          padding: 40px;
+          border-radius: 16px;
+          padding: 20px;
           transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
         .about-card:hover {
-          transform: translateY(-6px);
+          transform: translateY(-4px);
           border-color: var(--primary-blue);
-          box-shadow: 0 20px 40px rgba(0, 90, 226, 0.05);
+          box-shadow: 0 16px 32px rgba(0, 90, 226, 0.05);
         }
 
         /* Team Avatar Circle */
         .avatar-circle {
-          width: 80px;
-          height: 80px;
+          width: 52px;
+          height: 52px;
           border-radius: 50%;
           background: var(--accent-blue-tint);
           color: var(--primary-blue);
@@ -179,18 +224,18 @@ export default function AboutPage() {
           align-items: center;
           justify-content: center;
           font-family: 'Manrope', sans-serif;
-          font-size: 1.65rem;
+          font-size: 1.20rem;
           font-weight: 800;
           letter-spacing: -0.02em;
           border: 1px solid rgba(0, 90, 226, 0.15);
-          margin-bottom: 24px;
+          margin-bottom: 16px;
           transition: all 0.3s ease;
         }
         .about-card:hover .avatar-circle {
           background: var(--primary-blue);
           color: var(--white);
           border-color: var(--primary-blue);
-          box-shadow: 0 8px 20px rgba(0, 90, 226, 0.15);
+          box-shadow: 0 8px 16px rgba(0, 90, 226, 0.15);
         }
 
         /* Buttons matching Studio Page */
@@ -250,34 +295,18 @@ export default function AboutPage() {
       <div className="about-page" style={{ position: 'relative', overflow: 'hidden' }}>
 
         {/* ── 1. HERO SECTION (Image 1) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '130px 24px 48px', position: 'relative', overflow: 'hidden' }}>
+        <section className="hero-section" style={{ position: 'relative', overflow: 'hidden' }}>
           {/* Ambient Glows */}
           <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.08), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none' }}></div>
           <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.04), transparent 70%)', bottom: '-50px', left: '10%', filter: 'blur(80px)', pointerEvents: 'none' }}></div>
 
-          <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+          <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div className="hero-eyebrow-pill">ABOUT THE STUDIO</div>
-            <h1 style={{
-              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-              fontWeight: 800,
-              letterSpacing: '-0.03em',
-              color: 'var(--text-black)',
-              lineHeight: 1.15,
-              marginBottom: '24px',
-              fontFamily: "'Manrope', sans-serif"
-            }}>
+            <h1 className="hero-title">
               Built on <span style={{ color: 'var(--primary-blue)' }}>trust</span> <br />
               and the <span style={{ color: 'var(--primary-blue)' }}>will to execute</span>.
             </h1>
-            <p style={{
-              color: 'var(--text-muted)',
-              fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
-              lineHeight: 1.7,
-              maxWidth: '750px',
-              margin: '0 auto',
-              fontWeight: 500,
-              fontFamily: "'Inter', sans-serif"
-            }}>
+            <p className="hero-description">
               CrestCode is a venture studio born from a simple observation — identifying a truly great idea is rare, and executing it with conviction is rarer still. We exist to do both.
             </p>
           </div>
@@ -287,7 +316,7 @@ export default function AboutPage() {
         <div style={{ width: '100%', height: '1px', backgroundColor: 'var(--border-light)' }}></div>
 
         {/* ── 2. OUR STORY (TIMELINE) (Image 1) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '48px 24px', position: 'relative' }}>
+        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
@@ -367,7 +396,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── 3. FOUNDING PILLARS (Image 2) ── */}
-        <section style={{ backgroundColor: '#F8FAFC', padding: '48px 24px', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', position: 'relative' }}>
+        <section style={{ backgroundColor: '#F8FAFC', padding: '24px 24px', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
@@ -436,7 +465,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── 4. THE TEAM (Image 3) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '48px 24px', position: 'relative' }}>
+        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
@@ -506,7 +535,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── 5. ADVISORS (Image 4) ── */}
-        <section style={{ backgroundColor: '#F8FAFC', padding: '48px 24px', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', position: 'relative' }}>
+        <section style={{ backgroundColor: '#F8FAFC', padding: '24px 24px', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
@@ -563,7 +592,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── 6. GOVERNANCE MODEL (Image 4) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '48px 24px', position: 'relative' }}>
+        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
@@ -621,7 +650,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── 7. COMMUNITY & NETWORK (Image 5) ── */}
-        <section style={{ backgroundColor: '#F8FAFC', padding: '48px 24px', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', position: 'relative' }}>
+        <section style={{ backgroundColor: '#F8FAFC', padding: '24px 24px', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
@@ -694,7 +723,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── 8. CALL TO ACTION (WORK WITH US) (Image 5) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '60px 24px', position: 'relative' }}>
+        <section style={{ backgroundColor: '#FFFFFF', padding: '32px 24px', position: 'relative' }}>
           <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
             <span style={{
               color: 'var(--primary-blue)',

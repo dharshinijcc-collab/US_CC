@@ -349,14 +349,21 @@ export default function StudioPage() {
         
         /* Typography */
         .hero-title { 
-          font-size: clamp(2.25rem, 4.5vw, 3.25rem); 
-          font-weight: 800; 
-          letter-spacing: -0.03em; 
-          margin-bottom: clamp(16px, 3vw, 24px); 
-          line-height: 1.1; 
-          color: var(--text-black);
+          font-family: 'Manrope', sans-serif !important;
+          font-size: 36px !important;
+          font-weight: 800 !important;
+          letter-spacing: -0.03em !important;
+          line-height: 1.15 !important;
+          color: var(--text-black) !important;
           text-align: center !important;
           width: 100%;
+          margin: 0 auto 16px !important;
+          max-width: 800px !important;
+        }
+        @media(max-width: 768px) {
+          .hero-title {
+            font-size: 26px !important;
+          }
         }
         .hero-title-text {
           text-align: center !important;
@@ -366,13 +373,19 @@ export default function StudioPage() {
         .text-blue { color: var(--primary-blue); }
         
         .section-title { 
-          font-size: clamp(2.25rem, 4.5vw, 3.25rem); 
-          font-weight: 800; 
-          letter-spacing: -0.02em; 
-          margin-bottom: clamp(16px, 3vw, 24px); 
-          line-height: 1.1; 
+          font-family: 'Manrope', sans-serif !important;
+          font-size: 36px !important; 
+          font-weight: 800 !important; 
+          letter-spacing: -0.02em !important; 
+          margin-bottom: 12px !important; 
+          line-height: 1.25 !important; 
           text-align: center;
           color: var(--text-black);
+        }
+        @media(max-width: 768px) {
+          .section-title {
+            font-size: 26px !important;
+          }
         }
         .section-title-left { text-align: left; }
         .title-dark { color: var(--white); }
@@ -403,10 +416,11 @@ export default function StudioPage() {
         }
 
         .body-text {
-          font-size: clamp(0.95rem, 2vw, 1.125rem);
-          line-height: 1.6;
-          color: var(--text-muted);
-          font-weight: 500;
+          font-family: 'Inter', sans-serif !important;
+          font-size: clamp(0.9rem, 2vw, 0.975rem) !important;
+          line-height: 1.6 !important;
+          color: var(--text-muted) !important;
+          font-weight: 500 !important;
         }
 
         /* Buttons */
@@ -460,8 +474,24 @@ export default function StudioPage() {
         .section-base { background-color: var(--bg-base); }
         .section-dark { background-color: var(--bg-dark); color: var(--white); }
 
-        /* Hero Section */
-        .hero-section { padding: 100px 24px 24px; }
+        /* Unified Hero Section Style */
+        .hero-section {
+          padding: 120px 24px 60px !important;
+          text-align: center !important;
+          background-color: #FFFFFF !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          min-height: auto !important;
+          width: 100% !important;
+          position: relative !important;
+        }
+        @media(max-width: 768px) {
+          .hero-section {
+            padding: 100px 20px 40px !important;
+          }
+        }
 
         /* Hero Carousel Stepper */
         .hero-carousel-panel {
@@ -695,10 +725,10 @@ export default function StudioPage() {
           border: 1px solid var(--border-dark); 
         }
 
-        .card-title { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 800; margin-bottom: 16px; letter-spacing: -0.02em; color: var(--text-black); transition: color 0.3s;}
+        .card-title { font-size: clamp(1.05rem, 2vw, 1.15rem) !important; font-weight: 800; margin-bottom: 8px !important; letter-spacing: -0.02em; color: var(--text-black); transition: color 0.3s;}
         .card:hover .card-title { color: var(--white); }
         
-        .card-desc { font-size: clamp(0.9rem, 1.5vw, 1rem); color: var(--text-muted); line-height: 1.6; margin-bottom: 32px; font-weight: 500; flex-grow: 1; transition: color 0.3s;}
+        .card-desc { font-size: 0.85rem !important; color: var(--text-muted); line-height: 1.45 !important; margin-bottom: 16px !important; font-weight: 500; flex-grow: 1; transition: color 0.3s;}
         .card:hover .card-desc { color: #9CA3AF; }
 
         .icon-circle { width: 48px; height: 48px; border-radius: 12px; background-color: #F0F5FF; color: var(--primary-blue); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; transition: background-color 0.3s, color 0.3s;}
@@ -1492,7 +1522,7 @@ export default function StudioPage() {
         </section>
 
         {/* Vision & Mission Section */}
-        <section id="vision" style={{ padding: '3rem 4rem', backgroundColor: '#F0F7FF', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0', position: 'relative', overflow: 'hidden' }}>
+        <section id="vision" style={{ padding: '24px 24px', backgroundColor: '#F0F7FF', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0', position: 'relative', overflow: 'hidden' }}>
           {/* Grid Background */}
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(rgba(0, 90, 226, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 90, 226, 0.03) 1px, transparent 1px)', backgroundSize: '50px 50px', opacity: 0.5 }}></div>
           
@@ -1502,7 +1532,7 @@ export default function StudioPage() {
           
           <div className="vm-intro" style={{ maxWidth: '1200px', margin: '0 auto 3rem', position: 'relative', zIndex: 1, textAlign: 'center' }}>
             <div className="hero-eyebrow-pill">Who We Are</div>
-            <h2 style={{ fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.2, maxWidth: '900px', margin: '0 auto', fontFamily: 'Manrope, sans-serif' }}>
+            <h2 className="section-title" style={{ fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.2, maxWidth: '900px', margin: '0 auto', fontFamily: 'Manrope, sans-serif' }}>
               <EditableText contentKey="studio.vision.title" value="Not an agency. Not an accelerator. A venture partner." />
             </h2>
             <p style={{ marginTop: '1rem', fontSize: '1.05rem', color: '#64748B', lineHeight: 1.6, maxWidth: '700px', margin: '1rem auto 0', fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
@@ -1540,11 +1570,11 @@ export default function StudioPage() {
         </section>
 
         {/* Selection Process Heading & Description Section */}
-        <section style={{ padding: '2.5rem 4rem 1.5rem', backgroundColor: '#FFFFFF', position: 'relative' }}>
+        <section style={{ padding: '24px 24px 16px', backgroundColor: '#FFFFFF', position: 'relative' }}>
           <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '40px' }}>
               <div className="hero-eyebrow-pill">Selection Process</div>
-              <h2 style={{
+              <h2 className="section-title" style={{
                 fontWeight: 800,
                 letterSpacing: '-0.02em',
                 color: '#0F172A',
@@ -2123,12 +2153,11 @@ export default function StudioPage() {
         })()}
 
       {/* Selection Process Sub-Section & 5-Step Process */}
-      <section id="selection" style={{ padding: '3rem 48px', backgroundColor: '#FFFFFF', borderBottom: '1px solid #E2E8F0' }}>
+      <section id="selection" style={{ padding: '24px 24px', backgroundColor: '#FFFFFF', borderBottom: '1px solid #E2E8F0' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <div className="hero-eyebrow-pill">Selection Steps</div>
-            <h2 style={{
-              fontSize: 'clamp(2.25rem, 4.5vw, 3rem)',
+            <h2 className="section-title" style={{
               fontWeight: 800,
               letterSpacing: '-0.02em',
               color: '#0F172A',

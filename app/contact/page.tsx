@@ -160,7 +160,7 @@ export default function ContactPage() {
         }
         
         .section-title { 
-          font-size: clamp(1.8rem, 4vw, 2.5rem); 
+          font-size: clamp(32px, 5vw, 48px) !important; 
           font-weight: 800; 
           letter-spacing: -0.02em; 
           margin-bottom: clamp(12px, 2vw, 16px); 

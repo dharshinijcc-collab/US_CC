@@ -111,24 +111,64 @@ export default function InvestorsPage() {
           padding: 24px 24px;
         }
 
+        /* Unified Hero Section Style */
         .hero-section {
-          padding: 100px 24px 24px;
+          padding: 120px 24px 60px !important;
+          text-align: center !important;
+          background-color: #FFFFFF !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          min-height: auto !important;
+          width: 100% !important;
+          position: relative !important;
         }
-
+        @media(max-width: 768px) {
+          .hero-section {
+            padding: 100px 20px 40px !important;
+          }
+        }
         .hero-eyebrow-pill {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          background-color: #E6EFFF;
-          color: #005AE2;
-          font-size: 0.75rem;
-          font-weight: 800;
-          letter-spacing: 0.1em;
-          padding: 6px 16px;
-          border-radius: 100px;
-          margin-bottom: 12px;
-          text-transform: uppercase;
-          font-family: 'Manrope', sans-serif;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          background-color: #E6EFFF !important;
+          color: #005AE2 !important;
+          font-size: 0.72rem !important;
+          font-weight: 800 !important;
+          letter-spacing: 0.05em !important;
+          padding: 6px 14px !important;
+          border-radius: 100px !important;
+          margin-bottom: 16px !important;
+          text-transform: uppercase !important;
+          font-family: 'Manrope', sans-serif !important;
+        }
+        .hero-title {
+          font-family: 'Manrope', sans-serif !important;
+          font-size: 36px !important;
+          font-weight: 800 !important;
+          letter-spacing: -0.03em !important;
+          line-height: 1.15 !important;
+          color: #020617 !important;
+          margin: 0 auto 16px !important;
+          text-align: center !important;
+          max-width: 800px !important;
+        }
+        @media(max-width: 768px) {
+          .hero-title {
+            font-size: 26px !important;
+          }
+        }
+        .hero-description {
+          font-family: 'Inter', sans-serif !important;
+          font-size: clamp(0.9rem, 2vw, 0.975rem) !important;
+          font-weight: 500 !important;
+          color: #64748B !important;
+          line-height: 1.6 !important;
+          max-width: 650px !important;
+          margin: 0 auto 24px !important;
+          text-align: center !important;
         }
 
         /* Premium Center-Aligned Headings Structure */
@@ -143,19 +183,24 @@ export default function InvestorsPage() {
           text-transform: uppercase;
           font-size: 0.75rem;
           display: block;
-          margin-bottom: 16px;
+          margin-bottom: 12px;
           font-family: 'Manrope', sans-serif;
         }
         .section-header-centered h2 {
-          font-size: 3rem;
+          font-size: 36px !important;
           color: var(--text-black);
-          line-height: 1.15;
+          line-height: 1.25 !important;
           max-width: 800px;
-          margin: 0 auto 20px;
+          margin: 0 auto 12px;
+        }
+        @media(max-width: 768px) {
+          .section-header-centered h2 {
+            font-size: 26px !important;
+          }
         }
         .section-header-centered p {
           color: var(--text-muted);
-          font-size: 1.05rem;
+          font-size: clamp(0.85rem, 1.5vw, 0.925rem) !important;
           line-height: 1.65;
           max-width: 680px;
           margin: 0 auto;
@@ -266,8 +311,8 @@ export default function InvestorsPage() {
         .term-card {
           background: var(--white);
           border: 1px solid var(--border-light);
-          border-radius: 24px;
-          padding: 20px 20px;
+          border-radius: 16px;
+          padding: 20px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -278,6 +323,18 @@ export default function InvestorsPage() {
           transform: translateY(-4px);
           border-color: var(--primary-blue);
           box-shadow: 0 16px 32px rgba(0, 90, 226, 0.04);
+        }
+        .term-card h3 {
+          font-size: 1.1rem !important;
+          margin-bottom: 8px !important;
+        }
+        .term-card p {
+          font-size: 0.85rem !important;
+          line-height: 1.5 !important;
+        }
+        .path-card, .benefit-card-new {
+          padding: 20px !important;
+          border-radius: 16px !important;
         }
 
         /* Premium Bottom CTA Strategic Interest Form */
@@ -406,31 +463,15 @@ export default function InvestorsPage() {
           <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', left: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
           <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', right: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
 
-          <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+          <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div className="hero-eyebrow-pill">
               <EditableText contentKey="investors.hero.eyebrow" value={content?.investors?.hero?.eyebrow || 'INVESTOR RELATIONS'} />
             </div>
-            <h1 style={{
-              fontSize: '3rem',
-              fontWeight: 800,
-              letterSpacing: '-0.03em',
-              color: 'var(--text-black)',
-              lineHeight: 1.15,
-              marginBottom: '24px',
-              fontFamily: "'Manrope', sans-serif"
-            }}>
-              Invest in Ventures <br />
-              <span style={{ color: 'var(--primary-blue)' }}>Built to Last</span>
+            <h1 className="hero-title" style={{ color: '#020617' }}>
+              Invest in <span style={{ color: 'var(--primary-blue)' }}>Ventures</span> <br />
+              Built to Last
             </h1>
-            <p style={{
-              color: 'var(--text-muted)',
-              fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
-              lineHeight: 1.7,
-              maxWidth: '750px',
-              margin: '0 auto',
-              fontWeight: 500,
-              fontFamily: "'Inter', sans-serif"
-            }}>
+            <p className="hero-description">
               CrestCode partners with strategic investors who believe in the long game — backing the studio, the ventures, or both. We offer full transparency, shared conviction, and two clear paths to participate.
             </p>
           </div>
@@ -565,21 +606,21 @@ export default function InvestorsPage() {
                   }}>
                     PATH 01
                   </span>
-                  <h3 style={{ fontSize: '1.65rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '16px' }}>
+                  <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '8px' }}>
                     Invest in CrestCode Studio
                   </h3>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '0.975rem', lineHeight: 1.65, marginBottom: '32px', fontWeight: 500 }}>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.55, marginBottom: '16px', fontWeight: 500 }}>
                     Back the studio itself — gaining exposure to every venture CrestCode builds, incubates, or advises. This is a bet on the model, the team, and the portfolio of companies we build over time.
                   </p>
                   
-                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 40px 0', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px 0', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {[
                       'Choose between equity stake in CrestCode or a revenue share arrangement',
                       'Exposure across all current and future ventures in the studio portfolio',
                       'Access to the investor dashboard covering studio-wide metrics and deployment',
                       'Quarterly strategic reviews and direct access to CrestCode leadership'
                     ].map((pt, i) => (
-                      <li key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', fontSize: '0.925rem', color: '#475569', fontWeight: 500 }}>
+                      <li key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', fontSize: '0.85rem', color: '#475569', fontWeight: 500 }}>
                         <span style={{ color: 'var(--primary-blue)', fontWeight: 800, fontSize: '1.1rem', lineHeight: '1' }}>•</span>
                         <span>{pt}</span>
                       </li>
@@ -590,9 +631,9 @@ export default function InvestorsPage() {
                 <div style={{
                   background: 'var(--bg-light)',
                   border: '1px solid var(--border-light)',
-                  padding: '20px 24px',
-                  borderRadius: '16px',
-                  fontSize: '0.875rem',
+                  padding: '16px 20px',
+                  borderRadius: '12px',
+                  fontSize: '0.825rem',
                   color: '#475569',
                   lineHeight: 1.5,
                   fontWeight: 500
@@ -618,21 +659,21 @@ export default function InvestorsPage() {
                   }}>
                     PATH 02
                   </span>
-                  <h3 style={{ fontSize: '1.65rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '16px' }}>
+                  <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '8px' }}>
                     Invest in a Specific Venture
                   </h3>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '0.975rem', lineHeight: 1.65, marginBottom: '32px', fontWeight: 500 }}>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.55, marginBottom: '16px', fontWeight: 500 }}>
                     Back a specific company in the CrestCode portfolio through a dedicated Special Purpose Vehicle (SPV). Your capital goes directly into one venture — clean, targeted, and legally isolated from the rest of the portfolio.
                   </p>
                   
-                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 40px 0', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px 0', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {[
                       'Direct equity in a single venture via a dedicated SPV structure',
                       'Investment isolated per venture — one company\'s performance doesn\'t affect another',
                       'Access to venture-specific dashboard showing build progress, milestones, and financials',
                       'Opportunity to play an active role in product adoption and operations'
                     ].map((pt, i) => (
-                      <li key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', fontSize: '0.925rem', color: '#475569', fontWeight: 500 }}>
+                      <li key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', fontSize: '0.85rem', color: '#475569', fontWeight: 500 }}>
                         <span style={{ color: '#D97706', fontWeight: 800, fontSize: '1.1rem', lineHeight: '1' }}>•</span>
                         <span>{pt}</span>
                       </li>
@@ -643,9 +684,9 @@ export default function InvestorsPage() {
                 <div style={{
                   background: '#FFFBEB',
                   border: '1px solid #FEF3C7',
-                  padding: '20px 24px',
-                  borderRadius: '16px',
-                  fontSize: '0.875rem',
+                  padding: '16px 20px',
+                  borderRadius: '12px',
+                  fontSize: '0.825rem',
                   color: '#B45309',
                   lineHeight: 1.5,
                   fontWeight: 500
@@ -735,11 +776,11 @@ export default function InvestorsPage() {
                     {val.icon}
                   </div>
 
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '12px' }}>
+                  <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '8px' }}>
                     {val.title}
                   </h3>
-
-                  <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
+ 
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.5, margin: 0, fontWeight: 500 }}>
                     {val.desc}
                   </p>
                 </div>

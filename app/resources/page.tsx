@@ -42,24 +42,7 @@ export default function ResourcesPage() {
     }
   ];
 
-  const readingCards = [
-    {
-      source: 'FIRST ROUND REVIEW', title: 'The 18 Mistakes That Kill Startups',
-      desc: "Paul Graham's classic breakdown of why most early-stage companies fail — still one of the most honest reads for any founder.", linkText: 'Read →'
-    },
-    {
-      source: 'A16Z', title: 'The Product-Market Fit Myth',
-      desc: "Why PMF isn't a binary milestone — and how founders should think about the signals that actually matter in the early stages.", linkText: 'Read →'
-    },
-    {
-      source: 'GLOBAL STARTUP STUDIO NETWORK', title: 'The State of Venture Studios 2024',
-      desc: "Annual research on how studio-built companies are performing relative to traditionally funded startups — key data for investors.", linkText: 'Read →'
-    },
-    {
-      source: "LENNY'S NEWSLETTER", title: 'How the Best Product Teams Operate',
-      desc: "A deep look at the rituals, frameworks, and operating principles behind the most effective product teams in the industry.", linkText: 'Read →'
-    }
-  ];
+
 
   return (
     <>
@@ -100,46 +83,77 @@ export default function ResourcesPage() {
         .section-container {
           max-width: 1200px;
           margin: 0 auto;
-          padding: 80px 24px;
+          padding: 24px 24px;
+        }
+
+        /* Unified Hero Section Style */
+        .hero-section {
+          padding: 120px 24px 60px !important;
+          text-align: center !important;
+          background-color: #FFFFFF !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          min-height: auto !important;
+          width: 100% !important;
+          position: relative !important;
+        }
+        @media(max-width: 768px) {
+          .hero-section {
+            padding: 100px 20px 40px !important;
+          }
+        }
+        .hero-eyebrow-pill {
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          background-color: #E6EFFF !important;
+          color: #005AE2 !important;
+          font-size: 0.72rem !important;
+          font-weight: 800 !important;
+          letter-spacing: 0.05em !important;
+          padding: 6px 14px !important;
+          border-radius: 100px !important;
+          margin-bottom: 16px !important;
+          text-transform: uppercase !important;
+          font-family: 'Manrope', sans-serif !important;
+        }
+        .hero-title {
+          font-family: 'Manrope', sans-serif !important;
+          font-size: 48px !important;
+          font-weight: 800 !important;
+          letter-spacing: -0.03em !important;
+          line-height: 1.15 !important;
+          color: #020617 !important;
+          margin: 0 auto 16px !important;
+          text-align: center !important;
+          max-width: 800px !important;
+        }
+        @media(max-width: 768px) {
+          .hero-title {
+            font-size: 32px !important;
+          }
+        }
+        .hero-description, .hero-subtitle {
+          font-family: 'Inter', sans-serif !important;
+          font-size: clamp(0.9rem, 2vw, 0.975rem) !important;
+          font-weight: 500 !important;
+          color: #64748B !important;
+          line-height: 1.6 !important;
+          max-width: 650px !important;
+          margin: 0 auto 24px !important;
+          text-align: center !important;
         }
 
         /* Centered Header Utilities */
         .header-center {
           text-align: center;
           max-width: 800px;
-          margin: 0 auto 64px auto;
+          margin: 0 auto 24px auto;
           display: flex;
           flex-direction: column;
           align-items: center;
-        }
-
-        .eyebrow-text {
-          color: var(--primary-blue);
-          font-weight: 800;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          font-size: 0.8125rem;
-          margin-bottom: 20px;
-          font-family: 'Manrope', sans-serif;
-        }
-
-        /* ===== SECTION 1: HERO ===== */
-        .hero-title {
-          font-size: clamp(3rem, 7vw, 5.5rem);
-          font-weight: 800;
-          line-height: 1.05;
-          letter-spacing: -0.03em;
-          margin-bottom: 32px;
-          color: var(--text-black);
-        }
-        .hero-title span.blue-text {
-          color: var(--primary-blue);
-        }
-        .hero-subtitle {
-          font-size: clamp(1.1rem, 2vw, 1.25rem);
-          color: var(--text-muted);
-          line-height: 1.6;
-          font-weight: 500;
         }
 
         /* ===== SECTION 2: FEATURED ARTICLE ===== */
@@ -295,41 +309,41 @@ export default function ResourcesPage() {
         .res-card {
           background-color: var(--white);
           border: 1px solid var(--border-light);
-          border-radius: 20px;
-          padding: 32px;
+          border-radius: 16px;
+          padding: 20px;
           display: flex;
           flex-direction: column;
           transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .res-card:hover {
-          transform: translateY(-6px);
+          transform: translateY(-4px);
           border-color: var(--primary-blue);
-          box-shadow: 0 20px 40px -15px rgba(0, 90, 226, 0.15);
+          box-shadow: 0 16px 32px rgba(0, 90, 226, 0.05);
         }
 
         /* Resource Card Interiors */
         .card-emoji-box {
-          font-size: 2.5rem;
-          margin-bottom: 32px;
+          font-size: 1.75rem;
+          margin-bottom: 16px;
           text-align: center;
-          padding: 24px;
+          padding: 12px;
           background: var(--bg-grey);
-          border-radius: 16px;
+          border-radius: 12px;
         }
         
         .card-title {
-          font-size: 1.35rem;
+          font-size: 1.15rem;
           font-weight: 800;
           line-height: 1.3;
-          margin-bottom: 16px;
+          margin-bottom: 8px;
           color: var(--text-main);
         }
         
         .card-desc {
           color: var(--text-muted);
-          font-size: 0.95rem;
-          line-height: 1.6;
-          margin-bottom: 32px;
+          font-size: 0.85rem;
+          line-height: 1.45;
+          margin-bottom: 16px;
           flex-grow: 1;
         }
         
@@ -389,15 +403,15 @@ export default function ResourcesPage() {
 
         /* Section Titles */
         .section-title {
-          font-size: clamp(2rem, 4vw, 3rem);
+          font-size: clamp(32px, 5vw, 48px) !important;
           font-weight: 800;
           letter-spacing: -0.02em;
-          margin-bottom: 20px;
+          margin-bottom: 12px;
           color: var(--text-main);
         }
         .section-subtitle {
           color: var(--text-muted);
-          font-size: 1.1rem;
+          font-size: clamp(0.85rem, 1.5vw, 0.925rem) !important;
           line-height: 1.6;
         }
       `}} />
@@ -407,14 +421,19 @@ export default function ResourcesPage() {
       <main className="resources-page pt-32">
         
         {/* ===== SECTION 1: HERO ===== */}
-        <section className="section-container" style={{ paddingBottom: '40px' }}>
-          <div className="header-center">
-            <span className="eyebrow-text">RESOURCES</span>
-            <h1 className="hero-title manrope-font">
-              Everything you<br />need to <span className="blue-text">build</span><br />
-              <span className="blue-text">with confidence</span>
+        <section className="hero-section" style={{ position: 'relative', overflow: 'hidden' }}>
+          {/* Ambient Glows */}
+          <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', left: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', right: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+
+          <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div className="hero-eyebrow-pill">RESOURCES</div>
+            <h1 className="hero-title" style={{ color: '#020617' }}>
+              Everything you<br />need to <span style={{ color: 'var(--primary-blue)' }}>build</span><br />
+              with <span style={{ color: 'var(--primary-blue)' }}>confidence</span>
             </h1>
-            <p className="hero-subtitle">
+            <p className="hero-description">
               Guides, tools, and insights for founders and investors — covering how CrestCode works, how the industry is moving, and what it takes to build a product that lasts.
             </p>
           </div>
@@ -458,29 +477,7 @@ export default function ResourcesPage() {
           </div>
         </section>
 
-        {/* ===== SECTION 5: CURATED READING ===== */}
-        <section className="section-container" style={{ paddingTop: '40px', paddingBottom: '120px' }}>
-          <div className="header-center">
-            <span className="eyebrow-text">CURATED READING</span>
-            <h2 className="section-title manrope-font">What we're reading.</h2>
-            <p className="section-subtitle">
-              Industry articles, research, and perspectives that we think every founder and investor should have on their radar.
-            </p>
-          </div>
 
-          <div className="cards-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
-            {readingCards.map((read, idx) => (
-              <div key={idx} className="res-card" style={{ padding: '32px 24px' }}>
-                <div className="reading-source">{read.source}</div>
-                <h3 className="card-title manrope-font" style={{ fontSize: '1.25rem' }}>{read.title}</h3>
-                <p className="card-desc" style={{ fontSize: '0.9rem' }}>{read.desc}</p>
-                <div style={{ marginTop: 'auto' }}>
-                  <Link href="#" className="card-link">{read.linkText}</Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
 
         {/* ===== SECTION 7: FOOTER ===== */}
         <div style={{ borderTop: '1px solid var(--border-dark)' }}>
