@@ -1757,6 +1757,32 @@ export default function StudioPage() {
 }
 */}
 
+        {/* Partition line */}
+        <hr style={{ border: 'none', borderTop: '1px solid #E2E8F0', margin: '0' }} />
+
+        {/* Five Phases Title Section */}
+        <section style={{ padding: '60px 24px 20px', backgroundColor: '#FFFFFF', textAlign: 'center' }}>
+          <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto', paddingBottom: 0 }}>
+            <h2 className="section-title" style={{
+              color: '#0F172A',
+              maxWidth: '800px',
+              margin: '0 auto 16px',
+              fontFamily: "'Manrope', sans-serif",
+              fontSize: 'clamp(1.8rem, 3vw, 2.5rem)',
+              fontWeight: 800
+            }}>
+              Five Phases. One Mission.
+            </h2>
+            <p className="section-subtitle" style={{
+              maxWidth: '640px',
+              margin: '0 auto',
+              color: '#64748B'
+            }}>
+              Our structured blueprint for transforming bold concepts into venture-scale realities.
+            </p>
+          </div>
+        </section>
+
         {content?.ourModel && (() => {
           const phaseColors = ['#4F46E5', '#005AE2', '#6366F1', '#8B5CF6', '#A855F7'];
           const phaseDarkColors = ['#3730A3', '#1E40AF', '#4338CA', '#6D28D9', '#7C3AED'];
@@ -2221,7 +2247,7 @@ export default function StudioPage() {
               },
               {
                 step: '04',
-                title: 'Get a team assigned & build product',
+                title: 'Get a team assigned & the build product',
                 desc: 'Elite engineers and product leads are allocated to build the product to institutional quality standards.'
               },
               {
@@ -2327,7 +2353,7 @@ export default function StudioPage() {
             as="h2"
             contentKey="studio.timeline.title"
             value={studioContent.timeline.title}
-            className="section-title"
+            className="section-title title-dark"
             style={{ fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.02em', lineHeight: 1.2 }}
           />
           <EditableText

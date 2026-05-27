@@ -86,10 +86,6 @@ def _base_template(title: str, body_html: str) -> str:
 
 def send_contact_confirmation(to_email: str, first_name: str, service: str, message: str):
     """Send confirmation email after Contact Us form submission."""
-    if not resend.api_key:
-        print(" RESEND_EMAIL_API_KEY not set  skipping email")
-        return
-
     body = f"""
       <h2 style="margin:0 0 8px;font-size:24px;font-weight:800;color:#020617;">
         Thanks for reaching out, {first_name}! 
