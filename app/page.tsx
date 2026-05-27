@@ -662,11 +662,17 @@ export default function LandingPage() {
           margin: 0 auto 24px !important; 
         }
         .section-eyebrow { 
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #E6EFFF;
           color: var(--primary-blue) !important; 
           font-weight: 800 !important; 
           letter-spacing: 0.15em !important; 
           text-transform: uppercase !important; 
           font-size: 0.75rem !important; 
+          padding: 6px 14px;
+          border-radius: 100px;
           margin-bottom: 16px !important; 
           font-family: 'Manrope', sans-serif !important;
         }
@@ -2561,12 +2567,14 @@ export default function LandingPage() {
         {/* Target Audiences Section */}
         <section className="section-light">
           <div className="section-container">
-            <EditableText
-              as="h3"
-              contentKey="home.audiences.eyebrow"
-              value={homeContent.audiences.eyebrow}
-              className="section-eyebrow text-center cc-reveal"
-            />
+            <div className="text-center">
+              <EditableText
+                as="h3"
+                contentKey="home.audiences.eyebrow"
+                value={homeContent.audiences.eyebrow}
+                className="section-eyebrow cc-reveal"
+              />
+            </div>
             <EditableText
               as="h2"
               contentKey="home.audiences.title"
@@ -2765,12 +2773,13 @@ export default function LandingPage() {
                 <line x1="420" y1="290" x2="250" y2="210" stroke="#0A0F1C" strokeWidth="1.5" />
               </svg>
 
-              {/* CENTER CIRCLE WITH PULSING BRAIN */}
-              <div className="hub-center-circle">
-                <Brain size={38} className="brain-pulsing-icon" />
-                <span className="hub-center-text">
-                  Crestcode<br/>Studio
-                </span>
+              {/* CENTER CIRCLE WITH ECOSYSTEM ICON */}
+              <div className="hub-center-circle" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <img 
+                  src="/Ecosystem_Icon-removebg-preview.png" 
+                  alt="Ecosystem Icon" 
+                  style={{ width: '2100px', height: '2500px', objectFit: 'contain' }}
+                />
               </div>
 
               {/* 1. Outcome Ownership */}
@@ -2913,7 +2922,7 @@ export default function LandingPage() {
             <div className="text-center" style={{ marginBottom: '40px' }}>
               <h3 className="section-eyebrow text-center cc-reveal" style={{ marginBottom: '12px' }}>STUDIO BUILDS</h3>
               <h2 className="section-title text-center" style={{ marginBottom: '12px' }}>
-                Partner <span style={{ color: '#0A0F1C' }}>Products</span>
+                Partner Products
               </h2>
               <p className="section-subtitle text-center" style={{ maxWidth: '600px', margin: '0 auto 8px', fontSize: '1.05rem', color: '#64748B' }}>
                 Innovative solutions delivering measurable results across industries
