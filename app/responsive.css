@@ -133,7 +133,17 @@ img, video, svg, iframe, table {
 
   /* Inline-styled grids in dark sections */
   .section-dark > div > div[style*="grid-template-columns: 1fr 1fr"],
-  .section-dark > div > div[style*="gridTemplateColumns"] {
+  .section-dark > div > div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* General inline styled grid overrides for columns */
+  div[style*="grid-template-columns: 1.1fr 1.2fr"],
+  div[style*="grid-template-columns: 1fr 1.15fr"],
+  div[style*="grid-template-columns: 1.1fr 1fr"],
+  div[style*="grid-template-columns: 1fr 1.1fr"],
+  div[style*="grid-template-columns: 1fr 1fr"],
+  div[style*="grid-template-columns: repeat(2, 1fr)"] {
     grid-template-columns: 1fr !important;
   }
 
@@ -338,7 +348,6 @@ img, video, svg, iframe, table {
     grid-template-columns: 1fr !important;
     gap: 20px !important;
   }
-  section[style*="background-color: #F8FAFC"] .section-container > div[style*="gridTemplateColumns"],
   section[style*="background-color: #F8FAFC"] .section-container > div[style*="grid-template-columns"] {
     grid-template-columns: 1fr !important;
     gap: 20px !important;
@@ -440,7 +449,6 @@ img, video, svg, iframe, table {
   }
 
   /* Investors: paths grid (inline style) */
-  .investors-page section div[style*="gridTemplateColumns: '1fr 1fr'"],
   .investors-page section div[style*="grid-template-columns: 1fr 1fr"] {
     grid-template-columns: 1fr !important;
   }
@@ -475,7 +483,8 @@ img, video, svg, iframe, table {
   .carousel-nav-btn { display: none !important; }
 
   /* Audience / flip cards grid */
-  .audience-grid {
+  .audience-grid,
+  .cards-grid {
     grid-template-columns: 1fr !important;
     gap: 20px !important;
   }
@@ -522,7 +531,7 @@ img, video, svg, iframe, table {
    ============================================================ */
 @media (max-width: 900px) {
   .section-dark > div > div[style*="grid-template-columns: 1fr 1fr"],
-  .section-dark > div > div[style*="gridTemplateColumns"] {
+  .section-dark > div > div[style*="grid-template-columns"] {
     grid-template-columns: 1fr !important;
   }
 }
@@ -702,7 +711,7 @@ img, video, svg, iframe, table {
   .nav-divider { display: none !important; }
   .btn-nav { display: none !important; }
   .hamburger { display: flex !important; }
-  .header-logo { height: 50px !important; }
+  .header-logo { height: 52px !important; }
 }
 
 @media (max-width: 480px) {

@@ -126,7 +126,7 @@ export default function Header(props: any) {
         }
 
         .mobile-menu-logo {
-          height: 60px;
+          height: 58px;
           width: auto;
           object-fit: contain;
         }
@@ -444,7 +444,7 @@ export default function Header(props: any) {
           .nav-divider { display: none; }
           .btn-nav { display: none; }
           .hamburger { display: flex !important; }
-          .header-logo { height: 50px; }
+          .header-logo { height: 52px; }
         }
 
         /* Mobile phones */
@@ -473,7 +473,7 @@ export default function Header(props: any) {
           {/* Brand / Logo */}
           <Link href="/" className="navbar-brand">
             <img
-              src="/CC_US_Logo_-_White-removebg-preview.png"
+              src="/CC_US_Logo_-_Black_Patch-removebg-preview.png"
               alt="Crestcode Logo"
               className="header-logo"
             />

@@ -2140,7 +2140,7 @@ export default function LandingPage() {
           font-weight: 500;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1024px) {
           .radial-hub-container {
             display: none !important;
           }
