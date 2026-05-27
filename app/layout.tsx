@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Inter, Manrope } from 'next/font/google'
 import './globals.css'
 import './animations.css'
+import './global-styles.css'
+import './responsive.css'
 import GlobalCursorGlow from '@/components/effects/GlobalCursorGlow'
 import ScrollReveal from '@/components/ScrollReveal'
 import { Providers } from '@/components/Providers'
@@ -33,6 +35,8 @@ export default function RootLayout({
           margin: 0,
           padding: 0,
           width: '100%',
+          maxWidth: '100vw',
+          overflowX: 'hidden',
         }}>
         <Providers>
           {children}

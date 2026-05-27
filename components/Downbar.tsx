@@ -30,7 +30,7 @@ export default function Downbar() {
   };
 
   const navItems = [
-    { label: 'Home', href: '/', icon: <Home size={20} /> },
+    { label: 'Founder', href: '/', icon: <Home size={20} /> },
     { label: 'Studio', href: '/studio', icon: <LayoutGrid size={20} />, hasSubmenu: true },
     { label: 'Investors', href: '/investors', icon: <TrendingUp size={20} /> },
     { label: 'Company', href: '/company', icon: <Briefcase size={20} /> },

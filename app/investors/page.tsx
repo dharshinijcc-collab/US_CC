@@ -120,13 +120,14 @@ export default function InvestorsPage() {
           flex-direction: column !important;
           align-items: center !important;
           justify-content: center !important;
-          min-height: auto !important;
+          min-height: 580px !important;
           width: 100% !important;
           position: relative !important;
         }
         @media(max-width: 768px) {
           .hero-section {
             padding: 100px 20px 40px !important;
+            min-height: 500px !important;
           }
         }
         .hero-eyebrow-pill {
@@ -135,9 +136,9 @@ export default function InvestorsPage() {
           justify-content: center !important;
           background-color: #E6EFFF !important;
           color: #005AE2 !important;
-          font-size: 0.72rem !important;
+          font-size: 0.75rem !important;
           font-weight: 800 !important;
-          letter-spacing: 0.05em !important;
+          letter-spacing: 0.15em !important;
           padding: 6px 14px !important;
           border-radius: 100px !important;
           margin-bottom: 16px !important;
@@ -146,7 +147,7 @@ export default function InvestorsPage() {
         }
         .hero-title {
           font-family: 'Manrope', sans-serif !important;
-          font-size: 36px !important;
+          font-size: 48px !important;
           font-weight: 800 !important;
           letter-spacing: -0.03em !important;
           line-height: 1.15 !important;
@@ -155,17 +156,41 @@ export default function InvestorsPage() {
           text-align: center !important;
           max-width: 800px !important;
         }
+        .hero-title span {
+          font-family: 'Manrope', sans-serif !important;
+          font-weight: 800 !important;
+        }
+        .btn-primary {
+          display: inline-block !important;
+          padding: 16px 36px !important;
+          border-radius: 100px !important;
+          font-weight: 700 !important;
+          font-family: 'Inter', sans-serif !important;
+          text-decoration: none !important;
+          background-color: var(--primary-blue) !important;
+          color: #FFFFFF !important;
+          font-size: 0.95rem !important;
+          border: none !important;
+          cursor: pointer !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+          box-shadow: 0 10px 20px -6px rgba(0, 90, 226, 0.3) !important;
+        }
+        .btn-primary:hover {
+          background-color: #004ac2 !important;
+          transform: translateY(-2px) !important;
+          box-shadow: 0 15px 30px -8px rgba(0, 90, 226, 0.4) !important;
+        }
         @media(max-width: 768px) {
           .hero-title {
-            font-size: 26px !important;
+            font-size: 32px !important;
           }
         }
         .hero-description {
           font-family: 'Inter', sans-serif !important;
-          font-size: clamp(0.9rem, 2vw, 0.975rem) !important;
+          font-size: clamp(0.925rem, 2vw, 0.975rem) !important;
           font-weight: 500 !important;
           color: #64748B !important;
-          line-height: 1.6 !important;
+          line-height: 1.65 !important;
           max-width: 650px !important;
           margin: 0 auto 24px !important;
           text-align: center !important;
@@ -177,18 +202,20 @@ export default function InvestorsPage() {
           margin-bottom: 24px;
         }
         .section-header-centered .label {
-          color: var(--primary-blue);
-          font-weight: 800;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          font-size: 0.75rem;
+          color: var(--primary-blue) !important;
+          font-weight: 800 !important;
+          letter-spacing: 0.15em !important;
+          text-transform: uppercase !important;
+          font-size: 0.75rem !important;
           display: block;
           margin-bottom: 12px;
-          font-family: 'Manrope', sans-serif;
+          font-family: 'Manrope', sans-serif !important;
         }
         .section-header-centered h2 {
           font-size: 36px !important;
-          color: var(--text-black);
+          color: var(--text-black) !important;
+          font-weight: 800 !important;
+          letter-spacing: -0.02em !important;
           line-height: 1.25 !important;
           max-width: 800px;
           margin: 0 auto 12px;
@@ -199,13 +226,13 @@ export default function InvestorsPage() {
           }
         }
         .section-header-centered p {
-          color: var(--text-muted);
-          font-size: clamp(0.85rem, 1.5vw, 0.925rem) !important;
-          line-height: 1.65;
+          color: var(--text-muted) !important;
+          font-size: clamp(0.9rem, 2vw, 0.95rem) !important;
+          line-height: 1.65 !important;
           max-width: 680px;
           margin: 0 auto;
-          font-weight: 500;
-          font-family: 'Inter', sans-serif;
+          font-weight: 500 !important;
+          font-family: 'Inter', sans-serif !important;
         }
 
         /* Why Invest Stack Cards */
@@ -471,9 +498,14 @@ export default function InvestorsPage() {
               Invest in <span style={{ color: 'var(--primary-blue)' }}>Ventures</span> <br />
               Built to Last
             </h1>
-            <p className="hero-description">
+            <p className="hero-description" style={{ marginBottom: '32px' }}>
               CrestCode partners with strategic investors who believe in the long game — backing the studio, the ventures, or both. We offer full transparency, shared conviction, and two clear paths to participate.
             </p>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Link href="/contact" className="btn-primary">
+                Express Your Interest
+              </Link>
+            </div>
           </div>
         </section>
 

@@ -64,8 +64,8 @@ export default function Header(props: any) {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const navItems = [
-    { label: 'Studio', href: '/studio' },
     { label: 'Founder', href: '/' },
+    { label: 'Studio', href: '/studio' },
     { label: 'Investors', href: '/investors' },
     { label: 'Resources', href: '/resources' },
   ];
@@ -97,7 +97,7 @@ export default function Header(props: any) {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 12px 40px;
+          padding: 4px 40px;
           width: 100%;
           max-width: 1400px;
           margin: 0 auto;
@@ -116,6 +116,19 @@ export default function Header(props: any) {
           gap: 10px;
           white-space: nowrap;
           flex-shrink: 0;
+        }
+
+        .header-logo {
+          height: 80px;
+          width: auto;
+          object-fit: contain;
+          transition: height 0.3s ease;
+        }
+
+        .mobile-menu-logo {
+          height: 60px;
+          width: auto;
+          object-fit: contain;
         }
 
         /* ─── Nav Links (desktop) ──────────────────────────── */
@@ -369,14 +382,15 @@ export default function Header(props: any) {
         }
 
         .menu-link {
-          font-family: 'Outfit', 'Inter', sans-serif;
-          font-size: clamp(2rem, 7vw, 2.8rem);
-          font-weight: 800;
+          font-family: 'Inter', sans-serif;
+          font-size: clamp(1.1rem, 4vw, 1.4rem);
+          font-weight: 700;
           color: #FFFFFF;
           text-decoration: none;
-          line-height: 1.15;
+          line-height: 1.4;
           transition: opacity 0.25s ease;
-          text-transform: uppercase;
+          text-transform: none;
+          letter-spacing: -0.01em;
         }
 
         .menu-link:hover { opacity: 0.6; }
@@ -425,16 +439,17 @@ export default function Header(props: any) {
 
         /* Tablets – hide desktop nav, show hamburger */
         @media (max-width: 768px) {
-          .navbar { padding: 12px 20px; }
+          .navbar { padding: 4px 20px; }
           .navbar-links { display: none !important; }
           .nav-divider { display: none; }
           .btn-nav { display: none; }
           .hamburger { display: flex !important; }
+          .header-logo { height: 50px; }
         }
 
         /* Mobile phones */
         @media (max-width: 480px) {
-          .navbar { padding: 10px 16px; }
+          .navbar { padding: 4px 16px; }
           .navbar-brand { font-size: 0; } /* hide text, show logo only */
           .mobile-menu { padding: 90px 24px 40px; }
           .mobile-menu-header { padding: 16px 20px; }
@@ -458,11 +473,10 @@ export default function Header(props: any) {
           {/* Brand / Logo */}
           <Link href="/" className="navbar-brand">
             <img
-              src="/crestcode-logo-transparent.png"
+              src="/CC_US_Logo_-_White-removebg-preview.png"
               alt="Crestcode Logo"
-              style={{ height: '46px', width: 'auto', objectFit: 'contain' }}
+              className="header-logo"
             />
-            <EditableText contentKey="global.header.brand" value="Crestcode Product Studio" variant="ghost" />
           </Link>
 
           {/* Desktop Nav Links */}
@@ -500,7 +514,7 @@ export default function Header(props: any) {
       <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
         <div className="mobile-menu-header">
           <Link href="/" className="navbar-brand" onClick={toggleMenu}>
-            <img src="/crestcode-logo-transparent.png" alt="Logo" style={{ height: '38px' }} />
+            <img src="/CC_US_Logo_-_White-removebg-preview.png" alt="Logo" className="mobile-menu-logo" />
           </Link>
           <div className={`hamburger open`} onClick={toggleMenu}>
             <span />

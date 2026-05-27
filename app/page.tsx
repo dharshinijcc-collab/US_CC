@@ -619,7 +619,7 @@ export default function LandingPage() {
         /* Typography */
         .hero-title { 
           font-family: 'Manrope', sans-serif !important;
-          font-size: 36px !important;
+          font-size: 48px !important;
           font-weight: 800 !important;
           letter-spacing: -0.03em !important;
           line-height: 1.15 !important;
@@ -628,9 +628,13 @@ export default function LandingPage() {
           text-align: center !important;
           max-width: 800px !important;
         }
+        .hero-title span {
+          font-family: 'Manrope', sans-serif !important;
+          font-weight: 800 !important;
+        }
         @media(max-width: 768px) {
           .hero-title {
-            font-size: 26px !important;
+            font-size: 32px !important;
           }
         }
         .section-title { 
@@ -641,6 +645,7 @@ export default function LandingPage() {
           margin-bottom: 12px !important;
           line-height: 1.25 !important;
           text-align: center !important;
+          color: var(--text-black) !important;
         }
         @media(max-width: 768px) {
           .section-title {
@@ -649,20 +654,21 @@ export default function LandingPage() {
         }
         .section-subtitle { 
           font-family: 'Inter', sans-serif !important;
-          color: var(--text-muted); 
-          font-size: clamp(0.85rem, 1.5vw, 0.925rem) !important; 
-          line-height: 1.6 !important; 
-          font-weight: 500;
+          color: var(--text-muted) !important; 
+          font-size: clamp(0.9rem, 2vw, 0.95rem) !important; 
+          line-height: 1.65 !important; 
+          font-weight: 500 !important;
           max-width: 600px; 
           margin: 0 auto 24px !important; 
         }
         .section-eyebrow { 
-          color: var(--primary-blue); 
-          font-weight: 800; 
-          letter-spacing: 0.1em; 
-          text-transform: uppercase; 
-          font-size: clamp(0.6875rem, 1vw, 0.8125rem); 
-          margin-bottom: 16px; 
+          color: var(--primary-blue) !important; 
+          font-weight: 800 !important; 
+          letter-spacing: 0.15em !important; 
+          text-transform: uppercase !important; 
+          font-size: 0.75rem !important; 
+          margin-bottom: 16px !important; 
+          font-family: 'Manrope', sans-serif !important;
         }
 
         /* Sections - all share a unified 100px top/bottom padding via .section-container */
@@ -732,21 +738,22 @@ export default function LandingPage() {
           flex-direction: column !important;
           align-items: center !important;
           justify-content: center !important;
-          min-height: auto !important;
+          min-height: 580px !important;
           width: 100% !important;
           position: relative !important;
         }
         @media(max-width: 768px) {
           .hero-section {
             padding: 100px 20px 40px !important;
+            min-height: 500px !important;
           }
         }
         .hero-description {
           font-family: 'Inter', sans-serif !important;
-          font-size: clamp(0.9rem, 2vw, 0.975rem) !important;
+          font-size: clamp(0.925rem, 2vw, 0.975rem) !important;
           font-weight: 500 !important;
           color: #64748B !important;
-          line-height: 1.6 !important;
+          line-height: 1.65 !important;
           max-width: 650px !important;
           margin: 0 auto 24px !important;
           text-align: center !important;
@@ -2097,27 +2104,27 @@ export default function LandingPage() {
         .spoke-card {
           position: absolute;
           width: 250px;
-          background: #EEF9F6;
-          border: 1.5px solid #CCEFE7;
+          background: linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 100%);
+          border: 1.5px solid rgba(0, 90, 226, 0.18);
           border-radius: 14px;
           padding: 16px 20px;
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.02);
+          box-shadow: 0 8px 24px rgba(0, 90, 226, 0.06);
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           z-index: 5;
         }
 
         .spoke-card:hover {
           transform: translateY(-5px);
-          border-color: #14B8A6;
-          background-color: #FFFFFF;
-          box-shadow: 0 15px 35px -10px rgba(20, 184, 166, 0.15);
+          border-color: #005AE2;
+          background: linear-gradient(135deg, #DDEAFF 0%, #E6EFFF 100%);
+          box-shadow: 0 15px 35px -10px rgba(0, 90, 226, 0.18);
         }
 
         .spoke-card-title {
           font-family: 'Manrope', sans-serif;
           font-size: 0.92rem;
           font-weight: 800;
-          color: #0F5132;
+          color: #002D72;
           margin: 0 0 6px 0;
           text-align: center;
           letter-spacing: -0.01em;
@@ -2127,7 +2134,7 @@ export default function LandingPage() {
           font-family: 'Inter', sans-serif;
           font-size: 0.75rem;
           line-height: 1.45;
-          color: #157347;
+          color: #1E40AF;
           margin: 0;
           text-align: center;
           font-weight: 500;
@@ -2145,19 +2152,19 @@ export default function LandingPage() {
             margin-top: 40px;
           }
           .mobile-spoke-card {
-            background: #EEF9F6;
-            border: 1.5px solid #CCEFE7;
+            background: linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 100%);
+            border: 1.5px solid rgba(0, 90, 226, 0.18);
             border-radius: 16px;
             padding: 24px;
             text-align: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+            box-shadow: 0 8px 20px rgba(0, 90, 226, 0.05);
             transition: all 0.3s ease;
           }
           .mobile-spoke-card:hover {
             transform: translateY(-4px);
-            border-color: #14B8A6;
-            background: #ffffff;
-            box-shadow: 0 12px 28px rgba(20, 184, 166, 0.1);
+            border-color: #005AE2;
+            background: linear-gradient(135deg, #DDEAFF 0%, #E6EFFF 100%);
+            box-shadow: 0 12px 28px rgba(0, 90, 226, 0.12);
           }
         }
 
@@ -2440,7 +2447,8 @@ export default function LandingPage() {
               as="h1"
               contentKey="home.hero.heading"
               value={homeContent.hero.heading}
-              style={{ fontSize: '36px', fontWeight: 800, textAlign: 'center', color: '#0A0F1C', letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '16px' }}
+              className="hero-title"
+              style={{ color: '#0A0F1C' }}
             >
               {(() => {
                 const words = (homeContent.hero.heading || '').split(' ');
@@ -2706,6 +2714,7 @@ export default function LandingPage() {
         <section className="tech-hub-section" style={{ marginTop: '-2px' }}>
           <div className="section-container" style={{ maxWidth: '1100px', position: 'relative' }}>
             <div className="text-center" style={{ marginBottom: '48px' }}>
+              <h3 className="section-eyebrow text-center cc-reveal" style={{ marginBottom: '12px' }}>OUR METHODOLOGY</h3>
               <EditableText
                 as="h2"
                 contentKey="home.methodology.title"
@@ -2747,7 +2756,7 @@ export default function LandingPage() {
                 <line x1="580" y1="365" x2="720" y2="400" stroke="#0A0F1C" strokeWidth="1.5" />
 
                 {/* 4. Lifelong Partner (Bottom Center) */}
-                <line x1="500" y1="440" x2="500" y2="520" stroke="#0A0F1C" strokeWidth="1.5" />
+                <line x1="500" y1="440" x2="500" y2="570" stroke="#0A0F1C" strokeWidth="1.5" />
 
                 {/* 5. Rigorous Validation (Bottom Left) */}
                 <line x1="420" y1="410" x2="270" y2="510" stroke="#0A0F1C" strokeWidth="1.5" />
@@ -3077,33 +3086,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="section-cta-sky text-center">
-          <div className="section-container" style={{ position: 'relative', zIndex: 3 }}>
-            <EditableText
-              as="h2"
-              contentKey="home.cta.title"
-              value={homeContent.cta.title}
-              className="section-title cc-reveal"
-              style={{ whiteSpace: 'pre-line', marginTop: 0, marginBottom: '12px' }}
-            />
-            <EditableText
-              as="p"
-              contentKey="home.cta.subtitle"
-              value={homeContent.cta.subtitle}
-              className="section-subtitle text-center"
-              style={{ margin: '0 auto 24px' }}
-            />
-            <Link href="/contact">
-              <button className="btn-primary" style={{ marginTop: '16px' }}>
-                <EditableText contentKey="home.cta.buttonText" value={homeContent.cta.buttonText || "Start a Conversation"} />
-              </button>
-            </Link>
-          </div>
 
-          {/* Merge Fade to Footer */}
-          <div className="section-cta-fade"></div>
-        </section>
 
         <Footer />
       </div>

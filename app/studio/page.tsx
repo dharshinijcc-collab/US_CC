@@ -350,7 +350,7 @@ export default function StudioPage() {
         /* Typography */
         .hero-title { 
           font-family: 'Manrope', sans-serif !important;
-          font-size: 36px !important;
+          font-size: 48px !important;
           font-weight: 800 !important;
           letter-spacing: -0.03em !important;
           line-height: 1.15 !important;
@@ -360,9 +360,13 @@ export default function StudioPage() {
           margin: 0 auto 16px !important;
           max-width: 800px !important;
         }
+        .hero-title span {
+          font-family: 'Manrope', sans-serif !important;
+          font-weight: 800 !important;
+        }
         @media(max-width: 768px) {
           .hero-title {
-            font-size: 26px !important;
+            font-size: 32px !important;
           }
         }
         .hero-title-text {
@@ -380,7 +384,7 @@ export default function StudioPage() {
           margin-bottom: 12px !important; 
           line-height: 1.25 !important; 
           text-align: center;
-          color: var(--text-black);
+          color: var(--text-black) !important;
         }
         @media(max-width: 768px) {
           .section-title {
@@ -388,37 +392,51 @@ export default function StudioPage() {
           }
         }
         .section-title-left { text-align: left; }
-        .title-dark { color: var(--white); }
+        .title-dark { color: var(--white) !important; }
         
         .section-eyebrow {
           display: inline-block;
-          background-color: #F0F5FF;
-          color: var(--primary-blue);
-          font-weight: 800;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          font-size: clamp(0.6875rem, 1vw, 0.8125rem);
+          background-color: #E6EFFF !important;
+          color: var(--primary-blue) !important;
+          font-weight: 800 !important;
+          letter-spacing: 0.15em !important;
+          text-transform: uppercase !important;
+          font-size: 0.75rem !important;
           padding: 6px 16px;
           border-radius: 100px;
           margin-bottom: 16px;
+          font-family: 'Manrope', sans-serif !important;
         }
         
         .hero-eyebrow-pill {
           display: inline-block;
-          background-color: #F0F5FF;
-          color: var(--primary-blue);
+          background-color: #E6EFFF !important;
+          color: var(--primary-blue) !important;
           padding: 6px 16px;
           border-radius: 100px;
-          font-size: 0.75rem;
-          font-weight: 800;
-          letter-spacing: 0.1em;
+          font-size: 0.75rem !important;
+          font-weight: 800 !important;
+          letter-spacing: 0.15em !important;
           margin-bottom: 24px;
+          text-transform: uppercase !important;
+          font-family: 'Manrope', sans-serif !important;
+        }
+        
+        .section-subtitle, .hero-description {
+          font-family: 'Inter', sans-serif !important;
+          color: var(--text-muted) !important;
+          font-size: clamp(0.9rem, 2vw, 0.95rem) !important;
+          line-height: 1.65 !important;
+          font-weight: 500 !important;
+          max-width: 650px;
+          margin: 0 auto 24px !important;
+          text-align: center !important;
         }
 
         .body-text {
           font-family: 'Inter', sans-serif !important;
-          font-size: clamp(0.9rem, 2vw, 0.975rem) !important;
-          line-height: 1.6 !important;
+          font-size: clamp(0.9rem, 2vw, 0.95rem) !important;
+          line-height: 1.65 !important;
           color: var(--text-muted) !important;
           font-weight: 500 !important;
         }
@@ -483,13 +501,14 @@ export default function StudioPage() {
           flex-direction: column !important;
           align-items: center !important;
           justify-content: center !important;
-          min-height: auto !important;
+          min-height: 580px !important;
           width: 100% !important;
           position: relative !important;
         }
         @media(max-width: 768px) {
           .hero-section {
             padding: 100px 20px 40px !important;
+            min-height: 500px !important;
           }
         }
 
@@ -1513,7 +1532,7 @@ export default function StudioPage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'center' }} className="cc-reveal">
                   <Link href="/contact">
                     <button className="btn-primary">
-                      Contact Us
+                      Schedule A Call
                     </button>
                   </Link>
                 </div>
@@ -1532,10 +1551,10 @@ export default function StudioPage() {
           
           <div className="vm-intro" style={{ maxWidth: '1200px', margin: '0 auto 3rem', position: 'relative', zIndex: 1, textAlign: 'center' }}>
             <div className="hero-eyebrow-pill">Who We Are</div>
-            <h2 className="section-title" style={{ fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.2, maxWidth: '900px', margin: '0 auto', fontFamily: 'Manrope, sans-serif' }}>
+            <h2 className="section-title" style={{ color: '#0F172A', maxWidth: '800px', margin: '0 auto' }}>
               <EditableText contentKey="studio.vision.title" value="Not an agency. Not an accelerator. A venture partner." />
             </h2>
-            <p style={{ marginTop: '1rem', fontSize: '1.05rem', color: '#64748B', lineHeight: 1.6, maxWidth: '700px', margin: '1rem auto 0', fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
+            <p className="section-subtitle" style={{ marginTop: '1rem', maxWidth: '700px', margin: '1rem auto 0' }}>
               <EditableText contentKey="studio.vision.keyMessage" value="We build world-class digital products by combining elite engineering with strategic partnership — turning bold ideas into scalable ventures." />
             </p>
           </div>
@@ -1543,26 +1562,26 @@ export default function StudioPage() {
           <div className="vm-inner" style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'stretch', position: 'relative', zIndex: 1 }}>
             <div className="vm-card" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: '20px', padding: '2rem', position: 'relative', overflow: 'hidden', transition: 'border-color 0.3s', display: 'flex', flexDirection: 'column', height: '100%' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, #005AE2 0%, transparent 100%)' }}></div>
-              <span className="vm-tag" style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#005AE2', marginBottom: '1rem', display: 'block' }}>
+              <span className="vm-tag" style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#005AE2', marginBottom: '1rem', display: 'block', fontFamily: "'Manrope', sans-serif" }}>
                 <EditableText contentKey="studio.vision.visionTag" value="Our Vision" />
               </span>
-              <h3 style={{ fontSize: '1.35rem', fontWeight: 800, lineHeight: 1.3, marginBottom: '0.75rem', fontFamily: 'Manrope, sans-serif' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, lineHeight: 1.3, marginBottom: '0.75rem', fontFamily: "'Manrope', sans-serif" }}>
                 <EditableText contentKey="studio.vision.visionTitle" value="To be the most trusted venture partner for founders and operators who refuse to build alone." />
               </h3>
-              <p style={{ marginTop: '0.75rem', color: '#64748B', fontSize: '1rem', lineHeight: 1.6, fontFamily: 'Inter, sans-serif', flex: 1, fontWeight: 500 }}>
+              <p style={{ marginTop: '0.75rem', color: '#64748B', fontSize: '0.9rem', lineHeight: 1.65, fontFamily: "'Inter', sans-serif", flex: 1, fontWeight: 500 }}>
                 <EditableText contentKey="studio.vision.visionDesc" value="We envision a world where great ideas — regardless of technical background or startup experience — get the strategic and engineering firepower they deserve. CrestCode exists to level the playing field." />
               </p>
             </div>
 
             <div className="vm-card" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: '20px', padding: '2rem', position: 'relative', overflow: 'hidden', transition: 'border-color 0.3s', display: 'flex', flexDirection: 'column', height: '100%' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, #005AE2 0%, transparent 100%)' }}></div>
-              <span className="vm-tag" style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#005AE2', marginBottom: '1rem', display: 'block' }}>
+              <span className="vm-tag" style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#005AE2', marginBottom: '1rem', display: 'block', fontFamily: "'Manrope', sans-serif" }}>
                 <EditableText contentKey="studio.vision.missionTag" value="Our Mission" />
               </span>
-              <h3 style={{ fontSize: '1.35rem', fontWeight: 800, lineHeight: 1.3, marginBottom: '0.75rem', fontFamily: 'Manrope, sans-serif' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, lineHeight: 1.3, marginBottom: '0.75rem', fontFamily: "'Manrope', sans-serif" }}>
                 <EditableText contentKey="studio.vision.missionTitle" value="To turn bold ideas and real-world problems into world-class digital products." />
               </h3>
-              <p style={{ marginTop: '0.75rem', color: '#64748B', fontSize: '1rem', lineHeight: 1.6, fontFamily: 'Inter, sans-serif', flex: 1, fontWeight: 500 }}>
+              <p style={{ marginTop: '0.75rem', color: '#64748B', fontSize: '0.9rem', lineHeight: 1.65, fontFamily: "'Inter', sans-serif", flex: 1, fontWeight: 500 }}>
                 <EditableText contentKey="studio.vision.missionDesc" value="We partner with visionary founders and business owners through strategy, elite engineering, and relentless execution — building ventures that are built to last, not just launched." />
               </p>
             </div>
@@ -1575,23 +1594,15 @@ export default function StudioPage() {
             <div style={{ textAlign: 'center', marginBottom: '40px' }}>
               <div className="hero-eyebrow-pill">Selection Process</div>
               <h2 className="section-title" style={{
-                fontWeight: 800,
-                letterSpacing: '-0.02em',
                 color: '#0F172A',
-                lineHeight: 1.2,
                 maxWidth: '800px',
-                margin: '0 auto 16px',
-                fontFamily: "'Manrope', sans-serif"
+                margin: '0 auto 16px'
               }}>
                 We are selective<br />for a reason.
               </h2>
-              <p style={{
-                color: '#64748B',
-                fontSize: '1.05rem',
+              <p className="section-subtitle" style={{
                 maxWidth: '640px',
-                margin: '0 auto',
-                lineHeight: 1.6,
-                fontWeight: 500
+                margin: '0 auto'
               }}>
                 We partner with a small number of founders and business owners each year. Every engagement gets our full attention — which means we choose carefully.
               </p>
@@ -1600,17 +1611,17 @@ export default function StudioPage() {
             <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1.2fr', gap: '3rem', marginTop: '2rem', alignItems: 'start' }}>
               {/* Left Column */}
               <div>
-                <span style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#005AE2', display: 'block', marginBottom: '0.75rem' }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#005AE2', display: 'block', marginBottom: '0.75rem', fontFamily: "'Manrope', sans-serif" }}>
                   LET'S START FROM HERE
                 </span>
-                <h3 style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)', fontWeight: 800, color: '#0F172A', lineHeight: 1.25, letterSpacing: '-0.02em', textTransform: 'uppercase', fontFamily: 'Manrope, sans-serif' }}>
+                <h3 style={{ fontSize: 'clamp(1.3rem, 2.5vw, 1.65rem)', fontWeight: 800, color: '#0F172A', lineHeight: 1.25, letterSpacing: '-0.02em', textTransform: 'uppercase', fontFamily: "'Manrope', sans-serif" }}>
                   INVESTMENT THESIS: THE PROCESS OF CREATING A STARTUP WITHIN VENTURE BUILDER CRESTCODE
                 </h3>
               </div>
               
               {/* Right Column */}
               <div>
-                <p style={{ fontSize: '1.05rem', color: '#64748B', lineHeight: 1.6, fontFamily: 'Inter, sans-serif', margin: 0, fontWeight: 500 }}>
+                <p style={{ fontSize: '0.95rem', color: '#64748B', lineHeight: 1.65, fontFamily: "'Inter', sans-serif", margin: 0, fontWeight: 500 }}>
                   Crestcode Startup Studio's startups aim to shift the paradigm of analog services, customer experience, and process management. Micro and small businesses that are still under-digitalized are the primary targets of this transformation. The solutions we will build together will put customers at the center, enabling them to access the services of artisans and professionals with a simple click, enabling them to continue to succeed in a rapidly evolving digital landscape. We create plug-and-play platforms that streamline processes, improve customer experience, and create cross-functional tools for digital transformation. The goal is to reduce inefficiencies and enable professionals to attract, manage, and retain clients, allowing them to focus exclusively on their specific profession.
                 </p>
               </div>
@@ -2168,13 +2179,9 @@ export default function StudioPage() {
             }}>
               Venture Creation Steps
             </h2>
-            <p style={{
-              color: '#64748B',
-              fontSize: '1.05rem',
+            <p className="section-subtitle" style={{
               maxWidth: '600px',
-              margin: '0 auto',
-              lineHeight: 1.6,
-              fontWeight: 500
+              margin: '0 auto'
             }}>
               A structured roadmap from your initial product proposal to assembly, build, and market launch.
             </p>
@@ -2328,7 +2335,7 @@ export default function StudioPage() {
             contentKey="studio.timeline.subtitle"
             value={studioContent.timeline.subtitle}
             className="section-subtitle text-center mx-auto"
-            style={{ maxWidth: '800px', marginBottom: '16px', color: 'rgba(255, 255, 255, 0.7)', lineHeight: 1.6, fontSize: '1.05rem', fontWeight: 500 }}
+            style={{ maxWidth: '800px', marginBottom: '16px', color: 'rgba(255, 255, 255, 0.7)', lineHeight: 1.65 }}
           />
 
           <div className="timeline-container-vertical">
@@ -2362,10 +2369,10 @@ export default function StudioPage() {
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <div className="hero-eyebrow-pill">Our Ethos & Beliefs</div>
-            <h2 style={{ fontSize: '3rem', fontWeight: 800, margin: '0 auto 16px', color: '#0F172A', maxWidth: '800px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+            <h2 className="section-title" style={{ margin: '0 auto 16px', color: '#0F172A', maxWidth: '800px' }}>
               Core Values That Guide Everything We Build
             </h2>
-            <p style={{ color: '#64748B', fontSize: '1.05rem', maxWidth: '600px', margin: '0 auto', lineHeight: 1.6, fontWeight: 500 }}>
+            <p className="section-subtitle" style={{ maxWidth: '600px', margin: '0 auto' }}>
               We aren't here to build commodities. We partner with founders to construct enduring, high-performance tech enterprises.
             </p>
           </div>
@@ -2530,8 +2537,8 @@ export default function StudioPage() {
         <div className="diff-header">
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <div className="hero-eyebrow-pill">Why CrestCode</div>
-            <h2 style={{ fontSize: '3rem', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.2, color: '#0F172A', margin: '0 auto 16px', maxWidth: '800px', fontFamily: 'Manrope, sans-serif' }}>Not a vendor.<br />Not a studio that vanishes.<br />A co-builder.</h2>
-            <p style={{ color: '#64748B', fontSize: '1.05rem', lineHeight: 1.6, fontWeight: 500, maxWidth: '600px', margin: '0 auto' }}>Here is how we compare to the alternatives — and why it matters for your venture.</p>
+            <h2 className="section-title" style={{ color: '#0F172A', margin: '0 auto 16px', maxWidth: '800px' }}>Not a vendor.<br />Not a studio that vanishes.<br />A co-builder.</h2>
+            <p className="section-subtitle" style={{ maxWidth: '600px', margin: '0 auto' }}>Here is how we compare to the alternatives — and why it matters for your venture.</p>
           </div>
         </div>
 
@@ -2620,14 +2627,14 @@ export default function StudioPage() {
               contentKey="studio.cta.title"
               value={studioContent.cta?.title}
               className="section-title"
-              style={{ fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.2, marginBottom: '16px' }}
+              style={{ marginBottom: '16px' }}
             />
             <EditableText
               as="p"
               contentKey="studio.cta.subtitle"
               value={studioContent.cta?.subtitle}
               className="section-subtitle text-center"
-              style={{ fontSize: '1.05rem', lineHeight: 1.6, fontWeight: 500, maxWidth: '600px', margin: '0 auto' }}
+              style={{ maxWidth: '600px', margin: '0 auto' }}
             />
             <Link href="/">
               <button className="btn-primary" style={{ marginTop: '32px', padding: '20px 48px', fontSize: '1.125rem' }}>

@@ -273,16 +273,9 @@ export default function Footer() {
             <div className="footer-brand-column">
               <div className="footer-logo-container" style={{ marginBottom: '16px' }}>
                 <img
-                  src="/crestcode-logo-transparent.png"
+                  src="/new-footer-logo.png"
                   alt="Crestcode Product Studio"
-                  style={{ maxWidth: '80px', height: 'auto', display: 'block', marginTop: '-12px', marginLeft: '-10px', marginBottom: '12px' }}
-                />
-                <EditableText
-                  as="div"
-                  contentKey="global.footer.brand"
-                  value={globalContent.footer.brand}
-                  className="footer-logo"
-                  style={{ margin: 0 }}
+                  style={{ maxWidth: '100px', height: 'auto', display: 'block', marginBottom: '16px' }}
                 />
               </div>
               <EditableText

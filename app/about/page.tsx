@@ -69,13 +69,14 @@ export default function AboutPage() {
           flex-direction: column !important;
           align-items: center !important;
           justify-content: center !important;
-          min-height: auto !important;
+          min-height: 580px !important;
           width: 100% !important;
           position: relative !important;
         }
         @media(max-width: 768px) {
           .hero-section {
             padding: 100px 20px 40px !important;
+            min-height: 500px !important;
           }
         }
         .hero-eyebrow-pill {
@@ -84,9 +85,9 @@ export default function AboutPage() {
           justify-content: center !important;
           background-color: #E6EFFF !important;
           color: #005AE2 !important;
-          font-size: 0.72rem !important;
+          font-size: 0.75rem !important;
           font-weight: 800 !important;
-          letter-spacing: 0.05em !important;
+          letter-spacing: 0.15em !important;
           padding: 6px 14px !important;
           border-radius: 100px !important;
           margin-bottom: 16px !important;
@@ -104,6 +105,10 @@ export default function AboutPage() {
           text-align: center !important;
           max-width: 800px !important;
         }
+        .hero-title span {
+          font-family: 'Manrope', sans-serif !important;
+          font-weight: 800 !important;
+        }
         @media(max-width: 768px) {
           .hero-title {
             font-size: 32px !important;
@@ -111,10 +116,10 @@ export default function AboutPage() {
         }
         .hero-description {
           font-family: 'Inter', sans-serif !important;
-          font-size: clamp(0.9rem, 2vw, 0.975rem) !important;
+          font-size: clamp(0.925rem, 2vw, 0.975rem) !important;
           font-weight: 500 !important;
           color: #64748B !important;
-          line-height: 1.6 !important;
+          line-height: 1.65 !important;
           max-width: 650px !important;
           margin: 0 auto 24px !important;
           text-align: center !important;
@@ -126,30 +131,37 @@ export default function AboutPage() {
           margin-bottom: 24px;
         }
         .section-header-centered .label {
-          color: var(--primary-blue);
-          font-weight: 800;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          font-size: 0.75rem;
+          color: var(--primary-blue) !important;
+          font-weight: 800 !important;
+          letter-spacing: 0.15em !important;
+          text-transform: uppercase !important;
+          font-size: 0.75rem !important;
           display: block;
           margin-bottom: 12px;
-          font-family: 'Manrope', sans-serif;
+          font-family: 'Manrope', sans-serif !important;
         }
         .section-header-centered h2 {
-          font-size: clamp(1.5rem, 3vw, 1.85rem) !important;
-          color: var(--text-black);
+          font-size: 36px !important;
+          color: var(--text-black) !important;
+          font-weight: 800 !important;
+          letter-spacing: -0.02em !important;
           line-height: 1.25 !important;
           max-width: 800px;
           margin: 0 auto 12px;
         }
+        @media(max-width: 768px) {
+          .section-header-centered h2 {
+            font-size: 26px !important;
+          }
+        }
         .section-header-centered p {
-          color: var(--text-muted);
-          font-size: clamp(0.85rem, 1.5vw, 0.925rem) !important;
-          line-height: 1.65;
+          color: var(--text-muted) !important;
+          font-size: clamp(0.9rem, 2vw, 0.95rem) !important;
+          line-height: 1.65 !important;
           max-width: 680px;
           margin: 0 auto;
-          font-weight: 500;
-          font-family: 'Inter', sans-serif;
+          font-weight: 500 !important;
+          font-family: 'Inter', sans-serif !important;
         }
 
         /* Timeline Styles */
@@ -297,8 +309,9 @@ export default function AboutPage() {
         {/* ── 1. HERO SECTION (Image 1) ── */}
         <section className="hero-section" style={{ position: 'relative', overflow: 'hidden' }}>
           {/* Ambient Glows */}
-          <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.08), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none' }}></div>
-          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.04), transparent 70%)', bottom: '-50px', left: '10%', filter: 'blur(80px)', pointerEvents: 'none' }}></div>
+          <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', left: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', right: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
 
           <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div className="hero-eyebrow-pill">ABOUT THE STUDIO</div>
@@ -306,9 +319,14 @@ export default function AboutPage() {
               Built on <span style={{ color: 'var(--primary-blue)' }}>trust</span> <br />
               and the <span style={{ color: 'var(--primary-blue)' }}>will to execute</span>.
             </h1>
-            <p className="hero-description">
+            <p className="hero-description" style={{ marginBottom: '32px' }}>
               CrestCode is a venture studio born from a simple observation — identifying a truly great idea is rare, and executing it with conviction is rarer still. We exist to do both.
             </p>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Link href="/contact" className="btn-pill btn-primary">
+                Let's Build Together
+              </Link>
+            </div>
           </div>
         </section>
 
@@ -422,10 +440,13 @@ export default function AboutPage() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginBottom: '24px',
-                  fontSize: '1.25rem'
+                  marginBottom: '24px'
                 }}>
-                  ⚡
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 006 8c0 1 .2 2.2 1.5 3.5.7.8 1.3 1.5 1.5 2.5" />
+                    <path d="M9 18h6" />
+                    <path d="M10 22h4" />
+                  </svg>
                 </div>
                 <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '16px', lineHeight: 1.3 }}>
                   A truly great idea is rare — and even harder to recognize.
@@ -446,10 +467,12 @@ export default function AboutPage() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginBottom: '24px',
-                  fontSize: '1.25rem'
+                  marginBottom: '24px'
                 }}>
-                  🤝
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    <path d="m9 11 2 2 4-4" />
+                  </svg>
                 </div>
                 <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '16px', lineHeight: 1.3 }}>
                   Trust is the most important currency in any partnership.
@@ -687,28 +710,62 @@ export default function AboutPage() {
             }}>
               {[
                 {
-                  emoji: '🧑‍💻',
+                  icon: (
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <path d="M23 21v-2a4 4 0 00-3-3.87" />
+                      <path d="M16 3.13a4 4 0 010 7.75" />
+                    </svg>
+                  ),
                   title: 'Founders Network',
                   desc: 'Connect with other founders in the CrestCode portfolio — share learnings, challenges, and opportunities across ventures.'
                 },
                 {
-                  emoji: '💼',
+                  icon: (
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                      <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
+                    </svg>
+                  ),
                   title: 'Investor Circle',
                   desc: 'Strategic investors who back CrestCode ventures and play an active role in their growth and adoption.'
                 },
                 {
-                  emoji: '🧠',
+                  icon: (
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" />
+                    </svg>
+                  ),
                   title: 'Advisor Pool',
                   desc: 'Domain experts across finance, healthcare, product, and operations — available to every entrepreneur we work with.'
                 },
                 {
-                  emoji: '🌐',
+                  icon: (
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+                    </svg>
+                  ),
                   title: 'Remote-First',
                   desc: 'Our team and network operate fully remotely — giving access to the best people regardless of geography.'
                 }
               ].map((item, idx) => (
                 <div key={idx} className="about-card" style={{ background: 'var(--white)', display: 'flex', flexDirection: 'column', height: '100%' }}>
-                  <div style={{ fontSize: '1.75rem', marginBottom: '20px' }}>{item.emoji}</div>
+                  <div style={{
+                    width: '46px',
+                    height: '46px',
+                    borderRadius: '12px',
+                    background: 'rgba(0, 90, 226, 0.08)',
+                    color: 'var(--primary-blue)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '20px',
+                    flexShrink: 0
+                  }}>
+                    {item.icon}
+                  </div>
                   <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '8px' }}>
                     {item.title}
                   </h3>
@@ -737,26 +794,19 @@ export default function AboutPage() {
             }}>
               WORK WITH US
             </span>
-            <h2 style={{
-              fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
-              fontWeight: 800,
+            <h2 className="section-title" style={{
               color: 'var(--text-black)',
-              lineHeight: 1.15,
               marginBottom: '24px',
-              fontFamily: "'Manrope', sans-serif"
+              maxWidth: '800px',
+              margin: '0 auto 24px'
             }}>
               If this sounds like <br />
               the partner you've been <br />
               looking for —
             </h2>
-            <p style={{
-              color: 'var(--text-muted)',
-              fontSize: '1.1rem',
-              lineHeight: 1.7,
+            <p className="section-subtitle" style={{
               maxWidth: '600px',
-              margin: '0 auto 40px',
-              fontWeight: 500,
-              fontFamily: "'Inter', sans-serif"
+              margin: '0 auto 40px'
             }}>
               We'd love to hear what you're building. Or what problem you're trying to solve. Either way, let's talk.
             </p>

@@ -252,7 +252,7 @@ export default function Header() {
           <Link to="/" className="navbar-brand">Crestcode Product Studio</Link>
           
           <div className="navbar-links">
-            <Link to="/" className={location.pathname === '/' ? 'active-link' : ''}>Home</Link>
+            <Link to="/" className={location.pathname === '/' ? 'active-link' : ''}>Founder</Link>
             <Link to="/studio" className={location.pathname === '/studio' ? 'active-link' : ''}>Studio</Link>
             <Link to="/investors" className={location.pathname === '/investors' ? 'active-link' : ''}>Investors</Link>
             <Link to="/company" className={location.pathname === '/company' ? 'active-link' : ''}>Company</Link>
@@ -274,7 +274,7 @@ export default function Header() {
       </div>
 
       <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
-        <Link to="/" className={`mobile-link ${location.pathname === '/' ? 'active-link' : ''}`}>Home</Link>
+        <Link to="/" className={`mobile-link ${location.pathname === '/' ? 'active-link' : ''}`}>Founder</Link>
         <Link to="/studio" className={`mobile-link ${location.pathname === '/studio' ? 'active-link' : ''}`}>Studio</Link>
         <Link to="/investors" className={`mobile-link ${location.pathname === '/investors' ? 'active-link' : ''}`}>Investors</Link>
         <Link to="/company" className={`mobile-link ${location.pathname === '/company' ? 'active-link' : ''}`}>Company</Link>

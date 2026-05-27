@@ -11,32 +11,69 @@ export default function ResourcesPage() {
 
   const toolsCards = [
     {
-      emoji: '💡', title: 'Idea Evaluator', status: 'LIVE', statusColor: '#10B981', statusBg: 'rgba(16, 185, 129, 0.1)',
+      icon: (
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 006 8c0 1 .2 2.2 1.5 3.5.7.8 1.3 1.5 1.5 2.5" />
+          <path d="M9 18h6" />
+          <path d="M10 22h4" />
+        </svg>
+      ),
+      title: 'Idea Evaluator', status: 'LIVE', statusColor: '#10B981', statusBg: 'rgba(16, 185, 129, 0.1)',
       desc: "Score your idea across six key dimensions — market size, problem clarity, competition, timing, founder fit, and scalability. Get an honest readiness score in under 5 minutes.",
       tags: ['Founders', 'Pre-build', 'Free']
     },
     {
-      emoji: '⏱️', title: 'Timeline & Cost Estimator', status: 'COMING SOON', statusColor: '#F59E0B', statusBg: 'rgba(245, 158, 11, 0.1)',
+      icon: (
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 6v6l4 2" />
+        </svg>
+      ),
+      title: 'Timeline & Cost Estimator', status: 'COMING SOON', statusColor: '#F59E0B', statusBg: 'rgba(245, 158, 11, 0.1)',
       desc: "Describe what you want to build and get a rough timeline and cost estimate based on Crestcode's engagement model — broken down by stage and scope.",
       tags: ['Founders', 'Business Owners', 'Free']
     },
     {
-      emoji: '📋', title: 'PRFAQ Template', status: 'COMING SOON', statusColor: '#F59E0B', statusBg: 'rgba(245, 158, 11, 0.1)',
+      icon: (
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2" />
+          <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+        </svg>
+      ),
+      title: 'PRFAQ Template', status: 'COMING SOON', statusColor: '#F59E0B', statusBg: 'rgba(245, 158, 11, 0.1)',
       desc: "A structured Amazon-style PRFAQ template pre-configured for early-stage product thinking. Download, fill in, and bring it to your first Crestcode conversation.",
       tags: ['Founders', 'Template', 'Free']
     },
     {
-      emoji: '📈', title: 'Investor Readiness Checklist', status: 'COMING SOON', statusColor: '#F59E0B', statusBg: 'rgba(245, 158, 11, 0.1)',
+      icon: (
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M23 6l-9.5 9.5-5-5L1 18" />
+          <path d="M17 6h6v6" />
+        </svg>
+      ),
+      title: 'Investor Readiness Checklist', status: 'COMING SOON', statusColor: '#F59E0B', statusBg: 'rgba(245, 158, 11, 0.1)',
       desc: "A step-by-step checklist covering everything a founder needs before approaching investors — from pitch deck to financials to product demo readiness.",
       tags: ['Founders', 'Pre-raise', 'Free']
     },
     {
-      emoji: '🗺️', title: 'Product Roadmap Builder', status: 'COMING SOON', statusColor: '#F59E0B', statusBg: 'rgba(245, 158, 11, 0.1)',
+      icon: (
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4z" />
+          <path d="M8 2v16M16 6v16" />
+        </svg>
+      ),
+      title: 'Product Roadmap Builder', status: 'COMING SOON', statusColor: '#F59E0B', statusBg: 'rgba(245, 158, 11, 0.1)',
       desc: "A lightweight tool to map your product from MLP to V2 — prioritizing features by impact, effort, and user value so you always know what to build next.",
       tags: ['Founders', 'Post-launch', 'Free']
     },
     {
-      emoji: '🏦', title: 'Studio Investment Calculator', status: 'COMING SOON', statusColor: '#F59E0B', statusBg: 'rgba(245, 158, 11, 0.1)',
+      icon: (
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 21h18M3 10h18M5 6l7-3 7 3" />
+          <path d="M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3" />
+        </svg>
+      ),
+      title: 'Studio Investment Calculator', status: 'COMING SOON', statusColor: '#F59E0B', statusBg: 'rgba(245, 158, 11, 0.1)',
       desc: "Model different investment scenarios across Crestcode's two investment paths — visualize projected returns, timelines, and exposure across the portfolio.",
       tags: ['Investors', 'Free']
     }
@@ -95,13 +132,14 @@ export default function ResourcesPage() {
           flex-direction: column !important;
           align-items: center !important;
           justify-content: center !important;
-          min-height: auto !important;
+          min-height: 580px !important;
           width: 100% !important;
           position: relative !important;
         }
         @media(max-width: 768px) {
           .hero-section {
             padding: 100px 20px 40px !important;
+            min-height: 500px !important;
           }
         }
         .hero-eyebrow-pill {
@@ -110,9 +148,9 @@ export default function ResourcesPage() {
           justify-content: center !important;
           background-color: #E6EFFF !important;
           color: #005AE2 !important;
-          font-size: 0.72rem !important;
+          font-size: 0.75rem !important;
           font-weight: 800 !important;
-          letter-spacing: 0.05em !important;
+          letter-spacing: 0.15em !important;
           padding: 6px 14px !important;
           border-radius: 100px !important;
           margin-bottom: 16px !important;
@@ -121,7 +159,7 @@ export default function ResourcesPage() {
         }
         .hero-title {
           font-family: 'Manrope', sans-serif !important;
-          font-size: 36px !important;
+          font-size: 48px !important;
           font-weight: 800 !important;
           letter-spacing: -0.03em !important;
           line-height: 1.15 !important;
@@ -130,6 +168,30 @@ export default function ResourcesPage() {
           text-align: center !important;
           max-width: 800px !important;
         }
+        .hero-title span {
+          font-family: 'Manrope', sans-serif !important;
+          font-weight: 800 !important;
+        }
+        .btn-primary {
+          display: inline-block !important;
+          padding: 16px 36px !important;
+          border-radius: 100px !important;
+          font-weight: 700 !important;
+          font-family: 'Inter', sans-serif !important;
+          text-decoration: none !important;
+          background-color: var(--primary-blue) !important;
+          color: #FFFFFF !important;
+          font-size: 0.95rem !important;
+          border: none !important;
+          cursor: pointer !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+          box-shadow: 0 10px 20px -6px rgba(0, 90, 226, 0.3) !important;
+        }
+        .btn-primary:hover {
+          background-color: #004ac2 !important;
+          transform: translateY(-2px) !important;
+          box-shadow: 0 15px 30px -8px rgba(0, 90, 226, 0.4) !important;
+        }
         @media(max-width: 768px) {
           .hero-title {
             font-size: 32px !important;
@@ -137,10 +199,10 @@ export default function ResourcesPage() {
         }
         .hero-description, .hero-subtitle {
           font-family: 'Inter', sans-serif !important;
-          font-size: clamp(0.9rem, 2vw, 0.975rem) !important;
+          font-size: clamp(0.925rem, 2vw, 0.975rem) !important;
           font-weight: 500 !important;
           color: #64748B !important;
-          line-height: 1.6 !important;
+          line-height: 1.65 !important;
           max-width: 650px !important;
           margin: 0 auto 24px !important;
           text-align: center !important;
@@ -322,14 +384,6 @@ export default function ResourcesPage() {
         }
 
         /* Resource Card Interiors */
-        .card-emoji-box {
-          font-size: 1.75rem;
-          margin-bottom: 16px;
-          text-align: center;
-          padding: 12px;
-          background: var(--bg-grey);
-          border-radius: 12px;
-        }
         
         .card-title {
           font-size: 1.15rem;
@@ -403,16 +457,39 @@ export default function ResourcesPage() {
 
         /* Section Titles */
         .section-title {
-          font-size: clamp(32px, 5vw, 48px) !important;
-          font-weight: 800;
-          letter-spacing: -0.02em;
-          margin-bottom: 12px;
-          color: var(--text-main);
+          font-family: 'Manrope', sans-serif !important;
+          font-size: 36px !important;
+          font-weight: 800 !important;
+          letter-spacing: -0.02em !important;
+          margin-bottom: 12px !important;
+          line-height: 1.25 !important;
+          color: var(--text-main) !important;
+          text-align: center !important;
+        }
+        @media(max-width: 768px) {
+          .section-title {
+            font-size: 26px !important;
+          }
         }
         .section-subtitle {
-          color: var(--text-muted);
-          font-size: clamp(0.85rem, 1.5vw, 0.925rem) !important;
-          line-height: 1.6;
+          font-family: 'Inter', sans-serif !important;
+          color: var(--text-muted) !important;
+          font-size: clamp(0.9rem, 2vw, 0.95rem) !important;
+          line-height: 1.65 !important;
+          font-weight: 500 !important;
+          max-width: 600px;
+          margin: 0 auto 24px !important;
+          text-align: center !important;
+        }
+        .eyebrow-text {
+          display: inline-block !important;
+          color: var(--primary-blue) !important;
+          font-weight: 800 !important;
+          letter-spacing: 0.15em !important;
+          text-transform: uppercase !important;
+          font-size: 0.75rem !important;
+          margin-bottom: 16px !important;
+          font-family: 'Manrope', sans-serif !important;
         }
       `}} />
 
@@ -433,9 +510,14 @@ export default function ResourcesPage() {
               Everything you<br />need to <span style={{ color: 'var(--primary-blue)' }}>build</span><br />
               with <span style={{ color: 'var(--primary-blue)' }}>confidence</span>
             </h1>
-            <p className="hero-description">
+            <p className="hero-description" style={{ marginBottom: '32px' }}>
               Guides, tools, and insights for founders and investors — covering how CrestCode works, how the industry is moving, and what it takes to build a product that lasts.
             </p>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Link href="/contact" className="btn-primary">
+                Ask Us Anything
+              </Link>
+            </div>
           </div>
         </section>
 
@@ -458,8 +540,19 @@ export default function ResourcesPage() {
             {toolsCards.map((tool, idx) => (
               <div key={idx} className="res-card">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
-                  <div className="card-emoji-box" style={{ margin: 0, padding: '16px', fontSize: '1.8rem' }}>
-                    {tool.emoji}
+                  <div style={{
+                    width: '46px',
+                    height: '46px',
+                    borderRadius: '12px',
+                    background: 'rgba(0, 90, 226, 0.08)',
+                    color: 'var(--primary-blue)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: 0,
+                    flexShrink: 0
+                  }}>
+                    {tool.icon}
                   </div>
                   <span className="tool-badge" style={{ backgroundColor: tool.statusBg, color: tool.statusColor }}>
                     {tool.status}

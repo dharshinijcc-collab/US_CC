@@ -3,7 +3,7 @@ import axios from 'axios';
 export const LOCAL_API_URL = "http://localhost:5000/server/api" as string;
 export const RENDER_API_URL = "https://us-cc.onrender.com/server/api" as string;
 
-export const API_URL = RENDER_API_URL; // Use render API as primary since local backend is having issues
+export const API_URL = RENDER_API_URL; // Always use Render API — content is stored in the remote database
 
 console.log('🚀 ~ API_URL:', API_URL);
 declare module 'axios' {

@@ -650,13 +650,13 @@
           "icon": "target"
         },
         {
-          "title": "Rigorous validation",
-          "description": "Every build challenged before ship",
+          "title": "5. MLP Standard - Minimum Lovable, Not Minimum Viable",
+          "description": "We don't ship the bare minimum. Every product we build is held to a standard where the first version is something users actually love - because a product people tolerate doesn't grow.",
           "icon": "lambda"
         },
         {
-          "title": "Senior in-house team",
-          "description": "No outsourcing, no juniors",
+          "title": "6. Senior In-House Team, No Outsourcing",
+          "description": "Every engagement is staffed with senior engineers, designers, and product thinkers - all in-house. No hand-offs, no juniors, no surprises.",
           "icon": "layers"
         }
       ]
