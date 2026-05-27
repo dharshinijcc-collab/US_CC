@@ -39,114 +39,92 @@ export default function LandingPage() {
     {
       id: "01",
       status: "Live",
-      category: "",
-      title: "Lifestyle & Legacy Management",
+      category: "Family Connectivity",
+      title: "One Connected Platform to Manage Your Life",
       company: "Dockly",
-      description: "A comprehensive lifestyle and legacy management website that helps individuals securely organize and preserve their digital footprint and inheritance.",
+      description: "A simple and elegant family connectivity application designed to help family members coordinate schedules, manage tasks, and track shared finances in one secure space.",
       features: [
-        "Secure Legacy Preserves",
-        "Digital Footprint Care"
+        "Planner & Calendars",
+        "Shared Finances",
+        "Secure Vault"
       ],
       tech: [
-        "Frontend",
-        "Backend"
+        "Next.js",
+        "Node.js",
+        "Tailwind CSS"
       ],
-      industry: "Lifestyle / Legacy",
+      industry: "Family Tech / SaaS",
       duration: "4 months",
       teamSize: "3 members",
       image: "/images/dockly_showcase.png",
-      caseStudyLink: "/contact"
+      websiteLink: "https://app.dockly.me/"
     },
     {
       id: "02",
       status: "Live",
-      category: "Trading Analytics",
-      title: "Trading Analytics Dashboard & Trade Prediction",
-      company: "Open Cap",
-      description: "Options trading analytics platform with real-time performance tracking, open positions management, and AI-driven trade predictions.",
+      category: "Global Education",
+      title: "Study Abroad & Admissions Consulting",
+      company: "CastleGEC",
+      description: "A comprehensive education portal connecting students in Dubai with top-tier universities across the US, UK, and EU, streamlining applications, visa processing, and portfolio creation.",
       features: [
+        "University Admissions",
+        "Visa Guidance",
+        "Admissions Insights"
+      ],
+      tech: [
+        "Next.js",
+        "React",
+        "Tailwind CSS"
+      ],
+      industry: "EdTech / Consulting",
+      duration: "3 months",
+      teamSize: "2 members",
+      image: "/images/castlegc_showcase.png",
+      websiteLink: "https://castlegec.com/"
+    },
+    {
+      id: "03",
+      status: "In Progress",
+      category: "Trading Analytics",
+      title: "Trading Analytics & Prediction Dashboard",
+      company: "OpenCap",
+      description: "An options trading analytics platform designed for real-time portfolio performance tracking, open positions management, and AI-driven trade prediction models.",
+      features: [
+        "AI Trade Prediction",
         "Portfolio Analytics",
-        "Trade Prediction",
-        "Premium Charts",
         "Positions Tracker"
       ],
       tech: [
         "React.js",
         "Node.js",
-        "PostgreSQL",
-        "AWS"
+        "PostgreSQL"
       ],
       industry: "Fintech / Trading",
       duration: "5 months",
       teamSize: "4 members",
-      image: "/images/opencap_showcase.png",
-      caseStudyLink: "/contact"
-    },
-    {
-      id: "03",
-      status: "Coming Soon",
-      category: "Health & Wellness",
-      title: "Personal Health Tracker",
-      company: "PulseFit",
-      description: "An intuitive mobile application that aggregates health metrics, tracks daily exercises, and offers personalized nutritional coaching.",
-      features: [
-        "Biometric Sync",
-        "AI Meal Coach"
-      ],
-      tech: [
-        "React Native",
-        "Expo",
-        "FastAPI"
-      ],
-      industry: "Healthcare",
-      duration: "TBD",
-      teamSize: "2 members",
-      image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80",
-      caseStudyLink: "/contact"
+      image: "/images/opencap_showcase.png"
     },
     {
       id: "04",
-      status: "In Concept",
-      category: "Finance Tech",
-      title: "Micro-Investing Platform",
-      company: "PennyWise",
-      description: "A simple micro-investing solution that rounds up user transactions and invests the spare change into diversified ETF portfolios.",
+      status: "In Progress",
+      category: "Real Estate Tech",
+      title: "Virtual Homeowners Association Portal",
+      company: "VHOA",
+      description: "A modern resident and property management platform facilitating seamless communication and operations between apartment owners, tenants, and HOA board members.",
       features: [
-        "Auto Round-up",
-        "Custom Portfolios"
+        "Resident Dashboard",
+        "Service Requests",
+        "Announcements"
       ],
       tech: [
         "Next.js",
-        "Python",
+        "Node.js",
         "PostgreSQL"
       ],
-      industry: "Fintech",
-      duration: "TBD",
-      teamSize: "1 member",
-      image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80",
-      caseStudyLink: "/contact"
-    },
-    {
-      id: "05",
-      status: "In Development",
-      category: "EdTech",
-      title: "Interactive Coding Hub",
-      company: "CodeSprint",
-      description: "A gamified educational workspace offering interactive coding lessons, peer-to-peer code challenges, and live instructor-led debugging rooms.",
-      features: [
-        "Code Playground",
-        "Real-time Debug rooms"
-      ],
-      tech: [
-        "Vue.js",
-        "Express",
-        "Docker"
-      ],
-      industry: "Education",
-      duration: "TBD",
+      industry: "PropTech",
+      duration: "6 months",
       teamSize: "3 members",
-      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80",
-      caseStudyLink: "/contact"
+      image: "/images/vhoa_showcase.png"
     }
   ];
 
@@ -2192,8 +2170,8 @@ export default function LandingPage() {
           flex-direction: row;
           overflow: hidden; /* crop image corners */
           max-width: 1250px;
-          min-height: 480px; /* fixed height so all cards are the same size */
-          height: 480px;
+          min-height: 520px; /* fixed height so all cards are the same size */
+          height: 520px;
           margin: 0 auto;
           box-shadow: 0 20px 40px rgba(0,0,0,0.06);
           position: relative;
@@ -2380,6 +2358,29 @@ export default function LandingPage() {
           background: #005AE2;
           width: 24px;
           border-radius: 4px;
+        }
+        .product-checkout-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background-color: #005AE2;
+          color: #FFFFFF;
+          padding: 10px 24px;
+          border-radius: 100px;
+          font-weight: 700;
+          font-size: 0.85rem;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 4px 12px rgba(0, 90, 226, 0.15);
+          text-decoration: none;
+          margin-top: 12px;
+        }
+        .product-checkout-btn:hover {
+          background-color: #0045B5;
+          transform: translateY(-1px);
+          box-shadow: 0 6px 16px rgba(0, 90, 226, 0.25);
         }
         
         /* Mobile Responsive for Carousel */
@@ -3006,7 +3007,7 @@ export default function LandingPage() {
                 <div>
                   <div className="product-card-divider"></div>
                   
-                  <div className="product-stats-cols">
+                  <div className="product-stats-cols" style={{ marginBottom: partneredProducts[currentProductIndex].status === 'Live' ? '0px' : '8px' }}>
                     <div className="product-stat-col-item">
                       <span className="product-stat-col-label">Industry</span>
                       <span className="product-stat-col-val">{partneredProducts[currentProductIndex].industry}</span>
@@ -3020,6 +3021,23 @@ export default function LandingPage() {
                       <span className="product-stat-col-val">{partneredProducts[currentProductIndex].teamSize}</span>
                     </div>
                   </div>
+
+                  {partneredProducts[currentProductIndex].status === 'Live' && (partneredProducts[currentProductIndex] as any).websiteLink && (
+                    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                      <a 
+                        href={(partneredProducts[currentProductIndex] as any).websiteLink}
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="product-checkout-btn"
+                      >
+                        <span>Checkout</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <line x1="7" y1="17" x2="17" y2="7"></line>
+                          <polyline points="7 7 17 7 17 17"></polyline>
+                        </svg>
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
               
