@@ -2911,8 +2911,9 @@ export default function LandingPage() {
         <section className="partnered-products-section">
           <div className="section-container" style={{ position: 'relative', zIndex: 2 }}>
             <div className="text-center" style={{ marginBottom: '40px' }}>
+              <h3 className="section-eyebrow text-center cc-reveal" style={{ marginBottom: '12px' }}>STUDIO BUILDS</h3>
               <h2 className="section-title text-center" style={{ marginBottom: '12px' }}>
-                Partner <span style={{ color: '#005AE2' }}>Products</span>
+                Partner <span style={{ color: '#0A0F1C' }}>Products</span>
               </h2>
               <p className="section-subtitle text-center" style={{ maxWidth: '600px', margin: '0 auto 8px', fontSize: '1.05rem', color: '#64748B' }}>
                 Innovative solutions delivering measurable results across industries
