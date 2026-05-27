@@ -150,6 +150,11 @@ export default function CareersPage() {
           letter-spacing: -0.02em;
         }
 
+        .careers-page h1,
+        .careers-page h2 {
+          font-size: 36px !important;
+        }
+
         .section-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
         .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
@@ -245,6 +250,21 @@ export default function CareersPage() {
           text-transform: uppercase;
         }
 
+        .section-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #E6EFFF;
+          color: #005AE2;
+          font-size: 0.75rem;
+          font-weight: 800;
+          letter-spacing: 0.05em;
+          padding: 6px 14px;
+          border-radius: 100px;
+          margin-bottom: 16px;
+          text-transform: uppercase;
+        }
+
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px 40px; }
         
           /* Responsive Design */
@@ -300,7 +320,7 @@ export default function CareersPage() {
             }
             
             .cta-card h2 {
-              font-size: 2rem !important;
+              font-size: 36px !important;
             }
             
             .form-grid {
@@ -313,52 +333,45 @@ export default function CareersPage() {
       
       <div className="careers-page">
         {/* --- 1. HERO SECTION --- */}
-        <section style={{ padding: '130px 0 40px', backgroundColor: '#FFFFFF', display: 'flex', alignItems: 'center' }}>
-          <div className="section-container hero-grid pt-0" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center' }}>
-            <div>
-              <span className="hero-eyebrow-style">
-                <EditableText contentKey="careers.hero.eyebrow" value={careersContent.hero.eyebrow} />
-              </span>
-              <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '24px' }} className="font-manrope">
-                {careersContent.hero.title?.split(' ').map((word: string, i: number) => {
+        <section style={{ padding: '120px 24px 60px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '580px', width: '100%', position: 'relative', overflow: 'hidden' }}>
+          {/* Hero Background */}
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }}></div>
+          {/* Hero Grid */}
+          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(37,99,235,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.08) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 60% at 50% 30%, black 0%, transparent 80%)', opacity: 0.4, pointerEvents: 'none', zIndex: 0 }}></div>
+          {/* Ambient Glows */}
+          <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 82, 255, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 82, 255, 0.22), transparent 70%)', bottom: '0px', left: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 82, 255, 0.22), transparent 70%)', bottom: '0px', right: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
+
+          <div className="section-container pt-0 pb-0" style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', width: '100%', maxWidth: '800px' }}>
+            <span className="hero-eyebrow-style" style={{ marginBottom: '24px' }}>
+              <EditableText contentKey="careers.hero.eyebrow" value={careersContent.hero.eyebrow} />
+            </span>
+            <div style={{ width: '100%', textAlign: 'center' }}>
+              <h1 style={{ fontSize: '36px', fontWeight: 900, lineHeight: 1.25, letterSpacing: '-0.03em', marginBottom: '16px', textAlign: 'center', color: '#0A0F1C', maxWidth: '600px', margin: '0 auto', whiteSpace: 'pre-wrap' }} className="font-manrope">
+                {careersContent.hero.title?.split(' ').map((word: string, i: number, arr: string[]) => {
                   const isBlue = ['Meaningful'].includes(word.replace(/[^a-zA-Z]/g, ''));
                   return (
-                    <span key={i} style={isBlue ? { color: '#005AE2' } : {}}>
-                      {word}{' '}
-                    </span>
+                    <React.Fragment key={i}>
+                      <span style={isBlue ? { color: '#005AE2' } : {}}>
+                        {word}{i < arr.length - 1 ? ' ' : ''}
+                      </span>
+                      {i === Math.floor(arr.length / 2) - 1 && <br />}
+                    </React.Fragment>
                   );
                 })}
               </h1>
-              <p style={{ fontSize: '1.125rem', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '40px', maxWidth: '500px', fontWeight: 500 }}>
-                <EditableText contentKey="careers.hero.description" value={careersContent.hero.description} />
-              </p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
-                <button onClick={() => handleScroll('open-positions')} className="btn-primary-style">
-                  <EditableText contentKey="careers.hero.primaryButton" value={careersContent.hero.primaryButton} />
-                </button>
-                <button onClick={() => handleScroll('benefits')} className="btn-secondary-style">
-                  <EditableText contentKey="careers.hero.secondaryButton" value={careersContent.hero.secondaryButton} />
-                </button>
-              </div>
             </div>
-            
-            <div style={{ position: 'relative' }}>
-              <img 
-                src="/images/careers.jpeg" 
-                alt="Office Collaboration" 
-                style={{ width: '100%', height: '500px', objectFit: 'cover', borderRadius: '24px', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}
-              />
-              <div style={{ position: 'absolute', bottom: '-24px', left: '-24px', backgroundColor: '#FFF', padding: '24px', borderRadius: '16px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.15)', display: 'flex', alignItems: 'center', gap: '16px', border: '1px solid #F1F5F9', zIndex: 10 }}>
-                <div style={{ display: 'flex', position: 'relative' }}>
-                  <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#0052FF', border: '2px solid #FFF', zIndex: 3 }}></div>
-                  <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#10B981', border: '2px solid #FFF', marginLeft: '-10px', zIndex: 2 }}></div>
-                  <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: '#A855F7', border: '2px solid #FFF', marginLeft: '-10px', zIndex: 1 }}></div>
-                </div>
-                <div>
-                  <div style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-black)' }} className="font-manrope">50+ New Hires</div>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 500, marginTop: '2px' }}>Join our growing ecosystem of engineers and designers.</div>
-                </div>
-              </div>
+            <p style={{ fontSize: 'clamp(0.925rem, 2vw, 0.975rem)', color: 'var(--text-muted)', lineHeight: 1.65, marginBottom: '24px', maxWidth: '650px', fontWeight: 500, marginInline: 'auto', textAlign: 'center' }}>
+              <EditableText contentKey="careers.hero.description" value={careersContent.hero.description} />
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center' }}>
+              <button onClick={() => handleScroll('open-positions')} className="btn-primary-style">
+                <EditableText contentKey="careers.hero.primaryButton" value={careersContent.hero.primaryButton} />
+              </button>
+              <button onClick={() => handleScroll('benefits')} className="btn-secondary-style">
+                <EditableText contentKey="careers.hero.secondaryButton" value={careersContent.hero.secondaryButton} />
+              </button>
             </div>
           </div>
         </section>
@@ -366,8 +379,11 @@ export default function CareersPage() {
         {/* --- 2. WHY JOIN CRESTCODE --- */}
         <section style={{ padding: '48px 0', backgroundColor: '#F8FAFC' }}>
           <div className="section-container">
-            <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-              <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '16px', letterSpacing: '-0.02em' }} className="font-manrope">
+            <div style={{ textAlign: 'center', marginBottom: '80px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <span className="section-eyebrow">
+                <EditableText contentKey="careers.whyJoin.eyebrow" value={careersContent.whyJoin.eyebrow || "WHY JOIN US"} />
+              </span>
+              <h2 style={{ fontSize: '36px', fontWeight: 900, marginBottom: '16px', letterSpacing: '-0.02em' }} className="font-manrope">
                 <EditableText contentKey="careers.whyJoin.title" value={careersContent.whyJoin.title} />
               </h2>
               <p style={{ color: 'var(--text-muted)', fontSize: '1.125rem', fontWeight: 500, maxWidth: '600px', margin: '0 auto' }}>
@@ -403,7 +419,7 @@ export default function CareersPage() {
           <div className="section-container">
             <div style={{ backgroundColor: 'var(--primary-blue)', borderRadius: '24px', padding: '60px', display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: '60px', alignItems: 'center', color: '#FFF' }} className="life-grid">
               <div>
-                <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '32px', letterSpacing: '-0.02em', lineHeight: 1.1 }} className="font-manrope">
+                <h2 style={{ fontSize: '36px', fontWeight: 900, marginBottom: '32px', letterSpacing: '-0.02em', lineHeight: 1.15 }} className="font-manrope">
                   <EditableText contentKey="careers.life.title" value={careersContent.life.title} />
                 </h2>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -433,11 +449,14 @@ export default function CareersPage() {
         {/* --- 4. BENEFITS & PERKS --- */}
         <section id="benefits" style={{ padding: '48px 0', backgroundColor: '#0A0F1C', color: '#FFF' }}>
           <div className="section-container">
-            <div style={{ marginBottom: '40px', textAlign: 'left' }}>
-              <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '16px', letterSpacing: '-0.02em', color: '#FFF' }} className="font-manrope">
+            <div style={{ marginBottom: '60px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <span className="section-eyebrow" style={{ backgroundColor: 'rgba(0, 90, 226, 0.15)', color: '#60A5FA', border: '1px solid rgba(96, 165, 250, 0.2)' }}>
+                <EditableText contentKey="careers.benefits.eyebrow" value={careersContent.benefits.eyebrow || "BENEFITS & PERKS"} />
+              </span>
+              <h2 style={{ fontSize: '36px', fontWeight: 900, marginBottom: '16px', letterSpacing: '-0.02em', color: '#FFF' }} className="font-manrope">
                 <EditableText contentKey="careers.benefits.title" value={careersContent.benefits.title} />
               </h2>
-              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.125rem', fontWeight: 500 }}>
+              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.125rem', fontWeight: 500, maxWidth: '600px', margin: '0 auto' }}>
                 <EditableText contentKey="careers.benefits.subtitle" value={careersContent.benefits.subtitle} />
               </p>
             </div>
@@ -474,7 +493,7 @@ export default function CareersPage() {
           <div className="section-container">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px', flexWrap: 'wrap', gap: '24px' }}>
               <div>
-                <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '12px', letterSpacing: '-0.02em' }} className="font-manrope">
+                <h2 style={{ fontSize: '36px', fontWeight: 900, marginBottom: '12px', letterSpacing: '-0.02em' }} className="font-manrope">
                   <EditableText contentKey="careers.jobs.title" value={careersContent.jobs.title} />
                 </h2>
                 <p style={{ color: 'var(--text-muted)', fontSize: '1.125rem', fontWeight: 500 }}>
@@ -535,7 +554,7 @@ export default function CareersPage() {
             <div className="cta-card" style={{ backgroundColor: '#0052FF', border: 'none', borderRadius: '32px', padding: '80px 60px', textAlign: 'center', color: '#FFFFFF' }}>
               {!submitted ? (
                 <>
-                  <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '24px', letterSpacing: '-0.02em', color: '#FFFFFF' }} className="font-manrope">
+                  <h2 style={{ fontSize: '36px', fontWeight: 900, marginBottom: '24px', letterSpacing: '-0.02em', color: '#FFFFFF' }} className="font-manrope">
                     <EditableText contentKey="careers.cta.title" value={careersContent.cta.title} />
                   </h2>
                   <p style={{ fontSize: '1.125rem', color: 'rgba(255,255,255,0.8)', marginBottom: '48px', maxWidth: '600px', marginInline: 'auto', lineHeight: 1.6, fontWeight: 500 }}>
@@ -711,7 +730,7 @@ export default function CareersPage() {
                   <div style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: 'rgba(16, 185, 129, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#10B981', margin: '0 auto 32px' }}>
                     <Check size={40} />
                   </div>
-                  <h2 style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '16px' }} className="font-manrope">
+                  <h2 style={{ fontSize: '36px', fontWeight: 900, marginBottom: '16px' }} className="font-manrope">
                     <EditableText contentKey="careers.success.title" value={careersContent.success.title} />
                   </h2>
                   <p style={{ fontSize: '1.125rem', color: '#94A3B8', marginBottom: '40px', maxWidth: '500px', marginInline: 'auto' }}>

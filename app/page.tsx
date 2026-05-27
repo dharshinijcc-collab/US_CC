@@ -619,7 +619,7 @@ export default function LandingPage() {
         /* Typography */
         .hero-title { 
           font-family: 'Manrope', sans-serif !important;
-          font-size: 48px !important;
+          font-size: 36px !important;
           font-weight: 800 !important;
           letter-spacing: -0.03em !important;
           line-height: 1.15 !important;
