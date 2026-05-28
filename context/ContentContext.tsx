@@ -14,7 +14,7 @@ const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 export const ContentProvider = ({ children }: { children: ReactNode }) => {
   const [content, setContent] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchContent = async () => {
@@ -50,7 +50,12 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    fetchContent();
+    // Delay the fetch to ensure chunk loads first
+    const timer = setTimeout(() => {
+      fetchContent();
+    }, 100);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   return (
