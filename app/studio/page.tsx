@@ -1789,8 +1789,8 @@ export default function StudioPage() {
         </section>
 
         {content?.ourModel && (() => {
-          const phaseColors = ['#4F46E5', '#005AE2', '#6366F1', '#8B5CF6', '#A855F7'];
-          const phaseDarkColors = ['#3730A3', '#1E40AF', '#4338CA', '#6D28D9', '#7C3AED'];
+          const phaseColors = ['#005AE2', '#005AE2', '#005AE2', '#005AE2', '#005AE2'];
+          const phaseDarkColors = ['#0047B3', '#0047B3', '#0047B3', '#0047B3', '#0047B3'];
           const phaseLabels = [
             content.ourModel.selection?.label || 'Phase 01 — Selection Framework',
             content.ourModel.validation?.label || 'Phase 02 — Validation Framework',
@@ -1862,14 +1862,14 @@ export default function StudioPage() {
                             fontSize: '14px',
                             fontWeight: 700,
                             fontFamily: "'Manrope', sans-serif",
-                            background: heroCarouselIndex === ph.id ? '#4F46E5' : 
-                                      heroCarouselIndex > ph.id ? '#4F46E5' : '#ffffff',
+                            background: heroCarouselIndex === ph.id ? '#005AE2' : 
+                                      heroCarouselIndex > ph.id ? '#005AE2' : '#ffffff',
                             color: heroCarouselIndex === ph.id ? '#ffffff' : 
                                    heroCarouselIndex > ph.id ? '#ffffff' : '#64748B',
-                            border: heroCarouselIndex === ph.id ? '3px solid #4F46E5' : 
-                                   heroCarouselIndex > ph.id ? '3px solid #4F46E5' : '2px solid #E2E8F0',
+                            border: heroCarouselIndex === ph.id ? '3px solid #005AE2' : 
+                                   heroCarouselIndex > ph.id ? '3px solid #005AE2' : '2px solid #E2E8F0',
                             transition: 'all 0.3s ease',
-                            boxShadow: heroCarouselIndex === ph.id ? '0 4px 12px rgba(79, 70, 229, 0.3)' : 'none',
+                            boxShadow: heroCarouselIndex === ph.id ? '0 4px 12px rgba(0, 90, 226, 0.3)' : 'none',
                           }}>
                             {heroCarouselIndex > ph.id ? '✓' : ph.n}
                           </div>
@@ -1879,8 +1879,8 @@ export default function StudioPage() {
                             fontFamily: "'Manrope', sans-serif",
                             letterSpacing: '0.05em',
                             textTransform: 'uppercase',
-                            color: heroCarouselIndex === ph.id ? '#4F46E5' : 
-                                   heroCarouselIndex > ph.id ? '#4F46E5' : '#64748B',
+                            color: heroCarouselIndex === ph.id ? '#005AE2' : 
+                                   heroCarouselIndex > ph.id ? '#005AE2' : '#64748B',
                             transition: 'all 0.3s ease',
                           }}>
                             {ph.t}
@@ -1890,7 +1890,7 @@ export default function StudioPage() {
                           <div style={{
                             flex: 1,
                             height: '2px',
-                            background: heroCarouselIndex > idx ? '#4F46E5' : '#E2E8F0',
+                            background: heroCarouselIndex > idx ? '#005AE2' : '#E2E8F0',
                             margin: '0 8px',
                             transition: 'all 0.3s ease',
                             maxWidth: '60px',
@@ -1912,8 +1912,8 @@ export default function StudioPage() {
                   position: 'absolute',
                   inset: 0,
                   backgroundImage: `
-                    linear-gradient(rgba(79, 70, 229, 0.05) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(79, 70, 229, 0.05) 1px, transparent 1px)
+                    linear-gradient(rgba(0, 90, 226, 0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0, 90, 226, 0.05) 1px, transparent 1px)
                   `,
                   backgroundSize: '50px 50px',
                   opacity: 1,
@@ -1927,7 +1927,7 @@ export default function StudioPage() {
                   transform: 'translate(-50%, -50%)',
                   width: '800px',
                   height: '800px',
-                  background: 'radial-gradient(circle, rgba(79, 70, 229, 0.08) 0%, transparent 70%)',
+                  background: 'radial-gradient(circle, rgba(0, 90, 226, 0.08) 0%, transparent 70%)',
                   pointerEvents: 'none',
                   zIndex: 0,
                 }} />
@@ -1948,7 +1948,7 @@ export default function StudioPage() {
                       {/* Giant watermark number */}
                       <div
                         className="phase-watermark"
-                        style={{ color: 'rgba(79, 70, 229, 0.08)', left: '0', top: '-20px' }}
+                        style={{ color: 'rgba(0, 90, 226, 0.08)', left: '0', top: '-20px' }}
                       >
                         {String(heroCarouselIndex + 1).padStart(2, '0')}
                       </div>
@@ -1959,7 +1959,7 @@ export default function StudioPage() {
                         className="phase-tag-anim"
                         style={{
                           fontSize: '11px', fontWeight: 600, letterSpacing: '0.05em',
-                          textTransform: 'uppercase', color: '#4F46E5', marginBottom: '12px',
+                          textTransform: 'uppercase', color: '#005AE2', marginBottom: '12px',
                         }}
                       >
                         {heroCarouselIndex === 0 && <EditableText contentKey="ourModel.selection.label" value={phaseLabels[0]} />}
@@ -1998,7 +1998,7 @@ export default function StudioPage() {
                           fontSize: '0.95rem',
                           color: '#64748B',
                           lineHeight: 1.6,
-                          borderLeft: `3px solid #4F46E5`,
+                          borderLeft: `3px solid #005AE2`,
                           paddingLeft: '16px',
                           marginBottom: '24px',
                         }}
@@ -2013,7 +2013,7 @@ export default function StudioPage() {
                             className="counter-fill"
                             style={{
                               width: `${((heroCarouselIndex + 1) / 5) * 100}%`,
-                              background: '#4F46E5',
+                              background: '#005AE2',
                             }}
                           />
                         </div>
@@ -2039,9 +2039,9 @@ export default function StudioPage() {
                             animationDelay: `${idx % 2 === 0 ? idx * 0.09 : 0.05 + idx * 0.09}s`,
                           }}
                           onMouseEnter={(e) => {
-                            e.currentTarget.style.borderColor = '#4F46E5';
+                            e.currentTarget.style.borderColor = '#005AE2';
                             e.currentTarget.style.transform = 'translateY(-2px)';
-                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(79, 70, 229, 0.15)';
+                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 90, 226, 0.15)';
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.borderColor = '#E2E8F0';
@@ -2059,10 +2059,10 @@ export default function StudioPage() {
                             fontSize: '12px',
                             fontWeight: 700,
                             fontFamily: "'Manrope', sans-serif",
-                            background: '#4F46E5',
+                            background: '#005AE2',
                             color: '#ffffff',
                             marginBottom: '12px',
-                            border: '2px solid #4F46E5',
+                            border: '2px solid #005AE2',
                           }}>
                             {String(idx + 1).padStart(2, '0')}
                           </div>
@@ -2090,9 +2090,9 @@ export default function StudioPage() {
                                 animationDelay: `${idx % 2 === 0 ? idx * 0.09 : 0.05 + idx * 0.09}s`,
                               }}
                               onMouseEnter={(e) => {
-                                e.currentTarget.style.borderColor = '#4F46E5';
+                                e.currentTarget.style.borderColor = '#005AE2';
                                 e.currentTarget.style.transform = 'translateY(-2px)';
-                                e.currentTarget.style.boxShadow = '0 4px 12px rgba(79, 70, 229, 0.15)';
+                                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 90, 226, 0.15)';
                               }}
                               onMouseLeave={(e) => {
                                 e.currentTarget.style.borderColor = '#E2E8F0';
@@ -2100,7 +2100,7 @@ export default function StudioPage() {
                                 e.currentTarget.style.boxShadow = 'none';
                               }}
                             >
-                              <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', color: '#4F46E5', marginBottom: '8px', opacity: 0.9 }}>
+                              <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', color: '#005AE2', marginBottom: '8px', opacity: 0.9 }}>
                                 {String(idx + 1).padStart(2, '0')}
                               </div>
                               <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
@@ -2131,9 +2131,9 @@ export default function StudioPage() {
                                 animationDelay: '0s',
                               }}
                               onMouseEnter={(e) => {
-                                e.currentTarget.style.borderColor = '#4F46E5';
+                                e.currentTarget.style.borderColor = '#005AE2';
                                 e.currentTarget.style.transform = 'translateY(-2px)';
-                                e.currentTarget.style.boxShadow = '0 4px 12px rgba(79, 70, 229, 0.15)';
+                                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 90, 226, 0.15)';
                               }}
                               onMouseLeave={(e) => {
                                 e.currentTarget.style.borderColor = '#E2E8F0';
@@ -2141,7 +2141,7 @@ export default function StudioPage() {
                                 e.currentTarget.style.boxShadow = 'none';
                               }}
                             >
-                              <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', color: '#4F46E5', marginBottom: '8px', opacity: 0.9 }}>01</div>
+                              <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', color: '#005AE2', marginBottom: '8px', opacity: 0.9 }}>01</div>
                               <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
                                 <EditableText contentKey={`ourModel.phases.items.${heroCarouselIndex - 2}.label`} value={ph?.label} />
                               </h3>
@@ -2161,9 +2161,9 @@ export default function StudioPage() {
                                   animationDelay: `${(idx + 1) * 0.09}s`,
                                 }}
                                 onMouseEnter={(e) => {
-                                  e.currentTarget.style.borderColor = '#4F46E5';
+                                  e.currentTarget.style.borderColor = '#005AE2';
                                   e.currentTarget.style.transform = 'translateY(-2px)';
-                                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(79, 70, 229, 0.15)';
+                                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 90, 226, 0.15)';
                                 }}
                                 onMouseLeave={(e) => {
                                   e.currentTarget.style.borderColor = '#E2E8F0';
@@ -2171,7 +2171,7 @@ export default function StudioPage() {
                                   e.currentTarget.style.boxShadow = 'none';
                                 }}
                               >
-                                <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', color: '#4F46E5', marginBottom: '8px', opacity: 0.9 }}>
+                                <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', color: '#005AE2', marginBottom: '8px', opacity: 0.9 }}>
                                   {String(idx + 2).padStart(2, '0')}
                                 </div>
                                 <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
@@ -2472,8 +2472,8 @@ export default function StudioPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
                 ),
-                color: '#8B5CF6', // Purple
-                shadow: 'rgba(139, 92, 246, 0.08)'
+                color: '#005AE2', // Blue
+                shadow: 'rgba(0, 90, 226, 0.08)'
               },
               {
                 num: '06',
