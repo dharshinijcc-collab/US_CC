@@ -96,7 +96,7 @@ export default function AboutPage() {
         }
         .hero-title {
           font-family: 'Manrope', sans-serif !important;
-          font-size: 48px !important;
+          font-size: 36px !important;
           font-weight: 800 !important;
           letter-spacing: -0.03em !important;
           line-height: 1.15 !important;
@@ -131,13 +131,18 @@ export default function AboutPage() {
           margin-bottom: 24px;
         }
         .section-header-centered .label {
-          color: var(--primary-blue) !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          background-color: #E6EFFF !important;
+          color: #005AE2 !important;
           font-weight: 800 !important;
           letter-spacing: 0.15em !important;
           text-transform: uppercase !important;
           font-size: 0.75rem !important;
-          display: block;
-          margin-bottom: 12px;
+          padding: 6px 14px !important;
+          border-radius: 100px !important;
+          margin-bottom: 16px !important;
           font-family: 'Manrope', sans-serif !important;
         }
         .section-header-centered h2 {
@@ -334,9 +339,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── Divider ── */}
-        <div style={{ width: '100%', height: '1px', backgroundColor: 'var(--border-light)' }}></div>
-
         {/* ── 2. OUR STORY (TIMELINE) (Image 1) ── */}
         <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
@@ -418,7 +420,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── 3. FOUNDING PILLARS (Image 2) ── */}
-        <section style={{ backgroundColor: '#F8FAFC', padding: '24px 24px', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', position: 'relative' }}>
+        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
@@ -562,7 +564,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── 5. ADVISORS (Image 4) ── */}
-        <section style={{ backgroundColor: '#F8FAFC', padding: '24px 24px', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', position: 'relative' }}>
+        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
@@ -677,7 +679,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── 7. COMMUNITY & NETWORK (Image 5) ── */}
-        <section style={{ backgroundColor: '#F8FAFC', padding: '24px 24px', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', position: 'relative' }}>
+        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
