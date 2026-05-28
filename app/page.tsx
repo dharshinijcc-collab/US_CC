@@ -2171,8 +2171,8 @@ export default function LandingPage() {
           flex-direction: row;
           overflow: hidden; /* crop image corners */
           max-width: 1250px;
-          min-height: 480px; /* fixed height so all cards are the same size */
-          height: 480px;
+          min-height: 520px; /* fixed height so all cards are the same size */
+          height: 520px;
           margin: 0 auto;
           box-shadow: 0 20px 40px rgba(0,0,0,0.06);
           position: relative;
@@ -2359,6 +2359,29 @@ export default function LandingPage() {
           background: #005AE2;
           width: 24px;
           border-radius: 4px;
+        }
+        .product-checkout-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background-color: #005AE2;
+          color: #FFFFFF;
+          padding: 10px 24px;
+          border-radius: 100px;
+          font-weight: 700;
+          font-size: 0.85rem;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 4px 12px rgba(0, 90, 226, 0.15);
+          text-decoration: none;
+          margin-top: 12px;
+        }
+        .product-checkout-btn:hover {
+          background-color: #0045B5;
+          transform: translateY(-1px);
+          box-shadow: 0 6px 16px rgba(0, 90, 226, 0.25);
         }
         
         /* Mobile Responsive for Carousel */
@@ -2984,8 +3007,8 @@ export default function LandingPage() {
 
                 <div>
                   <div className="product-card-divider"></div>
-
-                  <div className="product-stats-cols">
+                  
+                  <div className="product-stats-cols" style={{ marginBottom: partneredProducts[currentProductIndex].status === 'Live' ? '0px' : '8px' }}>
                     <div className="product-stat-col-item">
                       <span className="product-stat-col-label">Industry</span>
                       <span className="product-stat-col-val">{partneredProducts[currentProductIndex].industry}</span>
@@ -2999,6 +3022,23 @@ export default function LandingPage() {
                       <span className="product-stat-col-val">{partneredProducts[currentProductIndex].teamSize}</span>
                     </div>
                   </div>
+
+                  {partneredProducts[currentProductIndex].status === 'Live' && (partneredProducts[currentProductIndex] as any).websiteLink && (
+                    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                      <a 
+                        href={(partneredProducts[currentProductIndex] as any).websiteLink}
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="product-checkout-btn"
+                      >
+                        <span>Checkout</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <line x1="7" y1="17" x2="17" y2="7"></line>
+                          <polyline points="7 7 17 7 17 17"></polyline>
+                        </svg>
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
 
