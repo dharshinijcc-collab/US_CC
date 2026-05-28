@@ -657,7 +657,7 @@ export default function LandingPage() {
         }
 
         /* Sections - all share a unified 100px top/bottom padding via .section-container */
-        .section-light { background-color: var(--white); }
+        .section-light { background-color: #EFF6FF; }
         .section-cta-sky {
           background-image: url('/images/studio/footer_no_faces.png');
           background-size: cover;
@@ -2014,8 +2014,6 @@ export default function LandingPage() {
         /* ===== NEW CIRCULAR METHODOLOGY HUB-AND-SPOKE ===== */
         .tech-hub-section {
           background: #ffffff;
-          border-top: 1px solid rgba(0,90,226,0.07);
-          border-bottom: 1px solid rgba(0,90,226,0.07);
           padding: 32px 0 40px;
           overflow: hidden;
           position: relative;
@@ -2159,7 +2157,7 @@ export default function LandingPage() {
 
         /* Partnered Products Carousel Section */
         .partnered-products-section {
-          background-color: #FAFAFA;
+          background-color: #FFFFFF;
           padding: 32px 24px;
           position: relative;
         }
@@ -2567,7 +2565,7 @@ export default function LandingPage() {
 
 
         {/* Target Audiences Section */}
-        <section className="section-light">
+        <section className="section-light" style={{ backgroundColor: "#FFFFFF" }}>
           <div className="section-container">
             <div className="text-center">
               <EditableText
@@ -2721,7 +2719,7 @@ export default function LandingPage() {
         </section>
 
         {/* How We Help — Interactive circular diagram */}
-        <section className="tech-hub-section" style={{ marginTop: '-2px' }}>
+        <section className="tech-hub-section" style={{ backgroundColor: "#EFF6FF", marginTop: '-2px' }}>
           <div className="section-container" style={{ maxWidth: '1100px', position: 'relative' }}>
             <div className="text-center" style={{ marginBottom: '48px' }}>
               <h3 className="section-eyebrow text-center cc-reveal" style={{ marginBottom: '12px' }}>OUR METHODOLOGY</h3>
@@ -2919,7 +2917,7 @@ export default function LandingPage() {
 
 
         {/* Partnered Products Section */}
-        <section className="partnered-products-section">
+        <section className="partnered-products-section" style={{ backgroundColor: "#FFFFFF" }}>
           <div className="section-container" style={{ position: 'relative', zIndex: 2 }}>
             <div className="text-center" style={{ marginBottom: '40px' }}>
               <h3 className="section-eyebrow text-center cc-reveal" style={{ marginBottom: '12px' }}>STUDIO BUILDS</h3>
@@ -3072,7 +3070,7 @@ export default function LandingPage() {
 
 
         {/* Testimonials Section */}
-        <section className="section-light">
+        <section className="section-light" style={{ backgroundColor: "#EFF6FF" }}>
           <div className="section-container">
             <EditableText
               as="h2"

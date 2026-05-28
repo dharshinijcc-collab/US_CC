@@ -543,7 +543,7 @@ export default function Header(props: any) {
           <span className="menu-label">Contact</span>
           <div className="menu-contact-grid">
             <Link href="/contact" className="menu-contact-link" onClick={toggleMenu}>Email</Link>
-            <Link href="https://linkedin.com/company/crestcode" className="menu-contact-link" target="_blank">LinkedIn</Link>
+            <Link href="https://www.linkedin.com/company/crestcode-technologies/" className="menu-contact-link" target="_blank">LinkedIn</Link>
           </div>
         </div>
       </div>

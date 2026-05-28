@@ -1546,7 +1546,7 @@ export default function StudioPage() {
         </section>
 
         {/* Vision & Mission Section */}
-        <section id="vision" style={{ padding: '24px 24px', backgroundColor: '#F0F7FF', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0', position: 'relative', overflow: 'hidden' }}>
+        <section id="vision" style={{ padding: '24px 24px', backgroundColor: '#EFF6FF', position: 'relative', overflow: 'hidden' }}>
           {/* Grid Background */}
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(rgba(0, 90, 226, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 90, 226, 0.03) 1px, transparent 1px)', backgroundSize: '50px 50px', opacity: 0.5 }}></div>
           
@@ -1763,7 +1763,7 @@ export default function StudioPage() {
 */}
 
         {/* Partition line */}
-        <hr style={{ border: 'none', borderTop: '1px solid #E2E8F0', margin: '0' }} />
+
 
         {/* Five Phases Title Section */}
         <section style={{ padding: '60px 24px 20px', backgroundColor: '#FFFFFF', textAlign: 'center' }}>
@@ -1822,7 +1822,7 @@ export default function StudioPage() {
               <div style={{
                 position: 'sticky', top: 0, zIndex: 100,
                 background: '#ffffff',
-                borderBottom: '1px solid rgba(0,0,0,0.06)',
+
               }}>
                 <div className="section-container" style={{ paddingTop: 0, paddingBottom: 0 }}>
                   <div style={{
@@ -1905,7 +1905,7 @@ export default function StudioPage() {
               {/* ── MAIN SECTION ── */}
               <section
                 className="phase-section-wrap"
-                style={{ padding: '48px 0 56px', position: 'relative', background: '#ffffff', overflow: 'hidden' }}
+                style={{ padding: '48px 0 56px', position: 'relative', background: '#EFF6FF', overflow: 'hidden' }}
               >
                 {/* Grid background */}
                 <div style={{
@@ -2195,7 +2195,7 @@ export default function StudioPage() {
         })()}
 
       {/* Selection Process Sub-Section & 5-Step Process */}
-      <section id="selection" style={{ padding: '24px 24px', backgroundColor: '#FFFFFF', borderBottom: '1px solid #E2E8F0' }}>
+      <section id="selection" style={{ padding: '24px 24px', backgroundColor: '#FFFFFF' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <div className="hero-eyebrow-pill">Selection Steps</div>
@@ -2392,7 +2392,7 @@ export default function StudioPage() {
       </section>
 
       {/* Core Values Section - Premium Light Mode Grid with 6 Cards */}
-      <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', fontFamily: 'Manrope, sans-serif', position: 'relative', overflow: 'hidden', borderBottom: '1px solid #E2E8F0' }}>
+      <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', fontFamily: 'Manrope, sans-serif', position: 'relative', overflow: 'hidden' }}>
         {/* Subtle glowing radial background lights */}
         <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.04), transparent 70%)', top: '-100px', left: '-100px', pointerEvents: 'none' }}></div>
         <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.03), transparent 70%)', bottom: '-100px', right: '-100px', pointerEvents: 'none' }}></div>
@@ -2564,7 +2564,7 @@ export default function StudioPage() {
       </section>
 
       {/* DIFFERENTIATION */}
-      <section id="diff">
+      <section id="diff" style={{ backgroundColor: '#EFF6FF' }}>
         <div className="diff-header">
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <div className="hero-eyebrow-pill">Why CrestCode</div>

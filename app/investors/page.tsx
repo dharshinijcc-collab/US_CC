@@ -500,7 +500,7 @@ export default function InvestorsPage() {
             </div>
             <h1 className="hero-title" style={{ color: '#020617' }}>
               Invest in <span style={{ color: 'var(--primary-blue)' }}>Ventures</span> <br />
-              Built to Last
+              <span style={{ color: 'var(--primary-blue)' }}>Built</span> to <span style={{ color: 'var(--primary-blue)' }}>Last</span>
             </h1>
             <p className="hero-description" style={{ marginBottom: '32px' }}>
               CrestCode partners with strategic investors who believe in the long game — backing the studio, the ventures, or both. We offer full transparency, shared conviction, and two clear paths to participate.
@@ -514,7 +514,7 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 2. WHY INVEST IN CRESTCODE? (Image 1) ── */}
-        <section style={{ backgroundColor: '#F0F7FF', padding: '24px 24px', position: 'relative', boxShadow: '0 4px 20px rgba(0, 90, 226, 0.08)' }}>
+        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading & Intro Lead */}
@@ -610,7 +610,7 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 3. TWO WAYS TO INVEST (Image 2) ── */}
-        <section style={{ backgroundColor: '#F8FAFC', padding: '24px 24px', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', position: 'relative' }}>
+        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
@@ -737,7 +737,7 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 4. WHAT YOU GET AS AN INVESTOR (Image 3) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
+        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
@@ -827,7 +827,7 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 5. WE'RE SELECTIVE. ON PURPOSE. (Image 4) ── */}
-        <section style={{ backgroundColor: '#F8FAFC', padding: '24px 24px', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)', position: 'relative' }}>
+        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
@@ -922,7 +922,7 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 6. CLEAR TERMS. NO SURPRISES. (Image 5) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
+        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
@@ -1002,7 +1002,7 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 7. CTA APPLICATION FORM (Bottom Form) ── */}
-        <section id="apply-form" style={{ padding: '48px 24px', background: '#F8FAFC' }}>
+        <section id="apply-form" style={{ padding: '48px 24px', background: '#EFF6FF' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             <div className="form-section-card">

@@ -692,9 +692,7 @@ export default function ContactPage() {
 
         {/* Form and Services Section */}
         <section id="form-section" style={{ 
-          backgroundColor: '#F0F7FF', 
-          borderTop: '1px solid #E2E8F0', 
-          borderBottom: '1px solid #E2E8F0', 
+          backgroundColor: '#EFF6FF', 
           position: 'relative', 
           overflow: 'hidden',
           padding: '80px 0'
@@ -874,7 +872,7 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Info Cards */}
-        <section className="pt-0 pb-0">
+        <section className="pt-0 pb-0" style={{ backgroundColor: '#FFFFFF' }}>
           <div className="section-container contact-info-grid">
             <div className="info-card">
               <div className="info-icon">
@@ -895,9 +893,9 @@ export default function ContactPage() {
               <EditableText 
                 as="a"
                 contentKey="contact.contactInfo.email"
-                value={contactContent.contactInfo.email}
+                value="ccproductstudio@gmail.com"
                 className="info-link"
-                href={`mailto:${contactContent.contactInfo.email}`}
+                href="mailto:ccproductstudio@gmail.com"
               />
             </div>
             <div className="info-card">
@@ -912,7 +910,7 @@ export default function ContactPage() {
         </section>
 
         {/* Process Steps */}
-        <section style={{ backgroundColor: '#F8FAFC', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0', padding: '80px 0' }}>
+        <section style={{ backgroundColor: '#EFF6FF', padding: '80px 0' }}>
           <div className="section-container process-steps-wrap" style={{ paddingTop: 0, paddingBottom: 0 }}>
             <EditableText as="h2" contentKey="contact.process.title" value={contactContent.process.title} className="section-title" />
             <EditableText as="p" contentKey="contact.process.subtitle" value={contactContent.process.subtitle} className="body-text text-center" />
@@ -920,7 +918,7 @@ export default function ContactPage() {
             <div className="steps-grid">
               {contactContent.process.steps.map((step, idx) => (
                 <div key={idx} className="step-item cc-slide-left cc-delay-1">
-                  <div className="step-circle" style={{ boxShadow: '0 0 0 8px #F8FAFC' }}>{idx+1}</div>
+                  <div className="step-circle" style={{ boxShadow: '0 0 0 8px #EFF6FF' }}>{idx+1}</div>
                   <EditableText as="h4" contentKey={`contact.process.steps.${idx}.title`} value={step.title} className="step-title" />
                   <EditableText as="p" contentKey={`contact.process.steps.${idx}.description`} value={step.description} className="step-desc" />
                 </div>
