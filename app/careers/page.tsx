@@ -39,7 +39,8 @@ export default function CareersPage() {
     firstName: '',
     email: '',
     interest: 'Engineering',
-    linkedin: ''
+    linkedin: '',
+    jobTitle: ''
   });
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -49,6 +50,7 @@ export default function CareersPage() {
 
   if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#F8FAFC] font-manrope">Loading careers...</div>;
   if (error) return <div className="flex items-center justify-center min-h-screen bg-[#F8FAFC] font-manrope text-red-500">Error: {error}</div>;
+  if (!content) return <div className="flex items-center justify-center min-h-screen bg-[#F8FAFC] font-manrope">Loading content...</div>;
 
   const careersContent = content.careers;
 
@@ -93,6 +95,12 @@ export default function CareersPage() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    // Validate resume is required
+    if (!resumeFile) {
+      setFileError('Please upload your resume to apply.');
+      setIsSubmitting(false);
+      return;
+    }
     setIsSubmitting(true);
     try {
       const payload = new FormData();
@@ -100,8 +108,10 @@ export default function CareersPage() {
       payload.append('email', formData.email);
       payload.append('interest', formData.interest);
       payload.append('linkedin', formData.linkedin);
+      payload.append('jobTitle', formData.jobTitle);
       if (resumeFile) payload.append('resume', resumeFile);
 
+      // Use API endpoint for submission
       const response = await fetch(`${API_URL}/submit-talent`, {
         method: 'POST',
         body: payload,
@@ -109,8 +119,9 @@ export default function CareersPage() {
 
       if (response.ok) {
         setSubmitted(false); // Hide form after successful submission
-        setFormData({ firstName: '', email: '', interest: 'Engineering', linkedin: '' });
+        setFormData({ firstName: '', email: '', interest: 'Engineering', linkedin: '', jobTitle: '' });
         setResumeFile(null);
+        setFileError('');
       } else {
         const data = await response.json();
         alert(data.error || data.message || 'Submission failed. Please try again.');
@@ -539,9 +550,14 @@ export default function CareersPage() {
                       </span>
                     </div>
                   </div>
-                  <button style={{ backgroundColor: 'var(--light-blue-bg)', color: 'var(--primary-blue)', padding: '12px 28px', borderRadius: '100px', fontWeight: 800, fontSize: '14px', border: 'none', cursor: 'pointer', transition: 'all 0.2s' }} onMouseOver={(e: any) => e.currentTarget.style.backgroundColor = '#DBEAFE'} onMouseOut={(e: any) => e.currentTarget.style.backgroundColor = 'var(--light-blue-bg)'}>
-                    <EditableText contentKey="careers.jobs.viewButton" value={careersContent.jobs.viewButton} />
-                  </button>
+                  <Link 
+                    href="/contact"
+                    style={{ backgroundColor: 'var(--light-blue-bg)', color: 'var(--primary-blue)', padding: '12px 28px', borderRadius: '100px', fontWeight: 800, fontSize: '14px', border: 'none', cursor: 'pointer', transition: 'all 0.2s', textDecoration: 'none' }} 
+                    onMouseOver={(e: any) => e.currentTarget.style.backgroundColor = '#DBEAFE'} 
+                    onMouseOut={(e: any) => e.currentTarget.style.backgroundColor = 'var(--light-blue-bg)'}
+                  >
+                    Apply Now
+                  </Link>
                 </div>
               ))}
             </div>
@@ -572,7 +588,7 @@ export default function CareersPage() {
 
                   {submitted && (
                     <div style={{ marginTop: '60px', maxWidth: '800px', marginInline: 'auto' }}>
-                       <form onSubmit={handleSubmit} style={{ textAlign: 'left', background: 'rgba(255,255,255,0.03)', padding: '40px', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                       <form onSubmit={handleSubmit} style={{ textAlign: 'left', background: 'rgba(255,255,255,0.05)', padding: '40px', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.1)' }}>
                         <div className="form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '24px' }}>
                           <div>
                             <label className="form-label">
@@ -635,9 +651,9 @@ export default function CareersPage() {
                         {/* Resume Upload */}
                         <div style={{ marginBottom: '24px' }}>
                           <label className="form-label">
-                            <EditableText contentKey="careers.form.resumeLabel" value={careersContent.form.resumeLabel} />{' '}
-                            <span style={{ color: '#64748B', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>
-                              <EditableText contentKey="careers.form.resumeHint" value={careersContent.form.resumeHint} />
+                            Resume / CV <span style={{ color: '#EF4444', fontWeight: 700, marginLeft: '4px' }}>*</span>{' '}
+                            <span style={{ color: '#64748B', fontWeight: 400, textTransform: 'none', letterSpacing: 0, marginLeft: '4px' }}>
+                              (PDF, DOC, DOCX - Max 5MB)
                             </span>
                           </label>
                           <div
@@ -646,17 +662,18 @@ export default function CareersPage() {
                             onDrop={handleDrop}
                             onClick={() => fileInputRef.current?.click()}
                             style={{
-                              border: `2px dashed ${isDragging ? '#0052FF' : resumeFile ? '#10B981' : 'rgba(255,255,255,0.2)'}`,
+                              border: `3px dashed ${isDragging ? '#0052FF' : resumeFile ? '#10B981' : '#475569'}`,
                               borderRadius: '12px',
-                              padding: '28px 20px',
+                              padding: '32px 20px',
                               textAlign: 'center',
                               cursor: 'pointer',
                               transition: 'all 0.3s ease',
+                              boxShadow: isDragging ? '0 0 0 4px rgba(0,82,255,0.15)' : 'none',
                               background: isDragging
-                                ? 'rgba(0,82,255,0.08)'
+                                ? 'rgba(0,82,255,0.12)'
                                 : resumeFile
-                                ? 'rgba(16,185,129,0.06)'
-                                : 'rgba(255,255,255,0.03)',
+                                ? 'rgba(16,185,129,0.1)'
+                                : 'rgba(255,255,255,0.05)',
                             }}
                           >
                             <input
@@ -691,14 +708,14 @@ export default function CareersPage() {
                               </div>
                             ) : (
                               <div>
-                                <div style={{ width: '48px', height: '48px', borderRadius: '50%', backgroundColor: 'rgba(0,82,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isDragging ? '#0052FF' : '#4D79FF', margin: '0 auto 12px' }}>
-                                  <Upload size={22} />
+                                <div style={{ width: '56px', height: '56px', borderRadius: '50%', backgroundColor: 'rgba(0,82,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isDragging ? '#0052FF' : '#4D79FF', margin: '0 auto 16px', border: '2px solid rgba(0,82,255,0.3)' }}>
+                                  <Upload size={28} />
                                 </div>
-                                <div style={{ fontSize: '14px', fontWeight: 700, color: '#E2E8F0', marginBottom: '4px' }}>
-                                  <EditableText contentKey="careers.form.uploadTitle" value={careersContent.form.uploadTitle} />
+                                <div style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', marginBottom: '6px' }}>
+                                  Click to upload or drag and drop
                                 </div>
-                                <div style={{ fontSize: '12px', color: '#64748B' }}>
-                                  <EditableText contentKey="careers.form.uploadHint" value={careersContent.form.uploadHint} />
+                                <div style={{ fontSize: '13px', color: '#94A3B8', fontWeight: 500 }}>
+                                  Support for PDF, DOC, DOCX files
                                 </div>
                               </div>
                             )}
