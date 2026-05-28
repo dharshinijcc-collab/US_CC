@@ -107,45 +107,15 @@ export default function FaqPage() {
         .section-container { max-width: 1200px; margin: 0 auto; padding: 24px 24px; }
         .pt-0 { padding-top: 0 !important; }
 
-        .hero-eyebrow-pill {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          background-color: #F0F5FF;
-          color: #005AE2;
-          padding: 6px 16px;
-          border-radius: 100px;
-          font-size: 0.75rem;
-          font-weight: 800;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          margin-bottom: 24px;
-        }
-        
         /* Typography */
-        .hero-title { 
-          font-size: clamp(2.5rem, 5vw, 4rem); 
-          font-weight: 800; 
-          letter-spacing: -0.02em; 
-          margin-bottom: 16px; 
-          line-height: 1.15; 
-          color: var(--text-black);
-        }
         .text-bright-blue { color: var(--bright-blue); }
-        
-        .body-text {
-          font-size: clamp(0.95rem, 2vw, 1.05rem);
-          line-height: 1.6;
-          color: var(--text-muted);
-          font-weight: 500;
-        }
 
         /* Buttons */
         .btn-bright { 
           background-color: var(--bright-blue); 
           color: var(--white); 
           padding: 14px 28px; 
-          border-radius: 8px; 
+          border-radius: 100px; 
           font-weight: 700; 
           font-size: 15px; 
           border: none; 
@@ -207,29 +177,70 @@ export default function FaqPage() {
         .btn-nav { padding: 10px 24px; font-size: 14px; border-radius: 100px; background-color: var(--primary-blue);}
 
 
-        /* Hero Card Section */
-        .hero-card {
-          background: linear-gradient(to bottom right, #FFFFFF, #F8FAFC);
-          border: 1px solid rgba(0, 132, 255, 0.05);
-          border-radius: 24px;
-          padding: 24px;
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: clamp(32px, 5vw, 48px);
-          box-shadow: 0 20px 50px -10px rgba(0, 90, 226, 0.08);
-          align-items: center;
+        /* Unified Hero Section Style */
+        .hero-section {
+          padding: 120px 24px 60px !important;
+          text-align: center !important;
+          background-color: #FFFFFF !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          min-height: 580px !important;
+          width: 100% !important;
+          position: relative !important;
         }
-        @media(min-width: 768px) { .hero-card { grid-template-columns: 1fr 1fr; } }
-        .hero-graphic {
-          background: linear-gradient(135deg, #EBF5FF 0%, #D1E9FF 100%);
-          border-radius: 16px;
-          aspect-ratio: 4/3;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: inset 0 0 20px rgba(0, 132, 255, 0.1);
+        @media(max-width: 768px) {
+          .hero-section {
+            padding: 100px 20px 40px !important;
+            min-height: 500px !important;
+          }
         }
-        .hero-graphic svg { width: 80px; height: 80px; color: var(--bright-blue); }
+        .hero-eyebrow-pill {
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          background-color: #E6EFFF !important;
+          color: #005AE2 !important;
+          font-size: 0.75rem !important;
+          font-weight: 800 !important;
+          letter-spacing: 0.15em !important;
+          padding: 6px 14px !important;
+          border-radius: 100px !important;
+          margin-bottom: 16px !important;
+          text-transform: uppercase !important;
+          font-family: 'Manrope', sans-serif !important;
+        }
+        .hero-title {
+          font-family: 'Manrope', sans-serif !important;
+          font-size: 48px !important;
+          font-weight: 800 !important;
+          letter-spacing: -0.03em !important;
+          line-height: 1.15 !important;
+          color: #020617 !important;
+          margin: 0 auto 16px !important;
+          text-align: center !important;
+          max-width: 800px !important;
+        }
+        .hero-title span {
+          font-family: 'Manrope', sans-serif !important;
+          font-weight: 800 !important;
+        }
+        @media(max-width: 768px) {
+          .hero-title {
+            font-size: 32px !important;
+          }
+        }
+        .hero-description {
+          font-family: 'Inter', sans-serif !important;
+          font-size: clamp(0.925rem, 2vw, 0.975rem) !important;
+          font-weight: 500 !important;
+          color: #64748B !important;
+          line-height: 1.65 !important;
+          max-width: 650px !important;
+          margin: 0 auto 24px !important;
+          text-align: center !important;
+        }
 
         /* Tabs Navigation */
         .tabs-container {
@@ -276,7 +287,7 @@ export default function FaqPage() {
           margin-bottom: 32px;
         }
         .faq-group-header h2 {
-          font-size: 2rem;
+          font-size: 36px !important;
           font-weight: 800;
           color: var(--text-black);
           margin-bottom: 8px;
@@ -421,28 +432,7 @@ export default function FaqPage() {
           .section-container {
             padding: 24px 20px !important;
           }
-          
-          .hero-card {
-            grid-template-columns: 1fr !important;
-            padding: 24px 20px !important;
-            text-align: center !important;
-            gap: 24px !important;
-          }
-          
-          .hero-graphic {
-            margin-inline: auto !important;
-            width: 120px !important;
-            height: 120px !important;
-          }
-          
-          .hero-title {
-            font-size: 2rem !important;
-          }
-          
-          .body-text {
-            margin-bottom: 24px !important;
-          }
-          
+
           .tabs-container {
             padding-bottom: 8px !important;
           }
@@ -481,56 +471,49 @@ export default function FaqPage() {
         <Header currentPage="faq" />
 
         {/* Hero Section */}
-        <section className="hero-section">
-          <GrainOverlay opacity={0.02} />
-          <div id="faq-section" className="section-container pt-0" style={{ position: 'relative', zIndex: 1 }}>
-            <div className="hero-card cc-reveal">
-              <div className="hero-graphic">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                  <path fill="#FFFFFF" d="M12 22s8-4 8-10V5l-8-3v20z" />
-                </svg>
-              </div>
-              <div className="hero-content-stack">
-                <div className="hero-eyebrow-pill">
-                  <EditableText contentKey="faq.hero.eyebrow" value={faqContent.hero.eyebrow || "FREQUENTLY ASKED QUESTIONS"} />
-                </div>
-                <h1 className="hero-title">
-                  {faqContent.hero.title?.split(' ').map((word: string, i: number) => {
-                    const isBlue = ['Answers'].includes(word.replace(/[^a-zA-Z]/g, ''));
-                    return (
-                      <span key={i} style={isBlue ? { color: '#005AE2' } : {}}>
-                        {word}{' '}
-                      </span>
-                    );
-                  })}
-                </h1>
-                <EditableText 
-                  as="p"
-                  contentKey="faq.hero.subheading"
-                  value={faqContent.hero.subheading}
-                  className="body-text"
-                  style={{ marginBottom: '32px' }}
-                />
-                <button ref={magBtn} className="btn-bright cc-magnetic" onClick={() => document.getElementById('faq-section')?.scrollIntoView({behavior: 'smooth'})}>
-                  <EditableText contentKey="faq.hero.buttonText" value={faqContent.hero.buttonText} />
-                </button>
-              </div>
+        <section className="hero-section" style={{ position: 'relative', overflow: 'hidden' }}>
+          {/* Hero Background */}
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }}></div>
+          {/* Hero Grid */}
+          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(37,99,235,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.08) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 60% at 50% 30%, black 0%, transparent 80%)', opacity: 0.4, pointerEvents: 'none', zIndex: 0 }}></div>
+          {/* Ambient Glows */}
+          <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.2), transparent 70%)', bottom: '0px', left: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.2), transparent 70%)', bottom: '0px', right: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
+
+          <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div className="hero-eyebrow-pill">
+              <EditableText contentKey="faq.hero.eyebrow" value={faqContent.hero.eyebrow || "FREQUENTLY ASKED QUESTIONS"} />
+            </div>
+            <h1 className="hero-title">
+              Got <span style={{ color: '#005AE2' }}>Questions</span>? <br />
+              We've Got <span style={{ color: '#005AE2' }}>Answers</span>
+            </h1>
+            <p className="hero-description">
+              <EditableText
+                contentKey="faq.hero.subheading"
+                value={faqContent.hero.subheading}
+              />
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <button ref={magBtn} className="btn-bright cc-magnetic" onClick={() => document.getElementById('faq-section')?.scrollIntoView({behavior: 'smooth'})}>
+                <EditableText contentKey="faq.hero.buttonText" value={faqContent.hero.buttonText} />
+              </button>
             </div>
           </div>
         </section>
 
         {/* FAQ Content Section */}
         <section id="faq-section">
-          <div className="section-container pt-0">
+          <div className="section-container" style={{ paddingTop: '20px' }}>
 
             {/* Dynamic Category Rendering with Reordering */}
             {[
               { id: 'engagement', content: (
                 <div id="engagement-group" className="faq-group cc-slide-left cc-delay-1">
                   <div className="faq-group-header">
-                    <h2>
-                      <EditableText 
+                    <h2 style={{ fontSize: '36px' }}>
+                      <EditableText
                         contentKey="faq.categories.engagement.title"
                         value={faqContent.categories.engagement.title}
                       />
@@ -569,8 +552,8 @@ export default function FaqPage() {
               { id: 'product', content: (
                 <div id="product-group" className="faq-group cc-slide-center cc-delay-2">
                   <div className="faq-group-header">
-                    <h2>
-                      <EditableText 
+                    <h2 style={{ fontSize: '36px' }}>
+                      <EditableText
                         contentKey="faq.categories.product.title"
                         value={faqContent.categories.product.title}
                       />
@@ -609,8 +592,8 @@ export default function FaqPage() {
               { id: 'security', content: (
                 <div id="security-group" className="faq-group cc-slide-right cc-delay-3">
                   <div className="faq-group-header">
-                    <h2>
-                      <EditableText 
+                    <h2 style={{ fontSize: '36px' }}>
+                      <EditableText
                         contentKey="faq.categories.security.title"
                         value={faqContent.categories.security.title}
                       />
@@ -654,7 +637,7 @@ export default function FaqPage() {
                 padding: '24px 24px', 
                 textAlign: 'center', 
                 width: '100%', 
-                background: 'linear-gradient(135deg, #005AE2 0%, #002D72 100%)', 
+                background: '#005AE2', 
                 borderRadius: '24px',
                 position: 'relative',
                 overflow: 'hidden',
@@ -665,7 +648,7 @@ export default function FaqPage() {
               }}>
                 <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)', borderRadius: '50%' }}></div>
                 <div style={{ position: 'relative', zIndex: 1, maxWidth: '600px', margin: '0 auto' }}>
-                  <h2 style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.25rem)', fontWeight: 900, marginBottom: '16px', color: '#FFFFFF' }} className="font-manrope">
+                  <h2 style={{ fontSize: '36px', fontWeight: 900, marginBottom: '16px', color: '#FFFFFF' }} className="font-manrope">
                     <EditableText contentKey="faq.cta.title" value={faqContent.cta.title} />
                   </h2>
                   <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.125rem', fontWeight: 500, marginBottom: '40px', lineHeight: 1.6 }}>
