@@ -99,7 +99,7 @@ export default function Header(props: any) {
           justify-content: space-between;
           padding: 4px 40px;
           width: 100%;
-          max-width: 1400px;
+          max-width: 1200px;
           margin: 0 auto;
           gap: 24px;
         }
@@ -116,6 +116,13 @@ export default function Header(props: any) {
           gap: 10px;
           white-space: nowrap;
           flex-shrink: 0;
+          cursor: pointer;
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+          opacity: 0.85;
+          transform: translateY(-1px);
         }
 
         .header-logo {
@@ -123,19 +130,21 @@ export default function Header(props: any) {
           width: auto;
           object-fit: contain;
           transition: height 0.3s ease;
+          cursor: pointer;
         }
 
         .mobile-menu-logo {
           height: 58px;
           width: auto;
           object-fit: contain;
+          cursor: pointer;
         }
 
         /* ─── Nav Links (desktop) ──────────────────────────── */
         .navbar-links {
           display: flex;
           align-items: center;
-          gap: 32px;
+          gap: 40px;
           flex: 1;
           justify-content: center;
         }
@@ -543,10 +552,13 @@ export default function Header(props: any) {
           <span className="menu-label">Contact</span>
           <div className="menu-contact-grid">
             <Link href="/contact" className="menu-contact-link" onClick={toggleMenu}>Email</Link>
-            <Link href="https://www.linkedin.com/company/crestcode-technologies/" className="menu-contact-link" target="_blank">LinkedIn</Link>
+            <Link href="https://linkedin.com/company/crestcode" className="menu-contact-link" target="_blank">LinkedIn</Link>
           </div>
         </div>
       </div>
     </>
   );
 }
+
+
+

@@ -257,6 +257,49 @@ export default function StudioPage() {
   if (!content) return null;
   const studioContent = content.studio;
 
+  const defaultPhases = [
+    {
+      stage: "01",
+      title: "Finalize the Idea",
+      description: "We pressure-test your concept, define the core problem, identify the target user, and align on a product vision that is ambitious but buildable.",
+      duration: "2 weeks"
+    },
+    {
+      stage: "02",
+      title: "Operating Agreement",
+      description: "We align on ownership, engagement terms, and mutual expectations before a single line of code is written.",
+      duration: "1 week"
+    },
+    {
+      stage: "03",
+      title: "Requirements & Business Case",
+      description: "Working sessions, user story mapping, PRFAQs, and a formal business case — so every build decision has a strategic rationale.",
+      duration: "2 weeks"
+    },
+    {
+      stage: "04",
+      title: "Build the Product",
+      description: "Senior in-house engineers build your MLP — no outsourcing, no juniors. Bi-weekly demos, continuous feedback, relentless quality.",
+      duration: "12-18 weeks"
+    },
+    {
+      stage: "05",
+      title: "Go to Market",
+      description: "Launch strategy, positioning, pitch materials, and early user acquisition support. You go to market ready — not just live.",
+      duration: "2 weeks"
+    }
+  ];
+
+  const timelinePhases = defaultPhases.map((defPhase, idx) => {
+    const dbPhase = studioContent?.timeline?.phases?.[idx];
+    return {
+      stage: defPhase.stage,
+      title: dbPhase?.title || defPhase.title,
+      description: dbPhase?.description || defPhase.description,
+      duration: dbPhase?.duration || defPhase.duration,
+    };
+  });
+
   // 2. Data array for the Stacked Cards from JSON content
   const stackCards = studioContent.solving.cards.map((card, index) => ({
     ...card,
@@ -350,15 +393,15 @@ export default function StudioPage() {
         /* Typography */
         .hero-title { 
           font-family: 'Manrope', sans-serif !important;
-          font-size: 36px !important;
+          font-size: 52px !important; /* beautifully sized to feel elegant and full without being too large */
           font-weight: 800 !important;
-          letter-spacing: -0.03em !important;
-          line-height: 1.15 !important;
+          letter-spacing: -0.04em !important;
+          line-height: 1.22 !important; /* increased line-height for elite aesthetic */
           color: var(--text-black) !important;
           text-align: center !important;
           width: 100%;
-          margin: 0 auto 16px !important;
-          max-width: 800px !important;
+          margin: 0 auto 28px !important; /* increased spacing below heading */
+          max-width: 960px !important; /* wider boundaries for magnificent scale */
         }
         .hero-title span {
           font-family: 'Manrope', sans-serif !important;
@@ -367,6 +410,7 @@ export default function StudioPage() {
         @media(max-width: 768px) {
           .hero-title {
             font-size: 32px !important;
+            line-height: 1.25 !important;
           }
         }
         .hero-title-text {
@@ -412,12 +456,12 @@ export default function StudioPage() {
           display: inline-block;
           background-color: #E6EFFF !important;
           color: var(--primary-blue) !important;
-          padding: 6px 16px;
+          padding: 8px 18px;
           border-radius: 100px;
-          font-size: 0.75rem !important;
+          font-size: 0.8rem !important;
           font-weight: 800 !important;
           letter-spacing: 0.15em !important;
-          margin-bottom: 24px;
+          margin-bottom: 32px;
           text-transform: uppercase !important;
           font-family: 'Manrope', sans-serif !important;
         }
@@ -494,21 +538,21 @@ export default function StudioPage() {
 
         /* Unified Hero Section Style */
         .hero-section {
-          padding: 120px 24px 60px !important;
+          padding: 120px 24px 60px !important; /* spacious padding to expand the section */
           text-align: center !important;
           background-color: #FFFFFF !important;
           display: flex !important;
           flex-direction: column !important;
           align-items: center !important;
           justify-content: center !important;
-          min-height: 580px !important;
+          min-height: 480px !important; /* enlarged height to look grand and full-screen */
           width: 100% !important;
           position: relative !important;
         }
         @media(max-width: 768px) {
           .hero-section {
-            padding: 100px 20px 40px !important;
-            min-height: 500px !important;
+            padding: 90px 20px 40px !important;
+            min-height: 380px !important;
           }
         }
 
@@ -675,12 +719,12 @@ export default function StudioPage() {
           background-color: #E6EFFF;
           color: #005AE2;
           font-weight: 800;
-          font-size: 0.75rem;
-          padding: 6px 12px;
+          font-size: 0.8rem;
+          padding: 8px 18px;
           border-radius: 100px;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.1em;
           text-transform: uppercase;
-          margin-bottom: 24px;
+          margin-bottom: 32px;
         }
         .hero-img-col {
           border-radius: 24px;
@@ -892,143 +936,84 @@ export default function StudioPage() {
         .look-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 20px; color: var(--text-black); }
         .look-desc { font-size: 1rem; color: var(--text-muted); line-height: 1.6; font-weight: 500; }
 
-        /* The Build Timeline Section - Compacted */
-        .timeline-section-vertical { 
-          padding: 24px 0;
-          background-color: #0B1019;
-          position: relative; 
-          overflow: hidden;
-        }
-
-        .timeline-section-vertical::before {
-          content: '';
-          position: absolute;
-          top: 0; left: 0; right: 0;
-          height: 1px;
-          background: rgba(255,255,255,0.06);
-        }
-
-        .timeline-section-vertical::after {
-          content: '';
-          position: absolute;
-          bottom: 0; left: 0; right: 0;
-          height: 1px;
-          background: rgba(255,255,255,0.06);
-        }
-
-        .timeline-container-vertical { 
-          position: relative; 
-          max-width: 100%; 
-          margin: 24px 32px 0; 
-          padding: 0 32px;
-        }
-
-        .timeline-center-line { 
-          position: absolute; 
-          left: 50%; 
-          top: 0; 
-          bottom: 0; 
-          width: 1px; 
-          background: rgba(255, 255, 255, 0.06); 
-          transform: translateX(-50%); 
-          z-index: 1;
-        }
-
-        .timeline-row-vertical { 
-          display: flex; 
-          align-items: stretch; 
-          position: relative; 
-          margin-bottom: 16px; 
-          z-index: 2;
-          width: 100%;
-        }
-
-        .timeline-row-vertical:nth-child(odd) { 
-          padding-right: calc(50% + 24px); 
-          justify-content: flex-end;
-        }
-
-        .timeline-row-vertical:nth-child(even) { 
-          padding-left: calc(50% + 24px); 
-          justify-content: flex-start;
-        }
-
-        .timeline-phase-pill { 
-          width: 100%;
-          min-height: auto; 
-          background: rgba(255, 255, 255, 0.03); 
-          padding: 16px 20px; 
-          border-radius: 12px; 
-          display: flex; 
-          align-items: center; 
-          gap: 16px; 
-          border: 1px solid rgba(255, 255, 255, 0.07);
-          transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        /* Premium Build Timeline Table Section */
+        .timeline-table-section {
+          padding: 80px 24px;
+          background-color: #FFFFFF;
           position: relative;
         }
 
-        .timeline-phase-pill:hover,
-        .timeline-phase-pill.active-scroll {
-          background: rgba(255, 255, 255, 0.08);
-          border-color: rgba(255, 255, 255, 0.15);
-          transform: translateY(-2px);
-          box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+        .timeline-table-container {
+          max-width: 1100px;
+          margin: 40px auto 0;
+          overflow: hidden;
         }
 
-        /* Step number badge — matches site's blue accent - Compacted */
-        .timeline-badge {
-          flex-shrink: 0;
-          width: 34px;
-          height: 34px;
-          background: var(--primary-blue);
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          font-size: 0.75rem;
-          font-weight: 800;
+        .timeline-table {
+          width: 100%;
+          border-collapse: collapse;
+          text-align: left;
+        }
+
+        .timeline-table th {
           font-family: 'Manrope', sans-serif;
-          letter-spacing: -0.01em;
-          transition: all 0.4s;
-          box-shadow: 0 4px 10px rgba(0, 90, 226, 0.25);
-          position: static;
-          top: auto;
-          right: auto;
+          font-size: 0.85rem;
+          font-weight: 700;
+          color: #0F172A;
+          padding: 18px 24px;
+          border-top: 1px solid #E2E8F0;
+          border-bottom: 1px solid #E2E8F0;
+          text-transform: capitalize;
         }
 
-        .timeline-phase-pill.active-scroll .timeline-badge {
-          box-shadow: 0 6px 15px rgba(0, 90, 226, 0.4);
-          transform: scale(1.05);
+        .timeline-table td {
+          padding: 24px 24px;
+          font-size: 0.95rem;
+          color: #334155;
+          border-bottom: 1px solid #E2E8F0;
+          vertical-align: top;
+          line-height: 1.6;
         }
 
-        .timeline-left-side { 
-          display: none; 
+        .timeline-table tr:last-child td {
+          border-bottom: 1px solid #E2E8F0;
         }
 
-        .timeline-right-side { 
-          flex: 1;
-          min-width: 0;
-          padding-top: 0px;
+        .timeline-table td.stage-col {
+          font-family: 'Manrope', sans-serif;
+          font-weight: 500;
+          color: #0F172A;
+          font-size: 1rem;
+          width: 80px;
         }
 
-        .timeline-dot { 
-          position: absolute; 
-          left: 50%; 
-          top: 50%;
-          width: 6px; 
-          height: 6px; 
-          background: rgba(255, 255, 255, 0.15); 
-          border-radius: 50%; 
-          transform: translate(-50%, -50%); 
-          z-index: 3;
-          transition: all 0.4s;
+        .timeline-table td.title-col {
+          font-family: 'Manrope', sans-serif;
+          font-weight: 700;
+          color: #0F172A;
+          font-size: 1.05rem;
+          width: 220px;
         }
 
-        .timeline-row-vertical:has(.active-scroll) .timeline-dot {
-          background: var(--primary-blue);
-          box-shadow: 0 0 0 4px rgba(0, 90, 226, 0.25);
-          transform: translate(-50%, -50%) scale(1.2);
+        .timeline-table td.desc-col {
+          color: #475569;
+          font-weight: 400;
+        }
+
+        .timeline-table td.duration-col {
+          font-family: 'Inter', sans-serif;
+          font-weight: 600;
+          color: #0F172A;
+          white-space: nowrap;
+          width: 140px;
+        }
+
+        .timeline-table tr {
+          transition: background-color 0.2s ease;
+        }
+
+        .timeline-table tr:hover td {
+          background-color: #F8FAFC;
         }
 
         /* ── NEW STYLES: Selection Steps & Premium Values ── */
@@ -1053,95 +1038,122 @@ export default function StudioPage() {
         .value-premium-card {
           background: #F8FAFC !important;
           border: 1px solid #E2E8F0 !important;
-          border-radius: 24px;
-          padding: 40px 32px;
-          transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+          border-radius: 20px;
+          padding: 24px 24px;
+          transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1) !important;
           position: relative;
           overflow: hidden;
           display: flex;
           flex-direction: column;
           justify-content: flex-start;
-          min-height: 320px;
+          min-height: 230px;
           z-index: 1;
         }
+        .value-premium-card::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 3px;
+          background: var(--card-glow);
+          opacity: 0.7;
+          transition: height 0.3s ease, opacity 0.3s ease;
+        }
         .value-premium-card:hover {
-          transform: translateY(-8px) scale(1.02);
+          transform: translateY(-6px);
           background: #FFFFFF !important;
           border-color: var(--card-glow) !important;
-          box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.06) !important;
+          box-shadow: 0 15px 30px -5px var(--card-glow-shadow), 0 0 0 1px rgba(0, 0, 0, 0.02) !important;
+        }
+        .value-premium-card:hover::after {
+          height: 5px;
+          opacity: 1;
         }
         .value-card-bg-num {
           position: absolute;
-          bottom: -15px;
-          right: 15px;
-          font-size: 6.5rem;
-          font-weight: 900;
+          top: 15px;
+          right: 20px;
+          font-size: 2.25rem;
+          font-weight: 800;
           font-family: 'Manrope', sans-serif;
-          color: rgba(0, 0, 0, 0.015);
+          color: rgba(0, 0, 0, 0.035);
           line-height: 1;
           pointer-events: none;
           user-select: none;
-          transition: all 0.4s ease;
+          transition: all 0.35s ease;
         }
         .value-premium-card:hover .value-card-bg-num {
-          color: rgba(0, 0, 0, 0.03);
-          transform: scale(1.05) translateY(-5px);
-        }
-
-
-        .t-title-new {
-          font-family: 'Manrope', sans-serif !important;
-          font-size: 1.05rem !important;
-          font-weight: 700 !important;
-          color: rgba(255, 255, 255, 0.92) !important;
-          margin: 0 0 6px 0 !important;
-          line-height: 1.3 !important;
-          letter-spacing: -0.01em;
-        }
-
-        .t-desc-new {
-          font-family: 'Inter', sans-serif !important;
-          font-size: 0.88rem !important;
-          color: rgba(255, 255, 255, 0.45) !important;
-          line-height: 1.65 !important;
-          margin: 0 !important;
-        }
-
-        .t-duration-label {
-          display: inline-block;
-          margin-top: 10px;
-          font-size: 0.72rem;
-          color: var(--primary-blue);
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.08em;
-          font-family: 'Manrope', sans-serif;
-        }
-
-        .timeline-phase-pill.active-scroll .t-title-new {
-          color: #FFFFFF !important;
-        }
-
-        .timeline-phase-pill.active-scroll .t-desc-new {
-          color: rgba(255, 255, 255, 0.65) !important;
+          color: var(--card-glow);
+          opacity: 0.15;
+          transform: scale(1.08);
         }
 
         @media (max-width: 768px) {
-          .timeline-center-line { left: 24px; transform: none; }
-          .timeline-dot { left: 24px; transform: translateX(-50%); }
-          .timeline-row-vertical:nth-child(odd), .timeline-row-vertical:nth-child(even) {
-            padding-left: 50px;
-            padding-right: 0;
-            justify-content: flex-start;
+          .timeline-table-section {
+            padding: 48px 16px;
           }
-          .timeline-phase-pill { 
-            width: 100%; 
-            margin: 0 !important; 
-            border-radius: 24px; 
-            padding: 24px; 
-            flex-direction: column; 
-            align-items: flex-start; 
-            gap: 12px; 
+          
+          .timeline-table, .timeline-table thead, .timeline-table tbody, .timeline-table th, .timeline-table td, .timeline-table tr {
+            display: block;
+            width: 100%;
+          }
+
+          .timeline-table thead {
+            display: none;
+          }
+
+          .timeline-table tr {
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            padding: 16px;
+            background: #FFFFFF;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01);
+          }
+
+          .timeline-table td {
+            padding: 6px 0;
+            border: none !important;
+            width: 100% !important;
+          }
+
+          .timeline-table td.stage-col {
+            font-size: 0.8rem;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+          }
+
+          .timeline-table td.title-col {
+            font-size: 1.1rem;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #F1F5F9 !important;
+            margin-bottom: 8px;
+          }
+
+          .timeline-table td.desc-col {
+            font-size: 0.9rem;
+            color: #475569;
+            padding-bottom: 12px;
+          }
+
+          .timeline-table td.duration-col {
+            border-top: 1px solid #F1F5F9 !important;
+            padding-top: 10px;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+
+          .timeline-table td.duration-col::before {
+            content: 'DURATION';
+            font-weight: 700;
+            color: #64748B;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
           }
         }
 
@@ -1532,7 +1544,7 @@ export default function StudioPage() {
                   contentKey="studio.hero.subheading"
                   value={studioContent.hero.subheading}
                   className="body-text"
-                  style={{ marginBottom: '40px', maxWidth: '520px', margin: '0 auto 40px', textAlign: 'center', lineHeight: '1.7' }}
+                  style={{ marginBottom: '40px', maxWidth: '720px', margin: '0 auto 40px', textAlign: 'center', lineHeight: '1.8', fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}
                 />
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'center' }} className="cc-reveal">
                   <Link href="/contact">
@@ -1592,6 +1604,178 @@ export default function StudioPage() {
             </div>
           </div>
         </section>
+
+      {/* Core Values Section - Premium Light Mode Grid with 6 Cards */}
+      <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', fontFamily: 'Manrope, sans-serif', position: 'relative', overflow: 'hidden' }}>
+        {/* Subtle glowing radial background lights */}
+        <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.04), transparent 70%)', top: '-100px', left: '-100px', pointerEvents: 'none' }}></div>
+        <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.03), transparent 70%)', bottom: '-100px', right: '-100px', pointerEvents: 'none' }}></div>
+
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <div className="hero-eyebrow-pill">Our Ethos & Beliefs</div>
+            <h2 className="section-title" style={{ margin: '0 auto 16px', color: '#0F172A', maxWidth: '800px' }}>
+              Core Values That Guide Everything We Build
+            </h2>
+            <p className="section-subtitle" style={{ maxWidth: '600px', margin: '0 auto' }}>
+              We aren't here to build commodities. We partner with founders to construct enduring, high-performance tech enterprises.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '30px' }}>
+            {[
+              {
+                num: '01',
+                title: 'Ownership',
+                subheading: 'FOUNDER MINDSET',
+                desc: "We treat every product as if it's our own.",
+                icon: (
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                ),
+                color: '#3B82F6', // Blue
+                shadow: 'rgba(59, 130, 246, 0.08)'
+              },
+              {
+                num: '02',
+                title: 'Honesty',
+                subheading: 'FEARLESS TRANSPARENCY',
+                desc: "We challenge clients when we need to, even when it's uncomfortable.",
+                icon: (
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                ),
+                color: '#EC4899', // Pink
+                shadow: 'rgba(236, 72, 153, 0.08)'
+              },
+              {
+                num: '03',
+                title: 'End-customer obsession',
+                subheading: 'USER-FIRST PARADIGM',
+                desc: "Success is measured by the people who use the product, not just the people who commissioned it.",
+                icon: (
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                ),
+                color: '#10B981', // Green
+                shadow: 'rgba(16, 185, 129, 0.08)'
+              },
+              {
+                num: '04',
+                title: 'Craft',
+                subheading: 'MLP QUALITY STANDARD',
+                desc: "We build to MLP standard because good enough never is.",
+                icon: (
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.907c.961 0 1.36 1.242.588 1.81l-3.97 2.883a1 1 0 00-.364 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.971-2.883a1 1 0 00-1.17 0l-3.97 2.883c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.364-1.118l-3.97-2.883c-.77-.568-.371-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                  </svg>
+                ),
+                color: '#F59E0B', // Amber
+                shadow: 'rgba(245, 158, 11, 0.08)'
+              },
+              {
+                num: '05',
+                title: 'Partnership',
+                subheading: 'LONG-TERM ENGAGEMENT',
+                desc: "We are in it for the long run, not just the launch.",
+                icon: (
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                ),
+                color: '#005AE2', // Blue
+                shadow: 'rgba(0, 90, 226, 0.08)'
+              },
+              {
+                num: '06',
+                title: 'Innovation',
+                subheading: 'AI-DRIVEN PRODUCT THINKING',
+                desc: "We bring the latest thinking in product, engineering, and AI to every engagement.",
+                icon: (
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                ),
+                color: '#06B6D4', // Cyan
+                shadow: 'rgba(6, 182, 212, 0.08)'
+              }
+            ].map((val, index) => (
+              <div
+                key={index}
+                className="value-premium-card"
+                style={{
+                  '--card-glow': val.color,
+                  '--card-glow-shadow': val.shadow
+                } as React.CSSProperties}
+              >
+                {/* Background Large Number */}
+                <div className="value-card-bg-num">{val.num}</div>
+
+                {/* Top subheading tag */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontSize: '0.68rem',
+                  fontWeight: 800,
+                  letterSpacing: '0.12em',
+                  color: val.color,
+                  textTransform: 'uppercase',
+                  marginBottom: '16px'
+                }}>
+                  <span>{val.num}</span>
+                  <span style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'rgba(0,0,0,0.08)' }}></span>
+                  <span>{val.subheading}</span>
+                </div>
+
+                {/* Colored Icon Container */}
+                <div style={{
+                  width: '50px',
+                  height: '50px',
+                  borderRadius: '14px',
+                  background: `${val.color}10`,
+                  border: `1.5px solid ${val.color}25`,
+                  color: val.color,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: '16px'
+                }}>
+                  {val.icon}
+                </div>
+
+                {/* Title */}
+                <h3 style={{
+                  fontSize: '1.2rem',
+                  fontWeight: 800,
+                  color: '#0F172A',
+                  marginBottom: '8px',
+                  letterSpacing: '-0.01em',
+                  textTransform: 'capitalize'
+                }}>
+                  {val.title}
+                </h3>
+
+                {/* Description */}
+                <p style={{
+                  color: '#64748B',
+                  fontSize: '0.9rem',
+                  lineHeight: 1.6,
+                  margin: 0,
+                  fontWeight: 500,
+                  position: 'relative',
+                  zIndex: 1
+                }}>
+                  {val.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
         {/* Selection Process Heading & Description Section */}
         <section style={{ padding: '24px 24px 16px', backgroundColor: '#FFFFFF', position: 'relative' }}>
@@ -1766,7 +1950,7 @@ export default function StudioPage() {
 
 
         {/* Five Phases Title Section */}
-        <section style={{ padding: '60px 24px 20px', backgroundColor: '#FFFFFF', textAlign: 'center' }}>
+        <section style={{ padding: '60px 24px 20px', backgroundColor: '#EFF6FF', textAlign: 'center' }}>
           <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto', paddingBottom: 0 }}>
             <h2 className="section-title" style={{
               color: '#0F172A',
@@ -1821,7 +2005,7 @@ export default function StudioPage() {
               {/* ── STICKY PILL NAV ── */}
               <div style={{
                 position: 'sticky', top: 0, zIndex: 100,
-                background: '#ffffff',
+                background: '#EFF6FF',
 
               }}>
                 <div className="section-container" style={{ paddingTop: 0, paddingBottom: 0 }}>
@@ -2349,220 +2533,67 @@ export default function StudioPage() {
 
 
       {/* The Build Timeline */}
-      <section className="timeline-section-vertical">
-        <div className="section-container">
+      <section className="timeline-table-section">
+        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
           <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-            <div className="hero-eyebrow-pill">Build Timeline</div>
+            <div className="hero-eyebrow-pill">BUILD TIMELINE</div>
           </div>
           <EditableText
             as="h2"
             contentKey="studio.timeline.title"
-            value={studioContent.timeline.title}
-            className="section-title title-dark"
-            style={{ fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.02em', lineHeight: 1.2 }}
+            value={studioContent?.timeline?.title || "From First Conversation to First Customer"}
+            className="section-title"
+            style={{ fontWeight: 800, color: '#0F172A', letterSpacing: '-0.02em', lineHeight: 1.2, textAlign: 'center', margin: '0 auto 16px' }}
           />
           <EditableText
             as="p"
             contentKey="studio.timeline.subtitle"
-            value={studioContent.timeline.subtitle}
+            value={studioContent?.timeline?.subtitle || "Every engagement follows five structured stages — built for clarity, speed, and quality."}
             className="section-subtitle text-center mx-auto"
-            style={{ maxWidth: '800px', marginBottom: '16px', color: 'rgba(255, 255, 255, 0.7)', lineHeight: 1.65 }}
+            style={{ maxWidth: '800px', marginBottom: '40px', color: '#64748B', lineHeight: 1.65, textAlign: 'center', margin: '0 auto 24px' }}
           />
 
-          <div className="timeline-container-vertical">
-            <div className="timeline-center-line"></div>
-
-            {studioContent.timeline.phases.map((phase, pIdx) => (
-              <div key={pIdx} className="timeline-row-vertical" data-timeline-index={pIdx}>
-                <div className="timeline-dot"></div>
-                <div className={`timeline-phase-pill ${activeTimelineIndex === pIdx ? 'active-scroll' : ''}`}>
-                  <div className="timeline-badge">
-                    {pIdx + 1 < 10 ? `0${pIdx + 1}` : pIdx + 1}
-                  </div>
-                  <div className="timeline-right-side">
-                    <EditableText as="h4" contentKey={`studio.timeline.phases.${pIdx}.title`} value={phase.title} className="t-title-new" />
-                    <EditableText as="p" contentKey={`studio.timeline.phases.${pIdx}.description`} value={phase.description} className="t-desc-new" />
-                    <div className="t-duration-label">{phase.duration}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="timeline-table-container">
+            <table className="timeline-table">
+              <thead>
+                <tr>
+                  <th>Stage</th>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Duration</th>
+                </tr>
+              </thead>
+              <tbody>
+                {timelinePhases.map((phase, pIdx) => (
+                  <tr key={pIdx}>
+                    <td className="stage-col">{phase.stage}</td>
+                    <td className="title-col">
+                      <EditableText
+                        contentKey={`studio.timeline.phases.${pIdx}.title`}
+                        value={phase.title}
+                      />
+                    </td>
+                    <td className="desc-col">
+                      <EditableText
+                        contentKey={`studio.timeline.phases.${pIdx}.description`}
+                        value={phase.description}
+                      />
+                    </td>
+                    <td className="duration-col">
+                      <EditableText
+                        contentKey={`studio.timeline.phases.${pIdx}.duration`}
+                        value={phase.duration}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
 
-      {/* Core Values Section - Premium Light Mode Grid with 6 Cards */}
-      <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', fontFamily: 'Manrope, sans-serif', position: 'relative', overflow: 'hidden' }}>
-        {/* Subtle glowing radial background lights */}
-        <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.04), transparent 70%)', top: '-100px', left: '-100px', pointerEvents: 'none' }}></div>
-        <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.03), transparent 70%)', bottom: '-100px', right: '-100px', pointerEvents: 'none' }}></div>
-
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <div className="hero-eyebrow-pill">Our Ethos & Beliefs</div>
-            <h2 className="section-title" style={{ margin: '0 auto 16px', color: '#0F172A', maxWidth: '800px' }}>
-              Core Values That Guide Everything We Build
-            </h2>
-            <p className="section-subtitle" style={{ maxWidth: '600px', margin: '0 auto' }}>
-              We aren't here to build commodities. We partner with founders to construct enduring, high-performance tech enterprises.
-            </p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px' }}>
-            {[
-              {
-                num: '01',
-                title: 'Ownership',
-                subheading: 'FOUNDER MINDSET',
-                desc: "We treat every product as if it's our own.",
-                icon: (
-                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                ),
-                color: '#3B82F6', // Blue
-                shadow: 'rgba(59, 130, 246, 0.08)'
-              },
-              {
-                num: '02',
-                title: 'Honesty',
-                subheading: 'FEARLESS TRANSPARENCY',
-                desc: "We challenge clients when we need to, even when it's uncomfortable.",
-                icon: (
-                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
-                ),
-                color: '#EC4899', // Pink
-                shadow: 'rgba(236, 72, 153, 0.08)'
-              },
-              {
-                num: '03',
-                title: 'End-customer obsession',
-                subheading: 'USER-FIRST PARADIGM',
-                desc: "Success is measured by the people who use the product, not just the people who commissioned it.",
-                icon: (
-                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                ),
-                color: '#10B981', // Green
-                shadow: 'rgba(16, 185, 129, 0.08)'
-              },
-              {
-                num: '04',
-                title: 'Craft',
-                subheading: 'MLP QUALITY STANDARD',
-                desc: "We build to MLP standard because good enough never is.",
-                icon: (
-                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.907c.961 0 1.36 1.242.588 1.81l-3.97 2.883a1 1 0 00-.364 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.971-2.883a1 1 0 00-1.17 0l-3.97 2.883c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.364-1.118l-3.97-2.883c-.77-.568-.371-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                  </svg>
-                ),
-                color: '#F59E0B', // Amber
-                shadow: 'rgba(245, 158, 11, 0.08)'
-              },
-              {
-                num: '05',
-                title: 'Partnership',
-                subheading: 'LONG-TERM ENGAGEMENT',
-                desc: "We are in it for the long run, not just the launch.",
-                icon: (
-                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                ),
-                color: '#005AE2', // Blue
-                shadow: 'rgba(0, 90, 226, 0.08)'
-              },
-              {
-                num: '06',
-                title: 'Innovation',
-                subheading: 'AI-DRIVEN PRODUCT THINKING',
-                desc: "We bring the latest thinking in product, engineering, and AI to every engagement.",
-                icon: (
-                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                ),
-                color: '#06B6D4', // Cyan
-                shadow: 'rgba(6, 182, 212, 0.08)'
-              }
-            ].map((val, index) => (
-              <div
-                key={index}
-                className="value-premium-card"
-                style={{
-                  '--card-glow': val.color,
-                  '--card-glow-shadow': val.shadow
-                } as React.CSSProperties}
-              >
-                {/* Background Large Number */}
-                <div className="value-card-bg-num">{val.num}</div>
-
-                {/* Top subheading tag */}
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  fontSize: '0.68rem',
-                  fontWeight: 800,
-                  letterSpacing: '0.12em',
-                  color: val.color,
-                  textTransform: 'uppercase',
-                  marginBottom: '16px'
-                }}>
-                  <span>{val.num}</span>
-                  <span style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'rgba(0,0,0,0.08)' }}></span>
-                  <span>{val.subheading}</span>
-                </div>
-
-                {/* Colored Icon Container */}
-                <div style={{
-                  width: '50px',
-                  height: '50px',
-                  borderRadius: '14px',
-                  background: `${val.color}10`,
-                  border: `1.5px solid ${val.color}25`,
-                  color: val.color,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '24px'
-                }}>
-                  {val.icon}
-                </div>
-
-                {/* Title */}
-                <h3 style={{
-                  fontSize: '1.2rem',
-                  fontWeight: 800,
-                  color: '#0F172A',
-                  marginBottom: '12px',
-                  letterSpacing: '-0.01em',
-                  textTransform: 'capitalize'
-                }}>
-                  {val.title}
-                </h3>
-
-                {/* Description */}
-                <p style={{
-                  color: '#64748B',
-                  fontSize: '0.9rem',
-                  lineHeight: 1.6,
-                  margin: 0,
-                  fontWeight: 500,
-                  position: 'relative',
-                  zIndex: 1
-                }}>
-                  {val.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      
       {/* DIFFERENTIATION */}
       <section id="diff" style={{ backgroundColor: '#EFF6FF' }}>
         <div className="diff-header">

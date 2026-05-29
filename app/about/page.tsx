@@ -62,21 +62,21 @@ export default function AboutPage() {
 
         /* Unified Hero Section Style */
         .hero-section {
-          padding: 120px 24px 60px !important;
+          padding: 120px 24px 60px !important; /* spacious padding to expand the section */
           text-align: center !important;
           background-color: #FFFFFF !important;
           display: flex !important;
           flex-direction: column !important;
           align-items: center !important;
           justify-content: center !important;
-          min-height: 580px !important;
+          min-height: 480px !important; /* enlarged height to look grand and full-screen */
           width: 100% !important;
           position: relative !important;
         }
         @media(max-width: 768px) {
           .hero-section {
-            padding: 100px 20px 40px !important;
-            min-height: 500px !important;
+            padding: 90px 20px 40px !important;
+            min-height: 380px !important;
           }
         }
         .hero-eyebrow-pill {
@@ -85,25 +85,25 @@ export default function AboutPage() {
           justify-content: center !important;
           background-color: #E6EFFF !important;
           color: #005AE2 !important;
-          font-size: 0.75rem !important;
+          font-size: 0.8rem !important;
           font-weight: 800 !important;
           letter-spacing: 0.15em !important;
-          padding: 6px 14px !important;
+          padding: 8px 18px !important; /* increased padding */
           border-radius: 100px !important;
-          margin-bottom: 16px !important;
+          margin-bottom: 32px !important; /* increased spacing */
           text-transform: uppercase !important;
           font-family: 'Manrope', sans-serif !important;
         }
         .hero-title {
           font-family: 'Manrope', sans-serif !important;
-          font-size: 36px !important;
+          font-size: 52px !important; /* beautifully sized to feel elegant and full without being too large */
           font-weight: 800 !important;
-          letter-spacing: -0.03em !important;
-          line-height: 1.15 !important;
+          letter-spacing: -0.04em !important;
+          line-height: 1.22 !important; /* increased line-height for elite aesthetic */
           color: #020617 !important;
-          margin: 0 auto 16px !important;
+          margin: 0 auto 28px !important; /* increased spacing below heading */
           text-align: center !important;
-          max-width: 800px !important;
+          max-width: 960px !important; /* wider boundaries for magnificent scale */
         }
         .hero-title span {
           font-family: 'Manrope', sans-serif !important;
@@ -112,6 +112,7 @@ export default function AboutPage() {
         @media(max-width: 768px) {
           .hero-title {
             font-size: 32px !important;
+            line-height: 1.25 !important;
           }
         }
         .hero-description {
@@ -119,9 +120,9 @@ export default function AboutPage() {
           font-size: clamp(0.925rem, 2vw, 0.975rem) !important;
           font-weight: 500 !important;
           color: #64748B !important;
-          line-height: 1.65 !important;
-          max-width: 650px !important;
-          margin: 0 auto 24px !important;
+          line-height: 1.8 !important; /* wider line height for premium readability */
+          max-width: 720px !important; /* expanded to follow modern web layouts */
+          margin: 0 auto 32px !important;
           text-align: center !important;
         }
 
@@ -322,13 +323,13 @@ export default function AboutPage() {
           <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.2), transparent 70%)', bottom: '0px', left: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
           <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.2), transparent 70%)', bottom: '0px', right: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
 
-          <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div className="hero-eyebrow-pill">ABOUT THE STUDIO</div>
             <h1 className="hero-title">
               Built on <span style={{ color: 'var(--primary-blue)' }}>trust</span> <br />
               and the <span style={{ color: 'var(--primary-blue)' }}>will to execute</span>.
             </h1>
-            <p className="hero-description" style={{ marginBottom: '32px' }}>
+            <p className="hero-description" style={{ marginBottom: '32px', lineHeight: '1.8', maxWidth: '720px' }}>
               CrestCode is a venture studio born from a simple observation — identifying a truly great idea is rare, and executing it with conviction is rarer still. We exist to do both.
             </p>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -360,7 +361,7 @@ export default function AboutPage() {
                   fontWeight: 500,
                   margin: 0
                 }}>
-                  CrestCode didn't start with a business plan. It started with a conviction — that finding and building the right idea is one of the hardest things a founder can do, and nobody should have to do it without the right partner.
+                  CrestCode didn't start with a business plan. It started with a conviction - that finding and building the right idea is one of the hardest things a founder can do, and nobody should have to do it without the right partner.
                 </p>
               </div>
 
@@ -484,7 +485,7 @@ export default function AboutPage() {
                   Trust is the most important currency in any partnership.
                 </h3>
                 <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.65, margin: 0, fontWeight: 500 }}>
-                  Founders share their most vulnerable ideas with their build partners. That relationship only works if the partner earns trust — through honesty, through accountability, and through the willingness to say things that are uncomfortable but true. CrestCode was built with that kind of partnership in mind from day one.
+                  Founders share their most vulnerable ideas with their build partners. That relationship only works if the partner earns trust - through honesty, through accountability, and through the willingness to say things that are uncomfortable but true. CrestCode was built with that kind of partnership in mind from day one.
                 </p>
               </div>
 
@@ -808,7 +809,7 @@ export default function AboutPage() {
             }}>
               If this sounds like <br />
               the partner you've been <br />
-              looking for —
+              looking for 
             </h2>
             <p className="section-subtitle" style={{
               maxWidth: '600px',

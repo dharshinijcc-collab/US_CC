@@ -125,21 +125,21 @@ export default function ResourcesPage() {
 
         /* Unified Hero Section Style */
         .hero-section {
-          padding: 120px 24px 60px !important;
+          padding: 120px 24px 60px !important; /* spacious padding to expand the section */
           text-align: center !important;
           background-color: #FFFFFF !important;
           display: flex !important;
           flex-direction: column !important;
           align-items: center !important;
           justify-content: center !important;
-          min-height: 580px !important;
+          min-height: 480px !important; /* enlarged height to look grand and full-screen */
           width: 100% !important;
           position: relative !important;
         }
         @media(max-width: 768px) {
           .hero-section {
-            padding: 100px 20px 40px !important;
-            min-height: 500px !important;
+            padding: 90px 20px 40px !important;
+            min-height: 380px !important;
           }
         }
         .hero-eyebrow-pill {
@@ -148,25 +148,25 @@ export default function ResourcesPage() {
           justify-content: center !important;
           background-color: #E6EFFF !important;
           color: #005AE2 !important;
-          font-size: 0.75rem !important;
+          font-size: 0.8rem !important;
           font-weight: 800 !important;
           letter-spacing: 0.15em !important;
-          padding: 6px 14px !important;
+          padding: 8px 18px !important; /* increased padding */
           border-radius: 100px !important;
-          margin-bottom: 16px !important;
+          margin-bottom: 32px !important; /* increased spacing */
           text-transform: uppercase !important;
           font-family: 'Manrope', sans-serif !important;
         }
         .hero-title {
           font-family: 'Manrope', sans-serif !important;
-          font-size: 36px !important;
+          font-size: 52px !important; /* beautifully sized to feel elegant and full without being too large */
           font-weight: 800 !important;
-          letter-spacing: -0.03em !important;
-          line-height: 1.15 !important;
+          letter-spacing: -0.04em !important;
+          line-height: 1.22 !important; /* increased line-height for elite aesthetic */
           color: #020617 !important;
-          margin: 0 auto 16px !important;
+          margin: 0 auto 28px !important; /* increased spacing below heading */
           text-align: center !important;
-          max-width: 800px !important;
+          max-width: 960px !important; /* wider boundaries for magnificent scale */
         }
         .hero-title span {
           font-family: 'Manrope', sans-serif !important;
@@ -195,6 +195,7 @@ export default function ResourcesPage() {
         @media(max-width: 768px) {
           .hero-title {
             font-size: 32px !important;
+            line-height: 1.25 !important;
           }
         }
         .hero-description, .hero-subtitle {
@@ -202,9 +203,9 @@ export default function ResourcesPage() {
           font-size: clamp(0.925rem, 2vw, 0.975rem) !important;
           font-weight: 500 !important;
           color: #64748B !important;
-          line-height: 1.65 !important;
-          max-width: 650px !important;
-          margin: 0 auto 24px !important;
+          line-height: 1.8 !important; /* wider line height for premium readability */
+          max-width: 720px !important; /* expanded to follow modern web layouts */
+          margin: 0 auto 32px !important;
           text-align: center !important;
         }
 
@@ -499,22 +500,18 @@ export default function ResourcesPage() {
         
         {/* ===== SECTION 1: HERO ===== */}
         <section className="hero-section" style={{ position: 'relative', overflow: 'hidden' }}>
-          {/* Hero Background */}
-          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }}></div>
-          {/* Hero Grid */}
-          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(37,99,235,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.08) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 60% at 50% 30%, black 0%, transparent 80%)', opacity: 0.4, pointerEvents: 'none', zIndex: 0 }}></div>
           {/* Ambient Glows */}
           <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.2), transparent 70%)', bottom: '0px', left: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.2), transparent 70%)', bottom: '0px', right: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', left: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', right: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
 
-          <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div className="hero-eyebrow-pill">RESOURCES</div>
             <h1 className="hero-title" style={{ color: '#020617' }}>
-              Everything you<br />need to <span style={{ color: 'var(--primary-blue)' }}>build</span><br />
+              Everything you need to <span style={{ color: 'var(--primary-blue)' }}>build</span><br />
               with <span style={{ color: 'var(--primary-blue)' }}>confidence</span>
             </h1>
-            <p className="hero-description" style={{ marginBottom: '32px' }}>
+            <p className="hero-description" style={{ marginBottom: '32px', lineHeight: '1.8', maxWidth: '720px' }}>
               Guides, tools, and insights for founders and investors — covering how CrestCode works, how the industry is moving, and what it takes to build a product that lasts.
             </p>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -525,12 +522,7 @@ export default function ResourcesPage() {
           </div>
         </section>
 
-        {/* ===== SECTION 3: BLOG COMPONENT ===== */}
-        <section className="section-container" style={{ paddingTop: '40px' }}>
-          <Blogs showHero={false} />
-        </section>
-
-        {/* ===== SECTION 4: INTERACTIVE TOOLS ===== */}
+        {/* ===== SECTION 3: INTERACTIVE TOOLS (shown first) ===== */}
         <section className="section-container" style={{ paddingTop: '40px' }}>
           <div className="header-center">
             <span className="eyebrow-text">INTERACTIVE TOOLS</span>
@@ -572,6 +564,11 @@ export default function ResourcesPage() {
               </div>
             ))}
           </div>
+        </section>
+
+        {/* ===== SECTION 4: BLOG COMPONENT (shown after Tools) ===== */}
+        <section className="section-container" style={{ paddingTop: '40px' }}>
+          <Blogs showHero={false} />
         </section>
 
 

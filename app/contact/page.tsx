@@ -141,14 +141,16 @@ export default function ContactPage() {
         
         /* Typography */
         .hero-title { 
-          font-size: 36px !important; 
-          font-weight: 800; 
-          letter-spacing: -0.03em; 
-          margin: 0 auto clamp(16px, 3vw, 24px); 
-          line-height: 1.15; 
-          color: var(--text-black);
+          font-family: 'Manrope', sans-serif !important;
+          font-size: 52px !important; /* beautifully sized to feel elegant and full without being too large */
+          font-weight: 800 !important;
+          letter-spacing: -0.04em !important;
+          line-height: 1.22 !important; /* increased line-height for elite aesthetic */
+          color: var(--text-black) !important;
           text-align: center !important;
           width: 100%;
+          margin: 0 auto 28px !important; /* increased spacing below heading */
+          max-width: 960px !important; /* wider boundaries for magnificent scale */
         }
         .text-bright-blue { 
           color: var(--bright-blue);
@@ -169,18 +171,19 @@ export default function ContactPage() {
         }
         
         .hero-eyebrow-pill {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          background-color: #F0F5FF;
-          color: #005AE2;
-          padding: 6px 16px;
-          border-radius: 100px;
-          font-size: 0.75rem;
-          font-weight: 800;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          margin-bottom: 24px;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          background-color: #E6EFFF !important;
+          color: var(--primary-blue) !important;
+          padding: 8px 18px !important; /* increased padding */
+          border-radius: 100px !important;
+          font-size: 0.8rem !important;
+          font-weight: 800 !important;
+          letter-spacing: 0.15em !important;
+          margin-bottom: 32px !important; /* increased spacing */
+          text-transform: uppercase !important;
+          font-family: 'Manrope', sans-serif !important;
         }
 
         .body-text {
@@ -301,10 +304,23 @@ export default function ContactPage() {
 
         /* Hero Section */
         .hero-section { 
-          background-color: #FFFFFF; 
-          padding: 120px 24px 80px; 
-          position: relative; 
-          overflow: hidden; 
+          padding: 120px 24px 60px !important; /* spacious padding to expand the section */
+          text-align: center !important;
+          background-color: #FFFFFF !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          min-height: 480px !important; /* enlarged height to look grand and full-screen */
+          width: 100% !important;
+          position: relative !important;
+          overflow: hidden !important; 
+        }
+        @media(max-width: 768px) {
+          .hero-section {
+            padding: 90px 20px 40px !important;
+            min-height: 380px !important;
+          }
         }
         .hero-image-wrap {
           border-radius: 24px;
@@ -651,7 +667,7 @@ export default function ContactPage() {
 
           <GrainOverlay opacity={0.02} />
           
-          <div className="section-container pt-0 pb-0" style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+          <div className="section-container pt-0 pb-0" style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', maxWidth: '960px' }}>
             <div className="cc-reveal" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
               <div className="hero-eyebrow-pill">
                 <EditableText contentKey="contact.hero.eyebrow" value={contactContent.hero.eyebrow || "CONTACT OUR EXPERTS"} />
@@ -678,13 +694,19 @@ export default function ContactPage() {
                 contentKey="contact.hero.subheading"
                 value={contactContent.hero.subheading}
                 className="body-text cc-delay-2"
-                style={{ maxWidth: '520px', margin: '0 auto 40px', textAlign: 'center', lineHeight: '1.7' }}
+                style={{ maxWidth: '720px', margin: '0 auto 40px', textAlign: 'center', lineHeight: '1.8' }}
               />
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'center' }} className="cc-reveal">
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', justifyContent: 'center' }} className="cc-reveal">
                 <button className="btn-primary cc-delay-3" onClick={() => document.getElementById('form-section')?.scrollIntoView({ behavior: 'smooth' })}>
                   <EditableText contentKey="contact.hero.buttonText" value={contactContent.hero.buttonText} />
                 </button>
+                <div className="cc-delay-4" style={{ fontSize: '0.95rem', color: '#64748B', fontWeight: 500, fontFamily: "'Inter', sans-serif" }}>
+                  Or email us directly at{' '}
+                  <a href="mailto:ccproductstudio@gmail.com" style={{ color: '#005AE2', fontWeight: 700, textDecoration: 'none', borderBottom: '2px solid rgba(0, 90, 226, 0.2)', transition: 'border-color 0.2s', paddingBottom: '2px' }} onMouseEnter={e => e.currentTarget.style.borderColor = '#005AE2'} onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(0, 90, 226, 0.2)'}>
+                    ccproductstudio@gmail.com
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -871,43 +893,7 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* Contact Info Cards */}
-        <section className="pt-0 pb-0" style={{ backgroundColor: '#FFFFFF' }}>
-          <div className="section-container contact-info-grid">
-            <div className="info-card">
-              <div className="info-icon">
-                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2h-4a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-              </div>
-              <EditableText 
-                as="h3"
-                contentKey="contact.contactInfo.emailTitle"
-                value={contactContent.contactInfo.emailTitle}
-                className="info-title"
-              />
-              <EditableText 
-                as="p"
-                contentKey="contact.contactInfo.emailDesc"
-                value={contactContent.contactInfo.emailDesc}
-                className="info-desc"
-              />
-              <EditableText 
-                as="a"
-                contentKey="contact.contactInfo.email"
-                value="ccproductstudio@gmail.com"
-                className="info-link"
-                href="mailto:ccproductstudio@gmail.com"
-              />
-            </div>
-            <div className="info-card">
-              <div className="info-icon">
-                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2H5a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-              </div>
-              <EditableText as="h3" contentKey="contact.contactInfo.title" value={contactContent.contactInfo.title} className="info-title" />
-              <EditableText as="p" contentKey="contact.contactInfo.address" value={contactContent.contactInfo.address} className="info-desc" />
-              <EditableText as="a" contentKey="contact.contactInfo.phone" value={contactContent.contactInfo.phone} href={`tel:${contactContent.contactInfo.phone}`} className="info-link" />
-            </div>
-          </div>
-        </section>
+
 
         {/* Process Steps */}
         <section style={{ backgroundColor: '#EFF6FF', padding: '80px 0' }}>

@@ -364,8 +364,6 @@ export default function Footer() {
               </p>
               <div className="footer-bottom-links">
                 <Link href="/privacy">Privacy Policy</Link>
-                <span className="divider">|</span>
-                <Link href="/terms">Terms of Use</Link>
               </div>
             </div>
           </div>

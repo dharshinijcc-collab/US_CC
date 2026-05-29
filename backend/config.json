@@ -1024,44 +1024,38 @@
       ]
     },
     "timeline": {
-      "title": "The Build Timeline",
-      "subtitle": "A high-velocity, structured roadmap from zero to market entry. We engineer digital excellence through 6 rigorous execution phases, optimized for performance and scale.",
+      "title": "From First Conversation to First Customer",
+      "subtitle": "Every engagement follows five structured stages — built for clarity, speed, and quality.",
       "phases": [
         {
-          "phase": "PHASE 01",
-          "duration": "1-2 WKS",
-          "title": "Discovery Requirements",
-          "description": "Defining core goals and user needs for a scalable architecture."
+          "phase": "01",
+          "duration": "2 weeks",
+          "title": "Finalize the Idea",
+          "description": "We pressure-test your concept, define the core problem, identify the target user, and align on a product vision that is ambitious but buildable."
         },
         {
-          "phase": "PHASE 02",
-          "duration": "1-2 WKS",
-          "title": "Strategy & Setup",
-          "description": "Technical planning and resource allocation."
+          "phase": "02",
+          "duration": "1 week",
+          "title": "Operating Agreement",
+          "description": "We align on ownership, engagement terms, and mutual expectations before a single line of code is written."
         },
         {
-          "phase": "PHASE 03",
-          "duration": "3-4 WKS",
-          "title": "Design & Prototyping",
-          "description": "High-fidelity UI/UX design and interaction mapping."
+          "phase": "03",
+          "duration": "2 weeks",
+          "title": "Requirements & Business Case",
+          "description": "Working sessions, user story mapping, PRFAQs, and a formal business case — so every build decision has a strategic rationale."
         },
         {
-          "phase": "PHASE 04",
-          "duration": "8-12 WKS",
-          "title": "Agile Development",
-          "description": "Building core features with bi-weekly demos."
+          "phase": "04",
+          "duration": "12-18 weeks",
+          "title": "Build the Product",
+          "description": "Senior in-house engineers build your MLP — no outsourcing, no juniors. Bi-weekly demos, continuous feedback, relentless quality."
         },
         {
-          "phase": "PHASE 05",
-          "duration": "2 WKS",
-          "title": "QA & Launch",
-          "description": "Rigorous testing and production deployment."
-        },
-        {
-          "phase": "PHASE 06",
-          "duration": "Ongoing",
-          "title": "Growth & Scale",
-          "description": "Maintenance, optimization, and scaling."
+          "phase": "05",
+          "duration": "2 weeks",
+          "title": "Go to Market",
+          "description": "Launch strategy, positioning, pitch materials, and early user acquisition support. You go to market ready — not just live."
         }
       ]
     },

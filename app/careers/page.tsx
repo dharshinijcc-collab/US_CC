@@ -252,12 +252,12 @@ export default function CareersPage() {
           justify-content: center;
           background-color: #E6EFFF;
           color: #005AE2;
-          font-size: 0.75rem;
+          font-size: 0.8rem;
           font-weight: 800;
-          letter-spacing: 0.05em;
-          padding: 6px 14px;
+          letter-spacing: 0.1em;
+          padding: 8px 18px;
           border-radius: 100px;
-          margin-bottom: 24px;
+          margin-bottom: 32px;
           text-transform: uppercase;
         }
 
@@ -344,7 +344,7 @@ export default function CareersPage() {
       
       <div className="careers-page">
         {/* --- 1. HERO SECTION --- */}
-        <section style={{ padding: '120px 24px 60px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '580px', width: '100%', position: 'relative', overflow: 'hidden' }}>
+        <section style={{ padding: '120px 24px 60px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '480px', width: '100%', position: 'relative', overflow: 'hidden' }}>
           {/* Hero Background */}
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }}></div>
           {/* Hero Grid */}
@@ -354,12 +354,12 @@ export default function CareersPage() {
           <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 82, 255, 0.22), transparent 70%)', bottom: '0px', left: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
           <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 82, 255, 0.22), transparent 70%)', bottom: '0px', right: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
 
-          <div className="section-container pt-0 pb-0" style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', width: '100%', maxWidth: '800px' }}>
-            <span className="hero-eyebrow-style" style={{ marginBottom: '24px' }}>
+          <div className="section-container pt-0 pb-0" style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', width: '100%', maxWidth: '960px' }}>
+            <span className="hero-eyebrow-style" style={{ marginBottom: '32px' }}>
               <EditableText contentKey="careers.hero.eyebrow" value={careersContent.hero.eyebrow} />
             </span>
             <div style={{ width: '100%', textAlign: 'center' }}>
-              <h1 style={{ fontSize: '36px', fontWeight: 900, lineHeight: 1.25, letterSpacing: '-0.03em', marginBottom: '16px', textAlign: 'center', color: '#0A0F1C', maxWidth: '600px', margin: '0 auto', whiteSpace: 'pre-wrap' }} className="font-manrope">
+              <h1 style={{ fontSize: '52px', fontWeight: 900, lineHeight: 1.22, letterSpacing: '-0.04em', marginBottom: '28px', textAlign: 'center', color: '#0A0F1C', maxWidth: '960px', margin: '0 auto', whiteSpace: 'pre-wrap' }} className="font-manrope">
                 {careersContent.hero.title?.split(' ').map((word: string, i: number, arr: string[]) => {
                   const isBlue = ['Meaningful'].includes(word.replace(/[^a-zA-Z]/g, ''));
                   return (
@@ -373,7 +373,7 @@ export default function CareersPage() {
                 })}
               </h1>
             </div>
-            <p style={{ fontSize: 'clamp(0.925rem, 2vw, 0.975rem)', color: 'var(--text-muted)', lineHeight: 1.65, marginBottom: '24px', maxWidth: '650px', fontWeight: 500, marginInline: 'auto', textAlign: 'center' }}>
+            <p style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)', color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: '40px', maxWidth: '720px', fontWeight: 500, marginInline: 'auto', textAlign: 'center' }}>
               <EditableText contentKey="careers.hero.description" value={careersContent.hero.description} />
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center' }}>

@@ -113,21 +113,21 @@ export default function InvestorsPage() {
 
         /* Unified Hero Section Style */
         .hero-section {
-          padding: 120px 24px 60px !important;
+          padding: 120px 24px 60px !important; /* spacious padding to expand the section */
           text-align: center !important;
           background-color: #FFFFFF !important;
           display: flex !important;
           flex-direction: column !important;
           align-items: center !important;
           justify-content: center !important;
-          min-height: 580px !important;
+          min-height: 480px !important; /* enlarged height to look grand and full-screen */
           width: 100% !important;
           position: relative !important;
         }
         @media(max-width: 768px) {
           .hero-section {
-            padding: 100px 20px 40px !important;
-            min-height: 500px !important;
+            padding: 90px 20px 40px !important;
+            min-height: 380px !important;
           }
         }
         .hero-eyebrow-pill {
@@ -136,25 +136,25 @@ export default function InvestorsPage() {
           justify-content: center !important;
           background-color: #E6EFFF !important;
           color: #005AE2 !important;
-          font-size: 0.75rem !important;
+          font-size: 0.8rem !important;
           font-weight: 800 !important;
-          letter-spacing: 0.15em !important;
-          padding: 6px 14px !important;
+          letter-spacing: 0.1em !important;
+          padding: 8px 18px !important;
           border-radius: 100px !important;
-          margin-bottom: 16px !important;
+          margin-bottom: 32px !important;
           text-transform: uppercase !important;
           font-family: 'Manrope', sans-serif !important;
         }
         .hero-title {
           font-family: 'Manrope', sans-serif !important;
-          font-size: 36px !important;
+          font-size: 52px !important; /* beautifully sized to feel elegant and full without being too large */
           font-weight: 800 !important;
-          letter-spacing: -0.03em !important;
-          line-height: 1.15 !important;
+          letter-spacing: -0.04em !important;
+          line-height: 1.22 !important;
           color: #020617 !important;
-          margin: 0 auto 16px !important;
+          margin: 0 auto 28px !important;
           text-align: center !important;
-          max-width: 800px !important;
+          max-width: 960px !important;
         }
         .hero-title span {
           font-family: 'Manrope', sans-serif !important;
@@ -183,6 +183,7 @@ export default function InvestorsPage() {
         @media(max-width: 768px) {
           .hero-title {
             font-size: 32px !important;
+            line-height: 1.25 !important;
           }
         }
         .hero-description {
@@ -494,7 +495,7 @@ export default function InvestorsPage() {
           <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.2), transparent 70%)', bottom: '0px', left: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
           <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.2), transparent 70%)', bottom: '0px', right: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
 
-          <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div className="hero-eyebrow-pill">
               <EditableText contentKey="investors.hero.eyebrow" value={content?.investors?.hero?.eyebrow || 'INVESTOR RELATIONS'} />
             </div>
@@ -502,7 +503,7 @@ export default function InvestorsPage() {
               Invest in <span style={{ color: 'var(--primary-blue)' }}>Ventures</span> <br />
               <span style={{ color: 'var(--primary-blue)' }}>Built</span> to <span style={{ color: 'var(--primary-blue)' }}>Last</span>
             </h1>
-            <p className="hero-description" style={{ marginBottom: '32px' }}>
+            <p className="hero-description" style={{ marginBottom: '40px', maxWidth: '720px', lineHeight: 1.8, fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}>
               CrestCode partners with strategic investors who believe in the long game — backing the studio, the ventures, or both. We offer full transparency, shared conviction, and two clear paths to participate.
             </p>
             <div style={{ display: 'flex', justifyContent: 'center' }}>

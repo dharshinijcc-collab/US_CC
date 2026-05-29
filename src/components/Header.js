@@ -70,6 +70,13 @@ export default function Header() {
           background-clip: text;
           white-space: nowrap;
           text-decoration: none;
+          cursor: pointer;
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+          opacity: 0.85;
+          transform: translateY(-1px);
         }
 
         .navbar-links { 
