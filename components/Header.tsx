@@ -552,7 +552,7 @@ export default function Header(props: any) {
           <span className="menu-label">Contact</span>
           <div className="menu-contact-grid">
             <Link href="/contact" className="menu-contact-link" onClick={toggleMenu}>Email</Link>
-            <Link href="https://linkedin.com/company/crestcode" className="menu-contact-link" target="_blank">LinkedIn</Link>
+            <Link href="https://www.linkedin.com/search/results/all/?keywords=crestcode%20technologies&origin=RICH_QUERY_SUGGESTION&spellCorrectionEnabled=false&heroEntityKey=urn%3Ali%3Aorganization%3A108093169&position=0" className="menu-contact-link" target="_blank">LinkedIn</Link>
           </div>
         </div>
       </div>

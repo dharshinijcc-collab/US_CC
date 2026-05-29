@@ -136,7 +136,7 @@ exports.handler = async (event) => {
     try {
       await resend.emails.send({
         from: 'Crestcode Careers <noreply@crestcode.com>',
-        to: 'hello@crestcode.com',
+        to: 'ccproductstudio@gmail.com',
         subject: `New Talent Submission: ${firstName} - ${interest}`,
         html: `
           <h2>New Talent Pool Submission</h2>

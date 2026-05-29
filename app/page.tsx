@@ -2434,11 +2434,14 @@ export default function LandingPage() {
             visibility: visible !important;
             display: flex !important;
           }
-          .carousel-nav-btn.prev {
-            left: 10px;
+          .carousel-nav-btn {
+            display: none !important;
           }
-          .carousel-nav-btn.next {
-            right: 10px;
+        }
+        @media (max-width: 480px) {
+          .product-stats-cols {
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
           }
         }
   `;
@@ -2601,7 +2604,7 @@ export default function LandingPage() {
               className="section-subtitle text-center cc-reveal cc-delay-2"
             />
 
-            <div className="cards-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '32px', maxWidth: '900px', margin: '0 auto' }}>
+            <div className="cards-grid" style={{ gap: '32px', maxWidth: '900px', margin: '0 auto' }}>
               {(homeContent.audiences.items || []).slice(0, 2).map((item: any, idx: number) => {
                 const isFlipped = flippedCards.has(idx);
                 return (
