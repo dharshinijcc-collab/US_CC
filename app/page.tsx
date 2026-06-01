@@ -11,6 +11,7 @@ import { useContent } from '@/context/ContentContext';
 import localConfig from '@/backend/config.json';
 import GlobalCursorGlow from '@/components/effects/GlobalCursorGlow';
 import EditableText from '@/components/admin/EditableText';
+import EditableImage from '@/components/admin/EditableImage';
 import SpotlightCursor from '@/components/effects/SpotlightCursor';
 import BorderBeam from '@/components/effects/BorderBeam';
 import CountUp from '@/components/effects/CountUp';
