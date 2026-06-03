@@ -115,13 +115,34 @@ class WebsiteModel:
     @staticmethod
     def admin_login(email, password):
         """
-        Simple admin login check.
+        Admin login check against database with encrypted password verification.
         """
-        # Hardcoded for demonstration as requested
-        admin_email = "admin@ccus.com"
-        admin_pass = "admin123"
+        import bcrypt
+        from backend.db import postgres
         
-        if email == admin_email and password == admin_pass:
-            return {"status": "success", "payload": {"user": {"email": email}, "token": "mock-admin-token"}}
-        else:
-            return {"status": "error", "payload": "Invalid email or password"}
+        try:
+            conn = postgres.get_connection()
+            cur = conn.cursor()
+            try:
+                # Fetch admin user from database
+                cur.execute("SELECT id, email, password_hash FROM admin_users WHERE email = %s", (email,))
+                admin_user = cur.fetchone()
+                
+                if not admin_user:
+                    return {"status": "error", "payload": "Invalid email or password"}
+                
+                user_id, user_email, password_hash = admin_user
+                
+                # Verify password using bcrypt
+                password_bytes = password.encode('utf-8')
+                hash_bytes = password_hash.encode('utf-8')
+                
+                if bcrypt.checkpw(password_bytes, hash_bytes):
+                    return {"status": "success", "payload": {"user": {"email": user_email, "id": user_id}, "token": "mock-admin-token"}}
+                else:
+                    return {"status": "error", "payload": "Invalid email or password"}
+            finally:
+                cur.close()
+                postgres.release_connection(conn)
+        except Exception as e:
+            return {"status": "error", "payload": str(e)}

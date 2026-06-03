@@ -490,6 +490,7 @@
   },
   "home": {
     "hero": {
+      "ecosystemIcon": "/Ecosystem_Icon-removebg-preview.png",
       "eyebrow": "CO-FOUNDER ON DEMAND",
       "heading": "Where BOLD IDEAS become REAL products",
       "subheading": "Crestcode is a venture builder that partners with founders to turn ambitious ideas into high-growth digital businesses.",
@@ -665,50 +666,104 @@
       "title": "Partner Products",
       "subtitle": "Innovative solutions delivering measurable results across industries",
       "badge": "4+ Successful Projects",
+      "labels": {
+        "keyFeatures": "Key Features",
+        "techStack": "Technology Stack",
+        "industry": "Industry",
+        "duration": "Duration",
+        "teamSize": "Team Size",
+        "visitWebsite": "Visit Live Product"
+      },
       "items": [
         {
           "id": "01",
           "status": "Live",
-          "category": "Web Development",
-          "title": "Lifestyle & Legacy Management Website",
+          "category": "Family Connectivity",
+          "title": "One Connected Platform to Manage Your Life",
           "company": "Dockly",
-          "description": "A comprehensive lifestyle and legacy management website that helps individuals securely organize and preserve their digital footprint and inheritance.",
+          "description": "A simple and elegant family connectivity application designed to help family members coordinate schedules, manage tasks, and track shared finances in one secure space.",
           "features": [
-            "Secure Legacy Preserves",
-            "Digital Footprint Care"
+            "Planner & Calendars",
+            "Shared Finances",
+            "Secure Vault"
           ],
           "tech": [
-            "Frontend",
-            "Backend"
+            "Next.js",
+            "Node.js",
+            "Tailwind CSS"
           ],
-          "industry": "Lifestyle / Legacy",
+          "industry": "Family Tech / SaaS",
           "duration": "4 months",
           "teamSize": "3 members",
           "image": "/images/dockly_showcase.png",
-          "caseStudyLink": "/contact"
+          "websiteLink": "https://app.dockly.me/"
         },
         {
           "id": "02",
           "status": "Live",
-          "category": "Web Development",
-          "title": "E-Commerce Platform",
-          "company": "TechMart Solutions",
-          "description": "A comprehensive e-commerce platform for management.",
+          "category": "Global Education",
+          "title": "Study Abroad & Admissions Consulting",
+          "company": "CastleGEC",
+          "description": "A comprehensive education portal connecting students in Dubai with top-tier universities across the US, UK, and EU, streamlining applications, visa processing, and portfolio creation.",
           "features": [
-            "Payment Gateway",
-            "Inventory System"
+            "University Admissions",
+            "Visa Guidance",
+            "Admissions Insights"
           ],
           "tech": [
+            "Next.js",
             "React",
-            "Node.js",
-            "MongoDB",
-            "Stripe"
+            "Tailwind CSS"
           ],
-          "industry": "Retail",
+          "industry": "EdTech / Consulting",
+          "duration": "3 months",
+          "teamSize": "2 members",
+          "image": "/images/castlegc_showcase.png",
+          "websiteLink": "https://castlegec.com/"
+        },
+        {
+          "id": "03",
+          "status": "In Progress",
+          "category": "Trading Analytics",
+          "title": "Trading Analytics & Prediction Dashboard",
+          "company": "OpenCap",
+          "description": "An options trading analytics platform designed for real-time portfolio performance tracking, open positions management, and AI-driven trade prediction models.",
+          "features": [
+            "AI Trade Prediction",
+            "Portfolio Analytics",
+            "Positions Tracker"
+          ],
+          "tech": [
+            "React.js",
+            "Node.js",
+            "PostgreSQL"
+          ],
+          "industry": "Fintech / Trading",
+          "duration": "5 months",
+          "teamSize": "4 members",
+          "image": "/images/opencap_showcase.png"
+        },
+        {
+          "id": "04",
+          "status": "In Progress",
+          "category": "Real Estate Tech",
+          "title": "Virtual Homeowners Association Portal",
+          "company": "VHOA",
+          "description": "A modern resident and property management platform facilitating seamless communication and operations between apartment owners, tenants, and HOA board members.",
+          "features": [
+            "Resident Dashboard",
+            "Service Requests",
+            "Announcements"
+          ],
+          "tech": [
+            "Next.js",
+            "Node.js",
+            "PostgreSQL"
+          ],
+          "industry": "PropTech",
           "duration": "6 months",
-          "teamSize": "5 members",
-          "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80",
-          "caseStudyLink": "/contact"
+          "teamSize": "3 members",
+          "image": "/images/vhoa_showcase.png"
         }
       ]
     },
@@ -884,9 +939,9 @@
   "studio": {
     "hero": {
       "eyebrow": "THE STUDIO ADVANTAGE",
-      "title": "What Is A Venture Studio?",
+      "title": "Build Ventures, Not Just Products",
       "subheading": "A Venture Studio is a hands-on venture-building partner that helps transform ideas into scalable digital businesses through strategy, technology, and execution. At Crestcode, we work alongside founders as an extended product and technology team to build, launch, and scale market-ready ventures faster. For investors and partners, we create execution-driven digital products designed for long-term growth, innovation, and scalability.",
-      "buttonText": "See How We Collaborate →",
+      "buttonText": "Schedule A Call",
       "image": "/images/studio/hero-right.jpeg",
       "badgeTag": "LIVE VENTURES",
       "badgeValue": "$450M+",
@@ -1078,6 +1133,147 @@
           "question": "Do you take equity in exchange for your services?",
           "answer": "Our engagement models vary. We offer equity-based partnerships for full studio builds, as well as retainer and co-development arrangements for teams with capital. We'll find a structure that aligns incentives for both sides."
         }
+      ]
+    },
+    "values": {
+      "eyebrow": "Our Ethos & Beliefs",
+      "title": "Core Values That Guide Everything We Build",
+      "subtitle": "We aren't here to build commodities. We partner with founders to construct enduring, high-performance tech enterprises.",
+      "items": [
+        {
+          "num": "01",
+          "title": "Ownership",
+          "subheading": "FOUNDER MINDSET",
+          "desc": "We treat every product as if it's our own."
+        },
+        {
+          "num": "02",
+          "title": "Honesty",
+          "subheading": "FEARLESS TRANSPARENCY",
+          "desc": "We challenge clients when we need to, even when it's uncomfortable."
+        },
+        {
+          "num": "03",
+          "title": "End-customer obsession",
+          "subheading": "USER-FIRST PARADIGM",
+          "desc": "Success is measured by the people who use the product, not just the people who commissioned it."
+        },
+        {
+          "num": "04",
+          "title": "Craft",
+          "subheading": "MLP QUALITY STANDARD",
+          "desc": "We build to MLP standard because good enough never is."
+        },
+        {
+          "num": "05",
+          "title": "Partnership",
+          "subheading": "LONG-TERM ENGAGEMENT",
+          "desc": "We are in it for the long run, not just the launch."
+        },
+        {
+          "num": "06",
+          "title": "Innovation",
+          "subheading": "AI-DRIVEN PRODUCT THINKING",
+          "desc": "We bring the latest thinking in product, engineering, and AI to every engagement."
+        }
+      ]
+    },
+    "selectiveness": {
+      "eyebrow": "Selection Process",
+      "title": "We are selective\nfor a reason.",
+      "subtitle": "We partner with a small number of founders and business owners each year. Every engagement gets our full attention — which means we choose carefully.",
+      "thesisLabel": "LET'S START FROM HERE",
+      "thesisTitle": "INVESTMENT THESIS: THE PROCESS OF CREATING A STARTUP WITHIN VENTURE BUILDER CRESTCODE",
+      "thesisDesc": "Crestcode Startup Studio's startups aim to shift the paradigm of analog services, customer experience, and process management. Micro and small businesses that are still under-digitalized are the primary targets of this transformation. The solutions we will build together will put customers at the center, enabling them to access the services of artisans and professionals with a simple click, enabling them to continue to succeed in a rapidly evolving digital landscape. We create plug-and-play platforms that streamline processes, improve customer experience, and create cross-functional tools for digital transformation. The goal is to reduce inefficiencies and enable professionals to attract, manage, and retain clients, allowing them to focus exclusively on their specific profession."
+    },
+    "phases": {
+      "title": "Five Phases. One Mission.",
+      "subtitle": "Our structured blueprint for transforming bold concepts into venture-scale realities.",
+      "tabs": [
+        { "title": "SELECT" },
+        { "title": "VALIDATE" },
+        { "title": "BUILD" },
+        { "title": "LAUNCH" },
+        { "title": "SCALE" }
+      ],
+      "items": [
+        {
+          "label": "Phase 01 — Selection Framework",
+          "title": "Selection Process",
+          "description": "We run every venture idea through a rigorous four-lens framework before committing a single resource. Ideas are plentiful — the right ones are rare."
+        },
+        {
+          "label": "Phase 02 — Validation Framework",
+          "title": "Validation Process",
+          "description": "No assumptions, no guesses. Every thesis is pressure-tested with real customers before a line of production code is written."
+        },
+        {
+          "label": "Phase 03 — Build Framework",
+          "title": "12-Week Sprint Build",
+          "description": "Small autonomous pods. Radical focus. Ship, learn, iterate — nothing else matters in these 84 days."
+        },
+        {
+          "label": "Phase 04 — Launch Framework",
+          "title": "Go-To-Market Activation",
+          "description": "We launch with precision, not noise. Founder-led, community-first, metrics-gated. Growth is earned before it is amplified."
+        },
+        {
+          "label": "Phase 05 — Scale Framework",
+          "title": "Scaling for Growth",
+          "description": "We scale what is proven. Hiring behind revenue, diversifying channels, hardening infrastructure — in that exact order."
+        }
+      ]
+    },
+    "creation_steps": {
+      "eyebrow": "Selection Steps",
+      "title": "Venture Creation Steps",
+      "subtitle": "A structured roadmap from your initial product proposal to assembly, build, and market launch.",
+      "items": [
+        {
+          "step": "01",
+          "title": "Submit your idea",
+          "desc": "Don't submit the how. Just the idea and why (1 page at max)."
+        },
+        {
+          "step": "02",
+          "title": "Get invited for a meeting with partners",
+          "bullets": [
+            "You will learn what crestcode does",
+            "You will learn the support we will provide",
+            "You will learn the overall process involved"
+          ]
+        },
+        {
+          "step": "03",
+          "title": "Submit the full proposal",
+          "desc": "Detailing the business model, strategic alignment, and technical specifications for the product."
+        },
+        {
+          "step": "04",
+          "title": "Get a team assigned & the build product",
+          "desc": "Elite engineers and product leads are allocated to build the product to institutional quality standards."
+        },
+        {
+          "step": "05",
+          "title": "Prepare go to market launch",
+          "desc": "Launching with precision, refining distribution channels, and optimizing the acquisition funnel for impact."
+        }
+      ]
+    },
+    "differentiation": {
+      "eyebrow": "Why CrestCode",
+      "title": "Not a vendor.\nNot a studio that vanishes.\nA co-builder.",
+      "subtitle": "Here is how we compare to the alternatives — and why it matters for your venture.",
+      "headers": ["Capability", "CrestCode", "Dev Agencies", "Other Studios", "Freelancers"],
+      "rows": [
+        { "feature": "Zero to one expertise", "c1": "✓", "c2": "Sometimes", "c3": "Sometimes", "c4": "✗" },
+        { "feature": "End-to-end product ownership", "c1": "✓", "c2": "✗", "c3": "Sometimes", "c4": "✗" },
+        { "feature": "Strategic product & business guidance", "c1": "✓", "c2": "✗", "c3": "Sometimes", "c4": "✗" },
+        { "feature": "MLP standard — not just MVP", "c1": "✓", "c2": "✗", "c3": "Rarely", "c4": "✗" },
+        { "feature": "In-house senior team, no outsourcing", "c1": "✓", "c2": "Varies", "c3": "Varies", "c4": "✗" },
+        { "feature": "Go-to-market & pitch support", "c1": "✓", "c2": "✗", "c3": "Sometimes", "c4": "✗" },
+        { "feature": "Co-founder network access", "c1": "✓", "c2": "✗", "c3": "✗", "c4": "✗" },
+        { "feature": "Lifelong partnership model", "c1": "✓", "c2": "✗", "c3": "Rarely", "c4": "✗" }
       ]
     },
     "cta": {

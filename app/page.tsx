@@ -23,6 +23,7 @@ import { User, Building, Lightbulb, Compass, Zap, Users, TrendingUp, Cpu, Globe,
 export default function LandingPage() {
   const { content, loading, error } = useContent();
   const { isAdminMode } = useAdmin();
+  const homeContent = content?.home || (localConfig as any).home;
 
   const [idea, setIdea] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +39,7 @@ export default function LandingPage() {
 
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
 
-  const partneredProducts = [
+  const partneredProductsFallback = [
     {
       id: "01",
       status: "Live",
@@ -130,6 +131,19 @@ export default function LandingPage() {
       image: "/images/vhoa_showcase.png"
     }
   ];
+
+  const partneredProducts = Array.from({ 
+    length: Math.max(partneredProductsFallback.length, homeContent.partnered_products?.items?.length || 0) 
+  }).map((_, idx) => {
+    const fromContent = homeContent.partnered_products?.items?.[idx] || {};
+    const fromFallback = partneredProductsFallback[idx] || {};
+    return {
+      ...fromFallback,
+      ...fromContent,
+      features: fromContent.features || fromFallback.features || [],
+      tech: fromContent.tech || fromFallback.tech || [],
+    };
+  });
 
   const backFeaturesFallback = [
     // Card 0: Visionary Founders
@@ -296,7 +310,7 @@ export default function LandingPage() {
     </div>
   );
 
-  const homeContent = content?.home || (localConfig as any).home;
+
 
   if (!homeContent) return (
     <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">
@@ -2476,20 +2490,34 @@ export default function LandingPage() {
               style={{ color: '#0A0F1C' }}
             >
               {(() => {
-                const words = (homeContent.hero.heading || '').split(' ');
-                const line1 = words.slice(0, 4);
-                const line2 = words.slice(4);
-
+                const headingText = homeContent.hero.heading || '';
                 const renderWord = (word: string, index: number) => {
                   const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
                   const cleanWordUpper = cleanWord.toUpperCase();
-                  const isBlue = ['BOLD', 'IDEAS', 'REAL', 'IDEA', 'CUSTOMER', 'CUSTOMERS'].includes(cleanWordUpper);
+                  const isBlue = ['BOLD', 'IDEAS', 'REAL', 'IDEA', 'CUSTOMER', 'CUSTOMERS', 'PRODUCTS', 'PRODUCT', 'VENTURES', 'VENTURE'].includes(cleanWordUpper);
                   return (
                     <span key={index} style={isBlue ? { color: '#005AE2' } : {}}>
                       {word}{' '}
                     </span>
                   );
                 };
+
+                if (headingText.includes('\n')) {
+                  const lines = headingText.split('\n');
+                  return lines.map((line, lineIdx) => {
+                    const words = line.split(' ');
+                    return (
+                      <React.Fragment key={lineIdx}>
+                        {words.map((w, idx) => renderWord(w, idx))}
+                        {lineIdx < lines.length - 1 && <br />}
+                      </React.Fragment>
+                    );
+                  });
+                }
+
+                const words = headingText.split(' ');
+                const line1 = words.slice(0, 4);
+                const line2 = words.slice(4);
 
                 return (
                   <>
@@ -2794,8 +2822,9 @@ export default function LandingPage() {
 
               {/* CENTER CIRCLE WITH ECOSYSTEM ICON */}
               <div className="hub-center-circle" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
-                <img 
-                  src="/Ecosystem_Icon-removebg-preview.png" 
+                <EditableImage 
+                  contentKey="home.hero.ecosystemIcon"
+                  src={homeContent.hero.ecosystemIcon || "/Ecosystem_Icon-removebg-preview.png"} 
                   alt="Ecosystem Icon" 
                   style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                 />
@@ -2939,13 +2968,26 @@ export default function LandingPage() {
         <section className="partnered-products-section">
           <div className="section-container" style={{ position: 'relative', zIndex: 2 }}>
             <div className="text-center" style={{ marginBottom: '40px' }}>
-              <h3 className="section-eyebrow text-center cc-reveal" style={{ marginBottom: '12px' }}>STUDIO BUILDS</h3>
-              <h2 className="section-title text-center" style={{ marginBottom: '12px' }}>
-                Partner Products
-              </h2>
-              <p className="section-subtitle text-center" style={{ maxWidth: '600px', margin: '0 auto 8px', fontSize: '1.05rem', color: '#64748B' }}>
-                Innovative solutions delivering measurable results across industries
-              </p>
+              <EditableText
+                contentKey="home.partnered_products.badge"
+                value={homeContent.partnered_products?.badge || "STUDIO BUILDS"}
+                className="section-eyebrow text-center cc-reveal"
+                style={{ marginBottom: '12px' }}
+              />
+              <EditableText
+                as="h2"
+                contentKey="home.partnered_products.title"
+                value={homeContent.partnered_products?.title || "Partner Products"}
+                className="section-title text-center"
+                style={{ marginBottom: '12px' }}
+              />
+              <EditableText
+                as="p"
+                contentKey="home.partnered_products.subtitle"
+                value={homeContent.partnered_products?.subtitle || "Innovative solutions delivering measurable results across industries"}
+                className="section-subtitle text-center"
+                style={{ maxWidth: '600px', margin: '0 auto 8px', fontSize: '1.05rem', color: '#64748B' }}
+              />
             </div>
 
             <div className="product-carousel-card" style={{ position: 'relative' }}>
@@ -2963,7 +3005,8 @@ export default function LandingPage() {
 
               {/* Product Image / Left Content */}
               <div className="product-card-left">
-                <img 
+                <EditableImage 
+                  contentKey={`home.partnered_products.items.${currentProductIndex}.image`}
                   src={partneredProducts[currentProductIndex].image} 
                   alt={partneredProducts[currentProductIndex].company} 
                   className="product-card-image"
@@ -2975,10 +3018,10 @@ export default function LandingPage() {
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                     <span style={{ fontSize: '0.8125rem', fontWeight: 800, color: '#005AE2', background: '#F0F5FF', padding: '6px 12px', borderRadius: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                      Project {partneredProducts[currentProductIndex].id}
+                      Project <EditableText contentKey={`home.partnered_products.items.${currentProductIndex}.id`} value={partneredProducts[currentProductIndex].id} />
                     </span>
                     <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#15803D', background: '#DCFCE7', padding: '4px 10px', borderRadius: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                      {partneredProducts[currentProductIndex].status}
+                      <EditableText contentKey={`home.partnered_products.items.${currentProductIndex}.status`} value={partneredProducts[currentProductIndex].status} />
                     </span>
                   </div>
 
@@ -2986,37 +3029,65 @@ export default function LandingPage() {
                   {partneredProducts[currentProductIndex].category && (
                     <div className="product-category-wrap">
                       <Globe size={14} />
-                      <span>{partneredProducts[currentProductIndex].category}</span>
+                      <EditableText contentKey={`home.partnered_products.items.${currentProductIndex}.category`} value={partneredProducts[currentProductIndex].category} />
                     </div>
                   )}
 
                   {/* Big title: Company / Product Name */}
-                  <h3 className="product-title-h3" style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0A0F1C', marginBottom: '4px', lineHeight: 1.1 }}>
-                    {partneredProducts[currentProductIndex].company}
-                  </h3>
+                  <EditableText
+                    as="h3"
+                    contentKey={`home.partnered_products.items.${currentProductIndex}.company`}
+                    value={partneredProducts[currentProductIndex].company}
+                    className="product-title-h3"
+                    style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0A0F1C', marginBottom: '4px', lineHeight: 1.1 }}
+                  />
                   
                   {/* Subtitle below Dockly: Lifestyle & Legacy Management */}
-                  <div className="product-subtitle-tagline" style={{ color: '#005AE2', fontWeight: 700, fontSize: '1.1rem', marginBottom: '12px' }}>
-                    {partneredProducts[currentProductIndex].title}
-                  </div>
+                  <EditableText
+                    contentKey={`home.partnered_products.items.${currentProductIndex}.title`}
+                    value={partneredProducts[currentProductIndex].title}
+                    className="product-subtitle-tagline"
+                    style={{ color: '#005AE2', fontWeight: 700, fontSize: '1.1rem', marginBottom: '12px', display: 'block' }}
+                  />
 
-                  <p className="product-description-p">{partneredProducts[currentProductIndex].description}</p>
+                  <EditableText
+                    as="p"
+                    contentKey={`home.partnered_products.items.${currentProductIndex}.description`}
+                    value={partneredProducts[currentProductIndex].description}
+                    className="product-description-p"
+                  />
                   
-                  <h4 className="product-subtitle-h4">Key Features</h4>
+                  <h4 className="product-subtitle-h4">
+                    <EditableText
+                      contentKey="home.partnered_products.labels.keyFeatures"
+                      value={homeContent.partnered_products?.labels?.keyFeatures || "Key Features"}
+                    />
+                  </h4>
                   <div className="features-list-inline">
                     {partneredProducts[currentProductIndex].features.map((feature, fIdx) => (
                       <div key={fIdx} className="feature-item-bullet">
                         <span className="feature-bullet-dot"></span>
-                        <span>{feature}</span>
+                        <EditableText
+                          contentKey={`home.partnered_products.items.${currentProductIndex}.features.${fIdx}`}
+                          value={feature}
+                        />
                       </div>
                     ))}
                   </div>
 
-                  <h4 className="product-subtitle-h4">Technology Stack</h4>
+                  <h4 className="product-subtitle-h4">
+                    <EditableText
+                      contentKey="home.partnered_products.labels.techStack"
+                      value={homeContent.partnered_products?.labels?.techStack || "Technology Stack"}
+                    />
+                  </h4>
                   <div className="tech-badges-wrap">
                     {partneredProducts[currentProductIndex].tech.map((techItem, tIdx) => (
                       <div key={tIdx} className="tech-badge-item">
-                        {techItem}
+                        <EditableText
+                          contentKey={`home.partnered_products.items.${currentProductIndex}.tech.${tIdx}`}
+                          value={techItem}
+                        />
                       </div>
                     ))}
                   </div>
@@ -3027,16 +3098,43 @@ export default function LandingPage() {
                   
                   <div className="product-stats-cols" style={{ marginBottom: partneredProducts[currentProductIndex].status === 'Live' ? '0px' : '8px' }}>
                     <div className="product-stat-col-item">
-                      <span className="product-stat-col-label">Industry</span>
-                      <span className="product-stat-col-val">{partneredProducts[currentProductIndex].industry}</span>
+                      <span className="product-stat-col-label">
+                        <EditableText
+                          contentKey="home.partnered_products.labels.industry"
+                          value={homeContent.partnered_products?.labels?.industry || "Industry"}
+                        />
+                      </span>
+                      <EditableText
+                        contentKey={`home.partnered_products.items.${currentProductIndex}.industry`}
+                        value={partneredProducts[currentProductIndex].industry}
+                        className="product-stat-col-val"
+                      />
                     </div>
                     <div className="product-stat-col-item">
-                      <span className="product-stat-col-label">Duration</span>
-                      <span className="product-stat-col-val">{partneredProducts[currentProductIndex].duration}</span>
+                      <span className="product-stat-col-label">
+                        <EditableText
+                          contentKey="home.partnered_products.labels.duration"
+                          value={homeContent.partnered_products?.labels?.duration || "Duration"}
+                        />
+                      </span>
+                      <EditableText
+                        contentKey={`home.partnered_products.items.${currentProductIndex}.duration`}
+                        value={partneredProducts[currentProductIndex].duration}
+                        className="product-stat-col-val"
+                      />
                     </div>
                     <div className="product-stat-col-item">
-                      <span className="product-stat-col-label">Team Size</span>
-                      <span className="product-stat-col-val">{partneredProducts[currentProductIndex].teamSize}</span>
+                      <span className="product-stat-col-label">
+                        <EditableText
+                          contentKey="home.partnered_products.labels.teamSize"
+                          value={homeContent.partnered_products?.labels?.teamSize || "Team Size"}
+                        />
+                      </span>
+                      <EditableText
+                        contentKey={`home.partnered_products.items.${currentProductIndex}.teamSize`}
+                        value={partneredProducts[currentProductIndex].teamSize}
+                        className="product-stat-col-val"
+                      />
                     </div>
                   </div>
 
@@ -3052,7 +3150,12 @@ export default function LandingPage() {
                         <line x1="12" y1="8" x2="12" y2="16"></line>
                         <line x1="8" y1="12" x2="16" y2="12"></line>
                       </svg>
-                      <span>Visit Live Product</span>
+                      <span>
+                        <EditableText
+                          contentKey="home.partnered_products.labels.visitWebsite"
+                          value={homeContent.partnered_products?.labels?.visitWebsite || "Visit Live Product"}
+                        />
+                      </span>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 'auto' }}>
                         <line x1="7" y1="17" x2="17" y2="7"></line>
                         <polyline points="7 7 17 7 17 17"></polyline>

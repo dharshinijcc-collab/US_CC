@@ -8,12 +8,18 @@ interface ContentContextType {
   loading: boolean;
   error: string | null;
   refreshContent: () => Promise<void>;
+  isAdminMode: boolean;
+  setIsAdminMode: (val: boolean) => void;
+  updateContent: (path: string, value: any) => Promise<void>;
+  saveChanges: () => Promise<void>;
 }
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
 
 export const ContentProvider = ({ children }: { children: ReactNode }) => {
-  const [content, setContent] = useState<any>(null);
+  const [savedContent, setSavedContent] = useState<any>(null);
+  const [draftContent, setDraftContent] = useState<any>(null);
+  const [isAdminMode, setIsAdminMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,7 +34,8 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
           console.warn('Content fetched successfully but payload is empty');
           setError('Content payload is empty. Please seed the database.');
         } else {
-          setContent(response.data.payload);
+          setSavedContent(response.data.payload);
+          setDraftContent(JSON.parse(JSON.stringify(response.data.payload)));
           setError(null);
         }
       } else {
@@ -36,7 +43,6 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (err: any) {
       console.error('Error fetching content:', err);
-      // Provide more helpful error message
       if (err.code === 'ECONNABORTED' || err.message.includes('timeout')) {
         setError('API request timed out. The server may be slow or unavailable. Please try again.');
       } else if (err.code === 'ERR_NETWORK') {
@@ -58,8 +64,59 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
     return () => clearTimeout(timer);
   }, []);
 
+  const updateContent = async (path: string, value: any) => {
+    setDraftContent((prevDraft: any) => {
+      if (!prevDraft) return prevDraft;
+      const newDraft = JSON.parse(JSON.stringify(prevDraft));
+      const keys = path.split('.');
+      let current = newDraft;
+      for (let i = 0; i < keys.length - 1; i++) {
+        if (!current[keys[i]]) {
+          current[keys[i]] = {};
+        }
+        current = current[keys[i]];
+      }
+      current[keys[keys.length - 1]] = value;
+      return newDraft;
+    });
+  };
+
+  const saveChanges = async () => {
+    if (!draftContent) return;
+    try {
+      const response = await api.post('content/update', { payload: draftContent });
+      if (response.data.status === 'success') {
+        setSavedContent(JSON.parse(JSON.stringify(draftContent)));
+        alert('Changes saved successfully!');
+      } else {
+        alert('Error saving changes: ' + response.data.payload);
+      }
+    } catch (err: any) {
+      alert('Error saving changes: ' + err.message);
+    }
+  };
+
+  const handleSetIsAdminMode = (val: boolean) => {
+    setIsAdminMode(val);
+    if (!val) {
+      // Discard changes when exiting admin mode
+      setDraftContent(JSON.parse(JSON.stringify(savedContent)));
+    }
+  };
+
+  const activeContent = isAdminMode ? draftContent : savedContent;
+
   return (
-    <ContentContext.Provider value={{ content, loading, error, refreshContent: fetchContent }}>
+    <ContentContext.Provider value={{ 
+      content: activeContent, 
+      loading, 
+      error, 
+      refreshContent: fetchContent,
+      isAdminMode,
+      setIsAdminMode: handleSetIsAdminMode,
+      updateContent,
+      saveChanges
+    }}>
       {children}
     </ContentContext.Provider>
   );

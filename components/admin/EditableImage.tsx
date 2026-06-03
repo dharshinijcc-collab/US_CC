@@ -12,7 +12,7 @@ interface EditableImageProps {
   style?: React.CSSProperties;
   width?: string | number;
   height?: string | number;
-  objectFit?: string;
+  objectFit?: React.CSSProperties['objectFit'];
 }
 
 export default function EditableImage({ 

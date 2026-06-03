@@ -191,6 +191,20 @@ function SolvingSection({ stackCards, studioContent, EditableText }: any) {
 export default function StudioPage() {
   const { content, loading, error } = useContent();
   const [activeStackIndex, setActiveStackIndex] = useState(0);
+  
+  const renderCellText = (text: string) => {
+    if (!text) return null;
+    const clean = text.trim();
+    if (clean === '✓' || clean === 'check') {
+      return <span className="check">✓</span>;
+    } else if (clean === '✗' || clean === 'cross') {
+      return <span className="cross">✗</span>;
+    } else if (clean.toLowerCase() === 'sometimes' || clean.toLowerCase() === 'rarely' || clean.toLowerCase() === 'varies') {
+      return <span className="partial">{text}</span>;
+    }
+    return <span>{text}</span>;
+  };
+
   const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(0);
   const [activeTimelineIndex, setActiveTimelineIndex] = useState<number | null>(null);
   const [heroCarouselIndex, setHeroCarouselIndex] = useState(0);
@@ -1535,9 +1549,35 @@ export default function StudioPage() {
                   className="hero-eyebrow-pill"
                 />
                 <div style={{ width: '100%', textAlign: 'center' }}>
-                  <h1 className="hero-title" style={{ textAlign: 'center', margin: '0 auto', display: 'inline-block' }}>
-                    Build <span style={{ color: '#005AE2' }}>Ventures</span>,<br />Not Just <span style={{ color: '#005AE2' }}>Products</span>
-                  </h1>
+                  <EditableText
+                    as="h1"
+                    contentKey="studio.hero.title"
+                    value={studioContent.hero.title || "Build Ventures, Not Just Products"}
+                    className="hero-title"
+                    style={{ textAlign: 'center', margin: '0 auto', display: 'inline-block' }}
+                  >
+                    {(() => {
+                      const titleText = studioContent.hero.title || "Build Ventures, Not Just Products";
+                      const lines = titleText.split('\n');
+                      return lines.map((line, lineIdx) => {
+                        const words = line.split(' ');
+                        return (
+                          <React.Fragment key={lineIdx}>
+                            {words.map((word: string, index: number) => {
+                              const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").toUpperCase();
+                              const isBlue = ['VENTURES', 'PRODUCTS', 'VENTURE', 'PRODUCT'].includes(cleanWord);
+                              return (
+                                <span key={index} style={isBlue ? { color: '#005AE2' } : {}}>
+                                  {word}{index < words.length - 1 ? ' ' : ''}
+                                </span>
+                              );
+                            })}
+                            {lineIdx < lines.length - 1 && <br />}
+                          </React.Fragment>
+                        );
+                      });
+                    })()}
+                  </EditableText>
                 </div>
                 <EditableText
                   as="p"
@@ -1549,7 +1589,10 @@ export default function StudioPage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'center' }} className="cc-reveal">
                   <Link href="/contact">
                     <button className="btn-primary">
-                      Schedule A Call
+                      <EditableText
+                        contentKey="studio.hero.buttonText"
+                        value={studioContent.hero.buttonText || "Schedule A Call"}
+                      />
                     </button>
                   </Link>
                 </div>
@@ -1613,166 +1656,198 @@ export default function StudioPage() {
 
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <div className="hero-eyebrow-pill">Our Ethos & Beliefs</div>
-            <h2 className="section-title" style={{ margin: '0 auto 16px', color: '#0F172A', maxWidth: '800px' }}>
-              Core Values That Guide Everything We Build
-            </h2>
-            <p className="section-subtitle" style={{ maxWidth: '600px', margin: '0 auto' }}>
-              We aren't here to build commodities. We partner with founders to construct enduring, high-performance tech enterprises.
-            </p>
+            <EditableText
+              contentKey="studio.values.eyebrow"
+              value={studioContent.values?.eyebrow || "Our Ethos & Beliefs"}
+              className="hero-eyebrow-pill"
+            />
+            <EditableText
+              as="h2"
+              contentKey="studio.values.title"
+              value={studioContent.values?.title || "Core Values That Guide Everything We Build"}
+              className="section-title"
+              style={{ margin: '0 auto 16px', color: '#0F172A', maxWidth: '800px' }}
+            />
+            <EditableText
+              as="p"
+              contentKey="studio.values.subtitle"
+              value={studioContent.values?.subtitle || "We aren't here to build commodities. We partner with founders to construct enduring, high-performance tech enterprises."}
+              className="section-subtitle"
+              style={{ maxWidth: '600px', margin: '0 auto' }}
+            />
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '30px' }}>
-            {[
-              {
-                num: '01',
-                title: 'Ownership',
-                subheading: 'FOUNDER MINDSET',
-                desc: "We treat every product as if it's our own.",
-                icon: (
-                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                ),
-                color: '#3B82F6', // Blue
-                shadow: 'rgba(59, 130, 246, 0.08)'
-              },
-              {
-                num: '02',
-                title: 'Honesty',
-                subheading: 'FEARLESS TRANSPARENCY',
-                desc: "We challenge clients when we need to, even when it's uncomfortable.",
-                icon: (
-                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
-                ),
-                color: '#EC4899', // Pink
-                shadow: 'rgba(236, 72, 153, 0.08)'
-              },
-              {
-                num: '03',
-                title: 'End-customer obsession',
-                subheading: 'USER-FIRST PARADIGM',
-                desc: "Success is measured by the people who use the product, not just the people who commissioned it.",
-                icon: (
-                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                ),
-                color: '#10B981', // Green
-                shadow: 'rgba(16, 185, 129, 0.08)'
-              },
-              {
-                num: '04',
-                title: 'Craft',
-                subheading: 'MLP QUALITY STANDARD',
-                desc: "We build to MLP standard because good enough never is.",
-                icon: (
-                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.907c.961 0 1.36 1.242.588 1.81l-3.97 2.883a1 1 0 00-.364 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.971-2.883a1 1 0 00-1.17 0l-3.97 2.883c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.364-1.118l-3.97-2.883c-.77-.568-.371-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                  </svg>
-                ),
-                color: '#F59E0B', // Amber
-                shadow: 'rgba(245, 158, 11, 0.08)'
-              },
-              {
-                num: '05',
-                title: 'Partnership',
-                subheading: 'LONG-TERM ENGAGEMENT',
-                desc: "We are in it for the long run, not just the launch.",
-                icon: (
-                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                ),
-                color: '#005AE2', // Blue
-                shadow: 'rgba(0, 90, 226, 0.08)'
-              },
-              {
-                num: '06',
-                title: 'Innovation',
-                subheading: 'AI-DRIVEN PRODUCT THINKING',
-                desc: "We bring the latest thinking in product, engineering, and AI to every engagement.",
-                icon: (
-                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                ),
-                color: '#06B6D4', // Cyan
-                shadow: 'rgba(6, 182, 212, 0.08)'
-              }
-            ].map((val, index) => (
-              <div
-                key={index}
-                className="value-premium-card"
-                style={{
-                  '--card-glow': val.color,
-                  '--card-glow-shadow': val.shadow
-                } as React.CSSProperties}
-              >
-                {/* Background Large Number */}
-                <div className="value-card-bg-num">{val.num}</div>
+            {(() => {
+              const defaultValues = [
+                {
+                  num: '01',
+                  title: 'Ownership',
+                  subheading: 'FOUNDER MINDSET',
+                  desc: "We treat every product as if it's our own.",
+                  icon: (
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                  ),
+                  color: '#3B82F6', // Blue
+                  shadow: 'rgba(59, 130, 246, 0.08)'
+                },
+                {
+                  num: '02',
+                  title: 'Honesty',
+                  subheading: 'FEARLESS TRANSPARENCY',
+                  desc: "We challenge clients when we need to, even when it's uncomfortable.",
+                  icon: (
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                  ),
+                  color: '#EC4899', // Pink
+                  shadow: 'rgba(236, 72, 153, 0.08)'
+                },
+                {
+                  num: '03',
+                  title: 'End-customer obsession',
+                  subheading: 'USER-FIRST PARADIGM',
+                  desc: "Success is measured by the people who use the product, not just the people who commissioned it.",
+                  icon: (
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  ),
+                  color: '#10B981', // Green
+                  shadow: 'rgba(16, 185, 129, 0.08)'
+                },
+                {
+                  num: '04',
+                  title: 'Craft',
+                  subheading: 'MLP QUALITY STANDARD',
+                  desc: "We build to MLP standard because good enough never is.",
+                  icon: (
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.907c.961 0 1.36 1.242.588 1.81l-3.97 2.883a1 1 0 00-.364 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.971-2.883a1 1 0 00-1.17 0l-3.97 2.883c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.364-1.118l-3.97-2.883c-.77-.568-.371-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                    </svg>
+                  ),
+                  color: '#F59E0B', // Amber
+                  shadow: 'rgba(245, 158, 11, 0.08)'
+                },
+                {
+                  num: '05',
+                  title: 'Partnership',
+                  subheading: 'LONG-TERM ENGAGEMENT',
+                  desc: "We are in it for the long run, not just the launch.",
+                  icon: (
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  ),
+                  color: '#005AE2', // Blue
+                  shadow: 'rgba(0, 90, 226, 0.08)'
+                },
+                {
+                  num: '06',
+                  title: 'Innovation',
+                  subheading: 'AI-DRIVEN PRODUCT THINKING',
+                  desc: "We bring the latest thinking in product, engineering, and AI to every engagement.",
+                  icon: (
+                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  ),
+                  color: '#06B6D4', // Cyan
+                  shadow: 'rgba(6, 182, 212, 0.08)'
+                }
+              ];
 
-                {/* Top subheading tag */}
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  fontSize: '0.68rem',
-                  fontWeight: 800,
-                  letterSpacing: '0.12em',
-                  color: val.color,
-                  textTransform: 'uppercase',
-                  marginBottom: '16px'
-                }}>
-                  <span>{val.num}</span>
-                  <span style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'rgba(0,0,0,0.08)' }}></span>
-                  <span>{val.subheading}</span>
+              const valuesItems = (studioContent.values?.items || []).length > 0
+                ? studioContent.values.items.map((item: any, idx: number) => ({
+                    ...defaultValues[idx],
+                    ...item
+                  }))
+                : defaultValues;
+
+              return valuesItems.map((val: any, index: number) => (
+                <div
+                  key={index}
+                  className="value-premium-card"
+                  style={{
+                    '--card-glow': val.color,
+                    '--card-glow-shadow': val.shadow
+                  } as React.CSSProperties}
+                >
+                  {/* Background Large Number */}
+                  <div className="value-card-bg-num">{val.num}</div>
+
+                  {/* Top subheading tag */}
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    fontSize: '0.68rem',
+                    fontWeight: 800,
+                    letterSpacing: '0.12em',
+                    color: val.color,
+                    textTransform: 'uppercase',
+                    marginBottom: '16px'
+                  }}>
+                    <span>{val.num}</span>
+                    <span style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'rgba(0,0,0,0.08)' }}></span>
+                    <EditableText
+                      contentKey={`studio.values.items.${index}.subheading`}
+                      value={val.subheading}
+                    />
+                  </div>
+
+                  {/* Colored Icon Container */}
+                  <div style={{
+                    width: '50px',
+                    height: '50px',
+                    borderRadius: '14px',
+                    background: `${val.color}10`,
+                    border: `1.5px solid ${val.color}25`,
+                    color: val.color,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '16px'
+                  }}>
+                    {val.icon}
+                  </div>
+
+                  {/* Title */}
+                  <h3 style={{
+                    fontSize: '1.2rem',
+                    fontWeight: 800,
+                    color: '#0F172A',
+                    marginBottom: '8px',
+                    letterSpacing: '-0.01em',
+                    textTransform: 'capitalize'
+                  }}>
+                    <EditableText
+                      contentKey={`studio.values.items.${index}.title`}
+                      value={val.title}
+                    />
+                  </h3>
+
+                  {/* Description */}
+                  <p style={{
+                    color: '#64748B',
+                    fontSize: '0.9rem',
+                    lineHeight: 1.6,
+                    margin: 0,
+                    fontWeight: 500,
+                    position: 'relative',
+                    zIndex: 1
+                  }}>
+                    <EditableText
+                      contentKey={`studio.values.items.${index}.desc`}
+                      value={val.desc}
+                    />
+                  </p>
                 </div>
-
-                {/* Colored Icon Container */}
-                <div style={{
-                  width: '50px',
-                  height: '50px',
-                  borderRadius: '14px',
-                  background: `${val.color}10`,
-                  border: `1.5px solid ${val.color}25`,
-                  color: val.color,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: '16px'
-                }}>
-                  {val.icon}
-                </div>
-
-                {/* Title */}
-                <h3 style={{
-                  fontSize: '1.2rem',
-                  fontWeight: 800,
-                  color: '#0F172A',
-                  marginBottom: '8px',
-                  letterSpacing: '-0.01em',
-                  textTransform: 'capitalize'
-                }}>
-                  {val.title}
-                </h3>
-
-                {/* Description */}
-                <p style={{
-                  color: '#64748B',
-                  fontSize: '0.9rem',
-                  lineHeight: 1.6,
-                  margin: 0,
-                  fontWeight: 500,
-                  position: 'relative',
-                  zIndex: 1
-                }}>
-                  {val.desc}
-                </p>
-              </div>
-            ))}
+              ));
+            })()}
           </div>
         </div>
       </section>
@@ -1781,37 +1856,59 @@ export default function StudioPage() {
         <section style={{ padding: '24px 24px 16px', backgroundColor: '#FFFFFF', position: 'relative' }}>
           <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-              <div className="hero-eyebrow-pill">Selection Process</div>
-              <h2 className="section-title" style={{
-                color: '#0F172A',
-                maxWidth: '800px',
-                margin: '0 auto 16px'
-              }}>
-                We are selective<br />for a reason.
-              </h2>
-              <p className="section-subtitle" style={{
-                maxWidth: '640px',
-                margin: '0 auto'
-              }}>
-                We partner with a small number of founders and business owners each year. Every engagement gets our full attention — which means we choose carefully.
-              </p>
+              <EditableText
+                contentKey="studio.selectiveness.eyebrow"
+                value={studioContent.selectiveness?.eyebrow || "Selection Process"}
+                className="hero-eyebrow-pill"
+              />
+              <EditableText
+                as="h2"
+                contentKey="studio.selectiveness.title"
+                value={studioContent.selectiveness?.title || "We are selective\nfor a reason."}
+                className="section-title"
+                style={{
+                  color: '#0F172A',
+                  maxWidth: '800px',
+                  margin: '0 auto 16px',
+                  whiteSpace: 'pre-line'
+                }}
+              />
+              <EditableText
+                as="p"
+                contentKey="studio.selectiveness.subtitle"
+                value={studioContent.selectiveness?.subtitle || "We partner with a small number of founders and business owners each year. Every engagement gets our full attention — which means we choose carefully."}
+                className="section-subtitle"
+                style={{
+                  maxWidth: '640px',
+                  margin: '0 auto'
+                }}
+              />
             </div>
             
             <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1.2fr', gap: '3rem', marginTop: '2rem', alignItems: 'start' }}>
               {/* Left Column */}
               <div>
                 <span style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#005AE2', display: 'block', marginBottom: '0.75rem', fontFamily: "'Manrope', sans-serif" }}>
-                  LET'S START FROM HERE
+                  <EditableText
+                    contentKey="studio.selectiveness.thesisLabel"
+                    value={studioContent.selectiveness?.thesisLabel || "LET'S START FROM HERE"}
+                  />
                 </span>
                 <h3 style={{ fontSize: 'clamp(1.3rem, 2.5vw, 1.65rem)', fontWeight: 800, color: '#0F172A', lineHeight: 1.25, letterSpacing: '-0.02em', textTransform: 'uppercase', fontFamily: "'Manrope', sans-serif" }}>
-                  INVESTMENT THESIS: THE PROCESS OF CREATING A STARTUP WITHIN VENTURE BUILDER CRESTCODE
+                  <EditableText
+                    contentKey="studio.selectiveness.thesisTitle"
+                    value={studioContent.selectiveness?.thesisTitle || "INVESTMENT THESIS: THE PROCESS OF CREATING A STARTUP WITHIN VENTURE BUILDER CRESTCODE"}
+                  />
                 </h3>
               </div>
               
               {/* Right Column */}
               <div>
                 <p style={{ fontSize: '0.95rem', color: '#64748B', lineHeight: 1.65, fontFamily: "'Inter', sans-serif", margin: 0, fontWeight: 500 }}>
-                  Crestcode Startup Studio's startups aim to shift the paradigm of analog services, customer experience, and process management. Micro and small businesses that are still under-digitalized are the primary targets of this transformation. The solutions we will build together will put customers at the center, enabling them to access the services of artisans and professionals with a simple click, enabling them to continue to succeed in a rapidly evolving digital landscape. We create plug-and-play platforms that streamline processes, improve customer experience, and create cross-functional tools for digital transformation. The goal is to reduce inefficiencies and enable professionals to attract, manage, and retain clients, allowing them to focus exclusively on their specific profession.
+                  <EditableText
+                    contentKey="studio.selectiveness.thesisDesc"
+                    value={studioContent.selectiveness?.thesisDesc || "Crestcode Startup Studio's startups aim to shift the paradigm of analog services, customer experience, and process management. Micro and small businesses that are still under-digitalized are the primary targets of this transformation. The solutions we will build together will put customers at the center, enabling them to access the services of artisans and professionals with a simple click, enabling them to continue to succeed in a rapidly evolving digital landscape. We create plug-and-play platforms that streamline processes, improve customer experience, and create cross-functional tools for digital transformation. The goal is to reduce inefficiencies and enable professionals to attract, manage, and retain clients, allowing them to focus exclusively on their specific profession."}
+                  />
                 </p>
               </div>
             </div>
@@ -1952,50 +2049,62 @@ export default function StudioPage() {
         {/* Five Phases Title Section */}
         <section style={{ padding: '60px 24px 20px', backgroundColor: '#EFF6FF', textAlign: 'center' }}>
           <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto', paddingBottom: 0 }}>
-            <h2 className="section-title" style={{
-              color: '#0F172A',
-              maxWidth: '800px',
-              margin: '0 auto 16px',
-              fontFamily: "'Manrope', sans-serif",
-              fontSize: 'clamp(1.8rem, 3vw, 2.5rem)',
-              fontWeight: 800
-            }}>
-              Five Phases. One Mission.
-            </h2>
-            <p className="section-subtitle" style={{
-              maxWidth: '640px',
-              margin: '0 auto',
-              color: '#64748B'
-            }}>
-              Our structured blueprint for transforming bold concepts into venture-scale realities.
-            </p>
+            <EditableText
+              as="h2"
+              contentKey="studio.phases.title"
+              value={studioContent.phases?.title || "Five Phases. One Mission."}
+              className="section-title"
+              style={{
+                color: '#0F172A',
+                maxWidth: '800px',
+                margin: '0 auto 16px',
+                fontFamily: "'Manrope', sans-serif",
+                fontSize: 'clamp(1.8rem, 3vw, 2.5rem)',
+                fontWeight: 800
+              }}
+            />
+            <EditableText
+              as="p"
+              contentKey="studio.phases.subtitle"
+              value={studioContent.phases?.subtitle || "Our structured blueprint for transforming bold concepts into venture-scale realities."}
+              className="section-subtitle"
+              style={{
+                maxWidth: '640px',
+                margin: '0 auto',
+                color: '#64748B'
+              }}
+            />
           </div>
         </section>
 
         {content?.ourModel && (() => {
           const phaseColors = ['#005AE2', '#005AE2', '#005AE2', '#005AE2', '#005AE2'];
           const phaseDarkColors = ['#0047B3', '#0047B3', '#0047B3', '#0047B3', '#0047B3'];
-          const phaseLabels = [
+          const defaultPhaseLabels = [
             content.ourModel.selection?.label || 'Phase 01 — Selection Framework',
             content.ourModel.validation?.label || 'Phase 02 — Validation Framework',
             'Phase 03 — Build Framework',
             'Phase 04 — Launch Framework',
             'Phase 05 — Scale Framework',
           ];
-          const phaseTitles = [
+          const defaultPhaseTitles = [
             content.ourModel.selection?.title || 'Selection Process',
             content.ourModel.validation?.title || 'Validation Process',
             content.ourModel.phases?.items?.[0]?.title || '12-Week Sprint Build',
             content.ourModel.phases?.items?.[1]?.title || 'Go-To-Market Activation',
             content.ourModel.phases?.items?.[2]?.title || 'Scaling for Growth',
           ];
-          const phaseDescs = [
+          const defaultPhaseDescs = [
             'We run every venture idea through a rigorous four-lens framework before committing a single resource. Ideas are plentiful — the right ones are rare.',
             'No assumptions, no guesses. Every thesis is pressure-tested with real customers before a line of production code is written.',
             'Small autonomous pods. Radical focus. Ship, learn, iterate — nothing else matters in these 84 days.',
             'We launch with precision, not noise. Founder-led, community-first, metrics-gated. Growth is earned before it is amplified.',
             'We scale what is proven. Hiring behind revenue, diversifying channels, hardening infrastructure — in that exact order.',
           ];
+
+          const phaseLabels = defaultPhaseLabels.map((val, idx) => studioContent.phases?.items?.[idx]?.label || val);
+          const phaseTitles = defaultPhaseTitles.map((val, idx) => studioContent.phases?.items?.[idx]?.title || val);
+          const phaseDescs = defaultPhaseDescs.map((val, idx) => studioContent.phases?.items?.[idx]?.description || val);
 
           const ac = phaseColors[heroCarouselIndex] || '#3B82F6';
           const acDark = phaseDarkColors[heroCarouselIndex] || '#1d4ed8';
@@ -2015,11 +2124,11 @@ export default function StudioPage() {
                     margin: '0 auto', alignItems: 'center',
                   }}>
                     {[
-                      { n: '01', t: 'SELECT', id: 0 },
-                      { n: '02', t: 'VALIDATE', id: 1 },
-                      { n: '03', t: 'BUILD', id: 2 },
-                      { n: '04', t: 'LAUNCH', id: 3 },
-                      { n: '05', t: 'SCALE', id: 4 },
+                      { n: '01', t: studioContent.phases?.tabs?.[0]?.title || 'SELECT', id: 0 },
+                      { n: '02', t: studioContent.phases?.tabs?.[1]?.title || 'VALIDATE', id: 1 },
+                      { n: '03', t: studioContent.phases?.tabs?.[2]?.title || 'BUILD', id: 2 },
+                      { n: '04', t: studioContent.phases?.tabs?.[3]?.title || 'LAUNCH', id: 3 },
+                      { n: '05', t: studioContent.phases?.tabs?.[4]?.title || 'SCALE', id: 4 },
                     ].map((ph, idx) => (
                       <React.Fragment key={ph.id}>
                         <button
@@ -2067,7 +2176,10 @@ export default function StudioPage() {
                                    heroCarouselIndex > ph.id ? '#005AE2' : '#64748B',
                             transition: 'all 0.3s ease',
                           }}>
-                            {ph.t}
+                            <EditableText
+                              contentKey={`studio.phases.tabs.${idx}.title`}
+                              value={ph.t}
+                            />
                           </span>
                         </button>
                         {idx < 4 && (
@@ -2146,13 +2258,12 @@ export default function StudioPage() {
                           textTransform: 'uppercase', color: '#005AE2', marginBottom: '12px',
                         }}
                       >
-                        {heroCarouselIndex === 0 && <EditableText contentKey="ourModel.selection.label" value={phaseLabels[0]} />}
-                        {heroCarouselIndex === 1 && <EditableText contentKey="ourModel.validation.label" value={phaseLabels[1]} />}
-                        {heroCarouselIndex === 2 && phaseLabels[2]}
-                        {heroCarouselIndex === 3 && phaseLabels[3]}
-                        {heroCarouselIndex === 4 && phaseLabels[4]}
+                        <EditableText
+                          contentKey={`studio.phases.items.${heroCarouselIndex}.label`}
+                          value={phaseLabels[heroCarouselIndex]}
+                        />
                       </div>
-
+ 
                       {/* Main title */}
                       <h2
                         key={`title-${heroCarouselIndex}`}
@@ -2167,13 +2278,12 @@ export default function StudioPage() {
                           marginBottom: '16px',
                         }}
                       >
-                        {heroCarouselIndex === 0 && <EditableText contentKey="ourModel.selection.title" value={phaseTitles[0]} />}
-                        {heroCarouselIndex === 1 && <EditableText contentKey="ourModel.validation.title" value={phaseTitles[1]} />}
-                        {heroCarouselIndex === 2 && <EditableText contentKey="ourModel.phases.items.0.title" value={phaseTitles[2]} />}
-                        {heroCarouselIndex === 3 && <EditableText contentKey="ourModel.phases.items.1.title" value={phaseTitles[3]} />}
-                        {heroCarouselIndex === 4 && <EditableText contentKey="ourModel.phases.items.2.title" value={phaseTitles[4]} />}
+                        <EditableText
+                          contentKey={`studio.phases.items.${heroCarouselIndex}.title`}
+                          value={phaseTitles[heroCarouselIndex]}
+                        />
                       </h2>
-
+ 
                       {/* Description with left border */}
                       <p
                         key={`desc-${heroCarouselIndex}`}
@@ -2187,7 +2297,10 @@ export default function StudioPage() {
                           marginBottom: '24px',
                         }}
                       >
-                        {phaseDescs[heroCarouselIndex]}
+                        <EditableText
+                          contentKey={`studio.phases.items.${heroCarouselIndex}.description`}
+                          value={phaseDescs[heroCarouselIndex]}
+                        />
                       </p>
 
                       {/* Progress counter */}
@@ -2382,24 +2495,36 @@ export default function StudioPage() {
       <section id="selection" style={{ padding: '24px 24px', backgroundColor: '#FFFFFF' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <div className="hero-eyebrow-pill">Selection Steps</div>
-            <h2 className="section-title" style={{
-              fontWeight: 800,
-              letterSpacing: '-0.02em',
-              color: '#0F172A',
-              lineHeight: 1.2,
-              maxWidth: '800px',
-              margin: '0 auto 16px',
-              fontFamily: "'Manrope', sans-serif"
-            }}>
-              Venture Creation Steps
-            </h2>
-            <p className="section-subtitle" style={{
-              maxWidth: '600px',
-              margin: '0 auto'
-            }}>
-              A structured roadmap from your initial product proposal to assembly, build, and market launch.
-            </p>
+            <EditableText
+              contentKey="studio.creation_steps.eyebrow"
+              value={studioContent.creation_steps?.eyebrow || "Selection Steps"}
+              className="hero-eyebrow-pill"
+            />
+            <EditableText
+              as="h2"
+              contentKey="studio.creation_steps.title"
+              value={studioContent.creation_steps?.title || "Venture Creation Steps"}
+              className="section-title"
+              style={{
+                fontWeight: 800,
+                letterSpacing: '-0.02em',
+                color: '#0F172A',
+                lineHeight: 1.2,
+                maxWidth: '800px',
+                margin: '0 auto 16px',
+                fontFamily: "'Manrope', sans-serif"
+              }}
+            />
+            <EditableText
+              as="p"
+              contentKey="studio.creation_steps.subtitle"
+              value={studioContent.creation_steps?.subtitle || "A structured roadmap from your initial product proposal to assembly, build, and market launch."}
+              className="section-subtitle"
+              style={{
+                maxWidth: '600px',
+                margin: '0 auto'
+              }}
+            />
           </div>
 
           <div style={{ maxWidth: '640px', margin: '0 auto', position: 'relative', paddingLeft: '24px' }}>
@@ -2414,119 +2539,143 @@ export default function StudioPage() {
               zIndex: 0
             }}></div>
 
-            {[
-              {
-                step: '01',
-                title: 'Submit your idea',
-                desc: "Don't submit the how. Just the idea and why (1 page at max)."
-              },
-              {
-                step: '02',
-                title: 'Get invited for a meeting with partners',
-                bullets: [
-                  'You will learn what crestcode does',
-                  'You will learn the support we will provide',
-                  'You will learn the overall process involved'
-                ]
-              },
-              {
-                step: '03',
-                title: 'Submit the full proposal',
-                desc: 'Detailing the business model, strategic alignment, and technical specifications for the product.'
-              },
-              {
-                step: '04',
-                title: 'Get a team assigned & the build product',
-                desc: 'Elite engineers and product leads are allocated to build the product to institutional quality standards.'
-              },
-              {
-                step: '05',
-                title: 'Prepare go to market launch',
-                desc: 'Launching with precision, refining distribution channels, and optimizing the acquisition funnel for impact.'
-              }
-            ].map((item, idx) => (
-              <div key={idx} style={{
-                display: 'flex',
-                gap: '24px',
-                marginBottom: idx === 4 ? '0' : '48px',
-                position: 'relative',
-                zIndex: 1
-              }}>
-                {/* Left Bullet Icon Circle */}
-                <div style={{
-                  width: '38px',
-                  height: '38px',
-                  borderRadius: '50%',
-                  backgroundColor: '#FFFFFF',
-                  border: '2px solid #005AE2',
-                  color: '#005AE2',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: 800,
-                  fontSize: '0.85rem',
-                  flexShrink: 0,
-                  boxShadow: '0 4px 10px rgba(0, 90, 226, 0.08)'
-                }}>
-                  {item.step}
-                </div>
+            {(() => {
+              const defaultCreationSteps = [
+                {
+                  step: '01',
+                  title: 'Submit your idea',
+                  desc: "Don't submit the how. Just the idea and why (1 page at max)."
+                },
+                {
+                  step: '02',
+                  title: 'Get invited for a meeting with partners',
+                  bullets: [
+                    'You will learn what crestcode does',
+                    'You will learn the support we will provide',
+                    'You will learn the overall process involved'
+                  ]
+                },
+                {
+                  step: '03',
+                  title: 'Submit the full proposal',
+                  desc: 'Detailing the business model, strategic alignment, and technical specifications for the product.'
+                },
+                {
+                  step: '04',
+                  title: 'Get a team assigned & the build product',
+                  desc: 'Elite engineers and product leads are allocated to build the product to institutional quality standards.'
+                },
+                {
+                  step: '05',
+                  title: 'Prepare go to market launch',
+                  desc: 'Launching with precision, refining distribution channels, and optimizing the acquisition funnel for impact.'
+                }
+              ];
 
-                {/* Right Content */}
-                <div style={{ paddingTop: '4px' }}>
-                  <h3 style={{
-                    fontSize: '1.25rem',
+              const creationSteps = (studioContent.creation_steps?.items || []).length > 0
+                ? studioContent.creation_steps.items.map((item: any, idx: number) => ({
+                    ...defaultCreationSteps[idx],
+                    ...item,
+                    bullets: item.bullets || defaultCreationSteps[idx].bullets || []
+                  }))
+                : defaultCreationSteps;
+
+              return creationSteps.map((item: any, idx: number) => (
+                <div key={idx} style={{
+                  display: 'flex',
+                  gap: '24px',
+                  marginBottom: idx === 4 ? '0' : '48px',
+                  position: 'relative',
+                  zIndex: 1
+                }}>
+                  {/* Left Bullet Icon Circle */}
+                  <div style={{
+                    width: '38px',
+                    height: '38px',
+                    borderRadius: '50%',
+                    backgroundColor: '#FFFFFF',
+                    border: '2px solid #005AE2',
+                    color: '#005AE2',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     fontWeight: 800,
-                    color: '#0F172A',
-                    marginBottom: '8px',
-                    fontFamily: "'Manrope', sans-serif",
-                    letterSpacing: '-0.01em'
+                    fontSize: '0.85rem',
+                    flexShrink: 0,
+                    boxShadow: '0 4px 10px rgba(0, 90, 226, 0.08)'
                   }}>
-                    {item.title}
-                  </h3>
-                  {item.desc && (
-                    <p style={{
-                      fontSize: '0.95rem',
-                      color: '#64748B',
-                      lineHeight: 1.6,
-                      margin: 0,
-                      fontWeight: 500
+                    <EditableText
+                      contentKey={`studio.creation_steps.items.${idx}.step`}
+                      value={item.step}
+                    />
+                  </div>
+
+                  {/* Right Content */}
+                  <div style={{ paddingTop: '4px' }}>
+                    <h3 style={{
+                      fontSize: '1.25rem',
+                      fontWeight: 800,
+                      color: '#0F172A',
+                      marginBottom: '8px',
+                      fontFamily: "'Manrope', sans-serif",
+                      letterSpacing: '-0.01em'
                     }}>
-                      {item.desc}
-                    </p>
-                  )}
-                  {item.bullets && (
-                    <ul style={{
-                      listStyle: 'none',
-                      padding: 0,
-                      margin: '12px 0 0 0',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '10px'
-                    }}>
-                      {item.bullets.map((bullet, bIdx) => (
-                        <li key={bIdx} style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '12px',
-                          fontSize: '0.925rem',
-                          color: '#64748B',
-                          fontWeight: 500
-                        }}>
-                          <span style={{
-                            width: '6px',
-                            height: '6px',
-                            borderRadius: '50%',
-                            backgroundColor: '#005AE2',
-                            flexShrink: 0
-                          }}></span>
-                          {bullet}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                      <EditableText
+                        contentKey={`studio.creation_steps.items.${idx}.title`}
+                        value={item.title}
+                      />
+                    </h3>
+                    {item.desc && (
+                      <p style={{
+                        fontSize: '0.95rem',
+                        color: '#64748B',
+                        lineHeight: 1.6,
+                        margin: 0,
+                        fontWeight: 500
+                      }}>
+                        <EditableText
+                          contentKey={`studio.creation_steps.items.${idx}.desc`}
+                          value={item.desc}
+                        />
+                      </p>
+                    )}
+                    {item.bullets && item.bullets.length > 0 && (
+                      <ul style={{
+                        listStyle: 'none',
+                        padding: 0,
+                        margin: '12px 0 0 0',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '10px'
+                      }}>
+                        {item.bullets.map((bullet: string, bIdx: number) => (
+                          <li key={bIdx} style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px',
+                            fontSize: '0.925rem',
+                            color: '#64748B',
+                            fontWeight: 500
+                          }}>
+                            <span style={{
+                              width: '6px',
+                              height: '6px',
+                              borderRadius: '50%',
+                              backgroundColor: '#005AE2',
+                              flexShrink: 0
+                            }}></span>
+                            <EditableText
+                              contentKey={`studio.creation_steps.items.${idx}.bullets.${bIdx}`}
+                              value={bullet}
+                            />
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ));
+            })()}
           </div>
         </div>
       </section>
@@ -2598,80 +2747,123 @@ export default function StudioPage() {
       <section id="diff" style={{ backgroundColor: '#EFF6FF' }}>
         <div className="diff-header">
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <div className="hero-eyebrow-pill">Why CrestCode</div>
-            <h2 className="section-title" style={{ color: '#0F172A', margin: '0 auto 16px', maxWidth: '800px' }}>Not a vendor.<br />Not a studio that vanishes.<br />A co-builder.</h2>
-            <p className="section-subtitle" style={{ maxWidth: '600px', margin: '0 auto' }}>Here is how we compare to the alternatives — and why it matters for your venture.</p>
+            <EditableText
+              contentKey="studio.differentiation.eyebrow"
+              value={studioContent.differentiation?.eyebrow || "Why CrestCode"}
+              className="hero-eyebrow-pill"
+            />
+            <EditableText
+              as="h2"
+              contentKey="studio.differentiation.title"
+              value={studioContent.differentiation?.title || "Not a vendor.\nNot a studio that vanishes.\nA co-builder."}
+              className="section-title"
+              style={{
+                color: '#0F172A',
+                margin: '0 auto 16px',
+                maxWidth: '800px',
+                whiteSpace: 'pre-line'
+              }}
+            />
+            <EditableText
+              as="p"
+              contentKey="studio.differentiation.subtitle"
+              value={studioContent.differentiation?.subtitle || "Here is how we compare to the alternatives — and why it matters for your venture."}
+              className="section-subtitle"
+              style={{
+                maxWidth: '600px',
+                margin: '0 auto'
+              }}
+            />
           </div>
         </div>
 
         <div className="diff-table-wrap">
           <table className="diff-table">
             <thead>
-              <tr>
-                <th style={{width: '28%'}}>Capability</th>
-                <th className="highlight" style={{width: '18%'}}>CrestCode</th>
-                <th style={{width: '18%'}}>Dev Agencies</th>
-                <th style={{width: '18%'}}>Other Studios</th>
-                <th style={{width: '18%'}}>Freelancers</th>
-              </tr>
+              {(() => {
+                const defaultHeaders = ["Capability", "CrestCode", "Dev Agencies", "Other Studios", "Freelancers"];
+                const headers = studioContent.differentiation?.headers || defaultHeaders;
+                return (
+                  <tr>
+                    <th style={{ width: '28%' }}>
+                      <EditableText contentKey="studio.differentiation.headers.0" value={headers[0]} />
+                    </th>
+                    <th className="highlight" style={{ width: '18%' }}>
+                      <EditableText contentKey="studio.differentiation.headers.1" value={headers[1]} />
+                    </th>
+                    <th style={{ width: '18%' }}>
+                      <EditableText contentKey="studio.differentiation.headers.2" value={headers[2]} />
+                    </th>
+                    <th style={{ width: '18%' }}>
+                      <EditableText contentKey="studio.differentiation.headers.3" value={headers[3]} />
+                    </th>
+                    <th style={{ width: '18%' }}>
+                      <EditableText contentKey="studio.differentiation.headers.4" value={headers[4]} />
+                    </th>
+                  </tr>
+                );
+              })()}
             </thead>
             <tbody>
-              <tr>
-                <td className="feature">Zero to one expertise</td>
-                <td className="highlight"><span className="check">✓</span></td>
-                <td><span className="partial">Sometimes</span></td>
-                <td><span className="partial">Sometimes</span></td>
-                <td><span className="cross">✗</span></td>
-              </tr>
-              <tr>
-                <td className="feature">End-to-end product ownership</td>
-                <td className="highlight"><span className="check">✓</span></td>
-                <td><span className="cross">✗</span></td>
-                <td><span className="partial">Sometimes</span></td>
-                <td><span className="cross">✗</span></td>
-              </tr>
-              <tr>
-                <td className="feature">Strategic product & business guidance</td>
-                <td className="highlight"><span className="check">✓</span></td>
-                <td><span className="cross">✗</span></td>
-                <td><span className="partial">Sometimes</span></td>
-                <td><span className="cross">✗</span></td>
-              </tr>
-              <tr>
-                <td className="feature">MLP standard — not just MVP</td>
-                <td className="highlight"><span className="check">✓</span></td>
-                <td><span className="cross">✗</span></td>
-                <td><span className="partial" style={{ color: '#94A3B8' }}>Rarely</span></td>
-                <td><span className="cross">✗</span></td>
-              </tr>
-              <tr>
-                <td className="feature">In-house senior team, no outsourcing</td>
-                <td className="highlight"><span className="check">✓</span></td>
-                <td><span className="partial">Varies</span></td>
-                <td><span className="partial">Varies</span></td>
-                <td><span className="cross">✗</span></td>
-              </tr>
-              <tr>
-                <td className="feature">Go-to-market & pitch support</td>
-                <td className="highlight"><span className="check">✓</span></td>
-                <td><span className="cross">✗</span></td>
-                <td><span className="partial">Sometimes</span></td>
-                <td><span className="cross">✗</span></td>
-              </tr>
-              <tr>
-                <td className="feature">Co-founder network access</td>
-                <td className="highlight"><span className="check">✓</span></td>
-                <td><span className="cross">✗</span></td>
-                <td><span className="cross">✗</span></td>
-                <td><span className="cross">✗</span></td>
-              </tr>
-              <tr>
-                <td className="feature">Lifelong partnership model</td>
-                <td className="highlight"><span className="check">✓</span></td>
-                <td><span className="cross">✗</span></td>
-                <td><span className="partial" style={{ color: '#94A3B8' }}>Rarely</span></td>
-                <td><span className="cross">✗</span></td>
-              </tr>
+              {(() => {
+                const defaultDiffRows = [
+                  { feature: "Zero to one expertise", c1: "✓", c2: "Sometimes", c3: "Sometimes", c4: "✗" },
+                  { feature: "End-to-end product ownership", c1: "✓", c2: "✗", c3: "Sometimes", c4: "✗" },
+                  { feature: "Strategic product & business guidance", c1: "✓", c2: "✗", c3: "Sometimes", c4: "✗" },
+                  { feature: "MLP standard — not just MVP", c1: "✓", c2: "✗", c3: "Rarely", c4: "✗" },
+                  { feature: "In-house senior team, no outsourcing", "c1": "✓", "c2": "Varies", "c3": "Varies", "c4": "✗" },
+                  { feature: "Go-to-market & pitch support", c1: "✓", c2: "✗", c3: "Sometimes", c4: "✗" },
+                  { feature: "Co-founder network access", c1: "✓", c2: "✗", c3: "✗", c4: "✗" },
+                  { feature: "Lifelong partnership model", c1: "✓", c2: "✗", c3: "Rarely", c4: "✗" }
+                ];
+
+                const diffRows = (studioContent.differentiation?.rows || []).length > 0
+                  ? studioContent.differentiation.rows
+                  : defaultDiffRows;
+
+                return diffRows.map((row: any, idx: number) => (
+                  <tr key={idx}>
+                    <td className="feature">
+                      <EditableText
+                        contentKey={`studio.differentiation.rows.${idx}.feature`}
+                        value={row.feature}
+                      />
+                    </td>
+                    <td className="highlight">
+                      <EditableText
+                        contentKey={`studio.differentiation.rows.${idx}.c1`}
+                        value={row.c1}
+                      >
+                        {renderCellText(row.c1)}
+                      </EditableText>
+                    </td>
+                    <td>
+                      <EditableText
+                        contentKey={`studio.differentiation.rows.${idx}.c2`}
+                        value={row.c2}
+                      >
+                        {renderCellText(row.c2)}
+                      </EditableText>
+                    </td>
+                    <td>
+                      <EditableText
+                        contentKey={`studio.differentiation.rows.${idx}.c3`}
+                        value={row.c3}
+                      >
+                        {renderCellText(row.c3)}
+                      </EditableText>
+                    </td>
+                    <td>
+                      <EditableText
+                        contentKey={`studio.differentiation.rows.${idx}.c4`}
+                        value={row.c4}
+                      >
+                        {renderCellText(row.c4)}
+                      </EditableText>
+                    </td>
+                  </tr>
+                ));
+              })()}
             </tbody>
           </table>
         </div>

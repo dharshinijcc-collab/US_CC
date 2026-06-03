@@ -1,7 +1,7 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { api } from '@/services/api';
+import React, { createContext, useContext } from 'react';
+import { useContent } from './ContentContext';
 
 interface AdminContextType {
   isAdminMode: boolean;
@@ -13,41 +13,17 @@ interface AdminContextType {
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
-export function AdminProvider({ children, initialContent }: { children: React.ReactNode, initialContent: any }) {
-  const [isAdminMode, setIsAdminMode] = useState(false);
-  const [fullContent, setFullContent] = useState(initialContent);
-
-  useEffect(() => {
-    setFullContent(initialContent);
-  }, [initialContent]);
-
-  const updateContent = async (path: string, value: any) => {
-    // path could be 'home.hero.title'
-    const newContent = { ...fullContent };
-    const keys = path.split('.');
-    let current = newContent;
-    for (let i = 0; i < keys.length - 1; i++) {
-      current = current[keys[i]];
-    }
-    current[keys[keys.length - 1]] = value;
-    setFullContent(newContent);
-  };
-
-  const saveChanges = async () => {
-    try {
-      const response = await api.post('content/update', { payload: fullContent });
-      if (response.data.status === 'success') {
-        alert('Changes saved successfully!');
-      } else {
-        alert('Error saving changes: ' + response.data.payload);
-      }
-    } catch (err: any) {
-      alert('Error saving changes: ' + err.message);
-    }
-  };
+export function AdminProvider({ children }: { children: React.ReactNode, initialContent: any }) {
+  const { isAdminMode, setIsAdminMode, updateContent, saveChanges, content } = useContent();
 
   return (
-    <AdminContext.Provider value={{ isAdminMode, setIsAdminMode, updateContent, saveChanges, fullContent }}>
+    <AdminContext.Provider value={{ 
+      isAdminMode, 
+      setIsAdminMode, 
+      updateContent, 
+      saveChanges, 
+      fullContent: content 
+    }}>
       {children}
     </AdminContext.Provider>
   );
