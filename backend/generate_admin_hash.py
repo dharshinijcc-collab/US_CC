@@ -5,7 +5,7 @@ Run this to get the hashed password for your Supabase SQL insert.
 import bcrypt
 
 # Set your desired password here
-password = "admincc"
+password = "Hrsb43QtdXa&b"
 
 # Generate hash
 password_bytes = password.encode('utf-8')

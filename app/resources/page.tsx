@@ -5,8 +5,12 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import Blogs from '@/components/blogs';
+import { useContent } from '@/context/ContentContext';
+import EditableText from '@/components/admin/EditableText';
 
 export default function ResourcesPage() {
+  const { content, loading, error } = useContent();
+  const resourcesContent = content?.resources || {};
 
 
   const toolsCards = [
@@ -506,17 +510,18 @@ export default function ResourcesPage() {
           <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', right: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
 
           <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div className="hero-eyebrow-pill">RESOURCES</div>
+            <div className="hero-eyebrow-pill">
+              <EditableText contentKey="resources.hero.eyebrow" value={resourcesContent.hero?.eyebrow || 'RESOURCES'} />
+            </div>
             <h1 className="hero-title" style={{ color: '#020617' }}>
-              Everything you need to <span style={{ color: 'var(--primary-blue)' }}>build</span><br />
-              with <span style={{ color: 'var(--primary-blue)' }}>confidence</span>
+              <EditableText contentKey="resources.hero.title" value={resourcesContent.hero?.title || 'Everything you need to build\nwith confidence'} />
             </h1>
             <p className="hero-description" style={{ marginBottom: '32px', lineHeight: '1.8', maxWidth: '720px' }}>
-              Guides, tools, and insights for founders and investors — covering how CrestCode works, how the industry is moving, and what it takes to build a product that lasts.
+              <EditableText contentKey="resources.hero.description" value={resourcesContent.hero?.description || 'Guides, tools, and insights for founders and investors — covering how CrestCode works, how the industry is moving, and what it takes to build a product that lasts.'} />
             </p>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Link href="/contact" className="btn-primary">
-                Ask Us Anything
+                <EditableText contentKey="resources.hero.buttonText" value={resourcesContent.hero?.buttonText || 'Ask Us Anything'} />
               </Link>
             </div>
           </div>
@@ -525,10 +530,14 @@ export default function ResourcesPage() {
         {/* ===== SECTION 3: INTERACTIVE TOOLS (shown first) ===== */}
         <section className="section-container" style={{ paddingTop: '40px' }}>
           <div className="header-center">
-            <span className="eyebrow-text">INTERACTIVE TOOLS</span>
-            <h2 className="section-title manrope-font">Tools built for builders.</h2>
+            <span className="eyebrow-text">
+              <EditableText contentKey="resources.tools.eyebrow" value={resourcesContent.tools?.eyebrow || 'INTERACTIVE TOOLS'} />
+            </span>
+            <h2 className="section-title manrope-font">
+              <EditableText contentKey="resources.tools.title" value={resourcesContent.tools?.title || 'Tools built for builders.'} />
+            </h2>
             <p className="section-subtitle">
-              Practical calculators and frameworks to help you evaluate your idea, estimate timelines, and understand what it takes to build a product with CrestCode.
+              <EditableText contentKey="resources.tools.subtitle" value={resourcesContent.tools?.subtitle || 'Practical calculators and frameworks to help you evaluate your idea, estimate timelines, and understand what it takes to build a product with CrestCode.'} />
             </p>
           </div>
 

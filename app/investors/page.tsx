@@ -500,15 +500,14 @@ export default function InvestorsPage() {
               <EditableText contentKey="investors.hero.eyebrow" value={content?.investors?.hero?.eyebrow || 'INVESTOR RELATIONS'} />
             </div>
             <h1 className="hero-title" style={{ color: '#020617' }}>
-              Invest in <span style={{ color: 'var(--primary-blue)' }}>Ventures</span> <br />
-              <span style={{ color: 'var(--primary-blue)' }}>Built</span> to <span style={{ color: 'var(--primary-blue)' }}>Last</span>
+              <EditableText contentKey="investors.hero.title" value={content?.investors?.hero?.title || 'Invest in Ventures\nBuilt to Last'} />
             </h1>
             <p className="hero-description" style={{ marginBottom: '40px', maxWidth: '720px', lineHeight: 1.8, fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}>
-              CrestCode partners with strategic investors who believe in the long game — backing the studio, the ventures, or both. We offer full transparency, shared conviction, and two clear paths to participate.
+              <EditableText contentKey="investors.hero.description" value={content?.investors?.hero?.description || 'CrestCode partners with strategic investors who believe in the long game — backing the studio, the ventures, or both. We offer full transparency, shared conviction, and two clear paths to participate.'} />
             </p>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Link href="/contact" className="btn-primary">
-                Express Your Interest
+                <EditableText contentKey="investors.hero.buttonText" value={content?.investors?.hero?.buttonText || 'Express Your Interest'} />
               </Link>
             </div>
           </div>
@@ -520,8 +519,12 @@ export default function InvestorsPage() {
             
             {/* Centered Heading & Intro Lead */}
             <div className="section-header-centered" style={{ marginBottom: '56px' }}>
-              <div className="hero-eyebrow-pill">The Opportunity</div>
-              <h2>Why invest in CrestCode?</h2>
+              <div className="hero-eyebrow-pill">
+                <EditableText contentKey="investors.whyInvest.eyebrow" value={content?.investors?.whyInvest?.eyebrow || 'The Opportunity'} />
+              </div>
+              <h2>
+                <EditableText contentKey="investors.whyInvest.title" value={content?.investors?.whyInvest?.title || 'Why invest in CrestCode?'} />
+              </h2>
               <p style={{
                 color: 'var(--text-muted)',
                 fontSize: '1.15rem',
@@ -531,7 +534,7 @@ export default function InvestorsPage() {
                 fontWeight: 500,
                 textAlign: 'center'
               }}>
-                We don't just build products — we build ventures with staying power. Every company we back goes through rigorous validation, senior engineering, and a structured go-to-market process. You're not betting on ideas. You're betting on execution.
+                <EditableText contentKey="investors.whyInvest.description" value={content?.investors?.whyInvest?.description || "We don't just build products — we build ventures with staying power. Every company we back goes through rigorous validation, senior engineering, and a structured go-to-market process. You're not betting on ideas. You're betting on execution."} />
               </p>
             </div>
 
@@ -616,10 +619,14 @@ export default function InvestorsPage() {
             
             {/* Centered Heading */}
             <div className="section-header-centered">
-              <div className="hero-eyebrow-pill">Investment Paths</div>
-              <h2>Two ways to invest. <br /><span style={{ color: 'var(--primary-blue)' }}>One shared goal.</span></h2>
+              <div className="hero-eyebrow-pill">
+                <EditableText contentKey="investors.investmentPaths.eyebrow" value={content?.investors?.investmentPaths?.eyebrow || 'Investment Paths'} />
+              </div>
+              <h2>
+                <EditableText contentKey="investors.investmentPaths.title" value={content?.investors?.investmentPaths?.title || 'Two ways to invest.\nOne shared goal.'} />
+              </h2>
               <p>
-                Choose the path that fits your investment thesis — or participate in both. Each path offers distinct exposure, return mechanics, and involvement.
+                <EditableText contentKey="investors.investmentPaths.description" value={content?.investors?.investmentPaths?.description || 'Choose the path that fits your investment thesis — or participate in both. Each path offers distinct exposure, return mechanics, and involvement.'} />
               </p>
             </div>
 
@@ -743,10 +750,14 @@ export default function InvestorsPage() {
             
             {/* Centered Heading */}
             <div className="section-header-centered">
-              <div className="hero-eyebrow-pill">Investor Benefits</div>
-              <h2>What you get as an investor.</h2>
+              <div className="hero-eyebrow-pill">
+                <EditableText contentKey="investors.benefits.eyebrow" value={content?.investors?.benefits?.eyebrow || 'Investor Benefits'} />
+              </div>
+              <h2>
+                <EditableText contentKey="investors.benefits.title" value={content?.investors?.benefits?.title || 'What you get as an investor.'} />
+              </h2>
               <p>
-                Beyond capital deployment, CrestCode investors get a front-row seat to how ventures are built — with the visibility and access to make that meaningful.
+                <EditableText contentKey="investors.benefits.description" value={content?.investors?.benefits?.description || 'Beyond capital deployment, CrestCode investors get a front-row seat to how ventures are built — with the visibility and access to make that meaningful.'} />
               </p>
             </div>
 
@@ -833,8 +844,12 @@ export default function InvestorsPage() {
             
             {/* Centered Heading */}
             <div className="section-header-centered">
-              <div className="hero-eyebrow-pill">Investor Profile</div>
-              <h2>We're selective. <br /><span style={{ color: 'var(--primary-blue)' }}>On purpose.</span></h2>
+              <div className="hero-eyebrow-pill">
+                <EditableText contentKey="investors.selective.eyebrow" value={content?.investors?.selective?.eyebrow || 'Investor Profile'} />
+              </div>
+              <h2>
+                <EditableText contentKey="investors.selective.title" value={content?.investors?.selective?.title || "We're selective.\nOn purpose."} />
+              </h2>
             </div>
 
             {/* Spanning Center-Aligned Description Block */}
@@ -928,8 +943,12 @@ export default function InvestorsPage() {
             
             {/* Centered Heading */}
             <div className="section-header-centered">
-              <div className="hero-eyebrow-pill">Investment Terms</div>
-              <h2>Clear terms. <br /><span style={{ color: 'var(--primary-blue)' }}>No surprises.</span></h2>
+              <div className="hero-eyebrow-pill">
+                <EditableText contentKey="investors.terms.eyebrow" value={content?.investors?.terms?.eyebrow || 'Investment Terms'} />
+              </div>
+              <h2>
+                <EditableText contentKey="investors.terms.title" value={content?.investors?.terms?.title || 'Clear terms.\nNo surprises.'} />
+              </h2>
             </div>
 
             {/* 3 Columns Grid */}
@@ -1011,12 +1030,14 @@ export default function InvestorsPage() {
               <div style={{ position: 'absolute', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(139, 92, 246, 0.1), transparent 70%)', bottom: '-100px', left: '-100px', filter: 'blur(80px)', pointerEvents: 'none' }}></div>
 
               <div style={{ maxWidth: '640px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
-                <div className="hero-eyebrow-pill" style={{ marginBottom: '16px' }}>Get Started</div>
+                <div className="hero-eyebrow-pill" style={{ marginBottom: '16px' }}>
+                  <EditableText contentKey="investors.form.eyebrow" value={content?.investors?.form?.eyebrow || 'Get Started'} />
+                </div>
                 <h2 style={{ fontSize: '3rem', color: '#FFFFFF', marginBottom: '16px', letterSpacing: '-0.02em' }}>
-                  Register Your Interest
+                  <EditableText contentKey="investors.form.title" value={content?.investors?.form?.title || 'Register Your Interest'} />
                 </h2>
                 <p style={{ color: 'rgba(255, 255, 255, 0.65)', marginBottom: '48px', fontSize: '1.05rem', fontWeight: 500, lineHeight: 1.6 }}>
-                  Complete the briefing form below and our team will get in touch to schedule a private briefing session.
+                  <EditableText contentKey="investors.form.description" value={content?.investors?.form?.description || 'Complete the briefing form below and our team will get in touch to schedule a private briefing session.'} />
                 </p>
 
                 {submitted ? (
