@@ -541,23 +541,23 @@ export default function CareersPage() {
                 <div key={i} className="job-card">
                   <div>
                     <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '12px' }} className="font-manrope">
-                      <EditableText contentKey={`careers.jobs.listings.${i}.title`} value={careersContent.jobs.listings[i].title} />
+                      {job.title}
                     </h3>
                     <div style={{ display: 'flex', gap: '20px', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 600 }}>
                       <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                         <MapPin size={16} /> 
-                        <EditableText contentKey={`careers.jobs.listings.${i}.location`} value={careersContent.jobs.listings[i].location} />
+                        {job.location}
                       </span>
                     </div>
                   </div>
-                  <Link 
-                    href="/contact"
-                    style={{ backgroundColor: 'var(--light-blue-bg)', color: 'var(--primary-blue)', padding: '12px 28px', borderRadius: '100px', fontWeight: 800, fontSize: '14px', border: 'none', cursor: 'pointer', transition: 'all 0.2s', textDecoration: 'none' }} 
-                    onMouseOver={(e: any) => e.currentTarget.style.backgroundColor = '#DBEAFE'} 
+                  <button
+                    onClick={() => handleScroll('apply-now')}
+                    style={{ backgroundColor: 'var(--light-blue-bg)', color: 'var(--primary-blue)', padding: '12px 28px', borderRadius: '100px', fontWeight: 800, fontSize: '14px', border: 'none', cursor: 'pointer', transition: 'all 0.2s' }}
+                    onMouseOver={(e: any) => e.currentTarget.style.backgroundColor = '#DBEAFE'}
                     onMouseOut={(e: any) => e.currentTarget.style.backgroundColor = 'var(--light-blue-bg)'}
                   >
                     Apply Now
-                  </Link>
+                  </button>
                 </div>
               ))}
             </div>

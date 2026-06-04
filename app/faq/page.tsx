@@ -519,7 +519,7 @@ export default function FaqPage() {
                       />
                     </h2>
                     <p>
-                      Everything you need to know about the <a href="/studio">Studio track</a>
+                      Everything you need to know about the <a>Studio track</a>
                     </p>
                   </div>
 
@@ -559,7 +559,7 @@ export default function FaqPage() {
                       />
                     </h2>
                     <p>
-                      Everything you need to know about the <a href="/contact">Product track</a>
+                      Everything you need to know about the <a>Product track</a>
                     </p>
                   </div>
 
@@ -599,7 +599,7 @@ export default function FaqPage() {
                       />
                     </h2>
                     <p>
-                      Everything you need to know about the <a href="/contact">Security track</a>
+                      Everything you need to know about the <a>Security track</a>
                     </p>
                   </div>
 

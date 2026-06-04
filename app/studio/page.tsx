@@ -961,6 +961,8 @@ export default function StudioPage() {
           max-width: 1100px;
           margin: 40px auto 0;
           overflow: hidden;
+          border: 1px solid #E2E8F0;
+          border-radius: 12px;
         }
 
         .timeline-table {
@@ -975,9 +977,12 @@ export default function StudioPage() {
           font-weight: 700;
           color: #0F172A;
           padding: 18px 24px;
-          border-top: 1px solid #E2E8F0;
           border-bottom: 1px solid #E2E8F0;
           text-transform: capitalize;
+        }
+
+        .timeline-table th:not(:last-child) {
+          border-right: 1px solid #E2E8F0;
         }
 
         .timeline-table td {
@@ -999,6 +1004,7 @@ export default function StudioPage() {
           color: #0F172A;
           font-size: 1rem;
           width: 80px;
+          border-right: 1px solid #E2E8F0;
         }
 
         .timeline-table td.title-col {
@@ -1007,11 +1013,13 @@ export default function StudioPage() {
           color: #0F172A;
           font-size: 1.05rem;
           width: 220px;
+          border-right: 1px solid #E2E8F0;
         }
 
         .timeline-table td.desc-col {
           color: #475569;
           font-weight: 400;
+          border-right: 1px solid #E2E8F0;
         }
 
         .timeline-table td.duration-col {
@@ -1622,7 +1630,7 @@ export default function StudioPage() {
           <div className="vm-inner" style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'stretch', position: 'relative', zIndex: 1 }}>
             <div className="vm-card" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: '20px', padding: '2rem', position: 'relative', overflow: 'hidden', transition: 'border-color 0.3s', display: 'flex', flexDirection: 'column', height: '100%' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, #005AE2 0%, transparent 100%)' }}></div>
-              <span className="vm-tag" style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#005AE2', marginBottom: '1rem', display: 'block', fontFamily: "'Manrope', sans-serif" }}>
+              <span className="vm-tag" style={{ fontSize: '1.3rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#005AE2', marginBottom: '1rem', display: 'block', fontFamily: "'Manrope', sans-serif" }}>
                 <EditableText contentKey="studio.vision.visionTag" value="Our Vision" />
               </span>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 800, lineHeight: 1.3, marginBottom: '0.75rem', fontFamily: "'Manrope', sans-serif" }}>
@@ -1635,7 +1643,7 @@ export default function StudioPage() {
 
             <div className="vm-card" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: '20px', padding: '2rem', position: 'relative', overflow: 'hidden', transition: 'border-color 0.3s', display: 'flex', flexDirection: 'column', height: '100%' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, #005AE2 0%, transparent 100%)' }}></div>
-              <span className="vm-tag" style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#005AE2', marginBottom: '1rem', display: 'block', fontFamily: "'Manrope', sans-serif" }}>
+              <span className="vm-tag" style={{ fontSize: '1.3rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#005AE2', marginBottom: '1rem', display: 'block', fontFamily: "'Manrope', sans-serif" }}>
                 <EditableText contentKey="studio.vision.missionTag" value="Our Mission" />
               </span>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 800, lineHeight: 1.3, marginBottom: '0.75rem', fontFamily: "'Manrope', sans-serif" }}>
@@ -1776,23 +1784,18 @@ export default function StudioPage() {
                     '--card-glow-shadow': val.shadow
                   } as React.CSSProperties}
                 >
-                  {/* Background Large Number */}
-                  <div className="value-card-bg-num">{val.num}</div>
-
                   {/* Top subheading tag */}
                   <div style={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
-                    fontSize: '0.68rem',
+                    fontSize: '0.9rem',
                     fontWeight: 800,
                     letterSpacing: '0.12em',
                     color: val.color,
                     textTransform: 'uppercase',
                     marginBottom: '16px'
                   }}>
-                    <span>{val.num}</span>
-                    <span style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'rgba(0,0,0,0.08)' }}></span>
                     <EditableText
                       contentKey={`studio.values.items.${index}.subheading`}
                       value={val.subheading}
@@ -2028,54 +2031,7 @@ export default function StudioPage() {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: none; }
 }
-.counter-bar {
-  flex: 1;
-  height: 2px;
-  background: rgba(0,0,0,0.08);
-  border-radius: 1px;
-  overflow: hidden;
-  max-width: 120px;
-}
-.counter-fill {
-  height: 100%;
-  border-radius: 1px;
-  transition: width 0.7s cubic-bezier(0.4,0,0.2,1);
-}
-*/}
-
-        {/* Partition line */}
-
-
-        {/* Five Phases Title Section */}
-        <section style={{ padding: '60px 24px 20px', backgroundColor: '#EFF6FF', textAlign: 'center' }}>
-          <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto', paddingBottom: 0 }}>
-            <EditableText
-              as="h2"
-              contentKey="studio.phases.title"
-              value={studioContent.phases?.title || "Five Phases. One Mission."}
-              className="section-title"
-              style={{
-                color: '#0F172A',
-                maxWidth: '800px',
-                margin: '0 auto 16px',
-                fontFamily: "'Manrope', sans-serif",
-                fontSize: 'clamp(1.8rem, 3vw, 2.5rem)',
-                fontWeight: 800
-              }}
-            />
-            <EditableText
-              as="p"
-              contentKey="studio.phases.subtitle"
-              value={studioContent.phases?.subtitle || "Our structured blueprint for transforming bold concepts into venture-scale realities."}
-              className="section-subtitle"
-              style={{
-                maxWidth: '640px',
-                margin: '0 auto',
-                color: '#64748B'
-              }}
-            />
-          </div>
-        </section>
+        */}`
 
         {content?.ourModel && (() => {
           const phaseColors = ['#005AE2', '#005AE2', '#005AE2', '#005AE2', '#005AE2'];
@@ -2108,127 +2064,175 @@ export default function StudioPage() {
 
           const ac = phaseColors[heroCarouselIndex] || '#3B82F6';
           const acDark = phaseDarkColors[heroCarouselIndex] || '#1d4ed8';
+          const ph = [2, 3, 4].includes(heroCarouselIndex) ? content.ourModel.phases?.items?.[heroCarouselIndex - 2] : null;
+          const colors = ['#10B981', '#F59E0B', '#EF4444'];
+          const vKey = [2, 3, 4].includes(heroCarouselIndex) ? ['v1', 'v2', 'v3'][heroCarouselIndex - 2] : '';
 
           return (
-            <>
-              {/* ── STICKY PILL NAV ── */}
+            <section
+              style={{
+                position: 'relative',
+                backgroundColor: '#EFF6FF',
+                padding: '80px 0 80px',
+                overflow: 'hidden'
+              }}
+            >
+              {/* Grid background */}
               <div style={{
-                position: 'sticky', top: 0, zIndex: 100,
-                background: '#EFF6FF',
+                position: 'absolute',
+                inset: 0,
+                backgroundImage: `
+                  linear-gradient(rgba(0, 90, 226, 0.05) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(0, 90, 226, 0.05) 1px, transparent 1px)
+                `,
+                backgroundSize: '50px 50px',
+                opacity: 1,
+                pointerEvents: 'none',
+                zIndex: 0,
+              }} />
 
-              }}>
-                <div className="section-container" style={{ paddingTop: 0, paddingBottom: 0 }}>
-                  <div style={{
-                    display: 'flex', justifyContent: 'center',
-                    padding: '20px 0', maxWidth: '800px',
-                    margin: '0 auto', alignItems: 'center',
-                  }}>
-                    {[
-                      { n: '01', t: studioContent.phases?.tabs?.[0]?.title || 'SELECT', id: 0 },
-                      { n: '02', t: studioContent.phases?.tabs?.[1]?.title || 'VALIDATE', id: 1 },
-                      { n: '03', t: studioContent.phases?.tabs?.[2]?.title || 'BUILD', id: 2 },
-                      { n: '04', t: studioContent.phases?.tabs?.[3]?.title || 'LAUNCH', id: 3 },
-                      { n: '05', t: studioContent.phases?.tabs?.[4]?.title || 'SCALE', id: 4 },
-                    ].map((ph, idx) => (
-                      <React.Fragment key={ph.id}>
-                        <button
-                          onClick={() => handleManualPhaseChange(ph.id)}
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: '8px',
-                            cursor: 'pointer',
-                            background: 'transparent',
-                            border: 'none',
-                            padding: 0,
-                            minWidth: '80px',
-                          }}
-                        >
-                          <div style={{
-                            width: '40px',
-                            height: '40px',
-                            borderRadius: '50%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '14px',
-                            fontWeight: 700,
-                            fontFamily: "'Manrope', sans-serif",
-                            background: heroCarouselIndex === ph.id ? '#005AE2' : 
-                                      heroCarouselIndex > ph.id ? '#005AE2' : '#ffffff',
-                            color: heroCarouselIndex === ph.id ? '#ffffff' : 
-                                   heroCarouselIndex > ph.id ? '#ffffff' : '#64748B',
-                            border: heroCarouselIndex === ph.id ? '3px solid #005AE2' : 
-                                   heroCarouselIndex > ph.id ? '3px solid #005AE2' : '2px solid #E2E8F0',
-                            transition: 'all 0.3s ease',
-                            boxShadow: heroCarouselIndex === ph.id ? '0 4px 12px rgba(0, 90, 226, 0.3)' : 'none',
-                          }}>
-                            {heroCarouselIndex > ph.id ? '✓' : ph.n}
-                          </div>
-                          <span style={{
-                            fontSize: '11px',
-                            fontWeight: 600,
-                            fontFamily: "'Manrope', sans-serif",
-                            letterSpacing: '0.05em',
-                            textTransform: 'uppercase',
-                            color: heroCarouselIndex === ph.id ? '#005AE2' : 
-                                   heroCarouselIndex > ph.id ? '#005AE2' : '#64748B',
-                            transition: 'all 0.3s ease',
-                          }}>
-                            <EditableText
-                              contentKey={`studio.phases.tabs.${idx}.title`}
-                              value={ph.t}
-                            />
-                          </span>
-                        </button>
-                        {idx < 4 && (
-                          <div style={{
-                            flex: 1,
-                            height: '2px',
-                            background: heroCarouselIndex > idx ? '#005AE2' : '#E2E8F0',
-                            margin: '0 8px',
-                            transition: 'all 0.3s ease',
-                            maxWidth: '60px',
-                          }} />
-                        )}
-                      </React.Fragment>
-                    ))}
+              {/* Light effect from center */}
+              <div style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '800px',
+                height: '800px',
+                background: 'radial-gradient(circle, rgba(0, 90, 226, 0.08) 0%, transparent 70%)',
+                pointerEvents: 'none',
+                zIndex: 0,
+              }} />
+
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                {/* Unified Header */}
+                <div className="section-container" style={{ textAlign: 'center', marginBottom: '40px', paddingTop: 0, paddingBottom: 0 }}>
+                  <div style={{ display: 'inline-block' }}>
+                    <EditableText
+                      contentKey="studio.phases.eyebrow"
+                      value={studioContent.phases?.eyebrow || "Selection Process"}
+                      className="hero-eyebrow-pill"
+                    />
+                  </div>
+                  <EditableText
+                    as="h2"
+                    contentKey="studio.phases.title"
+                    value={studioContent.phases?.title || "Five Phases. One Mission."}
+                    className="section-title"
+                    style={{
+                      color: '#0F172A',
+                      maxWidth: '800px',
+                      margin: '0 auto 16px',
+                      fontFamily: "'Manrope', sans-serif",
+                      fontSize: 'clamp(1.8rem, 3vw, 2.5rem)',
+                      fontWeight: 800
+                    }}
+                  />
+                  <EditableText
+                    as="p"
+                    contentKey="studio.phases.subtitle"
+                    value={studioContent.phases?.subtitle || "Our structured blueprint for transforming bold concepts into venture-scale realities."}
+                    className="section-subtitle"
+                    style={{
+                      maxWidth: '640px',
+                      margin: '0 auto',
+                      color: '#64748B'
+                    }}
+                  />
+                </div>
+
+                {/* ── STICKY PILL NAV ── */}
+                <div style={{
+                  position: 'sticky', top: 0, zIndex: 100,
+                  background: 'rgba(239, 246, 255, 0.85)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  borderBottom: '1px solid rgba(0, 90, 226, 0.05)',
+                  marginBottom: '32px',
+                }}>
+                  <div className="section-container" style={{ paddingTop: 0, paddingBottom: 0 }}>
+                    <div style={{
+                      display: 'flex', justifyContent: 'center',
+                      padding: '20px 0', maxWidth: '800px',
+                      margin: '0 auto', alignItems: 'center',
+                    }}>
+                      {[
+                        { n: '01', t: studioContent.phases?.tabs?.[0]?.title || 'SELECT', id: 0 },
+                        { n: '02', t: studioContent.phases?.tabs?.[1]?.title || 'VALIDATE', id: 1 },
+                        { n: '03', t: studioContent.phases?.tabs?.[2]?.title || 'BUILD', id: 2 },
+                        { n: '04', t: studioContent.phases?.tabs?.[3]?.title || 'LAUNCH', id: 3 },
+                        { n: '05', t: studioContent.phases?.tabs?.[4]?.title || 'SCALE', id: 4 },
+                      ].map((ph, idx) => (
+                        <React.Fragment key={ph.id}>
+                          <button
+                            onClick={() => handleManualPhaseChange(ph.id)}
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              alignItems: 'center',
+                              gap: '8px',
+                              cursor: 'pointer',
+                              background: 'transparent',
+                              border: 'none',
+                              padding: 0,
+                              minWidth: '80px',
+                            }}
+                          >
+                            <div style={{
+                              width: '40px',
+                              height: '40px',
+                              borderRadius: '50%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '14px',
+                              fontWeight: 700,
+                              fontFamily: "'Manrope', sans-serif",
+                              background: heroCarouselIndex === ph.id ? '#005AE2' : 
+                                        heroCarouselIndex > ph.id ? '#005AE2' : '#ffffff',
+                              color: heroCarouselIndex === ph.id ? '#ffffff' : 
+                                     heroCarouselIndex > ph.id ? '#ffffff' : '#64748B',
+                              border: heroCarouselIndex === ph.id ? '3px solid #005AE2' : 
+                                     heroCarouselIndex > ph.id ? '3px solid #005AE2' : '2px solid #E2E8F0',
+                              transition: 'all 0.3s ease',
+                              boxShadow: heroCarouselIndex === ph.id ? '0 4px 12px rgba(0, 90, 226, 0.3)' : 'none',
+                            }}>
+                              {heroCarouselIndex > ph.id ? '✓' : ph.n}
+                            </div>
+                            <span style={{
+                              fontSize: '11px',
+                              fontWeight: 600,
+                              fontFamily: "'Manrope', sans-serif",
+                              letterSpacing: '0.05em',
+                              textTransform: 'uppercase',
+                              color: heroCarouselIndex === ph.id ? '#005AE2' : 
+                                     heroCarouselIndex > ph.id ? '#005AE2' : '#64748B',
+                              transition: 'all 0.3s ease',
+                            }}>
+                              <EditableText
+                                contentKey={`studio.phases.tabs.${idx}.title`}
+                                value={ph.t}
+                              />
+                            </span>
+                          </button>
+                          {idx < 4 && (
+                            <div style={{
+                              flex: 1,
+                              height: '2px',
+                              background: heroCarouselIndex > idx ? '#005AE2' : '#E2E8F0',
+                              margin: '0 8px',
+                              transition: 'all 0.3s ease',
+                              maxWidth: '60px',
+                            }} />
+                          )}
+                        </React.Fragment>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* ── MAIN SECTION ── */}
-              <section
-                className="phase-section-wrap"
-                style={{ padding: '48px 0 56px', position: 'relative', background: '#EFF6FF', overflow: 'hidden' }}
-              >
-                {/* Grid background */}
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  backgroundImage: `
-                    linear-gradient(rgba(0, 90, 226, 0.05) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(0, 90, 226, 0.05) 1px, transparent 1px)
-                  `,
-                  backgroundSize: '50px 50px',
-                  opacity: 1,
-                }} />
-
-                {/* Light effect from center */}
-                <div style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: '800px',
-                  height: '800px',
-                  background: 'radial-gradient(circle, rgba(0, 90, 226, 0.08) 0%, transparent 70%)',
-                  pointerEvents: 'none',
-                  zIndex: 0,
-                }} />
-
-                <div className="section-container" style={{ position: 'relative', zIndex: 1, background: 'transparent' }}>
+                {/* ── MAIN CONTENT (GRID) ── */}
+                <div className="section-container" style={{ background: 'transparent' }}>
                   <div style={{
                     display: 'grid',
                     gridTemplateColumns: '1fr 1.15fr',
@@ -2263,7 +2267,7 @@ export default function StudioPage() {
                           value={phaseLabels[heroCarouselIndex]}
                         />
                       </div>
- 
+
                       {/* Main title */}
                       <h2
                         key={`title-${heroCarouselIndex}`}
@@ -2283,7 +2287,7 @@ export default function StudioPage() {
                           value={phaseTitles[heroCarouselIndex]}
                         />
                       </h2>
- 
+
                       {/* Description with left border */}
                       <p
                         key={`desc-${heroCarouselIndex}`}
@@ -2373,9 +2377,72 @@ export default function StudioPage() {
                       ))}
 
                       {/* Phase 1 — Validate */}
-                      {heroCarouselIndex === 1 && (
+                      {heroCarouselIndex === 1 && content.ourModel.validation?.steps?.map((step: any, idx: number) => (
+                        <div
+                          key={idx}
+                          style={{
+                            background: '#ffffff',
+                            border: '1px solid #E2E8F0',
+                            borderRadius: '12px',
+                            padding: '20px 18px',
+                            transition: 'all 0.2s ease',
+                            animationDelay: `${idx % 2 === 0 ? idx * 0.09 : 0.05 + idx * 0.09}s`,
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.borderColor = '#005AE2';
+                            e.currentTarget.style.transform = 'translateY(-2px)';
+                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 90, 226, 0.15)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.borderColor = '#E2E8F0';
+                            e.currentTarget.style.transform = 'translateY(0)';
+                            e.currentTarget.style.boxShadow = 'none';
+                          }}
+                        >
+                          <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', color: '#005AE2', marginBottom: '8px', opacity: 0.9 }}>
+                            {String(idx + 1).padStart(2, '0')}
+                          </div>
+                          <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
+                            <EditableText contentKey={`ourModel.validation.steps.${idx}.title`} value={step.title} />
+                          </h3>
+                          <p style={{ fontSize: '0.8rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
+                            <EditableText contentKey={`ourModel.validation.steps.${idx}.desc`} value={step.desc} />
+                          </p>
+                        </div>
+                      ))}
+
+                      {/* Phases 2, 3, 4 — Build / Launch / Scale */}
+                      {[2, 3, 4].includes(heroCarouselIndex) && (
                         <>
-                          {content.ourModel.validation?.steps?.map((step: any, idx: number) => (
+                          <div
+                            style={{
+                              background: '#ffffff',
+                              border: '1px solid #E2E8F0',
+                              borderRadius: '12px',
+                              padding: '20px 18px',
+                              transition: 'all 0.2s ease',
+                              animationDelay: '0s',
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.borderColor = '#005AE2';
+                              e.currentTarget.style.transform = 'translateY(-2px)';
+                              e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 90, 226, 0.15)';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.borderColor = '#E2E8F0';
+                              e.currentTarget.style.transform = 'translateY(0)';
+                              e.currentTarget.style.boxShadow = 'none';
+                            }}
+                          >
+                            <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', color: '#005AE2', marginBottom: '8px', opacity: 0.9 }}>01</div>
+                            <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
+                              <EditableText contentKey={`ourModel.phases.items.${heroCarouselIndex - 2}.label`} value={ph?.label} />
+                            </h3>
+                            <p style={{ fontSize: '0.8rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
+                              <EditableText contentKey={`ourModel.phases.items.${heroCarouselIndex - 2}.desc`} value={ph?.desc} />
+                            </p>
+                          </div>
+                          {content.ourModel.phases?.table?.rows?.map((row: any, idx: number) => (
                             <div
                               key={idx}
                               style={{
@@ -2384,7 +2451,7 @@ export default function StudioPage() {
                                 borderRadius: '12px',
                                 padding: '20px 18px',
                                 transition: 'all 0.2s ease',
-                                animationDelay: `${idx % 2 === 0 ? idx * 0.09 : 0.05 + idx * 0.09}s`,
+                                animationDelay: `${(idx + 1) * 0.09}s`,
                               }}
                               onMouseEnter={(e) => {
                                 e.currentTarget.style.borderColor = '#005AE2';
@@ -2398,146 +2465,82 @@ export default function StudioPage() {
                               }}
                             >
                               <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', color: '#005AE2', marginBottom: '8px', opacity: 0.9 }}>
-                                {String(idx + 1).padStart(2, '0')}
+                                {String(idx + 2).padStart(2, '0')}
                               </div>
                               <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
-                                <EditableText contentKey={`ourModel.validation.steps.${idx}.title`} value={step.title} />
+                                <EditableText contentKey={`ourModel.phases.table.rows.${idx}.c`} value={row.c} />
                               </h3>
-                              <p style={{ fontSize: '0.8rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
-                                <EditableText contentKey={`ourModel.validation.steps.${idx}.desc`} value={step.desc} />
+                              <p style={{ fontSize: '0.85rem', fontWeight: 700, color: colors[heroCarouselIndex - 2], margin: 0 }}>
+                                <EditableText contentKey={`ourModel.phases.table.rows.${idx}.${vKey}`} value={(row as any)[vKey]} />
                               </p>
                             </div>
                           ))}
                         </>
                       )}
 
-                      {/* Phases 2, 3, 4 — Build / Launch / Scale */}
-                      {[2, 3, 4].includes(heroCarouselIndex) && (() => {
-                        const ph = content.ourModel.phases?.items?.[heroCarouselIndex - 2];
-                        const colors = ['#10B981', '#F59E0B', '#EF4444'];
-                        const vKey = ['v1', 'v2', 'v3'][heroCarouselIndex - 2];
-                        return (
-                          <>
-                            <div
-                              style={{
-                                background: '#ffffff',
-                                border: '1px solid #E2E8F0',
-                                borderRadius: '12px',
-                                padding: '20px 18px',
-                                transition: 'all 0.2s ease',
-                                animationDelay: '0s',
-                              }}
-                              onMouseEnter={(e) => {
-                                e.currentTarget.style.borderColor = '#005AE2';
-                                e.currentTarget.style.transform = 'translateY(-2px)';
-                                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 90, 226, 0.15)';
-                              }}
-                              onMouseLeave={(e) => {
-                                e.currentTarget.style.borderColor = '#E2E8F0';
-                                e.currentTarget.style.transform = 'translateY(0)';
-                                e.currentTarget.style.boxShadow = 'none';
-                              }}
-                            >
-                              <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', color: '#005AE2', marginBottom: '8px', opacity: 0.9 }}>01</div>
-                              <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
-                                <EditableText contentKey={`ourModel.phases.items.${heroCarouselIndex - 2}.label`} value={ph?.label} />
-                              </h3>
-                              <p style={{ fontSize: '0.8rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
-                                <EditableText contentKey={`ourModel.phases.items.${heroCarouselIndex - 2}.desc`} value={ph?.desc} />
-                              </p>
-                            </div>
-                            {content.ourModel.phases?.table?.rows?.map((row: any, idx: number) => (
-                              <div
-                                key={idx}
-                                style={{
-                                  background: '#ffffff',
-                                  border: '1px solid #E2E8F0',
-                                  borderRadius: '12px',
-                                  padding: '20px 18px',
-                                  transition: 'all 0.2s ease',
-                                  animationDelay: `${(idx + 1) * 0.09}s`,
-                                }}
-                                onMouseEnter={(e) => {
-                                  e.currentTarget.style.borderColor = '#005AE2';
-                                  e.currentTarget.style.transform = 'translateY(-2px)';
-                                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 90, 226, 0.15)';
-                                }}
-                                onMouseLeave={(e) => {
-                                  e.currentTarget.style.borderColor = '#E2E8F0';
-                                  e.currentTarget.style.transform = 'translateY(0)';
-                                  e.currentTarget.style.boxShadow = 'none';
-                                }}
-                              >
-                                <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', color: '#005AE2', marginBottom: '8px', opacity: 0.9 }}>
-                                  {String(idx + 2).padStart(2, '0')}
-                                </div>
-                                <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
-                                  <EditableText contentKey={`ourModel.phases.table.rows.${idx}.c`} value={row.c} />
-                                </h3>
-                                <p style={{ fontSize: '0.85rem', fontWeight: 700, color: colors[heroCarouselIndex - 2], margin: 0 }}>
-                                  <EditableText contentKey={`ourModel.phases.table.rows.${idx}.${vKey}`} value={(row as any)[vKey]} />
-                                </p>
-                              </div>
-                            ))}
-                          </>
-                        );
-                      })()}
+
 
                     </div>
                   </div>
                 </div>
-              </section>
-            </>
-          );
-        })()}
 
-      {/* Selection Process Sub-Section & 5-Step Process */}
-      <section id="selection" style={{ padding: '24px 24px', backgroundColor: '#FFFFFF' }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <EditableText
-              contentKey="studio.creation_steps.eyebrow"
-              value={studioContent.creation_steps?.eyebrow || "Selection Steps"}
-              className="hero-eyebrow-pill"
-            />
-            <EditableText
-              as="h2"
-              contentKey="studio.creation_steps.title"
-              value={studioContent.creation_steps?.title || "Venture Creation Steps"}
-              className="section-title"
-              style={{
-                fontWeight: 800,
-                letterSpacing: '-0.02em',
-                color: '#0F172A',
-                lineHeight: 1.2,
-                maxWidth: '800px',
-                margin: '0 auto 16px',
-                fontFamily: "'Manrope', sans-serif"
-              }}
-            />
-            <EditableText
-              as="p"
-              contentKey="studio.creation_steps.subtitle"
-              value={studioContent.creation_steps?.subtitle || "A structured roadmap from your initial product proposal to assembly, build, and market launch."}
-              className="section-subtitle"
-              style={{
-                maxWidth: '600px',
-                margin: '0 auto'
-              }}
-            />
-          </div>
+              {/* ── DIVIDER ── */}
+              <div className="section-container" style={{ paddingTop: 0, paddingBottom: 0 }}>
+                <div style={{
+                  maxWidth: '960px',
+                  margin: '0 auto',
+                  height: '1px',
+                  background: 'linear-gradient(90deg, transparent, rgba(0,90,226,0.15), transparent)',
+                }} />
+              </div>
 
-          <div style={{ maxWidth: '640px', margin: '0 auto', position: 'relative', paddingLeft: '24px' }}>
-            {/* Vertical timeline connector line */}
-            <div style={{
-              position: 'absolute',
-              left: '18px',
-              top: '24px',
-              bottom: '24px',
-              width: '2px',
-              background: '#F1F5F9',
-              zIndex: 0
-            }}></div>
+              {/* ── SELECTION PROCESS SUB-SECTION ── */}
+              <div className="section-container" id="selection" style={{ paddingBottom: 0 }}>
+                <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                  <div style={{ textAlign: 'center', marginBottom: '48px', paddingTop: '60px' }}>
+                    <EditableText
+                      contentKey="studio.creation_steps.eyebrow"
+                      value={studioContent.creation_steps?.eyebrow || "Selection Steps"}
+                      className="hero-eyebrow-pill"
+                    />
+                    <EditableText
+                      as="h2"
+                      contentKey="studio.creation_steps.title"
+                      value={studioContent.creation_steps?.title || "Venture Creation Steps"}
+                      className="section-title"
+                      style={{
+                        fontWeight: 800,
+                        letterSpacing: '-0.02em',
+                        color: '#0F172A',
+                        lineHeight: 1.2,
+                        maxWidth: '800px',
+                        margin: '0 auto 16px',
+                        fontFamily: "'Manrope', sans-serif"
+                      }}
+                    />
+                    <EditableText
+                      as="p"
+                      contentKey="studio.creation_steps.subtitle"
+                      value={studioContent.creation_steps?.subtitle || "A structured roadmap from your initial product proposal to assembly, build, and market launch."}
+                      className="section-subtitle"
+                      style={{
+                        maxWidth: '600px',
+                        margin: '0 auto'
+                      }}
+                    />
+                  </div>
+
+                  <div style={{ maxWidth: '640px', margin: '0 auto', position: 'relative', paddingLeft: '24px' }}>
+                    {/* Vertical timeline connector line */}
+                    <div style={{
+                      position: 'absolute',
+                      left: '18px',
+                      top: '24px',
+                      bottom: '24px',
+                      width: '2px',
+                      background: 'rgba(0,90,226,0.12)',
+                      zIndex: 0
+                    }}></div>
 
             {(() => {
               const defaultCreationSteps = [
@@ -2676,10 +2679,13 @@ export default function StudioPage() {
                 </div>
               ));
             })()}
-          </div>
-        </div>
-      </section>
-
+                  </div>
+                </div>
+              </div>
+              </div>
+            </section>
+          );
+        })()}
 
       {/* The Build Timeline */}
       <section className="timeline-table-section">

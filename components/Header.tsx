@@ -88,6 +88,7 @@ export default function Header(props: any) {
           background: #ffffff;
           box-shadow: 0 1px 0 rgba(0,0,0,0.08);
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          padding: 0px 0;
         }
 
         /* ─── Navbar Inner ─────────────────────────────────── */
@@ -97,7 +98,7 @@ export default function Header(props: any) {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 4px 40px;
+          padding: 0px 40px;
           width: 100%;
           max-width: 1200px;
           margin: 0 auto;
@@ -121,12 +122,11 @@ export default function Header(props: any) {
         }
 
         .navbar-brand:hover {
-          opacity: 0.85;
           transform: translateY(-1px);
         }
 
         .header-logo {
-          height: 80px;
+          height: 85px;
           width: auto;
           object-fit: contain;
           transition: height 0.3s ease;

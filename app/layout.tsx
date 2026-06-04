@@ -15,6 +15,9 @@ const manrope = Manrope({ subsets: ['latin'], variable: '--font-manrope' })
 export const metadata: Metadata = {
   title: 'US CC - Venture Studio',
   description: 'Building the next generation of digital infrastructure and ventures.',
+  icons: {
+    icon: '/CC_US_Logo_-_Black_Patch-removebg-preview.png',
+  },
 }
 
 export const viewport = {

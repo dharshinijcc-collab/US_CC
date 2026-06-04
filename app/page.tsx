@@ -292,7 +292,7 @@ export default function LandingPage() {
   if (loading && !content) return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">
       <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-      <p className="text-gray-600 font-medium">Loading premium experience...</p>
+      <p className="text-gray-600 font-medium">Loading</p>
     </div>
   );
 
@@ -350,8 +350,10 @@ export default function LandingPage() {
 
   const handleFinalSubmit = async (e: any) => {
     e.preventDefault();
-    if (!userName || !userEmail || !userEmail.includes('@')) {
-      setFormMessage('Please provide your name and a valid email');
+    // Email validation regex
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!userName || !userEmail || !emailRegex.test(userEmail)) {
+      setFormMessage('Please provide your name and a valid email address');
       setMessageType('error');
       return;
     }
@@ -369,6 +371,9 @@ export default function LandingPage() {
       if (response.ok) {
         setSubmissionStep(3);
         setIdea('');
+        setTimeout(() => {
+          setSubmissionStep(0);
+        }, 3000);
       } else {
         setFormMessage('Something went wrong. Please try again.');
         setMessageType('error');
@@ -688,7 +693,7 @@ export default function LandingPage() {
           content: '';
           position: absolute;
           top: 0; left: 0; right: 0; bottom: 0;
-          background: linear-gradient(to bottom, rgba(10, 15, 28, 0.6) 0%, rgba(10, 15, 28, 0.8) 100%);
+          background: linear-gradient(to bottom, rgba(207, 218, 245, 0.3) 0%, rgba(205, 217, 248, 0.5).5) 100%);
           z-index: 1;
         }
         .section-cta-sky .section-title, 
@@ -954,7 +959,7 @@ export default function LandingPage() {
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
         }
         .testimonial-card::after {
-          content: '\u201C';
+          content: '"';
           position: absolute;
           top: 10px;
           right: 30px;
@@ -1333,7 +1338,7 @@ export default function LandingPage() {
           transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .founder-quote-card::after {
-          content: '\u201C';
+          content: '"';
           position: absolute;
           top: -20px;
           right: 40px;
@@ -2249,7 +2254,7 @@ export default function LandingPage() {
         .product-card-right {
           width: 38%;
           flex-shrink: 0;
-          padding: 28px 32px 28px 32px;
+          padding: 48px 32px 48px 32px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -2439,7 +2444,7 @@ export default function LandingPage() {
             position: relative;
             width: 100%;
             height: auto;
-            padding: 24px;
+            padding: 40px;
             overflow: visible;
           }
           .product-stats-cols {
@@ -2744,6 +2749,7 @@ export default function LandingPage() {
                               value={idx === 0 ? "Apply to Studio" : "Start a Conversation"}
                             />
                           </Link>
+                          
                           <button
                             className="flip-back-btn"
                             style={{ padding: '12px', borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: 'rgba(255,255,255,0.1)', border: '1.5px solid rgba(255,255,255,0.25)', color: '#ffffff' }}
@@ -3301,11 +3307,10 @@ export default function LandingPage() {
             </div>
             <h3><EditableText contentKey="home.hero.successModal.title" value={homeContent.hero.successModal.title} /></h3>
             <p><EditableText contentKey="home.hero.successModal.description" value={homeContent.hero.successModal.description} /></p>
-            <Link href="/progress">
-              <button className="btn-step-primary">
+
+            <button className="btn-step-primary" onClick={() => setSubmissionStep(0)}>
                 <EditableText contentKey="home.hero.successModal.buttonText" value={homeContent.hero.successModal.buttonText} />
               </button>
-            </Link>
           </div>
         </div>
       )}
@@ -3498,3 +3503,6 @@ function getCardIcon(iconName: string) {
       return <Compass className="hub-branch-icon" />;
   }
 }
+
+
+

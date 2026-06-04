@@ -221,27 +221,7 @@ export default function BlogArticlePage() {
                 </p>
               </div>
 
-              {/* Related Articles */}
-              <div className="border-t border-gray-200 pt-8 mt-12">
-                <h3 className="text-xl font-bold text-gray-900 mb-6">{articleContent.uiLabels.relatedTitle}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {articleContent.relatedArticles.map((article, index) => (
-                    <div 
-                      key={index}
-                      onClick={() => router.push(article.link)}
-                      className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors cursor-pointer"
-                    >
-                      <h4 className="font-bold text-gray-900 mb-2">{article.title}</h4>
-                      <p className="text-sm text-gray-600 mb-3">{article.excerpt}</p>
-                      <div className="flex items-center gap-2 text-blue-600 hover:text-blue-700">
-                        <span className="text-sm font-medium">{articleContent.uiLabels.readMore}</span>
-                        <ArrowRight size={16} />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </article>
+              </article>
           </div>
         </div>
       </div>

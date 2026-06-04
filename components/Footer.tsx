@@ -17,7 +17,7 @@ export default function Footer() {
         .cc-footer-wrapper .footer { 
           background-color: #0B1019; 
           color: #94A3B8; 
-          padding: 60px 0 40px 0; 
+          padding: 40px 0 20px 0; 
           font-size: clamp(0.875rem, 1.5vw, 1rem); 
           font-weight: 500;
           border-top: none;
@@ -111,8 +111,8 @@ export default function Footer() {
         }
         
         .cc-footer-wrapper .footer-bottom {
-          margin-top: 60px;
-          padding-top: 30px;
+          margin-top: 30px;
+          padding-top: 20px;
           width: 100%;
           position: relative;
           z-index: 1;
@@ -162,7 +162,7 @@ export default function Footer() {
           width: 95%;
           font-size: clamp(2.5rem, 11vw, 11rem); 
           font-weight: 900; 
-          color: rgba(255,255,255,0.04); 
+          color: rgba(30, 44, 79, 0.36); 
           pointer-events: none; 
           white-space: nowrap; 
           z-index: 0; 
@@ -172,7 +172,7 @@ export default function Footer() {
           text-align: center;
           line-height: 1;
           user-select: none;
-          opacity: 0.5;
+          opacity: 0.95;
           overflow: hidden;
         } 
         
@@ -360,7 +360,7 @@ export default function Footer() {
           <div className="footer-bottom">
             <div className="footer-bottom-container">
               <p className="copyright-text">
-                &copy; {new Date().getFullYear()} Crestcode USA. All rights reserved.
+                &copy; {new Date().getFullYear()} Crestcode Product Studio. All rights reserved.
               </p>
               <div className="footer-bottom-links">
                 <Link href="/privacy">Privacy Policy</Link>

@@ -205,29 +205,7 @@ export default function BlogArticlePage() {
                 </p>
               </div>
 
-              {/* Related Articles */}
-              <div className="border-t border-gray-200 pt-8 mt-12">
-                <h3 className="text-xl font-bold text-gray-900 mb-6">Related Articles</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors cursor-pointer">
-                    <h4 className="font-bold text-gray-900 mb-2">Agile Development Methodologies for Tech Teams</h4>
-                    <p className="text-sm text-gray-600 mb-3">Agile development has transformed the way tech teams plan...</p>
-                    <div className="flex items-center gap-2 text-blue-600 hover:text-blue-700">
-                      <span className="text-sm font-medium">Read More</span>
-                      <ArrowRight size={16} />
-                    </div>
-                  </div>
-                  <div className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors cursor-pointer">
-                    <h4 className="font-bold text-gray-900 mb-2">Data-Driven Decision Making in Modern Business</h4>
-                    <p className="text-sm text-gray-600 mb-3">Data-driven decision making has become an essential approach...</p>
-                    <div className="flex items-center gap-2 text-blue-600 hover:text-blue-700">
-                      <span className="text-sm font-medium">Read More</span>
-                      <ArrowRight size={16} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
+              </article>
           </div>
         </div>
       </div>
