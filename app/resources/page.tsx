@@ -118,7 +118,7 @@ export default function ResourcesPage() {
         .resources-page {
           min-height: 100vh;
           overflow-x: hidden;
-          background-color: var(--bg-light);
+          background-color: #F8FAFC;
         }
 
         .section-container {
@@ -129,9 +129,9 @@ export default function ResourcesPage() {
 
         /* Unified Hero Section Style */
         .hero-section {
-          padding: 120px 24px 60px !important; /* spacious padding to expand the section */
+          padding: 220px 24px 160px !important; /* spacious padding to expand the section */
           text-align: center !important;
-          background-color: #FFFFFF !important;
+          background-color: #F1F5F9 !important;
           display: flex !important;
           flex-direction: column !important;
           align-items: center !important;
@@ -311,8 +311,7 @@ export default function ResourcesPage() {
 
         /* ===== SECTION 3: FILTER BAR ===== */
         .filter-section {
-          border-top: 1px solid var(--border-light);
-          border-bottom: 1px solid var(--border-light);
+          box-shadow: 0 10px 30px -10px rgba(0, 90, 226, 0.08);
           padding: 24px 0;
           background-color: var(--white);
           position: sticky;
@@ -503,18 +502,35 @@ export default function ResourcesPage() {
       <main className="resources-page">
         
         {/* ===== SECTION 1: HERO ===== */}
-        <section className="hero-section" style={{ position: 'relative', overflow: 'hidden' }}>
-          {/* Ambient Glows */}
+        <section className="hero-section" style={{ position: 'relative', overflow: 'hidden', minHeight: '700px' }}>
+          {/* Top Light Effect */}
           <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', left: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', right: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
-
           <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div className="hero-eyebrow-pill">
               <EditableText contentKey="resources.hero.eyebrow" value={resourcesContent.hero?.eyebrow || 'RESOURCES'} />
             </div>
             <h1 className="hero-title" style={{ color: '#020617' }}>
-              <EditableText contentKey="resources.hero.title" value={resourcesContent.hero?.title || 'Everything you need to build\nwith confidence'} />
+              {(() => {
+                const titleText = resourcesContent.hero?.title || 'Everything you need to build\nWith Confidence';
+                const lines = titleText.split('\n');
+                return lines.map((line, lineIdx) => {
+                  const words = line.split(' ');
+                  return (
+                    <React.Fragment key={lineIdx}>
+                      {words.map((word: string, index: number) => {
+                        const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").toUpperCase();
+                        const isBlue = ['BUILD', 'CONFIDENCE'].includes(cleanWord);
+                        return (
+                          <span key={index} style={isBlue ? { color: '#005AE2' } : {}}>
+                            {word}{index < words.length - 1 ? ' ' : ''}
+                          </span>
+                        );
+                      })}
+                      {lineIdx < lines.length - 1 && <br />}
+                    </React.Fragment>
+                  );
+                });
+              })()}
             </h1>
             <p className="hero-description" style={{ marginBottom: '32px', lineHeight: '1.8', maxWidth: '720px' }}>
               <EditableText contentKey="resources.hero.description" value={resourcesContent.hero?.description || 'Guides, tools, and insights for founders and investors — covering how CrestCode works, how the industry is moving, and what it takes to build a product that lasts.'} />
@@ -528,7 +544,8 @@ export default function ResourcesPage() {
         </section>
 
         {/* ===== SECTION 3: INTERACTIVE TOOLS (shown first) ===== */}
-        <section className="section-container" style={{ paddingTop: '40px' }}>
+        <section style={{ backgroundColor: '#FFFFFF', padding: '48px 24px', position: 'relative' }}>
+          <div className="section-container" style={{ padding: 0 }}>
           <div className="header-center">
             <span className="eyebrow-text">
               <EditableText contentKey="resources.tools.eyebrow" value={resourcesContent.tools?.eyebrow || 'INTERACTIVE TOOLS'} />
@@ -573,11 +590,14 @@ export default function ResourcesPage() {
               </div>
             ))}
           </div>
+          </div>
         </section>
 
         {/* ===== SECTION 4: BLOG COMPONENT (shown after Tools) ===== */}
-        <section className="section-container" style={{ paddingTop: '40px' }}>
-          <Blogs showHero={false} />
+        <section style={{ backgroundColor: '#EFF6FF', padding: '48px 24px', position: 'relative' }}>
+          <div className="section-container" style={{ padding: 0 }}>
+            <Blogs showHero={false} />
+          </div>
         </section>
 
 

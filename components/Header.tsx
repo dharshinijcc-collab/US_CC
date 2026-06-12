@@ -82,13 +82,42 @@ export default function Header(props: any) {
         .navbar-wrapper {
           position: fixed;
           top: 0;
-          left: 0;
+          left: 50%;
+          transform: translateX(-50%);
           width: 100%;
+          max-width: 100%;
           z-index: 1000;
-          background: #ffffff;
-          box-shadow: 0 1px 0 rgba(0,0,0,0.08);
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          padding: 0px 0;
+          background: rgba(255, 255, 255, 0.98);
+          backdrop-filter: blur(0px);
+          -webkit-backdrop-filter: blur(0px);
+          border-radius: 0px;
+          border: none;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+          box-shadow: none;
+          transition:
+            top 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+            width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+            border-radius 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+            padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+            box-shadow 0.4s ease,
+            background 0.4s ease,
+            border-color 0.4s ease;
+          padding: 7px 0; /* reduced padding to keep header height same while enlarging logo */
+        }
+
+        /* Scrolled state — floating pill */
+        .navbar-wrapper.scrolled {
+          top: 12px;
+          width: calc(100% - 48px);
+          max-width: 1280px;
+          border-radius: 14px;
+          border: 1px solid rgba(0, 0, 0, 0.06);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+          background: rgba(255, 255, 255, 0.94);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          box-shadow: 0 2px 20px rgba(15, 23, 42, 0.04), 0 1px 6px rgba(15, 23, 42, 0.03);
+          padding: 5px 0; /* reduced padding when scrolled */
         }
 
         /* ─── Navbar Inner ─────────────────────────────────── */
@@ -98,9 +127,9 @@ export default function Header(props: any) {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 0px 40px;
+          padding: 0px 28px;
           width: 100%;
-          max-width: 1200px;
+          max-width: 1280px;
           margin: 0 auto;
           gap: 24px;
         }
@@ -118,19 +147,18 @@ export default function Header(props: any) {
           white-space: nowrap;
           flex-shrink: 0;
           cursor: pointer;
-          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-        }
-
-        .navbar-brand:hover {
-          transform: translateY(-1px);
         }
 
         .header-logo {
-          height: 85px;
+          height: 70px; /* increased from 60px to make logo larger */
           width: auto;
           object-fit: contain;
           transition: height 0.3s ease;
           cursor: pointer;
+        }
+
+        .navbar-wrapper.scrolled .header-logo {
+          height: 56px; /* compact but clear logo height when scrolled */
         }
 
         .mobile-menu-logo {
@@ -144,7 +172,7 @@ export default function Header(props: any) {
         .navbar-links {
           display: flex;
           align-items: center;
-          gap: 40px;
+          gap: 44px; /* slightly wider gap for spacious layout */
           flex: 1;
           justify-content: center;
         }
@@ -158,7 +186,7 @@ export default function Header(props: any) {
           background: none;
           border: none;
           font-family: inherit;
-          font-size: 0.8125rem;
+          font-size: 0.95rem; /* increased from 0.875rem to match medium header */
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.05em;
@@ -287,14 +315,14 @@ export default function Header(props: any) {
         }
 
         .nav-divider {
-          height: 24px;
+          height: 28px; /* increased from 24px */
           width: 1px;
           background-color: rgba(0,0,0,0.1);
         }
 
         .btn-nav {
-          padding: 10px 24px;
-          font-size: 14px;
+          padding: 12px 28px; /* increased from 10px 24px */
+          font-size: 15px; /* increased from 14px */
           border-radius: 100px;
           background: #005AE2;
           border: none;
@@ -440,29 +468,40 @@ export default function Header(props: any) {
 
         /* Large tablets / small laptops */
         @media (max-width: 1024px) {
-          .navbar { padding: 12px 24px; gap: 16px; }
+          .navbar-wrapper { padding: 8px 0; }
+          .navbar-wrapper.scrolled { width: calc(100% - 32px); top: 10px; border-radius: 14px; padding: 5px 0; }
+          .navbar { padding: 8px 20px; gap: 16px; }
           .navbar-links { gap: 20px; }
-          .navbar-links a, .dropdown-toggle { font-size: 0.75rem; }
-          .btn-nav { padding: 9px 18px; font-size: 13px; }
+          .navbar-links a, .dropdown-toggle { font-size: 0.85rem; }
+          .btn-nav { padding: 10px 20px; font-size: 14px; }
+          .header-logo { height: 64px; }
+          .navbar-wrapper.scrolled .header-logo { height: 52px; }
         }
 
         /* Tablets – hide desktop nav, show hamburger */
         @media (max-width: 768px) {
-          .navbar { padding: 4px 20px; }
+          .navbar-wrapper { padding: 6px 0; }
+          .navbar-wrapper.scrolled { width: calc(100% - 24px); top: 8px; border-radius: 12px; padding: 4px 0; }
+          .navbar { padding: 4px 16px; }
           .navbar-links { display: none !important; }
           .nav-divider { display: none; }
           .btn-nav { display: none; }
           .hamburger { display: flex !important; }
-          .header-logo { height: 52px; }
+          .header-logo { height: 60px; }
+          .navbar-wrapper.scrolled .header-logo { height: 50px; }
         }
 
         /* Mobile phones */
         @media (max-width: 480px) {
-          .navbar { padding: 4px 16px; }
+          .navbar-wrapper { padding: 5px 0; }
+          .navbar-wrapper.scrolled { width: calc(100% - 16px); top: 6px; border-radius: 10px; padding: 4px 0; }
+          .navbar { padding: 4px 12px; }
           .navbar-brand { font-size: 0; } /* hide text, show logo only */
           .mobile-menu { padding: 90px 24px 40px; }
           .mobile-menu-header { padding: 16px 20px; }
           .menu-section { margin-bottom: 32px; }
+          .header-logo { height: 56px; }
+          .navbar-wrapper.scrolled .header-logo { height: 48px; }
         }
 
         /* Small phones */
@@ -477,7 +516,7 @@ export default function Header(props: any) {
         }
       `}} />
 
-      <div className="navbar-wrapper">
+      <div className={`navbar-wrapper${isScrolled ? ' scrolled' : ''}`}>
         <nav className="navbar">
           {/* Brand / Logo */}
           <Link href="/" className="navbar-brand">

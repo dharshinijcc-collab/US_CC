@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Notification System</title>
+  <!-- Google Fonts Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-blue: #005AE2;
+      --primary-hover: #004ac2;
+      --bg-dark: #0F172A;
+      --bg-light: #F8FAFC;
+      --white: #FFFFFF;
+      --text-black: #0F172A;
+      --text-muted: #64748B;
+      --border-light: #E2E8F0;
+      --success-bg: #DCFCE7;
+      --success-text: #15803D;
+      --error-bg: #FEE2E2;
+      --error-text: #B91C1C;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-black);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Ambient Glow Background Orbs */
+    .glow-orb-1 {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 90, 226, 0.15), transparent 70%);
+      top: -200px;
+      left: -200px;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glow-orb-2 {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.12), transparent 70%);
+      bottom: -150px;
+      right: -150px;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Container Card with Glassmorphism */
+    .card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 460px;
+      padding: 40px;
+      box-shadow: 0 20px 40px -15px rgba(0, 90, 226, 0.08);
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 30px 60px -20px rgba(0, 90, 226, 0.15);
+    }
+
+    /* Header Styling */
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--primary-blue), #3B82F6);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      box-shadow: 0 8px 16px rgba(0, 90, 226, 0.25);
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.8rem;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      color: var(--text-black);
+      margin-bottom: 12px;
+    }
+
+    p.subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 32px;
+      font-weight: 500;
+    }
+
+    /* Form Styles */
+    .form-group {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--text-black);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 16px;
+      border: 1.5px solid var(--border-light);
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text-black);
+      outline: none;
+      transition: all 0.2s;
+      background-color: rgba(248, 250, 252, 0.8);
+    }
+
+    .form-input:focus {
+      border-color: var(--primary-blue);
+      background-color: var(--white);
+      box-shadow: 0 0 0 4px rgba(0, 90, 226, 0.1);
+    }
+
+    /* Submit Button with Loading State */
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary-blue), #2563EB);
+      color: var(--white);
+      padding: 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s;
+      box-shadow: 0 8px 16px rgba(0, 90, 226, 0.2);
+    }
+
+    .btn-submit:hover {
+      background: linear-gradient(135deg, var(--primary-hover), #1D4ED8);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(0, 90, 226, 0.3);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    .btn-submit:disabled {
+      background: #94A3B8;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Status Notifications */
+    .alert {
+      display: none;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 24px;
+      line-height: 1.4;
+      text-align: left;
+      align-items: flex-start;
+      gap: 12px;
+      animation: fadeIn 0.3s ease-in-out forwards;
+    }
+
+    .alert.success {
+      background-color: var(--success-bg);
+      color: var(--success-text);
+      border: 1px solid rgba(21, 128, 61, 0.15);
+    }
+
+    .alert.error {
+      background-color: var(--error-bg);
+      color: var(--error-text);
+      border: 1px solid rgba(185, 28, 28, 0.15);
+    }
+
+    /* Shimmer loading spinner */
+    .spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top-color: var(--white);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Footer styling */
+    .footer-note {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 32px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background decorations -->
+  <div class="glow-orb-1"></div>
+  <div class="glow-orb-2"></div>
+
+  <!-- Form Card -->
+  <div class="card">
+    <div class="card-icon">
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 19v-8.93a2 2 0 01.89-1.664l8-5.333a2 2 0 012.22 0l8 5.333A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-2.25-1.5a2 2 0 00-2.22 0l-2.25 1.5" />
+      </svg>
+    </div>
+    <h1>Get Started</h1>
+    <p class="subtitle">Enter your email below to receive an automated verification email directly from our SMTP server.</p>
+
+    <form id="emailForm" novalidate>
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address</label>
+        <div class="input-wrapper">
+          <input 
+            type="email" 
+            id="email" 
+            class="form-input" 
+            placeholder="name@company.com" 
+            required
+          >
+        </div>
+      </div>
+
+      <button type="submit" id="btnSubmit" class="btn-submit">
+        <span class="spinner" id="spinner"></span>
+        <span id="btnText">Send Email</span>
+      </button>
+    </form>
+
+    <!-- Alerts -->
+    <div class="alert success" id="successAlert">
+      <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="flex-shrink: 0;">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <div id="successMessage">Welcome email has been sent successfully! Check your inbox.</div>
+    </div>
+
+    <div class="alert error" id="errorAlert">
+      <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="flex-shrink: 0;">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <div id="errorMessage">An error occurred. Please try again.</div>
+    </div>
+
+    <div class="footer-note">
+      Your privacy is protected. We never sell or share your credentials.
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('emailForm');
+    const emailInput = document.getElementById('email');
+    const btnSubmit = document.getElementById('btnSubmit');
+    const spinner = document.getElementById('spinner');
+    const btnText = document.getElementById('btnText');
+    const successAlert = document.getElementById('successAlert');
+    const errorAlert = document.getElementById('errorAlert');
+
+    const showSuccess = (msg) => {
+      document.getElementById('successMessage').textContent = msg;
+      successAlert.style.display = 'flex';
+      errorAlert.style.display = 'none';
+    };
+
+    const showError = (msg) => {
+      document.getElementById('errorMessage').textContent = msg;
+      errorAlert.style.display = 'flex';
+      successAlert.style.display = 'none';
+    };
+
+    const clearAlerts = () => {
+      successAlert.style.display = 'none';
+      errorAlert.style.display = 'none';
+    };
+
+    const validateEmail = (email) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearAlerts();
+
+      const email = emailInput.value.trim();
+
+      // Frontend validation check
+      if (!email) {
+        showError('Please enter an email address.');
+        return;
+      }
+
+      if (!validateEmail(email)) {
+        showError('Please enter a valid email address.');
+        return;
+      }
+
+      // Enter loading state
+      btnSubmit.disabled = true;
+      spinner.style.display = 'block';
+      btnText.textContent = 'Sending...';
+
+      try {
+        const response = await fetch('/send-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          showSuccess(data.message || 'Email sent successfully!');
+          emailInput.value = ''; // Reset form on success
+        } else {
+          showError(data.message || 'Failed to send email.');
+        }
+      } catch (err) {
+        showError('Network error. Make sure your local backend server is running.');
+      } finally {
+        // Exit loading state
+        btnSubmit.disabled = false;
+        spinner.style.display = 'none';
+        btnText.textContent = 'Send Email';
+      }
+    });
+  </script>
+</body>
+</html>

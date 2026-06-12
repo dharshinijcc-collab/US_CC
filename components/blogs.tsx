@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Calendar, Clock, ArrowRight } from "lucide-react";
+import EditableText from "@/components/admin/EditableText";
+import { useAdmin } from "@/context/AdminContext";
+import { useContent } from "@/context/ContentContext";
 
 // --- DATA & CONFIGURATION ---
 const BLOG_CONFIG = {
@@ -43,6 +46,16 @@ export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
+  const { isAdminMode } = useAdmin();
+  const { content } = useContent();
+
+  // Read saved values from ContentContext (set by admin edits), fall back to hardcoded defaults
+  const heroBadge   = content?.blog?.hero?.badge       || "Our Blog";
+  const heroTitle   = content?.blog?.hero?.title       || BLOG_CONFIG.header.title;
+  const heroAccent  = content?.blog?.hero?.accent      || BLOG_CONFIG.header.accent;
+  const heroSuffix  = content?.blog?.hero?.suffix      || BLOG_CONFIG.header.suffix;
+  const heroDesc    = content?.blog?.hero?.description || BLOG_CONFIG.header.description;
+
 
   const filteredBlogs = BLOG_CONFIG.posts.filter(post => {
     const matchesFilter = activeFilter === "All" || post.category === activeFilter;
@@ -52,16 +65,16 @@ export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
   });
 
   return (
-    <div style={{ backgroundColor: showHero ? COLORS.bgBase : 'transparent', minHeight: showHero ? '100vh' : 'auto', fontFamily: FONT_PRIMARY }}>
+    <div style={{ backgroundColor: showHero ? '#FFFFFF' : 'transparent', minHeight: showHero ? '100vh' : 'auto', fontFamily: FONT_PRIMARY }}>
 
       {/* 1. HERO SECTION - Styled like Studio page hero */}
       {showHero && (
-        <section style={{ 
-          padding: '100px 24px clamp(40px, 8vw, 60px)', 
-          backgroundColor: '#FFFFFF', 
-          position: 'relative', 
-          overflow: 'hidden', 
-          textAlign: 'center' 
+        <section style={{
+          padding: '220px 24px 160px',
+          backgroundColor: '#F1F5F9',
+          position: 'relative',
+          overflow: 'hidden',
+          textAlign: 'center'
         }}>
           {/* Hero Background */}
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }}></div>
@@ -88,21 +101,30 @@ export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
                 fontFamily: FONT_HEADING
               }}
             >
-              Our Blog
+              <EditableText
+                contentKey="blog.hero.badge"
+                value={heroBadge}
+                as="span"
+                style={{ fontFamily: FONT_HEADING }}
+              />
             </motion.div>
 
-            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} 
-              style={{ 
+            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+              style={{
                 fontFamily: FONT_HEADING,
-                fontSize: '36px', 
-                fontWeight: 800, 
-                color: COLORS.textBlack, 
-                letterSpacing: '-0.03em', 
-                margin: '0 auto clamp(16px, 3vw, 24px)', 
+                fontSize: '52px',
+                fontWeight: 800,
+                color: COLORS.textBlack,
+                letterSpacing: '-0.03em',
+                margin: '0 auto clamp(16px, 3vw, 24px)',
                 lineHeight: 1.15,
                 textAlign: 'center'
               }}>
-              {BLOG_CONFIG.header.title} <span style={{ color: COLORS.primary }}>{BLOG_CONFIG.header.accent}</span> {BLOG_CONFIG.header.suffix}
+              <EditableText contentKey="blog.hero.title" value={heroTitle} as="span" />{' '}
+              <span style={{ color: COLORS.primary }}>
+                <EditableText contentKey="blog.hero.accent" value={heroAccent} as="span" style={{ color: COLORS.primary }} />
+              </span>{' '}
+              <EditableText contentKey="blog.hero.suffix" value={heroSuffix} as="span" />
             </motion.h1>
             
             <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
@@ -116,7 +138,12 @@ export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
                 margin: '0 auto 40px',
                 textAlign: 'center'
               }}>
-              {BLOG_CONFIG.header.description}
+              <EditableText
+                contentKey="blog.hero.description"
+                value={heroDesc}
+                as="span"
+                style={{ color: COLORS.textMuted }}
+              />
             </motion.p>
           </div>
         </section>

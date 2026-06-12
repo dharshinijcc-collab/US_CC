@@ -12,6 +12,8 @@ interface ContentContextType {
   setIsAdminMode: (val: boolean) => void;
   updateContent: (path: string, value: any) => Promise<void>;
   saveChanges: () => Promise<void>;
+  saveStatus: 'idle' | 'saving' | 'success' | 'error';
+  saveMessage: string;
 }
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined);
@@ -22,6 +24,8 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
   const [isAdminMode, setIsAdminMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
+  const [saveMessage, setSaveMessage] = useState('');
 
   const fetchContent = async () => {
     try {
@@ -66,8 +70,9 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
 
   const updateContent = async (path: string, value: any) => {
     setDraftContent((prevDraft: any) => {
-      if (!prevDraft) return prevDraft;
-      const newDraft = JSON.parse(JSON.stringify(prevDraft));
+      // If draft isn't ready yet, initialise from savedContent so edits are never dropped
+      const base = prevDraft ?? (savedContent ? JSON.parse(JSON.stringify(savedContent)) : {});
+      const newDraft = JSON.parse(JSON.stringify(base));
       const keys = path.split('.');
       let current = newDraft;
       for (let i = 0; i < keys.length - 1; i++) {
@@ -83,16 +88,24 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
 
   const saveChanges = async () => {
     if (!draftContent) return;
+    setSaveStatus('saving');
+    setSaveMessage('Saving changes...');
     try {
       const response = await api.post('content/update', { payload: draftContent });
       if (response.data.status === 'success') {
         setSavedContent(JSON.parse(JSON.stringify(draftContent)));
-        alert('Changes saved successfully!');
+        setSaveStatus('success');
+        setSaveMessage('Changes saved successfully!');
+        setTimeout(() => setSaveStatus('idle'), 3000);
       } else {
-        alert('Error saving changes: ' + response.data.payload);
+        setSaveStatus('error');
+        setSaveMessage('Error saving: ' + response.data.payload);
+        setTimeout(() => setSaveStatus('idle'), 4000);
       }
     } catch (err: any) {
-      alert('Error saving changes: ' + err.message);
+      setSaveStatus('error');
+      setSaveMessage('Error saving: ' + err.message);
+      setTimeout(() => setSaveStatus('idle'), 4000);
     }
   };
 
@@ -115,9 +128,43 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
       isAdminMode,
       setIsAdminMode: handleSetIsAdminMode,
       updateContent,
-      saveChanges
+      saveChanges,
+      saveStatus,
+      saveMessage,
     }}>
       {children}
+      {/* Non-blocking save toast */}
+      {saveStatus !== 'idle' && (
+        <div style={{
+          position: 'fixed',
+          bottom: '100px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 99999,
+          padding: '12px 24px',
+          borderRadius: '12px',
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '14px',
+          fontWeight: 600,
+          color: '#fff',
+          background: saveStatus === 'success' ? '#10B981' : saveStatus === 'error' ? '#EF4444' : '#1E293B',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          animation: 'fadeInUp 0.3s ease',
+          pointerEvents: 'none',
+        }}>
+          {saveStatus === 'saving' && <span style={{ display: 'inline-block', width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />}
+          {saveStatus === 'success' && '✓'}
+          {saveStatus === 'error' && '✕'}
+          {saveMessage}
+        </div>
+      )}
+      <style>{`
+        @keyframes fadeInUp { from { opacity:0; transform:translateX(-50%) translateY(10px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+      `}</style>
     </ContentContext.Provider>
   );
 };

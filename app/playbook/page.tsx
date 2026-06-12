@@ -300,7 +300,7 @@ export default function OurModelPage() {
         /* Section 2: Tabs */
         .phases-section {
           background: white;
-          border-bottom: 1px solid #E2E8F0;
+          box-shadow: 0 10px 30px -10px rgba(0, 90, 226, 0.08);
           position: sticky;
           top: 0;
           z-index: 100;
@@ -470,7 +470,7 @@ export default function OurModelPage() {
 
         /* Section 3: Phase 02 */
         .clinical-validation-section {
-          background: #F0F5FF;
+          background: #FFFFFF;
           padding: 80px 0;
           text-align: center;
           position: relative;
@@ -930,7 +930,9 @@ export default function OurModelPage() {
 
 
         {/* SECTION 1: HERO */}
-        <section className="hero-section" style={{ background: 'white', paddingTop: '130px', paddingBottom: '24px' }}>
+        <section className="hero-section" style={{ background: 'white', paddingTop: '130px', paddingBottom: '24px', minHeight: '700px', position: 'relative', overflow: 'hidden' }}>
+          {/* Top Light Effect */}
+          <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
           <div className="section-container">
             <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: '80px', alignItems: 'center' }}>
               <div className="hero-content">
@@ -938,7 +940,7 @@ export default function OurModelPage() {
                   <EditableText contentKey="ourModel.hero.eyebrow" value={modelContent.hero.eyebrow} />
                 </div>
                 <h1 className="hero-title" style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.1, marginTop: '24px' }}>
-                  From Raw Idea to <span style={{ color: '#2563EB' }}>Proven Product</span> — in 5 Phases
+                  From Raw Idea to<br /><span style={{ color: '#2563EB' }}>Proven Product</span> — in 5 Phases
                 </h1>
                 <p className="hero-description" style={{ fontSize: '1rem', color: '#4B5563', lineHeight: 1.6, marginTop: '24px' }}>
                   <EditableText contentKey="ourModel.hero.description" value={modelContent.hero.description} />
@@ -997,7 +999,7 @@ export default function OurModelPage() {
       </section>
 
         {/* SECTION 2: STICKY TABS */}
-        <div id="phases" className="phases-section" style={{ borderTop: '1px solid #F1F5F9', background: '#F8FAFC' }}>
+        <div id="phases" className="phases-section" style={{ background: '#F8FAFC' }}>
           <div className="section-container" style={{ paddingTop: 0, paddingBottom: 0 }}>
             <div className="phases-tabs" style={{ maxWidth: '1000px' }}>
               {[

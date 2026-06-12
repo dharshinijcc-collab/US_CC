@@ -12,6 +12,20 @@ import Link from 'next/link';
 export default function AboutPage() {
   const { content, loading, error } = useContent();
 
+  // Helper function to safely get content values
+  const getContent = (path: string, defaultValue: string) => {
+    const keys = path.split('.');
+    let value = content;
+    for (const key of keys) {
+      if (value && typeof value === 'object') {
+        value = value[key];
+      } else {
+        return defaultValue;
+      }
+    }
+    return value || defaultValue;
+  };
+
   if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">Loading company profile...</div>;
   if (error) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope text-red-500">Error: {error}</div>;
 
@@ -62,9 +76,9 @@ export default function AboutPage() {
 
         /* Unified Hero Section Style */
         .hero-section {
-          padding: 120px 24px 60px !important; /* spacious padding to expand the section */
+          padding: 220px 24px 160px !important; /* spacious padding to expand the section */
           text-align: center !important;
-          background-color: #FFFFFF !important;
+          background-color: #F1F5F9 !important;
           display: flex !important;
           flex-direction: column !important;
           align-items: center !important;
@@ -310,7 +324,7 @@ export default function AboutPage() {
 
       <Header />
 
-      <div className="about-page" style={{ position: 'relative', overflow: 'hidden' }}>
+      <div className="about-page" style={{ position: 'relative', overflow: 'hidden', backgroundColor: '#F8FAFC' }}>
 
         {/* ── 1. HERO SECTION (Image 1) ── */}
         <section className="hero-section" style={{ position: 'relative', overflow: 'hidden' }}>
@@ -324,17 +338,30 @@ export default function AboutPage() {
           <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.2), transparent 70%)', bottom: '0px', right: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
 
           <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div className="hero-eyebrow-pill">ABOUT THE STUDIO</div>
+            <EditableText 
+              contentKey="about.hero.eyebrow" 
+              value={getContent('about.hero.eyebrow', 'ABOUT THE STUDIO')}
+              className="hero-eyebrow-pill"
+              as="div"
+            />
             <h1 className="hero-title">
-              Built on <span style={{ color: 'var(--primary-blue)' }}>trust</span> <br />
-              and the <span style={{ color: 'var(--primary-blue)' }}>will to execute</span>.
+              Built on <EditableText contentKey="about.hero.trust" value={getContent('about.hero.trust', 'trust')} as="span" style={{ color: 'var(--primary-blue)' }} /> <br />
+              and the <EditableText contentKey="about.hero.execute" value={getContent('about.hero.execute', 'will to execute')} as="span" style={{ color: 'var(--primary-blue)' }} />.
             </h1>
-            <p className="hero-description" style={{ marginBottom: '32px', lineHeight: '1.8', maxWidth: '720px' }}>
-              CrestCode is a venture studio born from a simple observation — identifying a truly great idea is rare, and executing it with conviction is rarer still. We exist to do both.
-            </p>
+            <EditableText 
+              contentKey="about.hero.description" 
+              value={getContent('about.hero.description', 'CrestCode is a venture studio born from a simple observation — identifying a truly great idea is rare, and executing it with conviction is rarer still. We exist to do both.')}
+              className="hero-description"
+              as="p"
+              style={{ marginBottom: '32px', lineHeight: '1.8', maxWidth: '720px' }}
+            />
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Link href="/contact" className="btn-pill btn-primary">
-                Let's Build Together
+                <EditableText 
+                  contentKey="about.hero.cta" 
+                  value={getContent('about.hero.cta', "Let's Build Together")}
+                  as="span"
+                />
               </Link>
             </div>
           </div>
@@ -346,74 +373,115 @@ export default function AboutPage() {
             
             {/* Centered Heading */}
             <div className="section-header-centered">
-              <span className="label">OUR STORY</span>
-              <h2>Where it all began.</h2>
-            </div>
-
-            {/* Content columns */}
-            <div className="grid-2">
-              {/* Left Column Description */}
-              <div style={{ position: 'sticky', top: '100px' }}>
-                <p style={{
+              <EditableText 
+                contentKey="about.story.label" 
+                value={getContent('about.story.label', 'OUR STORY')}
+                className="label"
+                as="span"
+              />
+              <EditableText 
+                contentKey="about.story.title" 
+                value={getContent('about.story.title', 'Where it all began.')}
+                as="h2"
+              />
+              <EditableText 
+                contentKey="about.story.description" 
+                value={getContent('about.story.description', "CrestCode didn't start with a business plan. It started with a conviction - that finding and building the right idea is one of the hardest things a founder can do, and nobody should have to do it without the right partner.")}
+                as="p"
+                style={{
                   color: 'var(--text-muted)',
                   fontSize: '1.08rem',
                   lineHeight: 1.8,
                   fontWeight: 500,
-                  margin: 0
-                }}>
-                  CrestCode didn't start with a business plan. It started with a conviction - that finding and building the right idea is one of the hardest things a founder can do, and nobody should have to do it without the right partner.
-                </p>
-              </div>
+                  margin: '24px auto 0',
+                  maxWidth: '700px'
+                }}
+              />
+            </div>
 
-              {/* Right Column Timeline */}
-              <div className="timeline-container">
-                <div className="timeline-line"></div>
+            {/* Timeline */}
+            <div style={{ maxWidth: '900px', margin: '60px auto 0' }}>
+              <div style={{ position: 'relative' }}>
+                {/* Vertical line */}
+                <div style={{
+                  position: 'absolute',
+                  left: '77px',
+                  top: 0,
+                  bottom: 0,
+                  width: '2px',
+                  background: 'rgba(0, 90, 226, 0.2)'
+                }}></div>
                 
+                <div style={{ position: 'relative', zIndex: 1 }}>
                 {[
                   {
-                    year: '2023',
-                    title: 'The Seed of an Idea',
-                    desc: 'While working as a Product Manager at Amazon, Asfarul Huda began thinking seriously about the entrepreneur journey. He saw a consistent pattern — founders with genuine ideas struggling to find partners who could actually build. The idea for a product studio that could bridge that gap began to take shape.'
+                    year: getContent('about.timeline.0.year', '2023'),
+                    title: getContent('about.timeline.0.title', 'The Seed of an Idea'),
+                    desc: getContent('about.timeline.0.desc', 'While working as a Product Manager at Amazon, Asfarul Huda began thinking seriously about the entrepreneur journey. He saw a consistent pattern — founders with genuine ideas struggling to find partners who could actually build. The idea for a product studio that could bridge that gap began to take shape.')
                   },
                   {
-                    year: '2024',
-                    title: 'The First Client — and the First Lesson',
-                    desc: 'Premier Review became CrestCode\'s first client, seeking strategic guidance as an early-stage startup. That engagement crystallized two foundational truths: founders don\'t just need builders — they need someone who will challenge them, hold them accountable, and earn their trust. Those two pillars — execution and trust — became the foundation of everything CrestCode stands for.'
+                    year: getContent('about.timeline.1.year', '2024'),
+                    title: getContent('about.timeline.1.title', 'The First Client — and the First Lesson'),
+                    desc: getContent('about.timeline.1.desc', 'Premier Review became CrestCode\'s first client, seeking strategic guidance as an early-stage startup. That engagement crystallized two foundational truths: founders don\'t just need builders — they need someone who will challenge them, hold them accountable, and earn their trust. Those two pillars — execution and trust — became the foundation of everything CrestCode stands for.')
                   },
                   {
-                    year: '2025',
-                    title: 'CrestCode Launches',
-                    desc: 'With a clear model and a founding team in place, CrestCode USA officially launched as a venture studio — offering end-to-end product building for founders and business owners. The mission: be the partner that turns ambitious ideas and real-world problems into products people actually use.'
+                    year: getContent('about.timeline.2.year', '2025'),
+                    title: getContent('about.timeline.2.title', 'CrestCode Launches'),
+                    desc: getContent('about.timeline.2.desc', 'With a clear model and a founding team in place, CrestCode USA officially launched as a venture studio — offering end-to-end product building for founders and business owners. The mission: be the partner that turns ambitious ideas and real-world problems into products people actually use.')
                   },
                   {
-                    year: 'TODAY',
-                    title: 'Three Products. One Studio. A Growing Portfolio.',
-                    desc: 'CrestCode now has three active products in market — Dockly, OpenCapFi, and Vhoas — alongside strategic partnerships with Premier Review and CastleGEC. The studio is growing its team, its network, and its ambition.'
+                    year: getContent('about.timeline.3.year', 'TODAY'),
+                    title: getContent('about.timeline.3.title', 'Three Products. One Studio. A Growing Portfolio.'),
+                    desc: getContent('about.timeline.3.desc', 'CrestCode now has three active products in market — Dockly, OpenCapFi, and Vhoas — alongside strategic partnerships with Premier Review and CastleGEC. The studio is growing its team, its network, and its ambition.')
                   }
                 ].map((item, idx) => (
-                  <div key={idx} className="timeline-item">
-                    <div className="timeline-node">
-                      <div className="timeline-node-inner"></div>
+                  <div key={idx} style={{ display: 'flex', marginBottom: idx === 3 ? '0' : '48px', alignItems: 'flex-start' }}>
+                    {/* Left side - Year */}
+                    <div style={{ width: '70px', flexShrink: 0, textAlign: 'right', paddingRight: '14px', paddingTop: '2px' }}>
+                      <EditableText 
+                        contentKey={`about.timeline.${idx}.year`}
+                        value={item.year}
+                        as="span"
+                        style={{
+                          color: 'var(--primary-blue)',
+                          fontSize: '0.9rem',
+                          fontWeight: 800,
+                          letterSpacing: '0.05em',
+                          fontFamily: "'Manrope', sans-serif"
+                        }}
+                      />
                     </div>
-                    <span style={{
-                      color: 'var(--primary-blue)',
-                      fontSize: '0.8rem',
-                      fontWeight: 800,
-                      letterSpacing: '0.05em',
-                      display: 'block',
-                      marginBottom: '6px',
-                      fontFamily: "'Manrope', sans-serif"
-                    }}>
-                      {item.year}
-                    </span>
-                    <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '8px' }}>
-                      {item.title}
-                    </h3>
-                    <p style={{ fontSize: '0.925rem', color: 'var(--text-muted)', lineHeight: 1.65, margin: 0, fontWeight: 500 }}>
-                      {item.desc}
-                    </p>
+                    
+                    {/* Center - Node on line */}
+                    <div style={{
+                      width: '16px',
+                      height: '16px',
+                      borderRadius: '50%',
+                      background: '#005AE2',
+                      border: '3px solid #FFFFFF',
+                      boxShadow: '0 0 0 3px rgba(0, 90, 226, 0.2)',
+                      flexShrink: 0,
+                      marginTop: '2px'
+                    }}></div>
+                    
+                    {/* Right side - Content */}
+                    <div style={{ flex: 1, paddingLeft: '14px', paddingTop: '2px' }}>
+                      <EditableText 
+                        contentKey={`about.timeline.${idx}.title`}
+                        value={item.title}
+                        as="h3"
+                        style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '8px' }}
+                      />
+                      <EditableText 
+                        contentKey={`about.timeline.${idx}.desc`}
+                        value={item.desc}
+                        as="p"
+                        style={{ fontSize: '1rem', color: 'var(--text-muted)', lineHeight: 1.7, margin: 0, fontWeight: 500 }}
+                      />
+                    </div>
                   </div>
                 ))}
+                </div>
               </div>
             </div>
 
@@ -426,11 +494,22 @@ export default function AboutPage() {
             
             {/* Centered Heading */}
             <div className="section-header-centered">
-              <span className="label">FOUNDING PILLARS</span>
-              <h2>Two truths that built this studio.</h2>
-              <p>
-                Everything CrestCode does flows from two observations Asfar made before the studio was even named.
-              </p>
+              <EditableText 
+                contentKey="about.pillars.label" 
+                value={getContent('about.pillars.label', 'FOUNDING PILLARS')}
+                className="label"
+                as="span"
+              />
+              <EditableText 
+                contentKey="about.pillars.title" 
+                value={getContent('about.pillars.title', 'Two truths that built this studio.')}
+                as="h2"
+              />
+              <EditableText 
+                contentKey="about.pillars.description" 
+                value={getContent('about.pillars.description', 'Everything CrestCode does flows from two observations Asfar made before the studio was even named.')}
+                as="p"
+              />
             </div>
 
             {/* 2 equal columns cards */}
@@ -455,12 +534,18 @@ export default function AboutPage() {
                     <path d="M10 22h4" />
                   </svg>
                 </div>
-                <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '16px', lineHeight: 1.3 }}>
-                  A truly great idea is rare — and even harder to recognize.
-                </h3>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.65, margin: 0, fontWeight: 500 }}>
-                  The real challenge isn't coming up with something new. It's identifying the ideas that are genuinely worth building — problems with real depth, markets with real demand, and timing that is right. Most people never find that clarity. CrestCode exists to help founders and business owners cut through the noise and build conviction around the ideas that actually deserve to be built.
-                </p>
+                <EditableText 
+                  contentKey="about.pillars.0.title"
+                  value={getContent('about.pillars.0.title', 'A truly great idea is rare — and even harder to recognize.')}
+                  as="h3"
+                  style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '16px', lineHeight: 1.3 }}
+                />
+                <EditableText 
+                  contentKey="about.pillars.0.description"
+                  value={getContent('about.pillars.0.description', 'The real challenge isn\'t coming up with something new. It\'s identifying the ideas that are genuinely worth building — problems with real depth, markets with real demand, and timing that is right. Most people never find that clarity. CrestCode exists to help founders and business owners cut through the noise and build conviction around the ideas that actually deserve to be built.')}
+                  as="p"
+                  style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.65, margin: 0, fontWeight: 500 }}
+                />
               </div>
 
               {/* Card 2 */}
@@ -481,12 +566,18 @@ export default function AboutPage() {
                     <path d="m9 11 2 2 4-4" />
                   </svg>
                 </div>
-                <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '16px', lineHeight: 1.3 }}>
-                  Trust is the most important currency in any partnership.
-                </h3>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.65, margin: 0, fontWeight: 500 }}>
-                  Founders share their most vulnerable ideas with their build partners. That relationship only works if the partner earns trust - through honesty, through accountability, and through the willingness to say things that are uncomfortable but true. CrestCode was built with that kind of partnership in mind from day one.
-                </p>
+                <EditableText 
+                  contentKey="about.pillars.1.title"
+                  value={getContent('about.pillars.1.title', 'Trust is the most important currency in any partnership.')}
+                  as="h3"
+                  style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '16px', lineHeight: 1.3 }}
+                />
+                <EditableText 
+                  contentKey="about.pillars.1.description"
+                  value={getContent('about.pillars.1.description', 'Founders share their most vulnerable ideas with their build partners. That relationship only works if the partner earns trust - through honesty, through accountability, and through the willingness to say things that are uncomfortable but true. CrestCode was built with that kind of partnership in mind from day one.')}
+                  as="p"
+                  style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: 1.65, margin: 0, fontWeight: 500 }}
+                />
               </div>
 
             </div>
@@ -500,63 +591,87 @@ export default function AboutPage() {
             
             {/* Centered Heading */}
             <div className="section-header-centered">
-              <span className="label">THE TEAM</span>
-              <h2>The people behind the studio.</h2>
-              <p>
-                A remote-first team of builders, strategists, and operators — united by the belief that great products are built through partnership, not just process.
-              </p>
+              <EditableText 
+                contentKey="about.team.label" 
+                value={getContent('about.team.label', 'THE TEAM')}
+                className="label"
+                as="span"
+              />
+              <EditableText 
+                contentKey="about.team.title" 
+                value={getContent('about.team.title', 'The people behind the studio.')}
+                as="h2"
+              />
+              <EditableText 
+                contentKey="about.team.description" 
+                value={getContent('about.team.description', 'A remote-first team of builders, strategists, and operators — united by the belief that great products are built through partnership, not just process.')}
+                as="p"
+              />
             </div>
 
             {/* Grid 4 columns */}
             <div className="grid-4">
               {[
                 {
-                  initials: 'AH',
-                  name: 'Asfarul Huda',
-                  role: 'CEO & FOUNDER',
-                  bio: 'Former Amazon Product Manager with a decade of experience building digital products at scale. Founded CrestCode in 2025 with a mission to give every founder access to world-class execution.'
+                  initials: getContent('about.team.0.initials', 'AH'),
+                  name: getContent('about.team.0.name', 'Asfarul Huda'),
+                  role: getContent('about.team.0.role', 'CEO & FOUNDER'),
+                  bio: getContent('about.team.0.bio', 'Former Amazon Product Manager with a decade of experience building digital products at scale. Founded CrestCode in 2025 with a mission to give every founder access to world-class execution.')
                 },
                 {
-                  initials: 'AB',
-                  name: 'Adam Braasch',
-                  role: 'PARTNER',
-                  bio: 'A strategic and operational partner at CrestCode, Adam brings deep expertise in building and scaling early-stage ventures from idea to market.'
+                  initials: getContent('about.team.1.initials', 'AB'),
+                  name: getContent('about.team.1.name', 'Adam Braasch'),
+                  role: getContent('about.team.1.role', 'PARTNER'),
+                  bio: getContent('about.team.1.bio', 'A strategic and operational partner at CrestCode, Adam brings deep expertise in building and scaling early-stage ventures from idea to market.')
                 },
                 {
-                  initials: 'PC',
-                  name: 'Pranali Choubal',
-                  role: 'PARTNER',
-                  bio: 'Pranali brings a sharp product and design sensibility to CrestCode, ensuring that every venture we build is not just functional — but genuinely lovable.'
+                  initials: getContent('about.team.2.initials', 'PC'),
+                  name: getContent('about.team.2.name', 'Pranali Choubal'),
+                  role: getContent('about.team.2.role', 'PARTNER'),
+                  bio: getContent('about.team.2.bio', 'Pranali brings a sharp product and design sensibility to CrestCode, ensuring that every venture we build is not just functional — but genuinely lovable.')
                 },
                 {
-                  initials: 'AH',
-                  name: 'Amir Hoda',
-                  role: 'PARTNER',
-                  bio: 'A technical and business partner at CrestCode, Amir focuses on engineering strategy, delivery excellence, and helping ventures scale with confidence.'
+                  initials: getContent('about.team.3.initials', 'AH'),
+                  name: getContent('about.team.3.name', 'Amir Hoda'),
+                  role: getContent('about.team.3.role', 'PARTNER'),
+                  bio: getContent('about.team.3.bio', 'A technical and business partner at CrestCode, Amir focuses on engineering strategy, delivery excellence, and helping ventures scale with confidence.')
                 }
               ].map((member, idx) => (
                 <div key={idx} className="about-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                   <div className="avatar-circle">
-                    {member.initials}
+                    <EditableText 
+                      contentKey={`about.team.${idx}.initials`}
+                      value={member.initials}
+                      as="span"
+                    />
                   </div>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '4px' }}>
-                    {member.name}
-                  </h3>
-                  <span style={{
-                    color: 'var(--primary-blue)',
-                    fontSize: '0.68rem',
-                    fontWeight: 800,
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    display: 'block',
-                    marginBottom: '16px',
-                    fontFamily: "'Manrope', sans-serif"
-                  }}>
-                    {member.role}
-                  </span>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
-                    {member.bio}
-                  </p>
+                  <EditableText 
+                    contentKey={`about.team.${idx}.name`}
+                    value={member.name}
+                    as="h3"
+                    style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '4px' }}
+                  />
+                  <EditableText 
+                    contentKey={`about.team.${idx}.role`}
+                    value={member.role}
+                    as="span"
+                    style={{
+                      color: 'var(--primary-blue)',
+                      fontSize: '0.68rem',
+                      fontWeight: 800,
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
+                      display: 'block',
+                      marginBottom: '16px',
+                      fontFamily: "'Manrope', sans-serif"
+                    }}
+                  />
+                  <EditableText 
+                    contentKey={`about.team.${idx}.bio`}
+                    value={member.bio}
+                    as="p"
+                    style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}
+                  />
                 </div>
               ))}
             </div>
@@ -570,49 +685,71 @@ export default function AboutPage() {
             
             {/* Centered Heading */}
             <div className="section-header-centered">
-              <span className="label">ADVISORS</span>
-              <h2>Expert guidance where it matters most.</h2>
+              <EditableText 
+                contentKey="about.advisors.label" 
+                value={getContent('about.advisors.label', 'ADVISORS')}
+                className="label"
+                as="span"
+              />
+              <EditableText 
+                contentKey="about.advisors.title" 
+                value={getContent('about.advisors.title', 'Expert guidance where it matters most.')}
+                as="h2"
+              />
             </div>
 
             {/* 2 columns advisors */}
             <div className="grid-2-equal" style={{ maxWidth: '900px', margin: '0 auto' }}>
               {[
                 {
-                  initials: 'FS',
-                  name: 'Fahad Siddiqui',
-                  role: 'FINANCE ADVISOR',
-                  bio: 'Advises CrestCode and its ventures on financial strategy, investment structuring, and capital planning.'
+                  initials: getContent('about.advisors.0.initials', 'FS'),
+                  name: getContent('about.advisors.0.name', 'Fahad Siddiqui'),
+                  role: getContent('about.advisors.0.role', 'FINANCE ADVISOR'),
+                  bio: getContent('about.advisors.0.bio', 'Advises CrestCode and its ventures on financial strategy, investment structuring, and capital planning.')
                 },
                 {
-                  initials: 'FA',
-                  name: 'Dr. Faria Ali',
-                  role: 'HEALTHCARE ADVISOR',
-                  bio: 'Brings deep domain expertise in healthcare, guiding CrestCode ventures in health-adjacent product strategy and compliance.'
+                  initials: getContent('about.advisors.1.initials', 'FA'),
+                  name: getContent('about.advisors.1.name', 'Dr. Faria Ali'),
+                  role: getContent('about.advisors.1.role', 'HEALTHCARE ADVISOR'),
+                  bio: getContent('about.advisors.1.bio', 'Brings deep domain expertise in healthcare, guiding CrestCode ventures in health-adjacent product strategy and compliance.')
                 }
               ].map((adv, idx) => (
                 <div key={idx} className="about-card" style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', background: 'var(--white)' }}>
                   <div className="avatar-circle" style={{ margin: 0, flexShrink: 0 }}>
-                    {adv.initials}
+                    <EditableText 
+                      contentKey={`about.advisors.${idx}.initials`}
+                      value={adv.initials}
+                      as="span"
+                    />
                   </div>
                   <div>
-                    <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '4px' }}>
-                      {adv.name}
-                    </h3>
-                    <span style={{
-                      color: 'var(--primary-blue)',
-                      fontSize: '0.68rem',
-                      fontWeight: 800,
-                      letterSpacing: '0.1em',
-                      textTransform: 'uppercase',
-                      display: 'block',
-                      marginBottom: '12px',
-                      fontFamily: "'Manrope', sans-serif"
-                    }}>
-                      {adv.role}
-                    </span>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
-                      {adv.bio}
-                    </p>
+                    <EditableText 
+                      contentKey={`about.advisors.${idx}.name`}
+                      value={adv.name}
+                      as="h3"
+                      style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '4px' }}
+                    />
+                    <EditableText 
+                      contentKey={`about.advisors.${idx}.role`}
+                      value={adv.role}
+                      as="span"
+                      style={{
+                        color: 'var(--primary-blue)',
+                        fontSize: '0.68rem',
+                        fontWeight: 800,
+                        letterSpacing: '0.1em',
+                        textTransform: 'uppercase',
+                        display: 'block',
+                        marginBottom: '12px',
+                        fontFamily: "'Manrope', sans-serif"
+                      }}
+                    />
+                    <EditableText 
+                      contentKey={`about.advisors.${idx}.bio`}
+                      value={adv.bio}
+                      as="p"
+                      style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}
+                    />
                   </div>
                 </div>
               ))}
@@ -627,51 +764,71 @@ export default function AboutPage() {
             
             {/* Centered Heading */}
             <div className="section-header-centered">
-              <span className="label">GOVERNANCE MODEL</span>
-              <h2>How we decide what to build.</h2>
-              <p>
-                CrestCode operates with a structured, transparent governance model — so founders know exactly how ideas are evaluated, what to expect from the process, and how decisions are made at every stage.
-              </p>
+              <EditableText 
+                contentKey="about.governance.label" 
+                value={getContent('about.governance.label', 'GOVERNANCE MODEL')}
+                className="label"
+                as="span"
+              />
+              <EditableText 
+                contentKey="about.governance.title" 
+                value={getContent('about.governance.title', 'How we decide what to build.')}
+                as="h2"
+              />
+              <EditableText 
+                contentKey="about.governance.description" 
+                value={getContent('about.governance.description', 'CrestCode operates with a structured, transparent governance model — so founders know exactly how ideas are evaluated, what to expect from the process, and how decisions are made at every stage.')}
+                as="p"
+              />
             </div>
 
             {/* 3 columns steps */}
             <div className="grid-3">
               {[
                 {
-                  step: '01',
-                  title: 'Monthly Idea Review',
-                  desc: 'All ideas submitted through CrestCode are reviewed on a monthly basis by the studio team. We evaluate each submission against our domain expertise, market opportunity, and strategic fit — ensuring every idea gets a genuine assessment, not just a quick pass.'
+                  step: getContent('about.governance.0.step', '01'),
+                  title: getContent('about.governance.0.title', 'Monthly Idea Review'),
+                  desc: getContent('about.governance.0.desc', 'All ideas submitted through CrestCode are reviewed on a monthly basis by the studio team. We evaluate each submission against our domain expertise, market opportunity, and strategic fit — ensuring every idea gets a genuine assessment, not just a quick pass.')
                 },
                 {
-                  step: '02',
-                  title: 'Invitation to a Casual Meeting',
-                  desc: 'Ideas that align with CrestCode\'s areas of expertise move to an informal conversation with the founder or business owner. This is low-pressure and exploratory — designed to understand the person behind the idea as much as the idea itself.'
+                  step: getContent('about.governance.1.step', '02'),
+                  title: getContent('about.governance.1.title', 'Invitation to a Casual Meeting'),
+                  desc: getContent('about.governance.1.desc', 'Ideas that align with CrestCode\'s areas of expertise move to an informal conversation with the founder or business owner. This is low-pressure and exploratory — designed to understand the person behind the idea as much as the idea itself.')
                 },
                 {
-                  step: '03',
-                  title: 'Clear Exit Criteria from the Start',
-                  desc: 'Before any meeting begins, both parties agree on what success looks like and what would cause either side to walk away. We define exit criteria early — so there are no surprises, no wasted time, and no ambiguity about where things stand.'
+                  step: getContent('about.governance.2.step', '03'),
+                  title: getContent('about.governance.2.title', 'Clear Exit Criteria from the Start'),
+                  desc: getContent('about.governance.2.desc', 'Before any meeting begins, both parties agree on what success looks like and what would cause either side to walk away. We define exit criteria early — so there are no surprises, no wasted time, and no ambiguity about where things stand.')
                 }
               ].map((item, idx) => (
                 <div key={idx} className="about-card" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                  <span style={{
-                    color: 'var(--primary-blue)',
-                    fontSize: '0.72rem',
-                    fontWeight: 800,
-                    letterSpacing: '0.12em',
-                    textTransform: 'uppercase',
-                    display: 'block',
-                    marginBottom: '20px',
-                    fontFamily: "'Manrope', sans-serif"
-                  }}>
-                    STEP {item.step}
-                  </span>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '12px' }}>
-                    {item.title}
-                  </h3>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.65, margin: 0, fontWeight: 500 }}>
-                    {item.desc}
-                  </p>
+                  <EditableText 
+                    contentKey={`about.governance.${idx}.step`}
+                    value={`STEP ${item.step}`}
+                    as="span"
+                    style={{
+                      color: 'var(--primary-blue)',
+                      fontSize: '0.72rem',
+                      fontWeight: 800,
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      display: 'block',
+                      marginBottom: '20px',
+                      fontFamily: "'Manrope', sans-serif"
+                    }}
+                  />
+                  <EditableText 
+                    contentKey={`about.governance.${idx}.title`}
+                    value={item.title}
+                    as="h3"
+                    style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '12px' }}
+                  />
+                  <EditableText 
+                    contentKey={`about.governance.${idx}.desc`}
+                    value={item.desc}
+                    as="p"
+                    style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.65, margin: 0, fontWeight: 500 }}
+                  />
                 </div>
               ))}
             </div>
@@ -685,11 +842,23 @@ export default function AboutPage() {
             
             {/* Centered Heading */}
             <div className="section-header-centered">
-              <span className="label">COMMUNITY & NETWORK</span>
-              <h2>Building something bigger than a studio.</h2>
-              <p style={{ marginBottom: '32px' }}>
-                CrestCode is more than a product studio — it's the foundation for a network of founders, operators, investors, and advisors who believe in building things that last. We're actively building this community and looking for the right people to be part of it from the ground up.
-              </p>
+              <EditableText 
+                contentKey="about.community.label" 
+                value={getContent('about.community.label', 'COMMUNITY & NETWORK')}
+                className="label"
+                as="span"
+              />
+              <EditableText 
+                contentKey="about.community.title" 
+                value={getContent('about.community.title', 'Building something bigger than a studio.')}
+                as="h2"
+              />
+              <EditableText 
+                contentKey="about.community.description" 
+                value={getContent('about.community.description', 'CrestCode is more than a product studio — it\'s the foundation for a network of founders, operators, investors, and advisors who believe in building things that last. We\'re actively building this community and looking for the right people to be part of it from the ground up.')}
+                as="p"
+                style={{ marginBottom: '32px' }}
+              />
 
               {/* Coming in 2025 Alert Banner */}
               <div style={{
@@ -705,7 +874,11 @@ export default function AboutPage() {
                 margin: '0 auto',
                 textAlign: 'center'
               }}>
-                <strong style={{ color: 'var(--primary-blue)' }}>Coming in 2025:</strong> The CrestCode founder and investor network — a curated community of builders and backers across the CrestCode portfolio. If you want to be part of it early, reach out directly.
+                <EditableText 
+                  contentKey="about.community.alert"
+                  value={getContent('about.community.alert', 'Coming in 2025: The CrestCode founder and investor network — a curated community of builders and backers across the CrestCode portfolio. If you want to be part of it early, reach out directly.')}
+                  as="span"
+                />
               </div>
             </div>
 
@@ -725,8 +898,8 @@ export default function AboutPage() {
                       <path d="M16 3.13a4 4 0 010 7.75" />
                     </svg>
                   ),
-                  title: 'Founders Network',
-                  desc: 'Connect with other founders in the CrestCode portfolio — share learnings, challenges, and opportunities across ventures.'
+                  title: getContent('about.community.0.title', 'Founders Network'),
+                  desc: getContent('about.community.0.desc', 'Connect with other founders in the CrestCode portfolio — share learnings, challenges, and opportunities across ventures.')
                 },
                 {
                   icon: (
@@ -735,8 +908,8 @@ export default function AboutPage() {
                       <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
                     </svg>
                   ),
-                  title: 'Investor Circle',
-                  desc: 'Strategic investors who back CrestCode ventures and play an active role in their growth and adoption.'
+                  title: getContent('about.community.1.title', 'Investor Circle'),
+                  desc: getContent('about.community.1.desc', 'Strategic investors who back CrestCode ventures and play an active role in their growth and adoption.')
                 },
                 {
                   icon: (
@@ -744,8 +917,8 @@ export default function AboutPage() {
                       <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" />
                     </svg>
                   ),
-                  title: 'Advisor Pool',
-                  desc: 'Domain experts across finance, healthcare, product, and operations — available to every entrepreneur we work with.'
+                  title: getContent('about.community.2.title', 'Advisor Pool'),
+                  desc: getContent('about.community.2.desc', 'Domain experts across finance, healthcare, product, and operations — available to every entrepreneur we work with.')
                 },
                 {
                   icon: (
@@ -754,8 +927,8 @@ export default function AboutPage() {
                       <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
                     </svg>
                   ),
-                  title: 'Remote-First',
-                  desc: 'Our team and network operate fully remotely — giving access to the best people regardless of geography.'
+                  title: getContent('about.community.3.title', 'Remote-First'),
+                  desc: getContent('about.community.3.desc', 'Our team and network operate fully remotely — giving access to the best people regardless of geography.')
                 }
               ].map((item, idx) => (
                 <div key={idx} className="about-card" style={{ background: 'var(--white)', display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -773,12 +946,18 @@ export default function AboutPage() {
                   }}>
                     {item.icon}
                   </div>
-                  <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '8px' }}>
-                    {item.title}
-                  </h3>
-                  <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
-                    {item.desc}
-                  </p>
+                  <EditableText 
+                    contentKey={`about.community.${idx}.title`}
+                    value={item.title}
+                    as="h3"
+                    style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '8px' }}
+                  />
+                  <EditableText 
+                    contentKey={`about.community.${idx}.desc`}
+                    value={item.desc}
+                    as="p"
+                    style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}
+                  />
                 </div>
               ))}
             </div>
@@ -789,45 +968,66 @@ export default function AboutPage() {
         {/* ── 8. CALL TO ACTION (WORK WITH US) (Image 5) ── */}
         <section style={{ backgroundColor: '#FFFFFF', padding: '32px 24px', position: 'relative' }}>
           <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
-            <span style={{
-              color: 'var(--primary-blue)',
-              fontSize: '0.75rem',
-              fontWeight: 800,
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              marginBottom: '16px',
-              display: 'block',
-              fontFamily: "'Manrope', sans-serif"
-            }}>
-              WORK WITH US
-            </span>
-            <h2 className="section-title" style={{
-              color: 'var(--text-black)',
-              marginBottom: '24px',
-              maxWidth: '800px',
-              margin: '0 auto 24px'
-            }}>
-              If this sounds like <br />
-              the partner you've been <br />
-              looking for 
-            </h2>
-            <p className="section-subtitle" style={{
-              maxWidth: '600px',
-              margin: '0 auto 40px'
-            }}>
-              We'd love to hear what you're building. Or what problem you're trying to solve. Either way, let's talk.
-            </p>
+            <EditableText 
+              contentKey="about.cta.label"
+              value={getContent('about.cta.label', 'WORK WITH US')}
+              as="span"
+              style={{
+                color: 'var(--primary-blue)',
+                fontSize: '0.75rem',
+                fontWeight: 800,
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                marginBottom: '16px',
+                display: 'block',
+                fontFamily: "'Manrope', sans-serif"
+              }}
+            />
+            <EditableText
+              contentKey="about.cta.title"
+              value={getContent('about.cta.title', "If this sounds like\nthe partner you've been\nlooking for")}
+              as="h2"
+              className="section-title"
+              style={{
+                color: 'var(--text-black)',
+                marginBottom: '24px',
+                maxWidth: '800px',
+                margin: '0 auto 24px',
+                fontSize: '36px',
+                fontWeight: 800,
+                letterSpacing: '-0.02em',
+                lineHeight: 1.25
+              }}
+            />
+            <EditableText 
+              contentKey="about.cta.description"
+              value={getContent('about.cta.description', "We'd love to hear what you're building. Or what problem you're trying to solve. Either way, let's talk.")}
+              as="p"
+              className="section-subtitle"
+              style={{
+                maxWidth: '600px',
+                margin: '0 auto 40px'
+              }}
+            />
 
             {/* Dual Action Buttons */}
             <div style={{ display: 'inline-flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center' }}>
               <Link href="/contact">
                 <button className="btn-pill btn-primary">
-                  Start a Conversation
+                  <EditableText 
+                    contentKey="about.cta.button1"
+                    value={getContent('about.cta.button1', 'Start a Conversation')}
+                    as="span"
+                  />
                 </button>
               </Link>
               <Link href="/studio">
                 <button className="btn-pill btn-secondary">
-                  See The Studio
+                  <EditableText 
+                    contentKey="about.cta.button2"
+                    value={getContent('about.cta.button2', 'See The Studio')}
+                    as="span"
+                  />
                 </button>
               </Link>
             </div>

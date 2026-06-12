@@ -64,8 +64,6 @@ function SolvingSection({ stackCards, studioContent, EditableText }: any) {
               className="section-title title-dark"
               style={{
                 textAlign: 'left',
-                fontWeight: 800,
-                letterSpacing: '-0.02em',
                 color: '#fff',
                 marginBottom: '32px',
               }}
@@ -552,9 +550,9 @@ export default function StudioPage() {
 
         /* Unified Hero Section Style */
         .hero-section {
-          padding: 120px 24px 60px !important; /* spacious padding to expand the section */
+          padding: 220px 24px 160px !important; /* spacious padding to expand the section */
           text-align: center !important;
-          background-color: #FFFFFF !important;
+          background-color: #F1F5F9 !important;
           display: flex !important;
           flex-direction: column !important;
           align-items: center !important;
@@ -1535,20 +1533,14 @@ export default function StudioPage() {
       `}} />
 
       <Header />
-      <div className="studio-page" style={{ position: 'relative', overflow: 'hidden' }}>
+      <div className="studio-page" style={{ position: 'relative', overflow: 'hidden', backgroundColor: '#F8FAFC' }}>
 
         {/* Ambient glow orbs */}
 
         {/* Hero Section */}
-        <section className="section-white hero-section" style={{ position: 'relative', overflow: 'hidden' }}>
-          {/* Hero Background */}
-          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }}></div>
-          {/* Hero Grid */}
-          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(37,99,235,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.08) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 60% at 50% 30%, black 0%, transparent 80%)', opacity: 0.4, pointerEvents: 'none', zIndex: 0 }}></div>
-          {/* Ambient Glows */}
+        <section className="section-white hero-section" style={{ position: 'relative', overflow: 'hidden', minHeight: '700px' }}>
+          {/* Top Light Effect */}
           <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.2), transparent 70%)', bottom: '0px', left: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.2), transparent 70%)', bottom: '0px', right: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
           <div className="section-container pt-0 pb-0" style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div style={{ textAlign: 'center', width: '100%' }}>
                 <EditableText
@@ -1560,12 +1552,12 @@ export default function StudioPage() {
                   <EditableText
                     as="h1"
                     contentKey="studio.hero.title"
-                    value={studioContent.hero.title || "Build Ventures, Not Just Products"}
+                    value={studioContent.hero.title || "Build Ventures, Not Just\nProducts"}
                     className="hero-title"
                     style={{ textAlign: 'center', margin: '0 auto', display: 'inline-block' }}
                   >
                     {(() => {
-                      const titleText = studioContent.hero.title || "Build Ventures, Not Just Products";
+                      const titleText = studioContent.hero.title || "Build Ventures, Not Just\nProducts";
                       const lines = titleText.split('\n');
                       return lines.map((line, lineIdx) => {
                         const words = line.split(' ');
@@ -1573,7 +1565,7 @@ export default function StudioPage() {
                           <React.Fragment key={lineIdx}>
                             {words.map((word: string, index: number) => {
                               const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").toUpperCase();
-                              const isBlue = ['VENTURES', 'PRODUCTS', 'VENTURE', 'PRODUCT'].includes(cleanWord);
+                              const isBlue = ['VENTURES', 'PRODUCTS', 'VENTURE', 'PRODUCT', 'LAST'].includes(cleanWord);
                               return (
                                 <span key={index} style={isBlue ? { color: '#005AE2' } : {}}>
                                   {word}{index < words.length - 1 ? ' ' : ''}
@@ -1609,7 +1601,7 @@ export default function StudioPage() {
         </section>
 
         {/* Vision & Mission Section */}
-        <section id="vision" style={{ padding: '24px 24px', backgroundColor: '#EFF6FF', position: 'relative', overflow: 'hidden' }}>
+        <section id="vision" style={{ padding: '24px 24px', backgroundColor: '#FFFFFF', position: 'relative', overflow: 'hidden' }}>
           {/* Grid Background */}
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(rgba(0, 90, 226, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 90, 226, 0.03) 1px, transparent 1px)', backgroundSize: '50px 50px', opacity: 0.5 }}></div>
           
@@ -1657,7 +1649,7 @@ export default function StudioPage() {
         </section>
 
       {/* Core Values Section - Premium Light Mode Grid with 6 Cards */}
-      <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', fontFamily: 'Manrope, sans-serif', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', fontFamily: 'Manrope, sans-serif', position: 'relative', overflow: 'hidden' }}>
         {/* Subtle glowing radial background lights */}
         <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.04), transparent 70%)', top: '-100px', left: '-100px', pointerEvents: 'none' }}></div>
         <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.03), transparent 70%)', bottom: '-100px', right: '-100px', pointerEvents: 'none' }}></div>
@@ -2077,19 +2069,6 @@ export default function StudioPage() {
                 overflow: 'hidden'
               }}
             >
-              {/* Grid background */}
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                backgroundImage: `
-                  linear-gradient(rgba(0, 90, 226, 0.05) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(0, 90, 226, 0.05) 1px, transparent 1px)
-                `,
-                backgroundSize: '50px 50px',
-                opacity: 1,
-                pointerEvents: 'none',
-                zIndex: 0,
-              }} />
 
               {/* Light effect from center */}
               <div style={{
@@ -2123,9 +2102,6 @@ export default function StudioPage() {
                       color: '#0F172A',
                       maxWidth: '800px',
                       margin: '0 auto 16px',
-                      fontFamily: "'Manrope', sans-serif",
-                      fontSize: 'clamp(1.8rem, 3vw, 2.5rem)',
-                      fontWeight: 800
                     }}
                   />
                   <EditableText
@@ -2399,7 +2375,21 @@ export default function StudioPage() {
                             e.currentTarget.style.boxShadow = 'none';
                           }}
                         >
-                          <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', color: '#005AE2', marginBottom: '8px', opacity: 0.9 }}>
+                          <div style={{
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '50%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '12px',
+                            fontWeight: 700,
+                            fontFamily: "'Manrope', sans-serif",
+                            background: '#005AE2',
+                            color: '#ffffff',
+                            marginBottom: '12px',
+                            border: '2px solid #005AE2',
+                          }}>
                             {String(idx + 1).padStart(2, '0')}
                           </div>
                           <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
@@ -2434,7 +2424,21 @@ export default function StudioPage() {
                               e.currentTarget.style.boxShadow = 'none';
                             }}
                           >
-                            <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', color: '#005AE2', marginBottom: '8px', opacity: 0.9 }}>01</div>
+                            <div style={{
+                              width: '32px',
+                              height: '32px',
+                              borderRadius: '50%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '12px',
+                              fontWeight: 700,
+                              fontFamily: "'Manrope', sans-serif",
+                              background: '#005AE2',
+                              color: '#ffffff',
+                              marginBottom: '12px',
+                              border: '2px solid #005AE2',
+                            }}>01</div>
                             <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
                               <EditableText contentKey={`ourModel.phases.items.${heroCarouselIndex - 2}.label`} value={ph?.label} />
                             </h3>
@@ -2464,7 +2468,21 @@ export default function StudioPage() {
                                 e.currentTarget.style.boxShadow = 'none';
                               }}
                             >
-                              <div style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.15em', color: '#005AE2', marginBottom: '8px', opacity: 0.9 }}>
+                              <div style={{
+                                width: '32px',
+                                height: '32px',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '12px',
+                                fontWeight: 700,
+                                fontFamily: "'Manrope', sans-serif",
+                                background: '#005AE2',
+                                color: '#ffffff',
+                                marginBottom: '12px',
+                                border: '2px solid #005AE2',
+                              }}>
                                 {String(idx + 2).padStart(2, '0')}
                               </div>
                               <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
@@ -2495,7 +2513,7 @@ export default function StudioPage() {
               </div>
 
               {/* ── SELECTION PROCESS SUB-SECTION ── */}
-              <div className="section-container" id="selection" style={{ paddingBottom: 0 }}>
+              <div className="section-container" id="selection" style={{ paddingBottom: 0, backgroundColor: '#EFF6FF', padding: '60px 24px' }}>
                 <div style={{ maxWidth: '800px', margin: '0 auto' }}>
                   <div style={{ textAlign: 'center', marginBottom: '48px', paddingTop: '60px' }}>
                     <EditableText
@@ -2509,13 +2527,9 @@ export default function StudioPage() {
                       value={studioContent.creation_steps?.title || "Venture Creation Steps"}
                       className="section-title"
                       style={{
-                        fontWeight: 800,
-                        letterSpacing: '-0.02em',
                         color: '#0F172A',
-                        lineHeight: 1.2,
                         maxWidth: '800px',
                         margin: '0 auto 16px',
-                        fontFamily: "'Manrope', sans-serif"
                       }}
                     />
                     <EditableText
@@ -2682,7 +2696,7 @@ export default function StudioPage() {
                   </div>
                 </div>
               </div>
-              </div>
+            </div>
             </section>
           );
         })()}
@@ -2698,7 +2712,7 @@ export default function StudioPage() {
             contentKey="studio.timeline.title"
             value={studioContent?.timeline?.title || "From First Conversation to First Customer"}
             className="section-title"
-            style={{ fontWeight: 800, color: '#0F172A', letterSpacing: '-0.02em', lineHeight: 1.2, textAlign: 'center', margin: '0 auto 16px' }}
+            style={{ color: '#0F172A', textAlign: 'center', margin: '0 auto 16px' }}
           />
           <EditableText
             as="p"

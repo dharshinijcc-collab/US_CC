@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
+import EditableImage from '@/components/admin/EditableImage';
 
 export default function Footer() {
   const { content } = useContent();
@@ -271,11 +272,11 @@ export default function Footer() {
           </div>
           <div className="footer-container">
             <div className="footer-brand-column">
-              <div className="footer-logo-container" style={{ marginBottom: '16px' }}>
+              <div className="footer-logo-container" style={{ marginBottom: '16px', textAlign: 'left' }}>
                 <img
                   src="/new-footer-logo.png"
                   alt="Crestcode Product Studio"
-                  style={{ maxWidth: '100px', height: 'auto', display: 'block', marginBottom: '16px' }}
+                  style={{ maxWidth: '120px', height: 'auto', display: 'inline-block', marginBottom: '16px' }}
                 />
               </div>
               <EditableText
@@ -283,6 +284,7 @@ export default function Footer() {
                 contentKey="global.footer.tagline"
                 value={globalContent.footer.tagline}
                 className="footer-tagline"
+                style={{ textAlign: 'left' }}
               />
             </div>
             {globalContent.footer.sections.map((section, idx) => (

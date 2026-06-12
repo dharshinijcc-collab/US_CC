@@ -34,6 +34,7 @@ import { API_URL } from '@/services/api';
 export default function CareersPage() {
   const { content, loading, error } = useContent();
   const [activeFilter, setActiveFilter] = useState("All Departments");
+  const [showForm, setShowForm] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
@@ -47,6 +48,7 @@ export default function CareersPage() {
   const [fileError, setFileError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<{ email?: string; linkedin?: string }>({});
 
   if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#F8FAFC] font-manrope">Loading careers...</div>;
   if (error) return <div className="flex items-center justify-center min-h-screen bg-[#F8FAFC] font-manrope text-red-500">Error: {error}</div>;
@@ -93,8 +95,38 @@ export default function CareersPage() {
     handleFileChange(file);
   };
 
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validateUrl = (url: string): boolean => {
+    if (!url) return true; // Optional field
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    // Validate email
+    const newErrors: { email?: string; linkedin?: string } = {};
+    if (!validateEmail(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    if (!validateUrl(formData.linkedin)) {
+      newErrors.linkedin = 'Please enter a valid URL';
+    }
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
+
     // Validate resume is required
     if (!resumeFile) {
       setFileError('Please upload your resume to apply.');
@@ -118,10 +150,12 @@ export default function CareersPage() {
       });
 
       if (response.ok) {
-        setSubmitted(false); // Hide form after successful submission
+        setShowForm(false);
+        setSubmitted(true); // Show success message after successful submission
         setFormData({ firstName: '', email: '', interest: 'Engineering', linkedin: '', jobTitle: '' });
         setResumeFile(null);
         setFileError('');
+        setErrors({});
       } else {
         const data = await response.json();
         alert(data.error || data.message || 'Submission failed. Please try again.');
@@ -161,7 +195,6 @@ export default function CareersPage() {
           letter-spacing: -0.02em;
         }
 
-        .careers-page h1,
         .careers-page h2 {
           font-size: 36px !important;
         }
@@ -223,25 +256,31 @@ export default function CareersPage() {
         .btn-secondary-style:hover { background-color: #F8FAFC; border-color: var(--text-muted); }
 
         .form-input {
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: #F8FAFC;
+          border: 1px solid #E2E8F0;
           border-radius: 12px;
-          padding: 16px 20px;
-          color: white;
+          padding: 12px 16px;
+          color: #0F172A;
           outline: none;
           width: 100%;
           font-family: inherit;
           transition: border-color 0.3s;
+          font-size: 14px;
         }
         .form-input:focus {
           border-color: var(--primary-blue);
+          background: #FFFFFF;
+        }
+        .form-input.error {
+          border-color: #EF4444;
+          background: #FEF2F2;
         }
         .form-label {
           display: block;
           margin-bottom: 8px;
           font-size: 13px;
           font-weight: 700;
-          color: #94A3B8;
+          color: #475569;
           text-transform: uppercase;
           letter-spacing: 0.05em;
         }
@@ -341,10 +380,10 @@ export default function CareersPage() {
       `}} />
 
       <Header currentPage="careers" />
-      
-      <div className="careers-page">
+
+      <div className="careers-page" style={{ backgroundColor: '#F8FAFC' }}>
         {/* --- 1. HERO SECTION --- */}
-        <section style={{ padding: '120px 24px 60px', backgroundColor: '#FFFFFF', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '480px', width: '100%', position: 'relative', overflow: 'hidden' }}>
+        <section style={{ padding: '120px 24px 60px', backgroundColor: '#F1F5F9', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '480px', width: '100%', position: 'relative', overflow: 'hidden' }}>
           {/* Hero Background */}
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }}></div>
           {/* Hero Grid */}
@@ -361,7 +400,7 @@ export default function CareersPage() {
             <div style={{ width: '100%', textAlign: 'center' }}>
               <h1 style={{ fontSize: '52px', fontWeight: 900, lineHeight: 1.22, letterSpacing: '-0.04em', marginBottom: '28px', textAlign: 'center', color: '#0A0F1C', maxWidth: '960px', margin: '0 auto', whiteSpace: 'pre-wrap' }} className="font-manrope">
                 {careersContent.hero.title?.split(' ').map((word: string, i: number, arr: string[]) => {
-                  const isBlue = ['Meaningful'].includes(word.replace(/[^a-zA-Z]/g, ''));
+                  const isBlue = ['Us'].includes(word.replace(/[^a-zA-Z]/g, ''));
                   return (
                     <React.Fragment key={i}>
                       <span style={isBlue ? { color: '#005AE2' } : {}}>
@@ -388,7 +427,7 @@ export default function CareersPage() {
         </section>
 
         {/* --- 2. WHY JOIN CRESTCODE --- */}
-        <section style={{ padding: '48px 0', backgroundColor: '#F8FAFC' }}>
+        <section style={{ padding: '48px 0', backgroundColor: '#FFFFFF' }}>
           <div className="section-container">
             <div style={{ textAlign: 'center', marginBottom: '80px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <span className="section-eyebrow">
@@ -426,7 +465,7 @@ export default function CareersPage() {
         </section>
 
         {/* --- 3. LIFE AT CRESTCODE --- */}
-        <section style={{ padding: '48px 0', backgroundColor: '#FFFFFF' }}>
+        <section style={{ padding: '48px 0', backgroundColor: '#F8FAFC' }}>
           <div className="section-container">
             <div style={{ backgroundColor: 'var(--primary-blue)', borderRadius: '24px', padding: '60px', display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: '60px', alignItems: 'center', color: '#FFF' }} className="life-grid">
               <div>
@@ -458,16 +497,16 @@ export default function CareersPage() {
         </section>
 
         {/* --- 4. BENEFITS & PERKS --- */}
-        <section id="benefits" style={{ padding: '48px 0', backgroundColor: '#0A0F1C', color: '#FFF' }}>
+        <section id="benefits" style={{ padding: '48px 0', backgroundColor: '#FFFFFF', color: 'var(--text-black)' }}>
           <div className="section-container">
             <div style={{ marginBottom: '60px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <span className="section-eyebrow" style={{ backgroundColor: 'rgba(0, 90, 226, 0.15)', color: '#60A5FA', border: '1px solid rgba(96, 165, 250, 0.2)' }}>
+              <span className="section-eyebrow">
                 <EditableText contentKey="careers.benefits.eyebrow" value={careersContent.benefits.eyebrow || "BENEFITS & PERKS"} />
               </span>
-              <h2 style={{ fontSize: '36px', fontWeight: 900, marginBottom: '16px', letterSpacing: '-0.02em', color: '#FFF' }} className="font-manrope">
+              <h2 style={{ fontSize: '36px', fontWeight: 900, marginBottom: '16px', letterSpacing: '-0.02em', color: '#0F172A' }} className="font-manrope">
                 <EditableText contentKey="careers.benefits.title" value={careersContent.benefits.title} />
               </h2>
-              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.125rem', fontWeight: 500, maxWidth: '600px', margin: '0 auto' }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '1.125rem', fontWeight: 500, maxWidth: '600px', margin: '0 auto' }}>
                 <EditableText contentKey="careers.benefits.subtitle" value={careersContent.benefits.subtitle} />
               </p>
             </div>
@@ -482,14 +521,14 @@ export default function CareersPage() {
                 { icon: <Laptop size={20}/>, title: "Tech Stipend", desc: "Top-tier hardware and home-office setup budget for all team members." }
               ].map((benefit, i) => (
                 <div key={i} style={{ display: 'flex', gap: '24px', alignItems: 'flex-start' }}>
-                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#FFF', flexShrink: 0 }}>
+                  <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: 'var(--light-blue-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary-blue)', flexShrink: 0 }}>
                     {benefit.icon}
                   </div>
                   <div>
-                    <h4 style={{ fontSize: '1.125rem', fontWeight: 800, marginBottom: '8px', color: '#FFF' }} className="font-manrope">
+                    <h4 style={{ fontSize: '1.125rem', fontWeight: 800, marginBottom: '8px', color: '#0F172A' }} className="font-manrope">
                       <EditableText contentKey={`careers.benefits.items.${i}.title`} value={careersContent.benefits.items[i].title} />
                     </h4>
-                    <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.6, fontWeight: 500 }}>
+                    <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: 1.6, fontWeight: 500 }}>
                       <EditableText contentKey={`careers.benefits.items.${i}.desc`} value={careersContent.benefits.items[i].desc} />
                     </p>
                   </div>
@@ -500,7 +539,7 @@ export default function CareersPage() {
         </section>
 
         {/* --- 5. OPEN POSITIONS --- */}
-        <section id="open-positions" style={{ padding: '48px 0', backgroundColor: '#FFFFFF' }}>
+        <section id="open-positions" style={{ padding: '48px 0', backgroundColor: '#F8FAFC' }}>
           <div className="section-container">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px', flexWrap: 'wrap', gap: '24px' }}>
               <div>
@@ -551,7 +590,10 @@ export default function CareersPage() {
                     </div>
                   </div>
                   <button
-                    onClick={() => handleScroll('apply-now')}
+                    onClick={() => {
+                      setFormData({...formData, jobTitle: job.title});
+                      handleScroll('apply-now');
+                    }}
                     style={{ backgroundColor: 'var(--light-blue-bg)', color: 'var(--primary-blue)', padding: '12px 28px', borderRadius: '100px', fontWeight: 800, fontSize: '14px', border: 'none', cursor: 'pointer', transition: 'all 0.2s' }}
                     onMouseOver={(e: any) => e.currentTarget.style.backgroundColor = '#DBEAFE'}
                     onMouseOut={(e: any) => e.currentTarget.style.backgroundColor = 'var(--light-blue-bg)'}
@@ -578,7 +620,7 @@ export default function CareersPage() {
                   </p>
 
                   <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', flexWrap: 'wrap', alignItems: 'center' }}>
-                    <button onClick={() => setSubmitted(!submitted)} style={{ backgroundColor: '#FFFFFF', color: '#0052FF', border: 'none', padding: '18px 48px', borderRadius: '12px', fontWeight: 700, fontSize: '1rem', cursor: 'pointer', transition: 'all 0.3s ease' }}>
+                    <button onClick={() => setShowForm(true)} style={{ backgroundColor: '#FFFFFF', color: '#0052FF', border: 'none', padding: '18px 48px', borderRadius: '12px', fontWeight: 700, fontSize: '1rem', cursor: 'pointer', transition: 'all 0.3s ease' }}>
                       <EditableText contentKey="careers.cta.primaryButton" value={careersContent.cta.primaryButton} />
                     </button>
                     <Link href="https://www.linkedin.com/search/results/all/?keywords=crestcode%20technologies&origin=RICH_QUERY_SUGGESTION&spellCorrectionEnabled=false&heroEntityKey=urn%3Ali%3Aorganization%3A108093169&position=0" target="_blank" style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '15px', textDecoration: 'none', border: '2px solid rgba(255,255,255,0.3)', padding: '16px 32px', borderRadius: '12px', transition: 'all 0.3s ease' }} className="font-manrope">
@@ -586,70 +628,78 @@ export default function CareersPage() {
                     </Link>
                   </div>
 
-                  {submitted && (
-                    <div style={{ marginTop: '60px', maxWidth: '800px', marginInline: 'auto' }}>
-                       <form onSubmit={handleSubmit} style={{ textAlign: 'left', background: 'rgba(255,255,255,0.05)', padding: '40px', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                        <div className="form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '24px' }}>
+                  {showForm && (
+                    <div style={{ marginTop: '40px', maxWidth: '600px', marginInline: 'auto' }}>
+                       <form onSubmit={handleSubmit} style={{ textAlign: 'left', background: '#FFFFFF', padding: '24px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
+                        <div className="form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
                           <div>
                             <label className="form-label">
                               <EditableText contentKey="careers.form.nameLabel" value={careersContent.form.nameLabel} />
                             </label>
-                            <input 
-                              type="text" 
-                              placeholder={careersContent.form.namePlaceholder} 
+                            <input
+                              type="text"
+                              placeholder={careersContent.form.namePlaceholder}
                               required
                               value={formData.firstName}
                               onChange={(e: any) => setFormData({...formData, firstName: e.target.value})}
                               className="form-input"
+                              style={{ padding: '12px 16px' }}
                             />
                           </div>
                           <div>
                             <label className="form-label">
                               <EditableText contentKey="careers.form.emailLabel" value={careersContent.form.emailLabel} />
                             </label>
-                            <input 
-                              type="email" 
-                              placeholder={careersContent.form.emailPlaceholder} 
+                            <input
+                              type="email"
+                              placeholder={careersContent.form.emailPlaceholder}
                               required
                               value={formData.email}
-                              onChange={(e: any) => setFormData({...formData, email: e.target.value})}
-                              className="form-input"
+                              onChange={(e: any) => {
+                                setFormData({...formData, email: e.target.value});
+                                if (errors.email) setErrors({...errors, email: undefined});
+                              }}
+                              className={`form-input ${errors.email ? 'error' : ''}`}
                             />
+                            {errors.email && <p style={{ color: '#EF4444', fontSize: '11px', marginTop: '4px', fontWeight: 600 }}>{errors.email}</p>}
                           </div>
                         </div>
 
-                        <div className="form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px', marginBottom: '24px' }}>
+                        <div className="form-grid" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px', marginBottom: '16px' }}>
                           <div>
                             <label className="form-label">
-                              <EditableText contentKey="careers.form.interestLabel" value={careersContent.form.interestLabel} />
+                              Job Title <span style={{ color: '#EF4444', fontWeight: 700, marginLeft: '4px' }}>*</span>
                             </label>
-                            <select 
-                              value={formData.interest}
-                              onChange={(e: any) => setFormData({...formData, interest: e.target.value})}
+                            <input
+                              type="text"
+                              placeholder="e.g., Frontend Developer"
+                              required
+                              value={formData.jobTitle}
+                              onChange={(e: any) => setFormData({...formData, jobTitle: e.target.value})}
                               className="form-input"
-                              style={{ appearance: 'none' }}
-                            >
-                              {careersContent.form.interestOptions.map((opt: string) => (
-                                <option key={opt} value={opt}>{opt}</option>
-                              ))}
-                            </select>
+                              style={{ padding: '12px 16px' }}
+                            />
                           </div>
                           <div>
                             <label className="form-label">
                               <EditableText contentKey="careers.form.linkedinLabel" value={careersContent.form.linkedinLabel} />
                             </label>
-                            <input 
-                              type="url" 
-                              placeholder={careersContent.form.linkedinPlaceholder} 
+                            <input
+                              type="url"
+                              placeholder={careersContent.form.linkedinPlaceholder}
                               value={formData.linkedin}
-                              onChange={(e: any) => setFormData({...formData, linkedin: e.target.value})}
-                              className="form-input"
+                              onChange={(e: any) => {
+                                setFormData({...formData, linkedin: e.target.value});
+                                if (errors.linkedin) setErrors({...errors, linkedin: undefined});
+                              }}
+                              className={`form-input ${errors.linkedin ? 'error' : ''}`}
                             />
+                            {errors.linkedin && <p style={{ color: '#EF4444', fontSize: '11px', marginTop: '4px', fontWeight: 600 }}>{errors.linkedin}</p>}
                           </div>
                         </div>
 
                         {/* Resume Upload */}
-                        <div style={{ marginBottom: '24px' }}>
+                        <div style={{ marginBottom: '16px' }}>
                           <label className="form-label">
                             Resume / CV <span style={{ color: '#EF4444', fontWeight: 700, marginLeft: '4px' }}>*</span>{' '}
                             <span style={{ color: '#64748B', fontWeight: 400, textTransform: 'none', letterSpacing: 0, marginLeft: '4px' }}>
@@ -662,18 +712,18 @@ export default function CareersPage() {
                             onDrop={handleDrop}
                             onClick={() => fileInputRef.current?.click()}
                             style={{
-                              border: `3px dashed ${isDragging ? '#0052FF' : resumeFile ? '#10B981' : '#475569'}`,
+                              border: `2px dashed ${isDragging ? '#0052FF' : resumeFile ? '#10B981' : '#CBD5E1'}`,
                               borderRadius: '12px',
-                              padding: '32px 20px',
+                              padding: '20px',
                               textAlign: 'center',
                               cursor: 'pointer',
                               transition: 'all 0.3s ease',
-                              boxShadow: isDragging ? '0 0 0 4px rgba(0,82,255,0.15)' : 'none',
+                              boxShadow: isDragging ? '0 0 0 3px rgba(0,82,255,0.15)' : 'none',
                               background: isDragging
-                                ? 'rgba(0,82,255,0.12)'
+                                ? '#EFF6FF'
                                 : resumeFile
-                                ? 'rgba(16,185,129,0.1)'
-                                : 'rgba(255,255,255,0.05)',
+                                ? '#ECFDF5'
+                                : '#F8FAFC',
                             }}
                           >
                             <input
@@ -701,21 +751,21 @@ export default function CareersPage() {
                                     setResumeFile(null);
                                     if (fileInputRef.current) fileInputRef.current.value = '';
                                   }}
-                                  style={{ marginLeft: 'auto', background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '50%', width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#94A3B8', flexShrink: 0 }}
+                                  style={{ marginLeft: 'auto', background: '#FEE2E2', border: 'none', borderRadius: '50%', width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#EF4444', flexShrink: 0 }}
                                 >
                                   <X size={14} />
                                 </button>
                               </div>
                             ) : (
                               <div>
-                                <div style={{ width: '56px', height: '56px', borderRadius: '50%', backgroundColor: 'rgba(0,82,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isDragging ? '#0052FF' : '#4D79FF', margin: '0 auto 16px', border: '2px solid rgba(0,82,255,0.3)' }}>
-                                  <Upload size={28} />
+                                <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: '#DBEAFE', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isDragging ? '#0052FF' : '#4D79FF', margin: '0 auto 8px', border: '2px solid #BFDBFE' }}>
+                                  <Upload size={20} />
                                 </div>
-                                <div style={{ fontSize: '16px', fontWeight: 700, color: '#FFFFFF', marginBottom: '6px' }}>
+                                <div style={{ fontSize: '14px', fontWeight: 700, color: '#1E293B', marginBottom: '4px' }}>
                                   Click to upload or drag and drop
                                 </div>
-                                <div style={{ fontSize: '13px', color: '#94A3B8', fontWeight: 500 }}>
-                                  Support for PDF, DOC, DOCX files
+                                <div style={{ fontSize: '12px', color: '#64748B', fontWeight: 500 }}>
+                                  PDF, DOC, DOCX (Max 5MB)
                                 </div>
                               </div>
                             )}
@@ -727,7 +777,7 @@ export default function CareersPage() {
                           )}
                         </div>
 
-                        <button type="submit" className="btn-primary-style" style={{ width: '100%', borderRadius: '12px' }} disabled={isSubmitting}>
+                        <button type="submit" className="btn-primary-style" style={{ width: '100%', borderRadius: '12px', padding: '14px 24px', fontSize: '15px' }} disabled={isSubmitting}>
                           {isSubmitting ? (
                             <EditableText contentKey="careers.form.submittingText" value={careersContent.form.submittingText} />
                           ) : (
@@ -753,7 +803,7 @@ export default function CareersPage() {
                   <p style={{ fontSize: '1.125rem', color: '#94A3B8', marginBottom: '40px', maxWidth: '500px', marginInline: 'auto' }}>
                     <EditableText contentKey="careers.success.message" value={careersContent.success.message} />
                   </p>
-                  <button onClick={() => setSubmitted(false)} className="btn-secondary-style" style={{ backgroundColor: 'transparent', color: '#FFF', borderColor: 'rgba(255,255,255,0.2)' }}>
+                  <button onClick={() => { setSubmitted(false); setShowForm(true); }} className="btn-secondary-style" style={{ backgroundColor: 'transparent', color: '#FFF', borderColor: 'rgba(255,255,255,0.2)' }}>
                     <EditableText contentKey="careers.success.buttonText" value={careersContent.success.buttonText} />
                   </button>
                 </motion.div>

@@ -55,7 +55,7 @@
 
 /* Section Container */
 .section-container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 2rem 24px;
 }
@@ -135,8 +135,8 @@
   box-sizing: border-box;
   
   /* Desktop premium dimensions */
-  min-height: 70vh; /* Responsive to the viewport height of the device */
-  padding-top: 140px !important; /* Top padding to clear fixed/floating navbar cleanly */
+  min-height: 70vh;
+  padding-top: 150px !important; /* Clear flush-top navbar (~85px height) */
   padding-bottom: 80px !important;
 }
 
@@ -157,7 +157,7 @@
 @media (max-width: 1024px) {
   .hero-section, .company-hero {
     min-height: 60vh;
-    padding-top: 120px !important;
+    padding-top: 130px !important;
     padding-bottom: 60px !important;
   }
 }
@@ -166,7 +166,7 @@
 @media (max-width: 768px) {
   .hero-section, .company-hero {
     min-height: 50vh;
-    padding-top: 100px !important;
+    padding-top: 120px !important;
     padding-bottom: 48px !important;
   }
 }
@@ -175,7 +175,7 @@
 @media (max-width: 480px) {
   .hero-section, .company-hero {
     min-height: 45vh;
-    padding-top: 90px !important;
+    padding-top: 110px !important;
     padding-bottom: 40px !important;
   }
 }

@@ -8,13 +8,14 @@ interface AdminContextType {
   setIsAdminMode: (val: boolean) => void;
   updateContent: (path: string, value: any) => Promise<void>;
   saveChanges: () => Promise<void>;
+  saveStatus: 'idle' | 'saving' | 'success' | 'error';
   fullContent: any;
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
 export function AdminProvider({ children }: { children: React.ReactNode, initialContent: any }) {
-  const { isAdminMode, setIsAdminMode, updateContent, saveChanges, content } = useContent();
+  const { isAdminMode, setIsAdminMode, updateContent, saveChanges, content, saveStatus } = useContent();
 
   return (
     <AdminContext.Provider value={{ 
@@ -22,6 +23,7 @@ export function AdminProvider({ children }: { children: React.ReactNode, initial
       setIsAdminMode, 
       updateContent, 
       saveChanges, 
+      saveStatus,
       fullContent: content 
     }}>
       {children}

@@ -13,7 +13,7 @@ export default function RootLoading() {
       `}} />
       <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
       <p className="text-gray-600 font-medium" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-        Loading premium experience...
+        Loading...
       </p>
     </div>
   );

@@ -38,6 +38,25 @@ export default function LandingPage() {
   const heroRef = useRef(null);
 
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
+  const [currentExampleIndex, setCurrentExampleIndex] = useState(0);
+  const [fadeOpacity, setFadeOpacity] = useState(1);
+
+  const ideaExamples = [
+    "Building a comprehensive life and legacy management application for family",
+    "Creating reporting solutions for thinkandswim platform for option traders",
+    "Creating an AI powered HOA management solution"
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFadeOpacity(0);
+      setTimeout(() => {
+        setCurrentExampleIndex((prev) => (prev + 1) % ideaExamples.length);
+        setFadeOpacity(1);
+      }, 300);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
 
   const partneredProductsFallback = [
     {
@@ -371,9 +390,6 @@ export default function LandingPage() {
       if (response.ok) {
         setSubmissionStep(3);
         setIdea('');
-        setTimeout(() => {
-          setSubmissionStep(0);
-        }, 3000);
       } else {
         setFormMessage('Something went wrong. Please try again.');
         setMessageType('error');
@@ -528,7 +544,7 @@ export default function LandingPage() {
 
         /* --- Hero --- */
         @media(max-width: 480px) {
-          .hero-section { padding: 100px 16px 32px !important; }
+          .hero-section { padding: 130px 16px 32px !important; }
           .hero-idea-box { max-width: 100% !important; }
         }
 
@@ -679,7 +695,7 @@ export default function LandingPage() {
         }
 
         /* Sections - all share a unified 100px top/bottom padding via .section-container */
-        .section-light { background-color: var(--white); }
+        .section-light { background-color: #EFF6FF; }
         .section-cta-sky {
           background-image: url('/images/studio/footer_no_faces.png');
           background-size: cover;
@@ -716,7 +732,7 @@ export default function LandingPage() {
           z-index: 2;
         }
         .section-dark { background-color: var(--bg-dark); color: var(--white); }
-        .section-grey { background-color: var(--bg-base); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+        .section-grey { background-color: var(--bg-base); box-shadow: inset 0 24px 48px -24px rgba(0, 90, 226, 0.05), inset 0 -24px 48px -24px rgba(0, 90, 226, 0.05); }
 
         /* Buttons */
         .btn-primary { 
@@ -738,21 +754,21 @@ export default function LandingPage() {
 
         /* Hero Section */
         .hero-section {
-          padding: 120px 24px 60px !important; /* spacious padding to expand the section */
+          padding: 160px 24px 48px !important; /* increased padding-top to leave space below the header */
           text-align: center !important;
-          background-color: #FFFFFF !important;
+          background-color: #F1F5F9 !important;
           display: flex !important;
           flex-direction: column !important;
           align-items: center !important;
           justify-content: center !important;
-          min-height: 480px !important; /* enlarged height to look grand and full-screen */
+          min-height: 360px !important; /* reduced — no need for full-viewport height */
           width: 100% !important;
           position: relative !important;
         }
         @media(max-width: 768px) {
           .hero-section {
-            padding: 90px 20px 40px !important;
-            min-height: 380px !important;
+            padding: 120px 20px 36px !important; /* increased padding-top for medium header */
+            min-height: auto !important;
           }
         }
         .hero-description {
@@ -957,18 +973,6 @@ export default function LandingPage() {
           transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
-        }
-        .testimonial-card::after {
-          content: '"';
-          position: absolute;
-          top: 10px;
-          right: 30px;
-          font-size: 80px;
-          color: var(--primary-blue);
-          opacity: 0.06;
-          font-family: serif;
-          pointer-events: none;
-          line-height: 1;
         }
         .testimonial-card:hover {
           background-color: var(--white);
@@ -1337,18 +1341,6 @@ export default function LandingPage() {
           box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
           transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .founder-quote-card::after {
-          content: '"';
-          position: absolute;
-          top: -20px;
-          right: 40px;
-          font-size: 160px;
-          color: var(--primary-blue);
-          opacity: 0.04;
-          font-family: serif;
-          pointer-events: none;
-          line-height: 1;
-        }
         .founder-quote-card:hover {
           background-color: var(--white); /* Turns white on hover for contrast */
           transform: translateY(-8px);
@@ -1565,8 +1557,7 @@ export default function LandingPage() {
           background: linear-gradient(135deg, rgba(240,245,255,0.85) 0%, rgba(238,242,255,0.9) 50%, rgba(235,240,255,0.85) 100%);
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
-          border-top: 1px solid rgba(0,90,226,0.07);
-          border-bottom: 1px solid rgba(0,90,226,0.07);
+          box-shadow: inset 0 24px 48px -24px rgba(0,90,226,0.08), inset 0 -24px 48px -24px rgba(0,90,226,0.08);
         }
 
         .inf-wrap {
@@ -2035,9 +2026,8 @@ export default function LandingPage() {
 
         /* ===== NEW CIRCULAR METHODOLOGY HUB-AND-SPOKE ===== */
         .tech-hub-section {
-          background: #ffffff;
-          border-top: 1px solid rgba(0,90,226,0.07);
-          border-bottom: 1px solid rgba(0,90,226,0.07);
+          background: #FFFFFF;
+          box-shadow: inset 0 24px 48px -24px rgba(0,90,226,0.08), inset 0 -24px 48px -24px rgba(0,90,226,0.08);
           padding: 32px 0 40px;
           overflow: hidden;
           position: relative;
@@ -2181,7 +2171,7 @@ export default function LandingPage() {
 
         /* Partnered Products Carousel Section */
         .partnered-products-section {
-          background-color: #FAFAFA;
+          background-color: #EFF6FF;
           padding: 32px 24px;
           position: relative;
         }
@@ -2474,15 +2464,12 @@ export default function LandingPage() {
 
       <Header />
 
-      <div className="landing-page" style={{ overflow: 'hidden', position: 'relative', backgroundColor: '#FFFFFF' }}>
+      <div className="landing-page" style={{ overflow: 'hidden', position: 'relative', backgroundColor: '#F8FAFC' }}>
 
         {/* Step 1: Idea Submission Hero */}
-        <header ref={heroRef} className="hero-section" style={{ position: 'relative', overflow: 'hidden' }}>
-          {/* Ambient Glows */}
+        <header ref={heroRef} className="hero-section" style={{ position: 'relative', overflow: 'hidden', minHeight: '700px' }}>
+          {/* Top Light Effect */}
           <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', left: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%)', bottom: '-100px', right: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
-
           <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '960px', width: '100%' }}>
             <div className="hero-eyebrow-pill">
               <EditableText contentKey="home.hero.eyebrow" value={homeContent.hero.eyebrow} />
@@ -2490,51 +2477,28 @@ export default function LandingPage() {
             <EditableText
               as="h1"
               contentKey="home.hero.heading"
-              value={homeContent.hero.heading}
+              value={homeContent.hero.heading || "Where BOLD IDEAS\nbecome REAL products"}
               className="hero-title"
               style={{ color: '#0A0F1C' }}
             >
               {(() => {
-                const headingText = homeContent.hero.heading || '';
-                const renderWord = (word: string, index: number) => {
-                  const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
-                  const cleanWordUpper = cleanWord.toUpperCase();
-                  const isBlue = ['BOLD', 'IDEAS', 'REAL', 'IDEA', 'CUSTOMER', 'CUSTOMERS', 'PRODUCTS', 'PRODUCT', 'VENTURES', 'VENTURE'].includes(cleanWordUpper);
-                  return (
-                    <span key={index} style={isBlue ? { color: '#005AE2' } : {}}>
-                      {word}{' '}
-                    </span>
-                  );
-                };
-
-                if (headingText.includes('\n')) {
-                  const lines = headingText.split('\n');
-                  return lines.map((line, lineIdx) => {
-                    const words = line.split(' ');
-                    return (
-                      <React.Fragment key={lineIdx}>
-                        {words.map((w, idx) => renderWord(w, idx))}
-                        {lineIdx < lines.length - 1 && <br />}
-                      </React.Fragment>
-                    );
-                  });
-                }
-
-                const words = headingText.split(' ');
-                const line1 = words.slice(0, 4);
-                const line2 = words.slice(4);
-
-                return (
-                  <>
-                    <span style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
-                      {line1.map((w, idx) => renderWord(w, idx))}
-                    </span>
-                    <br />
-                    <span style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
-                      {line2.map((w, idx) => renderWord(w, idx + 4))}
-                    </span>
-                  </>
-                );
+                const headingText = homeContent.hero.heading || "Where BOLD IDEAS\nbecome REAL products";
+                const lines = headingText.split('\n');
+                return lines.map((line, lineIdx) => (
+                  <React.Fragment key={lineIdx}>
+                    {line.split(' ').map((word: string, index: number) => {
+                      const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
+                      const cleanWordUpper = cleanWord.toUpperCase();
+                      const isBlue = ['BOLD', 'IDEAS', 'REAL', 'IDEA', 'CUSTOMER', 'CUSTOMERS', 'PRODUCTS', 'PRODUCT', 'VENTURES', 'VENTURE'].includes(cleanWordUpper);
+                      return (
+                        <span key={index} style={isBlue ? { color: '#005AE2' } : {}}>
+                          {word}{' '}
+                        </span>
+                      );
+                    })}
+                    {lineIdx < lines.length - 1 && <br />}
+                  </React.Fragment>
+                ));
               })()}
             </EditableText>
             <EditableText
@@ -2563,9 +2527,11 @@ export default function LandingPage() {
                     color: '#0A0F1C',
                     backgroundColor: 'transparent',
                     outline: 'none',
-                    borderRadius: '14px'
+                    borderRadius: '14px',
+                    transition: 'opacity 0.3s ease-in-out',
+                    opacity: fadeOpacity
                   }}
-                  placeholder={homeContent.hero.placeholder}
+                  placeholder={ideaExamples[currentExampleIndex]}
                   value={idea}
                   onChange={(e: any) => setIdea(e.target.value)}
                   disabled={isLoading}
@@ -2617,7 +2583,7 @@ export default function LandingPage() {
 
 
         {/* Target Audiences Section */}
-        <section className="section-light">
+        <section className="section-light" style={{ backgroundColor: '#FFFFFF' }}>
           <div className="section-container">
             <div className="text-center">
               <EditableText
@@ -2772,7 +2738,7 @@ export default function LandingPage() {
         </section>
 
         {/* How We Help — Interactive circular diagram */}
-        <section className="tech-hub-section" style={{ marginTop: '-2px' }}>
+        <section className="tech-hub-section" style={{ backgroundColor: '#EFF6FF', marginTop: '-2px' }}>
           <div className="section-container" style={{ maxWidth: '1100px', position: 'relative' }}>
             <div className="text-center" style={{ marginBottom: '48px' }}>
               <h3 className="section-eyebrow text-center cc-reveal" style={{ marginBottom: '12px' }}>OUR METHODOLOGY</h3>
@@ -2971,7 +2937,7 @@ export default function LandingPage() {
 
 
         {/* Partnered Products Section */}
-        <section className="partnered-products-section">
+        <section className="partnered-products-section" style={{ backgroundColor: '#FFFFFF' }}>
           <div className="section-container" style={{ position: 'relative', zIndex: 2 }}>
             <div className="text-center" style={{ marginBottom: '40px' }}>
               <EditableText
@@ -3223,7 +3189,6 @@ export default function LandingPage() {
                     className="t-quote"
                   />
                   <div className="t-box-author">
-                    <div className="t-avatar-light"></div>
                     <div>
                       <EditableText
                         contentKey={`home.testimonials.items.${idx}.author`}
@@ -3301,16 +3266,67 @@ export default function LandingPage() {
       {/* Step 4: Success / Next Steps */}
       {submissionStep === 3 && (
         <div className="step-modal-overlay">
-          <div className="step-modal">
-            <div className="step-modal-icon-wrap" style={{ background: '#ECFDF5', color: '#10B981' }}>
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+          <div className="step-modal" style={{ maxWidth: '480px', padding: '40px' }}>
+            <div className="step-modal-icon-wrap" style={{ background: '#ECFDF5', color: '#10B981', marginBottom: '24px' }}>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
             </div>
-            <h3><EditableText contentKey="home.hero.successModal.title" value={homeContent.hero.successModal.title} /></h3>
-            <p><EditableText contentKey="home.hero.successModal.description" value={homeContent.hero.successModal.description} /></p>
+            <h3 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '16px', color: '#0F172A' }}>
+              <EditableText contentKey="home.hero.successModal.title" value={homeContent.hero.successModal.title} />
+            </h3>
 
-            <button className="btn-step-primary" onClick={() => setSubmissionStep(0)}>
-                <EditableText contentKey="home.hero.successModal.buttonText" value={homeContent.hero.successModal.buttonText} />
-              </button>
+            {/* IP Protection Section */}
+            <div style={{ background: '#F0F5FF', borderRadius: '12px', padding: '16px', marginBottom: '16px', border: '1px solid #E0F2FE', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ marginBottom: '12px' }}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#005AE2" strokeWidth="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <p style={{ fontSize: '14px', fontWeight: 700, color: '#005AE2', margin: '0 0 4px 0' }}>
+                  Idea Safeguarded
+                </p>
+                <p style={{ fontSize: '13px', color: '#475569', margin: 0, lineHeight: 1.5 }}>
+                  Idea safely encrypted and locked under our standard mutual NDA.
+                </p>
+              </div>
+            </div>
+
+            {/* Timeline Section */}
+            <div style={{ marginBottom: '20px' }}>
+              <p style={{ fontSize: '14px', fontWeight: 700, color: '#0F172A', margin: '0 0 8px 0' }}>
+                What Happens Next
+              </p>
+              <p style={{ fontSize: '13px', color: '#64748B', margin: 0, lineHeight: 1.6 }}>
+                Our engineering and product partners review submissions every 24–48 hours. If there is a potential fit for a studio-backed venture, we will reach out to schedule a deep-dive scoping call.
+              </p>
+            </div>
+
+            <button
+              onClick={() => setSubmissionStep(0)}
+              style={{
+                width: '100%',
+                padding: '14px 24px',
+                backgroundColor: '#005AE2',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: '12px',
+                fontSize: '15px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseOver={(e: any) => {
+                e.currentTarget.style.backgroundColor = '#004ac2';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseOut={(e: any) => {
+                e.currentTarget.style.backgroundColor = '#005AE2';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              Close
+            </button>
           </div>
         </div>
       )}

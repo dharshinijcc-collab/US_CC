@@ -1,5 +1,6 @@
 import os
 import smtplib
+import threading
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -152,10 +153,14 @@ def send_idea_confirmation(to_email: str, name: str, idea_preview: str):
     display_name = name if name else "there"
     body = f"""
       <h2 style="margin:0 0 8px;font-size:24px;font-weight:800;color:#020617;">
-        Your idea is in good hands, {display_name}! 
+        We have received your submission, {display_name}!
       </h2>
       <p style="margin:0 0 24px;color:#64748B;font-size:15px;line-height:1.6;">
-        We've received your idea submission. Our team will review it and reach out if it's a strong fit for our studio model.
+        Thank you for sharing your idea with us. We have received your submission and our team will review it carefully.
+      </p>
+
+      <p style="margin:0 0 24px;color:#64748B;font-size:15px;line-height:1.6;">
+        We will reach out to you soon to discuss the next steps.
       </p>
 
       <div style="background:#F0F7FF;border-left:4px solid #005AE2;border-radius:4px 12px 12px 4px;padding:20px 24px;margin-bottom:32px;">
@@ -163,20 +168,16 @@ def send_idea_confirmation(to_email: str, name: str, idea_preview: str):
         <p style="margin:0;font-size:14px;color:#334155;">{idea_preview[:200] + '...' if len(idea_preview) > 200 else idea_preview}</p>
       </div>
 
-      <p style="margin:0 0 24px;color:#64748B;font-size:14px;line-height:1.6;">
-        We evaluate ideas based on market size, technical feasibility, and founder-market fit. Expect to hear from us within <strong style="color:#005AE2;">57 business days</strong>.
-      </p>
-
       <p style="margin:0;color:#94A3B8;font-size:13px;">
-        Best regards,<br>
-        <strong style="color:#334155;">The Crestcode Team</strong>
+        Regards,<br>
+        <strong style="color:#334155;">CC Team</strong>
       </p>
     """
 
     # Send to User
     _send_email(
         to_email,
-        "We received your idea!",
+        "We received your submission!",
         _base_template("Idea Received - Crestcode", body)
     )
 
@@ -283,3 +284,20 @@ def send_investor_confirmation(to_email: str, full_name: str, expertise: str):
         f"New Investor: {full_name}",
         _base_template("New Investor Submission", team_body)
     )
+
+
+def send_idea_confirmation_delayed(to_email: str, name: str, idea_preview: str, delay_minutes: int = 5):
+    """Send confirmation email after idea submission with a delay."""
+    
+    def send_delayed():
+        try:
+            send_idea_confirmation(to_email, name, idea_preview)
+            print(f"Delayed confirmation email sent to {to_email} after {delay_minutes} minutes")
+        except Exception as e:
+            print(f"Failed to send delayed email to {to_email}: {e}")
+    
+    # Start a timer to send the email after the specified delay
+    timer = threading.Timer(delay_minutes * 60, send_delayed)
+    timer.daemon = True  # Daemon thread won't prevent program from exiting
+    timer.start()
+    print(f"Scheduled confirmation email to {to_email} in {delay_minutes} minutes")

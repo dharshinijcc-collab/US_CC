@@ -23,6 +23,20 @@ export default function InvestorsPage() {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Helper function to safely get content values
+  const getContent = (path: string, defaultValue: any) => {
+    const keys = path.split('.');
+    let value: any = content;
+    for (const key of keys) {
+      if (value && typeof value === 'object' && key in value) {
+        value = value[key];
+      } else {
+        return defaultValue;
+      }
+    }
+    return value !== undefined ? value : defaultValue;
+  };
+
   const handleRoleChange = (role: string) => {
     setFormData(prev => ({
       ...prev,
@@ -113,9 +127,9 @@ export default function InvestorsPage() {
 
         /* Unified Hero Section Style */
         .hero-section {
-          padding: 120px 24px 60px !important; /* spacious padding to expand the section */
+          padding: 220px 24px 160px !important; /* spacious padding to expand the section */
           text-align: center !important;
-          background-color: #FFFFFF !important;
+          background-color: #F1F5F9 !important;
           display: flex !important;
           flex-direction: column !important;
           align-items: center !important;
@@ -482,25 +496,38 @@ export default function InvestorsPage() {
 
       <Header />
 
-      <div className="investors-page" style={{ position: 'relative', overflow: 'hidden' }}>
+      <div className="investors-page" style={{ position: 'relative', overflow: 'hidden', backgroundColor: '#F8FAFC' }}>
 
         {/* ── 1. HERO SECTION (Image 1) ── */}
-        <section className="hero-section" style={{ position: 'relative', overflow: 'hidden' }}>
-          {/* Hero Background */}
-          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }}></div>
-          {/* Hero Grid */}
-          <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(37,99,235,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.08) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 60% at 50% 30%, black 0%, transparent 80%)', opacity: 0.4, pointerEvents: 'none', zIndex: 0 }}></div>
-          {/* Ambient Glows */}
+        <section className="hero-section" style={{ position: 'relative', overflow: 'hidden', minHeight: '700px' }}>
+          {/* Top Light Effect */}
           <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.2), transparent 70%)', bottom: '0px', left: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.2), transparent 70%)', bottom: '0px', right: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
-
           <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div className="hero-eyebrow-pill">
               <EditableText contentKey="investors.hero.eyebrow" value={content?.investors?.hero?.eyebrow || 'INVESTOR RELATIONS'} />
             </div>
             <h1 className="hero-title" style={{ color: '#020617' }}>
-              <EditableText contentKey="investors.hero.title" value={content?.investors?.hero?.title || 'Invest in Ventures\nBuilt to Last'} />
+              {(() => {
+                const titleText = content?.investors?.hero?.title1 + '\n' + content?.investors?.hero?.title2 || 'Not Just Capital.\nBuild With Us.';
+                const lines = titleText.split('\n');
+                return lines.map((line, lineIdx) => {
+                  const words = line.split(' ');
+                  return (
+                    <React.Fragment key={lineIdx}>
+                      {words.map((word: string, index: number) => {
+                        const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").toUpperCase();
+                        const isBlue = ['CAPITAL', 'BUILD', 'US'].includes(cleanWord);
+                        return (
+                          <span key={index} style={isBlue ? { color: '#005AE2' } : {}}>
+                            {word}{index < words.length - 1 ? ' ' : ''}
+                          </span>
+                        );
+                      })}
+                      {lineIdx < lines.length - 1 && <br />}
+                    </React.Fragment>
+                  );
+                });
+              })()}
             </h1>
             <p className="hero-description" style={{ marginBottom: '40px', maxWidth: '720px', lineHeight: 1.8, fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}>
               <EditableText contentKey="investors.hero.description" value={content?.investors?.hero?.description || 'CrestCode partners with strategic investors who believe in the long game — backing the studio, the ventures, or both. We offer full transparency, shared conviction, and two clear paths to participate.'} />
@@ -514,7 +541,7 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 2. WHY INVEST IN CRESTCODE? (Image 1) ── */}
-        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
+        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading & Intro Lead */}
@@ -523,7 +550,7 @@ export default function InvestorsPage() {
                 <EditableText contentKey="investors.whyInvest.eyebrow" value={content?.investors?.whyInvest?.eyebrow || 'The Opportunity'} />
               </div>
               <h2>
-                <EditableText contentKey="investors.whyInvest.title" value={content?.investors?.whyInvest?.title || 'Why invest in CrestCode?'} />
+                <EditableText contentKey="investors.whyInvest.heading" value={getContent('investors.whyInvest.heading', 'Why invest in')} />{' '}<EditableText contentKey="investors.whyInvest.highlight" value={getContent('investors.whyInvest.highlight', 'CrestCode?')} />
               </h2>
               <p style={{
                 color: 'var(--text-muted)',
@@ -542,8 +569,8 @@ export default function InvestorsPage() {
             <div className="grid-2" style={{ gridTemplateColumns: '1fr 1fr', gap: '24px', alignItems: 'stretch' }}>
               {[
                 {
-                  title: 'Execution-first model',
-                  desc: 'Every venture is built in-house by senior engineers, designers, and product strategists — not outsourced, not staffed with juniors.',
+                  title: getContent('investors.whyInvest.0.title', 'Execution-first model'),
+                  desc: getContent('investors.whyInvest.0.desc', 'Every venture is built in-house by senior engineers, designers, and product strategists — not outsourced, not staffed with juniors.'),
                   color: '#005AE2',
                   icon: (
                     <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -553,8 +580,8 @@ export default function InvestorsPage() {
                   )
                 },
                 {
-                  title: 'Validated before built',
-                  desc: 'Every product goes through a rigorous two-week ideation, business case, and PRFAQ process before a single line of code is written.',
+                  title: getContent('investors.whyInvest.1.title', 'Validated before built'),
+                  desc: getContent('investors.whyInvest.1.desc', 'Every product goes through a rigorous two-week ideation, business case, and PRFAQ process before a single line of code is written.'),
                   color: '#EC4899',
                   icon: (
                     <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -563,8 +590,8 @@ export default function InvestorsPage() {
                   )
                 },
                 {
-                  title: 'Full transparency',
-                  desc: "Investors get access to a live dashboard showing where capital is deployed, what's being built, and how each venture is progressing.",
+                  title: getContent('investors.whyInvest.2.title', 'Full transparency'),
+                  desc: getContent('investors.whyInvest.2.desc', "Investors get access to a live dashboard showing where capital is deployed, what's being built, and how each venture is progressing."),
                   color: '#10B981',
                   icon: (
                     <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -573,8 +600,8 @@ export default function InvestorsPage() {
                   )
                 },
                 {
-                  title: 'Long-term partnership',
-                  desc: "We're not looking for a transaction. We want investors who are aligned with the mission and can contribute beyond capital.",
+                  title: getContent('investors.whyInvest.3.title', 'Long-term partnership'),
+                  desc: getContent('investors.whyInvest.3.desc', "We're not looking for a transaction. We want investors who are aligned with the mission and can contribute beyond capital."),
                   color: '#F59E0B',
                   icon: (
                     <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -600,10 +627,10 @@ export default function InvestorsPage() {
                   </div>
                   <div>
                     <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '6px' }}>
-                      {item.title}
+                      <EditableText contentKey={`investors.whyInvest.${idx}.title`} value={item.title} />
                     </h3>
                     <p style={{ fontSize: '0.925rem', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
-                      {item.desc}
+                      <EditableText contentKey={`investors.whyInvest.${idx}.desc`} value={item.desc} />
                     </p>
                   </div>
                 </div>
@@ -614,7 +641,7 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 3. TWO WAYS TO INVEST (Image 2) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
+        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
@@ -648,25 +675,25 @@ export default function InvestorsPage() {
                     borderRadius: '100px',
                     marginBottom: '24px'
                   }}>
-                    PATH 01
+                    <EditableText contentKey="investors.investmentPaths.0.badge" value={getContent('investors.investmentPaths.0.badge', 'PATH 01')} />
                   </span>
                   <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '8px' }}>
-                    Invest in CrestCode Studio
+                    <EditableText contentKey="investors.investmentPaths.0.title" value={getContent('investors.investmentPaths.0.title', 'Invest in CrestCode Studio')} />
                   </h3>
                   <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.55, marginBottom: '16px', fontWeight: 500 }}>
-                    Back the studio itself — gaining exposure to every venture CrestCode builds, incubates, or advises. This is a bet on the model, the team, and the portfolio of companies we build over time.
+                    <EditableText contentKey="investors.investmentPaths.0.description" value={getContent('investors.investmentPaths.0.description', 'Back the studio itself — gaining exposure to every venture CrestCode builds, incubates, or advises. This is a bet on the model, the team, and the portfolio of companies we build over time.')} />
                   </p>
                   
                   <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px 0', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {[
-                      'Choose between equity stake in CrestCode or a revenue share arrangement',
-                      'Exposure across all current and future ventures in the studio portfolio',
-                      'Access to the investor dashboard covering studio-wide metrics and deployment',
-                      'Quarterly strategic reviews and direct access to CrestCode leadership'
+                      getContent('investors.investmentPaths.0.point0', 'Choose between equity stake in CrestCode or a revenue share arrangement'),
+                      getContent('investors.investmentPaths.0.point1', 'Exposure across all current and future ventures in the studio portfolio'),
+                      getContent('investors.investmentPaths.0.point2', 'Access to the investor dashboard covering studio-wide metrics and deployment'),
+                      getContent('investors.investmentPaths.0.point3', 'Quarterly strategic reviews and direct access to CrestCode leadership')
                     ].map((pt, i) => (
                       <li key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', fontSize: '0.85rem', color: '#475569', fontWeight: 500 }}>
                         <span style={{ color: 'var(--primary-blue)', fontWeight: 800, fontSize: '1.1rem', lineHeight: '1' }}>•</span>
-                        <span>{pt}</span>
+                        <EditableText contentKey={`investors.investmentPaths.0.point${i}`} value={pt} />
                       </li>
                     ))}
                   </ul>
@@ -682,7 +709,7 @@ export default function InvestorsPage() {
                   lineHeight: 1.5,
                   fontWeight: 500
                 }}>
-                  <strong style={{ color: 'var(--text-black)' }}>Best for:</strong> Investors who want diversified exposure across multiple ventures and believe in the studio model as a category.
+                  <strong style={{ color: 'var(--text-black)' }}>Best for:</strong> <EditableText contentKey="investors.investmentPaths.0.bestFor" value={getContent('investors.investmentPaths.0.bestFor', 'Investors who want diversified exposure across multiple ventures and believe in the studio model as a category.')} />
                 </div>
               </div>
 
@@ -701,25 +728,25 @@ export default function InvestorsPage() {
                     borderRadius: '100px',
                     marginBottom: '24px'
                   }}>
-                    PATH 02
+                    <EditableText contentKey="investors.investmentPaths.1.badge" value={getContent('investors.investmentPaths.1.badge', 'PATH 02')} />
                   </span>
                   <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '8px' }}>
-                    Invest in a Specific Venture
+                    <EditableText contentKey="investors.investmentPaths.1.title" value={getContent('investors.investmentPaths.1.title', 'Invest in a Specific Venture')} />
                   </h3>
                   <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.55, marginBottom: '16px', fontWeight: 500 }}>
-                    Back a specific company in the CrestCode portfolio through a dedicated Special Purpose Vehicle (SPV). Your capital goes directly into one venture — clean, targeted, and legally isolated from the rest of the portfolio.
+                    <EditableText contentKey="investors.investmentPaths.1.description" value={getContent('investors.investmentPaths.1.description', 'Back a specific company in the CrestCode portfolio through a dedicated Special Purpose Vehicle (SPV). Your capital goes directly into one venture — clean, targeted, and legally isolated from the rest of the portfolio.')} />
                   </p>
                   
                   <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px 0', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {[
-                      'Direct equity in a single venture via a dedicated SPV structure',
-                      'Investment isolated per venture — one company\'s performance doesn\'t affect another',
-                      'Access to venture-specific dashboard showing build progress, milestones, and financials',
-                      'Opportunity to play an active role in product adoption and operations'
+                      getContent('investors.investmentPaths.1.point0', 'Direct equity in a single venture via a dedicated SPV structure'),
+                      getContent('investors.investmentPaths.1.point1', 'Investment isolated per venture — one company\'s performance doesn\'t affect another'),
+                      getContent('investors.investmentPaths.1.point2', 'Access to venture-specific dashboard showing build progress, milestones, and financials'),
+                      getContent('investors.investmentPaths.1.point3', 'Opportunity to play an active role in product adoption and operations')
                     ].map((pt, i) => (
                       <li key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', fontSize: '0.85rem', color: '#475569', fontWeight: 500 }}>
                         <span style={{ color: '#D97706', fontWeight: 800, fontSize: '1.1rem', lineHeight: '1' }}>•</span>
-                        <span>{pt}</span>
+                        <EditableText contentKey={`investors.investmentPaths.1.point${i}`} value={pt} />
                       </li>
                     ))}
                   </ul>
@@ -735,7 +762,7 @@ export default function InvestorsPage() {
                   lineHeight: 1.5,
                   fontWeight: 500
                 }}>
-                  <strong style={{ color: '#78350F' }}>Best for:</strong> Investors with conviction in a specific market, product, or domain — and who want to contribute hands-on to that venture\'s growth.
+                  <strong style={{ color: '#78350F' }}>Best for:</strong> <EditableText contentKey="investors.investmentPaths.1.bestFor" value={getContent('investors.investmentPaths.1.bestFor', 'Investors with conviction in a specific market, product, or domain — and who want to contribute hands-on to that venture\'s growth.')} />
                 </div>
               </div>
 
@@ -745,7 +772,7 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 4. WHAT YOU GET AS AN INVESTOR (Image 3) ── */}
-        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
+        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
@@ -754,7 +781,7 @@ export default function InvestorsPage() {
                 <EditableText contentKey="investors.benefits.eyebrow" value={content?.investors?.benefits?.eyebrow || 'Investor Benefits'} />
               </div>
               <h2>
-                <EditableText contentKey="investors.benefits.title" value={content?.investors?.benefits?.title || 'What you get as an investor.'} />
+                <EditableText contentKey="investors.benefits.heading" value={getContent('investors.benefits.heading', 'What you get as an')} />{' '}<EditableText contentKey="investors.benefits.highlight" value={getContent('investors.benefits.highlight', 'investor.')} />
               </h2>
               <p>
                 <EditableText contentKey="investors.benefits.description" value={content?.investors?.benefits?.description || 'Beyond capital deployment, CrestCode investors get a front-row seat to how ventures are built — with the visibility and access to make that meaningful.'} />
@@ -765,44 +792,44 @@ export default function InvestorsPage() {
             <div className="grid-3">
               {[
                 {
-                  badge: '01',
-                  title: 'Live Investor Dashboard',
-                  desc: 'A dedicated dashboard showing exactly where your capital is deployed, what\'s being built, milestone progress, and key metrics across your investment — updated in real time.',
+                  badge: getContent('investors.benefits.0.badge', '01'),
+                  title: getContent('investors.benefits.0.title', 'Live Investor Dashboard'),
+                  desc: getContent('investors.benefits.0.desc', 'A dedicated dashboard showing exactly where your capital is deployed, what\'s being built, milestone progress, and key metrics across your investment — updated in real time.'),
                   color: '#3B82F6',
                   icon: <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z" /></svg>
                 },
                 {
-                  badge: '02',
-                  title: 'Full Financial Transparency',
-                  desc: 'No black boxes. You see how capital is allocated across engineering, design, product, and operations — with clear accountability at every stage of the build.',
+                  badge: getContent('investors.benefits.1.badge', '02'),
+                  title: getContent('investors.benefits.1.title', 'Full Financial Transparency'),
+                  desc: getContent('investors.benefits.1.desc', 'No black boxes. You see how capital is allocated across engineering, design, product, and operations — with clear accountability at every stage of the build.'),
                   color: '#10B981',
                   icon: <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.407 2.67 1M12 17V7m0 10c-1.11 0-2.08-.407-2.67-1M12 17V7" /></svg>
                 },
                 {
-                  badge: '03',
-                  title: 'Strategic Involvement',
-                  desc: 'We actively want investors who can open doors, support adoption, and contribute domain expertise. Your network and experience are as valuable to us as your capital.',
+                  badge: getContent('investors.benefits.2.badge', '03'),
+                  title: getContent('investors.benefits.2.title', 'Strategic Involvement'),
+                  desc: getContent('investors.benefits.2.desc', 'We actively want investors who can open doors, support adoption, and contribute domain expertise. Your network and experience are as valuable to us as your capital.'),
                   color: '#8B5CF6',
                   icon: <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                 },
                 {
-                  badge: '04',
-                  title: 'Quarterly Reviews',
-                  desc: 'Structured quarterly sessions with CrestCode leadership covering portfolio performance, upcoming ventures, strategic direction, and your investment position.',
+                  badge: getContent('investors.benefits.3.badge', '04'),
+                  title: getContent('investors.benefits.3.title', 'Quarterly Reviews'),
+                  desc: getContent('investors.benefits.3.desc', 'Structured quarterly sessions with CrestCode leadership covering portfolio performance, upcoming ventures, strategic direction, and your investment position.'),
                   color: '#EC4899',
                   icon: <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 },
                 {
-                  badge: '05',
-                  title: 'Early Access to New Ventures',
-                  desc: 'Studio investors get first visibility into new ventures before they are opened to outside investors — with the option to participate at the earliest stage.',
+                  badge: getContent('investors.benefits.4.badge', '05'),
+                  title: getContent('investors.benefits.4.title', 'Early Access to New Ventures'),
+                  desc: getContent('investors.benefits.4.desc', 'Studio investors get first visibility into new ventures before they are opened to outside investors — with the option to participate at the earliest stage.'),
                   color: '#F59E0B',
                   icon: <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                 },
                 {
-                  badge: '06',
-                  title: 'Co-Founder Network Access',
-                  desc: 'Join a growing network of founders, operators, and builders across the CrestCode portfolio — and help shape the ecosystem we\'re building together.',
+                  badge: getContent('investors.benefits.5.badge', '06'),
+                  title: getContent('investors.benefits.5.title', 'Co-Founder Network Access'),
+                  desc: getContent('investors.benefits.5.desc', 'Join a growing network of founders, operators, and builders across the CrestCode portfolio — and help shape the ecosystem we\'re building together.'),
                   color: '#06B6D4',
                   icon: <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                 }
@@ -825,11 +852,11 @@ export default function InvestorsPage() {
                   </div>
 
                   <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '8px' }}>
-                    {val.title}
+                    <EditableText contentKey={`investors.benefits.${idx}.title`} value={val.title} />
                   </h3>
  
                   <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', lineHeight: 1.5, margin: 0, fontWeight: 500 }}>
-                    {val.desc}
+                    <EditableText contentKey={`investors.benefits.${idx}.desc`} value={val.desc} />
                   </p>
                 </div>
               ))}
@@ -839,7 +866,7 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 5. WE'RE SELECTIVE. ON PURPOSE. (Image 4) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
+        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
@@ -862,7 +889,7 @@ export default function InvestorsPage() {
                 marginBottom: '20px',
                 textAlign: 'center'
               }}>
-                We prefer investors who bring more than capital. Our ideal partner is aligned with the product, believes in the long-term, and wants to play an active role in helping ventures succeed — whether through their network, domain expertise, or hands-on operational support.
+                <EditableText contentKey="investors.selective.description1" value={getContent('investors.selective.description1', 'We prefer investors who bring more than capital. Our ideal partner is aligned with the product, believes in the long-term, and wants to play an active role in helping ventures succeed — whether through their network, domain expertise, or hands-on operational support.')} />
               </p>
               <p style={{
                 color: 'var(--text-muted)',
@@ -872,7 +899,7 @@ export default function InvestorsPage() {
                 margin: 0,
                 textAlign: 'center'
               }}>
-                Pure financial investors are welcome, but investors who can actively contribute to product adoption, customer introductions, or operations will always be prioritized.
+                <EditableText contentKey="investors.selective.description2" value={getContent('investors.selective.description2', 'Pure financial investors are welcome, but investors who can actively contribute to product adoption, customer introductions, or operations will always be prioritized.')} />
               </p>
             </div>
 
@@ -885,33 +912,33 @@ export default function InvestorsPage() {
             }}>
               {[
                 {
-                  title: 'Domain-aligned operators',
-                  desc: 'you understand the market the venture is targeting and can help open doors.'
+                  title: getContent('investors.selective.0.title', 'Domain-aligned operators'),
+                  desc: getContent('investors.selective.0.desc', 'you understand the market the venture is targeting and can help open doors.')
                 },
                 {
-                  title: 'Long-term thinkers',
-                  desc: "you're patient, believe in building real businesses, and aren't looking for a quick exit."
+                  title: getContent('investors.selective.1.title', 'Long-term thinkers'),
+                  desc: getContent('investors.selective.1.desc', "you're patient, believe in building real businesses, and aren't looking for a quick exit.")
                 },
                 {
-                  title: 'Strategic connectors',
-                  desc: 'you have a network that can accelerate customer acquisition, partnerships, or hiring.'
+                  title: getContent('investors.selective.2.title', 'Strategic connectors'),
+                  desc: getContent('investors.selective.2.desc', 'you have a network that can accelerate customer acquisition, partnerships, or hiring.')
                 },
                 {
-                  title: 'Hands-on contributors',
-                  desc: "you're willing to roll up your sleeves and support a venture in its early stages of operations or adoption."
+                  title: getContent('investors.selective.3.title', 'Hands-on contributors'),
+                  desc: getContent('investors.selective.3.desc', "you're willing to roll up your sleeves and support a venture in its early stages of operations or adoption.")
                 },
                 {
-                  title: 'Transparent communicators',
-                  desc: 'you engage honestly, ask hard questions, and hold us accountable the same way we hold ourselves.'
+                  title: getContent('investors.selective.4.title', 'Transparent communicators'),
+                  desc: getContent('investors.selective.4.desc', 'you engage honestly, ask hard questions, and hold us accountable the same way we hold ourselves.')
                 }
               ].map((item, idx) => (
                 <div key={idx} className="selective-item">
                   <div className="selective-check">✓</div>
                   <div style={{ fontSize: '0.925rem', lineHeight: 1.5, fontWeight: 500, color: '#475569' }}>
                     <strong style={{ color: 'var(--text-black)', display: 'block', marginBottom: '2px', fontWeight: 700 }}>
-                      {item.title}
+                      <EditableText contentKey={`investors.selective.${idx}.title`} value={item.title} />
                     </strong>
-                    {item.desc}
+                    <EditableText contentKey={`investors.selective.${idx}.desc`} value={item.desc} />
                   </div>
                 </div>
               ))}
@@ -931,14 +958,14 @@ export default function InvestorsPage() {
               margin: '32px auto 0',
               textAlign: 'center'
             }}>
-              <strong style={{ color: '#78350F' }}>Note:</strong> CrestCode is an early-stage studio. All investments carry inherent risk. We are committed to full transparency — and we will always tell you the truth about where things stand.
+              <strong style={{ color: '#78350F' }}>Note:</strong> <EditableText contentKey="investors.selective.note" value={getContent('investors.selective.note', 'CrestCode is an early-stage studio. All investments carry inherent risk. We are committed to full transparency — and we will always tell you the truth about where things stand.')} />
             </div>
 
           </div>
         </section>
 
         {/* ── 6. CLEAR TERMS. NO SURPRISES. (Image 5) ── */}
-        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
+        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
           <div className="section-container" style={{ padding: 0 }}>
             
             {/* Centered Heading */}
@@ -958,13 +985,13 @@ export default function InvestorsPage() {
               <div className="term-card">
                 <div>
                   <span style={{ fontSize: '0.68rem', fontWeight: 800, color: '#D97706', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '24px', fontFamily: "'Manrope', sans-serif" }}>
-                    MINIMUM INVESTMENT
+                    <EditableText contentKey="investors.terms.0.label" value={getContent('investors.terms.0.label', 'MINIMUM INVESTMENT')} />
                   </span>
                   <h3 style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '16px', letterSpacing: '-0.02em' }}>
-                    $50K/yr
+                    <EditableText contentKey="investors.terms.0.value" value={getContent('investors.terms.0.value', '$50K/yr')} />
                   </h3>
                   <p style={{ color: 'var(--text-muted)', fontSize: '0.925rem', lineHeight: 1.65, margin: 0, fontWeight: 500 }}>
-                    Minimum annual commitment for both studio-level and venture-specific investments. Flexible structuring available for multi-year commitments.
+                    <EditableText contentKey="investors.terms.0.description" value={getContent('investors.terms.0.description', 'Minimum annual commitment for both studio-level and venture-specific investments. Flexible structuring available for multi-year commitments.')} />
                   </p>
                 </div>
               </div>
@@ -973,13 +1000,13 @@ export default function InvestorsPage() {
               <div className="term-card">
                 <div>
                   <span style={{ fontSize: '0.68rem', fontWeight: 800, color: 'var(--primary-blue)', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '24px', fontFamily: "'Manrope', sans-serif" }}>
-                    INVESTMENT HORIZON
+                    <EditableText contentKey="investors.terms.1.label" value={getContent('investors.terms.1.label', 'INVESTMENT HORIZON')} />
                   </span>
                   <h3 style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '16px', letterSpacing: '-0.02em' }}>
-                    Long-term
+                    <EditableText contentKey="investors.terms.1.value" value={getContent('investors.terms.1.value', 'Long-term')} />
                   </h3>
                   <p style={{ color: 'var(--text-muted)', fontSize: '0.925rem', lineHeight: 1.65, margin: 0, fontWeight: 500 }}>
-                    We build ventures designed to last. We expect investors to share a 5–7 year horizon and believe in compounding value over time — not short-term exits.
+                    <EditableText contentKey="investors.terms.1.description" value={getContent('investors.terms.1.description', 'We build ventures designed to last. We expect investors to share a 5–7 year horizon and believe in compounding value over time — not short-term exits.')} />
                   </p>
                 </div>
               </div>
@@ -988,13 +1015,13 @@ export default function InvestorsPage() {
               <div className="term-card">
                 <div>
                   <span style={{ fontSize: '0.68rem', fontWeight: 800, color: '#8B5CF6', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '24px', fontFamily: "'Manrope', sans-serif" }}>
-                    RETURN STRUCTURE
+                    <EditableText contentKey="investors.terms.2.label" value={getContent('investors.terms.2.label', 'RETURN STRUCTURE')} />
                   </span>
                   <h3 style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '16px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
-                    Equity or <br />Revenue
+                    <EditableText contentKey="investors.terms.2.value" value={getContent('investors.terms.2.value', 'Equity or Revenue')} />
                   </h3>
                   <p style={{ color: 'var(--text-muted)', fontSize: '0.925rem', lineHeight: 1.65, margin: 0, fontWeight: 500 }}>
-                    Studio investors choose between an equity stake in CrestCode or a revenue share arrangement. Venture-specific investments are equity via SPV.
+                    <EditableText contentKey="investors.terms.2.description" value={getContent('investors.terms.2.description', 'Studio investors choose between an equity stake in CrestCode or a revenue share arrangement. Venture-specific investments are equity via SPV.')} />
                   </p>
                 </div>
               </div>
@@ -1015,7 +1042,7 @@ export default function InvestorsPage() {
               maxWidth: '1200px',
               margin: '0 auto'
             }}>
-              Investment terms, legal structure, and formal agreements are subject to negotiation and applicable securities regulations. CrestCode is currently establishing its formal legal investment framework. All terms discussed are indicative and non-binding until a formal agreement is executed.
+              <EditableText contentKey="investors.terms.disclaimer" value={getContent('investors.terms.disclaimer', 'Investment terms, legal structure, and formal agreements are subject to negotiation and applicable securities regulations. CrestCode is currently establishing its formal legal investment framework. All terms discussed are indicative and non-binding until a formal agreement is executed.')} />
             </div>
 
           </div>
@@ -1034,11 +1061,13 @@ export default function InvestorsPage() {
                   <EditableText contentKey="investors.form.eyebrow" value={content?.investors?.form?.eyebrow || 'Get Started'} />
                 </div>
                 <h2 style={{ fontSize: '3rem', color: '#FFFFFF', marginBottom: '16px', letterSpacing: '-0.02em' }}>
-                  <EditableText contentKey="investors.form.title" value={content?.investors?.form?.title || 'Register Your Interest'} />
+                  {submitted ? 'Thank You!' : <EditableText contentKey="investors.form.title" value={content?.investors?.form?.title || 'Register Your Interest'} />}
                 </h2>
-                <p style={{ color: 'rgba(255, 255, 255, 0.65)', marginBottom: '48px', fontSize: '1.05rem', fontWeight: 500, lineHeight: 1.6 }}>
-                  <EditableText contentKey="investors.form.description" value={content?.investors?.form?.description || 'Complete the briefing form below and our team will get in touch to schedule a private briefing session.'} />
-                </p>
+                {!submitted && (
+                  <p style={{ color: 'rgba(255, 255, 255, 0.65)', marginBottom: '48px', fontSize: '1.05rem', fontWeight: 500, lineHeight: 1.6 }}>
+                    <EditableText contentKey="investors.form.description" value={content?.investors?.form?.description || 'Complete the briefing form below and our team will get in touch to schedule a private briefing session.'} />
+                  </p>
+                )}
 
                 {submitted ? (
                   <div style={{
@@ -1051,14 +1080,14 @@ export default function InvestorsPage() {
                   }}>
                     <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" style={{ margin: '0 auto 16px auto' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     <h3 style={{ color: '#FFFFFF', fontSize: '1.4rem', fontWeight: 800, margin: '0 0 8px 0', fontFamily: "'Manrope', sans-serif" }}>Interest Registered Successfully</h3>
-                    <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.95rem', margin: 0, fontFamily: "'Inter', sans-serif" }}>Thank you for reaching out. A CrestCode partner will contact you shortly.</p>
+                    <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.95rem', margin: 0, fontFamily: "'Inter', sans-serif" }}>A CrestCode partner will reach you shortly.</p>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} style={{ textAlign: 'left' }}>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
                       <div className="form-group">
                         <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Manrope', sans-serif" }}>
-                          FULL NAME
+                          <EditableText contentKey="investors.form.labelName" value={getContent('investors.form.labelName', 'FULL NAME')} />
                         </label>
                         <input
                           type="text"
@@ -1071,7 +1100,7 @@ export default function InvestorsPage() {
                       </div>
                       <div className="form-group">
                         <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Manrope', sans-serif" }}>
-                          EMAIL ADDRESS
+                          <EditableText contentKey="investors.form.labelEmail" value={getContent('investors.form.labelEmail', 'EMAIL ADDRESS')} />
                         </label>
                         <input
                           type="email"
@@ -1087,7 +1116,7 @@ export default function InvestorsPage() {
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '24px' }}>
                       <div className="form-group">
                         <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Manrope', sans-serif" }}>
-                          PRIMARY EXPERTISE
+                          <EditableText contentKey="investors.form.labelExpertise" value={getContent('investors.form.labelExpertise', 'PRIMARY EXPERTISE')} />
                         </label>
                         <select
                           className="form-input"
@@ -1104,7 +1133,7 @@ export default function InvestorsPage() {
                       </div>
                       <div className="form-group">
                         <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Manrope', sans-serif" }}>
-                          PREFERRED ENGAGEMENT ROLE
+                          <EditableText contentKey="investors.form.labelRole" value={getContent('investors.form.labelRole', 'PREFERRED ENGAGEMENT ROLE')} />
                         </label>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '4px' }}>
                           {['Investor Only', 'Strategic Advisor', 'Venture CEO', 'Network Partner'].map((role, idx) => {
@@ -1127,7 +1156,7 @@ export default function InvestorsPage() {
 
                     <div className="form-group" style={{ marginBottom: '36px' }}>
                       <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Manrope', sans-serif" }}>
-                        BACKGROUND & CONTEXT
+                        <EditableText contentKey="investors.form.labelBackground" value={getContent('investors.form.labelBackground', 'BACKGROUND & CONTEXT')} />
                       </label>
                       <textarea
                         rows={4}
@@ -1156,7 +1185,7 @@ export default function InvestorsPage() {
                         cursor: isSubmitting ? 'not-allowed' : 'pointer'
                       }}
                     >
-                      {isSubmitting ? 'Registering...' : 'Register Strategic Interest'}
+                      {isSubmitting ? <EditableText contentKey="investors.form.buttonSubmitting" value={getContent('investors.form.buttonSubmitting', 'Registering...')} /> : <EditableText contentKey="investors.form.buttonSubmit" value={getContent('investors.form.buttonSubmit', 'Register Strategic Interest')} />}
                     </button>
                   </form>
                 )}

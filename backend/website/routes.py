@@ -5,6 +5,7 @@ from .models import WebsiteModel
 from .email_service import (
     send_contact_confirmation,
     send_idea_confirmation,
+    send_idea_confirmation_delayed,
     send_talent_confirmation,
     send_investor_confirmation,
 )
@@ -94,9 +95,9 @@ def submit_idea():
             email=email,
             idea=idea
         )
-        # Send confirmation email if email provided
+        # Send confirmation email after 5 minutes if email provided
         if email:
-            send_idea_confirmation(email, name, idea)
+            send_idea_confirmation_delayed(email, name, idea, delay_minutes=5)
 
         return jsonify({"status": "success", "message": "Idea submitted successfully!"})
     except Exception as e:

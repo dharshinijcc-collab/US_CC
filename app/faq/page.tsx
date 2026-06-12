@@ -179,9 +179,9 @@ export default function FaqPage() {
 
         /* Unified Hero Section Style */
         .hero-section {
-          padding: 120px 24px 60px !important;
+          padding: 220px 24px 160px !important;
           text-align: center !important;
-          background-color: #FFFFFF !important;
+          background-color: #F1F5F9 !important;
           display: flex !important;
           flex-direction: column !important;
           align-items: center !important;
@@ -213,7 +213,7 @@ export default function FaqPage() {
         }
         .hero-title {
           font-family: 'Manrope', sans-serif !important;
-          font-size: 48px !important;
+          font-size: 52px !important;
           font-weight: 800 !important;
           letter-spacing: -0.03em !important;
           line-height: 1.15 !important;
@@ -463,7 +463,7 @@ export default function FaqPage() {
         }
       `}} />
 
-      <div className="faq-page" style={{ position: 'relative', overflow: 'hidden' }}>
+      <div className="faq-page" style={{ position: 'relative', overflow: 'hidden', backgroundColor: '#F8FAFC' }}>
         {/* Ambient glow orbs */}
         <div className="cc-glow-orb" style={{ width: 600, height: 600, top: '-200px', right: '-150px', background: 'radial-gradient(circle, rgba(0, 132, 255, 0.15) 0%, transparent 70%)', position: 'absolute', borderRadius: '50%', filter: 'blur(80px)', zIndex: 0 }} />
         <div className="cc-glow-orb" style={{ width: 500, height: 500, bottom: '10%', left: '-100px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%)', position: 'absolute', borderRadius: '50%', filter: 'blur(80px)', zIndex: 0 }} />
@@ -504,8 +504,8 @@ export default function FaqPage() {
         </section>
 
         {/* FAQ Content Section */}
-        <section id="faq-section">
-          <div className="section-container" style={{ paddingTop: '20px' }}>
+        <section id="faq-section" style={{ backgroundColor: '#FFFFFF', padding: '48px 24px', position: 'relative' }}>
+          <div className="section-container" style={{ paddingTop: '20px', paddingLeft: 0, paddingRight: 0 }}>
 
             {/* Dynamic Category Rendering with Reordering */}
             {[

@@ -16,7 +16,8 @@ export const metadata: Metadata = {
   title: 'US CC - Venture Studio',
   description: 'Building the next generation of digital infrastructure and ventures.',
   icons: {
-    icon: '/CC_US_Logo_-_Black_Patch-removebg-preview.png',
+    icon: '/icon.png',
+    apple: '/icon.png',
   },
 }
 
@@ -33,6 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+
       <body className={`${inter.variable} ${manrope.variable} antialiased`}
         style={{
           margin: 0,

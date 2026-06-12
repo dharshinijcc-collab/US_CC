@@ -98,7 +98,8 @@ api.interceptors.request.use(
   (config) => {
     // Auth
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('Dtoken');
+      // Try admin-token first (set by AdminLoginModal), fall back to Dtoken
+      const token = localStorage.getItem('admin-token') || localStorage.getItem('Dtoken');
       if (token) {
         config.headers['Authorization'] = `Bearer ${token}`;
       }

@@ -303,10 +303,10 @@ export default function ContactPage() {
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 
         /* Hero Section */
-        .hero-section { 
-          padding: 120px 24px 60px !important; /* spacious padding to expand the section */
+        .hero-section {
+          padding: 220px 24px 160px !important; /* spacious padding to expand the section */
           text-align: center !important;
-          background-color: #FFFFFF !important;
+          background-color: #F1F5F9 !important;
           display: flex !important;
           flex-direction: column !important;
           align-items: center !important;
@@ -314,7 +314,7 @@ export default function ContactPage() {
           min-height: 480px !important; /* enlarged height to look grand and full-screen */
           width: 100% !important;
           position: relative !important;
-          overflow: hidden !important; 
+          overflow: hidden !important;
         }
         @media(max-width: 768px) {
           .hero-section {
@@ -655,7 +655,7 @@ export default function ContactPage() {
       `}} />
 
       <Header currentPage="contact" />
-      <div className="contact-page" id="top" style={{position:'relative',overflow:'hidden'}}>
+      <div className="contact-page" id="top" style={{position:'relative',overflow:'hidden',backgroundColor:'#F8FAFC'}}>
 
 
         {/* Hero Section */}
@@ -714,7 +714,7 @@ export default function ContactPage() {
 
         {/* Form and Services Section */}
         <section id="form-section" style={{ 
-          backgroundColor: '#EFF6FF', 
+          backgroundColor: '#FFFFFF', 
           position: 'relative', 
           overflow: 'hidden',
           padding: '80px 0'

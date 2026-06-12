@@ -492,7 +492,7 @@
     "hero": {
       "ecosystemIcon": "/Ecosystem_Icon-removebg-preview.png",
       "eyebrow": "CO-FOUNDER ON DEMAND",
-      "heading": "Where BOLD IDEAS become REAL products",
+      "heading": "Where BOLD IDEAS\nbecome REAL products",
       "subheading": "Crestcode is a venture builder that partners with founders to turn ambitious ideas into high-growth digital businesses.",
       "placeholder": "Submit your idea...",
       "submitBtn": "Submit",
@@ -939,7 +939,7 @@
   "studio": {
     "hero": {
       "eyebrow": "THE STUDIO ADVANTAGE",
-      "title": "Build Ventures, Not Just Products",
+      "title": "Build Ventures, Not Just\nProducts",
       "subheading": "A Venture Studio is a hands-on venture-building partner that helps transform ideas into scalable digital businesses through strategy, technology, and execution. At Crestcode, we work alongside founders as an extended product and technology team to build, launch, and scale market-ready ventures faster. For investors and partners, we create execution-driven digital products designed for long-term growth, innovation, and scalability.",
       "buttonText": "Schedule A Call",
       "image": "/images/studio/hero-right.jpeg",
@@ -1285,7 +1285,7 @@
   "ourModel": {
     "hero": {
       "eyebrow": "THE METHODOLOGY",
-      "title": "From Raw Idea to Proven Product — in 5 Phases",
+      "title": "From Raw Idea to\nProven Product — in 5 Phases",
       "description": "We don’t just build software; we engineer market dominance. Our proprietary methodology transforms nebulosity into high-performance digital assets through clinical validation and rapid execution.",
       "quote": "The difference between a failed startup and a unicorn isn’t the idea—it’s the systematic elimination of risk at every stage of the lifecycle.",
       "primaryButton": "Start a Project",
@@ -1422,6 +1422,13 @@
         ]
       }
     ]
+  },
+  "resources": {
+    "hero": {
+      "eyebrow": "RESOURCES",
+      "title": "Everything you need to build\nWith Confidence",
+      "description": "Guides, tools, and insights for founders and investors — covering how CrestCode works, how the industry is moving, and what it takes to build a product that lasts."
+    }
   },
   "investors": {
     "hero": {
