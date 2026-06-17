@@ -150,7 +150,7 @@ export default function Header(props: any) {
         }
 
         .header-logo {
-          height: 70px; /* increased from 60px to make logo larger */
+          height: 90px;
           width: auto;
           object-fit: contain;
           transition: height 0.3s ease;
@@ -158,7 +158,7 @@ export default function Header(props: any) {
         }
 
         .navbar-wrapper.scrolled .header-logo {
-          height: 56px; /* compact but clear logo height when scrolled */
+          height: 72px;
         }
 
         .mobile-menu-logo {
@@ -186,7 +186,7 @@ export default function Header(props: any) {
           background: none;
           border: none;
           font-family: inherit;
-          font-size: 0.95rem; /* increased from 0.875rem to match medium header */
+          font-size: 1.05rem; /* increased from 0.95rem to make menus larger */
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.05em;
@@ -474,8 +474,8 @@ export default function Header(props: any) {
           .navbar-links { gap: 20px; }
           .navbar-links a, .dropdown-toggle { font-size: 0.85rem; }
           .btn-nav { padding: 10px 20px; font-size: 14px; }
-          .header-logo { height: 64px; }
-          .navbar-wrapper.scrolled .header-logo { height: 52px; }
+          .header-logo { height: 80px; }
+          .navbar-wrapper.scrolled .header-logo { height: 66px; }
         }
 
         /* Tablets – hide desktop nav, show hamburger */
@@ -487,8 +487,8 @@ export default function Header(props: any) {
           .nav-divider { display: none; }
           .btn-nav { display: none; }
           .hamburger { display: flex !important; }
-          .header-logo { height: 60px; }
-          .navbar-wrapper.scrolled .header-logo { height: 50px; }
+          .header-logo { height: 74px; }
+          .navbar-wrapper.scrolled .header-logo { height: 62px; }
         }
 
         /* Mobile phones */
@@ -500,8 +500,8 @@ export default function Header(props: any) {
           .mobile-menu { padding: 90px 24px 40px; }
           .mobile-menu-header { padding: 16px 20px; }
           .menu-section { margin-bottom: 32px; }
-          .header-logo { height: 56px; }
-          .navbar-wrapper.scrolled .header-logo { height: 48px; }
+          .header-logo { height: 68px; }
+          .navbar-wrapper.scrolled .header-logo { height: 58px; }
         }
 
         /* Small phones */

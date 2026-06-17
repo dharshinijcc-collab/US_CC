@@ -546,8 +546,9 @@
           "title": "Visionary Founders",
           "description": "You have an idea — with or without a technical background. We help you validate it, define the product strategy, and build a scalable MVP with the engineering and execution power most early-stage founders can't access alone.",
           "features": [
-            "Rapid MVP Development",
-            "Strategic Product Roadmap"
+            "Validate Before You Build",
+            "Launch Faster",
+            "Rapid MVP Development"
           ],
           "backFeatures": [
             "Validated product concept and market positioning",
@@ -566,7 +567,8 @@
           "description": "You've built a business and identified a problem worth solving. We turn your domain expertise and operational insight into a digital product — handling everything from scoping the right solution to building and launching it.",
           "features": [
             "Problem-to-Product Scoping",
-            "Domain-Led Development"
+            "Domain-Led Development",
+            "Scale Your Business"
           ],
           "backFeatures": [
             "Clear problem definition and solution scope",

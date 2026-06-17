@@ -2479,7 +2479,7 @@ export default function LandingPage() {
               contentKey="home.hero.heading"
               value={homeContent.hero.heading || "Where BOLD IDEAS\nbecome REAL products"}
               className="hero-title"
-              style={{ color: '#0A0F1C' }}
+              style={{ color: '#0A0F1C', whiteSpace: 'pre-wrap' }}
             >
               {(() => {
                 const headingText = homeContent.hero.heading || "Where BOLD IDEAS\nbecome REAL products";
@@ -2529,14 +2529,18 @@ export default function LandingPage() {
                     outline: 'none',
                     borderRadius: '14px',
                     transition: 'opacity 0.3s ease-in-out',
-                    opacity: fadeOpacity
+                    opacity: idea ? 1 : fadeOpacity
                   }}
                   placeholder={ideaExamples[currentExampleIndex]}
                   value={idea}
                   onChange={(e: any) => setIdea(e.target.value)}
                   disabled={isLoading}
+                  maxLength={500}
                 />
-                <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 8px 8px 0' }}>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '12px', padding: '0 8px 8px 0' }}>
+                  <span style={{ fontSize: '0.75rem', color: '#94A3B8', fontWeight: 500 }}>
+                    {idea.trim().split(/\s+/).filter(word => word.length > 0).length}/100 words
+                  </span>
                   <button type="submit" disabled={isLoading} style={{
                     backgroundColor: '#005AE2',
                     color: '#FFFFFF',
@@ -2634,7 +2638,7 @@ export default function LandingPage() {
                             style={{ minHeight: '80px' }}
                           />
                           <ul className="card-features">
-                            {(item.features || []).slice(0, 2).map((feature: string, fIdx: number) => (
+                            {(item.features || []).slice(0, 3).map((feature: string, fIdx: number) => (
                               <li key={fIdx}>
                                 <span className="check-icon">&#x2713;</span>
                                 <EditableText
@@ -2744,15 +2748,15 @@ export default function LandingPage() {
               <h3 className="section-eyebrow text-center cc-reveal" style={{ marginBottom: '12px' }}>OUR METHODOLOGY</h3>
               <EditableText
                 as="h2"
-                contentKey="home.methodology.title"
-                value={homeContent.methodology?.title || "How We Help"}
+                contentKey="methodology.title"
+                value={content?.methodology?.title || "How We Help"}
                 className="section-title"
                 style={{ marginBottom: '12px' }}
               />
               <EditableText
                 as="p"
-                contentKey="home.methodology.subtitle"
-                value={homeContent.methodology?.subtitle || "Our collaborative venture-building methodology designed to de-risk startups and scale high-growth products from day one."}
+                contentKey="methodology.subtitle"
+                value={content?.methodology?.subtitle || "Our collaborative venture-building methodology designed to de-risk startups and scale high-growth products from day one."}
                 className="section-subtitle"
                 style={{ maxWidth: '700px', margin: '0 auto', fontSize: '1.05rem', color: '#64748B' }}
               />
@@ -2807,13 +2811,13 @@ export default function LandingPage() {
                 <div className="spoke-card" style={{ left: '50%', top: '40px', transform: 'translateX(-50%)' }}>
                   <h4 className="spoke-card-title">
                     <EditableText
-                      contentKey="home.methodology.cards.0.title"
+                      contentKey="methodology.cards.0.title"
                       value={methodologyCards[0].title}
                     />
                   </h4>
                   <p className="spoke-card-desc">
                     <EditableText
-                      contentKey="home.methodology.cards.0.description"
+                      contentKey="methodology.cards.0.description"
                       value={methodologyCards[0].description}
                     />
                   </p>
@@ -2825,13 +2829,13 @@ export default function LandingPage() {
                 <div className="spoke-card" style={{ left: '67%', top: '150px' }}>
                   <h4 className="spoke-card-title">
                     <EditableText
-                      contentKey="home.methodology.cards.1.title"
+                      contentKey="methodology.cards.1.title"
                       value={methodologyCards[1].title}
                     />
                   </h4>
                   <p className="spoke-card-desc">
                     <EditableText
-                      contentKey="home.methodology.cards.1.description"
+                      contentKey="methodology.cards.1.description"
                       value={methodologyCards[1].description}
                     />
                   </p>
@@ -2843,13 +2847,13 @@ export default function LandingPage() {
                 <div className="spoke-card" style={{ left: '69%', top: '410px' }}>
                   <h4 className="spoke-card-title">
                     <EditableText
-                      contentKey="home.methodology.cards.2.title"
+                      contentKey="methodology.cards.2.title"
                       value={methodologyCards[2].title}
                     />
                   </h4>
                   <p className="spoke-card-desc">
                     <EditableText
-                      contentKey="home.methodology.cards.2.description"
+                      contentKey="methodology.cards.2.description"
                       value={methodologyCards[2].description}
                     />
                   </p>
@@ -2861,13 +2865,13 @@ export default function LandingPage() {
                 <div className="spoke-card" style={{ left: '50%', top: '505px', transform: 'translateX(-50%)' }}>
                   <h4 className="spoke-card-title">
                     <EditableText
-                      contentKey="home.methodology.cards.3.title"
+                      contentKey="methodology.cards.3.title"
                       value={methodologyCards[3].title}
                     />
                   </h4>
                   <p className="spoke-card-desc">
                     <EditableText
-                      contentKey="home.methodology.cards.3.description"
+                      contentKey="methodology.cards.3.description"
                       value={methodologyCards[3].description}
                     />
                   </p>
@@ -2879,13 +2883,13 @@ export default function LandingPage() {
                 <div className="spoke-card" style={{ left: '6%', top: '410px' }}>
                   <h4 className="spoke-card-title">
                     <EditableText
-                      contentKey="home.methodology.cards.4.title"
+                      contentKey="methodology.cards.4.title"
                       value={methodologyCards[4].title}
                     />
                   </h4>
                   <p className="spoke-card-desc">
                     <EditableText
-                      contentKey="home.methodology.cards.4.description"
+                      contentKey="methodology.cards.4.description"
                       value={methodologyCards[4].description}
                     />
                   </p>
