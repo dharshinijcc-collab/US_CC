@@ -5,7 +5,6 @@ from .models import WebsiteModel
 from .email_service import (
     send_contact_confirmation,
     send_idea_confirmation,
-    send_idea_confirmation_delayed,
     send_talent_confirmation,
     send_investor_confirmation,
 )
@@ -95,9 +94,14 @@ def submit_idea():
             email=email,
             idea=idea
         )
-        # Send confirmation email after 5 minutes if email provided
+        # Send confirmation email immediately (no delay — avoids Render free-tier sleep killing the timer)
         if email:
-            send_idea_confirmation_delayed(email, name, idea, delay_minutes=5)
+            try:
+                send_idea_confirmation(email, name, idea)
+                print(f"[EMAIL] Confirmation sent to {email}")
+            except Exception as email_err:
+                # Email failure must NOT break the submission — just log it
+                print(f"[EMAIL ERROR] Failed to send confirmation to {email}: {email_err}")
 
         return jsonify({"status": "success", "message": "Idea submitted successfully!"})
     except Exception as e:

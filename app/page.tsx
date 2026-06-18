@@ -308,14 +308,21 @@ export default function LandingPage() {
 
   // We still show the loader if content isn't ready, 
   // but loading.tsx will have already shown a similar state.
-  if (loading && !content) return (
+  // If there's a load error but we have local fallback config, log it and proceed using localConfig
+  if (error && localConfig?.home) {
+    console.warn("Content fetch failed, falling back to local static config:", error);
+  }
+
+  // We still show the loader if content isn't ready and we don't have local fallback config
+  if (loading && !content && !localConfig?.home) return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">
       <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
       <p className="text-gray-600 font-medium">Loading</p>
     </div>
   );
 
-  if (error) return (
+  // We only show the error screen if there is no local fallback config at all
+  if (error && !localConfig?.home) return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope px-4 text-center">
       <div className="text-red-500 text-5xl mb-4">⚠️</div>
       <h1 className="text-2xl font-bold text-gray-800 mb-2">Content Loading Failed</h1>
@@ -596,12 +603,12 @@ export default function LandingPage() {
 
         /* --- Flip cards / audience grid --- */
         @media(max-width: 768px) {
-          .flip-card-inner { min-height: 420px !important; }
+          .flip-card-inner { min-height: 490px !important; }
           .flip-card-front, .flip-card-back { padding: 28px 20px !important; border-radius: 20px !important; }
         }
         @media(max-width: 480px) {
-          .flip-card-inner { min-height: 380px !important; }
-          .audience-card-wrap .flip-card-inner { min-height: 420px !important; }
+          .flip-card-inner { min-height: 490px !important; }
+          .audience-card-wrap .flip-card-inner { min-height: 490px !important; }
         }
 
         /* --- Metrics row --- */
@@ -635,14 +642,14 @@ export default function LandingPage() {
         /* Typography */
         .hero-title { 
           font-family: 'Manrope', sans-serif !important;
-          font-size: 52px !important; /* beautifully sized to feel elegant and full without being too large */
+          font-size: 44px !important; /* reduced to fit the full first line on one row (2-line heading) */
           font-weight: 800 !important;
           letter-spacing: -0.04em !important;
-          line-height: 1.22 !important; /* increased line-height for elite aesthetic */
+          line-height: 1.22 !important;
           color: #020617 !important;
-          margin: 0 auto 28px !important; /* increased spacing below heading */
+          margin: 0 auto 28px !important;
           text-align: center !important;
-          max-width: 960px !important; /* wider boundaries for magnificent scale */
+          max-width: 960px !important;
         }
         .hero-title span {
           font-family: 'Manrope', sans-serif !important;
@@ -650,7 +657,7 @@ export default function LandingPage() {
         }
         @media(max-width: 768px) {
           .hero-title {
-            font-size: 32px !important;
+            font-size: 30px !important;
             line-height: 1.25 !important;
           }
         }
@@ -1317,8 +1324,8 @@ export default function LandingPage() {
           border: 1px solid rgba(0, 90, 226, 0.1);
         }
         
-        .t-name-light { font-weight: 800; font-size: 1rem; color: var(--text-black); transition: color 0.3s; }
-        .t-role-light { color: var(--text-muted); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-top: 4px; transition: color 0.3s; }
+        .t-name-light { font-weight: 800; font-size: 1rem; color: var(--text-black); transition: color 0.3s; display: block; }
+        .t-role-light { color: var(--text-muted); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-top: 6px; transition: color 0.3s; display: block; }
         
         /* Remove the dark theme hover for testimonials to keep it minimalist and light */
         .testimonial-card:hover .t-quote, 
@@ -1868,6 +1875,10 @@ export default function LandingPage() {
           perspective: 1200px;
           display: flex;
           flex-direction: column;
+          -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
         }
         .flip-card-inner {
           position: relative;
@@ -1875,7 +1886,9 @@ export default function LandingPage() {
           flex: 1;
           min-height: 520px;
           transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+          -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d;
+          will-change: transform;
         }
         .flip-card-inner.is-flipped {
           transform: rotateY(180deg);
@@ -1888,13 +1901,15 @@ export default function LandingPage() {
           backface-visibility: hidden;
           -webkit-backface-visibility: hidden;
           border-radius: 20px;
-          padding: 24px 20px;
+          padding: 28px 24px 28px 24px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           background-color: var(--bg-light);
           border: 1px solid var(--border-light);
           overflow: hidden;
+          transform: translate3d(0,0,0);
+          -webkit-transform: translate3d(0,0,0);
         }
         .flip-card-front-body {
           display: flex;
@@ -1902,7 +1917,8 @@ export default function LandingPage() {
           flex: 1;
         }
         .flip-card-back {
-          transform: rotateY(180deg);
+          transform: rotateY(180deg) translate3d(0,0,0);
+          -webkit-transform: rotateY(180deg) translate3d(0,0,0);
           background: linear-gradient(135deg, #0A0F1C 0%, #1a2744 100%);
           border-color: rgba(0,90,226,0.3);
           color: #ffffff;
@@ -2021,7 +2037,7 @@ export default function LandingPage() {
           height: auto;
         }
         .audience-card-wrap .flip-card-inner {
-          min-height: 420px;
+          min-height: 490px;
         }
 
         /* ===== NEW CIRCULAR METHODOLOGY HUB-AND-SPOKE ===== */
@@ -2649,7 +2665,7 @@ export default function LandingPage() {
                             ))}
                           </ul>
                         </div>
-                        <div style={{ paddingTop: '24px', marginTop: 'auto' }}>
+                        <div style={{ paddingTop: '24px', paddingBottom: '16px', marginTop: 'auto' }}>
                           <button
                             className="card-learn-more-btn"
                             onClick={() => setFlippedCards(prev => { const n = new Set(prev); n.add(idx); return n; })}
@@ -2777,8 +2793,8 @@ export default function LandingPage() {
                 <circle cx="500" cy="350" r="350" stroke="#E2E8F0" strokeWidth="1.5" strokeDasharray="4 4" fill="none" />
 
                 {/* Spokes Connecting Center to Cards */}
-                {/* 1. Outcome Ownership (Top Center) */}
-                <line x1="500" y1="260" x2="500" y2="140" stroke="#0A0F1C" strokeWidth="1.5" markerEnd="url(#arrow)" />
+                {/* 1. Outcome Ownership (Top Center) - extended to touch card 1 at top: 0px */}
+                <line x1="500" y1="260" x2="500" y2="105" stroke="#0A0F1C" strokeWidth="1.5" markerEnd="url(#arrow)" />
 
                 {/* 2. Built to Scale (Top Right) */}
                 <line x1="560" y1="290" x2="670" y2="225" stroke="#0A0F1C" strokeWidth="1.5" />
@@ -2786,8 +2802,8 @@ export default function LandingPage() {
                 {/* 3. We Challenge You (Middle Right) */}
                 <line x1="560" y1="410" x2="690" y2="465" stroke="#0A0F1C" strokeWidth="1.5" />
 
-                {/* 4. Lifelong Partner (Bottom Center) */}
-                <line x1="500" y1="440" x2="500" y2="500" stroke="#0A0F1C" strokeWidth="1.5" />
+                {/* 4. Lifelong Partner (Bottom Center) - extended to touch card 4 at bottom: 0px (top border around y=585) */}
+                <line x1="500" y1="440" x2="500" y2="585" stroke="#0A0F1C" strokeWidth="1.5" />
 
                 {/* 5. Rigorous Validation (Bottom Left) */}
                 <line x1="440" y1="410" x2="310" y2="465" stroke="#0A0F1C" strokeWidth="1.5" />
@@ -2808,7 +2824,7 @@ export default function LandingPage() {
 
               {/* 1. Outcome Ownership */}
               {methodologyCards[0] && (
-                <div className="spoke-card" style={{ left: '50%', top: '40px', transform: 'translateX(-50%)' }}>
+                <div className="spoke-card" style={{ left: '50%', top: '0px', transform: 'translateX(-50%)' }}>
                   <h4 className="spoke-card-title">
                     <EditableText
                       contentKey="methodology.cards.0.title"
@@ -2862,7 +2878,7 @@ export default function LandingPage() {
 
               {/* 4. Lifelong Partner */}
               {methodologyCards[3] && (
-                <div className="spoke-card" style={{ left: '50%', top: '505px', transform: 'translateX(-50%)' }}>
+                <div className="spoke-card" style={{ left: '50%', bottom: '0px', top: 'auto', transform: 'translateX(-50%)' }}>
                   <h4 className="spoke-card-title">
                     <EditableText
                       contentKey="methodology.cards.3.title"
@@ -3173,6 +3189,14 @@ export default function LandingPage() {
         {/* Testimonials Section */}
         <section className="section-light">
           <div className="section-container">
+            <div className="text-center">
+              <EditableText
+                as="h3"
+                contentKey="home.testimonials.eyebrow"
+                value={homeContent.testimonials?.eyebrow || "CLIENT STORIES"}
+                className="section-eyebrow cc-reveal"
+              />
+            </div>
             <EditableText
               as="h2"
               contentKey="home.testimonials.title"

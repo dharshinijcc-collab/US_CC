@@ -3,17 +3,18 @@ import smtplib
 import threading
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from backend.config import GMAIL_USER, GMAIL_APP_PASSWORD, TEAM_NOTIFICATION_EMAIL
 
-# Gmail SMTP config — read fresh from environment on every call
-TEAM_EMAIL = os.environ.get("TEAM_NOTIFICATION_EMAIL", "team@crestcode.studio")
+# Gmail SMTP config
+TEAM_EMAIL = TEAM_NOTIFICATION_EMAIL
 FROM_DISPLAY = "Crestcode Product Studio"
 
 
 def _send_email(to_email: str, subject: str, html_body: str):
     """Send an email via Gmail SMTP."""
-    # Read credentials fresh every call so .env changes are picked up
-    gmail_user = os.environ.get("GMAIL_USER", "").strip()
-    gmail_pass = os.environ.get("GMAIL_APP_PASSWORD", "").strip()
+    # Use credentials from config
+    gmail_user = GMAIL_USER.strip() if GMAIL_USER else ""
+    gmail_pass = GMAIL_APP_PASSWORD.strip() if GMAIL_APP_PASSWORD else ""
     if not gmail_user or not gmail_pass:
         print("WARNING: GMAIL_USER or GMAIL_APP_PASSWORD not set - skipping email")
         return

@@ -539,50 +539,39 @@
     },
     "audiences": {
       "eyebrow": "Who We Build For",
-      "title": "Engineered for Visionaries",
-      "subtitle": "We provide the strategic technical leadership and execution power needed by founders at every stage.",
       "items": [
         {
-          "title": "Visionary Founders",
-          "description": "You have an idea — with or without a technical background. We help you validate it, define the product strategy, and build a scalable MVP with the engineering and execution power most early-stage founders can't access alone.",
+          "description": "You have an idea - with or without a technical background. We help you validate it, define the product strategy, and build a scalable MLP with the engineering and execution power most early-stage founders can't access alone.",
           "features": [
             "Validate Before You Build",
             "Launch Faster",
             "Rapid MVP Development"
           ],
-          "backFeatures": [
-            "Validated product concept and market positioning",
-            "Technical architecture and product roadmap",
-            "A Minimum Lovable Product — built to delight, not just function",
-            "Go-to-market strategy and launch support",
-            "Pitch materials for investors or partners"
-          ],
-          "backNote": "You don't need to have it all figured out. We're not just here for the launch — we're in it with you for the long run.",
-          "backCtaText": "Apply to Studio",
-          "backCtaLink": "/studio",
-          "icon": "user"
+          "icon": "user",
+          "title": "Visionary Founders"
         },
         {
-          "title": "Business Owners",
-          "description": "You've built a business and identified a problem worth solving. We turn your domain expertise and operational insight into a digital product — handling everything from scoping the right solution to building and launching it.",
+          "description": "Have a business problem? We'll help you solve it. You understand your industry. We understand technology. Together, we identify the right solution — whether that's automation, AI, internal tools, or a customer-facing product.",
           "features": [
-            "Problem-to-Product Scoping",
-            "Domain-Led Development",
+            "Improve customer experiences",
+            "Automate repetitive workflows",
             "Scale Your Business"
           ],
-          "backFeatures": [
-            "Clear problem definition and solution scope",
-            "Business case and requirements documentation",
-            "A Minimum Lovable Product your users will actually love",
-            "Operational workflows and automation built in",
-            "A long-term partner who grows with your business"
+          "icon": "building",
+          "title": "Business Owners"
+        },
+        {
+          "description": "We collaborate with enterprises and innovation teams to accelerate digital transformation, modernize systems, and launch impactful technology solutions.",
+          "features": [
+            "CTO-as-a-Service",
+            "Tech Strategy & Mentorship"
           ],
-          "backNote": "You already understand the problem better than anyone. We bring the product thinking and engineering — and we stay at the table long after launch.",
-          "backCtaText": "Start a Conversation",
-          "backCtaLink": "/contact",
-          "icon": "building"
+          "icon": "idea",
+          "title": "Existing Startups & Enterprises"
         }
-      ]
+      ],
+      "subtitle": "We provide the strategic technical leadership and execution power needed by founders and business owners ready to build.",
+      "title": "Engineered For Visionaries"
     },
     "partnership": {
       "eyebrow": "WE AS CO-FOUNDERS",
@@ -1192,11 +1181,21 @@
       "title": "Five Phases. One Mission.",
       "subtitle": "Our structured blueprint for transforming bold concepts into venture-scale realities.",
       "tabs": [
-        { "title": "SELECT" },
-        { "title": "VALIDATE" },
-        { "title": "BUILD" },
-        { "title": "LAUNCH" },
-        { "title": "SCALE" }
+        {
+          "title": "SELECT"
+        },
+        {
+          "title": "VALIDATE"
+        },
+        {
+          "title": "BUILD"
+        },
+        {
+          "title": "LAUNCH"
+        },
+        {
+          "title": "SCALE"
+        }
       ],
       "items": [
         {
@@ -1266,16 +1265,70 @@
       "eyebrow": "Why CrestCode",
       "title": "Not a vendor.\nNot a studio that vanishes.\nA co-builder.",
       "subtitle": "Here is how we compare to the alternatives — and why it matters for your venture.",
-      "headers": ["Capability", "CrestCode", "Dev Agencies", "Other Studios", "Freelancers"],
+      "headers": [
+        "Capability",
+        "CrestCode",
+        "Dev Agencies",
+        "Other Studios",
+        "Freelancers"
+      ],
       "rows": [
-        { "feature": "Zero to one expertise", "c1": "✓", "c2": "Sometimes", "c3": "Sometimes", "c4": "✗" },
-        { "feature": "End-to-end product ownership", "c1": "✓", "c2": "✗", "c3": "Sometimes", "c4": "✗" },
-        { "feature": "Strategic product & business guidance", "c1": "✓", "c2": "✗", "c3": "Sometimes", "c4": "✗" },
-        { "feature": "MLP standard — not just MVP", "c1": "✓", "c2": "✗", "c3": "Rarely", "c4": "✗" },
-        { "feature": "In-house senior team, no outsourcing", "c1": "✓", "c2": "Varies", "c3": "Varies", "c4": "✗" },
-        { "feature": "Go-to-market & pitch support", "c1": "✓", "c2": "✗", "c3": "Sometimes", "c4": "✗" },
-        { "feature": "Co-founder network access", "c1": "✓", "c2": "✗", "c3": "✗", "c4": "✗" },
-        { "feature": "Lifelong partnership model", "c1": "✓", "c2": "✗", "c3": "Rarely", "c4": "✗" }
+        {
+          "feature": "Zero to one expertise",
+          "c1": "✓",
+          "c2": "Sometimes",
+          "c3": "Sometimes",
+          "c4": "✗"
+        },
+        {
+          "feature": "End-to-end product ownership",
+          "c1": "✓",
+          "c2": "✗",
+          "c3": "Sometimes",
+          "c4": "✗"
+        },
+        {
+          "feature": "Strategic product & business guidance",
+          "c1": "✓",
+          "c2": "✗",
+          "c3": "Sometimes",
+          "c4": "✗"
+        },
+        {
+          "feature": "MLP standard — not just MVP",
+          "c1": "✓",
+          "c2": "✗",
+          "c3": "Rarely",
+          "c4": "✗"
+        },
+        {
+          "feature": "In-house senior team, no outsourcing",
+          "c1": "✓",
+          "c2": "Varies",
+          "c3": "Varies",
+          "c4": "✗"
+        },
+        {
+          "feature": "Go-to-market & pitch support",
+          "c1": "✓",
+          "c2": "✗",
+          "c3": "Sometimes",
+          "c4": "✗"
+        },
+        {
+          "feature": "Co-founder network access",
+          "c1": "✓",
+          "c2": "✗",
+          "c3": "✗",
+          "c4": "✗"
+        },
+        {
+          "feature": "Lifelong partnership model",
+          "c1": "✓",
+          "c2": "✗",
+          "c3": "Rarely",
+          "c4": "✗"
+        }
       ]
     },
     "cta": {

@@ -376,8 +376,9 @@ export default function StudioPage() {
         * { -ms-overflow-style: none; scrollbar-width: none; }
 
         /* Headings - Manrope */
-        h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .section-eyebrow, .card-title, .navbar-brand, .feature-title, .t-name-light, .t-name, .fq-author, .footer-logo, .footer-heading {
-          font-family: 'Manrope', sans-serif;
+        h1, h2, h3, h4, h5, h6, .hero-title, .section-title, .section-eyebrow, .card-title, .navbar-brand, .f-card-title, .feature-title, .t-name-light, .t-name, .fq-author, .footer-logo, .footer-heading {
+          font-family: 'Manrope', sans-serif !important;
+          font-weight: 800 !important;
         }
         h1 {
           text-align: center !important;
@@ -1610,10 +1611,18 @@ export default function StudioPage() {
           <div style={{ position: 'absolute', bottom: '-100px', left: '-100px', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(60px)' }}></div>
           
           <div className="vm-intro" style={{ maxWidth: '1200px', margin: '0 auto 3rem', position: 'relative', zIndex: 1, textAlign: 'center' }}>
-            <div className="hero-eyebrow-pill">Who We Are</div>
-            <h2 className="section-title" style={{ color: '#0F172A', maxWidth: '800px', margin: '0 auto' }}>
-              <EditableText contentKey="studio.vision.title" value="Not an agency. Not an accelerator. A venture partner." />
-            </h2>
+            <EditableText
+              contentKey="studio.vision.eyebrow"
+              value="Who We Are"
+              className="hero-eyebrow-pill"
+            />
+            <EditableText
+              as="h2"
+              contentKey="studio.vision.title"
+              value="Not an agency. Not an accelerator. A venture partner."
+              className="section-title"
+              style={{ color: '#0F172A', maxWidth: '800px', margin: '0 auto 16px' }}
+            />
             <p className="section-subtitle" style={{ marginTop: '1rem', maxWidth: '700px', margin: '1rem auto 0' }}>
               <EditableText contentKey="studio.vision.keyMessage" value="We build world-class digital products by combining elite engineering with strategic partnership — turning bold ideas into scalable ventures." />
             </p>
@@ -2544,11 +2553,11 @@ export default function StudioPage() {
                     />
                   </div>
 
-                  <div style={{ maxWidth: '640px', margin: '0 auto', position: 'relative', paddingLeft: '24px' }}>
+                  <div style={{ maxWidth: '640px', margin: '0 auto', position: 'relative' }}>
                     {/* Vertical timeline connector line */}
                     <div style={{
                       position: 'absolute',
-                      left: '18px',
+                      left: '19px',
                       top: '24px',
                       bottom: '24px',
                       width: '2px',

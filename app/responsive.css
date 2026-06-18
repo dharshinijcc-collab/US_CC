@@ -388,7 +388,7 @@ img, video, svg, iframe, table {
   }
 
   /* ── Flip cards ── */
-  .flip-card-inner { min-height: 380px !important; }
+  .flip-card-inner { min-height: 490px !important; }
 
   /* ── Form ── */
   .form-section-card { padding: 20px 14px !important; border-radius: 20px !important; }
