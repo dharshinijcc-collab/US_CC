@@ -15,7 +15,7 @@ export default function CountUp({ end, duration = 2, start, decimals = 0 }: Coun
   const ref = useRef(null);
   
   // If 'start' is provided from parent, use it. Otherwise detect in-view state.
-  const internalInView = useInView(ref, { once: false, margin: "-50px" });
+  const internalInView = useInView(ref, { once: true, margin: "-50px" });
   const isInView = start !== undefined ? start : internalInView;
   
   const endNumber = typeof end === 'number' ? end : parseFloat(String(end || '0').replace(/,/g, '')) || 0;

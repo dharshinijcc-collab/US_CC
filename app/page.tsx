@@ -38,25 +38,12 @@ export default function LandingPage() {
   const heroRef = useRef(null);
 
   const [currentProductIndex, setCurrentProductIndex] = useState(0);
-  const [currentExampleIndex, setCurrentExampleIndex] = useState(0);
-  const [fadeOpacity, setFadeOpacity] = useState(1);
 
   const ideaExamples = [
     "Building a comprehensive life and legacy management application for family",
     "Creating reporting solutions for thinkandswim platform for option traders",
     "Creating an AI powered HOA management solution"
   ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFadeOpacity(0);
-      setTimeout(() => {
-        setCurrentExampleIndex((prev) => (prev + 1) % ideaExamples.length);
-        setFadeOpacity(1);
-      }, 300);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
 
   const partneredProductsFallback = [
     {
@@ -281,7 +268,7 @@ export default function LandingPage() {
     });
   };
 
-  useScrollReveal();
+  useScrollReveal([loading, content]);
 
   // Vanta clouds effect (Disabled to follow investor page hero background style)
   useEffect(() => {
@@ -423,7 +410,7 @@ export default function LandingPage() {
           letter-spacing: 0.1em; /* elegant tracking for premium look */
           padding: 8px 18px; /* spacious pill */
           border-radius: 100px;
-          margin-bottom: 32px; /* increased margin */
+          margin-bottom: 40px; /* more breathing room below the eyebrow pill */
           text-transform: uppercase;
         }
 
@@ -645,9 +632,9 @@ export default function LandingPage() {
           font-size: 44px !important; /* reduced to fit the full first line on one row (2-line heading) */
           font-weight: 800 !important;
           letter-spacing: -0.04em !important;
-          line-height: 1.22 !important;
+          line-height: 1.42 !important; /* increased for more whitespace between the two heading lines */
           color: #020617 !important;
-          margin: 0 auto 28px !important;
+          margin: 0 auto 36px !important; /* more space below heading */
           text-align: center !important;
           max-width: 960px !important;
         }
@@ -658,7 +645,7 @@ export default function LandingPage() {
         @media(max-width: 768px) {
           .hero-title {
             font-size: 30px !important;
-            line-height: 1.25 !important;
+            line-height: 1.38 !important; /* slightly more open on mobile too */
           }
         }
         .section-title { 
@@ -761,20 +748,20 @@ export default function LandingPage() {
 
         /* Hero Section */
         .hero-section {
-          padding: 160px 24px 48px !important; /* increased padding-top to leave space below the header */
+          padding: 180px 24px 80px !important; /* generous vertical breathing room around the hero panel */
           text-align: center !important;
           background-color: #F1F5F9 !important;
           display: flex !important;
           flex-direction: column !important;
           align-items: center !important;
           justify-content: center !important;
-          min-height: 360px !important; /* reduced — no need for full-viewport height */
+          min-height: 420px !important;
           width: 100% !important;
           position: relative !important;
         }
         @media(max-width: 768px) {
           .hero-section {
-            padding: 120px 20px 36px !important; /* increased padding-top for medium header */
+            padding: 130px 20px 60px !important;
             min-height: auto !important;
           }
         }
@@ -2528,30 +2515,11 @@ export default function LandingPage() {
           <form onSubmit={handleIdeaSubmit} method="POST" style={{ width: '100%', maxWidth: '580px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 10 }}>
             <div className="hero-idea-box" style={{ maxWidth: '580px', width: '100%' }}>
               <div className="hero-idea-inner">
-                <textarea
-                  id="idea"
-                  name="idea"
-                  className="idea-textarea"
-                  style={{
-                    width: '100%',
-                    height: '96px',
-                    border: 'none',
-                    resize: 'none',
-                    padding: '16px 20px',
-                    fontSize: '1.05rem',
-                    fontFamily: 'inherit',
-                    color: '#0A0F1C',
-                    backgroundColor: 'transparent',
-                    outline: 'none',
-                    borderRadius: '14px',
-                    transition: 'opacity 0.3s ease-in-out',
-                    opacity: idea ? 1 : fadeOpacity
-                  }}
-                  placeholder={ideaExamples[currentExampleIndex]}
-                  value={idea}
-                  onChange={(e: any) => setIdea(e.target.value)}
-                  disabled={isLoading}
-                  maxLength={500}
+                <RotatingIdeaPlaceholder
+                  examples={ideaExamples}
+                  idea={idea}
+                  isLoading={isLoading}
+                  onIdeaChange={setIdea}
                 />
                 <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '12px', padding: '0 8px 8px 0' }}>
                   <span style={{ fontSize: '0.75rem', color: '#94A3B8', fontWeight: 500 }}>
@@ -2603,7 +2571,7 @@ export default function LandingPage() {
 
 
         {/* Target Audiences Section */}
-        <section className="section-light" style={{ backgroundColor: '#FFFFFF' }}>
+        <section id="audiences-section" className="section-light" style={{ backgroundColor: '#FFFFFF' }}>
           <div className="section-container">
             <div className="text-center">
               <EditableText
@@ -3187,7 +3155,7 @@ export default function LandingPage() {
 
 
         {/* Testimonials Section */}
-        <section className="section-light">
+        <section id="testimonials-section" className="section-light">
           <div className="section-container">
             <div className="text-center">
               <EditableText
@@ -3209,7 +3177,7 @@ export default function LandingPage() {
               {(homeContent.testimonials.items || [])
                 .filter((item: any) => item.author && !item.author.toLowerCase().includes('abdul') && !item.author.toLowerCase().includes('adbul'))
                 .map((item: any, idx: number) => (
-                <div key={idx} className="testimonial-card cc-shine">
+                <div key={idx} className="testimonial-card">
                   <EditableText
                     as="p"
                     contentKey={`home.testimonials.items.${idx}.quote`}
@@ -3361,9 +3329,57 @@ export default function LandingPage() {
     </>
   );
 }
+function RotatingIdeaPlaceholder({
+  examples,
+  idea,
+  isLoading,
+  onIdeaChange,
+}: {
+  examples: string[];
+  idea: string;
+  isLoading: boolean;
+  onIdeaChange: (value: string) => void;
+}) {
+  const [exampleIndex, setExampleIndex] = useState(0);
+
+  useEffect(() => {
+    if (idea.trim()) return;
+    const interval = setInterval(() => {
+      setExampleIndex((prev) => (prev + 1) % examples.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [idea, examples.length]);
+
+  return (
+    <textarea
+      id="idea"
+      name="idea"
+      className="idea-textarea"
+      style={{
+        width: '100%',
+        height: '96px',
+        border: 'none',
+        resize: 'none',
+        padding: '16px 20px',
+        fontSize: '1.05rem',
+        fontFamily: 'inherit',
+        color: '#0A0F1C',
+        backgroundColor: 'transparent',
+        outline: 'none',
+        borderRadius: '14px',
+      }}
+      placeholder={examples[exampleIndex]}
+      value={idea}
+      onChange={(e) => onIdeaChange(e.target.value)}
+      disabled={isLoading}
+      maxLength={500}
+    />
+  );
+}
+
 function MetricsRow({ metrics }: { metrics: any[] }) {
   const rowRef = useRef(null);
-  const isRowInView = useInView(rowRef, { once: false, margin: "-100px" });
+  const isRowInView = useInView(rowRef, { once: true, margin: "-100px" });
   const { isAdminMode } = useAdmin();
 
   // To ensure they all stop at the same time, we use the same duration

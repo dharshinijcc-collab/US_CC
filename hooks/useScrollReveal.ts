@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, type DependencyList } from 'react';
 
 /**
  * useScrollReveal — attaches IntersectionObserver to elements with
  * specific class names and adds 'cc-visible' class when they enter the viewport.
  */
-export default function useScrollReveal() {
+export default function useScrollReveal(deps: DependencyList = []) {
   useEffect(() => {
     const revealClasses = [
       '.cc-reveal',
@@ -40,5 +40,5 @@ export default function useScrollReveal() {
     elements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
-  }, []);
+  }, deps);
 }

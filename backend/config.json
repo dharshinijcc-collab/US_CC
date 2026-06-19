@@ -932,7 +932,7 @@
       "eyebrow": "THE STUDIO ADVANTAGE",
       "title": "Build Ventures, Not Just\nProducts",
       "subheading": "A Venture Studio is a hands-on venture-building partner that helps transform ideas into scalable digital businesses through strategy, technology, and execution. At Crestcode, we work alongside founders as an extended product and technology team to build, launch, and scale market-ready ventures faster. For investors and partners, we create execution-driven digital products designed for long-term growth, innovation, and scalability.",
-      "buttonText": "Schedule A Call",
+      "buttonText": "Learn More",
       "image": "/images/studio/hero-right.jpeg",
       "badgeTag": "LIVE VENTURES",
       "badgeValue": "$450M+",
@@ -997,6 +997,7 @@
       }
     },
     "solving": {
+      "eyebrow": "Solving It",
       "title": "How We Are Solving It",
       "caption": "How Crestcode Resolves It",
       "cards": [
@@ -1070,6 +1071,7 @@
       ]
     },
     "timeline": {
+      "eyebrow": "BUILD TIMELINE",
       "title": "From First Conversation to First Customer",
       "subtitle": "Every engagement follows five structured stages — built for clarity, speed, and quality.",
       "phases": [
@@ -1178,48 +1180,50 @@
       "thesisDesc": "Crestcode Startup Studio's startups aim to shift the paradigm of analog services, customer experience, and process management. Micro and small businesses that are still under-digitalized are the primary targets of this transformation. The solutions we will build together will put customers at the center, enabling them to access the services of artisans and professionals with a simple click, enabling them to continue to succeed in a rapidly evolving digital landscape. We create plug-and-play platforms that streamline processes, improve customer experience, and create cross-functional tools for digital transformation. The goal is to reduce inefficiencies and enable professionals to attract, manage, and retain clients, allowing them to focus exclusively on their specific profession."
     },
     "phases": {
-      "title": "Five Phases. One Mission.",
+      "title": "Seven Steps. One Mission.",
       "subtitle": "Our structured blueprint for transforming bold concepts into venture-scale realities.",
       "tabs": [
-        {
-          "title": "SELECT"
-        },
-        {
-          "title": "VALIDATE"
-        },
-        {
-          "title": "BUILD"
-        },
-        {
-          "title": "LAUNCH"
-        },
-        {
-          "title": "SCALE"
-        }
+        { "title": "Select" },
+        { "title": "Submit" },
+        { "title": "Validate" },
+        { "title": "Build" },
+        { "title": "Launch" },
+        { "title": "Product Market Fit" },
+        { "title": "Scale" }
       ],
       "items": [
         {
-          "label": "Phase 01 — Selection Framework",
+          "label": "Select",
           "title": "Selection Process",
           "description": "We run every venture idea through a rigorous four-lens framework before committing a single resource. Ideas are plentiful — the right ones are rare."
         },
         {
-          "label": "Phase 02 — Validation Framework",
+          "label": "Submit",
+          "title": "Submit Your Idea",
+          "description": "Share your concept with our team. We review every submission within 24–48 hours and assess fit across market potential, technical feasibility, and founder conviction."
+        },
+        {
+          "label": "Validate",
           "title": "Validation Process",
           "description": "No assumptions, no guesses. Every thesis is pressure-tested with real customers before a line of production code is written."
         },
         {
-          "label": "Phase 03 — Build Framework",
+          "label": "Build",
           "title": "12-Week Sprint Build",
           "description": "Small autonomous pods. Radical focus. Ship, learn, iterate — nothing else matters in these 84 days."
         },
         {
-          "label": "Phase 04 — Launch Framework",
+          "label": "Launch",
           "title": "Go-To-Market Activation",
           "description": "We launch with precision, not noise. Founder-led, community-first, metrics-gated. Growth is earned before it is amplified."
         },
         {
-          "label": "Phase 05 — Scale Framework",
+          "label": "Product Market Fit",
+          "title": "Achieving Product-Market Fit",
+          "description": "We measure, iterate, and refine until your product earns genuine retention. PMF is not declared — it is proven through real user behavior and engagement signals."
+        },
+        {
+          "label": "Scale",
           "title": "Scaling for Growth",
           "description": "We scale what is proven. Hiring behind revenue, diversifying channels, hardening infrastructure — in that exact order."
         }
@@ -1332,6 +1336,7 @@
       ]
     },
     "cta": {
+      "eyebrow": "Get Started",
       "title": "Have a Venture-Ready Idea?",
       "subtitle": "Built to transform high-potential ideas into scalable, venture-ready products with real market relevance. Focused on validation, execution, and sustainable growth to create long-term value for founders and investors alike.",
       "buttonText": "Start Your Venture"
