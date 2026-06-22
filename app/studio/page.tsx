@@ -2,7 +2,7 @@
 
 export const dynamic = 'force-dynamic';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -28,8 +28,24 @@ function SolvingSection({ stackCards, studioContent, EditableText }: any) {
   const n = stackCards.length;
   const [active, setActive] = useState(0);
   const [exiting, setExiting] = useState<number | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    const node = sectionRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.2 }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
     const t = setInterval(() => {
       setActive(prev => {
         setExiting(prev);
@@ -38,10 +54,11 @@ function SolvingSection({ stackCards, studioContent, EditableText }: any) {
       });
     }, INTERVAL);
     return () => clearInterval(t);
-  }, [n]);
+  }, [n, isVisible]);
 
   return (
     <section
+      ref={sectionRef}
       className="section-dark"
       style={{ backgroundColor: '#060B18', padding: '24px 24px' }}
     >
@@ -188,7 +205,6 @@ function SolvingSection({ stackCards, studioContent, EditableText }: any) {
 
 export default function StudioPage() {
   const { content, loading, error } = useContent();
-  const [activeStackIndex, setActiveStackIndex] = useState(0);
   
   const renderCellText = (text: string) => {
     if (!text) return null;
@@ -206,26 +222,26 @@ export default function StudioPage() {
   const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(0);
   const [activeTimelineIndex, setActiveTimelineIndex] = useState<number | null>(null);
   const [heroCarouselIndex, setHeroCarouselIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const [isAutoAdvancing, setIsAutoAdvancing] = useState(true);
+
+  const PHASE_STEP_IDS = [
+    'phase-select', 'phase-submit', 'phase-validate', 'phase-build', 'phase-launch', 'phase-pmf', 'phase-scale',
+  ];
+
+  const handleManualPhaseChange = (index: number) => {
+    setIsAutoAdvancing(false);
+    setHeroCarouselIndex(index);
+    const target = document.getElementById(PHASE_STEP_IDS[index]) || document.getElementById('selection-process');
+    target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.history.replaceState(null, '', `#${PHASE_STEP_IDS[index]}`);
+  };
 
   useEffect(() => {
-    // We can't derive stackCards here because it needs content.
-    // But we can use an effect that only runs if content exists.
     if (!content) return;
 
-    const studioContent = content.studio;
-    const cardsLength = studioContent.solving.cards.length;
-
-    const timer = setInterval(() => {
-      setActiveStackIndex((prev) => (prev + 1) % cardsLength);
-    }, 3500);
-    return () => clearInterval(timer);
-  }, [content]);
-
-  useEffect(() => {
     const observerOptions = {
       root: null,
-      rootMargin: '-45% 0px -45% 0px', // Very tight margin to highlight exactly at center
+      rootMargin: '-45% 0px -45% 0px',
       threshold: 0
     };
 
@@ -244,25 +260,27 @@ export default function StudioPage() {
     return () => observer.disconnect();
   }, [content, loading]);
 
-  // Auto-progression for hero carousel
   useEffect(() => {
-    if (isPaused) return;
+    const hash = window.location.hash.replace('#', '');
+    if (PHASE_STEP_IDS.includes(hash)) {
+      const index = PHASE_STEP_IDS.indexOf(hash);
+      setHeroCarouselIndex(index);
+      setTimeout(() => {
+        document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }
+  }, [loading]);
 
-    const timer = setInterval(() => {
-      setHeroCarouselIndex((prev) => (prev + 1) % 5);
+  // Auto-advance carousel every 5 seconds
+  useEffect(() => {
+    if (!isAutoAdvancing) return;
+
+    const interval = setInterval(() => {
+      setHeroCarouselIndex(prev => (prev + 1) % 7);
     }, 5000);
 
-    return () => clearInterval(timer);
-  }, [isPaused]);
-
-  // Handler for manual clicks with 3-second pause
-  const handleManualPhaseChange = (index: number) => {
-    setHeroCarouselIndex(index);
-    setIsPaused(true);
-    setTimeout(() => {
-      setIsPaused(false);
-    }, 3000);
-  };
+    return () => clearInterval(interval);
+  }, [isAutoAdvancing]);
 
   if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope">Loading studio...</div>;
   if (error) return <div className="flex items-center justify-center min-h-screen bg-[#F3F5F9] font-manrope text-red-500">Error: {error}</div>;
@@ -323,14 +341,6 @@ export default function StudioPage() {
     color: ["#FF8EBB", "#5C67FF", "#99C26D", "#9C27B0", "#8257e5"][index]
   }));
 
-  // Handler to slide to the next card
-  const handleNextCard = () => {
-    setActiveStackIndex((prevIndex) => (prevIndex + 1) % stackCards.length);
-  };
-
-
-
-
   return (
     <>
       <style dangerouslySetInnerHTML={{
@@ -358,6 +368,24 @@ export default function StudioPage() {
           --border-dark: rgba(255, 255, 255, 0.1);
           --success-green: #10B981;
           --accent-cyan: #00E6A0;
+        }
+
+        @keyframes ambientGlow {
+          0% {
+            opacity: 0.8;
+            transform: translateY(0) scale(1);
+          }
+          50% {
+            opacity: 1;
+            transform: translateY(-15px) scale(1.08);
+          }
+          100% {
+            opacity: 0.8;
+            transform: translateY(0) scale(1);
+          }
+        }
+        .hero-ambient-glow {
+          animation: ambientGlow 10s ease-in-out infinite;
         }
 
         /* Base Styles */
@@ -616,6 +644,9 @@ export default function StudioPage() {
         @keyframes hcFadeIn {
           from { opacity: 0; transform: translateY(8px); }
           to   { opacity: 1; transform: translateY(0); }
+        }
+        .hcFadeIn {
+          animation: hcFadeIn 0.4s ease;
         }
         .hc-phase-label {
           font-size: 0.65rem;
@@ -1057,8 +1088,8 @@ export default function StudioPage() {
         }
         
         .value-premium-card {
-          background: #F8FAFC !important;
-          border: 1px solid #E2E8F0 !important;
+          background: var(--card-bg, #F8FAFC) !important;
+          border: 1px solid var(--card-border, #E2E8F0) !important;
           border-radius: 20px;
           padding: 24px 24px;
           transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1) !important;
@@ -1083,8 +1114,8 @@ export default function StudioPage() {
         }
         .value-premium-card:hover {
           transform: translateY(-6px);
-          background: #FFFFFF !important;
-          border-color: var(--card-glow) !important;
+          background: var(--card-bg-hover, #FFFFFF) !important;
+          border-color: var(--card-border-hover, var(--card-glow)) !important;
           box-shadow: 0 15px 30px -5px var(--card-glow-shadow), 0 0 0 1px rgba(0, 0, 0, 0.02) !important;
         }
         .value-premium-card:hover::after {
@@ -1524,11 +1555,48 @@ export default function StudioPage() {
         .cross { color: rgba(0,0,0,0.25); font-size: 1rem; }
         .partial { color: #f59e0b; font-size: 0.8rem; font-style: italic; }
 
+        .metrics-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 16px;
+        }
+        .selection-stepper-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          padding: 20px 10px;
+          gap: 8px;
+          -webkit-overflow-scrolling: touch;
+        }
+        .selection-stepper-container::-webkit-scrollbar {
+          display: none;
+        }
         @media (max-width: 768px) {
           #diff { padding: 24px 20px; }
           .diff-header { margin-bottom: 3rem; }
           .diff-table-wrap { overflow-x: auto; }
           .diff-table th, .diff-table td { padding: 1rem; font-size: 0.8rem; }
+          .metrics-grid {
+            grid-template-columns: 1fr;
+          }
+          .selection-stepper-container {
+            justify-content: flex-start;
+          }
+        }
+
+        .hero-split-grid {
+          display: grid;
+          grid-template-columns: 1.1fr 1.2fr;
+          gap: clamp(24px, 5vw, 64px);
+          align-items: start;
+        }
+        @media (max-width: 900px) {
+          .hero-split-grid {
+            grid-template-columns: 1fr !important;
+            gap: 24px !important;
+          }
         }
 
       `}} />
@@ -1538,133 +1606,173 @@ export default function StudioPage() {
 
         {/* Ambient glow orbs */}
 
-        {/* Hero Section */}
-        <section className="section-white hero-section" style={{ position: 'relative', overflow: 'hidden', minHeight: '700px' }}>
-          {/* Top Light Effect */}
-          <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div className="section-container pt-0 pb-0" style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <div style={{ textAlign: 'center', width: '100%' }}>
-                <EditableText
-                  contentKey="studio.hero.eyebrow"
-                  value={studioContent.hero.eyebrow}
-                  className="hero-eyebrow-pill"
+        {/* Consolidated Intro Section */}
+        <section style={{ padding: '100px 24px 80px', backgroundColor: '#FFFFFF', position: 'relative', overflow: 'hidden' }}>
+          {/* Ambient lighting effects on the top */}
+          <div className="hero-ambient-glow" style={{
+            position: 'absolute',
+            top: '-200px',
+            left: '0',
+            right: '0',
+            height: '600px',
+            background: 'radial-gradient(circle at 20% 30%, rgba(0, 90, 226, 0.15), transparent 50%), radial-gradient(circle at 80% 30%, rgba(139, 92, 246, 0.15), transparent 50%), radial-gradient(circle at 50% 20%, rgba(6, 182, 212, 0.12), transparent 50%)',
+            filter: 'blur(100px)',
+            pointerEvents: 'none',
+            zIndex: 0,
+            transformOrigin: 'center center'
+          }}></div>
+          
+          <div className="section-container" style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '56px' }}>
+            
+            {/* Part 1: Who We Are */}
+            <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
+              <div style={{ display: 'inline-block', marginBottom: '16px' }}>
+                <span className="hero-eyebrow-pill" style={{ background: '#E0F2FE', color: '#0369A1', border: '1px solid #BAE6FD' }}>
+                  <EditableText contentKey="studio.consolidated.whoweare.eyebrow" value="Who we are" />
+                </span>
+              </div>
+              <EditableText
+                as="h1"
+                contentKey="studio.consolidated.whoweare.title"
+                value={studioContent.consolidated?.whoweare?.title || "Not an agency. Not an accelerator.\nA venture partner."}
+                style={{
+                  fontSize: 'clamp(2.2rem, 5vw, 3.25rem)',
+                  fontWeight: 800,
+                  color: '#020617',
+                  lineHeight: 1.2,
+                  marginBottom: '24px',
+                  fontFamily: "'Manrope', sans-serif",
+                  letterSpacing: '-0.03em',
+                  whiteSpace: 'pre-line'
+                }}
+              >
+                {(() => {
+                  const headingText = studioContent.consolidated?.whoweare?.title || "Not an agency. Not an accelerator.\nA venture partner.";
+                  const lines = headingText.split('\n');
+                  return lines.map((line, lineIdx) => (
+                    <React.Fragment key={lineIdx}>
+                      {line.split(' ').map((word: string, index: number) => {
+                        const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").toLowerCase();
+                        const isBlue = cleanWord === 'partner';
+                        return (
+                          <span key={index} style={isBlue ? { color: '#005AE2' } : {}}>
+                            {word}{' '}
+                          </span>
+                        );
+                      })}
+                      {lineIdx < lines.length - 1 && <br />}
+                    </React.Fragment>
+                  ));
+                })()}
+              </EditableText>
+              <p style={{
+                fontSize: 'clamp(1.05rem, 2vw, 1.25rem)',
+                color: '#475569',
+                lineHeight: 1.7,
+                margin: 0,
+                fontWeight: 500,
+              }}>
+                <EditableText 
+                  contentKey="studio.consolidated.whoweare.desc" 
+                  value="CrestCode exists to level the playing field — combining elite engineering with strategic partnership to turn bold ideas into ventures built to last, not just launched." 
                 />
-                <div style={{ width: '100%', textAlign: 'center' }}>
+              </p>
+            </div>
+
+            {/* Part 2: Vision & Mission in a Wide Rectangular Box */}
+            <div style={{
+              background: '#FFFFFF',
+              border: '1px solid #E2E8F0',
+              borderRadius: '24px',
+              padding: '48px 48px',
+              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.015)',
+              width: '100%',
+            }}>
+              <div className="hero-split-grid">
+                {/* Left Column */}
+                <div>
+                  <span style={{
+                    fontSize: '0.75rem',
+                    fontWeight: 800,
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    color: '#005AE2',
+                    display: 'block',
+                    marginBottom: '12px',
+                    fontFamily: "'Manrope', sans-serif"
+                  }}>
+                    <EditableText contentKey="studio.consolidated.vision.eyebrow" value="VISION & MISSION" />
+                  </span>
+                  <h2 style={{
+                    fontSize: 'clamp(1.5rem, 3vw, 2.1rem)',
+                    fontWeight: 800,
+                    color: '#0F172A',
+                    lineHeight: 1.3,
+                    margin: 0,
+                    fontFamily: "'Manrope', sans-serif",
+                    letterSpacing: '-0.02em',
+                  }}>
+                    <EditableText contentKey="studio.consolidated.vision.title" value="What we're building toward, and how we get there" />
+                  </h2>
+                </div>
+                
+                {/* Right Column */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                   <EditableText
-                    as="h1"
-                    contentKey="studio.hero.title"
-                    value={studioContent.hero.title || "Build Ventures, Not Just\nProducts"}
-                    className="hero-title"
-                    style={{ textAlign: 'center', margin: '0 auto', display: 'inline-block' }}
+                    as="p"
+                    contentKey="studio.consolidated.vision.paragraph1"
+                    value={studioContent.consolidated?.vision?.paragraph1 || "We envision a world where great ideas — regardless of technical background or startup experience — get the strategic and engineering firepower they deserve. No founder should have to build alone."}
+                    style={{
+                      fontSize: '0.975rem',
+                      color: '#334155',
+                      lineHeight: 1.7,
+                      margin: 0,
+                      fontWeight: 500,
+                    }}
                   >
                     {(() => {
-                      const titleText = studioContent.hero.title || "Build Ventures, Not Just\nProducts";
-                      const lines = titleText.split('\n');
-                      return lines.map((line, lineIdx) => {
-                        const words = line.split(' ');
+                      const text = studioContent.consolidated?.vision?.paragraph1 || "We envision a world where great ideas — regardless of technical background or startup experience — get the strategic and engineering firepower they deserve. No founder should have to build alone.";
+                      const target = "No founder should have to build alone.";
+                      if (text.includes(target)) {
+                        const parts = text.split(target);
                         return (
-                          <React.Fragment key={lineIdx}>
-                            {words.map((word: string, index: number) => {
-                              const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").toUpperCase();
-                              const isBlue = ['VENTURES', 'PRODUCTS', 'VENTURE', 'PRODUCT', 'LAST'].includes(cleanWord);
-                              return (
-                                <span key={index} style={isBlue ? { color: '#005AE2' } : {}}>
-                                  {word}{index < words.length - 1 ? ' ' : ''}
-                                </span>
-                              );
-                            })}
-                            {lineIdx < lines.length - 1 && <br />}
-                          </React.Fragment>
+                          <>
+                            {parts[0]}
+                            <span style={{ fontWeight: 700, color: '#005AE2' }}>{target}</span>
+                            {parts[1]}
+                          </>
                         );
-                      });
+                      }
+                      return text;
                     })()}
                   </EditableText>
-                </div>
-                <EditableText
-                  as="p"
-                  contentKey="studio.hero.subheading"
-                  value={studioContent.hero.subheading}
-                  className="body-text"
-                  style={{ marginBottom: '40px', maxWidth: '720px', margin: '0 auto 40px', textAlign: 'center', lineHeight: '1.8', fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}
-                />
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'center' }} className="cc-reveal">
-                  <Link href="/contact">
-                    <button className="btn-primary">
-                      <EditableText
-                        contentKey="studio.hero.buttonText"
-                        value={studioContent.hero.buttonText || "Schedule A Call"}
-                      />
-                    </button>
-                  </Link>
+                  <EditableText
+                    as="p"
+                    contentKey="studio.consolidated.vision.paragraph2"
+                    value={studioContent.consolidated?.vision?.paragraph2 || "Day to day, that means partnering with visionary founders and business owners through strategy, elite engineering, and relentless execution — turning real problems into world-class digital products."}
+                    style={{
+                      fontSize: '0.975rem',
+                      color: '#475569',
+                      lineHeight: 1.7,
+                      margin: 0,
+                      fontWeight: 500,
+                    }}
+                  />
                 </div>
               </div>
-          </div>
-        </section>
-
-        {/* Vision & Mission Section */}
-        <section id="vision" style={{ padding: '24px 24px', backgroundColor: '#FFFFFF', position: 'relative', overflow: 'hidden' }}>
-          {/* Grid Background */}
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(rgba(0, 90, 226, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 90, 226, 0.03) 1px, transparent 1px)', backgroundSize: '50px 50px', opacity: 0.5 }}></div>
-          
-          {/* Light Effects */}
-          <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.1) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(60px)' }}></div>
-          <div style={{ position: 'absolute', bottom: '-100px', left: '-100px', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(60px)' }}></div>
-          
-          <div className="vm-intro" style={{ maxWidth: '1200px', margin: '0 auto 3rem', position: 'relative', zIndex: 1, textAlign: 'center' }}>
-            <EditableText
-              contentKey="studio.vision.eyebrow"
-              value="Who We Are"
-              className="hero-eyebrow-pill"
-            />
-            <EditableText
-              as="h2"
-              contentKey="studio.vision.title"
-              value="Not an agency. Not an accelerator. A venture partner."
-              className="section-title"
-              style={{ color: '#0F172A', maxWidth: '800px', margin: '0 auto 16px' }}
-            />
-            <p className="section-subtitle" style={{ marginTop: '1rem', maxWidth: '700px', margin: '1rem auto 0' }}>
-              <EditableText contentKey="studio.vision.keyMessage" value="We build world-class digital products by combining elite engineering with strategic partnership — turning bold ideas into scalable ventures." />
-            </p>
-          </div>
-
-          <div className="vm-inner" style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'stretch', position: 'relative', zIndex: 1 }}>
-            <div className="vm-card" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: '20px', padding: '2rem', position: 'relative', overflow: 'hidden', transition: 'border-color 0.3s', display: 'flex', flexDirection: 'column', height: '100%' }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, #005AE2 0%, transparent 100%)' }}></div>
-              <span className="vm-tag" style={{ fontSize: '1.3rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#005AE2', marginBottom: '1rem', display: 'block', fontFamily: "'Manrope', sans-serif" }}>
-                <EditableText contentKey="studio.vision.visionTag" value="Our Vision" />
-              </span>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, lineHeight: 1.3, marginBottom: '0.75rem', fontFamily: "'Manrope', sans-serif" }}>
-                <EditableText contentKey="studio.vision.visionTitle" value="To be the most trusted venture partner for founders and operators who refuse to build alone." />
-              </h3>
-              <p style={{ marginTop: '0.75rem', color: '#64748B', fontSize: '0.9rem', lineHeight: 1.65, fontFamily: "'Inter', sans-serif", flex: 1, fontWeight: 500 }}>
-                <EditableText contentKey="studio.vision.visionDesc" value="We envision a world where great ideas — regardless of technical background or startup experience — get the strategic and engineering firepower they deserve. CrestCode exists to level the playing field." />
-              </p>
             </div>
 
-            <div className="vm-card" style={{ backgroundColor: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: '20px', padding: '2rem', position: 'relative', overflow: 'hidden', transition: 'border-color 0.3s', display: 'flex', flexDirection: 'column', height: '100%' }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, #005AE2 0%, transparent 100%)' }}></div>
-              <span className="vm-tag" style={{ fontSize: '1.3rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#005AE2', marginBottom: '1rem', display: 'block', fontFamily: "'Manrope', sans-serif" }}>
-                <EditableText contentKey="studio.vision.missionTag" value="Our Mission" />
-              </span>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, lineHeight: 1.3, marginBottom: '0.75rem', fontFamily: "'Manrope', sans-serif" }}>
-                <EditableText contentKey="studio.vision.missionTitle" value="To turn bold ideas and real-world problems into world-class digital products." />
-              </h3>
-              <p style={{ marginTop: '0.75rem', color: '#64748B', fontSize: '0.9rem', lineHeight: 1.65, fontFamily: "'Inter', sans-serif", flex: 1, fontWeight: 500 }}>
-                <EditableText contentKey="studio.vision.missionDesc" value="We partner with visionary founders and business owners through strategy, elite engineering, and relentless execution — building ventures that are built to last, not just launched." />
-              </p>
-            </div>
           </div>
         </section>
 
       {/* Core Values Section - Premium Light Mode Grid with 6 Cards */}
-      <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', fontFamily: 'Manrope, sans-serif', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ backgroundColor: '#F8FAFC', padding: '60px 24px', fontFamily: 'Manrope, sans-serif', position: 'relative', overflow: 'hidden' }}>
         {/* Subtle glowing radial background lights */}
         <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.04), transparent 70%)', top: '-100px', left: '-100px', pointerEvents: 'none' }}></div>
-        <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.03), transparent 70%)', bottom: '-100px', right: '-100px', pointerEvents: 'none' }}></div>
+        <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(13, 148, 136, 0.03), transparent 70%)', bottom: '-100px', right: '-100px', pointerEvents: 'none' }}></div>
 
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <EditableText
               contentKey="studio.values.eyebrow"
               value={studioContent.values?.eyebrow || "Our Ethos & Beliefs"}
@@ -1686,86 +1794,107 @@ export default function StudioPage() {
             />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '30px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
             {(() => {
               const defaultValues = [
                 {
                   num: '01',
                   title: 'Ownership',
-                  subheading: 'FOUNDER MINDSET',
                   desc: "We treat every product as if it's our own.",
                   icon: (
                     <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M20.656 5.656L12 3 3.344 5.656C3.125 5.724 3 5.923 3 6.152V12c0 5.061 3.864 9.479 9 10 5.136-.521 9-4.939 9-10V6.152c0-.229-.125-.428-.344-.496z" />
                     </svg>
                   ),
-                  color: '#3B82F6', // Blue
-                  shadow: 'rgba(59, 130, 246, 0.08)'
+                  color: '#3B82F6', // Royal Blue
+                  shadow: 'rgba(59, 130, 246, 0.08)',
+                  bg: '#FFFFFF',
+                  border: '#E2E8F0',
+                  bgHover: '#FFFFFF',
+                  borderHover: '#3B82F6'
                 },
                 {
                   num: '02',
                   title: 'Honesty',
-                  subheading: 'FEARLESS TRANSPARENCY',
                   desc: "We challenge clients when we need to, even when it's uncomfortable.",
                   icon: (
                     <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
                     </svg>
                   ),
-                  color: '#EC4899', // Pink
-                  shadow: 'rgba(236, 72, 153, 0.08)'
+                  color: '#10B981', // Emerald
+                  shadow: 'rgba(16, 185, 129, 0.08)',
+                  bg: '#FFFFFF',
+                  border: '#E2E8F0',
+                  bgHover: '#FFFFFF',
+                  borderHover: '#10B981'
                 },
                 {
                   num: '03',
-                  title: 'End-customer obsession',
-                  subheading: 'USER-FIRST PARADIGM',
+                  title: 'Customer obsession',
                   desc: "Success is measured by the people who use the product, not just the people who commissioned it.",
                   icon: (
                     <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
                   ),
-                  color: '#10B981', // Green
-                  shadow: 'rgba(16, 185, 129, 0.08)'
+                  color: '#EF4444', // Rose/Red
+                  shadow: 'rgba(239, 68, 68, 0.08)',
+                  bg: '#FFFFFF',
+                  border: '#E2E8F0',
+                  bgHover: '#FFFFFF',
+                  borderHover: '#EF4444'
                 },
                 {
                   num: '04',
                   title: 'Craft',
-                  subheading: 'MLP QUALITY STANDARD',
-                  desc: "We build to MLP standard because good enough never is.",
+                  desc: "We build to the MLP standard, because good enough never is.",
                   icon: (
                     <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.907c.961 0 1.36 1.242.588 1.81l-3.97 2.883a1 1 0 00-.364 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.971-2.883a1 1 0 00-1.17 0l-3.97 2.883c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.364-1.118l-3.97-2.883c-.77-.568-.371-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                     </svg>
                   ),
-                  color: '#F59E0B', // Amber
-                  shadow: 'rgba(245, 158, 11, 0.08)'
+                  color: '#8B5CF6', // Purple/Violet
+                  shadow: 'rgba(139, 92, 246, 0.08)',
+                  bg: '#FFFFFF',
+                  border: '#E2E8F0',
+                  bgHover: '#FFFFFF',
+                  borderHover: '#8B5CF6'
                 },
                 {
                   num: '05',
                   title: 'Partnership',
-                  subheading: 'LONG-TERM ENGAGEMENT',
-                  desc: "We are in it for the long run, not just the launch.",
+                  desc: "We're in it for the long run, not just the launch.",
                   icon: (
                     <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16 3.13a4 4 0 0 1 0 7.75" />
                     </svg>
                   ),
-                  color: '#005AE2', // Blue
-                  shadow: 'rgba(0, 90, 226, 0.08)'
+                  color: '#F59E0B', // Amber
+                  shadow: 'rgba(245, 158, 11, 0.08)',
+                  bg: '#FFFFFF',
+                  border: '#E2E8F0',
+                  bgHover: '#FFFFFF',
+                  borderHover: '#F59E0B'
                 },
                 {
                   num: '06',
                   title: 'Innovation',
-                  subheading: 'AI-DRIVEN PRODUCT THINKING',
                   desc: "We bring the latest thinking in product, engineering, and AI to every engagement.",
                   icon: (
                     <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.989-2.386l-.548-.547z" />
                     </svg>
                   ),
                   color: '#06B6D4', // Cyan
-                  shadow: 'rgba(6, 182, 212, 0.08)'
+                  shadow: 'rgba(6, 182, 212, 0.08)',
+                  bg: '#FFFFFF',
+                  border: '#E2E8F0',
+                  bgHover: '#FFFFFF',
+                  borderHover: '#06B6D4'
                 }
               ];
 
@@ -1782,49 +1911,37 @@ export default function StudioPage() {
                   className="value-premium-card"
                   style={{
                     '--card-glow': val.color,
-                    '--card-glow-shadow': val.shadow
+                    '--card-glow-shadow': val.shadow,
+                    '--card-bg': val.bg,
+                    '--card-border': val.border,
+                    '--card-bg-hover': val.bgHover,
+                    '--card-border-hover': val.borderHover,
                   } as React.CSSProperties}
                 >
-                  {/* Top subheading tag */}
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    fontSize: '0.9rem',
-                    fontWeight: 800,
-                    letterSpacing: '0.12em',
-                    color: val.color,
-                    textTransform: 'uppercase',
-                    marginBottom: '16px'
-                  }}>
-                    <EditableText
-                      contentKey={`studio.values.items.${index}.subheading`}
-                      value={val.subheading}
-                    />
-                  </div>
-
                   {/* Colored Icon Container */}
                   <div style={{
-                    width: '50px',
-                    height: '50px',
-                    borderRadius: '14px',
-                    background: `${val.color}10`,
-                    border: `1.5px solid ${val.color}25`,
+                    width: '48px',
+                    height: '48px',
+                    borderRadius: '12px',
+                    background: `${val.color}12`,
                     color: val.color,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginBottom: '16px'
+                    marginBottom: '20px',
+                    flexShrink: 0,
+                    position: 'relative',
+                    zIndex: 2
                   }}>
                     {val.icon}
                   </div>
 
                   {/* Title */}
                   <h3 style={{
-                    fontSize: '1.2rem',
+                    fontSize: '1.25rem',
                     fontWeight: 800,
                     color: '#0F172A',
-                    marginBottom: '8px',
+                    marginBottom: '10px',
                     letterSpacing: '-0.01em',
                     textTransform: 'capitalize'
                   }}>
@@ -1836,8 +1953,8 @@ export default function StudioPage() {
 
                   {/* Description */}
                   <p style={{
-                    color: '#64748B',
-                    fontSize: '0.9rem',
+                    color: '#475569',
+                    fontSize: '0.925rem',
                     lineHeight: 1.6,
                     margin: 0,
                     fontWeight: 500,
@@ -2012,86 +2129,321 @@ export default function StudioPage() {
   background: rgba(255,251,235,0.6) !important;
 }
 .gcard-red {
-  border-left: 3px solid #EF4444 !important;
-  background: rgba(254,242,242,0.6) !important;
-}
-@keyframes gcardIn {
-  from { opacity: 0; transform: translateY(20px) scale(0.97); }
-  to   { opacity: 1; transform: none; }
-}
-.phase-tag-anim {
-  animation: fadeUp 0.4s ease both;
-}
-.phase-title-anim {
-  animation: fadeUp 0.45s ease 0.06s both;
-}
-.phase-desc-anim {
-  animation: fadeUp 0.4s ease 0.12s both;
-}
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: none; }
-}
-        */}`
+        {/* SECTION A: Selection Process — 7 Phase Tabs + Cards   */}
+        {/* ═══════════════════════════════════════════════════════ */}
 
         {content?.ourModel && (() => {
-          const phaseColors = ['#005AE2', '#005AE2', '#005AE2', '#005AE2', '#005AE2'];
-          const phaseDarkColors = ['#0047B3', '#0047B3', '#0047B3', '#0047B3', '#0047B3'];
-          const defaultPhaseLabels = [
-            content.ourModel.selection?.label || 'Phase 01 — Selection Framework',
-            content.ourModel.validation?.label || 'Phase 02 — Validation Framework',
-            'Phase 03 — Build Framework',
-            'Phase 04 — Launch Framework',
-            'Phase 05 — Scale Framework',
-          ];
-          const defaultPhaseTitles = [
-            content.ourModel.selection?.title || 'Selection Process',
-            content.ourModel.validation?.title || 'Validation Process',
-            content.ourModel.phases?.items?.[0]?.title || '12-Week Sprint Build',
-            content.ourModel.phases?.items?.[1]?.title || 'Go-To-Market Activation',
-            content.ourModel.phases?.items?.[2]?.title || 'Scaling for Growth',
-          ];
-          const defaultPhaseDescs = [
-            'We run every venture idea through a rigorous four-lens framework before committing a single resource. Ideas are plentiful — the right ones are rare.',
-            'No assumptions, no guesses. Every thesis is pressure-tested with real customers before a line of production code is written.',
-            'Small autonomous pods. Radical focus. Ship, learn, iterate — nothing else matters in these 84 days.',
-            'We launch with precision, not noise. Founder-led, community-first, metrics-gated. Growth is earned before it is amplified.',
-            'We scale what is proven. Hiring behind revenue, diversifying channels, hardening infrastructure — in that exact order.',
+          const PHASE_TABS = [
+            { title: 'SELECT', id: 0 },
+            { title: 'SUBMIT', id: 1 },
+            { title: 'VALIDATE', id: 2 },
+            { title: 'BUILD', id: 3 },
+            { title: 'LAUNCH', id: 4 },
+            { title: 'PMF', id: 5 },
+            { title: 'SCALE', id: 6 },
           ];
 
-          const phaseLabels = defaultPhaseLabels.map((val, idx) => studioContent.phases?.items?.[idx]?.label || val);
-          const phaseTitles = defaultPhaseTitles.map((val, idx) => studioContent.phases?.items?.[idx]?.title || val);
-          const phaseDescs = defaultPhaseDescs.map((val, idx) => studioContent.phases?.items?.[idx]?.description || val);
+          const PHASE_DATA = [
+            {
+              phaseNum: "01",
+              phaseKey: "SELECT",
+              title: "We choose ideas worth building",
+              description: "Submit your idea — not the how, just the what and why, in one page or less. Every submission gets reviewed by our partners directly.",
+              bullets: [
+                {
+                  title: "Submit your idea",
+                  desc: "One page max. We're evaluating the problem and your fit — not asking for a business plan yet."
+                },
+                {
+                  title: "Meet with partners",
+                  desc: "You'll learn what CrestCode does, what support looks like, and the full process ahead."
+                }
+              ],
+              metricHeader: null,
+              metrics: [
+                {
+                  num: "01",
+                  label: "Typical duration",
+                  value: "1-2 weeks",
+                  valueColor: "#0F172A"
+                },
+                {
+                  num: "",
+                  label: "What you need",
+                  value: "Just the idea",
+                  valueColor: "#0F172A"
+                }
+              ]
+            },
+            {
+              phaseNum: "02",
+              phaseKey: "SUBMIT",
+              title: "Submit your idea",
+              description: "Share your concept with our team. We review every submission within 24–48 hours and assess fit across market potential, technical feasibility, and founder conviction.",
+              bullets: [
+                {
+                  title: "Initial assessment",
+                  desc: "We review every submission within 24–48 hours to assess market potential, technical feasibility, and founder conviction."
+                },
+                {
+                  title: "Partner meeting",
+                  desc: "Get invited to learn what Crestcode does, the support we provide, and the overall process."
+                }
+              ],
+              metricHeader: null,
+              metrics: [
+                {
+                  num: "01",
+                  label: "Typical duration",
+                  value: "24-48 hours",
+                  valueColor: "#0F172A"
+                },
+                {
+                  num: "",
+                  label: "What you need",
+                  value: "1 page max",
+                  valueColor: "#0F172A"
+                }
+              ]
+            },
+            {
+              phaseNum: "03",
+              phaseKey: "VALIDATE",
+              title: "We pressure-test before we build",
+              description: "If there's mutual fit, you submit the full proposal — business model, strategic alignment, and technical scope — before any code gets written.",
+              bullets: [
+                {
+                  title: "Full proposal",
+                  desc: "Business model, target customer, and technical specifications get detailed and stress-tested together."
+                },
+                {
+                  title: "Team assigned",
+                  desc: "Senior engineers and product leads are allocated — the people you meet are the people who build."
+                }
+              ],
+              metricHeader: null,
+              metrics: [
+                {
+                  num: "01",
+                  label: "Typical duration",
+                  value: "1-2 weeks",
+                  sub: "Proposal review through team allocation",
+                  valueColor: "#0F172A"
+                },
+                {
+                  num: "02",
+                  label: "Output",
+                  value: "Signed scope + team",
+                  sub: "Clear deliverables before build begins",
+                  valueColor: "#0F172A"
+                }
+              ]
+            },
+            {
+              phaseNum: "04",
+              phaseKey: "BUILD",
+              title: "Design and engineering, in lockstep",
+              description: "A high-velocity, structured roadmap from zero to market entry — six execution stages optimized for speed without sacrificing quality.",
+              bullets: [
+                {
+                  title: "Discovery & requirements",
+                  duration: "1-2 weeks",
+                  desc: "Defining core goals and user needs for a scalable architecture."
+                },
+                {
+                  title: "Strategy & setup",
+                  duration: "1-2 weeks",
+                  desc: "Technical planning and resource allocation."
+                },
+                {
+                  title: "Design & prototyping",
+                  duration: "3-4 weeks",
+                  desc: "High-fidelity UI/UX design and interaction mapping."
+                },
+                {
+                  title: "Agile development",
+                  duration: "8-12 weeks",
+                  desc: "Building core features with bi-weekly demos."
+                },
+                {
+                  title: "QA & launch prep",
+                  duration: "2 weeks",
+                  desc: "Rigorous testing and production deployment."
+                }
+              ],
+              metricHeader: "HOW WE MEASURE THIS PHASE",
+              metrics: [
+                {
+                  num: "01",
+                  label: "Sprint velocity",
+                  value: "Bi-weekly demos",
+                  sub: "Working software shown every cycle",
+                  valueColor: "#005AE2"
+                },
+                {
+                  num: "02",
+                  label: "Scope stability",
+                  value: "85%+ on-spec",
+                  sub: "Features matching original scope",
+                  valueColor: "#10B981"
+                },
+                {
+                  num: "03",
+                  label: "Code quality gate",
+                  value: "80%+ test coverage",
+                  sub: "Minimum before a feature is \"done\"",
+                  valueColor: "#005AE2"
+                },
+                {
+                  num: "04",
+                  label: "Time to MLP",
+                  value: "15-22 weeks",
+                  sub: "Discovery through QA, idea-dependent",
+                  valueColor: "#B45309"
+                }
+              ]
+            },
+            {
+              phaseNum: "05",
+              phaseKey: "LAUNCH",
+              title: "Precision over noise",
+              description: "Founder-led, community-first, metrics-gated. Growth is earned before it's amplified — we deploy strategically to a beachhead market first.",
+              bullets: [
+                {
+                  title: "Beachhead deployment",
+                  desc: "Controlled release, rapid feedback gathering, and early community seeding."
+                }
+              ],
+              metricHeader: "HOW WE MEASURE THIS PHASE",
+              metrics: [
+                {
+                  num: "01",
+                  label: "User retention (Day 30)",
+                  value: "Target 20-40%",
+                  sub: "Early product-market signal",
+                  valueColor: "#B45309"
+                },
+                {
+                  num: "02",
+                  label: "CAC : LTV ratio",
+                  value: "Target 1 : 4-5",
+                  sub: "Threshold before recommending paid growth",
+                  valueColor: "#B45309"
+                },
+                {
+                  num: "03",
+                  label: "Platform stability",
+                  value: "99.5%+ uptime",
+                  sub: "Monitored from first public release",
+                  valueColor: "#10B981"
+                },
+                {
+                  num: "04",
+                  label: "Time to first 100 users",
+                  value: "2-4 weeks",
+                  sub: "From beachhead release to adoption",
+                  valueColor: "#005AE2"
+                }
+              ]
+            },
+            {
+              phaseNum: "06",
+              phaseKey: "PMF",
+              title: "Achieving Product-Market Fit",
+              description: "We measure, iterate, and refine until your product earns genuine retention. PMF is not declared — it is proven through real user behavior and engagement signals.",
+              bullets: [
+                {
+                  title: "Retention signals",
+                  desc: "Track repeat usage, engagement depth, and organic referral patterns that indicate real product value."
+                },
+                {
+                  title: "User feedback loops",
+                  desc: "Structured interviews and behavioral data to identify what resonates and what needs refinement."
+                },
+                {
+                  title: "Iteration cycles",
+                  desc: "Rapid product adjustments based on validated learnings — not assumptions."
+                }
+              ],
+              metricHeader: "HOW WE MEASURE THIS PHASE",
+              metrics: [
+                {
+                  num: "01",
+                  label: "Target PMF timeline",
+                  value: "3-6 months",
+                  sub: "Structured iteration cycles",
+                  valueColor: "#B45309"
+                },
+                {
+                  num: "02",
+                  label: "Retention metric",
+                  value: "Sustained active usage",
+                  sub: "Product-market confirmation",
+                  valueColor: "#005AE2"
+                }
+              ]
+            },
+            {
+              phaseNum: "07",
+              phaseKey: "SCALE",
+              title: "We stay past the finish line",
+              description: "This is where most studios disappear. We don't — refining distribution, optimizing the acquisition funnel, and supporting fundraising as the venture grows.",
+              bullets: [
+                {
+                  title: "Distribution & growth",
+                  desc: "Refining channels and optimizing the acquisition funnel for sustained impact."
+                },
+                {
+                  title: "Ongoing partnership",
+                  desc: "Continued access to the CrestCode network, engineering support, and strategic guidance."
+                }
+              ],
+              metricHeader: "HOW WE MEASURE THIS PHASE",
+              metrics: [
+                {
+                  num: "01",
+                  label: "Month-over-month growth",
+                  value: "Target 10-20%",
+                  sub: "Sustainable compounding growth",
+                  valueColor: "#10B981"
+                },
+                {
+                  num: "02",
+                  label: "Channel diversification",
+                  value: "2+ active channels",
+                  sub: "Reduces single-source dependency",
+                  valueColor: "#005AE2"
+                },
+                {
+                  num: "03",
+                  label: "Net revenue retention",
+                  value: "Target 100%+",
+                  sub: "Expansion outpacing churn",
+                  valueColor: "#B45309"
+                },
+                {
+                  num: "04",
+                  label: "Continued engagement",
+                  value: "Ongoing partnership",
+                  sub: "Engaged through fundraising & beyond",
+                  valueColor: "#005AE2"
+                }
+              ]
+            }
+          ];
 
-          const ac = phaseColors[heroCarouselIndex] || '#3B82F6';
-          const acDark = phaseDarkColors[heroCarouselIndex] || '#1d4ed8';
-          const ph = [2, 3, 4].includes(heroCarouselIndex) ? content.ourModel.phases?.items?.[heroCarouselIndex - 2] : null;
-          const colors = ['#10B981', '#F59E0B', '#EF4444'];
-          const vKey = [2, 3, 4].includes(heroCarouselIndex) ? ['v1', 'v2', 'v3'][heroCarouselIndex - 2] : '';
+          const currentPhaseData = PHASE_DATA[heroCarouselIndex];
 
           return (
             <section
+              id="selection-process"
               style={{
                 position: 'relative',
-                backgroundColor: '#EFF6FF',
+                backgroundColor: '#F8FAFC',
                 padding: '80px 0 80px',
                 overflow: 'hidden'
               }}
             >
-
-              {/* Light effect from center */}
-              <div style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: '800px',
-                height: '800px',
-                background: 'radial-gradient(circle, rgba(0, 90, 226, 0.08) 0%, transparent 70%)',
-                pointerEvents: 'none',
-                zIndex: 0,
-              }} />
-
               <div style={{ position: 'relative', zIndex: 1 }}>
                 {/* Unified Header */}
                 <div className="section-container" style={{ textAlign: 'center', marginBottom: '40px', paddingTop: 0, paddingBottom: 0 }}>
@@ -2105,7 +2457,7 @@ export default function StudioPage() {
                   <EditableText
                     as="h2"
                     contentKey="studio.phases.title"
-                    value={studioContent.phases?.title || "Five Phases. One Mission."}
+                    value={studioContent.phases?.title || "Seven Steps. One Mission."}
                     className="section-title"
                     style={{
                       color: '#0F172A',
@@ -2126,586 +2478,322 @@ export default function StudioPage() {
                   />
                 </div>
 
-                {/* ── STICKY PILL NAV ── */}
+                {/* Stepper Navigation */}
                 <div style={{
                   position: 'sticky', top: 0, zIndex: 100,
-                  background: 'rgba(239, 246, 255, 0.85)',
+                  background: 'rgba(248, 250, 252, 0.85)',
                   backdropFilter: 'blur(12px)',
                   WebkitBackdropFilter: 'blur(12px)',
                   borderBottom: '1px solid rgba(0, 90, 226, 0.05)',
-                  marginBottom: '32px',
+                  marginBottom: '40px',
                 }}>
                   <div className="section-container" style={{ paddingTop: 0, paddingBottom: 0 }}>
-                    <div style={{
-                      display: 'flex', justifyContent: 'center',
-                      padding: '20px 0', maxWidth: '800px',
-                      margin: '0 auto', alignItems: 'center',
+                    <div className="selection-stepper-container" style={{
+                      maxWidth: '960px',
+                      margin: '0 auto',
                     }}>
-                      {[
-                        { n: '01', t: studioContent.phases?.tabs?.[0]?.title || 'SELECT', id: 0 },
-                        { n: '02', t: studioContent.phases?.tabs?.[1]?.title || 'VALIDATE', id: 1 },
-                        { n: '03', t: studioContent.phases?.tabs?.[2]?.title || 'BUILD', id: 2 },
-                        { n: '04', t: studioContent.phases?.tabs?.[3]?.title || 'LAUNCH', id: 3 },
-                        { n: '05', t: studioContent.phases?.tabs?.[4]?.title || 'SCALE', id: 4 },
-                      ].map((ph, idx) => (
-                        <React.Fragment key={ph.id}>
-                          <button
-                            onClick={() => handleManualPhaseChange(ph.id)}
-                            style={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              alignItems: 'center',
-                              gap: '8px',
-                              cursor: 'pointer',
-                              background: 'transparent',
-                              border: 'none',
-                              padding: 0,
-                              minWidth: '80px',
-                            }}
-                          >
-                            <div style={{
-                              width: '40px',
-                              height: '40px',
-                              borderRadius: '50%',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              fontSize: '14px',
-                              fontWeight: 700,
-                              fontFamily: "'Manrope', sans-serif",
-                              background: heroCarouselIndex === ph.id ? '#005AE2' : 
-                                        heroCarouselIndex > ph.id ? '#005AE2' : '#ffffff',
-                              color: heroCarouselIndex === ph.id ? '#ffffff' : 
-                                     heroCarouselIndex > ph.id ? '#ffffff' : '#64748B',
-                              border: heroCarouselIndex === ph.id ? '3px solid #005AE2' : 
-                                     heroCarouselIndex > ph.id ? '3px solid #005AE2' : '2px solid #E2E8F0',
-                              transition: 'all 0.3s ease',
-                              boxShadow: heroCarouselIndex === ph.id ? '0 4px 12px rgba(0, 90, 226, 0.3)' : 'none',
-                            }}>
-                              {heroCarouselIndex > ph.id ? '✓' : ph.n}
-                            </div>
-                            <span style={{
-                              fontSize: '11px',
-                              fontWeight: 600,
-                              fontFamily: "'Manrope', sans-serif",
-                              letterSpacing: '0.05em',
-                              textTransform: 'uppercase',
-                              color: heroCarouselIndex === ph.id ? '#005AE2' : 
-                                     heroCarouselIndex > ph.id ? '#005AE2' : '#64748B',
-                              transition: 'all 0.3s ease',
-                            }}>
-                              <EditableText
-                                contentKey={`studio.phases.tabs.${idx}.title`}
-                                value={ph.t}
-                              />
-                            </span>
-                          </button>
-                          {idx < 4 && (
-                            <div style={{
-                              flex: 1,
-                              height: '2px',
-                              background: heroCarouselIndex > idx ? '#005AE2' : '#E2E8F0',
-                              margin: '0 8px',
-                              transition: 'all 0.3s ease',
-                              maxWidth: '60px',
-                            }} />
-                          )}
-                        </React.Fragment>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* ── MAIN CONTENT (GRID) ── */}
-                <div className="section-container" style={{ background: 'transparent' }}>
-                  <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1.15fr',
-                    gap: '40px',
-                    alignItems: 'start',
-                    maxWidth: '960px',
-                    margin: '0 auto',
-                  }}>
-
-                    {/* ── LEFT: Editorial ── */}
-                    <div style={{ position: 'relative', paddingTop: '8px', textAlign: 'left' }}>
-
-                      {/* Giant watermark number */}
-                      <div
-                        className="phase-watermark"
-                        style={{ color: 'rgba(0, 90, 226, 0.08)', left: '0', top: '-20px' }}
-                      >
-                        {String(heroCarouselIndex + 1).padStart(2, '0')}
-                      </div>
-
-                      {/* Tag */}
-                      <div
-                        key={`tag-${heroCarouselIndex}`}
-                        className="phase-tag-anim"
-                        style={{
-                          fontSize: '11px', fontWeight: 600, letterSpacing: '0.05em',
-                          textTransform: 'uppercase', color: '#005AE2', marginBottom: '12px',
-                        }}
-                      >
-                        <EditableText
-                          contentKey={`studio.phases.items.${heroCarouselIndex}.label`}
-                          value={phaseLabels[heroCarouselIndex]}
-                        />
-                      </div>
-
-                      {/* Main title */}
-                      <h2
-                        key={`title-${heroCarouselIndex}`}
-                        className="phase-title-anim"
-                        style={{
-                          fontFamily: "'Manrope', sans-serif",
-                          fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
-                          fontWeight: 700,
-                          letterSpacing: '-0.01em',
-                          color: '#0F172A',
-                          lineHeight: 1.2,
-                          marginBottom: '16px',
-                        }}
-                      >
-                        <EditableText
-                          contentKey={`studio.phases.items.${heroCarouselIndex}.title`}
-                          value={phaseTitles[heroCarouselIndex]}
-                        />
-                      </h2>
-
-                      {/* Description with left border */}
-                      <p
-                        key={`desc-${heroCarouselIndex}`}
-                        className="phase-desc-anim"
-                        style={{
-                          fontSize: '0.95rem',
-                          color: '#64748B',
-                          lineHeight: 1.6,
-                          borderLeft: `3px solid #005AE2`,
-                          paddingLeft: '16px',
-                          marginBottom: '24px',
-                        }}
-                      >
-                        <EditableText
-                          contentKey={`studio.phases.items.${heroCarouselIndex}.description`}
-                          value={phaseDescs[heroCarouselIndex]}
-                        />
-                      </p>
-
-                      {/* Progress counter */}
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <div className="counter-bar">
-                          <div
-                            className="counter-fill"
-                            style={{
-                              width: `${((heroCarouselIndex + 1) / 5) * 100}%`,
-                              background: '#005AE2',
-                            }}
-                          />
-                        </div>
-                        <span style={{ fontSize: '12px', fontWeight: 600, color: '#64748B', letterSpacing: '0.05em' }}>
-                          {heroCarouselIndex + 1} / 5
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* ── RIGHT: Cards ── */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', minHeight: '400px' }}>
-
-                      {/* Phase 0 — Select */}
-                      {heroCarouselIndex === 0 && content.ourModel.selection?.cards?.map((card: any, idx: number) => (
-                        <div
-                          key={idx}
-                          style={{
-                            background: '#F8FAFC',
-                            border: '1px solid #E2E8F0',
-                            borderRadius: '12px',
-                            padding: '20px 18px',
-                            transition: 'all 0.2s ease',
-                            animationDelay: `${idx % 2 === 0 ? idx * 0.09 : 0.05 + idx * 0.09}s`,
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.borderColor = '#005AE2';
-                            e.currentTarget.style.transform = 'translateY(-2px)';
-                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 90, 226, 0.15)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.borderColor = '#E2E8F0';
-                            e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.boxShadow = 'none';
-                          }}
-                        >
-                          <div style={{
-                            width: '32px',
-                            height: '32px',
-                            borderRadius: '50%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '12px',
-                            fontWeight: 700,
-                            fontFamily: "'Manrope', sans-serif",
-                            background: '#005AE2',
-                            color: '#ffffff',
-                            marginBottom: '12px',
-                            border: '2px solid #005AE2',
-                          }}>
-                            {String(idx + 1).padStart(2, '0')}
-                          </div>
-                          <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
-                            <EditableText contentKey={`ourModel.selection.cards.${idx}.title`} value={card.title} />
-                          </h3>
-                          <p style={{ fontSize: '0.8rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
-                            <EditableText contentKey={`ourModel.selection.cards.${idx}.desc`} value={card.desc} />
-                          </p>
-                        </div>
-                      ))}
-
-                      {/* Phase 1 — Validate */}
-                      {heroCarouselIndex === 1 && content.ourModel.validation?.steps?.map((step: any, idx: number) => (
-                        <div
-                          key={idx}
-                          style={{
-                            background: '#ffffff',
-                            border: '1px solid #E2E8F0',
-                            borderRadius: '12px',
-                            padding: '20px 18px',
-                            transition: 'all 0.2s ease',
-                            animationDelay: `${idx % 2 === 0 ? idx * 0.09 : 0.05 + idx * 0.09}s`,
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.borderColor = '#005AE2';
-                            e.currentTarget.style.transform = 'translateY(-2px)';
-                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 90, 226, 0.15)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.borderColor = '#E2E8F0';
-                            e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.boxShadow = 'none';
-                          }}
-                        >
-                          <div style={{
-                            width: '32px',
-                            height: '32px',
-                            borderRadius: '50%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '12px',
-                            fontWeight: 700,
-                            fontFamily: "'Manrope', sans-serif",
-                            background: '#005AE2',
-                            color: '#ffffff',
-                            marginBottom: '12px',
-                            border: '2px solid #005AE2',
-                          }}>
-                            {String(idx + 1).padStart(2, '0')}
-                          </div>
-                          <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
-                            <EditableText contentKey={`ourModel.validation.steps.${idx}.title`} value={step.title} />
-                          </h3>
-                          <p style={{ fontSize: '0.8rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
-                            <EditableText contentKey={`ourModel.validation.steps.${idx}.desc`} value={step.desc} />
-                          </p>
-                        </div>
-                      ))}
-
-                      {/* Phases 2, 3, 4 — Build / Launch / Scale */}
-                      {[2, 3, 4].includes(heroCarouselIndex) && (
-                        <>
-                          <div
-                            style={{
-                              background: '#ffffff',
-                              border: '1px solid #E2E8F0',
-                              borderRadius: '12px',
-                              padding: '20px 18px',
-                              transition: 'all 0.2s ease',
-                              animationDelay: '0s',
-                            }}
-                            onMouseEnter={(e) => {
-                              e.currentTarget.style.borderColor = '#005AE2';
-                              e.currentTarget.style.transform = 'translateY(-2px)';
-                              e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 90, 226, 0.15)';
-                            }}
-                            onMouseLeave={(e) => {
-                              e.currentTarget.style.borderColor = '#E2E8F0';
-                              e.currentTarget.style.transform = 'translateY(0)';
-                              e.currentTarget.style.boxShadow = 'none';
-                            }}
-                          >
-                            <div style={{
-                              width: '32px',
-                              height: '32px',
-                              borderRadius: '50%',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              fontSize: '12px',
-                              fontWeight: 700,
-                              fontFamily: "'Manrope', sans-serif",
-                              background: '#005AE2',
-                              color: '#ffffff',
-                              marginBottom: '12px',
-                              border: '2px solid #005AE2',
-                            }}>01</div>
-                            <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
-                              <EditableText contentKey={`ourModel.phases.items.${heroCarouselIndex - 2}.label`} value={ph?.label} />
-                            </h3>
-                            <p style={{ fontSize: '0.8rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>
-                              <EditableText contentKey={`ourModel.phases.items.${heroCarouselIndex - 2}.desc`} value={ph?.desc} />
-                            </p>
-                          </div>
-                          {content.ourModel.phases?.table?.rows?.map((row: any, idx: number) => (
-                            <div
-                              key={idx}
+                      {PHASE_TABS.map((tab, idx) => {
+                        const isActive = heroCarouselIndex === idx;
+                        const isCompleted = heroCarouselIndex > idx;
+                        return (
+                          <React.Fragment key={tab.id}>
+                            <button
+                              onClick={() => handleManualPhaseChange(tab.id)}
                               style={{
-                                background: '#ffffff',
-                                border: '1px solid #E2E8F0',
-                                borderRadius: '12px',
-                                padding: '20px 18px',
-                                transition: 'all 0.2s ease',
-                                animationDelay: `${(idx + 1) * 0.09}s`,
-                              }}
-                              onMouseEnter={(e) => {
-                                e.currentTarget.style.borderColor = '#005AE2';
-                                e.currentTarget.style.transform = 'translateY(-2px)';
-                                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 90, 226, 0.15)';
-                              }}
-                              onMouseLeave={(e) => {
-                                e.currentTarget.style.borderColor = '#E2E8F0';
-                                e.currentTarget.style.transform = 'translateY(0)';
-                                e.currentTarget.style.boxShadow = 'none';
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                gap: '8px',
+                                cursor: 'pointer',
+                                background: 'transparent',
+                                border: 'none',
+                                padding: 0,
+                                minWidth: '72px',
+                                outline: 'none',
                               }}
                             >
                               <div style={{
-                                width: '32px',
-                                height: '32px',
+                                width: '36px',
+                                height: '36px',
                                 borderRadius: '50%',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                fontSize: '12px',
+                                fontSize: '13px',
                                 fontWeight: 700,
                                 fontFamily: "'Manrope', sans-serif",
-                                background: '#005AE2',
-                                color: '#ffffff',
-                                marginBottom: '12px',
-                                border: '2px solid #005AE2',
+                                background: isActive ? '#005AE2' : (isCompleted ? '#E6F4EA' : '#ffffff'),
+                                color: isActive ? '#ffffff' : (isCompleted ? '#137333' : '#64748B'),
+                                border: isActive ? '2px solid #005AE2' : (isCompleted ? '2px solid #10B981' : '2px solid #D1D5DB'),
+                                transition: 'all 0.3s ease',
                               }}>
-                                {String(idx + 2).padStart(2, '0')}
+                                {isCompleted ? '✓' : (idx + 1)}
                               </div>
-                              <h3 style={{ fontFamily: "'Manrope', sans-serif", fontSize: '0.95rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px', lineHeight: 1.3 }}>
-                                <EditableText contentKey={`ourModel.phases.table.rows.${idx}.c`} value={row.c} />
-                              </h3>
-                              <p style={{ fontSize: '0.85rem', fontWeight: 700, color: colors[heroCarouselIndex - 2], margin: 0 }}>
-                                <EditableText contentKey={`ourModel.phases.table.rows.${idx}.${vKey}`} value={(row as any)[vKey]} />
-                              </p>
-                            </div>
-                          ))}
-                        </>
-                      )}
-
-
-
+                              <span style={{
+                                fontSize: '11px',
+                                fontWeight: 700,
+                                fontFamily: "'Manrope', sans-serif",
+                                letterSpacing: '0.08em',
+                                textAlign: 'center',
+                                color: isActive ? '#005AE2' : '#64748B',
+                                transition: 'all 0.3s ease',
+                              }}>
+                                <EditableText contentKey={`studio.selection_process.tabs.${idx}.title`} value={tab.title} />
+                              </span>
+                            </button>
+                            {idx < PHASE_TABS.length - 1 && (
+                              <div style={{
+                                flex: 1,
+                                height: '2px',
+                                background: heroCarouselIndex > idx ? '#10B981' : '#E5E7EB',
+                                margin: '0 4px',
+                                transition: 'all 0.3s ease',
+                                maxWidth: '80px',
+                                minWidth: '20px',
+                              }} />
+                            )}
+                          </React.Fragment>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
 
-              {/* ── DIVIDER ── */}
-              <div className="section-container" style={{ paddingTop: 0, paddingBottom: 0 }}>
-                <div style={{
-                  maxWidth: '960px',
-                  margin: '0 auto',
-                  height: '1px',
-                  background: 'linear-gradient(90deg, transparent, rgba(0,90,226,0.15), transparent)',
-                }} />
-              </div>
-
-              {/* ── SELECTION PROCESS SUB-SECTION ── */}
-              <div className="section-container" id="selection" style={{ paddingBottom: 0, backgroundColor: '#EFF6FF', padding: '60px 24px' }}>
-                <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                  <div style={{ textAlign: 'center', marginBottom: '48px', paddingTop: '60px' }}>
-                    <EditableText
-                      contentKey="studio.creation_steps.eyebrow"
-                      value={studioContent.creation_steps?.eyebrow || "Selection Steps"}
-                      className="hero-eyebrow-pill"
-                    />
-                    <EditableText
-                      as="h2"
-                      contentKey="studio.creation_steps.title"
-                      value={studioContent.creation_steps?.title || "Venture Creation Steps"}
-                      className="section-title"
-                      style={{
-                        color: '#0F172A',
-                        maxWidth: '800px',
-                        margin: '0 auto 16px',
-                      }}
-                    />
-                    <EditableText
-                      as="p"
-                      contentKey="studio.creation_steps.subtitle"
-                      value={studioContent.creation_steps?.subtitle || "A structured roadmap from your initial product proposal to assembly, build, and market launch."}
-                      className="section-subtitle"
-                      style={{
-                        maxWidth: '600px',
-                        margin: '0 auto'
-                      }}
-                    />
-                  </div>
-
-                  <div style={{ maxWidth: '640px', margin: '0 auto', position: 'relative' }}>
-                    {/* Vertical timeline connector line */}
-                    <div style={{
-                      position: 'absolute',
-                      left: '19px',
-                      top: '24px',
-                      bottom: '24px',
-                      width: '2px',
-                      background: 'rgba(0,90,226,0.12)',
-                      zIndex: 0
-                    }}></div>
-
-            {(() => {
-              const defaultCreationSteps = [
-                {
-                  step: '01',
-                  title: 'Submit your idea',
-                  desc: "Don't submit the how. Just the idea and why (1 page at max)."
-                },
-                {
-                  step: '02',
-                  title: 'Get invited for a meeting with partners',
-                  bullets: [
-                    'You will learn what crestcode does',
-                    'You will learn the support we will provide',
-                    'You will learn the overall process involved'
-                  ]
-                },
-                {
-                  step: '03',
-                  title: 'Submit the full proposal',
-                  desc: 'Detailing the business model, strategic alignment, and technical specifications for the product.'
-                },
-                {
-                  step: '04',
-                  title: 'Get a team assigned & the build product',
-                  desc: 'Elite engineers and product leads are allocated to build the product to institutional quality standards.'
-                },
-                {
-                  step: '05',
-                  title: 'Prepare go to market launch',
-                  desc: 'Launching with precision, refining distribution channels, and optimizing the acquisition funnel for impact.'
-                }
-              ];
-
-              const creationSteps = (studioContent.creation_steps?.items || []).length > 0
-                ? studioContent.creation_steps.items.map((item: any, idx: number) => ({
-                    ...defaultCreationSteps[idx],
-                    ...item,
-                    bullets: item.bullets || defaultCreationSteps[idx].bullets || []
-                  }))
-                : defaultCreationSteps;
-
-              return creationSteps.map((item: any, idx: number) => (
-                <div key={idx} style={{
-                  display: 'flex',
-                  gap: '24px',
-                  marginBottom: idx === 4 ? '0' : '48px',
-                  position: 'relative',
-                  zIndex: 1
-                }}>
-                  {/* Left Bullet Icon Circle */}
+                {/* Main Content Card */}
+                <div className="section-container" style={{ paddingTop: 0, paddingBottom: 0 }}>
                   <div style={{
-                    width: '38px',
-                    height: '38px',
-                    borderRadius: '50%',
-                    backgroundColor: '#FFFFFF',
-                    border: '2px solid #005AE2',
-                    color: '#005AE2',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontWeight: 800,
-                    fontSize: '0.85rem',
-                    flexShrink: 0,
-                    boxShadow: '0 4px 10px rgba(0, 90, 226, 0.08)'
+                    background: '#FFFFFF',
+                    border: '1px solid #E2E8F0',
+                    borderRadius: '20px',
+                    padding: '40px 48px',
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.015)',
+                    maxWidth: '960px',
+                    margin: '0 auto',
                   }}>
-                    <EditableText
-                      contentKey={`studio.creation_steps.items.${idx}.step`}
-                      value={item.step}
-                    />
-                  </div>
-
-                  {/* Right Content */}
-                  <div style={{ paddingTop: '4px' }}>
-                    <h3 style={{
-                      fontSize: '1.25rem',
+                    {/* Phase Number Label */}
+                    <span style={{
+                      fontSize: '0.72rem',
                       fontWeight: 800,
-                      color: '#0F172A',
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      color: '#005AE2',
+                      display: 'block',
                       marginBottom: '8px',
-                      fontFamily: "'Manrope', sans-serif",
-                      letterSpacing: '-0.01em'
+                      fontFamily: "'Manrope', sans-serif"
                     }}>
-                      <EditableText
-                        contentKey={`studio.creation_steps.items.${idx}.title`}
-                        value={item.title}
+                      <EditableText 
+                        contentKey={`studio.selection_process.items.${heroCarouselIndex}.phaseLabel`} 
+                        value={`PHASE 0${heroCarouselIndex + 1} — ${PHASE_TABS[heroCarouselIndex].title}`} 
+                      />
+                    </span>
+
+                    {/* Main Title */}
+                    <h3 style={{
+                      fontSize: 'clamp(1.5rem, 3vw, 2.25rem)',
+                      fontWeight: 700,
+                      color: '#0F172A',
+                      lineHeight: 1.25,
+                      marginBottom: '20px',
+                      fontFamily: "'Manrope', sans-serif"
+                    }}>
+                      <EditableText 
+                        contentKey={`studio.selection_process.items.${heroCarouselIndex}.title`} 
+                        value={currentPhaseData.title} 
                       />
                     </h3>
-                    {item.desc && (
+
+                    {/* Description Block */}
+                    <div style={{
+                      borderLeft: '3px solid #005AE2',
+                      paddingLeft: '16px',
+                      marginBottom: '32px',
+                    }}>
                       <p style={{
-                        fontSize: '0.95rem',
-                        color: '#64748B',
+                        fontSize: '0.975rem',
+                        color: '#475569',
                         lineHeight: 1.6,
                         margin: 0,
-                        fontWeight: 500
+                        fontWeight: 500,
                       }}>
-                        <EditableText
-                          contentKey={`studio.creation_steps.items.${idx}.desc`}
-                          value={item.desc}
+                        <EditableText 
+                          contentKey={`studio.selection_process.items.${heroCarouselIndex}.description`} 
+                          value={currentPhaseData.description} 
                         />
                       </p>
-                    )}
-                    {item.bullets && item.bullets.length > 0 && (
-                      <ul style={{
-                        listStyle: 'none',
-                        padding: 0,
-                        margin: '12px 0 0 0',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '10px'
-                      }}>
-                        {item.bullets.map((bullet: string, bIdx: number) => (
-                          <li key={bIdx} style={{
+                    </div>
+
+                    {/* Divider Line */}
+                    <div style={{
+                      height: '1px',
+                      background: '#E2E8F0',
+                      marginBottom: '32px',
+                    }} />
+
+                    {/* Bullet Points */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginBottom: '40px' }}>
+                      {currentPhaseData.bullets.map((bullet, bIdx) => (
+                        <div key={bIdx} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                          <div style={{
+                            width: '24px',
+                            height: '24px',
+                            borderRadius: '50%',
+                            background: '#F5F5F4',
                             display: 'flex',
                             alignItems: 'center',
-                            gap: '12px',
-                            fontSize: '0.925rem',
-                            color: '#64748B',
-                            fontWeight: 500
+                            justifyContent: 'center',
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            color: '#787880',
+                            flexShrink: 0,
+                            marginTop: '2px',
                           }}>
-                            <span style={{
-                              width: '6px',
-                              height: '6px',
-                              borderRadius: '50%',
-                              backgroundColor: '#005AE2',
-                              flexShrink: 0
-                            }}></span>
-                            <EditableText
-                              contentKey={`studio.creation_steps.items.${idx}.bullets.${bIdx}`}
-                              value={bullet}
-                            />
-                          </li>
-                        ))}
-                      </ul>
+                            {bIdx + 1}
+                          </div>
+                          <div>
+                            <h4 style={{
+                              fontSize: '1rem',
+                              fontWeight: 700,
+                              color: '#0F172A',
+                              margin: '0 0 4px 0',
+                              fontFamily: "'Manrope', sans-serif"
+                            }}>
+                              <EditableText 
+                                contentKey={`studio.selection_process.items.${heroCarouselIndex}.bullets.${bIdx}.title`} 
+                                value={bullet.title} 
+                              />
+                            </h4>
+                            {bullet.duration && (
+                              <span style={{
+                                fontSize: '0.8rem',
+                                color: '#787880',
+                                display: 'block',
+                                marginBottom: '4px',
+                                fontWeight: 700,
+                                fontFamily: "'Manrope', sans-serif"
+                              }}>
+                                <EditableText 
+                                  contentKey={`studio.selection_process.items.${heroCarouselIndex}.bullets.${bIdx}.duration`} 
+                                  value={bullet.duration} 
+                                />
+                              </span>
+                            )}
+                            <p style={{
+                              fontSize: '0.925rem',
+                              color: '#475569',
+                              lineHeight: 1.5,
+                              margin: 0,
+                            }}>
+                              <EditableText 
+                                contentKey={`studio.selection_process.items.${heroCarouselIndex}.bullets.${bIdx}.desc`} 
+                                value={bullet.desc} 
+                              />
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Metrics Header */}
+                    {currentPhaseData.metricHeader && (
+                      <h4 style={{
+                        fontSize: '0.72rem',
+                        fontWeight: 800,
+                        color: '#787880',
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        marginBottom: '20px',
+                        fontFamily: "'Manrope', sans-serif"
+                      }}>
+                        <EditableText 
+                          contentKey={`studio.selection_process.items.${heroCarouselIndex}.metricHeader`} 
+                          value={currentPhaseData.metricHeader} 
+                        />
+                      </h4>
                     )}
+
+                    {/* Metrics Cards Grid */}
+                    <div className="metrics-grid">
+                      {currentPhaseData.metrics.map((metric, mIdx) => (
+                        <div key={mIdx} style={{
+                          background: '#F5F5F4',
+                          borderRadius: '12px',
+                          padding: '20px 24px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
+                        }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                            {metric.num && (
+                              <div style={{
+                                background: '#FFFFFF',
+                                border: '1px solid #E2E8F0',
+                                borderRadius: '4px',
+                                padding: '2px 6px',
+                                fontSize: '10px',
+                                fontWeight: 700,
+                                color: '#787880',
+                                fontFamily: "'Manrope', sans-serif"
+                              }}>
+                                {metric.num}
+                              </div>
+                            )}
+                            <span style={{
+                              fontSize: '11px',
+                              fontWeight: 700,
+                              color: '#787880',
+                              letterSpacing: '0.04em',
+                              textTransform: 'uppercase',
+                              fontFamily: "'Manrope', sans-serif"
+                            }}>
+                              <EditableText 
+                                contentKey={`studio.selection_process.items.${heroCarouselIndex}.metrics.${mIdx}.label`} 
+                                value={metric.label} 
+                              />
+                            </span>
+                          </div>
+                          <div style={{
+                            fontSize: '1.35rem',
+                            fontWeight: 800,
+                            color: metric.valueColor || '#0F172A',
+                            marginBottom: metric.sub ? '6px' : '0px',
+                            fontFamily: "'Manrope', sans-serif",
+                            lineHeight: 1.2,
+                          }}>
+                            <EditableText 
+                              contentKey={`studio.selection_process.items.${heroCarouselIndex}.metrics.${mIdx}.value`} 
+                              value={metric.value} 
+                            />
+                          </div>
+                          {metric.sub && (
+                            <p style={{
+                              fontSize: '0.85rem',
+                              color: '#64748B',
+                              lineHeight: 1.45,
+                              margin: 0,
+                            }}>
+                              <EditableText 
+                                contentKey={`studio.selection_process.items.${heroCarouselIndex}.metrics.${mIdx}.sub`} 
+                                value={metric.sub} 
+                              />
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              ));
-            })()}
-                  </div>
+
+                {/* Divider Line at Bottom */}
+                <div className="section-container" style={{ paddingTop: '40px', paddingBottom: 0 }}>
+                  <div style={{
+                    maxWidth: '960px',
+                    margin: '0 auto',
+                    height: '1px',
+                    background: 'linear-gradient(90deg, transparent, rgba(0,90,226,0.1), transparent)',
+                  }} />
                 </div>
+
               </div>
-            </div>
             </section>
           );
         })()}
@@ -2919,7 +3007,7 @@ export default function StudioPage() {
               className="section-subtitle text-center"
               style={{ maxWidth: '600px', margin: '0 auto' }}
             />
-            <Link href="/">
+            <Link href="/#idea">
               <button className="btn-primary" style={{ marginTop: '32px', padding: '20px 48px', fontSize: '1.125rem' }}>
                 <EditableText contentKey="studio.cta.buttonText" value={studioContent.cta?.buttonText} />
               </button>

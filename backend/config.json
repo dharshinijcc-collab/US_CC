@@ -1128,6 +1128,19 @@
         }
       ]
     },
+    "consolidated": {
+      "whoweare": {
+        "eyebrow": "Who we are",
+        "title": "Not an agency. Not an accelerator.\nA venture partner.",
+        "desc": "CrestCode exists to level the playing field — combining elite engineering with strategic partnership to turn bold ideas into ventures built to last, not just launched."
+      },
+      "vision": {
+        "eyebrow": "VISION & MISSION",
+        "title": "What we're building toward, and how we get there",
+        "paragraph1": "We envision a world where great ideas — regardless of technical background or startup experience — get the strategic and engineering firepower they deserve. No founder should have to build alone.",
+        "paragraph2": "Day to day, that means partnering with visionary founders and business owners through strategy, elite engineering, and relentless execution — turning real problems into world-class digital products."
+      }
+    },
     "values": {
       "eyebrow": "Our Ethos & Beliefs",
       "title": "Core Values That Guide Everything We Build",
@@ -1147,7 +1160,7 @@
         },
         {
           "num": "03",
-          "title": "End-customer obsession",
+          "title": "Customer obsession",
           "subheading": "USER-FIRST PARADIGM",
           "desc": "Success is measured by the people who use the product, not just the people who commissioned it."
         },
@@ -1155,13 +1168,13 @@
           "num": "04",
           "title": "Craft",
           "subheading": "MLP QUALITY STANDARD",
-          "desc": "We build to MLP standard because good enough never is."
+          "desc": "We build to the MLP standard, because good enough never is."
         },
         {
           "num": "05",
           "title": "Partnership",
           "subheading": "LONG-TERM ENGAGEMENT",
-          "desc": "We are in it for the long run, not just the launch."
+          "desc": "We're in it for the long run, not just the launch."
         },
         {
           "num": "06",

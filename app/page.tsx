@@ -18,12 +18,27 @@ import CountUp from '@/components/effects/CountUp';
 import { useAdmin } from '@/context/AdminContext';
 import { useInView } from 'framer-motion';
 import { API_URL } from '@/services/api';
-import { User, Building, Lightbulb, Compass, Zap, Users, TrendingUp, Cpu, Globe, Brain } from 'lucide-react';
+import { User, Building, Lightbulb, Compass, Zap, Users, TrendingUp, Cpu, Globe, Brain, Home } from 'lucide-react';
 
 export default function LandingPage() {
   const { content, loading, error } = useContent();
   const { isAdminMode } = useAdmin();
   const homeContent = content?.home || (localConfig as any).home;
+
+  const getProductIcon = (companyName: string) => {
+    switch (companyName.toLowerCase()) {
+      case 'dockly':
+        return <Home size={18} />;
+      case 'castlegec':
+        return <Globe size={18} />;
+      case 'opencap':
+        return <TrendingUp size={18} />;
+      case 'vhoa':
+        return <Building size={18} />;
+      default:
+        return <Globe size={18} />;
+    }
+  };
 
   const [idea, setIdea] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -67,7 +82,10 @@ export default function LandingPage() {
       duration: "4 months",
       teamSize: "3 members",
       image: "/images/dockly_showcase.png",
-      websiteLink: "https://app.dockly.me/"
+      websiteLink: "https://app.dockly.me/",
+      whatCrestcodeDid: "Scoped, designed, and built a unified family hub from scratch — shipping a live product in 4 months with a 3-person team.",
+      highlightStat: "2,400+ families onboarded",
+      highlightSub: "Within the first 90 days post-launch"
     },
     {
       id: "02",
@@ -90,7 +108,10 @@ export default function LandingPage() {
       duration: "3 months",
       teamSize: "2 members",
       image: "/images/castlegc_showcase.png",
-      websiteLink: "https://castlegec.com/"
+      websiteLink: "https://castlegec.com/",
+      whatCrestcodeDid: "Designed and engineered a custom global education portal, integrating visa tracking and admissions counseling workflows for international students.",
+      highlightStat: "500+ student placements",
+      highlightSub: "Secured in premier universities across US & EU"
     },
     {
       id: "03",
@@ -112,7 +133,10 @@ export default function LandingPage() {
       industry: "Fintech / Trading",
       duration: "5 months",
       teamSize: "4 members",
-      image: "/images/opencap_showcase.png"
+      image: "/images/opencap_showcase.png",
+      whatCrestcodeDid: "Developed high-frequency trading analytics dashboard and prediction models, enabling real-time portfolio tracking and option analytics.",
+      highlightStat: "$12M+ monthly trading volume",
+      highlightSub: "Processed through the prediction dashboard"
     },
     {
       id: "04",
@@ -134,7 +158,10 @@ export default function LandingPage() {
       industry: "PropTech",
       duration: "6 months",
       teamSize: "3 members",
-      image: "/images/vhoa_showcase.png"
+      image: "/images/vhoa_showcase.png",
+      whatCrestcodeDid: "Built an all-in-one HOA resident and property portal to streamline maintenance requests, announcements, and board communications.",
+      highlightStat: "1,200+ active residents",
+      highlightSub: "Engaged across 15 premium communities"
     }
   ];
 
@@ -177,6 +204,17 @@ export default function LandingPage() {
   const [scrollLeftState, setScrollLeftState] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [activeMethodStep, setActiveMethodStep] = useState(0);
+
+  // Auto-cycle partnered products
+  const [isProductsHovered, setIsProductsHovered] = useState(false);
+
+  useEffect(() => {
+    if (isProductsHovered) return;
+    const interval = setInterval(() => {
+      setCurrentProductIndex((prev) => (prev + 1) % partneredProducts.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isProductsHovered, partneredProducts.length]);
 
   // Auto-scroll logic (smooth loop without duplicate elements)
   useEffect(() => {
@@ -2174,289 +2212,546 @@ export default function LandingPage() {
 
         /* Partnered Products Carousel Section */
         .partnered-products-section {
-          background-color: #EFF6FF;
-          padding: 32px 24px;
+          background-color: #F8FAFC;
+          padding: 60px 24px;
           position: relative;
         }
         .product-carousel-card {
           background: #FFFFFF;
           border: 1px solid #E2E8F0;
           border-radius: 24px;
-          display: flex; /* side-by-side flex layout */
+          display: flex;
           flex-direction: row;
-          overflow: hidden; /* crop image corners */
-          max-width: 1250px;
-          min-height: 600px; /* increased so Visit Live Product button is always visible */
-          height: 600px;
+          overflow: hidden;
+          max-width: 1200px;
+          min-height: 580px;
           margin: 0 auto;
-          box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
           position: relative;
         }
-        .carousel-nav-btn {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 44px;
-          height: 44px;
-          border-radius: 50%;
+        .product-sidebar {
+          width: 32%;
+          background: #F8FAFC;
+          border-right: 1px solid #E2E8F0;
+          padding: 32px 24px;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          overflow-y: auto;
+        }
+        .product-tab-btn {
+          width: 100%;
+          border-radius: 14px;
+          padding: 16px 20px;
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          background: #FFFFFF;
+          border: 1px solid #E2E8F0;
+          color: #475569;
+          cursor: pointer;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
+          text-align: left;
+          outline: none;
+        }
+        .product-tab-btn:focus {
+          outline: none;
+        }
+        .product-tab-btn:hover {
+          border-color: #CBD5E1;
+          background: #F1F5F9;
+          transform: translateY(-1px);
+        }
+        .product-tab-btn.active {
+          background: #FFFFFF;
+          border-color: #005AE2;
+          color: #005AE2;
+          box-shadow: 0 4px 16px rgba(0, 90, 226, 0.12);
+        }
+        .tab-icon-wrap {
+          width: 36px;
+          height: 36px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           background: #FFFFFF;
           border: 1px solid #E2E8F0;
           color: #64748B;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-          transition: all 0.2s ease;
-          z-index: 15;
-        }
-        .carousel-nav-btn:hover {
-          background: #005AE2;
-          color: #FFFFFF;
-          border-color: #005AE2;
-        }
-        .carousel-nav-btn.prev {
-          left: 16px;
-        }
-        .carousel-nav-btn.next {
-          right: 16px;
-        }
-        .product-card-left {
-          width: 62%;
+          transition: all 0.3s ease;
           flex-shrink: 0;
-          position: relative;
-          background: #F8FAFC;
-          border-right: 1px solid #E2E8F0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-          padding: 0;
-          height: 100%; /* stretch to fill fixed card height */
         }
-        .product-card-image {
-          width: 100%;
-          height: 100%; /* fill the full left panel */
-          object-fit: cover; /* fill without distortion */
-          object-position: left top;
-          transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        .product-tab-btn.active .tab-icon-wrap {
+          border-color: #BFDBFE;
+          color: #005AE2;
+          background: #EFF6FF;
         }
-        .product-carousel-card:hover .product-card-image {
-          transform: scale(1.02);
+        .tab-label {
+          font-size: 2.0rem;
+          font-weight: 700;
+          letter-spacing: -0.01em;
+          color: #1E293B;
+          transition: color 0.2s ease;
         }
-        .product-card-right {
-          width: 38%;
-          flex-shrink: 0;
-          padding: 48px 32px 48px 32px;
+        .tab-text-wrap {
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
-          overflow: hidden;
-          height: 100%;
-          box-sizing: border-box;
+          gap: 2px;
+          flex-grow: 1;
+          text-align: left;
         }
-        .product-category-wrap {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          color: #005AE2;
-          font-weight: 700;
-          font-size: 0.75rem;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          margin-bottom: 6px;
-        }
-        .product-title-h3 {
-          font-size: 1.45rem;
-          font-weight: 800;
-          color: #0A0F1C;
-          margin-bottom: 4px;
-          line-height: 1.2;
-        }
-        .product-company-blue {
-          color: #005AE2;
-          font-weight: 700;
-          font-size: 0.95rem;
-          margin-bottom: 12px; /* reduced */
-        }
-        .product-description-p {
-          color: #475569;
-          font-size: 0.8rem;
-          line-height: 1.45;
-          margin-bottom: 8px;
-        }
-        .product-subtitle-h4 {
-          font-size: 0.75rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          color: #0A0F1C;
-          letter-spacing: 0.05em;
-          margin-bottom: 6px;
-        }
-        .features-list-inline {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-          margin-bottom: 8px;
-        }
-        .feature-item-bullet {
-          display: flex;
-          align-items: center;
-          gap: 6px;
+        .tab-category {
+          display: none;
           font-size: 0.78rem;
           color: #64748B;
           font-weight: 500;
+          transition: color 0.2s ease;
         }
-        .feature-bullet-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: #005AE2;
+        .tab-chevron {
+          color: #94A3B8;
+          opacity: 0;
+          transform: translateX(-8px);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          margin-left: auto;
+          display: none;
         }
-        .tech-badges-wrap {
+        .product-details {
+          width: 68%;
+          padding: 40px 48px;
           display: flex;
-          flex-wrap: wrap;
+          flex-direction: column;
+          justify-content: space-between;
+          background: #FFFFFF;
+        }
+        .solution-box {
+          background: #EFF6FF;
+          border-radius: 16px;
+          padding: 22px 26px;
+          margin-bottom: 24px;
+          border: 1px solid #DBEAFE;
+        }
+        .solution-title {
+          display: flex;
+          align-items: center;
           gap: 6px;
+          color: #000000;
+          font-weight: 800;
+          font-size: 0.72rem;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
           margin-bottom: 8px;
         }
-        .tech-badge-item {
+        .solution-text {
+          font-size: 1.05rem;
+          line-height: 1.6;
+          color: #1E40AF;
+          font-weight: 500;
+        }
+        .details-section-label {
+          font-size: 0.95rem;
+          font-weight: 900;
+          color: #1E293B;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          margin-bottom: 14px;
+          font-family: var(--font-inter), sans-serif;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .details-section-label::before {
+          content: "";
+          display: inline-block;
+          width: 6px;
+          height: 6px;
+          background-color: #005AE2;
+          border-radius: 50%;
+        }
+        .details-features-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-bottom: 28px;
+        }
+        .details-feature-pill {
+          background: #EFF6FF;
+          color: #1E40AF;
+          border: 1px solid #DBEAFE;
+          padding: 10px 18px;
+          border-radius: 12px;
+          font-size: 0.9rem;
+          font-weight: 700;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.2s ease;
+        }
+        .details-feature-pill:hover {
+          background: #DBEAFE;
+          color: #1D4ED8;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
+        }
+        .details-tech-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-bottom: 8px;
+        }
+        .details-tech-pill {
           background: #F8FAFC;
+          color: #475569;
           border: 1px solid #E2E8F0;
+          padding: 8px 16px;
+          border-radius: 12px;
+          font-size: 0.85rem;
+          font-weight: 700;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.2s ease;
+        }
+        .details-tech-pill:hover {
+          background: #EFF6FF;
+          border-color: #BFDBFE;
           color: #005AE2;
-          padding: 4px 10px;
-          border-radius: 6px;
-          font-size: 0.75rem;
-          font-weight: 600;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 90, 226, 0.05);
         }
-        .product-card-divider {
-          border-top: 1px solid #F1F5F9;
-          margin-bottom: 10px;
-        }
-        .product-stats-cols {
+        .details-stats-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 16px;
-          margin-bottom: 8px;
+          margin-bottom: 24px;
         }
-        .product-stat-col-item {
+        .details-stat-card {
+          border-radius: 16px;
+          padding: 18px 22px;
           display: flex;
           flex-direction: column;
+          gap: 4px;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .product-stat-col-label {
+        .details-stat-card-label {
           font-size: 0.75rem;
-          color: #94A3B8;
-          font-weight: 600;
-          text-transform: uppercase;
+          font-weight: 800;
           letter-spacing: 0.05em;
-          margin-bottom: 4px;
+          text-transform: uppercase;
         }
-        .product-stat-col-val {
-          font-size: 0.95rem;
-          color: #0A0F1C;
+        .details-stat-card-value {
+          font-size: 1.1rem;
           font-weight: 800;
         }
-        .carousel-dots-indicator {
+        /* Color variations for right-side stats cards */
+        .details-stat-card:nth-child(1) {
+          background: #EFF6FF;
+          border: 1px solid #DBEAFE;
+        }
+        .details-stat-card:nth-child(1) .details-stat-card-label {
+          color: #1E40AF;
+        }
+        .details-stat-card:nth-child(1) .details-stat-card-value {
+          color: #1E3A8A;
+        }
+        .details-stat-card:nth-child(1):hover {
+          background: #DBEAFE;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+        }
+
+        .details-stat-card:nth-child(2) {
+          background: #ECFDF5;
+          border: 1px solid #D1FAE5;
+        }
+        .details-stat-card:nth-child(2) .details-stat-card-label {
+          color: #065F46;
+        }
+        .details-stat-card:nth-child(2) .details-stat-card-value {
+          color: #064E3B;
+        }
+        .details-stat-card:nth-child(2):hover {
+          background: #D1FAE5;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+        }
+
+        .details-stat-card:nth-child(3) {
+          background: #F5F3FF;
+          border: 1px solid #EDE9FE;
+        }
+        .details-stat-card:nth-child(3) .details-stat-card-label {
+          color: #5B21B6;
+        }
+        .details-stat-card:nth-child(3) .details-stat-card-value {
+          color: #4C1D95;
+        }
+        .details-stat-card:nth-child(3):hover {
+          background: #EDE9FE;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1);
+        }
+        .highlight-bar {
+          background: #ECFDF5;
+          border-radius: 12px;
+          padding: 16px 20px;
           display: flex;
-          justify-content: center;
-          gap: 8px;
-          margin-top: 32px;
+          align-items: center;
+          gap: 14px;
+          margin-bottom: 28px;
         }
-        .carousel-dot-btn {
-          width: 8px;
-          height: 8px;
+        .highlight-icon-wrap {
+          width: 32px;
+          height: 32px;
           border-radius: 50%;
-          background: #E2E8F0;
-          border: none;
-          padding: 0;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-        .carousel-dot-btn.active {
-          background: #005AE2;
-          width: 24px;
-          border-radius: 4px;
-        }
-        .product-checkout-btn {
+          background: #A7F3D0;
+          color: #047857;
           display: flex;
           align-items: center;
           justify-content: center;
+          flex-shrink: 0;
+        }
+        .highlight-text-wrap {
+          display: flex;
+          flex-direction: column;
+        }
+        .highlight-title {
+          font-size: 0.95rem;
+          font-weight: 700;
+          color: #064E3B;
+          line-height: 1.25;
+        }
+        .highlight-subtitle {
+          font-size: 0.8rem;
+          font-weight: 500;
+          color: #047857;
+          line-height: 1.25;
+        }
+        .details-checkout-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
           gap: 8px;
-          width: 100%;
-          background-color: #005AE2;
+          background: linear-gradient(135deg, #005AE2 0%, #0047C4 100%);
+          border: 1px solid #0047C4;
           color: #FFFFFF;
-          padding: 14px 24px;
+          padding: 14px 28px;
           border-radius: 12px;
           font-weight: 700;
-          font-size: 0.9rem;
-          border: 2px solid rgba(255,255,255,0.18);
-          cursor: pointer;
-          transition: all 0.22s ease;
-          box-shadow: 0 6px 20px rgba(0, 90, 226, 0.32), 0 0 0 3px rgba(0,90,226,0.10);
+          font-size: 0.95rem;
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
           text-decoration: none;
-          margin-top: 12px;
-          letter-spacing: 0.01em;
-          flex-shrink: 0; /* never let the button compress or disappear */
-          min-height: 48px; /* always fully visible */
-          visibility: visible !important;
-          opacity: 1 !important;
+          width: 100%;
+          text-align: center;
+          box-shadow: 0 4px 12px rgba(0, 90, 226, 0.15);
         }
-        .product-checkout-btn:hover {
-          background-color: #0048C8;
-          transform: translateY(-2px);
-          box-shadow: 0 10px 28px rgba(0, 90, 226, 0.42), 0 0 0 4px rgba(0,90,226,0.14);
-          border-color: rgba(255,255,255,0.28);
+        .details-checkout-btn:hover {
+          background: linear-gradient(135deg, #0047C4 0%, #003699 100%);
+          border-color: #003699;
+          box-shadow: 0 6px 16px rgba(0, 90, 226, 0.25);
+          color: #FFFFFF;
         }
-        
-        /* Mobile Responsive for Carousel */
+
+        /* Sliding vertical layout for Partnered Products (No scroll stack) */
+        @media (min-width: 769px) {
+          .product-sidebar {
+            width: 32%;
+            background: #F8FAFC;
+            border-right: 1px solid #EEF2F7;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: stretch;
+            align-items: stretch;
+          }
+          .product-sidebar-viewport {
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+          }
+          .product-sidebar-track {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            transform: none !important;
+            width: 100%;
+            height: 100%;
+            flex-grow: 1;
+          }
+          .product-tab-btn {
+            flex: 1;
+            height: auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: #F8FAFC;
+            border: none;
+            border-bottom: 1px solid #EEF2F7;
+            color: #64748B;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: left;
+            border-radius: 0;
+            padding: 24px 32px;
+            box-sizing: border-box;
+            position: relative;
+            box-shadow: none;
+          }
+          .product-tab-btn:last-child {
+            border-bottom: none;
+          }
+          .product-tab-btn:hover:not(.active) {
+            background: #F1F5F9;
+            color: #1E293B;
+          }
+          .product-tab-btn.active {
+            background: #FFFFFF;
+            color: #005AE2;
+            box-shadow: none;
+            transform: none;
+            z-index: 2;
+            width: 100%;
+            border-right: none;
+            border-bottom: 1px solid #EEF2F7;
+            border-left: 3px solid #005AE2;
+            padding-left: 29px;
+            outline: none;
+          }
+          .product-tab-btn:focus {
+            outline: none;
+          }
+          /* Left vertical accent line — handled via border-left on active, no ::before needed */
+          .product-tab-btn::before {
+            display: none;
+          }
+          .product-tab-btn.active::before {
+            display: none;
+          }
+          .product-tab-btn.active .tab-icon-wrap {
+            border-color: #BFDBFE;
+            color: #005AE2;
+            background: #EFF6FF;
+          }
+          .tab-label {
+            font-size: 1.45rem;
+            line-height: 1.25;
+          }
+          .tab-category {
+            display: inline;
+            font-size: 0.95rem;
+            margin-top: 3px;
+          }
+          .tab-chevron {
+            display: block;
+          }
+          /* Active text and chevron states */
+          .product-tab-btn.active .tab-label {
+            color: #005AE2;
+          }
+          .product-tab-btn.active .tab-category {
+            color: #3B82F6;
+          }
+          .product-tab-btn.active .tab-chevron {
+            opacity: 1;
+            transform: translateX(0);
+            color: #005AE2;
+          }
+          /* Subtle hover highlights for inactive tabs */
+          .product-tab-btn:hover:not(.active) {
+            background: #F1F5F9;
+          }
+          .product-tab-btn:hover:not(.active) .tab-icon-wrap {
+            border-color: #005AE2;
+            color: #005AE2;
+            background: #EFF6FF;
+            box-shadow: 0 0 10px rgba(0, 90, 226, 0.1);
+          }
+          .product-tab-btn:hover:not(.active) .tab-label {
+            color: #005AE2;
+          }
+          .product-tab-btn:hover:not(.active) .tab-category {
+            color: #3B82F6;
+          }
+          .product-tab-btn:hover:not(.active) .tab-chevron {
+            opacity: 0.7;
+            transform: translateX(-4px);
+            color: #3B82F6;
+          }
+          /* Glow styling for active tab icon wrap */
+          .product-tab-btn.active .tab-icon-wrap {
+            box-shadow: 0 0 10px rgba(0, 90, 226, 0.1);
+          }
+
+          /* Smooth product content fade animation */
+          @keyframes productFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+          }
+          .product-details > div:first-child {
+            animation: productFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+          }
+        }
+
+        /* Responsive Styles for Redesigned Section */
+        @media (max-width: 992px) {
+          .details-company-title {
+            font-size: 2.2rem !important;
+          }
+          .product-details {
+            padding: 40px;
+          }
+        }
+        @media (max-width: 768px) {
+          .details-company-title {
+            font-size: 1.8rem !important;
+          }
+        }
         @media (max-width: 768px) {
           .product-carousel-card {
             flex-direction: column;
-            overflow: visible;
-            height: auto !important;
-            min-height: unset !important;
+            min-height: auto;
           }
-          .product-card-left {
+          .product-sidebar {
             width: 100%;
-            height: 260px;
-            flex-shrink: 0;
+            flex-direction: row;
             border-right: none;
             border-bottom: 1px solid #E2E8F0;
-            border-radius: 24px 24px 0 0;
-            padding: 0;
-            background: #F8FAFC;
-            overflow: hidden;
-          }
-          .product-card-image {
-            width: 100%;
-            height: 100%;
-            display: block;
-            object-fit: cover;
-            object-position: left top;
-          }
-          .product-card-right {
-            position: relative;
-            width: 100%;
-            height: auto;
-            padding: 40px;
-            overflow: visible;
-          }
-          .product-stats-cols {
-            grid-template-columns: repeat(3, 1fr);
+            overflow-x: auto;
+            padding: 20px 24px;
             gap: 12px;
           }
-          .product-checkout-btn {
-            margin-top: 16px;
-            visibility: visible !important;
-            display: flex !important;
+          .product-sidebar-viewport {
+            display: contents;
           }
-          .carousel-nav-btn {
-            display: none !important;
+          .product-sidebar-track {
+            display: flex;
+            flex-direction: row;
+            gap: 12px;
+            width: max-content;
+            transform: none !important;
+          }
+          .product-tab-btn {
+            width: auto;
+            flex-shrink: 0;
+            padding: 12px 18px;
+            height: auto;
+          }
+          .product-details {
+            width: 100%;
+            padding: 32px 24px;
+          }
+          .details-stats-grid {
+            gap: 16px;
           }
         }
         @media (max-width: 480px) {
-          .product-stats-cols {
-            grid-template-columns: 1fr !important;
-            gap: 8px !important;
+          .details-stats-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
           }
         }
   `;
@@ -2950,205 +3245,255 @@ export default function LandingPage() {
               />
             </div>
 
-            <div className="product-carousel-card" style={{ position: 'relative' }}>
-              {/* Navigation Chevron Left */}
-              <button 
-                className="carousel-nav-btn prev"
-                onClick={() => setCurrentProductIndex(prev => (prev - 1 + partneredProducts.length) % partneredProducts.length)}
-                aria-label="Previous Project"
-                type="button"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-              </button>
-
-              {/* Product Image / Left Content */}
-              <div className="product-card-left">
-                <EditableImage 
-                  contentKey={`home.partnered_products.items.${currentProductIndex}.image`}
-                  src={partneredProducts[currentProductIndex].image} 
-                  alt={partneredProducts[currentProductIndex].company} 
-                  className="product-card-image"
-                />
-              </div>
-
-              {/* Centered Details Card / Right Content */}
-              <div className="product-card-right">
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                    <span style={{ fontSize: '0.8125rem', fontWeight: 800, color: '#005AE2', background: '#F0F5FF', padding: '6px 12px', borderRadius: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                      Project <EditableText contentKey={`home.partnered_products.items.${currentProductIndex}.id`} value={partneredProducts[currentProductIndex].id} />
-                    </span>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#15803D', background: '#DCFCE7', padding: '4px 10px', borderRadius: '6px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                      <EditableText contentKey={`home.partnered_products.items.${currentProductIndex}.status`} value={partneredProducts[currentProductIndex].status} />
-                    </span>
-                  </div>
-
-                  {/* Render category if not empty */}
-                  {partneredProducts[currentProductIndex].category && (
-                    <div className="product-category-wrap">
-                      <Globe size={14} />
-                      <EditableText contentKey={`home.partnered_products.items.${currentProductIndex}.category`} value={partneredProducts[currentProductIndex].category} />
-                    </div>
-                  )}
-
-                  {/* Big title: Company / Product Name */}
-                  <EditableText
-                    as="h3"
-                    contentKey={`home.partnered_products.items.${currentProductIndex}.company`}
-                    value={partneredProducts[currentProductIndex].company}
-                    className="product-title-h3"
-                    style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0A0F1C', marginBottom: '4px', lineHeight: 1.1 }}
-                  />
-                  
-                  {/* Subtitle below Dockly: Lifestyle & Legacy Management */}
-                  <EditableText
-                    contentKey={`home.partnered_products.items.${currentProductIndex}.title`}
-                    value={partneredProducts[currentProductIndex].title}
-                    className="product-subtitle-tagline"
-                    style={{ color: '#005AE2', fontWeight: 700, fontSize: '1.1rem', marginBottom: '12px', display: 'block' }}
-                  />
-
-                  <EditableText
-                    as="p"
-                    contentKey={`home.partnered_products.items.${currentProductIndex}.description`}
-                    value={partneredProducts[currentProductIndex].description}
-                    className="product-description-p"
-                  />
-                  
-                  <h4 className="product-subtitle-h4">
-                    <EditableText
-                      contentKey="home.partnered_products.labels.keyFeatures"
-                      value={homeContent.partnered_products?.labels?.keyFeatures || "Key Features"}
-                    />
-                  </h4>
-                  <div className="features-list-inline">
-                    {partneredProducts[currentProductIndex].features.map((feature, fIdx) => (
-                      <div key={fIdx} className="feature-item-bullet">
-                        <span className="feature-bullet-dot"></span>
-                        <EditableText
-                          contentKey={`home.partnered_products.items.${currentProductIndex}.features.${fIdx}`}
-                          value={feature}
-                        />
-                      </div>
-                    ))}
-                  </div>
-
-                  <h4 className="product-subtitle-h4">
-                    <EditableText
-                      contentKey="home.partnered_products.labels.techStack"
-                      value={homeContent.partnered_products?.labels?.techStack || "Technology Stack"}
-                    />
-                  </h4>
-                  <div className="tech-badges-wrap">
-                    {partneredProducts[currentProductIndex].tech.map((techItem, tIdx) => (
-                      <div key={tIdx} className="tech-badge-item">
-                        <EditableText
-                          contentKey={`home.partnered_products.items.${currentProductIndex}.tech.${tIdx}`}
-                          value={techItem}
-                        />
-                      </div>
-                    ))}
+            <div 
+              className="product-carousel-card"
+              onMouseEnter={() => setIsProductsHovered(true)}
+              onMouseLeave={() => setIsProductsHovered(false)}
+            >
+              {/* Product Sidebar (Left) */}
+              <div className="product-sidebar">
+                <div className="product-sidebar-viewport">
+                  <div 
+                    className="product-sidebar-track"
+                    style={{ 
+                      transform: `translateY(-${currentProductIndex < 2 ? 0 : 96}px)` 
+                    }}
+                  >
+                    {partneredProducts.map((product, idx) => {
+                      const isActive = currentProductIndex === idx;
+                      return (
+                        <button
+                          key={idx}
+                          className={`product-tab-btn ${isActive ? 'active' : ''}`}
+                          onClick={() => setCurrentProductIndex(idx)}
+                          type="button"
+                        >
+                          <div className="tab-icon-wrap">
+                            {getProductIcon(product.company)}
+                          </div>
+                          <div className="tab-text-wrap">
+                            <span className="tab-label">{product.company}</span>
+                            <span className="tab-category">{product.category}</span>
+                          </div>
+                          <div className="tab-chevron">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                          </div>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
+              </div>
 
+              {/* Product Details (Right) */}
+              <div className="product-details">
                 <div>
-                  <div className="product-card-divider"></div>
+                  {/* Title & Tagline Header */}
+                  <div style={{ marginBottom: '24px' }}>
+                    <EditableText
+                      as="h3"
+                      contentKey={`home.partnered_products.items.${currentProductIndex}.company`}
+                      value={partneredProducts[currentProductIndex].company}
+                      className="details-company-title"
+                      style={{ fontSize: '2.8rem', fontWeight: 800, color: '#1C1C1E', marginBottom: '2px', lineHeight: 1.1 }}
+                    />
+                    
+                    <EditableText
+                      contentKey={`home.partnered_products.items.${currentProductIndex}.title`}
+                      value={partneredProducts[currentProductIndex].title}
+                      className="details-tagline"
+                      style={{ color: '#005AE2', fontWeight: 700, fontSize: '1.05rem', display: 'block' }}
+                    />
+                  </div>
+
+                  {/* Solution Box: WHAT CRESTCODE DID */}
+                  {partneredProducts[currentProductIndex].whatCrestcodeDid && (
+                    <div style={{ marginBottom: '24px' }}>
+                      <h3 style={{
+                        fontSize: '1.4rem',
+                        fontWeight: 900,
+                        color: '#0F172A',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.02em',
+                        marginBottom: '14px',
+                        fontFamily: 'var(--font-inter), sans-serif',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px'
+                      }}>
+                        <span style={{
+                          display: 'inline-block',
+                          width: '4px',
+                          height: '24px',
+                          background: 'linear-gradient(180deg, #005AE2 0%, #3B82F6 100%)',
+                          borderRadius: '2px'
+                        }}></span>
+                        <EditableText
+                          contentKey="home.partnered_products.labels.whatCrestcodeDid"
+                          value={homeContent.partnered_products?.labels?.whatCrestcodeDid || "WHAT CRESTCODE DID"}
+                        />
+                      </h3>
+                      <div className="solution-box" style={{ marginBottom: 0 }}>
+                        <div className="solution-text">
+                          <EditableText
+                            contentKey={`home.partnered_products.items.${currentProductIndex}.whatCrestcodeDid`}
+                            value={partneredProducts[currentProductIndex].whatCrestcodeDid}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                   
-                  <div className="product-stats-cols" style={{ marginBottom: partneredProducts[currentProductIndex].status === 'Live' ? '0px' : '8px' }}>
-                    <div className="product-stat-col-item">
-                      <span className="product-stat-col-label">
+                  {/* KEY FEATURES */}
+                  <div style={{ marginBottom: '24px' }}>
+                    <h4 className="details-section-label">
+                      <EditableText
+                        contentKey="home.partnered_products.labels.keyFeatures"
+                        value={homeContent.partnered_products?.labels?.keyFeatures || "Key Features"}
+                      />
+                    </h4>
+                    <div className="details-features-list">
+                      {partneredProducts[currentProductIndex].features.map((feature, fIdx) => (
+                        <div key={fIdx} className="details-feature-pill">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#005AE2', flexShrink: 0 }}>
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                          </svg>
+                          <EditableText
+                            contentKey={`home.partnered_products.items.${currentProductIndex}.features.${fIdx}`}
+                            value={feature}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Stats Card Grid */}
+                  <div className="details-stats-grid">
+                    <div className="details-stat-card">
+                      <span className="details-stat-card-label">
                         <EditableText
                           contentKey="home.partnered_products.labels.industry"
                           value={homeContent.partnered_products?.labels?.industry || "Industry"}
                         />
                       </span>
-                      <EditableText
-                        contentKey={`home.partnered_products.items.${currentProductIndex}.industry`}
-                        value={partneredProducts[currentProductIndex].industry}
-                        className="product-stat-col-val"
-                      />
+                      <span className="details-stat-card-value">
+                        <EditableText
+                          contentKey={`home.partnered_products.items.${currentProductIndex}.industry`}
+                          value={partneredProducts[currentProductIndex].industry}
+                        />
+                      </span>
                     </div>
-                    <div className="product-stat-col-item">
-                      <span className="product-stat-col-label">
+                    <div className="details-stat-card">
+                      <span className="details-stat-card-label">
                         <EditableText
                           contentKey="home.partnered_products.labels.duration"
                           value={homeContent.partnered_products?.labels?.duration || "Duration"}
                         />
                       </span>
-                      <EditableText
-                        contentKey={`home.partnered_products.items.${currentProductIndex}.duration`}
-                        value={partneredProducts[currentProductIndex].duration}
-                        className="product-stat-col-val"
-                      />
+                      <span className="details-stat-card-value">
+                        <EditableText
+                          contentKey={`home.partnered_products.items.${currentProductIndex}.duration`}
+                          value={partneredProducts[currentProductIndex].duration}
+                        />
+                      </span>
                     </div>
-                    <div className="product-stat-col-item">
-                      <span className="product-stat-col-label">
+                    <div className="details-stat-card">
+                      <span className="details-stat-card-label">
                         <EditableText
                           contentKey="home.partnered_products.labels.teamSize"
                           value={homeContent.partnered_products?.labels?.teamSize || "Team Size"}
                         />
                       </span>
-                      <EditableText
-                        contentKey={`home.partnered_products.items.${currentProductIndex}.teamSize`}
-                        value={partneredProducts[currentProductIndex].teamSize}
-                        className="product-stat-col-val"
-                      />
+                      <span className="details-stat-card-value">
+                        <EditableText
+                          contentKey={`home.partnered_products.items.${currentProductIndex}.teamSize`}
+                          value={partneredProducts[currentProductIndex].teamSize}
+                        />
+                      </span>
                     </div>
                   </div>
 
+                  {/* TECHNOLOGY STACK */}
+                  {partneredProducts[currentProductIndex].tech && partneredProducts[currentProductIndex].tech.length > 0 && (
+                    <div style={{ marginBottom: '24px', marginTop: '24px' }}>
+                      <h4 className="details-section-label">
+                        <EditableText
+                          contentKey="home.partnered_products.labels.techStack"
+                          value={homeContent.partnered_products?.labels?.techStack || "Technology Stack"}
+                        />
+                      </h4>
+                      <div className="details-tech-list">
+                        {partneredProducts[currentProductIndex].tech.map((techItem, tIdx) => (
+                          <div key={tIdx} className="details-tech-pill">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#005AE2', flexShrink: 0 }}>
+                              <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon>
+                              <line x1="12" y1="22" x2="12" y2="15.5"></line>
+                              <polyline points="22 8.5 12 15.5 2 8.5"></polyline>
+                              <polyline points="2 15.5 12 8.5 22 15.5"></polyline>
+                              <line x1="12" y1="2" x2="12" y2="8.5"></line>
+                            </svg>
+                            <EditableText
+                              contentKey={`home.partnered_products.items.${currentProductIndex}.tech.${tIdx}`}
+                              value={techItem}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Green Highlight Bar */}
+                  {partneredProducts[currentProductIndex].highlightStat && (
+                    <div className="highlight-bar">
+                      <div className="highlight-icon-wrap">
+                        <TrendingUp size={16} />
+                      </div>
+                      <div className="highlight-text-wrap">
+                        <span className="highlight-title">
+                          <EditableText
+                            contentKey={`home.partnered_products.items.${currentProductIndex}.highlightStat`}
+                            value={partneredProducts[currentProductIndex].highlightStat}
+                          />
+                        </span>
+                        {partneredProducts[currentProductIndex].highlightSub && (
+                          <span className="highlight-subtitle">
+                            <EditableText
+                              contentKey={`home.partnered_products.items.${currentProductIndex}.highlightSub`}
+                              value={partneredProducts[currentProductIndex].highlightSub}
+                            />
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  {/* Outlined Checkout Button */}
                   {partneredProducts[currentProductIndex].status === 'Live' && (partneredProducts[currentProductIndex] as any).websiteLink && (
                     <a 
                       href={(partneredProducts[currentProductIndex] as any).websiteLink}
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="product-checkout-btn"
+                      className="details-checkout-btn"
                     >
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="8" x2="12" y2="16"></line>
-                        <line x1="8" y1="12" x2="16" y2="12"></line>
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
                       </svg>
                       <span>
                         <EditableText
                           contentKey="home.partnered_products.labels.visitWebsite"
-                          value={homeContent.partnered_products?.labels?.visitWebsite || "Visit Live Product"}
+                          value={homeContent.partnered_products?.labels?.visitWebsite || "Visit live product"}
                         />
                       </span>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: 'auto' }}>
-                        <line x1="7" y1="17" x2="17" y2="7"></line>
-                        <polyline points="7 7 17 7 17 17"></polyline>
-                      </svg>
                     </a>
                   )}
                 </div>
               </div>
-              
-              {/* Navigation Chevron Right */}
-              <button 
-                className="carousel-nav-btn next"
-                onClick={() => setCurrentProductIndex(prev => (prev + 1) % partneredProducts.length)}
-                aria-label="Next Project"
-                type="button"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              </button>
-            </div>
-
-            {/* Carousel Dots */}
-            <div className="carousel-dots-indicator">
-              {partneredProducts.map((_, dotIdx) => (
-                <button 
-                  key={dotIdx}
-                  className={`carousel-dot-btn ${currentProductIndex === dotIdx ? 'active' : ''}`}
-                  onClick={() => setCurrentProductIndex(dotIdx)}
-                  aria-label={`Go to project slide ${dotIdx + 1}`}
-                  type="button"
-                />
-              ))}
             </div>
           </div>
         </section>
