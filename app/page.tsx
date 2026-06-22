@@ -2253,10 +2253,6 @@ export default function LandingPage() {
           transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.01);
           text-align: left;
-          outline: none;
-        }
-        .product-tab-btn:focus {
-          outline: none;
         }
         .product-tab-btn:hover {
           border-color: #CBD5E1;
@@ -2264,10 +2260,10 @@ export default function LandingPage() {
           transform: translateY(-1px);
         }
         .product-tab-btn.active {
-          background: #FFFFFF;
-          border-color: #005AE2;
-          color: #005AE2;
-          box-shadow: 0 4px 16px rgba(0, 90, 226, 0.12);
+          background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+          border-color: #3B82F6;
+          color: #1E3A8A;
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.12);
         }
         .tab-icon-wrap {
           width: 36px;
@@ -2283,12 +2279,11 @@ export default function LandingPage() {
           flex-shrink: 0;
         }
         .product-tab-btn.active .tab-icon-wrap {
-          border-color: #BFDBFE;
-          color: #005AE2;
-          background: #EFF6FF;
+          border-color: #93C5FD;
+          color: #3B82F6;
         }
         .tab-label {
-          font-size: 2.0rem;
+          font-size: 1.07rem;
           font-weight: 700;
           letter-spacing: -0.01em;
           color: #1E293B;
@@ -2349,24 +2344,12 @@ export default function LandingPage() {
           font-weight: 500;
         }
         .details-section-label {
-          font-size: 0.95rem;
-          font-weight: 900;
-          color: #1E293B;
-          letter-spacing: 0.06em;
+          font-size: 0.72rem;
+          font-weight: 800;
+          color: #787880;
+          letter-spacing: 0.08em;
           text-transform: uppercase;
-          margin-bottom: 14px;
-          font-family: var(--font-inter), sans-serif;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-        .details-section-label::before {
-          content: "";
-          display: inline-block;
-          width: 6px;
-          height: 6px;
-          background-color: #005AE2;
-          border-radius: 50%;
+          margin-bottom: 12px;
         }
         .details-features-list {
           display: flex;
@@ -2375,23 +2358,15 @@ export default function LandingPage() {
           margin-bottom: 28px;
         }
         .details-feature-pill {
-          background: #EFF6FF;
-          color: #1E40AF;
-          border: 1px solid #DBEAFE;
-          padding: 10px 18px;
-          border-radius: 12px;
-          font-size: 0.9rem;
-          font-weight: 700;
+          background: #F4F4F5;
+          color: #27272A;
+          padding: 8px 16px;
+          border-radius: 9999px;
+          font-size: 0.85rem;
+          font-weight: 600;
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          transition: all 0.2s ease;
-        }
-        .details-feature-pill:hover {
-          background: #DBEAFE;
-          color: #1D4ED8;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
         }
         .details-tech-list {
           display: flex;
@@ -2557,7 +2532,7 @@ export default function LandingPage() {
           .product-sidebar {
             width: 32%;
             background: #F8FAFC;
-            border-right: 1px solid #EEF2F7;
+            border-right: 1px solid #E2E8F0;
             padding: 0;
             display: flex;
             flex-direction: column;
@@ -2590,7 +2565,7 @@ export default function LandingPage() {
             gap: 16px;
             background: #F8FAFC;
             border: none;
-            border-bottom: 1px solid #EEF2F7;
+            border-bottom: 1px solid #E2E8F0;
             color: #64748B;
             cursor: pointer;
             transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -2614,36 +2589,30 @@ export default function LandingPage() {
             box-shadow: none;
             transform: none;
             z-index: 2;
-            width: 100%;
-            border-right: none;
-            border-bottom: 1px solid #EEF2F7;
-            border-left: 3px solid #005AE2;
-            padding-left: 29px;
-            outline: none;
+            width: calc(100% + 1px);
+            border-right: 1px solid #FFFFFF;
           }
-          .product-tab-btn:focus {
-            outline: none;
-          }
-          /* Left vertical accent line — handled via border-left on active, no ::before needed */
+          /* Left vertical accent line indicator for active button */
           .product-tab-btn::before {
-            display: none;
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 0;
+            background: linear-gradient(180deg, #005AE2 0%, #3B82F6 100%);
+            transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1);
           }
           .product-tab-btn.active::before {
-            display: none;
+            width: 5px;
           }
           .product-tab-btn.active .tab-icon-wrap {
-            border-color: #BFDBFE;
+            border-color: #93C5FD;
             color: #005AE2;
             background: #EFF6FF;
           }
-          .tab-label {
-            font-size: 1.45rem;
-            line-height: 1.25;
-          }
           .tab-category {
             display: inline;
-            font-size: 0.95rem;
-            margin-top: 3px;
           }
           .tab-chevron {
             display: block;
@@ -2683,31 +2652,17 @@ export default function LandingPage() {
           }
           /* Glow styling for active tab icon wrap */
           .product-tab-btn.active .tab-icon-wrap {
-            box-shadow: 0 0 10px rgba(0, 90, 226, 0.1);
-          }
-
-          /* Smooth product content fade animation */
-          @keyframes productFadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to   { opacity: 1; transform: translateY(0); }
-          }
-          .product-details > div:first-child {
-            animation: productFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+            box-shadow: 0 0 12px rgba(0, 90, 226, 0.2);
           }
         }
 
         /* Responsive Styles for Redesigned Section */
         @media (max-width: 992px) {
           .details-company-title {
-            font-size: 2.2rem !important;
+            font-size: 2.2rem;
           }
           .product-details {
             padding: 40px;
-          }
-        }
-        @media (max-width: 768px) {
-          .details-company-title {
-            font-size: 1.8rem !important;
           }
         }
         @media (max-width: 768px) {
