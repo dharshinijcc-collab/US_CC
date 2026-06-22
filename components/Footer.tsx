@@ -5,12 +5,13 @@ import Link from 'next/link';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
 import EditableImage from '@/components/admin/EditableImage';
+import localConfig from '@/backend/config.json';
 
 export default function Footer() {
   const { content } = useContent();
-  const globalContent = content?.global;
+  const globalContent = content?.global || (localConfig as any).global;
 
-  if (!globalContent) return null;
+  if (!globalContent) return null; // should never happen now with localConfig fallback
   return (
     <>
       <style dangerouslySetInnerHTML={{

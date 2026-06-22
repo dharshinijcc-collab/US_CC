@@ -6,10 +6,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
+import localConfig from '@/backend/config.json';
 
 export default function Header(props: any) {
   const { content } = useContent();
-  const globalContent = content?.global;
+  const globalContent = content?.global || (localConfig as any).global;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -70,7 +71,7 @@ export default function Header(props: any) {
     { label: 'Resources', href: '/resources' },
   ];
 
-  if (!globalContent) return null;
+  if (!globalContent) return null; // should never happen now with localConfig fallback
 
   return (
     <>
