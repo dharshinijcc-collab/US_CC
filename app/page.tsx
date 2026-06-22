@@ -2283,7 +2283,7 @@ export default function LandingPage() {
           color: #3B82F6;
         }
         .tab-label {
-          font-size: 1.07rem;
+          font-size: 1.25rem;
           font-weight: 700;
           letter-spacing: -0.01em;
           color: #1E293B;
