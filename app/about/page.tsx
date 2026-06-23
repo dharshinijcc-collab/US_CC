@@ -69,28 +69,64 @@ export default function AboutPage() {
         }
 
         .section-container {
-          max-width: 1200px;
+          max-width: 1280px;
           margin: 0 auto;
-          padding: 24px 24px;
+          padding: var(--section-padding-y) var(--section-padding-x);
+          box-sizing: border-box;
         }
 
-        /* Unified Hero Section Style */
-        .hero-section {
-          padding: 220px 24px 160px !important; /* spacious padding to expand the section */
-          text-align: center !important;
-          background-color: #F1F5F9 !important;
-          display: flex !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          justify-content: center !important;
-          min-height: 480px !important; /* enlarged height to look grand and full-screen */
-          width: 100% !important;
-          position: relative !important;
+        @media (max-width: 768px) {
+          .section-container {
+            padding: var(--section-padding-y-tablet) var(--section-padding-x-tablet);
+          }
         }
-        @media(max-width: 768px) {
+
+        @media (max-width: 480px) {
+          .section-container {
+            padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile);
+          }
+        }
+
+        /* Hero Section — spacing from global-styles.css */
+        .hero-section {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          width: 100%;
+          overflow: hidden;
+          background-color: #F1F5F9 !important;
+          box-sizing: border-box;
+          min-height: 70vh;
+          padding-top: 180px !important;
+          padding-bottom: var(--section-padding-y) !important;
+          padding-left: var(--section-padding-x) !important;
+          padding-right: var(--section-padding-x) !important;
+        }
+
+        @media (max-width: 1024px) {
           .hero-section {
-            padding: 90px 20px 40px !important;
-            min-height: 380px !important;
+            min-height: 60vh;
+            padding-top: 180px !important;
+            padding-bottom: var(--section-padding-y-tablet) !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .hero-section {
+            min-height: 50vh;
+            padding-top: 180px !important;
+            padding-bottom: var(--section-padding-y-tablet) !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero-section {
+            min-height: 45vh;
+            padding-top: 180px !important;
+            padding-bottom: var(--section-padding-y-mobile) !important;
           }
         }
         .hero-eyebrow-pill {
@@ -317,7 +353,7 @@ export default function AboutPage() {
             gap: 30px !important;
           }
           .section-container {
-            padding: 60px 20px !important;
+            max-width: 1200px;
           }
         }
       `}} />
@@ -368,8 +404,8 @@ export default function AboutPage() {
         </section>
 
         {/* ── 2. OUR STORY (TIMELINE) (Image 1) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#FFFFFF', position: 'relative' }}>
+          <div className="section-container">
             
             {/* Centered Heading */}
             <div className="section-header-centered">
@@ -489,8 +525,8 @@ export default function AboutPage() {
         </section>
 
         {/* ── 3. FOUNDING PILLARS (Image 2) ── */}
-        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#EFF6FF', position: 'relative' }}>
+          <div className="section-container">
             
             {/* Centered Heading */}
             <div className="section-header-centered">
@@ -586,8 +622,8 @@ export default function AboutPage() {
         </section>
 
         {/* ── 4. THE TEAM (Image 3) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#FFFFFF', position: 'relative' }}>
+          <div className="section-container">
             
             {/* Centered Heading */}
             <div className="section-header-centered">
@@ -680,8 +716,8 @@ export default function AboutPage() {
         </section>
 
         {/* ── 5. ADVISORS (Image 4) ── */}
-        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#EFF6FF', position: 'relative' }}>
+          <div className="section-container">
             
             {/* Centered Heading */}
             <div className="section-header-centered">
@@ -759,8 +795,8 @@ export default function AboutPage() {
         </section>
 
         {/* ── 6. GOVERNANCE MODEL (Image 4) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#FFFFFF', position: 'relative' }}>
+          <div className="section-container">
             
             {/* Centered Heading */}
             <div className="section-header-centered">
@@ -837,8 +873,8 @@ export default function AboutPage() {
         </section>
 
         {/* ── 7. COMMUNITY & NETWORK (Image 5) ── */}
-        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#EFF6FF', position: 'relative' }}>
+          <div className="section-container">
             
             {/* Centered Heading */}
             <div className="section-header-centered">

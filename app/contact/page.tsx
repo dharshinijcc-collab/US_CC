@@ -135,9 +135,43 @@ export default function ContactPage() {
         .animate-delay-4 { animation-delay: 0.4s; }
 
         .page-wrapper { min-height: 100vh; overflow-x: hidden; padding-bottom: 0; }
-        .section-container { max-width: 1200px; margin: 0 auto; padding: 24px 24px; }
+        .section-container { max-width: 1280px; margin: 0 auto; padding: var(--section-padding-y) var(--section-padding-x); box-sizing: border-box; }
+
+        @media (max-width: 768px) {
+          .section-container { padding: var(--section-padding-y-tablet) var(--section-padding-x-tablet); }
+        }
+
+        @media (max-width: 480px) {
+          .section-container { padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile); }
+        }
         .pt-0 { padding-top: 0 !important; }
         .pb-0 { padding-bottom: 0 !important; }
+        
+        .hero-eyebrow-pill {
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          background-color: #E6EFFF !important;
+          color: #005AE2 !important;
+          font-size: 0.8rem !important;
+          font-weight: 800 !important;
+          letter-spacing: 0.15em !important;
+          padding: 8px 18px !important;
+          border-radius: 100px !important;
+          margin-bottom: 32px !important;
+          text-transform: uppercase !important;
+          font-family: 'Manrope', sans-serif !important;
+        }
+        .hero-description {
+          font-family: 'Inter', sans-serif !important;
+          font-size: clamp(0.925rem, 2vw, 0.975rem) !important;
+          font-weight: 500 !important;
+          color: #64748B !important;
+          line-height: 1.8 !important;
+          max-width: 720px !important;
+          margin: 0 auto 32px !important;
+          text-align: center !important;
+        }
         
         /* Typography */
         .hero-title { 
@@ -302,24 +336,46 @@ export default function ContactPage() {
         .grid-2-align-top { align-items: start; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 
-        /* Hero Section */
+        /* Hero Section — spacing from global-styles.css */
         .hero-section {
-          padding: 220px 24px 160px !important; /* spacious padding to expand the section */
-          text-align: center !important;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          width: 100%;
+          overflow: hidden;
           background-color: #F1F5F9 !important;
-          display: flex !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          justify-content: center !important;
-          min-height: 480px !important; /* enlarged height to look grand and full-screen */
-          width: 100% !important;
-          position: relative !important;
-          overflow: hidden !important;
+          box-sizing: border-box;
+          min-height: 70vh;
+          padding-top: 180px !important;
+          padding-bottom: var(--section-padding-y) !important;
+          padding-left: var(--section-padding-x) !important;
+          padding-right: var(--section-padding-x) !important;
         }
-        @media(max-width: 768px) {
+
+        @media (max-width: 1024px) {
           .hero-section {
-            padding: 90px 20px 40px !important;
-            min-height: 380px !important;
+            min-height: 60vh;
+            padding-top: 180px !important;
+            padding-bottom: var(--section-padding-y-tablet) !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .hero-section {
+            min-height: 50vh;
+            padding-top: 180px !important;
+            padding-bottom: var(--section-padding-y-tablet) !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero-section {
+            min-height: 45vh;
+            padding-top: 180px !important;
+            padding-bottom: var(--section-padding-y-mobile) !important;
           }
         }
         .hero-image-wrap {
@@ -608,10 +664,6 @@ export default function ContactPage() {
 
         /* Responsive Design */
         @media (max-width: 900px) {
-          .section-container {
-            padding: 24px 20px !important;
-          }
-          
           .grid-2 {
             grid-template-columns: 1fr !important;
             gap: 40px !important;
@@ -717,7 +769,6 @@ export default function ContactPage() {
           backgroundColor: '#FFFFFF', 
           position: 'relative', 
           overflow: 'hidden',
-          padding: '80px 0'
         }}>
           {/* Grid Background */}
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(rgba(0, 90, 226, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 90, 226, 0.03) 1px, transparent 1px)', backgroundSize: '50px 50px', opacity: 0.5, pointerEvents: 'none', zIndex: 0 }}></div>
@@ -896,8 +947,8 @@ export default function ContactPage() {
 
 
         {/* Process Steps */}
-        <section style={{ backgroundColor: '#EFF6FF', padding: '80px 0' }}>
-          <div className="section-container process-steps-wrap" style={{ paddingTop: 0, paddingBottom: 0 }}>
+        <section style={{ backgroundColor: '#EFF6FF' }}>
+          <div className="section-container process-steps-wrap">
             <EditableText as="h2" contentKey="contact.process.title" value={contactContent.process.title} className="section-title" />
             <EditableText as="p" contentKey="contact.process.subtitle" value={contactContent.process.subtitle} className="body-text text-center" />
             

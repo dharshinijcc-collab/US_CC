@@ -69,12 +69,11 @@ export default function OurModelPage() {
           font-family: 'Inter', sans-serif;
         }
 
-        .section-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .section-container { max-width: 1200px; }
         
-        /* Section 1: Hero */
+        /* Section 1: Hero — spacing from global-styles.css */
         .hero-section {
           background: var(--bg-base);
-          padding: 130px 0 24px;
           overflow: hidden;
         }
 
@@ -346,7 +345,7 @@ export default function OurModelPage() {
 
         .phase-content-section {
           background: var(--bg-light);
-          padding: 80px 0;
+          padding-block: var(--section-padding-y);
         }
 
         .phase-content-grid {
@@ -930,7 +929,7 @@ export default function OurModelPage() {
 
 
         {/* SECTION 1: HERO */}
-        <section className="hero-section" style={{ background: 'white', paddingTop: '130px', paddingBottom: '24px', minHeight: '700px', position: 'relative', overflow: 'hidden' }}>
+        <section className="hero-section" style={{ background: 'white', minHeight: '700px', position: 'relative', overflow: 'hidden' }}>
           {/* Top Light Effect */}
           <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
           <div className="section-container">
@@ -1255,7 +1254,7 @@ export default function OurModelPage() {
         </section>
 
         {/* SECTION 6: THE FIVE PODS */}
-        <section className="pods-section" style={{ padding: '60px 0', background: '#0F172A' }}>
+        <section className="pods-section" style={{ background: '#0F172A' }}>
           <div className="section-container" style={{ maxWidth: '1400px', width: '95%' }}>
             <div style={{ textAlign: 'center', maxWidth: '1000px', margin: '0 auto 64px' }}>
               <h2 className="phase-title" style={{ color: 'white', fontSize: '2.75rem', fontWeight: 800, marginBottom: '24px', whiteSpace: 'nowrap' }}>
@@ -1352,7 +1351,7 @@ export default function OurModelPage() {
         </section>
 
         {/* SECTION 8: COMPARISON */}
-        <section className="comparison-section" style={{ padding: '48px 0', background: '#F0F7FF' }}>
+        <section className="comparison-section" style={{ background: '#F0F7FF' }}>
           <div className="section-container" style={{ maxWidth: '1200px' }}>
             <h2 className="phase-title" style={{ textAlign: 'center', fontSize: '3rem', fontWeight: 800, marginBottom: '64px' }}>
               <EditableText contentKey="ourModel.comparison.title" value={modelContent.comparison.title} />
@@ -1395,7 +1394,7 @@ export default function OurModelPage() {
       </section>
 
         {/* SECTION 9: FINAL CTA */}
-        <section className="final-cta-section" style={{ padding: '60px 24px', background: 'white' }}>
+        <section className="final-cta-section page-section" style={{ background: 'white' }}>
           <div className="section-container" style={{ 
             maxWidth: '1200px', 
             background: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)', 

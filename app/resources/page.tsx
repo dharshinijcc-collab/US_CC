@@ -122,28 +122,64 @@ export default function ResourcesPage() {
         }
 
         .section-container {
-          max-width: 1200px;
+          max-width: 1280px;
           margin: 0 auto;
-          padding: 24px 24px;
+          padding: var(--section-padding-y) var(--section-padding-x);
+          box-sizing: border-box;
         }
 
-        /* Unified Hero Section Style */
-        .hero-section {
-          padding: 220px 24px 160px !important; /* spacious padding to expand the section */
-          text-align: center !important;
-          background-color: #F1F5F9 !important;
-          display: flex !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          justify-content: center !important;
-          min-height: 480px !important; /* enlarged height to look grand and full-screen */
-          width: 100% !important;
-          position: relative !important;
+        @media (max-width: 768px) {
+          .section-container {
+            padding: var(--section-padding-y-tablet) var(--section-padding-x-tablet);
+          }
         }
-        @media(max-width: 768px) {
+
+        @media (max-width: 480px) {
+          .section-container {
+            padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile);
+          }
+        }
+
+        /* Hero Section — spacing from global-styles.css */
+        .hero-section {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          width: 100%;
+          overflow: hidden;
+          background-color: #F1F5F9 !important;
+          box-sizing: border-box;
+          min-height: 70vh;
+          padding-top: 180px !important;
+          padding-bottom: var(--section-padding-y) !important;
+          padding-left: var(--section-padding-x) !important;
+          padding-right: var(--section-padding-x) !important;
+        }
+
+        @media (max-width: 1024px) {
           .hero-section {
-            padding: 90px 20px 40px !important;
-            min-height: 380px !important;
+            min-height: 60vh;
+            padding-top: 180px !important;
+            padding-bottom: var(--section-padding-y-tablet) !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .hero-section {
+            min-height: 50vh;
+            padding-top: 180px !important;
+            padding-bottom: var(--section-padding-y-tablet) !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero-section {
+            min-height: 45vh;
+            padding-top: 180px !important;
+            padding-bottom: var(--section-padding-y-mobile) !important;
           }
         }
         .hero-eyebrow-pill {
@@ -486,12 +522,17 @@ export default function ResourcesPage() {
           text-align: center !important;
         }
         .eyebrow-text {
-          display: inline-block !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          background-color: #E6EFFF !important;
           color: var(--primary-blue) !important;
           font-weight: 800 !important;
           letter-spacing: 0.15em !important;
           text-transform: uppercase !important;
           font-size: 0.75rem !important;
+          padding: 6px 14px !important;
+          border-radius: 100px !important;
           margin-bottom: 16px !important;
           font-family: 'Manrope', sans-serif !important;
         }
@@ -502,10 +543,10 @@ export default function ResourcesPage() {
       <main className="resources-page">
         
         {/* ===== SECTION 1: HERO ===== */}
-        <section className="hero-section" style={{ position: 'relative', overflow: 'hidden', minHeight: '700px' }}>
+        <section className="hero-section">
           {/* Top Light Effect */}
           <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
             <div className="hero-eyebrow-pill">
               <EditableText contentKey="resources.hero.eyebrow" value={resourcesContent.hero?.eyebrow || 'RESOURCES'} />
             </div>
@@ -543,9 +584,9 @@ export default function ResourcesPage() {
           </div>
         </section>
 
-        {/* ===== SECTION 3: INTERACTIVE TOOLS (shown first) ===== */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '48px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        {/* ===== SECTION 2: INTERACTIVE TOOLS (shown first) ===== */}
+        <section style={{ backgroundColor: '#FFFFFF', position: 'relative' }}>
+          <div className="section-container">
           <div className="header-center">
             <span className="eyebrow-text">
               <EditableText contentKey="resources.tools.eyebrow" value={resourcesContent.tools?.eyebrow || 'INTERACTIVE TOOLS'} />
@@ -593,16 +634,16 @@ export default function ResourcesPage() {
           </div>
         </section>
 
-        {/* ===== SECTION 4: BLOG COMPONENT (shown after Tools) ===== */}
-        <section style={{ backgroundColor: '#EFF6FF', padding: '48px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        {/* ===== SECTION 3: BLOG COMPONENT (shown after Tools) ===== */}
+        <section style={{ backgroundColor: '#EFF6FF', position: 'relative' }}>
+          <div className="section-container">
             <Blogs showHero={false} />
           </div>
         </section>
 
 
 
-        {/* ===== SECTION 7: FOOTER ===== */}
+        {/* ===== SECTION 4: FOOTER ===== */}
         <div style={{ borderTop: '1px solid var(--border-dark)' }}>
           <Footer />
         </div>

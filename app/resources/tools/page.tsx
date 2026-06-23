@@ -54,7 +54,9 @@ export default function ToolsPage() {
 
         /* Hero styles */
         .tools-hero {
-          padding: 130px 24px 32px;
+          padding-top: 150px;
+          padding-bottom: var(--section-padding-y);
+          padding-inline: var(--section-padding-x);
           background: #FFFFFF;
           text-align: center;
           position: relative;
@@ -163,7 +165,6 @@ export default function ToolsPage() {
         /* Evaluate Section */
         .evaluate-section {
           background-color: #FFFFFF;
-          padding: 24px 24px;
           text-align: center;
         }
 
@@ -189,7 +190,6 @@ export default function ToolsPage() {
         /* Dark Idea Validation Section */
         .idea-validation-dark {
           background: #0A0F1C;
-          padding: 48px 0;
           color: #FFFFFF;
           position: relative;
           overflow: hidden;
@@ -327,7 +327,7 @@ export default function ToolsPage() {
         /* De-risk Roadmap Section */
         .roadmap-section {
           background-color: #FFFFFF;
-          padding: 40px 24px;
+          padding: var(--section-padding-y) var(--section-padding-x);
         }
 
         .roadmap-container {
@@ -422,7 +422,7 @@ export default function ToolsPage() {
         /* Our Validation Engine */
         .engine-section {
           background: #0A0F1C;
-          padding: 40px 24px;
+          padding: var(--section-padding-y) var(--section-padding-x);
           color: #FFFFFF;
         }
 
@@ -554,7 +554,7 @@ export default function ToolsPage() {
         /* Market Intelligence Section */
         .market-intel-section {
           background-color: #FFFFFF;
-          padding: 40px 24px;
+          padding: var(--section-padding-y) var(--section-padding-x);
         }
 
         .market-intel-container {
@@ -665,7 +665,7 @@ export default function ToolsPage() {
         /* Bottom CTA Section */
         .bottom-cta-section {
           background: #0A0F1C;
-          padding: 40px 24px;
+          padding: var(--section-padding-y) var(--section-padding-x);
           color: #FFFFFF;
           text-align: center;
           position: relative;
@@ -759,7 +759,7 @@ export default function ToolsPage() {
 
         {/* EVALUATE YOUR IDEA SECTION */}
         <section className="evaluate-section">
-          <div className="section-container" style={{ padding: '0 24px' }}>
+          <div className="section-container">
             <h2 className="eval-title">
               <EditableText
                 contentKey="tools.eval.title"
@@ -776,7 +776,7 @@ export default function ToolsPage() {
         </section>
 
         {/* IDEA VALIDATION SCORECARD SECTION */}
-        <section className="idea-validation-dark">
+        <section className="idea-validation-dark page-section">
           <SpotlightCursor color="rgba(0, 90, 226, 0.15)" />
           <div className="validation-glow"></div>
           

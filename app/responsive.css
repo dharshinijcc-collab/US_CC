@@ -84,12 +84,7 @@ img, video, svg, iframe, table {
 }
 
 /* ── 3. HERO SECTIONS ── */
-.hero-section {
-  padding-top: 110px !important;
-  padding-left: 24px !important;
-  padding-right: 24px !important;
-  padding-bottom: 60px !important;
-}
+/* Vertical hero spacing is defined in global-styles.css */
 
 /* ============================================================
    TABLET BREAKPOINT — max-width: 1024px
@@ -167,10 +162,8 @@ img, video, svg, iframe, table {
 
   /* ── Hero ── */
   .hero-section {
-    padding-top: 120px !important;
-    padding-left: 20px !important;
-    padding-right: 20px !important;
-    padding-bottom: 48px !important;
+    padding-left: var(--section-padding-x-tablet) !important;
+    padding-right: var(--section-padding-x-tablet) !important;
     min-height: auto !important;
   }
 
@@ -190,8 +183,8 @@ img, video, svg, iframe, table {
 
   /* ── Section containers ── */
   .section-container {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
+    padding-left: var(--section-padding-x-mobile) !important;
+    padding-right: var(--section-padding-x-mobile) !important;
   }
 
   /* ── Phase pill nav ── */
@@ -361,9 +354,8 @@ img, video, svg, iframe, table {
 
   /* ── Hero ── */
   .hero-section {
-    padding-top: 90px !important;
-    padding-left: 16px !important;
-    padding-right: 16px !important;
+    padding-left: var(--section-padding-x-mobile) !important;
+    padding-right: var(--section-padding-x-mobile) !important;
     min-height: auto !important;
   }
 
@@ -431,7 +423,9 @@ img, video, svg, iframe, table {
   .navbar { padding: 4px 12px !important; }
   .header-logo { height: 44px !important; }
   .mobile-menu { padding: 80px 16px 32px !important; }
-  .section-container { padding: 12px !important; }
+  .section-container {
+    padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile) !important;
+  }
 }
 
 /* ============================================================

@@ -199,7 +199,15 @@ export default function CareersPage() {
           font-size: 36px !important;
         }
 
-        .section-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .section-container { max-width: 1280px; margin: 0 auto; padding: var(--section-padding-y) var(--section-padding-x); box-sizing: border-box; }
+
+        @media (max-width: 768px) {
+          .section-container { padding: var(--section-padding-y-tablet) var(--section-padding-x-tablet); }
+        }
+
+        @media (max-width: 480px) {
+          .section-container { padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile); }
+        }
         .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
         
@@ -285,19 +293,41 @@ export default function CareersPage() {
           letter-spacing: 0.05em;
         }
 
-        .hero-eyebrow-style {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          background-color: #E6EFFF;
-          color: #005AE2;
-          font-size: 0.8rem;
-          font-weight: 800;
-          letter-spacing: 0.1em;
-          padding: 8px 18px;
-          border-radius: 100px;
-          margin-bottom: 32px;
-          text-transform: uppercase;
+        .hero-eyebrow-pill {
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          background-color: #E6EFFF !important;
+          color: #005AE2 !important;
+          font-size: 0.8rem !important;
+          font-weight: 800 !important;
+          letter-spacing: 0.15em !important;
+          padding: 8px 18px !important;
+          border-radius: 100px !important;
+          margin-bottom: 32px !important;
+          text-transform: uppercase !important;
+          font-family: 'Manrope', sans-serif !important;
+        }
+        .hero-title {
+          font-family: 'Manrope', sans-serif !important;
+          font-size: 52px !important;
+          font-weight: 800 !important;
+          letter-spacing: -0.04em !important;
+          line-height: 1.22 !important;
+          color: #0A0F1C !important;
+          margin: 0 auto 28px !important;
+          text-align: center !important;
+          max-width: 960px !important;
+        }
+        .hero-description {
+          font-family: 'Inter', sans-serif !important;
+          font-size: clamp(0.925rem, 2vw, 0.975rem) !important;
+          font-weight: 500 !important;
+          color: #64748B !important;
+          line-height: 1.8 !important;
+          max-width: 720px !important;
+          margin: 0 auto 32px !important;
+          text-align: center !important;
         }
 
         .section-eyebrow {
@@ -313,6 +343,49 @@ export default function CareersPage() {
           border-radius: 100px;
           margin-bottom: 16px;
           text-transform: uppercase;
+        }
+
+        /* Hero Section — spacing from global-styles.css */
+        .hero-section {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          width: 100%;
+          overflow: hidden;
+          background-color: #F1F5F9 !important;
+          box-sizing: border-box;
+          min-height: 70vh;
+          padding-top: 180px !important;
+          padding-bottom: var(--section-padding-y) !important;
+          padding-left: var(--section-padding-x) !important;
+          padding-right: var(--section-padding-x) !important;
+        }
+
+        @media (max-width: 1024px) {
+          .hero-section {
+            min-height: 60vh;
+            padding-top: 180px !important;
+            padding-bottom: var(--section-padding-y-tablet) !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .hero-section {
+            min-height: 50vh;
+            padding-top: 180px !important;
+            padding-bottom: var(--section-padding-y-tablet) !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero-section {
+            min-height: 45vh;
+            padding-top: 180px !important;
+            padding-bottom: var(--section-padding-y-mobile) !important;
+          }
         }
 
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px 40px; }
@@ -383,7 +456,7 @@ export default function CareersPage() {
 
       <div className="careers-page" style={{ backgroundColor: '#F8FAFC' }}>
         {/* --- 1. HERO SECTION --- */}
-        <section style={{ padding: '120px 24px 60px', backgroundColor: '#F1F5F9', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '480px', width: '100%', position: 'relative', overflow: 'hidden' }}>
+        <section className="hero-section" style={{ backgroundColor: '#F1F5F9', position: 'relative', overflow: 'hidden' }}>
           {/* Hero Background */}
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }}></div>
           {/* Hero Grid */}
@@ -394,11 +467,11 @@ export default function CareersPage() {
           <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 82, 255, 0.22), transparent 70%)', bottom: '0px', right: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
 
           <div className="section-container pt-0 pb-0" style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', width: '100%', maxWidth: '960px' }}>
-            <span className="hero-eyebrow-style" style={{ marginBottom: '32px' }}>
+            <span className="hero-eyebrow-pill" style={{ marginBottom: '32px' }}>
               <EditableText contentKey="careers.hero.eyebrow" value={careersContent.hero.eyebrow} />
             </span>
             <div style={{ width: '100%', textAlign: 'center' }}>
-              <h1 style={{ fontSize: '52px', fontWeight: 900, lineHeight: 1.22, letterSpacing: '-0.04em', marginBottom: '28px', textAlign: 'center', color: '#0A0F1C', maxWidth: '960px', margin: '0 auto', whiteSpace: 'pre-wrap' }} className="font-manrope">
+              <h1 className="hero-title" style={{ whiteSpace: 'pre-wrap' }}>
                 {careersContent.hero.title?.split(' ').map((word: string, i: number, arr: string[]) => {
                   const isBlue = ['Us'].includes(word.replace(/[^a-zA-Z]/g, ''));
                   return (
@@ -427,7 +500,7 @@ export default function CareersPage() {
         </section>
 
         {/* --- 2. WHY JOIN CRESTCODE --- */}
-        <section style={{ padding: '48px 0', backgroundColor: '#FFFFFF' }}>
+        <section style={{ backgroundColor: '#FFFFFF' }}>
           <div className="section-container">
             <div style={{ textAlign: 'center', marginBottom: '80px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <span className="section-eyebrow">
@@ -465,7 +538,7 @@ export default function CareersPage() {
         </section>
 
         {/* --- 3. LIFE AT CRESTCODE --- */}
-        <section style={{ padding: '48px 0', backgroundColor: '#F8FAFC' }}>
+        <section style={{ backgroundColor: '#F8FAFC' }}>
           <div className="section-container">
             <div style={{ backgroundColor: 'var(--primary-blue)', borderRadius: '24px', padding: '60px', display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: '60px', alignItems: 'center', color: '#FFF' }} className="life-grid">
               <div>
@@ -497,7 +570,7 @@ export default function CareersPage() {
         </section>
 
         {/* --- 4. BENEFITS & PERKS --- */}
-        <section id="benefits" style={{ padding: '48px 0', backgroundColor: '#FFFFFF', color: 'var(--text-black)' }}>
+        <section id="benefits" style={{ backgroundColor: '#FFFFFF', color: 'var(--text-black)' }}>
           <div className="section-container">
             <div style={{ marginBottom: '60px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <span className="section-eyebrow">
@@ -539,7 +612,7 @@ export default function CareersPage() {
         </section>
 
         {/* --- 5. OPEN POSITIONS --- */}
-        <section id="open-positions" style={{ padding: '48px 0', backgroundColor: '#F8FAFC' }}>
+        <section id="open-positions" style={{ backgroundColor: '#F8FAFC' }}>
           <div className="section-container">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px', flexWrap: 'wrap', gap: '24px' }}>
               <div>
@@ -607,7 +680,7 @@ export default function CareersPage() {
         </section>
 
         {/* --- 6. CTA (RESUME SUBMISSION) --- */}
-        <section id="apply-now" style={{ padding: '48px 0', backgroundColor: '#FFFFFF' }}>
+        <section id="apply-now" style={{ backgroundColor: '#FFFFFF' }}>
           <div className="section-container">
             <div className="cta-card" style={{ backgroundColor: '#0052FF', border: 'none', borderRadius: '32px', padding: '80px 60px', textAlign: 'center', color: '#FFFFFF' }}>
               {!submitted ? (

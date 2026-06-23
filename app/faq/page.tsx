@@ -104,7 +104,15 @@ export default function FaqPage() {
         .animate-delay-2 { animation-delay: 0.2s; }
         .animate-delay-3 { animation-delay: 0.3s; }
         .animate-delay-4 { animation-delay: 0.4s; }
-        .section-container { max-width: 1200px; margin: 0 auto; padding: 24px 24px; }
+        .section-container { max-width: 1280px; margin: 0 auto; padding: var(--section-padding-y) var(--section-padding-x); box-sizing: border-box; }
+
+        @media (max-width: 768px) {
+          .section-container { padding: var(--section-padding-y-tablet) var(--section-padding-x-tablet); }
+        }
+
+        @media (max-width: 480px) {
+          .section-container { padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile); }
+        }
         .pt-0 { padding-top: 0 !important; }
 
         /* Typography */
@@ -177,23 +185,46 @@ export default function FaqPage() {
         .btn-nav { padding: 10px 24px; font-size: 14px; border-radius: 100px; background-color: var(--primary-blue);}
 
 
-        /* Unified Hero Section Style */
+        /* Hero Section — spacing from global-styles.css */
         .hero-section {
-          padding: 220px 24px 160px !important;
-          text-align: center !important;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          width: 100%;
+          overflow: hidden;
           background-color: #F1F5F9 !important;
-          display: flex !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          justify-content: center !important;
-          min-height: 580px !important;
-          width: 100% !important;
-          position: relative !important;
+          box-sizing: border-box;
+          min-height: 70vh;
+          padding-top: 180px !important;
+          padding-bottom: var(--section-padding-y) !important;
+          padding-left: var(--section-padding-x) !important;
+          padding-right: var(--section-padding-x) !important;
         }
-        @media(max-width: 768px) {
+
+        @media (max-width: 1024px) {
           .hero-section {
-            padding: 100px 20px 40px !important;
-            min-height: 500px !important;
+            min-height: 60vh;
+            padding-top: 180px !important;
+            padding-bottom: var(--section-padding-y-tablet) !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .hero-section {
+            min-height: 50vh;
+            padding-top: 180px !important;
+            padding-bottom: var(--section-padding-y-tablet) !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero-section {
+            min-height: 45vh;
+            padding-top: 180px !important;
+            padding-bottom: var(--section-padding-y-mobile) !important;
           }
         }
         .hero-eyebrow-pill {
@@ -202,12 +233,12 @@ export default function FaqPage() {
           justify-content: center !important;
           background-color: #E6EFFF !important;
           color: #005AE2 !important;
-          font-size: 0.75rem !important;
+          font-size: 0.8rem !important;
           font-weight: 800 !important;
           letter-spacing: 0.15em !important;
-          padding: 6px 14px !important;
+          padding: 8px 18px !important;
           border-radius: 100px !important;
-          margin-bottom: 16px !important;
+          margin-bottom: 32px !important;
           text-transform: uppercase !important;
           font-family: 'Manrope', sans-serif !important;
         }
@@ -215,12 +246,12 @@ export default function FaqPage() {
           font-family: 'Manrope', sans-serif !important;
           font-size: 52px !important;
           font-weight: 800 !important;
-          letter-spacing: -0.03em !important;
-          line-height: 1.15 !important;
+          letter-spacing: -0.04em !important;
+          line-height: 1.22 !important;
           color: #020617 !important;
-          margin: 0 auto 16px !important;
+          margin: 0 auto 28px !important;
           text-align: center !important;
-          max-width: 800px !important;
+          max-width: 960px !important;
         }
         .hero-title span {
           font-family: 'Manrope', sans-serif !important;
@@ -236,9 +267,9 @@ export default function FaqPage() {
           font-size: clamp(0.925rem, 2vw, 0.975rem) !important;
           font-weight: 500 !important;
           color: #64748B !important;
-          line-height: 1.65 !important;
-          max-width: 650px !important;
-          margin: 0 auto 24px !important;
+          line-height: 1.8 !important;
+          max-width: 720px !important;
+          margin: 0 auto 32px !important;
           text-align: center !important;
         }
 
@@ -429,10 +460,6 @@ export default function FaqPage() {
         .footer-links a:hover { color: var(--white); }
 
         @media (max-width: 900px) {
-          .section-container {
-            padding: 24px 20px !important;
-          }
-
           .tabs-container {
             padding-bottom: 8px !important;
           }
@@ -504,8 +531,8 @@ export default function FaqPage() {
         </section>
 
         {/* FAQ Content Section */}
-        <section id="faq-section" style={{ backgroundColor: '#FFFFFF', padding: '48px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ paddingTop: '20px', paddingLeft: 0, paddingRight: 0 }}>
+        <section id="faq-section" style={{ backgroundColor: '#FFFFFF', position: 'relative' }}>
+          <div className="section-container">
 
             {/* Dynamic Category Rendering with Reordering */}
             {[

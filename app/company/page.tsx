@@ -104,7 +104,6 @@ export default function CompanyPage() {
       <style dangerouslySetInnerHTML={{ __html: `
         /* ===== HERO ===== */
         .company-hero {
-          padding: 220px 32px 160px;
           background: #FFFFFF;
           color: #0A0F1C;
           text-align: center;
@@ -198,7 +197,7 @@ export default function CompanyPage() {
         /* ===== COMPANIES GRID ===== */
         .companies-section {
           background: #FFFFFF;
-          padding: 60px 32px 80px;
+          padding: var(--section-padding-y) var(--section-padding-x);
         }
         .companies-grid {
           display: grid;
@@ -307,7 +306,7 @@ export default function CompanyPage() {
         /* ===== PROBLEMS WE LOVE SECTION ===== */
         .problems-section {
           background: #FFFFFF;
-          padding: 80px 32px 100px;
+          padding: var(--section-padding-y) var(--section-padding-x);
         }
         .problems-container {
           max-width: 1200px;
@@ -374,7 +373,7 @@ export default function CompanyPage() {
         /* ===== HOW IT GETS BORN (PROCESS) SECTION ===== */
         .process-section {
           background: #FAFAFA;
-          padding: 100px 32px;
+          padding: var(--section-padding-y) var(--section-padding-x);
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -511,7 +510,7 @@ export default function CompanyPage() {
         .section-container {
           max-width: 100%;
           margin: 0 auto;
-          padding: 100px 32px;
+          padding: var(--section-padding-y) var(--section-padding-x);
         }
         .section-eyebrow {
           color: #005AE2;
