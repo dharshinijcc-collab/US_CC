@@ -104,7 +104,7 @@ export default function FaqPage() {
         .animate-delay-2 { animation-delay: 0.2s; }
         .animate-delay-3 { animation-delay: 0.3s; }
         .animate-delay-4 { animation-delay: 0.4s; }
-        .section-container { max-width: 1200px; margin: 0 auto; padding: 24px 24px; }
+        .section-container { max-width: 1200px; }
         .pt-0 { padding-top: 0 !important; }
 
         /* Typography */
@@ -177,24 +177,9 @@ export default function FaqPage() {
         .btn-nav { padding: 10px 24px; font-size: 14px; border-radius: 100px; background-color: var(--primary-blue);}
 
 
-        /* Unified Hero Section Style */
+        /* Hero background — spacing from global-styles.css */
         .hero-section {
-          padding: 220px 24px 160px !important;
-          text-align: center !important;
           background-color: #F1F5F9 !important;
-          display: flex !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          justify-content: center !important;
-          min-height: 580px !important;
-          width: 100% !important;
-          position: relative !important;
-        }
-        @media(max-width: 768px) {
-          .hero-section {
-            padding: 100px 20px 40px !important;
-            min-height: 500px !important;
-          }
         }
         .hero-eyebrow-pill {
           display: inline-flex !important;
@@ -429,10 +414,6 @@ export default function FaqPage() {
         .footer-links a:hover { color: var(--white); }
 
         @media (max-width: 900px) {
-          .section-container {
-            padding: 24px 20px !important;
-          }
-
           .tabs-container {
             padding-bottom: 8px !important;
           }
@@ -504,8 +485,8 @@ export default function FaqPage() {
         </section>
 
         {/* FAQ Content Section */}
-        <section id="faq-section" style={{ backgroundColor: '#FFFFFF', padding: '48px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ paddingTop: '20px', paddingLeft: 0, paddingRight: 0 }}>
+        <section id="faq-section" style={{ backgroundColor: '#FFFFFF', position: 'relative' }}>
+          <div className="section-container">
 
             {/* Dynamic Category Rendering with Reordering */}
             {[

@@ -568,15 +568,12 @@ export default function LandingPage() {
           transform: scale(1.15) rotate(-5deg);
           box-shadow: 0 8px 20px rgba(255,120,60,0.2);
         }
-        .section-container { max-width: 1200px; margin: 0 auto; padding: 24px 24px; }
-        @media(max-width: 768px) { .section-container { padding: 20px 20px; } }
-        @media(max-width: 480px) { .section-container { padding: 16px 16px; } }
+        .section-container { max-width: 1200px; }
 
         /* ===== GLOBAL RESPONSIVE SYSTEM ===== */
 
         /* --- Hero --- */
         @media(max-width: 480px) {
-          .hero-section { padding: 130px 16px 32px !important; }
           .hero-idea-box { max-width: 100% !important; }
         }
 
@@ -784,22 +781,13 @@ export default function LandingPage() {
 
         .idea-textarea::placeholder { color: #CBD5E1; }
 
-        /* Hero Section */
+        /* Hero Section — vertical spacing from global-styles.css */
         .hero-section {
-          padding: 180px 24px 80px !important; /* generous vertical breathing room around the hero panel */
           text-align: center !important;
           background-color: #F1F5F9 !important;
-          display: flex !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          justify-content: center !important;
-          min-height: 420px !important;
-          width: 100% !important;
-          position: relative !important;
         }
         @media(max-width: 768px) {
           .hero-section {
-            padding: 130px 20px 60px !important;
             min-height: auto !important;
           }
         }
@@ -2069,7 +2057,6 @@ export default function LandingPage() {
         .tech-hub-section {
           background: #FFFFFF;
           box-shadow: inset 0 24px 48px -24px rgba(0,90,226,0.08), inset 0 -24px 48px -24px rgba(0,90,226,0.08);
-          padding: 32px 0 40px;
           overflow: hidden;
           position: relative;
         }
@@ -2213,7 +2200,6 @@ export default function LandingPage() {
         /* Partnered Products Carousel Section */
         .partnered-products-section {
           background-color: #F8FAFC;
-          padding: 60px 24px;
           position: relative;
         }
         .product-carousel-card {
@@ -2338,7 +2324,7 @@ export default function LandingPage() {
           margin-bottom: 8px;
         }
         .solution-text {
-          font-size: 1.05rem;
+          font-size: 1.15rem;
           line-height: 1.6;
           color: #1E40AF;
           font-weight: 500;
@@ -2659,7 +2645,7 @@ export default function LandingPage() {
         /* Responsive Styles for Redesigned Section */
         @media (max-width: 992px) {
           .details-company-title {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
           }
           .product-details {
             padding: 40px;
@@ -2933,7 +2919,7 @@ export default function LandingPage() {
 
                         <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginTop: 'auto', width: '100%' }}>
                           <Link
-                            href="/contact"
+                            href={idx === 0 ? "/studio" : "/contact"}
                             className="btn-pill"
                             style={{
                               flexGrow: 1,
@@ -2952,6 +2938,7 @@ export default function LandingPage() {
                               contentKey={`home.audiences.items.${idx}.backCtaText`}
                               value={idx === 0 ? "Apply to Studio" : "Start a Conversation"}
                             />
+                            
                           </Link>
                           
                           <button
@@ -3252,7 +3239,7 @@ export default function LandingPage() {
                       contentKey={`home.partnered_products.items.${currentProductIndex}.company`}
                       value={partneredProducts[currentProductIndex].company}
                       className="details-company-title"
-                      style={{ fontSize: '2.8rem', fontWeight: 800, color: '#1C1C1E', marginBottom: '2px', lineHeight: 1.1 }}
+                      style={{ fontSize: '3.15rem', fontWeight: 800, color: '#1C1C1E', marginBottom: '2px', lineHeight: 1.1 }}
                     />
                     
                     <EditableText

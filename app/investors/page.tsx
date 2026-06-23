@@ -121,28 +121,11 @@ export default function InvestorsPage() {
 
         .section-container {
           max-width: 1200px;
-          margin: 0 auto;
-          padding: 24px 24px;
         }
 
-        /* Unified Hero Section Style */
+        /* Hero background — spacing from global-styles.css */
         .hero-section {
-          padding: 220px 24px 160px !important; /* spacious padding to expand the section */
-          text-align: center !important;
           background-color: #F1F5F9 !important;
-          display: flex !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          justify-content: center !important;
-          min-height: 480px !important; /* enlarged height to look grand and full-screen */
-          width: 100% !important;
-          position: relative !important;
-        }
-        @media(max-width: 768px) {
-          .hero-section {
-            padding: 90px 20px 40px !important;
-            min-height: 380px !important;
-          }
         }
         .hero-eyebrow-pill {
           display: inline-flex !important;
@@ -486,7 +469,7 @@ export default function InvestorsPage() {
             gap: 32px !important;
           }
           .section-container {
-            padding: 24px 20px !important;
+            max-width: 1200px;
           }
           .form-section-card {
             padding: 24px 24px !important;
@@ -541,8 +524,8 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 2. WHY INVEST IN CRESTCODE? (Image 1) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#FFFFFF', position: 'relative' }}>
+          <div className="section-container">
             
             {/* Centered Heading & Intro Lead */}
             <div className="section-header-centered" style={{ marginBottom: '56px' }}>
@@ -641,8 +624,8 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 3. TWO WAYS TO INVEST (Image 2) ── */}
-        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#EFF6FF', position: 'relative' }}>
+          <div className="section-container">
             
             {/* Centered Heading */}
             <div className="section-header-centered">
@@ -772,8 +755,8 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 4. WHAT YOU GET AS AN INVESTOR (Image 3) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#FFFFFF', position: 'relative' }}>
+          <div className="section-container">
             
             {/* Centered Heading */}
             <div className="section-header-centered">
@@ -866,8 +849,8 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 5. WE'RE SELECTIVE. ON PURPOSE. (Image 4) ── */}
-        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#EFF6FF', position: 'relative' }}>
+          <div className="section-container">
             
             {/* Centered Heading */}
             <div className="section-header-centered">
@@ -965,8 +948,8 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 6. CLEAR TERMS. NO SURPRISES. (Image 5) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#FFFFFF', position: 'relative' }}>
+          <div className="section-container">
             
             {/* Centered Heading */}
             <div className="section-header-centered">
@@ -1049,8 +1032,8 @@ export default function InvestorsPage() {
         </section>
 
         {/* ── 7. CTA APPLICATION FORM (Bottom Form) ── */}
-        <section id="apply-form" style={{ padding: '48px 24px', background: '#EFF6FF' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section id="apply-form" style={{ background: '#EFF6FF' }}>
+          <div className="section-container">
             
             <div className="form-section-card">
               <div style={{ position: 'absolute', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.15), transparent 70%)', top: '-100px', right: '-100px', filter: 'blur(80px)', pointerEvents: 'none' }}></div>

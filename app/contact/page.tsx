@@ -135,7 +135,7 @@ export default function ContactPage() {
         .animate-delay-4 { animation-delay: 0.4s; }
 
         .page-wrapper { min-height: 100vh; overflow-x: hidden; padding-bottom: 0; }
-        .section-container { max-width: 1200px; margin: 0 auto; padding: 24px 24px; }
+        .section-container { max-width: 1200px; }
         .pt-0 { padding-top: 0 !important; }
         .pb-0 { padding-bottom: 0 !important; }
         
@@ -302,25 +302,10 @@ export default function ContactPage() {
         .grid-2-align-top { align-items: start; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 
-        /* Hero Section */
+        /* Hero Section — spacing from global-styles.css */
         .hero-section {
-          padding: 220px 24px 160px !important; /* spacious padding to expand the section */
-          text-align: center !important;
           background-color: #F1F5F9 !important;
-          display: flex !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          justify-content: center !important;
-          min-height: 480px !important; /* enlarged height to look grand and full-screen */
-          width: 100% !important;
-          position: relative !important;
           overflow: hidden !important;
-        }
-        @media(max-width: 768px) {
-          .hero-section {
-            padding: 90px 20px 40px !important;
-            min-height: 380px !important;
-          }
         }
         .hero-image-wrap {
           border-radius: 24px;
@@ -608,10 +593,6 @@ export default function ContactPage() {
 
         /* Responsive Design */
         @media (max-width: 900px) {
-          .section-container {
-            padding: 24px 20px !important;
-          }
-          
           .grid-2 {
             grid-template-columns: 1fr !important;
             gap: 40px !important;
@@ -717,7 +698,6 @@ export default function ContactPage() {
           backgroundColor: '#FFFFFF', 
           position: 'relative', 
           overflow: 'hidden',
-          padding: '80px 0'
         }}>
           {/* Grid Background */}
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(rgba(0, 90, 226, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 90, 226, 0.03) 1px, transparent 1px)', backgroundSize: '50px 50px', opacity: 0.5, pointerEvents: 'none', zIndex: 0 }}></div>
@@ -896,8 +876,8 @@ export default function ContactPage() {
 
 
         {/* Process Steps */}
-        <section style={{ backgroundColor: '#EFF6FF', padding: '80px 0' }}>
-          <div className="section-container process-steps-wrap" style={{ paddingTop: 0, paddingBottom: 0 }}>
+        <section style={{ backgroundColor: '#EFF6FF' }}>
+          <div className="section-container process-steps-wrap">
             <EditableText as="h2" contentKey="contact.process.title" value={contactContent.process.title} className="section-title" />
             <EditableText as="p" contentKey="contact.process.subtitle" value={contactContent.process.subtitle} className="body-text text-center" />
             

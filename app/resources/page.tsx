@@ -123,28 +123,11 @@ export default function ResourcesPage() {
 
         .section-container {
           max-width: 1200px;
-          margin: 0 auto;
-          padding: 24px 24px;
         }
 
-        /* Unified Hero Section Style */
+        /* Hero background — spacing from global-styles.css */
         .hero-section {
-          padding: 220px 24px 160px !important; /* spacious padding to expand the section */
-          text-align: center !important;
           background-color: #F1F5F9 !important;
-          display: flex !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          justify-content: center !important;
-          min-height: 480px !important; /* enlarged height to look grand and full-screen */
-          width: 100% !important;
-          position: relative !important;
-        }
-        @media(max-width: 768px) {
-          .hero-section {
-            padding: 90px 20px 40px !important;
-            min-height: 380px !important;
-          }
         }
         .hero-eyebrow-pill {
           display: inline-flex !important;
@@ -544,8 +527,8 @@ export default function ResourcesPage() {
         </section>
 
         {/* ===== SECTION 3: INTERACTIVE TOOLS (shown first) ===== */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '48px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#FFFFFF', position: 'relative' }}>
+          <div className="section-container">
           <div className="header-center">
             <span className="eyebrow-text">
               <EditableText contentKey="resources.tools.eyebrow" value={resourcesContent.tools?.eyebrow || 'INTERACTIVE TOOLS'} />
@@ -594,8 +577,8 @@ export default function ResourcesPage() {
         </section>
 
         {/* ===== SECTION 4: BLOG COMPONENT (shown after Tools) ===== */}
-        <section style={{ backgroundColor: '#EFF6FF', padding: '48px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#EFF6FF', position: 'relative' }}>
+          <div className="section-container">
             <Blogs showHero={false} />
           </div>
         </section>

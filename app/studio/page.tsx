@@ -59,8 +59,8 @@ function SolvingSection({ stackCards, studioContent, EditableText }: any) {
   return (
     <section
       ref={sectionRef}
-      className="section-dark"
-      style={{ backgroundColor: '#060B18', padding: '24px 24px' }}
+      style={{ backgroundColor: '#060B18' }}
+      className="section-dark page-section"
     >
       <div style={{ maxWidth: '960px', margin: '0 auto' }}>
 
@@ -426,8 +426,7 @@ export default function StudioPage() {
 
         .studio-page { min-height: 100vh; overflow-x: hidden; animation: cc-pageSlide 0.7s cubic-bezier(0.4,0,0.2,1) both; }
 
-        .section-container { max-width: 100%; margin: 0 auto; padding: clamp(24px, 3vw, 24px) 24px; }
-        @media (max-width: 768px) { .section-container { padding: clamp(24px, 4vw, 24px) 24px; } }
+        .section-container { max-width: 100%; }
         .pt-0 { padding-top: 0 !important; }
         .pb-0 { padding-bottom: 0 !important; }
         
@@ -577,24 +576,9 @@ export default function StudioPage() {
         .section-base { background-color: var(--bg-base); }
         .section-dark { background-color: var(--bg-dark); color: var(--white); }
 
-        /* Unified Hero Section Style */
+        /* Hero background — spacing from global-styles.css */
         .hero-section {
-          padding: 220px 24px 160px !important; /* spacious padding to expand the section */
-          text-align: center !important;
           background-color: #F1F5F9 !important;
-          display: flex !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          justify-content: center !important;
-          min-height: 480px !important; /* enlarged height to look grand and full-screen */
-          width: 100% !important;
-          position: relative !important;
-        }
-        @media(max-width: 768px) {
-          .hero-section {
-            padding: 90px 20px 40px !important;
-            min-height: 380px !important;
-          }
         }
 
         /* Hero Carousel Stepper */
@@ -982,7 +966,6 @@ export default function StudioPage() {
 
         /* Premium Build Timeline Table Section */
         .timeline-table-section {
-          padding: 80px 24px;
           background-color: #FFFFFF;
           position: relative;
         }
@@ -1231,17 +1214,11 @@ export default function StudioPage() {
             grid-template-columns: 1fr !important;
             gap: 40px !important;
           }
-          .section-container {
-            padding: 60px 20px !important;
-          }
           .section-title {
             font-size: 2.25rem !important;
             text-align: center !important;
             transform: none !important;
             margin-bottom: 40px !important;
-          }
-          .hero-section {
-            padding-top: 120px !important;
           }
           .hero-img-col {
             min-height: 400px !important;
@@ -1456,10 +1433,6 @@ export default function StudioPage() {
         }
 
         /* ── DIFFERENTIATION ──────────────────────────────── */
-        #diff {
-          padding: 24px 24px;
-        }
-
         .diff-header {
           max-width: 1200px;
           margin: 0 auto 5rem;
@@ -1574,7 +1547,6 @@ export default function StudioPage() {
           display: none;
         }
         @media (max-width: 768px) {
-          #diff { padding: 24px 20px; }
           .diff-header { margin-bottom: 3rem; }
           .diff-table-wrap { overflow-x: auto; }
           .diff-table th, .diff-table td { padding: 1rem; font-size: 0.8rem; }
@@ -1607,7 +1579,7 @@ export default function StudioPage() {
         {/* Ambient glow orbs */}
 
         {/* Consolidated Intro Section */}
-        <section style={{ padding: '100px 24px 80px', backgroundColor: '#FFFFFF', position: 'relative', overflow: 'hidden' }}>
+        <section style={{ backgroundColor: '#FFFFFF', position: 'relative', overflow: 'hidden' }}>
           {/* Ambient lighting effects on the top */}
           <div className="hero-ambient-glow" style={{
             position: 'absolute',
@@ -1766,7 +1738,7 @@ export default function StudioPage() {
         </section>
 
       {/* Core Values Section - Premium Light Mode Grid with 6 Cards */}
-      <section style={{ backgroundColor: '#F8FAFC', padding: '60px 24px', fontFamily: 'Manrope, sans-serif', position: 'relative', overflow: 'hidden' }}>
+      <section className="page-section" style={{ backgroundColor: '#F8FAFC', fontFamily: 'Manrope, sans-serif', position: 'relative', overflow: 'hidden' }}>
         {/* Subtle glowing radial background lights */}
         <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.04), transparent 70%)', top: '-100px', left: '-100px', pointerEvents: 'none' }}></div>
         <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(13, 148, 136, 0.03), transparent 70%)', bottom: '-100px', right: '-100px', pointerEvents: 'none' }}></div>
@@ -1974,7 +1946,7 @@ export default function StudioPage() {
       </section>
 
         {/* Selection Process Heading & Description Section */}
-        <section style={{ padding: '24px 24px 16px', backgroundColor: '#FFFFFF', position: 'relative' }}>
+        <section style={{ backgroundColor: '#FFFFFF', position: 'relative' }}>
           <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '40px' }}>
               <EditableText
@@ -2437,16 +2409,16 @@ export default function StudioPage() {
           return (
             <section
               id="selection-process"
+              className="page-section"
               style={{
                 position: 'relative',
                 backgroundColor: '#F8FAFC',
-                padding: '80px 0 80px',
                 overflow: 'hidden'
               }}
             >
               <div style={{ position: 'relative', zIndex: 1 }}>
                 {/* Unified Header */}
-                <div className="section-container" style={{ textAlign: 'center', marginBottom: '40px', paddingTop: 0, paddingBottom: 0 }}>
+                <div className="section-container section-container--flush-y" style={{ textAlign: 'center', marginBottom: '40px' }}>
                   <div style={{ display: 'inline-block' }}>
                     <EditableText
                       contentKey="studio.phases.eyebrow"
@@ -2487,7 +2459,7 @@ export default function StudioPage() {
                   borderBottom: '1px solid rgba(0, 90, 226, 0.05)',
                   marginBottom: '40px',
                 }}>
-                  <div className="section-container" style={{ paddingTop: 0, paddingBottom: 0 }}>
+                  <div className="section-container section-container--flush-y">
                     <div className="selection-stepper-container" style={{
                       maxWidth: '960px',
                       margin: '0 auto',
@@ -2560,7 +2532,7 @@ export default function StudioPage() {
                 </div>
 
                 {/* Main Content Card */}
-                <div className="section-container" style={{ paddingTop: 0, paddingBottom: 0 }}>
+                <div className="section-container section-container--flush-y">
                   <div style={{
                     background: '#FFFFFF',
                     border: '1px solid #E2E8F0',
@@ -2784,7 +2756,7 @@ export default function StudioPage() {
                 </div>
 
                 {/* Divider Line at Bottom */}
-                <div className="section-container" style={{ paddingTop: '40px', paddingBottom: 0 }}>
+                <div className="section-container section-container--flush-y" style={{ paddingTop: '40px' }}>
                   <div style={{
                     maxWidth: '960px',
                     margin: '0 auto',
@@ -2799,8 +2771,8 @@ export default function StudioPage() {
         })()}
 
       {/* The Build Timeline */}
-      <section className="timeline-table-section">
-        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
+      <section className="timeline-table-section page-section">
+        <div className="section-container" style={{ maxWidth: '1100px' }}>
           <div style={{ textAlign: 'center', marginBottom: '16px' }}>
             <div className="hero-eyebrow-pill">BUILD TIMELINE</div>
           </div>
@@ -2861,7 +2833,7 @@ export default function StudioPage() {
 
       
       {/* DIFFERENTIATION */}
-      <section id="diff" style={{ backgroundColor: '#EFF6FF' }}>
+      <section id="diff" className="page-section" style={{ backgroundColor: '#EFF6FF' }}>
         <div className="diff-header">
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <EditableText
@@ -2989,7 +2961,7 @@ export default function StudioPage() {
       {/* CTA */}
       {studioContent.cta && (
         <section className="section-white text-center">
-          <div className="section-container" style={{ paddingTop: '24px', paddingBottom: '24px' }}>
+          <div className="section-container">
             <div style={{ textAlign: 'center', marginBottom: '24px' }}>
               <div className="hero-eyebrow-pill">Get Started</div>
             </div>

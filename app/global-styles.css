@@ -1,5 +1,15 @@
 /* Global Design System Standards for CrestCode Website */
 
+/* ===== SPACING TOKENS ===== */
+:root {
+  --section-padding-y: 80px;
+  --section-padding-x: 24px;
+  --section-padding-y-tablet: 60px;
+  --section-padding-x-tablet: 20px;
+  --section-padding-y-mobile: 48px;
+  --section-padding-x-mobile: 16px;
+}
+
 /* ===== TYPOGRAPHY STANDARDS ===== */
 
 /* Eyebrow Text */
@@ -53,24 +63,49 @@
 
 /* ===== SECTION SPACING STANDARDS ===== */
 
-/* Section Container */
+/* Primary content wrapper — uniform vertical rhythm sitewide */
 .section-container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem 24px;
+  padding: var(--section-padding-y) var(--section-padding-x);
+  box-sizing: border-box;
 }
 
-/* Section Padding Standards */
+/* Standalone sections without an inner .section-container */
+.page-section {
+  padding-block: var(--section-padding-y);
+  padding-inline: var(--section-padding-x);
+  box-sizing: border-box;
+}
+
+/* Outer section wrappers defer spacing to .section-container */
+section:not(.hero-section):not(.company-hero):has(> .section-container),
+header:not(.hero-section):not(.company-hero):has(> .section-container) {
+  padding-block: 0 !important;
+  padding-inline: 0 !important;
+}
+
+/* Inner containers that share one padded section (e.g. carousels, steppers) */
+.section-container--flush-y,
+.section-container.pt-0.pb-0 {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.pt-0 { padding-top: 0 !important; }
+.pb-0 { padding-bottom: 0 !important; }
+
+/* Section Padding Standards (legacy aliases) */
 .section-padding-standard {
-  padding: 2rem 24px;
+  padding: var(--section-padding-y) var(--section-padding-x);
 }
 
 .section-padding-large {
-  padding: 2.5rem 24px;
+  padding: var(--section-padding-y) var(--section-padding-x);
 }
 
 .section-padding-extra-large {
-  padding: 3rem 24px;
+  padding: var(--section-padding-y) var(--section-padding-x);
 }
 
 /* Section Heading Container */
@@ -83,21 +118,20 @@
 
 @media (max-width: 768px) {
   .section-container {
-    padding: 1.5rem 20px;
+    padding: var(--section-padding-y-tablet) var(--section-padding-x-tablet);
   }
-  
-  .section-padding-standard {
-    padding: 1.5rem 20px;
+
+  .page-section {
+    padding-block: var(--section-padding-y-tablet);
+    padding-inline: var(--section-padding-x-tablet);
   }
-  
-  .section-padding-large {
-    padding: 2rem 20px;
-  }
-  
+
+  .section-padding-standard,
+  .section-padding-large,
   .section-padding-extra-large {
-    padding: 2.5rem 20px;
+    padding: var(--section-padding-y-tablet) var(--section-padding-x-tablet);
   }
-  
+
   .section-header-centered {
     margin-bottom: 20px;
   }
@@ -105,19 +139,18 @@
 
 @media (max-width: 480px) {
   .section-container {
-    padding: 1.25rem 16px;
+    padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile);
   }
-  
-  .section-padding-standard {
-    padding: 1.25rem 16px;
+
+  .page-section {
+    padding-block: var(--section-padding-y-mobile);
+    padding-inline: var(--section-padding-x-mobile);
   }
-  
-  .section-padding-large {
-    padding: 1.5rem 16px;
-  }
-  
+
+  .section-padding-standard,
+  .section-padding-large,
   .section-padding-extra-large {
-    padding: 2rem 16px;
+    padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile);
   }
 }
 
@@ -133,11 +166,13 @@
   overflow: hidden;
   background-color: var(--white, #FFFFFF);
   box-sizing: border-box;
-  
+
   /* Desktop premium dimensions */
   min-height: 70vh;
   padding-top: 150px !important; /* Clear flush-top navbar (~85px height) */
-  padding-bottom: 80px !important;
+  padding-bottom: var(--section-padding-y) !important;
+  padding-left: var(--section-padding-x) !important;
+  padding-right: var(--section-padding-x) !important;
 }
 
 /* Specific inner containers alignment */
@@ -158,16 +193,16 @@
   .hero-section, .company-hero {
     min-height: 60vh;
     padding-top: 130px !important;
-    padding-bottom: 60px !important;
+    padding-bottom: var(--section-padding-y-tablet) !important;
   }
 }
 
-/* Mobile (max-width: 768px) { */
+/* Mobile (max-width: 768px) */
 @media (max-width: 768px) {
   .hero-section, .company-hero {
     min-height: 50vh;
     padding-top: 120px !important;
-    padding-bottom: 48px !important;
+    padding-bottom: var(--section-padding-y-tablet) !important;
   }
 }
 
@@ -176,7 +211,6 @@
   .hero-section, .company-hero {
     min-height: 45vh;
     padding-top: 110px !important;
-    padding-bottom: 40px !important;
+    padding-bottom: var(--section-padding-y-mobile) !important;
   }
 }
-

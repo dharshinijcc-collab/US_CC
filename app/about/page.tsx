@@ -70,28 +70,11 @@ export default function AboutPage() {
 
         .section-container {
           max-width: 1200px;
-          margin: 0 auto;
-          padding: 24px 24px;
         }
 
-        /* Unified Hero Section Style */
+        /* Hero background — spacing from global-styles.css */
         .hero-section {
-          padding: 220px 24px 160px !important; /* spacious padding to expand the section */
-          text-align: center !important;
           background-color: #F1F5F9 !important;
-          display: flex !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          justify-content: center !important;
-          min-height: 480px !important; /* enlarged height to look grand and full-screen */
-          width: 100% !important;
-          position: relative !important;
-        }
-        @media(max-width: 768px) {
-          .hero-section {
-            padding: 90px 20px 40px !important;
-            min-height: 380px !important;
-          }
         }
         .hero-eyebrow-pill {
           display: inline-flex !important;
@@ -317,7 +300,7 @@ export default function AboutPage() {
             gap: 30px !important;
           }
           .section-container {
-            padding: 60px 20px !important;
+            max-width: 1200px;
           }
         }
       `}} />
@@ -368,8 +351,8 @@ export default function AboutPage() {
         </section>
 
         {/* ── 2. OUR STORY (TIMELINE) (Image 1) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#FFFFFF', position: 'relative' }}>
+          <div className="section-container">
             
             {/* Centered Heading */}
             <div className="section-header-centered">
@@ -489,8 +472,8 @@ export default function AboutPage() {
         </section>
 
         {/* ── 3. FOUNDING PILLARS (Image 2) ── */}
-        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#EFF6FF', position: 'relative' }}>
+          <div className="section-container">
             
             {/* Centered Heading */}
             <div className="section-header-centered">
@@ -586,8 +569,8 @@ export default function AboutPage() {
         </section>
 
         {/* ── 4. THE TEAM (Image 3) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#FFFFFF', position: 'relative' }}>
+          <div className="section-container">
             
             {/* Centered Heading */}
             <div className="section-header-centered">
@@ -680,8 +663,8 @@ export default function AboutPage() {
         </section>
 
         {/* ── 5. ADVISORS (Image 4) ── */}
-        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#EFF6FF', position: 'relative' }}>
+          <div className="section-container">
             
             {/* Centered Heading */}
             <div className="section-header-centered">
@@ -759,8 +742,8 @@ export default function AboutPage() {
         </section>
 
         {/* ── 6. GOVERNANCE MODEL (Image 4) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '24px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#FFFFFF', position: 'relative' }}>
+          <div className="section-container">
             
             {/* Centered Heading */}
             <div className="section-header-centered">
@@ -837,8 +820,8 @@ export default function AboutPage() {
         </section>
 
         {/* ── 7. COMMUNITY & NETWORK (Image 5) ── */}
-        <section style={{ backgroundColor: '#EFF6FF', padding: '24px 24px', position: 'relative' }}>
-          <div className="section-container" style={{ padding: 0 }}>
+        <section style={{ backgroundColor: '#EFF6FF', position: 'relative' }}>
+          <div className="section-container">
             
             {/* Centered Heading */}
             <div className="section-header-centered">
