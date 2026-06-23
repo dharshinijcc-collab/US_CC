@@ -7,6 +7,7 @@ import AdminLoginModal from '@/components/admin/AdminLoginModal';
 import AdminSaveBar from '@/components/admin/AdminSaveBar';
 import ScrollReveal from '@/components/ScrollReveal';
 import GlobalCursorGlow from '@/components/effects/GlobalCursorGlow';
+import { usePathname } from 'next/navigation';
 
 function AdminWrapper({ children }: { children: React.ReactNode }) {
   const { content } = useContent();
@@ -20,12 +21,15 @@ function AdminWrapper({ children }: { children: React.ReactNode }) {
 }
 
 export function Providers({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   return (
     <ContentProvider>
       <AdminWrapper>
         <ScrollReveal />
         <GlobalCursorGlow />
-        {children}
+        <div key={pathname} className="page-fade-in">
+          {children}
+        </div>
       </AdminWrapper>
     </ContentProvider>
   );
