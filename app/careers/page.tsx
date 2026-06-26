@@ -199,15 +199,6 @@ export default function CareersPage() {
           font-size: 36px !important;
         }
 
-        .section-container { max-width: 1280px; margin: 0 auto; padding: var(--section-padding-y) var(--section-padding-x); box-sizing: border-box; }
-
-        @media (max-width: 768px) {
-          .section-container { padding: var(--section-padding-y-tablet) var(--section-padding-x-tablet); }
-        }
-
-        @media (max-width: 480px) {
-          .section-container { padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile); }
-        }
         .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
         
@@ -345,47 +336,9 @@ export default function CareersPage() {
           text-transform: uppercase;
         }
 
-        /* Hero Section — spacing from global-styles.css */
+        /* Hero Section */
         .hero-section {
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          width: 100%;
-          overflow: hidden;
           background-color: #F1F5F9 !important;
-          box-sizing: border-box;
-          min-height: 70vh;
-          padding-top: 180px !important;
-          padding-bottom: var(--section-padding-y) !important;
-          padding-left: var(--section-padding-x) !important;
-          padding-right: var(--section-padding-x) !important;
-        }
-
-        @media (max-width: 1024px) {
-          .hero-section {
-            min-height: 60vh;
-            padding-top: 180px !important;
-            padding-bottom: var(--section-padding-y-tablet) !important;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .hero-section {
-            min-height: 50vh;
-            padding-top: 180px !important;
-            padding-bottom: var(--section-padding-y-tablet) !important;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .hero-section {
-            min-height: 45vh;
-            padding-top: 180px !important;
-            padding-bottom: var(--section-padding-y-mobile) !important;
-          }
         }
 
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px 40px; }

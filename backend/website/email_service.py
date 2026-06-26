@@ -1,35 +1,34 @@
 import os
-import smtplib
 import threading
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from backend.config import GMAIL_USER, GMAIL_APP_PASSWORD, TEAM_NOTIFICATION_EMAIL
+import resend
+from backend.config import RESEND_API_KEY, FROM_EMAIL, TEAM_NOTIFICATION_EMAIL, REPLY_TO_EMAIL
 
-# Gmail SMTP config
+# Initialize Resend
+if RESEND_API_KEY:
+    resend.api_key = RESEND_API_KEY
+
 TEAM_EMAIL = TEAM_NOTIFICATION_EMAIL
-FROM_DISPLAY = "Crestcode Product Studio"
 
 
-def _send_email(to_email: str, subject: str, html_body: str):
-    """Send an email via Gmail SMTP."""
-    # Use credentials from config
-    gmail_user = GMAIL_USER.strip() if GMAIL_USER else ""
-    gmail_pass = GMAIL_APP_PASSWORD.strip() if GMAIL_APP_PASSWORD else ""
-    if not gmail_user or not gmail_pass:
-        print("WARNING: GMAIL_USER or GMAIL_APP_PASSWORD not set - skipping email")
+def _send_email(to_email: str, subject: str, html_body: str, reply_to: str = None):
+    """Send an email via Resend API."""
+    if not RESEND_API_KEY:
+        print("WARNING: RESEND_API_KEY not set - skipping email")
         return
     try:
-        msg = MIMEMultipart('alternative')
-        msg['Subject'] = subject
-        msg['From'] = f"{FROM_DISPLAY} <{gmail_user}>"
-        msg['To'] = to_email
-        msg.attach(MIMEText(html_body, 'html'))
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
-            server.login(gmail_user, gmail_pass)
-            server.sendmail(gmail_user, to_email, msg.as_string())
-        print(f"Email sent to {to_email}")
+        params = {
+            "from": FROM_EMAIL,
+            "to": [to_email],
+            "subject": subject,
+            "html": html_body,
+        }
+        if reply_to:
+            params["reply_to"] = reply_to
+
+        resend.Emails.send(params)
+        print(f"Email sent to {to_email} via Resend")
     except Exception as e:
-        print(f"Failed to send email to {to_email}: {e}")
+        print(f"Failed to send email to {to_email} via Resend: {e}")
 
 
 def _base_template(title: str, body_html: str) -> str:
@@ -127,13 +126,6 @@ def send_contact_confirmation(to_email: str, first_name: str, service: str, mess
       </p>
     """
 
-    # Send to User
-    _send_email(
-        to_email,
-        f"We got your message, {first_name}!",
-        _base_template("Thank you for contacting Crestcode", body)
-    )
-
     # Notify Team
     team_body = f"""
       <h2 style="font-size:20px;color:#020617;">New Contact Inquiry</h2>
@@ -144,8 +136,27 @@ def send_contact_confirmation(to_email: str, first_name: str, service: str, mess
     _send_email(
         TEAM_EMAIL,
         f"New Inquiry: {service} from {first_name}",
-        _base_template("New Contact Submission", team_body)
+        _base_template("New Contact Submission", team_body),
+        reply_to=to_email
     )
+
+    # Send to User (delayed by 5 minutes)
+    def send_delayed():
+        try:
+            _send_email(
+                to_email,
+                f"We got your message, {first_name}!",
+                _base_template("Thank you for contacting Crestcode", body),
+                reply_to=REPLY_TO_EMAIL
+            )
+            print(f"[DELAYED EMAIL] Contact confirmation sent to {to_email}")
+        except Exception as e:
+            print(f"[DELAYED EMAIL ERROR] Failed to send contact confirmation to {to_email}: {e}")
+
+    timer = threading.Timer(300.0, send_delayed)
+    timer.daemon = True
+    timer.start()
+    print(f"[DELAYED EMAIL] Scheduled contact confirmation for {to_email} in 5 minutes")
 
 
 def send_idea_confirmation(to_email: str, name: str, idea_preview: str):
@@ -175,13 +186,6 @@ def send_idea_confirmation(to_email: str, name: str, idea_preview: str):
       </p>
     """
 
-    # Send to User
-    _send_email(
-        to_email,
-        "We received your submission!",
-        _base_template("Idea Received - Crestcode", body)
-    )
-
     # Notify Team
     team_body = f"""
       <h2 style="font-size:20px;color:#020617;">New Idea Submission</h2>
@@ -191,8 +195,27 @@ def send_idea_confirmation(to_email: str, name: str, idea_preview: str):
     _send_email(
         TEAM_EMAIL,
         f"New Idea from {name or to_email}",
-        _base_template("New Idea Submission", team_body)
+        _base_template("New Idea Submission", team_body),
+        reply_to=to_email
     )
+
+    # Send to User (delayed by 5 minutes)
+    def send_delayed():
+        try:
+            _send_email(
+                to_email,
+                "We received your submission!",
+                _base_template("Idea Received - Crestcode", body),
+                reply_to=REPLY_TO_EMAIL
+            )
+            print(f"[DELAYED EMAIL] Idea confirmation sent to {to_email}")
+        except Exception as e:
+            print(f"[DELAYED EMAIL ERROR] Failed to send idea confirmation to {to_email}: {e}")
+
+    timer = threading.Timer(300.0, send_delayed)
+    timer.daemon = True
+    timer.start()
+    print(f"[DELAYED EMAIL] Scheduled idea confirmation for {to_email} in 5 minutes")
 
 
 def send_talent_confirmation(to_email: str, first_name: str, interest: str):
@@ -221,13 +244,6 @@ def send_talent_confirmation(to_email: str, first_name: str, interest: str):
       </p>
     """
 
-    # Send to User
-    _send_email(
-        to_email,
-        f"Application received, {first_name}! We'll be in touch",
-        _base_template("Application Received - Crestcode", body)
-    )
-
     # Notify Team
     team_body = f"""
       <h2 style="font-size:20px;color:#020617;">New Talent Application</h2>
@@ -237,8 +253,27 @@ def send_talent_confirmation(to_email: str, first_name: str, interest: str):
     _send_email(
         TEAM_EMAIL,
         f"New Talent App: {interest} from {first_name}",
-        _base_template("New Talent Submission", team_body)
+        _base_template("New Talent Submission", team_body),
+        reply_to=to_email
     )
+
+    # Send to User (delayed by 5 minutes)
+    def send_delayed():
+        try:
+            _send_email(
+                to_email,
+                f"Application received, {first_name}! We'll be in touch",
+                _base_template("Application Received - Crestcode", body),
+                reply_to=REPLY_TO_EMAIL
+            )
+            print(f"[DELAYED EMAIL] Talent confirmation sent to {to_email}")
+        except Exception as e:
+            print(f"[DELAYED EMAIL ERROR] Failed to send talent confirmation to {to_email}: {e}")
+
+    timer = threading.Timer(300.0, send_delayed)
+    timer.daemon = True
+    timer.start()
+    print(f"[DELAYED EMAIL] Scheduled talent confirmation for {to_email} in 5 minutes")
 
 
 def send_investor_confirmation(to_email: str, full_name: str, expertise: str):
@@ -267,13 +302,6 @@ def send_investor_confirmation(to_email: str, full_name: str, expertise: str):
       </p>
     """
 
-    # Send to User
-    _send_email(
-        to_email,
-        "Investor Profile Received - Crestcode",
-        _base_template("Investor Profile Received - Crestcode", body)
-    )
-
     # Notify Team
     team_body = f"""
       <h2 style="font-size:20px;color:#020617;">New Investor Profile</h2>
@@ -283,8 +311,27 @@ def send_investor_confirmation(to_email: str, full_name: str, expertise: str):
     _send_email(
         TEAM_EMAIL,
         f"New Investor: {full_name}",
-        _base_template("New Investor Submission", team_body)
+        _base_template("New Investor Submission", team_body),
+        reply_to=to_email
     )
+
+    # Send to User (delayed by 5 minutes)
+    def send_delayed():
+        try:
+            _send_email(
+                to_email,
+                "Investor Profile Received - Crestcode",
+                _base_template("Investor Profile Received - Crestcode", body),
+                reply_to=REPLY_TO_EMAIL
+            )
+            print(f"[DELAYED EMAIL] Investor confirmation sent to {to_email}")
+        except Exception as e:
+            print(f"[DELAYED EMAIL ERROR] Failed to send investor confirmation to {to_email}: {e}")
+
+    timer = threading.Timer(300.0, send_delayed)
+    timer.daemon = True
+    timer.start()
+    print(f"[DELAYED EMAIL] Scheduled investor confirmation for {to_email} in 5 minutes")
 
 
 def send_idea_confirmation_delayed(to_email: str, name: str, idea_preview: str, delay_minutes: int = 5):

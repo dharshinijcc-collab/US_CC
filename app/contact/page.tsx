@@ -135,15 +135,6 @@ export default function ContactPage() {
         .animate-delay-4 { animation-delay: 0.4s; }
 
         .page-wrapper { min-height: 100vh; overflow-x: hidden; padding-bottom: 0; }
-        .section-container { max-width: 1280px; margin: 0 auto; padding: var(--section-padding-y) var(--section-padding-x); box-sizing: border-box; }
-
-        @media (max-width: 768px) {
-          .section-container { padding: var(--section-padding-y-tablet) var(--section-padding-x-tablet); }
-        }
-
-        @media (max-width: 480px) {
-          .section-container { padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile); }
-        }
         .pt-0 { padding-top: 0 !important; }
         .pb-0 { padding-bottom: 0 !important; }
         
@@ -348,34 +339,34 @@ export default function ContactPage() {
           overflow: hidden;
           background-color: #F1F5F9 !important;
           box-sizing: border-box;
-          min-height: 70vh;
-          padding-top: 180px !important;
-          padding-bottom: var(--section-padding-y) !important;
+          min-height: auto;
+          padding-top: 128px !important;
+          padding-bottom: var(--section-padding-bottom) !important;
           padding-left: var(--section-padding-x) !important;
           padding-right: var(--section-padding-x) !important;
         }
 
         @media (max-width: 1024px) {
           .hero-section {
-            min-height: 60vh;
-            padding-top: 180px !important;
-            padding-bottom: var(--section-padding-y-tablet) !important;
+            min-height: auto;
+            padding-top: 110px !important;
+            padding-bottom: var(--section-padding-bottom-tablet) !important;
           }
         }
 
         @media (max-width: 768px) {
           .hero-section {
-            min-height: 50vh;
-            padding-top: 180px !important;
-            padding-bottom: var(--section-padding-y-tablet) !important;
+            min-height: auto;
+            padding-top: 110px !important;
+            padding-bottom: var(--section-padding-bottom-tablet) !important;
           }
         }
 
         @media (max-width: 480px) {
           .hero-section {
-            min-height: 45vh;
-            padding-top: 180px !important;
-            padding-bottom: var(--section-padding-y-mobile) !important;
+            min-height: auto;
+            padding-top: 102px !important;
+            padding-bottom: var(--section-padding-bottom-mobile) !important;
           }
         }
         .hero-image-wrap {
@@ -944,25 +935,6 @@ export default function ContactPage() {
           </div>
         </section>
 
-
-
-        {/* Process Steps */}
-        <section style={{ backgroundColor: '#EFF6FF' }}>
-          <div className="section-container process-steps-wrap">
-            <EditableText as="h2" contentKey="contact.process.title" value={contactContent.process.title} className="section-title" />
-            <EditableText as="p" contentKey="contact.process.subtitle" value={contactContent.process.subtitle} className="body-text text-center" />
-            
-            <div className="steps-grid">
-              {contactContent.process.steps.map((step, idx) => (
-                <div key={idx} className="step-item cc-slide-left cc-delay-1">
-                  <div className="step-circle" style={{ boxShadow: '0 0 0 8px #EFF6FF' }}>{idx+1}</div>
-                  <EditableText as="h4" contentKey={`contact.process.steps.${idx}.title`} value={step.title} className="step-title" />
-                  <EditableText as="p" contentKey={`contact.process.steps.${idx}.description`} value={step.description} className="step-desc" />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* Bottom CTA Strip */}
         <div className="cta-strip">

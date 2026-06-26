@@ -84,7 +84,7 @@ export default function BlogArticlePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-purple-50 to-indigo-100 px-6 py-16 md:py-24">
+      <div className="bg-gradient-to-br from-purple-50 to-indigo-100 px-6 pt-32 pb-20">
         <div className="max-w-4xl mx-auto">
           <button
             onClick={() => router.push('/blogs')}
@@ -133,7 +133,7 @@ export default function BlogArticlePage() {
       </div>
 
       {/* Content Section */}
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="max-w-7xl mx-auto px-6 pt-12 pb-20">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Table of Contents */}
           <div className="lg:col-span-1">

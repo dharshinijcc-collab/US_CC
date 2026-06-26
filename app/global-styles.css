@@ -2,11 +2,16 @@
 
 /* ===== SPACING TOKENS ===== */
 :root {
-  --section-padding-y: 80px;
+  --section-padding-top: 48px;
+  --section-padding-bottom: 80px;
   --section-padding-x: 24px;
-  --section-padding-y-tablet: 60px;
+  
+  --section-padding-top-tablet: 36px;
+  --section-padding-bottom-tablet: 60px;
   --section-padding-x-tablet: 20px;
-  --section-padding-y-mobile: 48px;
+  
+  --section-padding-top-mobile: 28px;
+  --section-padding-bottom-mobile: 48px;
   --section-padding-x-mobile: 16px;
 }
 
@@ -67,14 +72,19 @@
 .section-container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: var(--section-padding-y) var(--section-padding-x);
+  padding-top: var(--section-padding-top);
+  padding-bottom: var(--section-padding-bottom);
+  padding-left: var(--section-padding-x);
+  padding-right: var(--section-padding-x);
   box-sizing: border-box;
 }
 
 /* Standalone sections without an inner .section-container */
 .page-section {
-  padding-block: var(--section-padding-y);
-  padding-inline: var(--section-padding-x);
+  padding-top: var(--section-padding-top);
+  padding-bottom: var(--section-padding-bottom);
+  padding-left: var(--section-padding-x);
+  padding-right: var(--section-padding-x);
   box-sizing: border-box;
 }
 
@@ -97,15 +107,24 @@ header:not(.hero-section):not(.company-hero):has(> .section-container) {
 
 /* Section Padding Standards (legacy aliases) */
 .section-padding-standard {
-  padding: var(--section-padding-y) var(--section-padding-x);
+  padding-top: var(--section-padding-top);
+  padding-bottom: var(--section-padding-bottom);
+  padding-left: var(--section-padding-x);
+  padding-right: var(--section-padding-x);
 }
 
 .section-padding-large {
-  padding: var(--section-padding-y) var(--section-padding-x);
+  padding-top: var(--section-padding-top);
+  padding-bottom: var(--section-padding-bottom);
+  padding-left: var(--section-padding-x);
+  padding-right: var(--section-padding-x);
 }
 
 .section-padding-extra-large {
-  padding: var(--section-padding-y) var(--section-padding-x);
+  padding-top: var(--section-padding-top);
+  padding-bottom: var(--section-padding-bottom);
+  padding-left: var(--section-padding-x);
+  padding-right: var(--section-padding-x);
 }
 
 /* Section Heading Container */
@@ -118,18 +137,26 @@ header:not(.hero-section):not(.company-hero):has(> .section-container) {
 
 @media (max-width: 768px) {
   .section-container {
-    padding: var(--section-padding-y-tablet) var(--section-padding-x-tablet);
+    padding-top: var(--section-padding-top-tablet);
+    padding-bottom: var(--section-padding-bottom-tablet);
+    padding-left: var(--section-padding-x-tablet);
+    padding-right: var(--section-padding-x-tablet);
   }
 
   .page-section {
-    padding-block: var(--section-padding-y-tablet);
-    padding-inline: var(--section-padding-x-tablet);
+    padding-top: var(--section-padding-top-tablet);
+    padding-bottom: var(--section-padding-bottom-tablet);
+    padding-left: var(--section-padding-x-tablet);
+    padding-right: var(--section-padding-x-tablet);
   }
 
   .section-padding-standard,
   .section-padding-large,
   .section-padding-extra-large {
-    padding: var(--section-padding-y-tablet) var(--section-padding-x-tablet);
+    padding-top: var(--section-padding-top-tablet);
+    padding-bottom: var(--section-padding-bottom-tablet);
+    padding-left: var(--section-padding-x-tablet);
+    padding-right: var(--section-padding-x-tablet);
   }
 
   .section-header-centered {
@@ -139,18 +166,26 @@ header:not(.hero-section):not(.company-hero):has(> .section-container) {
 
 @media (max-width: 480px) {
   .section-container {
-    padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile);
+    padding-top: var(--section-padding-top-mobile);
+    padding-bottom: var(--section-padding-bottom-mobile);
+    padding-left: var(--section-padding-x-mobile);
+    padding-right: var(--section-padding-x-mobile);
   }
 
   .page-section {
-    padding-block: var(--section-padding-y-mobile);
-    padding-inline: var(--section-padding-x-mobile);
+    padding-top: var(--section-padding-top-mobile);
+    padding-bottom: var(--section-padding-bottom-mobile);
+    padding-left: var(--section-padding-x-mobile);
+    padding-right: var(--section-padding-x-mobile);
   }
 
   .section-padding-standard,
   .section-padding-large,
   .section-padding-extra-large {
-    padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile);
+    padding-top: var(--section-padding-top-mobile);
+    padding-bottom: var(--section-padding-bottom-mobile);
+    padding-left: var(--section-padding-x-mobile);
+    padding-right: var(--section-padding-x-mobile);
   }
 }
 
@@ -168,9 +203,9 @@ header:not(.hero-section):not(.company-hero):has(> .section-container) {
   box-sizing: border-box;
 
   /* Desktop premium dimensions */
-  min-height: 70vh;
-  padding-top: 180px !important; /* Clear flush-top navbar */
-  padding-bottom: var(--section-padding-y) !important;
+  min-height: auto;
+  padding-top: 156px !important; /* Clear flush-top navbar (80px) + 76px space = 156px */
+  padding-bottom: var(--section-padding-bottom) !important;
   padding-left: var(--section-padding-x) !important;
   padding-right: var(--section-padding-x) !important;
 }
@@ -240,26 +275,26 @@ header:not(.hero-section):not(.company-hero):has(> .section-container) {
 /* Tablets (max-width: 1024px) */
 @media (max-width: 1024px) {
   .hero-section, .company-hero {
-    min-height: 60vh;
-    padding-top: 180px !important;
-    padding-bottom: var(--section-padding-y-tablet) !important;
+    min-height: auto;
+    padding-top: 130px !important; /* 70px navbar + 60px spacing = 130px */
+    padding-bottom: var(--section-padding-bottom-tablet) !important;
   }
 }
 
 /* Mobile (max-width: 768px) */
 @media (max-width: 768px) {
   .hero-section, .company-hero {
-    min-height: 50vh;
-    padding-top: 180px !important;
-    padding-bottom: var(--section-padding-y-tablet) !important;
+    min-height: auto;
+    padding-top: 130px !important; /* 70px navbar + 60px spacing = 130px */
+    padding-bottom: var(--section-padding-bottom-tablet) !important;
   }
 }
 
 /* Small mobile (max-width: 480px) */
 @media (max-width: 480px) {
   .hero-section, .company-hero {
-    min-height: 45vh;
-    padding-top: 180px !important;
-    padding-bottom: var(--section-padding-y-mobile) !important;
+    min-height: auto;
+    padding-top: 116px !important; /* 70px navbar + 46px spacing = 116px */
+    padding-bottom: var(--section-padding-bottom-mobile) !important;
   }
 }

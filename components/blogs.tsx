@@ -69,8 +69,7 @@ export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
 
       {/* 1. HERO SECTION - Styled like Studio page hero */}
       {showHero && (
-        <section style={{
-          padding: '220px 24px 160px',
+        <section className="hero-section" style={{
           backgroundColor: '#F1F5F9',
           position: 'relative',
           overflow: 'hidden',
@@ -150,7 +149,7 @@ export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
       )}
 
       {/* 2. FILTER & SEARCH BAR */}
-      <main style={{ maxWidth: '1200px', margin: showHero ? 'clamp(-20px, -4vw, -40px) auto 80px auto' : '0 auto 80px auto', padding: '0 20px', position: 'relative', zIndex: 20 }}>
+      <main style={{ maxWidth: '1200px', margin: showHero ? '48px auto 80px auto' : '0 auto', padding: '0 20px', position: 'relative', zIndex: 20 }}>
         <div style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(20px)', borderRadius: '20px', padding: '20px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.05)', border: `1px solid ${COLORS.white}`, marginBottom: '36px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '20px' }}>
           <div style={{ position: 'relative', flex: '1 1 300px' }}>
             <Search style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: COLORS.textMuted }} size={20} />

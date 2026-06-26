@@ -510,7 +510,6 @@ export default function CompanyPage() {
         .section-container {
           max-width: 100%;
           margin: 0 auto;
-          padding: var(--section-padding-y) var(--section-padding-x);
         }
         .section-eyebrow {
           color: #005AE2;

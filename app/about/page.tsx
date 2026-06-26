@@ -68,66 +68,10 @@ export default function AboutPage() {
           margin: 0;
         }
 
-        .section-container {
-          max-width: 1280px;
-          margin: 0 auto;
-          padding: var(--section-padding-y) var(--section-padding-x);
-          box-sizing: border-box;
-        }
 
-        @media (max-width: 768px) {
-          .section-container {
-            padding: var(--section-padding-y-tablet) var(--section-padding-x-tablet);
-          }
-        }
-
-        @media (max-width: 480px) {
-          .section-container {
-            padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile);
-          }
-        }
-
-        /* Hero Section — spacing from global-styles.css */
+        /* Hero Section */
         .hero-section {
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          width: 100%;
-          overflow: hidden;
           background-color: #F1F5F9 !important;
-          box-sizing: border-box;
-          min-height: 70vh;
-          padding-top: 180px !important;
-          padding-bottom: var(--section-padding-y) !important;
-          padding-left: var(--section-padding-x) !important;
-          padding-right: var(--section-padding-x) !important;
-        }
-
-        @media (max-width: 1024px) {
-          .hero-section {
-            min-height: 60vh;
-            padding-top: 180px !important;
-            padding-bottom: var(--section-padding-y-tablet) !important;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .hero-section {
-            min-height: 50vh;
-            padding-top: 180px !important;
-            padding-bottom: var(--section-padding-y-tablet) !important;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .hero-section {
-            min-height: 45vh;
-            padding-top: 180px !important;
-            padding-bottom: var(--section-padding-y-mobile) !important;
-          }
         }
         .hero-eyebrow-pill {
           display: inline-flex !important;
@@ -1002,23 +946,16 @@ export default function AboutPage() {
         </section>
 
         {/* ── 8. CALL TO ACTION (WORK WITH US) (Image 5) ── */}
-        <section style={{ backgroundColor: '#FFFFFF', padding: '32px 24px', position: 'relative' }}>
+        <section className="page-section" style={{ backgroundColor: '#FFFFFF', position: 'relative' }}>
           <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
-            <EditableText 
-              contentKey="about.cta.label"
-              value={getContent('about.cta.label', 'WORK WITH US')}
-              as="span"
-              style={{
-                color: 'var(--primary-blue)',
-                fontSize: '0.75rem',
-                fontWeight: 800,
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                marginBottom: '16px',
-                display: 'block',
-                fontFamily: "'Manrope', sans-serif"
-              }}
-            />
+            <div style={{ display: 'inline-block', marginBottom: '16px' }}>
+              <span className="hero-eyebrow-pill" style={{ marginBottom: 0 }}>
+                <EditableText 
+                  contentKey="about.cta.label"
+                  value={getContent('about.cta.label', 'WORK WITH US')}
+                />
+              </span>
+            </div>
             <EditableText
               contentKey="about.cta.title"
               value={getContent('about.cta.title', "If this sounds like\nthe partner you've been\nlooking for")}

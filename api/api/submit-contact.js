@@ -1,10 +1,14 @@
 const { createClient } = require('@supabase/supabase-js');
+const { Resend } = require('resend');
 
 // Initialize Supabase
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_ANON_KEY
 );
+
+// Initialize Resend
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function handler(req, res) {
   // Only allow POST requests
@@ -47,6 +51,49 @@ async function handler(req, res) {
       return res.status(500).json({ error: error.message });
     }
 
+    // Send email notification to team
+    try {
+      await resend.emails.send({
+        from: process.env.FROM_EMAIL || 'Crestcode <contact@cctps.com>',
+        to: process.env.TEAM_NOTIFICATION_EMAIL || 'contact@cctps.com',
+        reply_to: workEmail,
+        subject: `New Contact: ${firstName} - ${serviceInterest}`,
+        html: `
+          <h2>New Contact Form Submission</h2>
+          <p><strong>Name:</strong> ${firstName}</p>
+          <p><strong>Email:</strong> ${workEmail}</p>
+          <p><strong>Company:</strong> ${company || 'Not provided'}</p>
+          <p><strong>Service Interest:</strong> ${serviceInterest}</p>
+          <p><strong>Project Stage:</strong> ${projectStage}</p>
+          <p><strong>Message:</strong></p>
+          <p>${message}</p>
+          <p><strong>Submitted:</strong> ${new Date().toLocaleString()}</p>
+        `
+      });
+    } catch (emailError) {
+      console.error('Email error:', emailError);
+    }
+
+    // Send confirmation email to user
+    try {
+      await resend.emails.send({
+        from: process.env.FROM_EMAIL || 'Crestcode <contact@cctps.com>',
+        to: workEmail,
+        reply_to: process.env.REPLY_TO_EMAIL || process.env.TEAM_NOTIFICATION_EMAIL || 'contact@cctps.com',
+        subject: 'Thank you for contacting Crestcode',
+        html: `
+          <h2>Thank you for reaching out!</h2>
+          <p>Hi ${firstName},</p>
+          <p>We've received your message and our team will review it within 24 hours.</p>
+          <p><strong>Your inquiry:</strong> ${serviceInterest}</p>
+          <p>We'll get back to you soon!</p>
+          <p>Best regards,<br>The Crestcode Team</p>
+        `
+      });
+    } catch (emailError) {
+      console.error('Confirmation email error:', emailError);
+    }
+
     return res.status(200).json({
       success: true,
       message: 'Contact form submitted successfully',
@@ -60,4 +107,3 @@ async function handler(req, res) {
 }
 
 module.exports = handler;
-
