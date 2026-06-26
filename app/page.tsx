@@ -20,25 +20,261 @@ import { useInView } from 'framer-motion';
 import { API_URL } from '@/services/api';
 import { User, Building, Lightbulb, Compass, Zap, Users, TrendingUp, Cpu, Globe, Brain, Home } from 'lucide-react';
 
+const PARTNER_PRODUCTS = [
+  {
+    id: '01',
+    name: 'Dockly',
+    tagline: 'Family connectivity',
+    subtitle: 'One connected platform to manage your life, simplified',
+    accentBg: '#ECFDF5',
+    accentColor: '#059669',
+    icon: (
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </svg>
+    ),
+    stat: '2,400+ families onboarded',
+    statSub: 'Within the first 90 days post-launch',
+    whatWeDid: 'Scoped, designed, and built a unified family hub from scratch — shipping a live product in 4 months with a 3-person team.',
+    features: [
+      {
+        text: 'Planner & calendars',
+        icon: (
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+        )
+      },
+      {
+        text: 'Shared finances',
+        icon: (
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <rect x="2" y="5" width="20" height="14" rx="2" ry="2" />
+            <line x1="12" y1="17" x2="12" y2="17" />
+            <path d="M12 9V15M9 12h6" />
+          </svg>
+        )
+      },
+      {
+        text: 'Secure vault',
+        icon: (
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0110 0v4" />
+          </svg>
+        )
+      }
+    ],
+    industry: 'Family Tech / SaaS',
+    duration: '4 months',
+    team: '3 members',
+    stack: ['Next.js', 'Node.js', 'Tailwind CSS'],
+    liveUrl: 'https://app.dockly.me/',
+    statTheme: {
+      bg: '#E6F4EA',
+      text: '#064E3B',
+      subText: '#047857',
+      iconBg: '#A7F3D0',
+      iconColor: '#059669'
+    }
+  },
+  {
+    id: '02',
+    name: 'CastleGEC',
+    tagline: 'Global education',
+    subtitle: 'Study abroad & admissions consulting, simplified',
+    accentBg: '#ECFDF5',
+    accentColor: '#059669',
+    icon: (
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="2" y1="12" x2="22" y2="12" />
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+      </svg>
+    ),
+    stat: '500+ student placements',
+    statSub: 'Secured in premier universities across the US and EU',
+    whatWeDid: 'Designed and engineered a global education portal, unifying visa tracking and admissions counseling into one workflow for international students.',
+    features: [
+      {
+        text: 'University admissions',
+        icon: (
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+            <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5" />
+          </svg>
+        )
+      },
+      {
+        text: 'Visa guidance',
+        icon: (
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+          </svg>
+        )
+      },
+      {
+        text: 'Admissions insights',
+        icon: (
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <line x1="18" y1="20" x2="18" y2="10" />
+            <line x1="12" y1="20" x2="12" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="14" />
+          </svg>
+        )
+      }
+    ],
+    industry: 'EdTech / Consulting',
+    duration: '3 months',
+    team: '2 members',
+    stack: ['Next.js', 'React', 'Tailwind CSS'],
+    liveUrl: 'https://castlegec.com/',
+    statTheme: {
+      bg: '#E6F4EA',
+      text: '#064E3B',
+      subText: '#047857',
+      iconBg: '#A7F3D0',
+      iconColor: '#059669'
+    }
+  },
+  {
+    id: '03',
+    name: 'OpenCap',
+    tagline: 'Trading analytics',
+    subtitle: 'Trading analytics & prediction dashboard, simplified',
+    accentBg: '#ECFDF5',
+    accentColor: '#059669',
+    icon: (
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+        <polyline points="17 6 23 6 23 12" />
+      </svg>
+    ),
+    stat: '$12M+ monthly trading volume',
+    statSub: 'Processed through the prediction dashboard',
+    whatWeDid: 'Developed high-frequency trading analytics dashboard and prediction models, enabling real-time portfolio tracking and option analytics.',
+    features: [
+      {
+        text: 'AI trade prediction',
+        icon: (
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+            <line x1="12" y1="22.08" x2="12" y2="12" />
+          </svg>
+        )
+      },
+      {
+        text: 'Portfolio analytics',
+        icon: (
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path d="M3 3v18h18" />
+            <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
+          </svg>
+        )
+      },
+      {
+        text: 'Positions tracker',
+        icon: (
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+            <line x1="9" y1="9" x2="15" y2="9" />
+            <line x1="9" y1="13" x2="15" y2="13" />
+            <line x1="9" y1="17" x2="15" y2="17" />
+          </svg>
+        )
+      }
+    ],
+    industry: 'Fintech / Trading',
+    duration: '5 months',
+    team: '4 members',
+    stack: ['React.js', 'Node.js', 'PostgreSQL'],
+    liveUrl: '#',
+    statTheme: {
+      bg: '#E6F4EA',
+      text: '#064E3B',
+      subText: '#047857',
+      iconBg: '#A7F3D0',
+      iconColor: '#059669'
+    }
+  },
+  {
+    id: '04',
+    name: 'VHOA',
+    tagline: 'Real estate tech',
+    subtitle: 'Virtual homeowners association portal, simplified',
+    accentBg: '#ECFDF5',
+    accentColor: '#059669',
+    icon: (
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
+        <line x1="9" y1="22" x2="9" y2="16" />
+        <line x1="15" y1="22" x2="15" y2="16" />
+        <line x1="9" y1="16" x2="15" y2="16" />
+        <path d="M9 8h.01M15 8h.01M9 12h.01M15 12h.01" />
+      </svg>
+    ),
+    stat: '1,200+ active residents',
+    statSub: 'Engaged across 15 premium communities',
+    whatWeDid: 'Built an all-in-one HOA resident and property portal to streamline maintenance requests, announcements, and board communications.',
+    features: [
+      {
+        text: 'Resident dashboard',
+        icon: (
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 00-3-3.87" />
+            <path d="M16 3.13a4 4 0 010 7.75" />
+          </svg>
+        )
+      },
+      {
+        text: 'Service requests',
+        icon: (
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
+          </svg>
+        )
+      },
+      {
+        text: 'Announcements',
+        icon: (
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 01-3.46 0" />
+          </svg>
+        )
+      }
+    ],
+    industry: 'PropTech',
+    duration: '6 months',
+    team: '3 members',
+    stack: ['Next.js', 'Node.js', 'PostgreSQL'],
+    liveUrl: '#',
+    statTheme: {
+      bg: '#E6F4EA',
+      text: '#064E3B',
+      subText: '#047857',
+      iconBg: '#A7F3D0',
+      iconColor: '#059669'
+    }
+  }
+];
+
 export default function LandingPage() {
   const { content, loading, error } = useContent();
   const { isAdminMode } = useAdmin();
   const homeContent = content?.home || (localConfig as any).home;
 
-  const getProductIcon = (companyName: string) => {
-    switch (companyName.toLowerCase()) {
-      case 'dockly':
-        return <Home size={18} />;
-      case 'castlegec':
-        return <Globe size={18} />;
-      case 'opencap':
-        return <TrendingUp size={18} />;
-      case 'vhoa':
-        return <Building size={18} />;
-      default:
-        return <Globe size={18} />;
-    }
-  };
+  
 
   const [idea, setIdea] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +288,7 @@ export default function LandingPage() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const heroRef = useRef(null);
 
-  const [currentProductIndex, setCurrentProductIndex] = useState(0);
+  const [activeProd, setActiveProd] = useState(0);
 
   const ideaExamples = [
     "Building a comprehensive life and legacy management application for family",
@@ -165,18 +401,7 @@ export default function LandingPage() {
     }
   ];
 
-  const partneredProducts = Array.from({
-    length: Math.max(partneredProductsFallback.length, homeContent.partnered_products?.items?.length || 0)
-  }).map((_, idx) => {
-    const fromContent = homeContent.partnered_products?.items?.[idx] || {};
-    const fromFallback = partneredProductsFallback[idx] || {};
-    return {
-      ...fromFallback,
-      ...fromContent,
-      features: fromContent.features || fromFallback.features || [],
-      tech: fromContent.tech || fromFallback.tech || [],
-    };
-  });
+  
 
   const backFeaturesFallback = [
     // Card 0: Visionary Founders
@@ -206,15 +431,9 @@ export default function LandingPage() {
   const [activeMethodStep, setActiveMethodStep] = useState(0);
 
   // Auto-cycle partnered products
-  const [isProductsHovered, setIsProductsHovered] = useState(false);
 
-  useEffect(() => {
-    if (isProductsHovered) return;
-    const interval = setInterval(() => {
-      setCurrentProductIndex((prev) => (prev + 1) % partneredProducts.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [isProductsHovered, partneredProducts.length]);
+
+  
 
   // Auto-scroll logic (smooth loop without duplicate elements)
   useEffect(() => {
@@ -3164,128 +3383,281 @@ export default function LandingPage() {
 
 
 
-        {/* Partnered Products Section */}
-        <section className="partnered-products-section" style={{ backgroundColor: '#FFFFFF', padding: '80px 24px' }}>
-          <div className="section-container" style={{ position: 'relative', zIndex: 2, maxWidth: '1100px', margin: '0 auto' }}>
-            {/* Header */}
-            <div className="text-center" style={{ marginBottom: '48px' }}>
-              <EditableText contentKey="home.partnered_products.badge" value={homeContent.partnered_products?.badge || "STUDIO BUILDS"} className="section-eyebrow text-center cc-reveal" style={{ marginBottom: '12px', color: '#005AE2', fontWeight: 800, fontSize: '0.8rem', letterSpacing: '0.1em' }} />
-              <EditableText as="h2" contentKey="home.partnered_products.title" value={homeContent.partnered_products?.title || "Partner Products"} className="section-title text-center" style={{ marginBottom: '12px', fontSize: '2.5rem', fontWeight: 800, color: '#0A0F1C' }} />
-              <EditableText as="p" contentKey="home.partnered_products.subtitle" value={homeContent.partnered_products?.subtitle || "Innovative solutions delivering measurable results across industries"} className="section-subtitle text-center" style={{ maxWidth: '600px', margin: '0 auto', fontSize: '1.1rem', color: '#64748B' }} />
-            </div>
+        {/* ── Partners Products Section ── */}
+        {(() => {
+          const prod = PARTNER_PRODUCTS[activeProd];
 
-            {/* Exact Match Layout */}
-            <div
-              className="product-carousel-card"
-              style={{
-                display: 'flex',
-                border: '1px solid #EAEAEA',
-                borderRadius: '24px',
-                overflow: 'hidden',
-                background: '#FFFFFF',
-                boxShadow: '0 20px 40px -10px rgba(0,0,0,0.05)'
-              }}
-            >
-              {/* Product Sidebar (Left) - Increased width, specific background */}
-              <div className="product-sidebar" style={{ width: '320px', flexShrink: 0, padding: '24px 0', background: '#F9F8F5', borderRight: '1px solid #EAEAEA' }}>
-                <div className="product-sidebar-track" style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '0 12px' }}>
-                  {partneredProducts.map((product, idx) => {
-                    const isActive = currentProductIndex === idx;
-                    return (
+          return (
+            <section className="page-section" style={{ backgroundColor: '#F5F5F0', fontFamily: "'Inter', sans-serif" }}>
+              <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
+                {/* Section Eyebrow */}
+                <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+                  <span style={{
+                    display: 'inline-block',
+                    background: '#E6EFFF',
+                    color: '#005AE2',
+                    fontFamily: "'Manrope', sans-serif",
+                    fontWeight: 800,
+                    fontSize: '0.75rem',
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    padding: '8px 18px',
+                    borderRadius: '100px',
+                    marginBottom: '16px',
+                  }}>Partners&apos; Products</span>
+                  <h2 style={{
+                    fontFamily: "'Manrope', sans-serif",
+                    fontSize: 'clamp(1.75rem, 3vw, 2.25rem)',
+                    fontWeight: 800,
+                    color: '#0F172A',
+                    letterSpacing: '-0.02em',
+                    margin: '0 auto 12px',
+                    lineHeight: 1.25,
+                  }}>What we&apos;ve built together</h2>
+                  <p style={{ color: '#64748B', fontSize: '1rem', maxWidth: '500px', margin: '0 auto', lineHeight: 1.6, fontWeight: 500 }}>
+                    Real ventures built in partnership with founders who chose to build, not just plan.
+                  </p>
+                </div>
+
+                {/* Two-column layout */}
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: '260px 1fr',
+                  gap: '0',
+                  background: '#FFFFFF',
+                  border: '1px solid #E2E8F0',
+                  borderRadius: '20px',
+                  overflow: 'hidden',
+                  boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
+                }}>
+                  {/* Left sidebar — product list */}
+                  <div style={{
+                    borderRight: '1px solid #E2E8F0',
+                    padding: '8px 0',
+                    background: '#F5F5F0',
+                  }}>
+                    {PARTNER_PRODUCTS.map((p, idx) => (
                       <button
-                        key={idx}
-                        onClick={() => setCurrentProductIndex(idx)}
+                        key={p.id}
+                        onClick={() => setActiveProd(idx)}
                         style={{
                           display: 'flex',
                           alignItems: 'center',
                           gap: '12px',
                           width: '100%',
-                          padding: '16px',
-                          background: isActive ? '#FFFFFF' : 'transparent',
-                          borderRadius: '12px',
+                          padding: '14px 20px',
                           border: 'none',
-                          textAlign: 'left',
+                          borderLeft: activeProd === idx ? `3px solid #005AE2` : '3px solid transparent',
+                          background: activeProd === idx ? '#FFFFFF' : 'transparent',
                           cursor: 'pointer',
-                          boxShadow: isActive ? '0 2px 8px rgba(0,0,0,0.05)' : 'none'
+                          textAlign: 'left',
+                          transition: 'all 0.2s ease',
                         }}
                       >
-                        <div style={{ width: '40px', height: '40px', borderRadius: '8px', background: '#E2E8F0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          {getProductIcon(product.company)}
+                        {/* Icon box */}
+                        <div style={{
+                          width: '36px',
+                          height: '36px',
+                          borderRadius: '8px',
+                          background: activeProd === idx ? '#E6EFFF' : '#FFFFFF',
+                          color: activeProd === idx ? '#005AE2' : '#475569',
+                          border: activeProd === idx ? '1px solid #BAE6FD' : '1px solid #E5E7EB',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0,
+                          transition: 'all 0.2s ease',
+                        }}>
+                          {p.icon}
                         </div>
                         <div>
-                          <div style={{ fontWeight: 700, fontSize: '0.95rem', color: '#0A0F1C' }}>{product.company}</div>
-                          <div style={{ fontSize: '0.75rem', color: '#64748B' }}>{product.category}</div>
+                          <div style={{
+                            fontFamily: "'Inter', sans-serif",
+                            fontWeight: 700,
+                            fontSize: '0.95rem',
+                            color: activeProd === idx ? '#0F172A' : '#475569',
+                            lineHeight: 1.3,
+                            transition: 'color 0.2s',
+                          }}>{p.name}</div>
+                          <div style={{
+                            fontFamily: "'Inter', sans-serif",
+                            fontSize: '0.8rem',
+                            color: '#6B7280',
+                            fontWeight: 500,
+                            marginTop: '2px',
+                          }}>{p.tagline}</div>
                         </div>
                       </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Product Details (Right) */}
-              <div className="product-details" style={{ flexGrow: 1, padding: '48px', background: '#FFFFFF' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                  <h3 style={{ fontSize: '2.5rem', fontWeight: 800, color: '#0A0F1C', marginBottom: '8px' }}>{partneredProducts[currentProductIndex].company}</h3>
-                  <div style={{ fontSize: '24px', color: '#CBD5E1' }}>...</div>
-                </div>
-                <p style={{ color: '#005AE2', fontWeight: 600, marginBottom: '32px' }}>{partneredProducts[currentProductIndex].title}</p>
-
-                {/* Stats Highlight Box */}
-                <div style={{ background: '#E8F5E9', borderRadius: '12px', padding: '24px', marginBottom: '24px' }}>
-                  <div style={{ color: '#065F46', fontWeight: 700, fontSize: '1.25rem' }}>{partneredProducts[currentProductIndex].highlightStat}</div>
-                  <div style={{ color: '#065F46', fontSize: '0.95rem' }}>{partneredProducts[currentProductIndex].highlightSub}</div>
-                </div>
-
-                {/* What CrestCode Did */}
-                <div style={{ background: '#F5F5F0', borderRadius: '12px', padding: '20px', marginBottom: '24px' }}>
-                  <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#64748B', marginBottom: '8px' }}>WHAT CRESTCODE DID</div>
-                  <p style={{ fontSize: '0.95rem', color: '#0A0F1C', lineHeight: 1.6 }}>{partneredProducts[currentProductIndex].whatCrestcodeDid}</p>
-                </div>
-
-                {/* Key Features */}
-                <div style={{ marginBottom: '24px' }}>
-                  <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#64748B', marginBottom: '12px' }}>KEY FEATURES</div>
-                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                    {partneredProducts[currentProductIndex].features.map((f, i) => (
-                      <span key={i} style={{ background: '#F1F5F9', padding: '6px 12px', borderRadius: '6px', fontSize: '0.85rem' }}>{f}</span>
                     ))}
                   </div>
-                </div>
 
-                {/* Meta Grid */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '32px' }}>
-                  <div style={{ background: '#F5F5F0', padding: '16px', borderRadius: '8px' }}>
-                    <div style={{ fontSize: '0.7rem', color: '#64748B' }}>Industry</div>
-                    <div style={{ fontWeight: 600 }}>{partneredProducts[currentProductIndex].industry}</div>
-                  </div>
-                  <div style={{ background: '#F5F5F0', padding: '16px', borderRadius: '8px' }}>
-                    <div style={{ fontSize: '0.7rem', color: '#64748B' }}>Duration</div>
-                    <div style={{ fontWeight: 600 }}>{partneredProducts[currentProductIndex].duration}</div>
-                  </div>
-                  <div style={{ background: '#F5F5F0', padding: '16px', borderRadius: '8px' }}>
-                    <div style={{ fontSize: '0.7rem', color: '#64748B' }}>Team size</div>
-                    <div style={{ fontWeight: 600 }}>{partneredProducts[currentProductIndex].teamSize}</div>
+                  {/* Right detail panel */}
+                  <div style={{ padding: '32px 36px', background: '#FFFFFF' }}>
+                    {/* Product name + subtitle */}
+                    <div style={{ marginBottom: '24px' }}>
+                      <h3 style={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontSize: '2.25rem',
+                        fontWeight: 800,
+                        color: '#0F172A',
+                        letterSpacing: '-0.03em',
+                        margin: '0 0 8px',
+                      }}>{prod.name}</h3>
+                      <p style={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontSize: '1.125rem',
+                        color: '#005AE2',
+                        fontWeight: 600,
+                        margin: 0,
+                        lineHeight: 1.4,
+                      }}>{prod.subtitle}</p>
+                    </div>
+
+                    {/* Stat banner */}
+                    <div style={{
+                      background: prod.statTheme.bg,
+                      borderRadius: '16px',
+                      padding: '18px 24px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '16px',
+                      marginBottom: '28px',
+                    }}>
+                      <div style={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '50%',
+                        background: prod.statTheme.iconBg,
+                        color: prod.statTheme.iconColor,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}>
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                          <polyline points="17 6 23 6 23 12" />
+                        </svg>
+                      </div>
+                      <div>
+                        <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: '1.25rem', color: prod.statTheme.text, lineHeight: 1.2 }}>{prod.stat}</div>
+                        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.875rem', color: prod.statTheme.subText, fontWeight: 500, marginTop: '4px' }}>{prod.statSub}</div>
+                      </div>
+                    </div>
+
+                    {/* What CrestCode did */}
+                    <div style={{
+                      background: '#FAF9F6',
+                      borderRadius: '12px',
+                      padding: '20px 24px',
+                      marginBottom: '28px',
+                    }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        marginBottom: '10px',
+                      }}>
+                        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#6B7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A5 5 0 0 0 8 8c0 1 .3 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+                          <path d="M9 18h6" />
+                          <path d="M10 22h4" />
+                        </svg>
+                        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6B7280' }}>What CrestCode Did</span>
+                      </div>
+                      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '1rem', color: '#334155', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>{prod.whatWeDid}</p>
+                    </div>
+
+                    {/* Key Features */}
+                    <div style={{ marginBottom: '28px' }}>
+                      <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6B7280', marginBottom: '12px' }}>Key Features</div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                        {prod.features.map((f, i) => (
+                          <span key={i} style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            background: '#FAF9F6',
+                            borderRadius: '8px',
+                            padding: '8px 16px',
+                            fontSize: '0.875rem',
+                            color: '#334155',
+                            fontWeight: 600,
+                          }}>
+                            {f.icon}
+                            {f.text}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Industry / Duration / Team */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '28px' }}>
+                      {[
+                        { label: 'Industry', value: prod.industry },
+                        { label: 'Duration', value: prod.duration },
+                        { label: 'Team size', value: prod.team },
+                      ].map((meta, i) => (
+                        <div key={i} style={{
+                          background: '#FAF9F6',
+                          borderRadius: '12px',
+                          padding: '16px 18px',
+                        }}>
+                          <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', color: '#6B7280', fontWeight: 600, marginBottom: '6px' }}>{meta.label}</div>
+                          <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '1rem', fontWeight: 800, color: '#0F172A' }}>{meta.value}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Tech Stack */}
+                    <div style={{ marginBottom: '32px' }}>
+                      <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6B7280', marginBottom: '12px' }}>Technology Stack</div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                        {prod.stack.map((s, i) => (
+                          <span key={i} style={{
+                            background: '#FFFFFF',
+                            border: '1px solid #E2E8F0',
+                            borderRadius: '8px',
+                            padding: '6px 16px',
+                            fontSize: '0.875rem',
+                            color: '#334155',
+                            fontWeight: 600,
+                          }}>{s}</span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Visit live product button */}
+                    <a href={prod.liveUrl} target="_blank" rel="noopener noreferrer" style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      width: '100%',
+                      padding: '14px 24px',
+                      background: '#FFFFFF',
+                      border: '1.5px solid #E2E8F0',
+                      borderRadius: '12px',
+                      fontSize: '0.925rem',
+                      fontWeight: 700,
+                      color: '#0F172A',
+                      textDecoration: 'none',
+                      fontFamily: "'Inter', sans-serif",
+                      transition: 'all 0.2s ease',
+                      cursor: 'pointer',
+                    }}>
+                      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="7" y1="17" x2="17" y2="7" />
+                        <polyline points="7 7 17 7 17 17" />
+                      </svg>
+                      Visit live product
+                    </a>
                   </div>
                 </div>
-
-                {/* Tech Stack */}
-                <div style={{ marginBottom: '32px' }}>
-                  <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#64748B', marginBottom: '12px' }}>TECHNOLOGY STACK</div>
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    {partneredProducts[currentProductIndex].tech.map((t, i) => (
-                      <span key={i} style={{ border: '1px solid #E2E8F0', padding: '6px 12px', borderRadius: '6px', fontSize: '0.85rem' }}>{t}</span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Visit Button (No shadow) */}
-                <a href="#" style={{ display: 'block', textAlign: 'center', padding: '16px', border: '1px solid #E2E8F0', borderRadius: '12px', color: '#0A0F1C', fontWeight: 700, textDecoration: 'none' }}>
-                  Visit live product
-                </a>
               </div>
-            </div>
-          </div>
-        </section>
+            </section>
+          );
+        })()}
 
 
 
