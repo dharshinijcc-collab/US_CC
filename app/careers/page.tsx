@@ -649,7 +649,7 @@ export default function CareersPage() {
                     <button onClick={() => setShowForm(true)} style={{ backgroundColor: '#FFFFFF', color: '#0052FF', border: 'none', padding: '18px 48px', borderRadius: '12px', fontWeight: 700, fontSize: '1rem', cursor: 'pointer', transition: 'all 0.3s ease' }}>
                       <EditableText contentKey="careers.cta.primaryButton" value={careersContent.cta.primaryButton} />
                     </button>
-                    <Link href="https://www.linkedin.com/search/results/all/?keywords=crestcode%20technologies&origin=RICH_QUERY_SUGGESTION&spellCorrectionEnabled=false&heroEntityKey=urn%3Ali%3Aorganization%3A108093169&position=0" target="_blank" style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '15px', textDecoration: 'none', border: '2px solid rgba(255,255,255,0.3)', padding: '16px 32px', borderRadius: '12px', transition: 'all 0.3s ease' }} className="font-manrope">
+                    <Link href="https://www.linkedin.com/search/results/all/?keywords=crestcode%20technologies&origin=RICH_QUERY_SUGGESTION&spellCorrectionEnabled=false&heroEntityKey=urn%3Ali%3Aorganization%3A108093169&position=0" style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '15px', textDecoration: 'none', border: '2px solid rgba(255,255,255,0.3)', padding: '16px 32px', borderRadius: '12px', transition: 'all 0.3s ease' }} className="font-manrope">
                       <EditableText contentKey="careers.cta.secondaryLink" value={careersContent.cta.secondaryLink} />
                     </Link>
                   </div>
