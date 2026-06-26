@@ -66,8 +66,9 @@ exports.handler = async (event, context) => {
     // Send email notification to team
     try {
       await resend.emails.send({
-        from: 'Crestcode Investors <noreply@crestcode.com>',
-        to: 'ccproductstudio@gmail.com',
+        from: process.env.FROM_EMAIL || 'Crestcode <contact@cctps.com>',
+        to: process.env.TEAM_NOTIFICATION_EMAIL || 'contact@cctps.com',
+        reply_to: email,
         subject: `New Investor Application: ${fullName}`,
         html: `
           <h2>New Operator-Investor Application</h2>
@@ -87,8 +88,9 @@ exports.handler = async (event, context) => {
     // Send confirmation email to user
     try {
       await resend.emails.send({
-        from: 'Crestcode Investors <noreply@crestcode.com>',
+        from: process.env.FROM_EMAIL || 'Crestcode <contact@cctps.com>',
         to: email,
+        reply_to: process.env.REPLY_TO_EMAIL || process.env.TEAM_NOTIFICATION_EMAIL || 'contact@cctps.com',
         subject: 'Your Application to Crestcode Operator-Investor Network',
         html: `
           <h2>Thank you for your interest!</h2>

@@ -55,8 +55,9 @@ exports.handler = async (event, context) => {
     // Send email notification
     try {
       await resend.emails.send({
-        from: 'Crestcode Ideas <noreply@crestcode.com>',
-        to: 'ccproductstudio@gmail.com',
+        from: process.env.FROM_EMAIL || 'Crestcode <contact@cctps.com>',
+        to: process.env.TEAM_NOTIFICATION_EMAIL || 'contact@cctps.com',
+        reply_to: email,
         subject: `New Idea Submission from ${name || 'Anonymous'}`,
         html: `
           <h2>New Idea Submission</h2>

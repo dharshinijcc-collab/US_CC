@@ -929,7 +929,7 @@ export default function OurModelPage() {
 
 
         {/* SECTION 1: HERO */}
-        <section className="hero-section" style={{ background: 'white', minHeight: '700px', position: 'relative', overflow: 'hidden' }}>
+        <section className="hero-section" style={{ background: 'white', position: 'relative', overflow: 'hidden' }}>
           {/* Top Light Effect */}
           <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
           <div className="section-container">

@@ -104,15 +104,6 @@ export default function FaqPage() {
         .animate-delay-2 { animation-delay: 0.2s; }
         .animate-delay-3 { animation-delay: 0.3s; }
         .animate-delay-4 { animation-delay: 0.4s; }
-        .section-container { max-width: 1280px; margin: 0 auto; padding: var(--section-padding-y) var(--section-padding-x); box-sizing: border-box; }
-
-        @media (max-width: 768px) {
-          .section-container { padding: var(--section-padding-y-tablet) var(--section-padding-x-tablet); }
-        }
-
-        @media (max-width: 480px) {
-          .section-container { padding: var(--section-padding-y-mobile) var(--section-padding-x-mobile); }
-        }
         .pt-0 { padding-top: 0 !important; }
 
         /* Typography */
@@ -185,47 +176,9 @@ export default function FaqPage() {
         .btn-nav { padding: 10px 24px; font-size: 14px; border-radius: 100px; background-color: var(--primary-blue);}
 
 
-        /* Hero Section — spacing from global-styles.css */
+        /* Hero Section */
         .hero-section {
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          width: 100%;
-          overflow: hidden;
           background-color: #F1F5F9 !important;
-          box-sizing: border-box;
-          min-height: 70vh;
-          padding-top: 180px !important;
-          padding-bottom: var(--section-padding-y) !important;
-          padding-left: var(--section-padding-x) !important;
-          padding-right: var(--section-padding-x) !important;
-        }
-
-        @media (max-width: 1024px) {
-          .hero-section {
-            min-height: 60vh;
-            padding-top: 180px !important;
-            padding-bottom: var(--section-padding-y-tablet) !important;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .hero-section {
-            min-height: 50vh;
-            padding-top: 180px !important;
-            padding-bottom: var(--section-padding-y-tablet) !important;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .hero-section {
-            min-height: 45vh;
-            padding-top: 180px !important;
-            padding-bottom: var(--section-padding-y-mobile) !important;
-          }
         }
         .hero-eyebrow-pill {
           display: inline-flex !important;

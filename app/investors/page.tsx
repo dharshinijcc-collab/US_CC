@@ -123,47 +123,9 @@ export default function InvestorsPage() {
           max-width: 1200px;
         }
 
-        /* Hero Section — spacing from global-styles.css */
+        /* Hero Section */
         .hero-section {
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          width: 100%;
-          overflow: hidden;
           background-color: #F1F5F9 !important;
-          box-sizing: border-box;
-          min-height: 70vh;
-          padding-top: 120px !important;
-          padding-bottom: var(--section-padding-y) !important;
-          padding-left: var(--section-padding-x) !important;
-          padding-right: var(--section-padding-x) !important;
-        }
-
-        @media (max-width: 1024px) {
-          .hero-section {
-            min-height: 60vh;
-            padding-top: 120px !important;
-            padding-bottom: var(--section-padding-y-tablet) !important;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .hero-section {
-            min-height: 50vh;
-            padding-top: 120px !important;
-            padding-bottom: var(--section-padding-y-tablet) !important;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .hero-section {
-            min-height: 45vh;
-            padding-top: 120px !important;
-            padding-bottom: var(--section-padding-y-mobile) !important;
-          }
         }
         .hero-eyebrow-pill {
           display: inline-flex !important;
@@ -520,7 +482,7 @@ export default function InvestorsPage() {
       <div className="investors-page" style={{ position: 'relative', overflow: 'hidden', backgroundColor: '#F8FAFC' }}>
 
         {/* ── 1. HERO SECTION (Image 1) ── */}
-        <section className="hero-section" style={{ position: 'relative', overflow: 'hidden', minHeight: '700px' }}>
+        <section className="hero-section" style={{ position: 'relative', overflow: 'hidden' }}>
           {/* Top Light Effect */}
           <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
           <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -1100,7 +1062,7 @@ export default function InvestorsPage() {
                     textAlign: 'center'
                   }}>
                     <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" style={{ margin: '0 auto 16px auto' }}><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    <h3 style={{ color: '#FFFFFF', fontSize: '1.4rem', fontWeight: 800, margin: '0 0 8px 0', fontFamily: "'Manrope', sans-serif" }}>Interest Registered Successfully</h3>
+                    <h3 style={{ color: '#FFFFFF', fontSize: '1.4rem', fontWeight: 800, margin: '0 0 8px 0', fontFamily: "'Manrope', sans-serif" }}>Interest Submitted Successfully!</h3>
                     <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.95rem', margin: 0, fontFamily: "'Inter', sans-serif" }}>A CrestCode partner will reach you shortly.</p>
                   </div>
                 ) : (

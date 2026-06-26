@@ -67,8 +67,9 @@ exports.handler = async (event, context) => {
     // Send email notification to team
     try {
       await resend.emails.send({
-        from: 'Crestcode <noreply@crestcode.com>',
-        to: 'ccproductstudio@gmail.com',
+        from: process.env.FROM_EMAIL || 'Crestcode <contact@cctps.com>',
+        to: process.env.TEAM_NOTIFICATION_EMAIL || 'contact@cctps.com',
+        reply_to: workEmail,
         subject: `New Contact: ${firstName} - ${serviceInterest}`,
         html: `
           <h2>New Contact Form Submission</h2>
@@ -89,8 +90,9 @@ exports.handler = async (event, context) => {
     // Send confirmation email to user
     try {
       await resend.emails.send({
-        from: 'Crestcode <noreply@crestcode.com>',
+        from: process.env.FROM_EMAIL || 'Crestcode <contact@cctps.com>',
         to: workEmail,
+        reply_to: process.env.REPLY_TO_EMAIL || process.env.TEAM_NOTIFICATION_EMAIL || 'contact@cctps.com',
         subject: 'Thank you for contacting Crestcode',
         html: `
           <h2>Thank you for reaching out!</h2>

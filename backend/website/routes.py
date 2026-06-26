@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-import os, uuid, requests as http_requests
+import os, uuid, requests as http_requests, threading
 from backend.db import DBHelper
 from .models import WebsiteModel
 from .email_service import (
@@ -10,7 +10,7 @@ from .email_service import (
 )
 
 SUPABASE_URL = os.environ.get('SUPABASE_URL', '')
-SUPABASE_SERVICE_KEY = os.environ.get('SUPABASE_SERVICE_KEY', '')
+SUPABASE_SERVICE_KEY = os.environ.get('SUPABASE_SERVICE_KEY') or os.environ.get('SUPABASE_ANON_KEY') or os.environ.get('NEXT_PUBLIC_SUPABASE_ANON_KEY', '')
 RESUME_BUCKET = 'resumes'
 
 def upload_resume_to_supabase(file_obj, original_filename: str) -> str:
@@ -78,10 +78,10 @@ def admin_login():
 
 @main_bp.route('/submit-idea', methods=['POST'])
 def submit_idea():
-    data = request.get_json()
-    name = data.get('name', '').strip() if data.get('name') else ''
-    email = data.get('email', '').strip() if data.get('email') else ''
-    idea = data.get('idea', '').strip() if data.get('idea') else ''
+    data = request.get_json() or {}
+    name = (data.get('name') or '').strip()
+    email = (data.get('email') or '').strip()
+    idea = (data.get('idea') or '').strip()
 
     if not idea or len(idea) < 10:
         return jsonify({"status": "error", "message": "Idea must be at least 10 characters"}), 400
@@ -94,14 +94,14 @@ def submit_idea():
             email=email,
             idea=idea
         )
-        # Send confirmation email immediately (no delay — avoids Render free-tier sleep killing the timer)
+        # Send confirmation email asynchronously in the background
         if email:
             try:
-                send_idea_confirmation(email, name, idea)
-                print(f"[EMAIL] Confirmation sent to {email}")
+                threading.Thread(target=send_idea_confirmation, args=(email, name, idea), daemon=True).start()
+                print(f"[EMAIL] Idea confirmation queued for {email}")
             except Exception as email_err:
                 # Email failure must NOT break the submission — just log it
-                print(f"[EMAIL ERROR] Failed to send confirmation to {email}: {email_err}")
+                print(f"[EMAIL ERROR] Failed to send/queue confirmation to {email}: {email_err}")
 
         return jsonify({"status": "success", "message": "Idea submitted successfully!"})
     except Exception as e:
@@ -119,10 +119,10 @@ def submit_talent():
         resume_file = request.files.get('resume')
     else:
         data = request.get_json() or {}
-        first_name = data.get('firstName', '').strip()
-        email = data.get('email', '').strip()
-        interest = data.get('interest', '').strip()
-        linkedin = data.get('linkedin', '').strip()
+        first_name = (data.get('firstName') or '').strip()
+        email = (data.get('email') or '').strip()
+        interest = (data.get('interest') or '').strip()
+        linkedin = (data.get('linkedin') or '').strip()
         resume_file = None
 
     if not email or not first_name:
@@ -134,18 +134,31 @@ def submit_talent():
         resume_url = upload_resume_to_supabase(resume_file, resume_file.filename)
 
     try:
+        interest_val = (interest or 'engineer').strip()
+        if interest_val.lower() == 'engineering':
+            interest_val = 'engineer'
+
         insert_kwargs = dict(
             full_name=first_name,
             email=email,
-            interest_area=interest,
+            interest_area=interest_val,
             linkedin_url=linkedin,
         )
         if resume_url:
             insert_kwargs['resume_url'] = resume_url
 
-        DBHelper.insert('talent_submissions', return_column='id', **insert_kwargs)
-        # Send confirmation email
-        send_talent_confirmation(email, first_name, interest)
+        DBHelper.insert('talent_pool', return_column='id', **insert_kwargs)
+        # Send confirmation email asynchronously in the background
+        if email:
+            try:
+                threading.Thread(
+                    target=send_talent_confirmation,
+                    args=(email, first_name, interest_val),
+                    daemon=True
+                ).start()
+                print(f"[EMAIL] Talent confirmation queued for {email}")
+            except Exception as email_err:
+                print(f"[EMAIL ERROR] Failed to send/queue talent confirmation to {email}: {email_err}")
 
         return jsonify({"status": "success", "message": "Talent application submitted!"})
     except Exception as e:
@@ -154,13 +167,13 @@ def submit_talent():
 
 @main_bp.route('/submit-contact', methods=['POST'])
 def submit_contact():
-    data = request.get_json()
-    first_name = data.get('firstName', '').strip()
-    email = data.get('workEmail', '').strip()
-    company = data.get('company', '').strip()
-    service = data.get('serviceInterest', '').strip()
-    stage = data.get('projectStage', '').strip()
-    message = data.get('message', '').strip()
+    data = request.get_json() or {}
+    first_name = (data.get('firstName') or '').strip()
+    email = (data.get('workEmail') or '').strip()
+    company = (data.get('company') or '').strip()
+    service = (data.get('serviceInterest') or '').strip()
+    stage = (data.get('projectStage') or '').strip()
+    message = (data.get('message') or '').strip()
 
     if not email or not first_name:
         return jsonify({"status": "error", "message": "Name and Email are required"}), 400
@@ -176,8 +189,17 @@ def submit_contact():
             project_stage=stage,
             message=message
         )
-        # Send confirmation email
-        send_contact_confirmation(email, first_name, service, message)
+        # Send confirmation email asynchronously in the background
+        if email:
+            try:
+                threading.Thread(
+                    target=send_contact_confirmation,
+                    args=(email, first_name, service, message),
+                    daemon=True
+                ).start()
+                print(f"[EMAIL] Contact confirmation queued for {email}")
+            except Exception as email_err:
+                print(f"[EMAIL ERROR] Failed to send/queue contact confirmation to {email}: {email_err}")
 
         return jsonify({"status": "success", "message": "Contact form submitted!"})
     except Exception as e:
@@ -186,12 +208,12 @@ def submit_contact():
 
 @main_bp.route('/submit-investor', methods=['POST'])
 def submit_investor():
-    data = request.get_json()
-    full_name = data.get('fullName', '').strip()
-    email = data.get('email', '').strip()
-    expertise = data.get('expertise', '').strip()
-    preferred_roles = data.get('preferredRoles', [])
-    background = data.get('background', '').strip()
+    data = request.get_json() or {}
+    full_name = (data.get('fullName') or '').strip()
+    email = (data.get('email') or '').strip()
+    expertise = (data.get('expertise') or '').strip()
+    preferred_roles = data.get('preferredRoles') or []
+    background = (data.get('background') or '').strip()
 
     if not email or not full_name:
         return jsonify({"status": "error", "message": "Name and Email are required"}), 400
@@ -206,8 +228,17 @@ def submit_investor():
             preferred_roles=preferred_roles,
             background=background
         )
-        # Send confirmation email
-        send_investor_confirmation(email, full_name, expertise)
+        # Send confirmation email asynchronously in the background
+        if email:
+            try:
+                threading.Thread(
+                    target=send_investor_confirmation,
+                    args=(email, full_name, expertise),
+                    daemon=True
+                ).start()
+                print(f"[EMAIL] Investor confirmation queued for {email}")
+            except Exception as email_err:
+                print(f"[EMAIL ERROR] Failed to send/queue investor confirmation to {email}: {email_err}")
 
         return jsonify({"status": "success", "message": "Investor application submitted!"})
     except Exception as e:

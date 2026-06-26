@@ -112,18 +112,23 @@ exports.handler = async (event) => {
       }
     }
 
+    let interestVal = (interest || 'engineer').trim();
+    if (interestVal.toLowerCase() === 'engineering') {
+      interestVal = 'engineer';
+    }
+
     // Store in Supabase DB
     const record = {
       full_name: firstName.trim(),
       email: email.trim(),
-      interest_area: interest || 'General',
+      interest_area: interestVal,
       linkedin_url: linkedin?.trim() || '',
       created_at: new Date().toISOString(),
     };
     if (resume_url) record.resume_url = resume_url;
 
     const { data, error: dbError } = await supabase
-      .from('talent_submissions')
+      .from('talent_pool')
       .insert([record])
       .select();
 
@@ -135,14 +140,15 @@ exports.handler = async (event) => {
     // Team notification email
     try {
       await resend.emails.send({
-        from: 'Crestcode Careers <noreply@crestcode.com>',
-        to: 'ccproductstudio@gmail.com',
-        subject: `New Talent Submission: ${firstName} - ${interest}`,
+        from: process.env.FROM_EMAIL || 'Crestcode <contact@cctps.com>',
+        to: process.env.TEAM_NOTIFICATION_EMAIL || 'contact@cctps.com',
+        reply_to: email,
+        subject: `New Talent Submission: ${firstName} - ${interestVal}`,
         html: `
           <h2>New Talent Pool Submission</h2>
           <p><strong>Name:</strong> ${firstName}</p>
           <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Interest:</strong> ${interest}</p>
+          <p><strong>Interest:</strong> ${interestVal}</p>
           <p><strong>LinkedIn:</strong> ${linkedin || 'Not provided'}</p>
           ${resume_url ? `<p><strong>Resume:</strong> <a href="${resume_url}">Download</a></p>` : ''}
           <p><strong>Submitted:</strong> ${new Date().toLocaleString()}</p>
@@ -155,13 +161,14 @@ exports.handler = async (event) => {
     // Confirmation email to applicant
     try {
       await resend.emails.send({
-        from: 'Crestcode Careers <noreply@crestcode.com>',
+        from: process.env.FROM_EMAIL || 'Crestcode <contact@cctps.com>',
         to: email,
+        reply_to: process.env.REPLY_TO_EMAIL || process.env.TEAM_NOTIFICATION_EMAIL || 'contact@cctps.com',
         subject: 'Welcome to the Crestcode Talent Pool',
         html: `
           <h2>Thanks for joining our talent pool!</h2>
           <p>Hi ${firstName},</p>
-          <p>We've received your interest in joining the Crestcode team as part of our <strong>${interest}</strong> department.${resume_url ? ' Your resume has been received.' : ''}</p>
+          <p>We've received your interest in joining the Crestcode team as part of our <strong>${interestVal}</strong> department.${resume_url ? ' Your resume has been received.' : ''}</p>
           <p>While we may not have an immediate opening that matches your profile, we'll keep your information on file and reach out if a suitable opportunity arises.</p>
           <p>Stay tuned and keep building!</p>
           <p>Best regards,<br>The Crestcode Team</p>
