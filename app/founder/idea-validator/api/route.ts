@@ -163,12 +163,31 @@ export async function POST(req: NextRequest) {
           overall_score: finalPayload.overall_score,
           verdict,
           report_data: finalPayload,
-          is_mock: !geminiKey
+          is_mock: finalPayload.is_mock
           // user_id is null here — linked after user logs in on client
         }]);
 
       if (dbError) {
         console.error('⚠️ Failed to save to dd_reports:', dbError);
+      }
+
+      // If AI failed (meaning is_mock is true), save the idea, name, and email ID to idea_submissions
+      if (finalPayload.is_mock) {
+        console.log('💾 AI failed/mock mode active. Saving idea details to idea_submissions...');
+        const { error: subError } = await supabaseAdmin
+          .from('idea_submissions')
+          .insert([{
+            name: answersWithDefaults.contact_name,
+            email: answersWithDefaults.contact_email,
+            idea: ideaText,
+            created_at: new Date().toISOString()
+          }]);
+        
+        if (subError) {
+          console.error('⚠️ Failed to save failed AI idea to idea_submissions:', subError);
+        } else {
+          console.log('✅ Successfully saved failed AI idea details to idea_submissions.');
+        }
       }
     }
 

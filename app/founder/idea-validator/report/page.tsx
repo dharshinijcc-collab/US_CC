@@ -372,7 +372,7 @@ function ReportContent() {
 
     const blob = new Blob(['\ufeff' + documentHtml], { type: 'application/msword' });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
+const link = document.createElement('a');
     link.href = url;
     link.download = `Venture_Readiness_Report_${id || 'report'}.doc`;
     document.body.appendChild(link);
@@ -393,193 +393,217 @@ function ReportContent() {
             <span className="dashboard-subtitle">INTERACTIVE DUE DILIGENCE WORKSPACE</span>
             <h1 className="dashboard-title">Venture Assessment Notebook</h1>
           </div>
-          <div className="dashboard-header-actions">
-            <button className="btn-results-call" onClick={exportToDoc} style={{ gap: '6px' }}>
-              <span>Export Word Doc</span>
-            </button>
-            <Link href="/founder/idea-validator" className="btn-results-outline" style={{ margin: 0, textDecoration: 'none', gap: '6px' }}>
-              <RefreshCw size={13} />
-              <span>Submit Another Idea</span>
-            </Link>
-          </div>
+          {!report?.is_mock && (
+            <div className="dashboard-header-actions">
+              <button className="btn-results-call" onClick={exportToDoc} style={{ gap: '6px' }}>
+                <span>Export Word Doc</span>
+              </button>
+              <Link href="/founder/idea-validator" className="btn-results-outline" style={{ margin: 0, textDecoration: 'none', gap: '6px' }}>
+                <RefreshCw size={13} />
+                <span>Submit Another Idea</span>
+              </Link>
+            </div>
+          )}
         </div>
 
-        {report?.is_mock && (
-          <div className="alert-banner-mock" style={{ marginBottom: '24px' }}>
-            <span className="alert-icon-mock">💡</span>
-            <span><strong>Mock Mode Active:</strong> Add a valid <code>GEMINI_API_KEY</code> to compute real-time analytical vectors.</span>
-          </div>
-        )}
-
-        {/* ── Notebook Workspace Layout ── */}
-        <div className="notebook-workspace">
-          
-          {/* Notebook Left Sidebar Navigation (TOC) */}
-          <div className="notebook-sidebar">
-            <div className="sidebar-group">
-              <span className="sidebar-group-title">REPORT SECTIONS</span>
-              <div className="sidebar-list">
-                <button 
-                  type="button" 
-                  className={`sidebar-item-btn ${activeNotebookPage === 'executive' ? 'active' : ''}`} 
-                  onClick={() => setActiveNotebookPage('executive')}
-                >
-                  <span className="cell-name">Executive Summary</span>
-                </button>
-                <button 
-                  type="button" 
-                  className={`sidebar-item-btn ${activeNotebookPage === 'dimensions' ? 'active' : ''}`} 
-                  onClick={() => setActiveNotebookPage('dimensions')}
-                >
-                  <span className="cell-name">Dimension Scores</span>
-                </button>
-                <button 
-                  type="button" 
-                  className={`sidebar-item-btn ${activeNotebookPage === 'memo' ? 'active' : ''}`} 
-                  onClick={() => setActiveNotebookPage('memo')}
-                >
-                  <span className="cell-name">VC Investment Memo</span>
-                </button>
-                <button 
-                  type="button" 
-                  className={`sidebar-item-btn ${activeNotebookPage === 'risks' ? 'active' : ''}`} 
-                  onClick={() => setActiveNotebookPage('risks')}
-                >
-                  <span className="cell-name">Red Flags & Risks</span>
-                </button>
-                <button 
-                  type="button" 
-                  className={`sidebar-item-btn ${activeNotebookPage === 'roadmap' ? 'active' : ''}`} 
-                  onClick={() => setActiveNotebookPage('roadmap')}
-                >
-                  <span className="cell-name">Roadmap & Checklist</span>
-                </button>
-              </div>
+        {report?.is_mock ? (
+          <div className="under-construction-panel" style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textAlign: 'center',
+            padding: '80px 24px',
+            background: '#FFFFFF',
+            border: '1px solid #E2E8F0',
+            borderRadius: '12px',
+            boxShadow: '0 4px 15px rgba(0, 0, 0, 0.05)',
+            marginTop: '20px'
+          }}>
+            <div className="icon-wrap" style={{
+              fontSize: '4rem',
+              marginBottom: '24px',
+            }}>
+              🛠️
+            </div>
+            <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0F172A', marginBottom: '16px', letterSpacing: '-0.02em' }}>
+              Venture Engine Under Construction
+            </h2>
+            <p style={{ fontSize: '1rem', color: '#475569', maxWidth: '540px', lineHeight: '1.6', marginBottom: '32px' }}>
+              We got your idea! Our AI venture due diligence engine is currently undergoing maintenance. We have safely received your submission and will email the complete VC-grade assessment report to <strong>{report?.answers?.contact_email || 'your email'}</strong> once construction is complete.
+            </p>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <Link href="/founder/idea-validator" className="btn-results-call" style={{ textDecoration: 'none', padding: '12px 24px' }}>
+                Submit Another Idea
+              </Link>
             </div>
           </div>
-
-          {/* Notebook Right Content Area */}
-          <div className="notebook-content">
+        ) : (
+          /* ── Notebook Workspace Layout ── */
+          <div className="notebook-workspace">
             
-            {/* CELL 1: EXECUTIVE VERDICT */}
-            <div className={`notebook-cell-panel ${activeNotebookPage === 'executive' ? 'active-cell' : 'hidden-cell'}`}>
-              <div className="notebook-cell-header">
-                <span className="cell-title">Executive Summary</span>
+            {/* Notebook Left Sidebar Navigation (TOC) */}
+            <div className="notebook-sidebar">
+              <div className="sidebar-group">
+                <span className="sidebar-group-title">REPORT SECTIONS</span>
+                <div className="sidebar-list">
+                  <button 
+                    type="button" 
+                    className={`sidebar-item-btn ${activeNotebookPage === 'executive' ? 'active' : ''}`} 
+                    onClick={() => setActiveNotebookPage('executive')}
+                  >
+                    <span className="cell-name">Executive Summary</span>
+                  </button>
+                  <button 
+                    type="button" 
+                    className={`sidebar-item-btn ${activeNotebookPage === 'dimensions' ? 'active' : ''}`} 
+                    onClick={() => setActiveNotebookPage('dimensions')}
+                  >
+                    <span className="cell-name">Dimension Scores</span>
+                  </button>
+                  <button 
+                    type="button" 
+                    className={`sidebar-item-btn ${activeNotebookPage === 'memo' ? 'active' : ''}`} 
+                    onClick={() => setActiveNotebookPage('memo')}
+                  >
+                    <span className="cell-name">VC Investment Memo</span>
+                  </button>
+                  <button 
+                    type="button" 
+                    className={`sidebar-item-btn ${activeNotebookPage === 'risks' ? 'active' : ''}`} 
+                    onClick={() => setActiveNotebookPage('risks')}
+                  >
+                    <span className="cell-name">Risk Mitigation Matrix</span>
+                  </button>
+                  <button 
+                    type="button" 
+                    className={`sidebar-item-btn ${activeNotebookPage === 'roadmap' ? 'active' : ''}`} 
+                    onClick={() => setActiveNotebookPage('roadmap')}
+                  >
+                    <span className="cell-name">Roadmap & Checklist</span>
+                  </button>
+                </div>
               </div>
-              <div className="notebook-cell-body">
-                
-                <div className="notebook-score-row">
-                  <div className="notebook-score-index">
-                    <span className="score-label">READINESS SCORE</span>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px' }}>
-                      <span className="score-num-nb">{report?.overall_score?.toFixed(1) || '0.0'}</span>
-                      <span className="score-denom-nb">/ 10</span>
+            </div>
+
+            {/* Notebook Right Content Area */}
+            <div className="notebook-content">
+              
+              {/* CELL 1: EXECUTIVE VERDICT */}
+              <div className={`notebook-cell-panel ${activeNotebookPage === 'executive' ? 'active-cell' : 'hidden-cell'}`}>
+                <div className="notebook-cell-header">
+                  <span className="cell-title">Executive Summary</span>
+                </div>
+                <div className="notebook-cell-body">
+                  
+                  <div className="notebook-score-row">
+                    <div className="notebook-score-index">
+                      <span className="score-label">READINESS SCORE</span>
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px' }}>
+                        <span className="score-num-nb">{report?.overall_score?.toFixed(1) || '0.0'}</span>
+                        <span className="score-denom-nb">/ 10</span>
+                      </div>
+                      <div className={`score-badge-nb ${(report?.overall_score || 0) >= 7.5 ? 'strong' : (report?.overall_score || 0) >= 4.5 ? 'needs-val' : 'risk'}`}>
+                        {(report?.overall_score || 0) >= 7.5 ? 'Proceed' : (report?.overall_score || 0) >= 4.5 ? 'Needs Work' : 'High Risk'}
+                      </div>
                     </div>
-                    <div className={`score-badge-nb ${(report?.overall_score || 0) >= 7.5 ? 'strong' : (report?.overall_score || 0) >= 4.5 ? 'needs-val' : 'risk'}`}>
-                      {(report?.overall_score || 0) >= 7.5 ? 'Proceed' : (report?.overall_score || 0) >= 4.5 ? 'Needs Work' : 'High Risk'}
+                    <div className="notebook-verdict-summary">
+                      <h2 style={{ fontSize: '1.2rem', fontWeight: 800, margin: '0 0 8px 0', color: 'var(--text-black)' }}>
+                        {(report?.overall_score || 0) >= 7.5 ? 'Strong Venture Prospect — Proceed to Build' : (report?.overall_score || 0) >= 4.5 ? 'Promising Idea — Needs Validation' : 'High-Risk Concept — Pivot Recommended'}
+                      </h2>
+                      <p style={{ fontSize: '0.875rem', lineHeight: '1.5', color: '#334155', margin: 0 }}>
+                        {report?.startup_summary || report?.investor_memo?.executive_summary}
+                      </p>
                     </div>
                   </div>
-                  <div className="notebook-verdict-summary">
-                    <h2 style={{ fontSize: '1.2rem', fontWeight: 800, margin: '0 0 8px 0', color: 'var(--text-black)' }}>
-                      {(report?.overall_score || 0) >= 7.5 ? 'Strong Venture Prospect — Proceed to Build' : (report?.overall_score || 0) >= 4.5 ? 'Promising Idea — Needs Validation' : 'High-Risk Concept — Pivot Recommended'}
-                    </h2>
-                    <p style={{ fontSize: '0.875rem', lineHeight: '1.5', color: '#334155', margin: 0 }}>
-                      {report?.startup_summary || report?.investor_memo?.executive_summary}
+
+                  <div className="notebook-advice-box" style={{ background: '#F0FDF4', borderLeft: '4px solid #16A34A', padding: '16px', borderRadius: '4px', marginTop: '16px' }}>
+                    <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#15803D', textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>AI Strategic Advisory</span>
+                    <p style={{ fontSize: '0.825rem', color: '#1E3A8A', margin: 0, lineHeight: '1.5' }}>
+                      {report?.co_founder_recommendations}
                     </p>
                   </div>
                 </div>
+              </div>
 
-                <div className="notebook-advice-box" style={{ background: '#F0FDF4', borderLeft: '4px solid #16A34A', padding: '16px', borderRadius: '4px', marginTop: '16px' }}>
-                  <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#15803D', textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>AI Strategic Advisory</span>
-                  <p style={{ fontSize: '0.825rem', color: '#1E3A8A', margin: 0, lineHeight: '1.5' }}>
-                    {report?.co_founder_recommendations}
-                  </p>
+              {/* CELL 2: DIMENSION RATINGS */}
+              <div className={`notebook-cell-panel ${activeNotebookPage === 'dimensions' ? 'active-cell' : 'hidden-cell'}`}>
+                <div className="notebook-cell-header">
+                  <span className="cell-title">Dimension Scores</span>
                 </div>
-              </div>
-            </div>
-
-            {/* CELL 2: DIMENSION RATINGS */}
-            <div className={`notebook-cell-panel ${activeNotebookPage === 'dimensions' ? 'active-cell' : 'hidden-cell'}`}>
-              <div className="notebook-cell-header">
-                <span className="cell-title">Dimension Scores</span>
-              </div>
-              <div className="notebook-cell-body">
-                
-                <div className="notebook-dimensions-grid">
-                  <div className="notebook-dimensions-list">
-                    {DIMENSION_META.map(d => {
-                      const dimData = report?.dimensions?.[d.key as keyof typeof report.dimensions] || { score: 0 };
-                      const isActive = selectedDimension === d.key;
-                      return (
-                        <div 
-                          key={d.key} 
-                          className={`dim-nav-item-nb ${isActive ? 'active' : ''}`}
-                          onClick={() => setSelectedDimension(d.key)}
-                        >
-                          <div className="dim-nav-header">
-                            <span className="dim-nav-title">{d.label}</span>
-                            <span className="dim-nav-score">{dimData.score}</span>
+                <div className="notebook-cell-body">
+                  
+                  <div className="notebook-dimensions-grid">
+                    <div className="notebook-dimensions-list">
+                      {DIMENSION_META.map(d => {
+                        const dimData = report?.dimensions?.[d.key as keyof typeof report.dimensions] || { score: 0 };
+                        const isActive = selectedDimension === d.key;
+                        return (
+                          <div 
+                            key={d.key} 
+                            className={`dim-nav-item-nb ${isActive ? 'active' : ''}`}
+                            onClick={() => setSelectedDimension(d.key)}
+                          >
+                            <div className="dim-nav-header">
+                              <span className="dim-nav-title">{d.label}</span>
+                              <span className="dim-nav-score">{dimData.score}</span>
+                            </div>
+                            <div className="dim-progress-bg">
+                              <div className="dim-progress-fill" style={{ width: `${dimData.score * 10}%` }}></div>
+                            </div>
                           </div>
-                          <div className="dim-progress-bg">
-                            <div className="dim-progress-fill" style={{ width: `${dimData.score * 10}%` }}></div>
+                        );
+                      })}
+                    </div>
+
+                    {selectedDimension && (() => {
+                      const activeDim = report?.dimensions?.[selectedDimension as keyof typeof report.dimensions];
+                      const meta = DIMENSION_META.find(d => d.key === selectedDimension)!;
+                      if (!activeDim) return null;
+                      return (
+                        <div className="dim-detail-panel-nb">
+                          <div className="dim-detail-title-row">
+                            <h4 className="dim-detail-label">{meta.label}</h4>
+                            <span className="dim-detail-score-pill">Score: {activeDim.score}/10</span>
+                          </div>
+                          <p className="dim-detail-prose">{activeDim.why_this_score}</p>
+                          
+                          <div className="signals-split">
+                            <div className="signals-list-box">
+                              <h5 className="signals-list-title">Positive Signals</h5>
+                              <ul className="signals-ul">
+                                {activeDim.positive_signals?.map((sig, idx) => (
+                                  <li key={idx} className="signal-li">
+                                    <Check className="signal-icon-pos" size={12} />
+                                    <span>{sig}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                            <div className="signals-list-box">
+                              <h5 className="signals-list-title font-medium text-red-700">Concerns</h5>
+                              <ul className="signals-ul">
+                                {activeDim.negative_signals?.map((sig, idx) => (
+                                  <li key={idx} className="signal-li">
+                                    <X className="signal-icon-neg" size={12} />
+                                    <span>{sig}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px dashed #E2E8F0' }}>
+                            <h5 style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '8px' }}>Recommended Improvements</h5>
+                            <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '0.8rem', color: '#334155', lineHeight: '1.6' }}>
+                              {activeDim.improvement_actions?.map((act, idx) => (
+                                <li key={idx} style={{ marginBottom: '4px' }}>{act}</li>
+                              ))}
+                            </ul>
                           </div>
                         </div>
                       );
-                    })}
-                  </div>
-
-                  {selectedDimension && (() => {
-                    const activeDim = report?.dimensions?.[selectedDimension as keyof typeof report.dimensions];
-                    const meta = DIMENSION_META.find(d => d.key === selectedDimension)!;
-                    if (!activeDim) return null;
-                    return (
-                      <div className="dim-detail-panel-nb">
-                        <div className="dim-detail-title-row">
-                          <h4 className="dim-detail-label">{meta.label}</h4>
-                          <span className="dim-detail-score-pill">Score: {activeDim.score}/10</span>
-                        </div>
-                        <p className="dim-detail-prose">{activeDim.why_this_score}</p>
-                        
-                        <div className="signals-split">
-                          <div className="signals-list-box">
-                            <h5 className="signals-list-title">Positive Signals</h5>
-                            <ul className="signals-ul">
-                              {activeDim.positive_signals?.map((sig, idx) => (
-                                <li key={idx} className="signal-li">
-                                  <Check className="signal-icon-pos" size={12} />
-                                  <span>{sig}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                          
-                          <div className="signals-list-box">
-                            <h5 className="signals-list-title">Risk Concerns</h5>
-                            <ul className="signals-ul">
-                              {activeDim.negative_signals?.map((sig, idx) => (
-                                <li key={idx} className="signal-li">
-                                  <X className="signal-icon-neg" size={12} />
-                                  <span>{sig}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-
-                        <div className="actions-box" style={{ background: '#FAFAFA', padding: '10px' }}>
-                          <h5 className="actions-box-title" style={{ fontSize: '0.72rem', marginBottom: '6px' }}>Required Adjustments</h5>
-                          <ul className="signals-ul">
-                            {activeDim.improvement_actions?.map((act, idx) => (
-                              <li key={idx} className="signal-li">
-                                <span style={{ color: 'var(--accent-blue)', fontWeight: 700 }}>•</span>
-                                <span>{act}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                    );
-                  })()}
+                    })()}
                 </div>
 
                 {/* Core Strengths & Risks lists */}
@@ -816,7 +840,7 @@ function ReportContent() {
 
           </div>
         </div>
-
+      )}
       </div>
 
       {/* Auth Gate Overlay */}
@@ -1154,6 +1178,43 @@ li {
 
 .alert-icon-mock {
   font-size: 1.1rem;
+}
+
+.alert-banner-ai-active {
+  background: #EEF2FF;
+  border: 1px solid #C7D2FE;
+  border-radius: 4px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #3730A3;
+  font-size: 0.825rem;
+}
+
+.alert-icon-ai-active {
+  font-size: 1.1rem;
+}
+
+.badge-ai-status {
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.3);
+}
+
+.badge-mock-status {
+  background: #f59e0b;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
 }
 
 /* ── Notebook Workspace Layout ── */
