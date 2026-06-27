@@ -848,7 +848,6 @@ Moat: ${answers.moat}`;
                   }}
                 >
                   <span>Submit Details</span>
-                  <Sparkles size={16} />
                 </button>
               </div>
 
