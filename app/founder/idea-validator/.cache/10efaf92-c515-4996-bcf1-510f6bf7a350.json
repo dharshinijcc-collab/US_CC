@@ -1,0 +1,1224 @@
+{
+  "startup_summary": "This startup proposes an application designed for the direct sale of eggs. The concept aims to connect producers or sellers with consumers, potentially streamlining a niche market. However, the target customer and core problem statements are currently vague, indicating a lack of initial market definition and validation.",
+  "why_this_score": "The overall score of 1.9/10 reflects a very early-stage idea with significant foundational weaknesses. This is primarily driven by an Evidence Score of 0/10, indicating a complete lack of customer validation, market research, or demonstrable traction. The Startup Quality Score of 4.6/10 and Investor Readiness Score of 5.4/10 are further depressed by critical red flags such as a solo founder, absence of a technical lead, and a weak defensibility moat. While Market Timing scores high (8/10), suggesting a potentially opportune moment for a solution in this space, this is heavily outweighed by low scores in Customer Demand (4/10), Investor Appeal (4/10), and especially Technical Feasibility (3/10), which highlights core execution and validation gaps.",
+  "biggest_assumption": "The primary unvalidated leap-of-faith assumption is the existence of sufficient customer demand and willingness to pay for a dedicated app to sell eggs, and that this demand cannot be met by existing general marketplaces or local solutions.",
+  "missing_evidence": "The single most critical missing proof point is any form of customer validation, including interviews, landing page signups, or early tester feedback, to confirm the core problem and market need.",
+  "what_increased_the_score": [
+    "Perceived strong market timing for a new solution in the space.",
+    "Potential for a moderate competitive moat if properly developed, despite current weaknesses."
+  ],
+  "what_reduced_the_score": [
+    "Zero customer validation and vague problem/customer definition.",
+    "Absence of a technical co-founder or lead, increasing technical execution risk.",
+    "Solo founder structure, raising key-person dependency and workload concerns.",
+    "Weak defensibility moat, making the concept easily replicable.",
+    "Low investor appeal due to early stage and significant unaddressed risks."
+  ],
+  "how_to_improve": [
+    "Conduct at least 15 structured customer interviews to validate the problem and target audience.",
+    "Recruit a complementary co-founder, ideally with technical expertise, to build out the product and share the workload.",
+    "Design lock-in mechanics or proprietary workflows to strengthen the competitive moat.",
+    "Clearly define the specific pain points and unique value proposition for both egg sellers and buyers."
+  ],
+  "investor_questions": [
+    "What specific pain points have you identified through customer interviews for both egg producers/sellers and consumers that a dedicated app would solve?",
+    "What is your plan to build a minimum viable product (MVP) given the current lack of a technical lead, and what is the estimated timeline and cost?",
+    "How do you envision building a defensible competitive moat that prevents larger marketplaces or existing solutions from easily replicating your offering?"
+  ],
+  "highest_scoring_dimension": "Market Timing",
+  "lowest_scoring_dimension": "Technical Feasibility",
+  "risk_matrix": {
+    "market": {
+      "severity": "high",
+      "reason": "The target customer and core problem are vaguely defined, and there is zero customer validation, indicating a high risk that a significant market for a dedicated egg-selling app does not exist or is not large enough.",
+      "mitigation": "Conduct extensive customer discovery interviews (15-20+) with both potential egg sellers and buyers to identify specific pain points and validate demand. Develop clear user personas and test value propositions with landing page experiments."
+    },
+    "execution": {
+      "severity": "high",
+      "reason": "The venture is led by a solo founder and lacks a technical lead, creating significant risks in product development, workload management, and overall operational capacity.",
+      "mitigation": "Prioritize recruiting a strong technical co-founder with relevant development experience. Clearly define roles and responsibilities, and build out a small, agile founding team with complementary skill sets."
+    },
+    "funding": {
+      "severity": "high",
+      "reason": "Given the low overall score, zero evidence of validation, and multiple red flags, securing early-stage funding will be extremely challenging without significant de-risking.",
+      "mitigation": "Focus on achieving key validation milestones (customer interviews, problem/solution fit) before seeking external capital. Bootstrap initial efforts or pursue grants/accelerator programs that support pre-seed ventures."
+    },
+    "competition": {
+      "severity": "medium",
+      "reason": "The current concept lacks a strong defensibility moat, making it vulnerable to existing general marketplaces (e.g., local classifieds, farmer's markets, social media groups) or larger e-commerce platforms.",
+      "mitigation": "Research existing and indirect competitors thoroughly. Identify unique value propositions, network effects, or proprietary processes that can be built into the app to create switching costs or lock-in for users."
+    },
+    "technical": {
+      "severity": "high",
+      "reason": "The absence of a technical lead means there is no internal expertise to build, manage, and scale the application, leading to reliance on potentially costly and less committed external resources.",
+      "mitigation": "The immediate priority must be to onboard a technical co-founder or a highly experienced CTO. Develop a clear technical roadmap and architecture plan that can be executed internally."
+    },
+    "legal": {
+      "severity": "low",
+      "reason": "While selling food products (eggs) may involve some local health and safety regulations, these are generally manageable for a marketplace model and not an immediate high-severity risk at this conceptual stage.",
+      "mitigation": "Consult with legal counsel early in the development process to understand any specific regulations related to food sales, labeling, and delivery in target geographies. Incorporate necessary disclaimers and user agreements."
+    },
+    "operational": {
+      "severity": "medium",
+      "reason": "A solo founder implies a high operational burden, particularly in managing potential logistics for egg sales (delivery, pickup, quality control) and customer support as the platform scales.",
+      "mitigation": "Develop a lean operational plan focusing on minimal viable operations. Consider starting with a limited geographic scope or a specific type of seller/buyer to simplify logistics. Build a strong advisory board to provide operational guidance."
+    }
+  },
+  "validation_roadmap": [
+    {
+      "phase": "Phase 1: Problem & Customer Validation",
+      "task": "Conduct 15-20 structured interviews with potential egg sellers (farmers, small producers) and buyers to deeply understand their current methods, pain points, and willingness to use a dedicated app. Document all findings.",
+      "timeline": "Weeks 1-3",
+      "impact": "Provides concrete evidence of a real problem and market demand, or reveals the need to pivot. Essential for de-risking the core assumption.",
+      "effort": "Medium",
+      "expected_score_improvement": "+1.5"
+    },
+    {
+      "phase": "Phase 2: Solution & Team Validation",
+      "task": "Develop a simple landing page with a clear value proposition and call to action (e.g., 'Join Waitlist'). Drive traffic through targeted ads or community outreach. Simultaneously, actively recruit a technical co-founder by networking and showcasing validated problem insights.",
+      "timeline": "Weeks 4-6",
+      "impact": "Quantifies early interest and validates the proposed solution's appeal. Addressing the technical co-founder gap significantly reduces execution risk and boosts investor appeal.",
+      "effort": "High",
+      "expected_score_improvement": "+2.0"
+    }
+  ],
+  "comparable_startups": [
+    {
+      "name": "Instacart",
+      "description": "On-demand grocery delivery connecting local shoppers with retail partners.",
+      "why_comparable": "Instacart demonstrates a successful model for connecting local consumers with local food providers (retailers) for delivery, which is highly relevant for a perishable goods marketplace like eggs.",
+      "business_model": "Delivery fees + retail markup commissions",
+      "lessons_learned": "Build asset-light operations by outsourcing delivery logistics to independent contractors."
+    },
+    {
+      "name": "Airbnb",
+      "description": "Global peer-to-peer online marketplace for homestays and lodging.",
+      "why_comparable": "Airbnb's success lies in building trust and facilitating transactions between individual providers and consumers, a key challenge for any peer-to-peer marketplace, including one for local goods.",
+      "business_model": "Dual-sided booking service fees (host and guest percentages)",
+      "lessons_learned": "Solve double-sided trust issues through verified reviews, profiles, and institutional insurances."
+    },
+    {
+      "name": "Uber",
+      "description": "Ride-sharing, food delivery, and freight shipping network platform.",
+      "why_comparable": "Uber's model for local, on-demand logistics and delivery of goods (Uber Eats) provides a strong parallel for how a local egg delivery or pickup network could be structured and scaled.",
+      "business_model": "Transaction take-rate commission per completed trip",
+      "lessons_learned": "Leverage localized network effects to achieve regional liquidity before expanding nationally."
+    },
+    {
+      "name": "Upwork",
+      "description": "Freelance talent matching and remote project management platform.",
+      "why_comparable": "While different in domain, Upwork illustrates how to build a robust platform for connecting buyers and sellers, managing transactions, and embedding collaboration, which are crucial for any marketplace.",
+      "business_model": "Contractor transaction fees + client service charges",
+      "lessons_learned": "Embed collaboration and payment escrow systems within the marketplace to lock in user activity."
+    }
+  ],
+  "due_diligence_questions": {
+    "market": [
+      {
+        "question": "What is the total addressable market (TAM) for a dedicated egg-selling app, specifically considering local, direct-to-consumer sales, and how does it compare to existing channels?",
+        "expected_evidence": "Market research reports on local food systems, direct-to-consumer agriculture, and consumer spending habits on eggs, segmented by region or demographic.",
+        "suggested_prep": "Conduct secondary research on market size, growth trends, and consumer preferences for local/farm-fresh produce. Define specific geographic and demographic segments."
+      },
+      {
+        "question": "How do you plan to scale beyond a niche market without encountering significant logistical or competitive challenges?",
+        "expected_evidence": "A phased rollout plan, demonstrating understanding of geographic expansion, supply chain management, and potential partnerships.",
+        "suggested_prep": "Outline a clear strategy for regional expansion, identifying potential hubs and detailing how supply and demand will be balanced in new areas."
+      }
+    ],
+    "customer": [
+      {
+        "question": "Beyond the vague description, who exactly is your ideal target customer (both seller and buyer), what are their specific demographics, behaviors, and unmet needs?",
+        "expected_evidence": "Detailed customer personas for both sides of the marketplace, informed by direct customer interviews and surveys.",
+        "suggested_prep": "Develop 2-3 detailed personas for both egg sellers and buyers, including their 'day in the life,' current purchasing/selling habits, and specific pain points related to eggs."
+      },
+      {
+        "question": "What evidence do you have that customers are actively seeking a dedicated app for selling or buying eggs, rather than using existing channels (e.g., farmers markets, social media, local stores)?",
+        "expected_evidence": "Transcripts or summaries of customer interviews highlighting dissatisfaction with current solutions, landing page sign-ups, or survey results indicating demand.",
+        "suggested_prep": "Compile and synthesize findings from customer interviews, explicitly noting quotes or themes that indicate a strong desire for a new, dedicated solution."
+      }
+    ],
+    "revenue": [
+      {
+        "question": "What is your proposed business model and how will you generate revenue from both sides of the marketplace, ensuring sustainability and growth?",
+        "expected_evidence": "A detailed financial model projecting revenue streams (e.g., transaction fees, subscription, premium features) and unit economics.",
+        "suggested_prep": "Outline potential revenue streams, including transaction fees, subscription tiers for sellers, or delivery fees. Provide a basic calculation of projected revenue per transaction or user."
+      },
+      {
+        "question": "What are the projected customer acquisition costs (CAC) and customer lifetime value (LTV) for both sellers and buyers, and how will you ensure a healthy LTV/CAC ratio?",
+        "expected_evidence": "Assumptions for marketing channels, conversion rates, churn rates, and average transaction values, leading to CAC and LTV projections.",
+        "suggested_prep": "Estimate initial CAC based on proposed marketing channels (e.g., social media ads, local partnerships). Project LTV based on assumed purchase frequency and average order value."
+      }
+    ],
+    "technology": [
+      {
+        "question": "What is your plan for building the initial product given the absence of a technical co-founder or in-house engineering team?",
+        "expected_evidence": "A detailed technical roadmap, a plan for recruiting a technical lead, or a proposal for an outsourced development agency with clear deliverables and budget.",
+        "suggested_prep": "Research and present options for initial product development, including pros and cons of outsourcing vs. hiring. Prioritize recruitment of a technical co-founder."
+      },
+      {
+        "question": "How will you ensure the scalability, security, and reliability of the platform as user numbers and transaction volumes grow?",
+        "expected_evidence": "A high-level technical architecture plan, security protocols, and a strategy for future infrastructure scaling, ideally developed with technical input.",
+        "suggested_prep": "Consult with technical advisors or potential technical hires to outline a basic architectural vision that considers future growth and data security."
+      }
+    ],
+    "competition": [
+      {
+        "question": "Who are your direct and indirect competitors, including local farmers' markets, grocery stores, social media groups, and existing food delivery services, and what is your unique differentiation?",
+        "expected_evidence": "A comprehensive competitive analysis matrix detailing competitors' offerings, pricing, strengths, weaknesses, and your distinct value proposition.",
+        "suggested_prep": "Create a detailed list of all current channels consumers use to buy eggs and producers use to sell them. Clearly articulate how your app offers a superior experience or solves a unique problem."
+      },
+      {
+        "question": "What specific features or strategies will you implement to build a defensible moat against potential competitors or larger platforms entering this niche?",
+        "expected_evidence": "A strategy outlining network effects, proprietary data, unique partnerships, or intellectual property that will create barriers to entry.",
+        "suggested_prep": "Brainstorm and document specific ways to create 'stickiness' for users, such as loyalty programs, unique seller profiles, community features, or specialized logistics."
+      }
+    ],
+    "operations": [
+      {
+        "question": "What is your operational plan for managing logistics, quality control, and customer support for a perishable product like eggs?",
+        "expected_evidence": "A detailed operational workflow, including plans for delivery/pickup, quality assurance protocols, and customer service channels.",
+        "suggested_prep": "Outline the end-to-end process from egg collection to delivery/pickup, addressing how quality will be maintained and customer issues resolved."
+      },
+      {
+        "question": "How will you manage the supply-side (egg producers) and demand-side (consumers) liquidity in your marketplace, especially in the early stages?",
+        "expected_evidence": "A strategy for initial user acquisition for both sellers and buyers, including incentives and community building efforts.",
+        "suggested_prep": "Detail initial strategies for onboarding both sellers and buyers, potentially starting with a limited geographic area or specific type of producer/consumer to ensure early liquidity."
+      }
+    ],
+    "legal": [
+      {
+        "question": "What are the key regulatory and compliance requirements for selling and distributing eggs, including food safety, labeling, and local health regulations?",
+        "expected_evidence": "Research on local, state, and national food safety guidelines relevant to egg sales and distribution, and a plan for compliance.",
+        "suggested_prep": "Consult with a legal expert specializing in food safety and direct-to-consumer sales to understand specific regulations and liabilities."
+      },
+      {
+        "question": "What are the terms of service and privacy policy considerations for a marketplace handling personal data and financial transactions?",
+        "expected_evidence": "A draft of the user agreement, privacy policy, and data handling protocols, ensuring compliance with relevant data protection laws.",
+        "suggested_prep": "Outline the key clauses for user agreements, including liability, payment processing, and data privacy, to ensure legal compliance."
+      }
+    ],
+    "financial": [
+      {
+        "question": "What are your projected startup costs, burn rate, and runway, and how much capital do you need to reach your next major milestone?",
+        "expected_evidence": "A detailed 12-18 month financial projection including expenses, revenue, and funding requirements.",
+        "suggested_prep": "Create a realistic financial model outlining all anticipated expenses (development, marketing, operations) and project funding needs to achieve specific validation milestones."
+      },
+      {
+        "question": "What are the key metrics you will track to measure success and demonstrate progress to investors?",
+        "expected_evidence": "A list of key performance indicators (KPIs) for both sides of the marketplace, including user acquisition, engagement, transaction volume, and retention.",
+        "suggested_prep": "Identify 3-5 critical metrics for both sellers (e.g., active listings, sales volume) and buyers (e.g., active users, purchase frequency) that indicate early traction and product-market fit."
+      }
+    ]
+  },
+  "co_founder_recommendations": "Given the current solo founder structure and the critical absence of a technical lead, the immediate and most impactful recommendation is to recruit a complementary co-founder. This individual should ideally possess strong technical expertise (e.g., a CTO profile) to lead product development, build the application in-house, and establish a robust technical foundation. Furthermore, a co-founder would help distribute the immense workload, bring diverse perspectives to strategic decision-making, and significantly de-risk the venture from an investor's perspective by addressing key-person dependency. The search should focus on individuals with a strong understanding of marketplace dynamics or consumer tech, who are passionate about the problem space and committed to building a long-term vision.",
+  "investor_memo": {
+    "executive_summary": "The 'Egg App' proposes a dedicated platform for selling eggs, aiming to capitalize on favorable market timing. However, the venture is at a nascent stage, lacking any customer validation, a technical lead, or a co-founder. While the market timing appears opportune, significant foundational work is required to prove market demand and build an executable product, presenting a very high-risk, pre-seed opportunity.",
+    "investment_thesis": "While the idea of a dedicated marketplace for local, fresh produce like eggs could benefit from current market shifts towards direct-to-consumer and local sourcing, the investment thesis is currently unproven. Success would hinge on validating a strong, unmet customer demand, building a defensible platform with a capable technical team, and executing a lean, scalable operational model.",
+    "strengths": "The primary strength lies in the perceived strong market timing (Score 8/10), suggesting a potential window of opportunity for a new solution in the local food delivery or direct-to-consumer space. The concept also has a moderate competitive moat score (6/10), indicating potential for differentiation if properly executed.",
+    "weaknesses": "Key weaknesses include zero customer validation, a solo founder, absence of a technical lead, and a currently weak defensibility moat. Customer demand and investor appeal are low (both 4/10), and technical feasibility is a significant concern (3/10). The vague problem and target customer definitions further exacerbate these issues.",
+    "major_risks": "The two major risks are **Execution Risk** due to the solo founder and lack of a technical lead, making product development and scaling highly uncertain, and **Market Risk** stemming from zero customer validation, indicating a high probability that the core problem or market demand is unproven or non-existent.",
+    "recommendation": "Monitor",
+    "confidence_rating": "Our confidence in this opportunity is low (43%) given the absence of critical validation, a complete founding team, and a clear path to product execution. The current stage is purely conceptual.",
+    "next_validation_step": "Conduct at least 15 structured customer interviews to validate the core problem and target customer personas for both egg sellers and buyers."
+  },
+  "dimensions": {
+    "investor_appeal": {
+      "evaluation_criteria": [
+        "Strength of founding team (complementary skills, experience)",
+        "Evidence of market validation (traction, customer feedback)",
+        "Clarity of business model and path to profitability",
+        "Defensibility and competitive advantage"
+      ],
+      "why_this_score": "The score of 4/10 for Investor Appeal is low due to several critical factors. The venture is led by a solo founder, lacks a technical lead, and has zero customer validation, which are major red flags for early-stage investors. The business model and path to profitability are not yet clearly defined, and the competitive moat is currently weak, making it difficult for investors to see a compelling, de-risked opportunity at this stage. Significant work is needed to build a more attractive investment case.",
+      "improvement_actions": [
+        "Recruit a strong, complementary co-founder, ideally with technical expertise.",
+        "Achieve significant customer validation (e.g., 20+ interviews, waitlist sign-ups).",
+        "Develop a clear, defensible business model with initial revenue projections."
+      ],
+      "score": 4,
+      "confidence": 40,
+      "scoring_factors": [
+        {
+          "label": "Large Addressable Market",
+          "points": 2,
+          "detected": false,
+          "signal_key": "market_size"
+        },
+        {
+          "label": "Medium Addressable Market",
+          "points": 1,
+          "detected": false,
+          "signal_key": "market_size"
+        },
+        {
+          "label": "Subscription / Recurring Revenue",
+          "points": 2,
+          "detected": false,
+          "signal_key": "revenue_model"
+        },
+        {
+          "label": "One-Time Revenue Model",
+          "points": -1,
+          "detected": false,
+          "signal_key": "revenue_model"
+        },
+        {
+          "label": "High Scalability Potential",
+          "points": 2,
+          "detected": false,
+          "signal_key": "scalability"
+        },
+        {
+          "label": "Moderate Scalability Potential",
+          "points": 1,
+          "detected": false,
+          "signal_key": "scalability"
+        },
+        {
+          "label": "Strong Exit Potential",
+          "points": 1,
+          "detected": false,
+          "signal_key": "exit_potential"
+        },
+        {
+          "label": "Active Investor Interest in Space",
+          "points": 1,
+          "detected": false,
+          "signal_key": "investor_interest_in_space"
+        },
+        {
+          "label": "High Growth Potential",
+          "points": 1,
+          "detected": false,
+          "signal_key": "growth_potential"
+        },
+        {
+          "label": "Small Addressable Market",
+          "points": -2,
+          "detected": false,
+          "signal_key": "market_size"
+        },
+        {
+          "label": "Low Scalability Potential",
+          "points": -1,
+          "detected": false,
+          "signal_key": "scalability"
+        },
+        {
+          "label": "Active Funding Stage (Raising/Raised)",
+          "points": 1,
+          "detected": false,
+          "signal_key": "funding_status"
+        },
+        {
+          "label": "Validated with Paying Customers",
+          "points": 4,
+          "detected": false,
+          "signal_key": "validation_level"
+        },
+        {
+          "label": "Validated with Waitlist",
+          "points": 2,
+          "detected": false,
+          "signal_key": "validation_level"
+        },
+        {
+          "label": "Validated with User Conversations",
+          "points": 1,
+          "detected": false,
+          "signal_key": "validation_level"
+        },
+        {
+          "label": "No Prior Validation Done",
+          "points": -2,
+          "detected": true,
+          "signal_key": "validation_level"
+        },
+        {
+          "label": "Targeting Mass Market",
+          "points": 3,
+          "detected": false,
+          "signal_key": "market_size_choice"
+        },
+        {
+          "label": "Targeting Large Market Segment",
+          "points": 2,
+          "detected": false,
+          "signal_key": "market_size_choice"
+        },
+        {
+          "label": "Targeting Medium Market Segment",
+          "points": 1,
+          "detected": true,
+          "signal_key": "market_size_choice"
+        },
+        {
+          "label": "Targeting Small/Niche Market Segment",
+          "points": -2,
+          "detected": false,
+          "signal_key": "market_size_choice"
+        }
+      ],
+      "base_score": 5,
+      "positive_adjustments": 1,
+      "negative_adjustments": -2,
+      "positive_signals": [
+        "Targeting Medium Market Segment"
+      ],
+      "negative_signals": [
+        "No Prior Validation Done"
+      ],
+      "neutral_signals": [
+        "Large Addressable Market",
+        "Medium Addressable Market",
+        "Subscription / Recurring Revenue",
+        "One-Time Revenue Model",
+        "High Scalability Potential",
+        "Moderate Scalability Potential",
+        "Strong Exit Potential",
+        "Active Investor Interest in Space",
+        "High Growth Potential",
+        "Small Addressable Market",
+        "Low Scalability Potential",
+        "Active Funding Stage (Raising/Raised)",
+        "Validated with Paying Customers",
+        "Validated with Waitlist",
+        "Validated with User Conversations",
+        "Targeting Mass Market",
+        "Targeting Large Market Segment",
+        "Targeting Small/Niche Market Segment"
+      ]
+    },
+    "customer_demand": {
+      "evaluation_criteria": [
+        "Evidence of a clearly defined and unmet customer need",
+        "Size and growth potential of the target customer segment",
+        "Customer willingness to pay for the proposed solution",
+        "Early traction or expressed interest from target users"
+      ],
+      "why_this_score": "A score of 4/10 for Customer Demand reflects the complete lack of validation. The target customer and core problem are vaguely described, with no evidence from customer interviews, surveys, or early sign-ups to suggest a genuine, unmet need for a dedicated egg-selling app. This indicates a high risk that the product might not solve a significant enough problem for a large enough audience, or that existing solutions are sufficient. Without validation, demand remains a speculative assumption.",
+      "improvement_actions": [
+        "Conduct 15-20 in-depth customer interviews to identify specific pain points.",
+        "Create detailed customer personas for both sellers and buyers.",
+        "Launch a landing page to gauge interest and capture early sign-ups."
+      ],
+      "score": 4,
+      "confidence": 40,
+      "scoring_factors": [
+        {
+          "label": "Severe Customer Pain Point",
+          "points": 3,
+          "detected": false,
+          "signal_key": "pain_severity"
+        },
+        {
+          "label": "Moderate Customer Pain Point",
+          "points": 1,
+          "detected": false,
+          "signal_key": "pain_severity"
+        },
+        {
+          "label": "Frequent Problem Occurrence (Daily/Weekly)",
+          "points": 2,
+          "detected": false,
+          "signal_key": "problem_frequency"
+        },
+        {
+          "label": "Existing Buyers/Users Present",
+          "points": 2,
+          "detected": false,
+          "signal_key": "existing_buyers"
+        },
+        {
+          "label": "Clear ROI for Buyer",
+          "points": 2,
+          "detected": false,
+          "signal_key": "clear_roi"
+        },
+        {
+          "label": "High Willingness to Pay",
+          "points": 1,
+          "detected": false,
+          "signal_key": "willingness_to_pay"
+        },
+        {
+          "label": "Nice-to-Have Product Concept",
+          "points": -2,
+          "detected": false,
+          "signal_key": "nice_to_have"
+        },
+        {
+          "label": "Low Willingness to Pay",
+          "points": -2,
+          "detected": false,
+          "signal_key": "willingness_to_pay"
+        },
+        {
+          "label": "Infrequent Problem Occurrence",
+          "points": -2,
+          "detected": false,
+          "signal_key": "problem_frequency"
+        },
+        {
+          "label": "Mild Customer Pain Point",
+          "points": -1,
+          "detected": false,
+          "signal_key": "pain_severity"
+        },
+        {
+          "label": "Proven Demand via Paying Customers",
+          "points": 5,
+          "detected": false,
+          "signal_key": "validation_level"
+        },
+        {
+          "label": "Proven Demand via Waitlist Signups",
+          "points": 3,
+          "detected": false,
+          "signal_key": "validation_level"
+        },
+        {
+          "label": "Proven Demand via Interviews",
+          "points": 1,
+          "detected": false,
+          "signal_key": "validation_level"
+        },
+        {
+          "label": "Zero Validated Demand",
+          "points": -2,
+          "detected": true,
+          "signal_key": "validation_level"
+        },
+        {
+          "label": "Critical Pain Score (8-10)",
+          "points": 2,
+          "detected": false,
+          "signal_key": "pain_score"
+        },
+        {
+          "label": "Elevated Pain Score (5-7)",
+          "points": 1,
+          "detected": true,
+          "signal_key": "pain_score"
+        },
+        {
+          "label": "Low Pain Score (1-4)",
+          "points": -1,
+          "detected": false,
+          "signal_key": "pain_score"
+        }
+      ],
+      "base_score": 5,
+      "positive_adjustments": 1,
+      "negative_adjustments": -2,
+      "positive_signals": [
+        "Elevated Pain Score (5-7)"
+      ],
+      "negative_signals": [
+        "Zero Validated Demand"
+      ],
+      "neutral_signals": [
+        "Severe Customer Pain Point",
+        "Moderate Customer Pain Point",
+        "Frequent Problem Occurrence (Daily/Weekly)",
+        "Existing Buyers/Users Present",
+        "Clear ROI for Buyer",
+        "High Willingness to Pay",
+        "Nice-to-Have Product Concept",
+        "Low Willingness to Pay",
+        "Infrequent Problem Occurrence",
+        "Mild Customer Pain Point",
+        "Proven Demand via Paying Customers",
+        "Proven Demand via Waitlist Signups",
+        "Proven Demand via Interviews",
+        "Critical Pain Score (8-10)",
+        "Low Pain Score (1-4)"
+      ]
+    },
+    "market_timing": {
+      "evaluation_criteria": [
+        "Presence of enabling technologies or infrastructure",
+        "Favorable regulatory or cultural shifts",
+        "Emergence of new market needs or consumer behaviors",
+        "Absence of dominant incumbents in a newly opened space"
+      ],
+      "why_this_score": "The Market Timing score of 8/10 is the highest dimension, indicating a strong belief that current market shifts and technological advancements are creating a favorable environment for a solution in this space. This could be driven by trends such as increased demand for local produce, direct-to-consumer models, or the ubiquity of mobile apps for commerce. This suggests that if the problem and solution are correctly identified, the market is receptive to a new entrant.",
+      "improvement_actions": [
+        "Articulate specific market trends and technological shifts that make 'now' the right time.",
+        "Analyze similar successful ventures leveraging these trends in adjacent markets.",
+        "Demonstrate how the proposed solution uniquely capitalizes on these timing advantages."
+      ],
+      "score": 8,
+      "confidence": 40,
+      "scoring_factors": [
+        {
+          "label": "Fast-Growing Industry Segment",
+          "points": 3,
+          "detected": false,
+          "signal_key": "industry_growth"
+        },
+        {
+          "label": "Moderate Industry Segment Growth",
+          "points": 1,
+          "detected": false,
+          "signal_key": "industry_growth"
+        },
+        {
+          "label": "Technology Ready for Commercial Deployment",
+          "points": 2,
+          "detected": false,
+          "signal_key": "technology_maturity"
+        },
+        {
+          "label": "Emerging Technology Stack",
+          "points": 1,
+          "detected": false,
+          "signal_key": "technology_maturity"
+        },
+        {
+          "label": "Growing Consumer/Enterprise Adoption Curve",
+          "points": 2,
+          "detected": false,
+          "signal_key": "consumer_adoption"
+        },
+        {
+          "label": "Supportive Regulatory Framework",
+          "points": 1,
+          "detected": false,
+          "signal_key": "regulatory_environment"
+        },
+        {
+          "label": "Too Early for Commercial Scaling",
+          "points": -3,
+          "detected": false,
+          "signal_key": "too_early"
+        },
+        {
+          "label": "Declining Industry Core Growth",
+          "points": -3,
+          "detected": false,
+          "signal_key": "industry_growth"
+        },
+        {
+          "label": "Restrictive Regulatory Environment",
+          "points": -2,
+          "detected": false,
+          "signal_key": "regulatory_environment"
+        },
+        {
+          "label": "Technology Stack Unripe / Unproven",
+          "points": -2,
+          "detected": false,
+          "signal_key": "technology_maturity"
+        },
+        {
+          "label": "Strong \"Why Now\" Case",
+          "points": 3,
+          "detected": true,
+          "signal_key": "why_now_strength"
+        },
+        {
+          "label": "Moderate \"Why Now\" Case",
+          "points": 1,
+          "detected": false,
+          "signal_key": "why_now_strength"
+        },
+        {
+          "label": "Weak \"Why Now\" Case",
+          "points": -2,
+          "detected": false,
+          "signal_key": "why_now_strength"
+        }
+      ],
+      "base_score": 5,
+      "positive_adjustments": 3,
+      "negative_adjustments": 0,
+      "positive_signals": [
+        "Strong \"Why Now\" Case"
+      ],
+      "negative_signals": [
+        "Minor optimization opportunities"
+      ],
+      "neutral_signals": [
+        "Fast-Growing Industry Segment",
+        "Moderate Industry Segment Growth",
+        "Technology Ready for Commercial Deployment",
+        "Emerging Technology Stack",
+        "Growing Consumer/Enterprise Adoption Curve",
+        "Supportive Regulatory Framework",
+        "Too Early for Commercial Scaling",
+        "Declining Industry Core Growth",
+        "Restrictive Regulatory Environment",
+        "Technology Stack Unripe / Unproven",
+        "Moderate \"Why Now\" Case",
+        "Weak \"Why Now\" Case"
+      ]
+    },
+    "technical_feasibility": {
+      "evaluation_criteria": [
+        "Availability of necessary technical expertise within the team",
+        "Clarity of the technical roadmap and architecture",
+        "Complexity of the proposed technology",
+        "Access to required technical resources or partnerships"
+      ],
+      "why_this_score": "The score of 3/10 for Technical Feasibility is low due to the critical absence of a technical lead or in-house engineering capabilities. This means there is no clear plan for how the product will be built, maintained, or scaled. Reliance on external agencies without internal technical oversight poses significant risks to quality, cost, and timeline. The lack of a defined technical roadmap further compounds this issue, making the execution of the product highly uncertain.",
+      "improvement_actions": [
+        "Immediately recruit a technical co-founder or a highly experienced CTO.",
+        "Develop a detailed technical roadmap outlining key features and development phases.",
+        "Outline a clear technology stack and architecture for the proposed app."
+      ],
+      "score": 3,
+      "confidence": 40,
+      "scoring_factors": [
+        {
+          "label": "Existing Ecosystem APIs/APIs Available",
+          "points": 3,
+          "detected": false,
+          "signal_key": "existing_apis_available"
+        },
+        {
+          "label": "Simple MVP Development Path",
+          "points": 2,
+          "detected": false,
+          "signal_key": "mvp_complexity"
+        },
+        {
+          "label": "Moderate MVP Development Path",
+          "points": 1,
+          "detected": false,
+          "signal_key": "mvp_complexity"
+        },
+        {
+          "label": "Low Infrastructure Complexity",
+          "points": 1,
+          "detected": false,
+          "signal_key": "infrastructure_complexity"
+        },
+        {
+          "label": "Basic R&D or Scientific Research Required",
+          "points": -3,
+          "detected": false,
+          "signal_key": "mvp_complexity"
+        },
+        {
+          "label": "Requires Custom New Hardware",
+          "points": -2,
+          "detected": false,
+          "signal_key": "requires_new_hardware"
+        },
+        {
+          "label": "Complex Frontend/Backend MVP Scope",
+          "points": -1,
+          "detected": false,
+          "signal_key": "mvp_complexity"
+        },
+        {
+          "label": "High Infrastructure / Server Complexity",
+          "points": -1,
+          "detected": false,
+          "signal_key": "infrastructure_complexity"
+        },
+        {
+          "label": "Concept Phase / Ideation Stage",
+          "points": -2,
+          "detected": true,
+          "signal_key": "current_stage"
+        },
+        {
+          "label": "Prototype / Wired Interactive Stage",
+          "points": 2,
+          "detected": false,
+          "signal_key": "current_stage"
+        },
+        {
+          "label": "Launched MVP Stage",
+          "points": 4,
+          "detected": false,
+          "signal_key": "current_stage"
+        }
+      ],
+      "base_score": 5,
+      "positive_adjustments": 0,
+      "negative_adjustments": -2,
+      "positive_signals": [
+        "Basic signals detected"
+      ],
+      "negative_signals": [
+        "Concept Phase / Ideation Stage"
+      ],
+      "neutral_signals": [
+        "Existing Ecosystem APIs/APIs Available",
+        "Simple MVP Development Path",
+        "Moderate MVP Development Path",
+        "Low Infrastructure Complexity",
+        "Basic R&D or Scientific Research Required",
+        "Requires Custom New Hardware",
+        "Complex Frontend/Backend MVP Scope",
+        "High Infrastructure / Server Complexity",
+        "Prototype / Wired Interactive Stage",
+        "Launched MVP Stage"
+      ]
+    },
+    "competitive_moat": {
+      "evaluation_criteria": [
+        "Presence of network effects (direct or indirect)",
+        "Proprietary technology or intellectual property",
+        "Strong brand recognition and customer loyalty",
+        "High switching costs for users or suppliers"
+      ],
+      "why_this_score": "A score of 6/10 for Competitive Moat suggests some potential for differentiation, but it's currently moderate and flagged as 'Weak Defensibility Moat.' While the founder might perceive some unique aspects (e.g., 'kldkmflkmdkl fdalkmvflkdmvlkd v ldkfmvlkdfsm'), these are not clearly articulated or validated as strong barriers to entry. The risk remains that without proprietary datasets, strong network effects, or significant switching costs, the solution could be easily replicated by existing players or new entrants.",
+      "improvement_actions": [
+        "Clearly define and validate the unique value proposition that creates defensibility.",
+        "Explore strategies to build network effects between egg sellers and buyers.",
+        "Investigate potential for proprietary logistics, sourcing, or data collection methods."
+      ],
+      "score": 6,
+      "confidence": 40,
+      "scoring_factors": [
+        {
+          "label": "Proprietary Data Accumulation Loop",
+          "points": 3,
+          "detected": false,
+          "signal_key": "has_proprietary_data"
+        },
+        {
+          "label": "Organic Network Effects Loop",
+          "points": 3,
+          "detected": false,
+          "signal_key": "has_network_effects"
+        },
+        {
+          "label": "High Switching Costs for Customers",
+          "points": 2,
+          "detected": false,
+          "signal_key": "switching_costs"
+        },
+        {
+          "label": "Moderate Customer Switching Costs",
+          "points": 1,
+          "detected": false,
+          "signal_key": "switching_costs"
+        },
+        {
+          "label": "Strong Product Differentiation",
+          "points": 2,
+          "detected": false,
+          "signal_key": "differentiation"
+        },
+        {
+          "label": "Moderate Product Differentiation",
+          "points": 1,
+          "detected": false,
+          "signal_key": "differentiation"
+        },
+        {
+          "label": "Product is Extremely Easy to Clone",
+          "points": -3,
+          "detected": false,
+          "signal_key": "easy_to_copy"
+        },
+        {
+          "label": "Very High Competitive Saturation",
+          "points": -2,
+          "detected": false,
+          "signal_key": "competition_level"
+        },
+        {
+          "label": "High Competitive Saturation",
+          "points": -1,
+          "detected": false,
+          "signal_key": "competition_level"
+        },
+        {
+          "label": "Weak Core Differentiation",
+          "points": -2,
+          "detected": false,
+          "signal_key": "differentiation"
+        },
+        {
+          "label": "Low Customer Switching Costs",
+          "points": -1,
+          "detected": false,
+          "signal_key": "switching_costs"
+        },
+        {
+          "label": "Defensible Competitor Moat",
+          "points": 3,
+          "detected": false,
+          "signal_key": "moat_strength"
+        },
+        {
+          "label": "Moderate Defensibility Moat",
+          "points": 1,
+          "detected": true,
+          "signal_key": "moat_strength"
+        },
+        {
+          "label": "No Moat / Low Defensibility",
+          "points": -2,
+          "detected": false,
+          "signal_key": "moat_strength"
+        }
+      ],
+      "base_score": 5,
+      "positive_adjustments": 1,
+      "negative_adjustments": 0,
+      "positive_signals": [
+        "Moderate Defensibility Moat"
+      ],
+      "negative_signals": [
+        "Minor optimization opportunities"
+      ],
+      "neutral_signals": [
+        "Proprietary Data Accumulation Loop",
+        "Organic Network Effects Loop",
+        "High Switching Costs for Customers",
+        "Moderate Customer Switching Costs",
+        "Strong Product Differentiation",
+        "Moderate Product Differentiation",
+        "Product is Extremely Easy to Clone",
+        "Very High Competitive Saturation",
+        "High Competitive Saturation",
+        "Weak Core Differentiation",
+        "Low Customer Switching Costs",
+        "Defensible Competitor Moat",
+        "No Moat / Low Defensibility"
+      ]
+    },
+    "founder_market_fit": {
+      "evaluation_criteria": [
+        "Founder's domain expertise and industry knowledge",
+        "Founder's passion and commitment to the problem",
+        "Relevant past experience or track record",
+        "Understanding of the target customer's needs"
+      ],
+      "why_this_score": "The Founder-Market Fit score of 5/10 is moderate, reflecting an average assessment. While the founder's passion for the idea might be present, the vague descriptions of the target customer and core problem suggest a lack of deep, validated understanding of the specific market needs. Furthermore, the solo founder status inherently limits the breadth of experience and execution capacity, which slightly reduces the overall founder-market fit assessment from an investor's perspective. Specific domain expertise related to egg production or local food systems is not evident from the provided information.",
+      "improvement_actions": [
+        "Deeply immerse in the target market to gain firsthand insights into egg production and sales.",
+        "Articulate personal experiences or insights that demonstrate unique founder-market empathy.",
+        "Seek advisors or mentors with strong domain expertise in local food systems or marketplaces."
+      ],
+      "score": 5,
+      "confidence": 40,
+      "scoring_factors": [
+        {
+          "label": "Domain Expert Founder(s)",
+          "points": 3,
+          "detected": false,
+          "signal_key": "domain_expertise"
+        },
+        {
+          "label": "Experienced in Core Domain",
+          "points": 2,
+          "detected": false,
+          "signal_key": "domain_expertise"
+        },
+        {
+          "label": "Founder is Technical",
+          "points": 2,
+          "detected": false,
+          "signal_key": "technical_background"
+        },
+        {
+          "label": "Deep Industry Experience",
+          "points": 2,
+          "detected": false,
+          "signal_key": "industry_experience"
+        },
+        {
+          "label": "Some Industry Experience",
+          "points": 1,
+          "detected": false,
+          "signal_key": "industry_experience"
+        },
+        {
+          "label": "Strong Track Record of Launching",
+          "points": 2,
+          "detected": false,
+          "signal_key": "execution_track_record"
+        },
+        {
+          "label": "Some Track Record of Launching",
+          "points": 1,
+          "detected": false,
+          "signal_key": "execution_track_record"
+        },
+        {
+          "label": "Zero Prior Domain Knowledge",
+          "points": -2,
+          "detected": false,
+          "signal_key": "domain_expertise"
+        },
+        {
+          "label": "Domain is in Learning Phase",
+          "points": -1,
+          "detected": false,
+          "signal_key": "domain_expertise"
+        },
+        {
+          "label": "Zero Core Industry Experience",
+          "points": -1,
+          "detected": false,
+          "signal_key": "industry_experience"
+        },
+        {
+          "label": "Zero Launching Track Record",
+          "points": -1,
+          "detected": false,
+          "signal_key": "execution_track_record"
+        },
+        {
+          "label": "Founder Can Code Directly",
+          "points": 2,
+          "detected": false,
+          "signal_key": "technical_background_choice"
+        },
+        {
+          "label": "Founder Used to Code",
+          "points": 1,
+          "detected": false,
+          "signal_key": "technical_background_choice"
+        },
+        {
+          "label": "Team features Technical Co-Founder",
+          "points": 1,
+          "detected": false,
+          "signal_key": "has_technical_cofounder"
+        }
+      ],
+      "base_score": 5,
+      "positive_adjustments": 0,
+      "negative_adjustments": 0,
+      "positive_signals": [
+        "Basic signals detected"
+      ],
+      "negative_signals": [
+        "Minor optimization opportunities"
+      ],
+      "neutral_signals": [
+        "Domain Expert Founder(s)",
+        "Experienced in Core Domain",
+        "Founder is Technical",
+        "Deep Industry Experience",
+        "Some Industry Experience",
+        "Strong Track Record of Launching",
+        "Some Track Record of Launching",
+        "Zero Prior Domain Knowledge",
+        "Domain is in Learning Phase",
+        "Zero Core Industry Experience",
+        "Zero Launching Track Record",
+        "Founder Can Code Directly",
+        "Founder Used to Code",
+        "Team features Technical Co-Founder"
+      ]
+    }
+  },
+  "overall_score": 1.9,
+  "startup_quality_score": 4.6,
+  "investor_readiness_score": 5.4,
+  "triage_band": "Not a Fit (Currently)",
+  "confidence_level": 43,
+  "evidence_score": 0,
+  "investment_probability": 28,
+  "confidence_breakdown": {
+    "questionnaire_completeness": 85,
+    "signal_confidence": 40,
+    "evidence_confidence": 0,
+    "rule_confidence": 100,
+    "overall_confidence": 43
+  },
+  "evidence_checklist": [
+    {
+      "item": "Customer Discovery Interviews",
+      "status": "missing",
+      "gap_description": "No structured customer interviews performed yet."
+    },
+    {
+      "item": "Interactive Design/Wired Prototype",
+      "status": "missing",
+      "gap_description": "No clickable demo or user-interface mockups available."
+    },
+    {
+      "item": "Waitlist & Landing Page Traction",
+      "status": "missing",
+      "gap_description": "No active landing page or signup waitlist deployed."
+    },
+    {
+      "item": "Minimum Viable Product (MVP)",
+      "status": "missing",
+      "gap_description": "Full MVP software has not yet been built or released."
+    },
+    {
+      "item": "Early Paying Customers / Traction",
+      "status": "missing",
+      "gap_description": "Zero revenue transactions or subscription contracts validated."
+    }
+  ],
+  "score_sensitivity": [
+    {
+      "milestone": "Interview 20 Customers",
+      "estimated_increase": 0.6
+    },
+    {
+      "milestone": "Launch landing page & collect 100+ signups",
+      "estimated_increase": 1.2
+    },
+    {
+      "milestone": "Acquire first 3 paying customers",
+      "estimated_increase": 2.3
+    },
+    {
+      "milestone": "Build interactive clickable prototype",
+      "estimated_increase": 0.8
+    },
+    {
+      "milestone": "Develop and launch MVP software",
+      "estimated_increase": 1.5
+    }
+  ],
+  "investor_red_flags": [
+    {
+      "flag": "Solo Founder",
+      "severity": "medium",
+      "reason": "Venture is operated by a single founder, raising execution risk and key-person dependency.",
+      "recommendation": "Recruit a complementary co-founder (ideally technical or operations-focused) to distribute workload and build investor trust."
+    },
+    {
+      "flag": "No Technical Lead",
+      "severity": "high",
+      "reason": "The team lacks internal coding/engineering leadership, relying heavily on external agencies or contractors.",
+      "recommendation": "Onboard a CTO or technical co-founder with equity to bring product development and system architecture in-house."
+    },
+    {
+      "flag": "Weak Defensibility Moat",
+      "severity": "high",
+      "reason": "The product has no proprietary datasets, network effects, or switching costs, making it highly susceptible to cloning.",
+      "recommendation": "Design lock-in mechanics, proprietary workflows, or data loops that make the solution more defensible over time."
+    },
+    {
+      "flag": "Zero Customer Validation",
+      "severity": "high",
+      "reason": "The idea has not been validated with customer interviews, landing page signups, or early testers.",
+      "recommendation": "Conduct 15+ structured interviews with target customer personas before building additional software."
+    }
+  ],
+  "buildtime_estimator": {
+    "timeline_months": 9,
+    "engineering_complexity": "high",
+    "team_recommendation": "1 Tech Lead, 2 Full-Stack Developers, 1 DevOps Engineer, 1 Product Designer, 1 AI/Data Specialist",
+    "approximate_cost_usd": 115000,
+    "technical_risks": [
+      "Database scale issues with massive real-time data loops.",
+      "Training and fine-tuning custom AI models within budget.",
+      "Securing regulatory compliance (GDPR/HIPAA) for custom storage structures."
+    ],
+    "development_phases": [
+      {
+        "phase": "Discovery & UX Spec",
+        "timeline": "1.3 months",
+        "estimated_effort": "15%",
+        "description": "Map workflows, user flows, database architecture blueprints, and interactive wireframes."
+      },
+      {
+        "phase": "UI/UX Interactive Design",
+        "timeline": "1.3 months",
+        "estimated_effort": "15%",
+        "description": "Create high-fidelity design sheets, responsive templates, and style system configurations."
+      },
+      {
+        "phase": "Frontend Engineering",
+        "timeline": "2.3 months",
+        "estimated_effort": "25%",
+        "description": "Develop Next.js/React layout templates, client page routings, and browser storage components."
+      },
+      {
+        "phase": "Backend API & Infrastructure",
+        "timeline": "2.3 months",
+        "estimated_effort": "25%",
+        "description": "Establish database connections, schema constraints, security keys, and router pipelines."
+      },
+      {
+        "phase": "AI & Custom Integrations",
+        "timeline": "0.9 months",
+        "estimated_effort": "10%",
+        "description": "Integrate Gemini LLM prompts, caching algorithms, and third-party SaaS hooks."
+      },
+      {
+        "phase": "QA Testing & Launch Deployment",
+        "timeline": "0.9 months",
+        "estimated_effort": "10%",
+        "description": "Run build tests, cross-browser responsiveness checks, and deploy to Vercel/AWS environments."
+      }
+    ]
+  },
+  "is_mock": false,
+  "id": "10efaf92-c515-4996-bcf1-510f6bf7a350",
+  "signals": {
+    "market_size": "unknown",
+    "revenue_model": "unknown",
+    "growth_potential": "unknown",
+    "scalability": "unknown",
+    "exit_potential": "unknown",
+    "investor_interest_in_space": "unknown",
+    "pain_severity": "unknown",
+    "problem_frequency": "unknown",
+    "existing_buyers": false,
+    "clear_roi": false,
+    "nice_to_have": "unknown",
+    "willingness_to_pay": "unknown",
+    "industry_growth": "unknown",
+    "technology_maturity": "unknown",
+    "consumer_adoption": "unknown",
+    "regulatory_environment": "unknown",
+    "too_early": false,
+    "existing_apis_available": "unknown",
+    "mvp_complexity": "unknown",
+    "requires_new_hardware": false,
+    "ai_dependency": "none",
+    "infrastructure_complexity": "unknown",
+    "has_proprietary_data": false,
+    "has_network_effects": false,
+    "switching_costs": "unknown",
+    "differentiation": "unknown",
+    "competition_level": "unknown",
+    "easy_to_copy": "unknown",
+    "domain_expertise": "unknown",
+    "technical_background": false,
+    "industry_experience": "unknown",
+    "execution_track_record": "unknown",
+    "credibility": "unknown",
+    "moat_strength": "moderate",
+    "why_now_strength": "strong",
+    "validation_level": "none",
+    "pain_score": 5,
+    "technical_background_choice": "no",
+    "founder_count": "solo",
+    "has_technical_cofounder": false,
+    "funding_status": "bootstrapped",
+    "current_stage": "forming",
+    "market_size_choice": "medium",
+    "revenue_model_choice": "subscription"
+  },
+  "answers": {
+    "customer": "ndmakvnfdjkvf jn skdfkjjsnk  jsfnklmds",
+    "problem": "dmlkdsmkfl skfslkdvmfklm sfnvldksmfl",
+    "pain_score": 5,
+    "validation_level": "none",
+    "market_size_choice": "medium",
+    "revenue_model_choice": "subscription",
+    "why_now": "The timing is right due to market shifts and technological advancements.",
+    "competitors": "skfvnjdkfnkj jdkfnkldmvlafk kdfnvlksmflkmd",
+    "moat": "kldkmflkmdkl fdalkmvflkdmvlkd v ldkfmvlkdfsm",
+    "solo_founder": true,
+    "has_technical_cofounder": false,
+    "technical_background": "no",
+    "current_stage": "forming",
+    "launch_timeline": "January 2026",
+    "funding_status": "bootstrapped",
+    "contact_name": "ayshu",
+    "contact_email": "ayshu9000@gmail.com",
+    "need_help": true
+  },
+  "unlocked": true,
+  "created_at": "2026-06-27T10:50:02.424Z"
+}

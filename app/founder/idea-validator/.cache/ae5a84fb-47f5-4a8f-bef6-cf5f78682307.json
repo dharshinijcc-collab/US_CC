@@ -1,0 +1,706 @@
+{
+  "overall_score": 5,
+  "startup_quality_score": 6.7,
+  "investor_readiness_score": 9.3,
+  "triage_band": "Promising / Needs Work",
+  "confidence_level": 71,
+  "startup_summary": "A startup aimed at solving the following problem: \"kjnwfkjnakkjfnrkjsanrjkqa\" for target customer segment: \"jdnkjandkjanfdkjv\". The proposed solution leverages key domain insights to address a pain score of 5/10, currently operating in the forming stage with a bootstrapped model.",
+  "why_this_score": "The overall venture readiness score of 5/10 places this concept in the \"Promising / Needs Work\" triage band. This rating reflects strong indications in Market Timing (scoring 10/10) offset by structural risks in Competitive Moat (scoring 2/10). The concept targets a viable problem space, but requires targeted validation of the core business model and switching costs.",
+  "biggest_assumption": "The primary leap-of-faith assumption is that the target customer (jdnkjandkjanfdkjv) will switch from their current manual workflows or incumbent competitors to adopt this solution, despite the existing switching costs.",
+  "missing_evidence": "There is currently a lack of quantitative evidence (e.g. paying pilot contracts or locked letter-of-intent agreements) to prove customer willingness to pay specifically for this value proposition.",
+  "what_increased_the_score": [
+    "Founder has a technical background (used to code) which reduces execution risk.",
+    "Target market size is perceived as medium which leaves substantial room for scaling.",
+    "Validation stage includes none which indicates active user engagement."
+  ],
+  "what_reduced_the_score": [
+    "Operating in the forming stage means substantial execution, engineering, and roadmap risks remain.",
+    "The competitive moat is currently described as \"jdnafkjrnkjvnwfkwkjwenkje...\", which suggests incumbents could copy features quickly.",
+    "No paying customers have been locked in yet, keeping the revenue model hypothetical."
+  ],
+  "how_to_improve": [
+    "Secure 3 non-binding Letters of Intent (LOIs) from target buyers to validate purchasing authority and willingness to pay.",
+    "Develop a clickable interactive prototype to run user validation tests on the core workflow.",
+    "Draft a quantitative competitive comparison chart highlighting a 10x workflow improvement vs. existing solutions."
+  ],
+  "investor_questions": [
+    "What specific features or data integrations create high switching costs that will prevent users from returning to competitors?",
+    "What is the customer acquisition cost (CAC) payback period model, and how does it scale in this market segment?",
+    "How will the founder assemble the initial core engineering team to deliver the V1 roadmap on schedule?"
+  ],
+  "highest_scoring_dimension": "Market Timing",
+  "lowest_scoring_dimension": "Competitive Moat",
+  "is_mock": true,
+  "evidence_score": 0,
+  "investment_probability": 59,
+  "confidence_breakdown": {
+    "questionnaire_completeness": 83,
+    "signal_confidence": 98,
+    "evidence_confidence": 0,
+    "rule_confidence": 100,
+    "overall_confidence": 71
+  },
+  "evidence_checklist": [
+    {
+      "item": "Customer Discovery Interviews",
+      "status": "missing",
+      "gap_description": "No structured customer interviews performed yet."
+    },
+    {
+      "item": "Interactive Design/Wired Prototype",
+      "status": "missing",
+      "gap_description": "No clickable demo or user-interface mockups available."
+    },
+    {
+      "item": "Waitlist & Landing Page Traction",
+      "status": "missing",
+      "gap_description": "No active landing page or signup waitlist deployed."
+    },
+    {
+      "item": "Minimum Viable Product (MVP)",
+      "status": "missing",
+      "gap_description": "Full MVP software has not yet been built or released."
+    },
+    {
+      "item": "Early Paying Customers / Traction",
+      "status": "missing",
+      "gap_description": "Zero revenue transactions or subscription contracts validated."
+    }
+  ],
+  "score_sensitivity": [
+    {
+      "milestone": "Interview 20 Customers",
+      "estimated_increase": 0.6
+    },
+    {
+      "milestone": "Launch landing page & collect 100+ signups",
+      "estimated_increase": 1.2
+    },
+    {
+      "milestone": "Acquire first 3 paying customers",
+      "estimated_increase": 2.3
+    },
+    {
+      "milestone": "Build interactive clickable prototype",
+      "estimated_increase": 0.8
+    },
+    {
+      "milestone": "Develop and launch MVP software",
+      "estimated_increase": 1.5
+    }
+  ],
+  "investor_red_flags": [
+    {
+      "flag": "Solo Founder",
+      "severity": "medium",
+      "reason": "Venture is operated by a single founder, raising execution risk and key-person dependency.",
+      "recommendation": "Recruit a complementary co-founder (ideally technical or operations-focused) to distribute workload and build investor trust."
+    },
+    {
+      "flag": "No Technical Lead",
+      "severity": "high",
+      "reason": "The team lacks internal coding/engineering leadership, relying heavily on external agencies or contractors.",
+      "recommendation": "Onboard a CTO or technical co-founder with equity to bring product development and system architecture in-house."
+    },
+    {
+      "flag": "Weak Defensibility Moat",
+      "severity": "high",
+      "reason": "The product has no proprietary datasets, network effects, or switching costs, making it highly susceptible to cloning.",
+      "recommendation": "Design lock-in mechanics, proprietary workflows, or data loops that make the solution more defensible over time."
+    },
+    {
+      "flag": "Zero Customer Validation",
+      "severity": "high",
+      "reason": "The idea has not been validated with customer interviews, landing page signups, or early testers.",
+      "recommendation": "Conduct 15+ structured interviews with target customer personas before building additional software."
+    }
+  ],
+  "buildtime_estimator": {
+    "timeline_months": 2.5,
+    "engineering_complexity": "low",
+    "team_recommendation": "1 Full-Stack Developer + 1 Part-Time UI/UX Designer",
+    "approximate_cost_usd": 18000,
+    "technical_risks": [
+      "Maintaining simplicity to avoid scope creep in initial V1 launch.",
+      "Hosting resources on serverless endpoints to keep cloud costs low."
+    ],
+    "development_phases": [
+      {
+        "phase": "Discovery & UX Spec",
+        "timeline": "0.4 months",
+        "estimated_effort": "15%",
+        "description": "Map workflows, user flows, database architecture blueprints, and interactive wireframes."
+      },
+      {
+        "phase": "UI/UX Interactive Design",
+        "timeline": "0.4 months",
+        "estimated_effort": "15%",
+        "description": "Create high-fidelity design sheets, responsive templates, and style system configurations."
+      },
+      {
+        "phase": "Frontend Engineering",
+        "timeline": "0.6 months",
+        "estimated_effort": "25%",
+        "description": "Develop Next.js/React layout templates, client page routings, and browser storage components."
+      },
+      {
+        "phase": "Backend API & Infrastructure",
+        "timeline": "0.6 months",
+        "estimated_effort": "25%",
+        "description": "Establish database connections, schema constraints, security keys, and router pipelines."
+      },
+      {
+        "phase": "AI & Custom Integrations",
+        "timeline": "0.3 months",
+        "estimated_effort": "10%",
+        "description": "Integrate Gemini LLM prompts, caching algorithms, and third-party SaaS hooks."
+      },
+      {
+        "phase": "QA Testing & Launch Deployment",
+        "timeline": "0.3 months",
+        "estimated_effort": "10%",
+        "description": "Run build tests, cross-browser responsiveness checks, and deploy to Vercel/AWS environments."
+      }
+    ]
+  },
+  "risk_matrix": {
+    "market": {
+      "severity": "medium",
+      "reason": "Unvalidated buyer demand details.",
+      "mitigation": "Run landing page landing tests."
+    },
+    "execution": {
+      "severity": "high",
+      "reason": "Forming stage product build risk.",
+      "mitigation": "Leverage strict agile milestones."
+    },
+    "funding": {
+      "severity": "medium",
+      "reason": "Capital required to onboard cofounders.",
+      "mitigation": "Apply bootstrapping structures."
+    },
+    "competition": {
+      "severity": "medium",
+      "reason": "Incumbents have high switching costs.",
+      "mitigation": "Build workflow integrations."
+    },
+    "technical": {
+      "severity": "low",
+      "reason": "Relies on standard APIs.",
+      "mitigation": "Use serverless infrastructure."
+    },
+    "legal": {
+      "severity": "low",
+      "reason": "Standard data privacy policies.",
+      "mitigation": "Draft standard customer agreements."
+    },
+    "operational": {
+      "severity": "low",
+      "reason": "Light operations workload.",
+      "mitigation": "Keep headcount flat."
+    }
+  },
+  "validation_roadmap": [
+    {
+      "phase": "Phase 1: Validation",
+      "task": "Interview 15 customers to map friction points",
+      "timeline": "Weeks 1-2",
+      "impact": "Reduces demand risk",
+      "effort": "Low",
+      "expected_score_improvement": "+0.6"
+    },
+    {
+      "phase": "Phase 2: Prototyping",
+      "task": "Design and build clickable web wireframes",
+      "timeline": "Weeks 3-4",
+      "impact": "Validates usability",
+      "effort": "Medium",
+      "expected_score_improvement": "+0.8"
+    },
+    {
+      "phase": "Phase 3: Launch Prep",
+      "task": "Set up landing page and waitlist collection",
+      "timeline": "Week 5",
+      "impact": "Establishes initial lead pool",
+      "effort": "Low",
+      "expected_score_improvement": "+1.2"
+    },
+    {
+      "phase": "Phase 4: Build",
+      "task": "Deploy v1 MVP software with payment gateways",
+      "timeline": "Weeks 6-10",
+      "impact": "Product launch",
+      "effort": "High",
+      "expected_score_improvement": "+1.5"
+    }
+  ],
+  "comparable_startups": [
+    {
+      "name": "Notion",
+      "description": "All-in-one workspace for notes, tasks, wikis, and databases.",
+      "why_comparable": "Shares a similar structural approach in the saas space, validating the scalability of the business model.",
+      "business_model": "Freemium subscription / PLG (Product-Led Growth)",
+      "lessons_learned": "Consolidate multiple fragmented tools into a single, highly flexible collaborative workspace."
+    },
+    {
+      "name": "Slack",
+      "description": "Channel-based instant messaging platform for workplace communication.",
+      "why_comparable": "Shares a similar structural approach in the saas space, validating the scalability of the business model.",
+      "business_model": "SaaS subscription based on active users",
+      "lessons_learned": "Replace internal emails with instant channels to improve team communication speed."
+    },
+    {
+      "name": "HubSpot",
+      "description": "Inbound marketing, sales, and service software suite.",
+      "why_comparable": "Shares a similar structural approach in the saas space, validating the scalability of the business model.",
+      "business_model": "Tiered SaaS subscription bundles",
+      "lessons_learned": "Create valuable content resources (inbound marketing) to organically pull leads rather than cold outreach."
+    }
+  ],
+  "due_diligence_questions": {
+    "market": [
+      {
+        "question": "How big is the specific wedge segment you are targeting initially?",
+        "expected_evidence": "TAM bottom-up sheet",
+        "suggested_prep": "Map customer count * average price"
+      }
+    ],
+    "customer": [
+      {
+        "question": "Why will customers change from current manual habits?",
+        "expected_evidence": "Interview testimonials",
+        "suggested_prep": "Synthesize pain points from 10 discovery call transcripts"
+      }
+    ],
+    "revenue": [
+      {
+        "question": "What is the pricing model validation basis?",
+        "expected_evidence": "LOI payment terms",
+        "suggested_prep": "Quote pricing responses from early pilots"
+      }
+    ],
+    "technology": [
+      {
+        "question": "What are the main third-party API dependencies?",
+        "expected_evidence": "Architecture diagrams",
+        "suggested_prep": "Document fallback protocols for service outages"
+      }
+    ],
+    "competition": [
+      {
+        "question": "How will you protect your core workflow from clones?",
+        "expected_evidence": "Moat features list",
+        "suggested_prep": "Highlight proprietary dataset loops"
+      }
+    ],
+    "operations": [
+      {
+        "question": "How will customer success be supported initially?",
+        "expected_evidence": "Operations flow charts",
+        "suggested_prep": "Define automated support templates"
+      }
+    ],
+    "legal": [
+      {
+        "question": "Are there specific regulatory compliances required?",
+        "expected_evidence": "Legal counsel memos",
+        "suggested_prep": "Establish GDPR compliance audit specs"
+      }
+    ],
+    "financial": [
+      {
+        "question": "What is the projected cash runway in the next 12 months?",
+        "expected_evidence": "Financial budget spreadsheet",
+        "suggested_prep": "Model monthly expenses and contractor costs"
+      }
+    ]
+  },
+  "co_founder_recommendations": "Recruit a technical co-founder who can own the frontend/backend engineering roadmap, enabling the domain expert founder to focus purely on customer acquisition, user research, and strategic fundraising loops.",
+  "investor_memo": {
+    "executive_summary": "An early-stage opportunity focusing on a validated customer pain point, seeking to modernize workflows via scalable digital endpoints.",
+    "investment_thesis": "By automating repetitive administrative overhead, this solution unlocks immediate time savings, establishing a sticky platform with proprietary data loop potential.",
+    "strengths": "Strong founder domain experience and high perceived user pain.",
+    "weaknesses": "Early stage of development and low current validation barrier proof points.",
+    "major_risks": "High competitive replication risk and customer adoption friction.",
+    "recommendation": "Proceed Carefully",
+    "confidence_rating": "Medium - based on current questionnaire details",
+    "next_validation_step": "Conduct 10 discovery calls and build interactive wireframe designs."
+  },
+  "dimensions": {
+    "investor_appeal": {
+      "score": 9,
+      "confidence": 98,
+      "evaluation_criteria": [
+        "Large Addressable Market",
+        "Medium Addressable Market",
+        "Subscription / Recurring Revenue",
+        "One-Time Revenue Model",
+        "High Scalability Potential",
+        "Moderate Scalability Potential",
+        "Strong Exit Potential",
+        "Active Investor Interest in Space",
+        "High Growth Potential",
+        "Small Addressable Market",
+        "Low Scalability Potential",
+        "Active Funding Stage (Raising/Raised)",
+        "Validated with Paying Customers",
+        "Validated with Waitlist",
+        "Validated with User Conversations",
+        "No Prior Validation Done",
+        "Targeting Mass Market",
+        "Targeting Large Market Segment",
+        "Targeting Medium Market Segment",
+        "Targeting Small/Niche Market Segment"
+      ],
+      "why_this_score": "The score of 9/10 for Investor Appeal is determined by several active factors. Specifically, the presence of Medium Addressable Market and Subscription / Recurring Revenue provides a positive baseline. However, concerns regarding No Prior Validation Done limit the upside. This indicates that while the fundamentals are in place, further operational proof points are required to increase conviction.",
+      "positive_signals": [
+        "Medium Addressable Market",
+        "Subscription / Recurring Revenue",
+        "High Scalability Potential",
+        "Targeting Medium Market Segment"
+      ],
+      "negative_signals": [
+        "No Prior Validation Done"
+      ],
+      "improvement_actions": [
+        "Conduct 10+ detailed customer interviews focusing specifically on investor appeal friction.",
+        "Draft a detailed case study or simulation showing how your solution directly impacts investor appeal.",
+        "Analyze historical benchmarks of competitive models in this dimension to optimize performance."
+      ],
+      "base_score": 5,
+      "positive_adjustments": 6,
+      "negative_adjustments": -2,
+      "neutral_signals": [
+        "Large Addressable Market",
+        "One-Time Revenue Model",
+        "Moderate Scalability Potential",
+        "Strong Exit Potential",
+        "Active Investor Interest in Space",
+        "High Growth Potential",
+        "Small Addressable Market",
+        "Low Scalability Potential",
+        "Active Funding Stage (Raising/Raised)",
+        "Validated with Paying Customers",
+        "Validated with Waitlist",
+        "Validated with User Conversations",
+        "Targeting Mass Market",
+        "Targeting Large Market Segment",
+        "Targeting Small/Niche Market Segment"
+      ]
+    },
+    "customer_demand": {
+      "score": 9,
+      "confidence": 98,
+      "evaluation_criteria": [
+        "Severe Customer Pain Point",
+        "Moderate Customer Pain Point",
+        "Frequent Problem Occurrence (Daily/Weekly)",
+        "Existing Buyers/Users Present",
+        "Clear ROI for Buyer",
+        "High Willingness to Pay",
+        "Nice-to-Have Product Concept",
+        "Low Willingness to Pay",
+        "Infrequent Problem Occurrence",
+        "Mild Customer Pain Point",
+        "Proven Demand via Paying Customers",
+        "Proven Demand via Waitlist Signups",
+        "Proven Demand via Interviews",
+        "Zero Validated Demand",
+        "Critical Pain Score (8-10)",
+        "Elevated Pain Score (5-7)",
+        "Low Pain Score (1-4)"
+      ],
+      "why_this_score": "The score of 9/10 for Customer Demand is determined by several active factors. Specifically, the presence of Moderate Customer Pain Point and Frequent Problem Occurrence (Daily/Weekly) provides a positive baseline. However, concerns regarding Zero Validated Demand limit the upside. This indicates that while the fundamentals are in place, further operational proof points are required to increase conviction.",
+      "positive_signals": [
+        "Moderate Customer Pain Point",
+        "Frequent Problem Occurrence (Daily/Weekly)",
+        "Clear ROI for Buyer",
+        "Elevated Pain Score (5-7)"
+      ],
+      "negative_signals": [
+        "Zero Validated Demand"
+      ],
+      "improvement_actions": [
+        "Conduct 10+ detailed customer interviews focusing specifically on customer demand friction.",
+        "Draft a detailed case study or simulation showing how your solution directly impacts customer demand.",
+        "Analyze historical benchmarks of competitive models in this dimension to optimize performance."
+      ],
+      "base_score": 5,
+      "positive_adjustments": 6,
+      "negative_adjustments": -2,
+      "neutral_signals": [
+        "Severe Customer Pain Point",
+        "Existing Buyers/Users Present",
+        "High Willingness to Pay",
+        "Nice-to-Have Product Concept",
+        "Low Willingness to Pay",
+        "Infrequent Problem Occurrence",
+        "Mild Customer Pain Point",
+        "Proven Demand via Paying Customers",
+        "Proven Demand via Waitlist Signups",
+        "Proven Demand via Interviews",
+        "Critical Pain Score (8-10)",
+        "Low Pain Score (1-4)"
+      ]
+    },
+    "market_timing": {
+      "score": 10,
+      "confidence": 98,
+      "evaluation_criteria": [
+        "Fast-Growing Industry Segment",
+        "Moderate Industry Segment Growth",
+        "Technology Ready for Commercial Deployment",
+        "Emerging Technology Stack",
+        "Growing Consumer/Enterprise Adoption Curve",
+        "Supportive Regulatory Framework",
+        "Too Early for Commercial Scaling",
+        "Declining Industry Core Growth",
+        "Restrictive Regulatory Environment",
+        "Technology Stack Unripe / Unproven",
+        "Strong \"Why Now\" Case",
+        "Moderate \"Why Now\" Case",
+        "Weak \"Why Now\" Case"
+      ],
+      "why_this_score": "The score of 10/10 for Market Timing is determined by several active factors. Specifically, the presence of Moderate Industry Segment Growth and Technology Ready for Commercial Deployment provides a positive baseline. However, concerns regarding unvalidated assumptions limit the upside. This indicates that while the fundamentals are in place, further operational proof points are required to increase conviction.",
+      "positive_signals": [
+        "Moderate Industry Segment Growth",
+        "Technology Ready for Commercial Deployment",
+        "Growing Consumer/Enterprise Adoption Curve",
+        "Strong \"Why Now\" Case"
+      ],
+      "negative_signals": [
+        "Unvalidated market assumptions"
+      ],
+      "improvement_actions": [
+        "Conduct 10+ detailed customer interviews focusing specifically on market timing friction.",
+        "Draft a detailed case study or simulation showing how your solution directly impacts market timing.",
+        "Analyze historical benchmarks of competitive models in this dimension to optimize performance."
+      ],
+      "base_score": 5,
+      "positive_adjustments": 8,
+      "negative_adjustments": 0,
+      "neutral_signals": [
+        "Fast-Growing Industry Segment",
+        "Emerging Technology Stack",
+        "Supportive Regulatory Framework",
+        "Too Early for Commercial Scaling",
+        "Declining Industry Core Growth",
+        "Restrictive Regulatory Environment",
+        "Technology Stack Unripe / Unproven",
+        "Moderate \"Why Now\" Case",
+        "Weak \"Why Now\" Case"
+      ]
+    },
+    "technical_feasibility": {
+      "score": 8,
+      "confidence": 98,
+      "evaluation_criteria": [
+        "Existing Ecosystem APIs/APIs Available",
+        "Simple MVP Development Path",
+        "Moderate MVP Development Path",
+        "Low Infrastructure Complexity",
+        "Basic R&D or Scientific Research Required",
+        "Requires Custom New Hardware",
+        "Complex Frontend/Backend MVP Scope",
+        "High Infrastructure / Server Complexity",
+        "Concept Phase / Ideation Stage",
+        "Prototype / Wired Interactive Stage",
+        "Launched MVP Stage"
+      ],
+      "why_this_score": "The score of 8/10 for Technical Feasibility is determined by several active factors. Specifically, the presence of Existing Ecosystem APIs/APIs Available and Moderate MVP Development Path provides a positive baseline. However, concerns regarding Concept Phase / Ideation Stage limit the upside. This indicates that while the fundamentals are in place, further operational proof points are required to increase conviction.",
+      "positive_signals": [
+        "Existing Ecosystem APIs/APIs Available",
+        "Moderate MVP Development Path",
+        "Low Infrastructure Complexity"
+      ],
+      "negative_signals": [
+        "Concept Phase / Ideation Stage"
+      ],
+      "improvement_actions": [
+        "Conduct 10+ detailed customer interviews focusing specifically on technical feasibility friction.",
+        "Draft a detailed case study or simulation showing how your solution directly impacts technical feasibility.",
+        "Analyze historical benchmarks of competitive models in this dimension to optimize performance."
+      ],
+      "base_score": 5,
+      "positive_adjustments": 5,
+      "negative_adjustments": -2,
+      "neutral_signals": [
+        "Simple MVP Development Path",
+        "Basic R&D or Scientific Research Required",
+        "Requires Custom New Hardware",
+        "Complex Frontend/Backend MVP Scope",
+        "High Infrastructure / Server Complexity",
+        "Prototype / Wired Interactive Stage",
+        "Launched MVP Stage"
+      ]
+    },
+    "competitive_moat": {
+      "score": 2,
+      "confidence": 98,
+      "evaluation_criteria": [
+        "Proprietary Data Accumulation Loop",
+        "Organic Network Effects Loop",
+        "High Switching Costs for Customers",
+        "Moderate Customer Switching Costs",
+        "Strong Product Differentiation",
+        "Moderate Product Differentiation",
+        "Product is Extremely Easy to Clone",
+        "Very High Competitive Saturation",
+        "High Competitive Saturation",
+        "Weak Core Differentiation",
+        "Low Customer Switching Costs",
+        "Defensible Competitor Moat",
+        "Moderate Defensibility Moat",
+        "No Moat / Low Defensibility"
+      ],
+      "why_this_score": "The score of 2/10 for Competitive Moat is determined by several active factors. Specifically, the presence of Moderate Customer Switching Costs and Moderate Product Differentiation provides a positive baseline. However, concerns regarding Product is Extremely Easy to Clone or No Moat / Low Defensibility limit the upside. This indicates that while the fundamentals are in place, further operational proof points are required to increase conviction.",
+      "positive_signals": [
+        "Moderate Customer Switching Costs",
+        "Moderate Product Differentiation"
+      ],
+      "negative_signals": [
+        "Product is Extremely Easy to Clone",
+        "No Moat / Low Defensibility"
+      ],
+      "improvement_actions": [
+        "Conduct 10+ detailed customer interviews focusing specifically on competitive moat friction.",
+        "Draft a detailed case study or simulation showing how your solution directly impacts competitive moat.",
+        "Analyze historical benchmarks of competitive models in this dimension to optimize performance."
+      ],
+      "base_score": 5,
+      "positive_adjustments": 2,
+      "negative_adjustments": -5,
+      "neutral_signals": [
+        "Proprietary Data Accumulation Loop",
+        "Organic Network Effects Loop",
+        "High Switching Costs for Customers",
+        "Strong Product Differentiation",
+        "Very High Competitive Saturation",
+        "High Competitive Saturation",
+        "Weak Core Differentiation",
+        "Low Customer Switching Costs",
+        "Defensible Competitor Moat",
+        "Moderate Defensibility Moat"
+      ]
+    },
+    "founder_market_fit": {
+      "score": 9,
+      "confidence": 98,
+      "evaluation_criteria": [
+        "Domain Expert Founder(s)",
+        "Experienced in Core Domain",
+        "Founder is Technical",
+        "Deep Industry Experience",
+        "Some Industry Experience",
+        "Strong Track Record of Launching",
+        "Some Track Record of Launching",
+        "Zero Prior Domain Knowledge",
+        "Domain is in Learning Phase",
+        "Zero Core Industry Experience",
+        "Zero Launching Track Record",
+        "Founder Can Code Directly",
+        "Founder Used to Code",
+        "Team features Technical Co-Founder"
+      ],
+      "why_this_score": "The score of 9/10 for Founder-Market Fit is determined by several active factors. Specifically, the presence of Experienced in Core Domain and Some Industry Experience provides a positive baseline. However, concerns regarding unvalidated assumptions limit the upside. This indicates that while the fundamentals are in place, further operational proof points are required to increase conviction.",
+      "positive_signals": [
+        "Experienced in Core Domain",
+        "Some Industry Experience",
+        "Some Track Record of Launching"
+      ],
+      "negative_signals": [
+        "Unvalidated market assumptions"
+      ],
+      "improvement_actions": [
+        "Conduct 10+ detailed customer interviews focusing specifically on founder-market fit friction.",
+        "Draft a detailed case study or simulation showing how your solution directly impacts founder-market fit.",
+        "Analyze historical benchmarks of competitive models in this dimension to optimize performance."
+      ],
+      "base_score": 5,
+      "positive_adjustments": 4,
+      "negative_adjustments": 0,
+      "neutral_signals": [
+        "Domain Expert Founder(s)",
+        "Founder is Technical",
+        "Deep Industry Experience",
+        "Strong Track Record of Launching",
+        "Zero Prior Domain Knowledge",
+        "Domain is in Learning Phase",
+        "Zero Core Industry Experience",
+        "Zero Launching Track Record",
+        "Founder Can Code Directly",
+        "Founder Used to Code",
+        "Team features Technical Co-Founder"
+      ]
+    }
+  },
+  "id": "ae5a84fb-47f5-4a8f-bef6-cf5f78682307",
+  "signals": {
+    "market_size": "medium",
+    "revenue_model": "subscription",
+    "growth_potential": "medium",
+    "scalability": "high",
+    "exit_potential": "medium",
+    "investor_interest_in_space": "medium",
+    "pain_severity": "moderate",
+    "problem_frequency": "weekly",
+    "existing_buyers": false,
+    "clear_roi": true,
+    "nice_to_have": false,
+    "willingness_to_pay": "medium",
+    "industry_growth": "moderate",
+    "technology_maturity": "ready",
+    "consumer_adoption": "growing",
+    "regulatory_environment": "neutral",
+    "too_early": false,
+    "existing_apis_available": true,
+    "mvp_complexity": "moderate",
+    "requires_new_hardware": false,
+    "ai_dependency": "none",
+    "infrastructure_complexity": "low",
+    "has_proprietary_data": false,
+    "has_network_effects": false,
+    "switching_costs": "medium",
+    "differentiation": "moderate",
+    "competition_level": "medium",
+    "easy_to_copy": true,
+    "domain_expertise": "experienced",
+    "technical_background": false,
+    "industry_experience": "some",
+    "execution_track_record": "some",
+    "credibility": "medium",
+    "moat_strength": "weak",
+    "why_now_strength": "strong",
+    "validation_level": "none",
+    "pain_score": 5,
+    "technical_background_choice": "no",
+    "founder_count": "solo",
+    "has_technical_cofounder": false,
+    "funding_status": "bootstrapped",
+    "current_stage": "forming",
+    "market_size_choice": "medium",
+    "revenue_model_choice": "subscription"
+  },
+  "answers": {
+    "customer": "jdnkjandkjanfdkjv",
+    "problem": "kjnwfkjnakkjfnrkjsanrjkqa",
+    "pain_score": 5,
+    "validation_level": "none",
+    "market_size_choice": "medium",
+    "revenue_model_choice": "subscription",
+    "why_now": "The timing is right due to market shifts and technological advancements.",
+    "competitors": "kjdnkjansdfkjefnksdrfnenkwrfe",
+    "moat": "jdnafkjrnkjvnwfkwkjwenkje",
+    "solo_founder": true,
+    "has_technical_cofounder": false,
+    "technical_background": "no",
+    "current_stage": "forming",
+    "launch_timeline": "January 2026",
+    "funding_status": "bootstrapped",
+    "contact_name": "ayshu",
+    "contact_email": "ayshu9000@gmail.com",
+    "need_help": true
+  },
+  "unlocked": true,
+  "created_at": "2026-06-26T16:42:13.360Z"
+}

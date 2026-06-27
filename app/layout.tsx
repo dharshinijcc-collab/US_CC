@@ -4,11 +4,7 @@ import './globals.css'
 import './animations.css'
 import './global-styles.css'
 import './responsive.css'
-import dynamic from 'next/dynamic'
-
-const Providers = dynamic(() => import('@/components/Providers').then(mod => ({ default: mod.Providers })), {
-  loading: () => null,
-})
+import { Providers } from '@/components/Providers'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const manrope = Manrope({ subsets: ['latin'], variable: '--font-manrope' })
