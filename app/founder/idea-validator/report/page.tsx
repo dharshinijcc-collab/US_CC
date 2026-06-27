@@ -35,6 +35,7 @@ function ReportContent() {
   const [authPassword, setAuthPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [gateError, setGateError] = useState<string | null>(null);
+  const [gateSuccess, setGateSuccess] = useState<string | null>(null);
   const [activeNotebookPage, setActiveNotebookPage] = useState<'executive' | 'dimensions' | 'memo' | 'risks' | 'roadmap'>('executive');
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({ dimensions: true, memo: false, flags: false, roadmap: false });
   const toggleSection = (sec: string) => { setExpandedSections(prev => ({ ...prev, [sec]: !prev[sec] })); };
@@ -60,24 +61,14 @@ function ReportContent() {
         } catch {}
       }
       setIsAuthChecking(false);
-    } else {
-      // Real Supabase auth
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        setIsAuthenticated(!!session);
-        setIsAuthChecking(false);
-      });
-
-      const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-        setIsAuthenticated(!!session);
-      });
 
       if (!id) {
         setError('No report ID specified in URL query parameters.');
         setLoading(false);
-        return () => subscription.unsubscribe();
+        return;
       }
 
-      async function fetchReport() {
+      async function fetchReportFallback() {
         try {
           setLoading(true);
           const res = await fetch(`/founder/idea-validator/api?id=${id}`);
@@ -95,17 +86,27 @@ function ReportContent() {
         }
       }
 
-      fetchReport();
-      return () => subscription.unsubscribe();
+      fetchReportFallback();
+      return;
     }
+
+    // Real Supabase auth
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthenticated(!!session);
+      setIsAuthChecking(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session);
+    });
 
     if (!id) {
       setError('No report ID specified in URL query parameters.');
       setLoading(false);
-      return;
+      return () => subscription.unsubscribe();
     }
 
-    async function fetchReportFallback() {
+    async function fetchReport() {
       try {
         setLoading(true);
         const res = await fetch(`/founder/idea-validator/api?id=${id}`);
@@ -123,7 +124,8 @@ function ReportContent() {
       }
     }
 
-    fetchReportFallback();
+    fetchReport();
+    return () => subscription.unsubscribe();
   }, [id]);
 
   const handleGateAuthSubmit = async (e: React.FormEvent) => {
@@ -174,56 +176,69 @@ function ReportContent() {
       return;
     }
 
-    // ── SIGN UP (Supabase) ───────────────────────────────────
+    // ── SIGN UP (via server API — creates pre-confirmed user, no email loop) ──
     if (authTab === 'signup') {
       if (!authName || authName.trim().length < 2) {
         setGateError('Please enter your full name.');
         return;
       }
 
-      const { data, error } = await supabase.auth.signUp({
-        email: authEmail,
-        password: authPassword,
-        options: { data: { full_name: authName } },
+      const res = await fetch('/founder/idea-validator/auth?action=signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: authName, email: authEmail, password: authPassword }),
       });
 
-      if (error) {
-        if (
-          error.message.toLowerCase().includes('already registered') ||
-          error.message.toLowerCase().includes('user already exists') ||
-          error.status === 400
-        ) {
+      const result = await res.json();
+
+      if (!res.ok) {
+        if (result.error === 'already_exists') {
           setGateError('An account with this email already exists. Please log in instead.');
           setAuthTab('login');
         } else {
-          setGateError(error.message);
+          setGateError(result.error || 'Signup failed. Please try again.');
         }
         return;
       }
 
-      if (data.session) {
-        setIsAuthenticated(true);
-      } else {
-        alert(`✅ Account created! Check your inbox at ${authEmail} and click the confirmation link to unlock your report.`);
+      // Server returned a valid session — set it on the Supabase client
+      if (supabase && result.access_token) {
+        await supabase.auth.setSession({
+          access_token: result.access_token,
+          refresh_token: result.refresh_token,
+        });
       }
+      setIsAuthenticated(true);
 
-    // ── LOG IN (Supabase) ────────────────────────────────────
+    // ── LOG IN (via server API — checks email+password in Supabase, no email confirm needed) ──
     } else {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: authEmail,
-        password: authPassword,
+      const res = await fetch('/founder/idea-validator/auth?action=login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: authEmail, password: authPassword }),
       });
 
-      if (error) {
-        if (error.message.toLowerCase().includes('email not confirmed')) {
-          setGateError('Please confirm your email first. Check your inbox for the verification link.');
+      const result = await res.json();
+
+      if (!res.ok) {
+        if (result.error === 'invalid_credentials') {
+          setGateError('Incorrect email or password. No account found with these details.');
+        } else if (result.error === 'email_not_confirmed') {
+          setGateError('Your account email is not confirmed. Please contact support.');
         } else {
-          setGateError('Incorrect email or password. Please try again.');
+          setGateError(result.error || 'Login failed. Please try again.');
         }
         return;
       }
 
-      if (data.session) setIsAuthenticated(true);
+      // Set session on client
+      if (supabase && result.access_token) {
+        await supabase.auth.setSession({
+          access_token: result.access_token,
+          refresh_token: result.refresh_token,
+        });
+      }
+      setIsAuthenticated(true);
     }
   };
 
@@ -865,12 +880,18 @@ const link = document.createElement('a');
                 <span>{gateError}</span>
               </div>
             )}
+            {gateSuccess && (
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start', backgroundColor: '#F0FDF4', border: '1px solid #86EFAC', borderRadius: '6px', padding: '12px', color: '#166534', fontSize: '0.8rem', marginBottom: '16px' }}>
+                <Check size={14} style={{ flexShrink: 0, marginTop: '1px' }} />
+                <span>{gateSuccess}</span>
+              </div>
+            )}
 
             {/* Tab Selector */}
             <div style={{ display: 'flex', borderBottom: '1px solid #E2E8F0', marginBottom: '16px', position: 'relative' }}>
               <button 
                 type="button"
-                onClick={() => { setAuthTab('signup'); setGateError(null); }}
+                onClick={() => { setAuthTab('signup'); setGateError(null); setGateSuccess(null); }}
                 style={{
                   flex: 1,
                   paddingBottom: '8px',
@@ -888,7 +909,7 @@ const link = document.createElement('a');
               </button>
               <button 
                 type="button"
-                onClick={() => { setAuthTab('login'); setGateError(null); }}
+                onClick={() => { setAuthTab('login'); setGateError(null); setGateSuccess(null); }}
                 style={{
                   flex: 1,
                   paddingBottom: '8px',
