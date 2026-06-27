@@ -1070,7 +1070,7 @@ h1, h2, h3, h4, h5, h6, .manrope-font {
 }
 
 .validator-container {
-  padding-top: 140px;
+  padding-top: 90px;
   padding-bottom: 96px;
   min-height: 100vh;
   background: radial-gradient(circle at top right, rgba(0, 90, 226, 0.05), transparent 60%);
@@ -1084,7 +1084,7 @@ h1, h2, h3, h4, h5, h6, .manrope-font {
 
 @media (max-width: 768px) {
   .validator-container {
-    padding-top: 100px;
+    padding-top: 72px;
     padding-bottom: 64px;
   }
 }

@@ -468,7 +468,7 @@ function ReportContent() {
               </div>
               <div className="notebook-cell-body">
                 
-                <div className="notebook-score-row" style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: '24px', alignItems: 'center', marginBottom: '20px' }}>
+                <div className="notebook-score-row">
                   <div className="notebook-score-index">
                     <span className="score-label">READINESS SCORE</span>
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px' }}>
@@ -505,7 +505,7 @@ function ReportContent() {
               </div>
               <div className="notebook-cell-body">
                 
-                <div className="notebook-dimensions-grid" style={{ display: 'grid', gridTemplateColumns: '220px 1fr', gap: '24px' }}>
+                <div className="notebook-dimensions-grid">
                   <div className="notebook-dimensions-list">
                     {DIMENSION_META.map(d => {
                       const dimData = report?.dimensions?.[d.key as keyof typeof report.dimensions] || { score: 0 };
@@ -583,7 +583,7 @@ function ReportContent() {
                 </div>
 
                 {/* Core Strengths & Risks lists */}
-                <div className="strengths-risks-split" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginTop: '20px' }}>
+                <div className="strengths-risks-split">
                   <div className="sr-card-half strength" style={{ padding: '16px', borderTop: '3px solid #16A34A' }}>
                     <h3 className="sr-title strength-title" style={{ fontSize: '0.8rem', marginBottom: '8px' }}>Core Strengths</h3>
                     <ul className="sr-list" style={{ gap: '6px' }}>
@@ -1164,10 +1164,55 @@ li {
   align-items: start;
 }
 
+.notebook-score-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.notebook-dimensions-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+}
+
+.strengths-risks-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+
 @media (max-width: 900px) {
   .notebook-workspace {
     grid-template-columns: 1fr;
     gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .notebook-score-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    text-align: center;
+  }
+  .notebook-score-index {
+    max-width: 240px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .notebook-dimensions-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .strengths-risks-split {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
 

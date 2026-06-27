@@ -79,7 +79,14 @@ export async function POST(req: NextRequest) {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
     const geminiKey = process.env.GEMINI_API_KEY;
-    const useMockDB = process.env.USE_MOCK_DB === 'true' || !supabaseUrl || !supabaseServiceKey;
+    const isSupabaseConfigured = 
+      supabaseUrl && 
+      supabaseUrl.startsWith('http') && 
+      !supabaseUrl.includes('your-supabase-project-url') &&
+      supabaseServiceKey &&
+      !supabaseServiceKey.includes('your-supabase-service-role-key');
+
+    const useMockDB = process.env.USE_MOCK_DB === 'true' || !isSupabaseConfigured;
 
     // 3. Setup Supabase admin client for server-side operations
     const supabaseAdmin = useMockDB ? null : createClient(supabaseUrl!, supabaseServiceKey!);
@@ -264,7 +271,15 @@ export async function GET(req: NextRequest) {
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    const useMockDB = process.env.USE_MOCK_DB === 'true' || !supabaseUrl || !supabaseServiceKey;
+
+    const isSupabaseConfigured = 
+      supabaseUrl && 
+      supabaseUrl.startsWith('http') && 
+      !supabaseUrl.includes('your-supabase-project-url') &&
+      supabaseServiceKey &&
+      !supabaseServiceKey.includes('your-supabase-service-role-key');
+
+    const useMockDB = process.env.USE_MOCK_DB === 'true' || !isSupabaseConfigured;
 
     if (useMockDB) {
       // 2. Check file-system cache backup before giving up in mock DB mode
@@ -292,11 +307,11 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // 2. Fetch from Supabase
+    // 2. Fetch from Supabase dd_reports table
     const supabaseAdmin = createClient(supabaseUrl!, supabaseServiceKey!);
     const { data, error } = await supabaseAdmin
-      .from('scoring_results')
-      .select('report')
+      .from('dd_reports')
+      .select('report_data')
       .eq('id', id)
       .single();
 
@@ -305,8 +320,8 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Report not found in database' }, { status: 404 });
     }
 
-    // Return the stored report JSON payload
-    return NextResponse.json(data.report);
+    // Return the stored report JSON payload from report_data column
+    return NextResponse.json(data.report_data);
   } catch (error: any) {
     console.error('❌ GET API endpoint error:', error);
     return NextResponse.json({ error: 'Failed to retrieve report', message: error.message }, { status: 500 });
