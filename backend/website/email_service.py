@@ -153,10 +153,10 @@ def send_contact_confirmation(to_email: str, first_name: str, service: str, mess
         except Exception as e:
             print(f"[DELAYED EMAIL ERROR] Failed to send contact confirmation to {to_email}: {e}")
 
-    timer = threading.Timer(60.0, send_delayed)
+    timer = threading.Timer(300.0, send_delayed)
     timer.daemon = True
     timer.start()
-    print(f"[DELAYED EMAIL] Scheduled contact confirmation for {to_email} in 1 minute")
+    print(f"[DELAYED EMAIL] Scheduled contact confirmation for {to_email} in 5 minutes")
 
 
 def send_idea_confirmation(to_email: str, name: str, idea_preview: str):
@@ -212,10 +212,10 @@ def send_idea_confirmation(to_email: str, name: str, idea_preview: str):
         except Exception as e:
             print(f"[DELAYED EMAIL ERROR] Failed to send idea confirmation to {to_email}: {e}")
 
-    timer = threading.Timer(60.0, send_delayed)
+    timer = threading.Timer(300.0, send_delayed)
     timer.daemon = True
     timer.start()
-    print(f"[DELAYED EMAIL] Scheduled idea confirmation for {to_email} in 1 minute")
+    print(f"[DELAYED EMAIL] Scheduled idea confirmation for {to_email} in 5 minutes")
 
 
 def send_talent_confirmation(to_email: str, first_name: str, interest: str):
@@ -270,10 +270,10 @@ def send_talent_confirmation(to_email: str, first_name: str, interest: str):
         except Exception as e:
             print(f"[DELAYED EMAIL ERROR] Failed to send talent confirmation to {to_email}: {e}")
 
-    timer = threading.Timer(60.0, send_delayed)
+    timer = threading.Timer(300.0, send_delayed)
     timer.daemon = True
     timer.start()
-    print(f"[DELAYED EMAIL] Scheduled talent confirmation for {to_email} in 1 minute")
+    print(f"[DELAYED EMAIL] Scheduled talent confirmation for {to_email} in 5 minutes")
 
 
 def send_investor_confirmation(to_email: str, full_name: str, expertise: str):
@@ -328,13 +328,13 @@ def send_investor_confirmation(to_email: str, full_name: str, expertise: str):
         except Exception as e:
             print(f"[DELAYED EMAIL ERROR] Failed to send investor confirmation to {to_email}: {e}")
 
-    timer = threading.Timer(60.0, send_delayed)
+    timer = threading.Timer(300.0, send_delayed)
     timer.daemon = True
     timer.start()
-    print(f"[DELAYED EMAIL] Scheduled investor confirmation for {to_email} in 1 minute")
+    print(f"[DELAYED EMAIL] Scheduled investor confirmation for {to_email} in 5 minutes")
 
 
-def send_idea_confirmation_delayed(to_email: str, name: str, idea_preview: str, delay_minutes: int = 1):
+def send_idea_confirmation_delayed(to_email: str, name: str, idea_preview: str, delay_minutes: int = 5):
     """Send confirmation email after idea submission with a delay."""
     
     def send_delayed():

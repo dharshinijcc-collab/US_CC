@@ -172,10 +172,6 @@ export default function Downbar() {
         )}
         {activeSubmenu === 'Resources' && (
           <>
-            <NextLink href="/resources/tools" className="submenu-item" onClick={() => setIsSubmenuOpen(false)}>
-              <div className="submenu-item-icon"><TrendingUp size={18} /></div>
-              <span>Studio Tools</span>
-            </NextLink>
             <NextLink href="/blogs" className="submenu-item" onClick={() => setIsSubmenuOpen(false)}>
               <div className="submenu-item-icon"><BookOpen size={18} /></div>
               <span>Insights & Blog</span>

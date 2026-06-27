@@ -18,7 +18,11 @@ import CountUp from '@/components/effects/CountUp';
 import { useAdmin } from '@/context/AdminContext';
 import { useInView } from 'framer-motion';
 import { API_URL } from '@/services/api';
-import { User, Building, Lightbulb, Compass, Zap, Users, TrendingUp, Cpu, Globe, Brain, Home } from 'lucide-react';
+import { 
+  User, Building, Lightbulb, Compass, Zap, Users, TrendingUp, Cpu, Globe, Brain, Home,
+  ArrowLeft, ArrowRight, Sparkles, Check, X, AlertTriangle, Info, RefreshCw, ChevronRight 
+} from 'lucide-react';
+import { QAAnswers, ScoringResponse, DIMENSION_META, TRIAGE_CONFIG } from './idea-validator/types/scoring';
 
 const PARTNER_PRODUCTS = [
   {
@@ -280,10 +284,181 @@ export default function LandingPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [formMessage, setFormMessage] = useState('');
   const [messageType, setMessageType] = useState('');
-  const [submissionStep, setSubmissionStep] = useState(0); // 0: Idle, 1: Email, 2: Signup, 3: Success
+  const [submissionStep, setSubmissionStep] = useState(0); // 0: Idle, 1: Step 1 (About the Idea), 2: Step 2 (Founder), 3: Loading, 4: Results
   const [pendingIdea, setPendingIdea] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
+
+  const [report, setReport] = useState<ScoringResponse | null>(null);
+  const [selectedDimension, setSelectedDimension] = useState<string>('investor_appeal');
+  const [formError, setFormError] = useState<string | null>(null);
+  const [memoTab, setMemoTab] = useState<'summary' | 'thesis' | 'strengths' | 'risks' | 'recommendation'>('summary');
+  const [activeDDGroup, setActiveDDGroup] = useState<string | null>('market');
+  const [outcomeSubmitted, setOutcomeSubmitted] = useState<boolean>(false);
+  const [outcomeForm, setOutcomeForm] = useState({ launched: 'no', monthly_revenue: '0', customers: '0', funding: 'none' });
+  const [loadingStepText, setLoadingStepText] = useState('Extracting business signals...');
+
+  // Form Fields State matching exact blueprint specifications
+  const [answers, setAnswers] = useState<QAAnswers>({
+    customer: '',
+    problem: '',
+    pain_score: 5,
+    validation_level: 'none',
+    market_size_choice: 'medium',
+    revenue_model_choice: 'subscription',
+    why_now: 'The timing is right due to market shifts and technological advancements.',
+    competitors: '',
+    moat: '',
+    solo_founder: true,
+    has_technical_cofounder: false,
+    technical_background: 'no',
+    current_stage: 'forming',
+    launch_timeline: 'January 2026',
+    funding_status: 'bootstrapped',
+    contact_name: '',
+    contact_email: '',
+    need_help: false
+  });
+
+  const handleInputChange = (field: keyof QAAnswers, value: any) => {
+    setAnswers(prev => ({ ...prev, [field]: value }));
+  };
+
+  const validateStep1 = (): boolean => {
+    if (!answers.customer.trim() || answers.customer.trim().length < 10) {
+      setFormError('Customer segment is required and must be at least 10 characters.');
+      return false;
+    }
+    if (!answers.problem.trim() || answers.problem.trim().length < 10) {
+      setFormError('Problem description is required and must be at least 10 characters.');
+      return false;
+    }
+    if (!answers.competitors.trim() || answers.competitors.trim().length < 10) {
+      setFormError('Competitors list is required and must be at least 10 characters.');
+      return false;
+    }
+    if (!answers.moat.trim() || answers.moat.trim().length < 10) {
+      setFormError('Moat / Differentiation is required and must be at least 10 characters.');
+      return false;
+    }
+    return true;
+  };
+
+  const validateStep2 = (): boolean => {
+    if (!answers.launch_timeline.trim() || answers.launch_timeline.trim().length < 3) {
+      setFormError('Launch timeline is required and must be at least 3 characters.');
+      return false;
+    }
+    if (!answers.contact_name.trim() || answers.contact_name.trim().length < 2) {
+      setFormError('Your name is required and must be at least 2 characters.');
+      return false;
+    }
+    const emailRegex = /^.+@.+\..+$/;
+    if (!answers.contact_email.trim() || !emailRegex.test(answers.contact_email.trim())) {
+      setFormError('Please enter a valid email address.');
+      return false;
+    }
+    return true;
+  };
+
+  const handleNextStep = () => {
+    setFormError(null);
+    if (submissionStep === 1 && !validateStep1()) return;
+    setFormError(null);
+    setSubmissionStep(prev => prev + 1);
+  };
+
+  const handlePrevStep = () => {
+    setFormError(null);
+    setSubmissionStep(prev => prev - 1);
+  };
+
+  const handleReset = () => {
+    setSubmissionStep(0);
+    setReport(null);
+    setIdea('');
+    setAnswers({
+      customer: '',
+      problem: '',
+      pain_score: 5,
+      validation_level: 'none',
+      market_size_choice: 'medium',
+      revenue_model_choice: 'subscription',
+      why_now: 'The timing is right due to market shifts and technological advancements.',
+      competitors: '',
+      moat: '',
+      solo_founder: true,
+      has_technical_cofounder: false,
+      technical_background: 'no',
+      current_stage: 'forming',
+      launch_timeline: 'January 2026',
+      funding_status: 'bootstrapped',
+      contact_name: '',
+      contact_email: '',
+      need_help: false
+    });
+  };
+
+  const handleValidatorSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormError(null);
+
+    if (!validateStep2()) return;
+
+    setIsLoading(true);
+    setSubmissionStep(3); // Loading screen step
+    setLoadingStepText('Extracting business signals...');
+
+    const loadingStages = [
+      'Extracting business signals...',
+      'Analyzing market timing & dynamics...',
+      'Evaluating technical feasibility...',
+      'Calculating investor appeal indices...',
+      'Generating VC-grade due diligence report...'
+    ];
+
+    let currentStageIndex = 0;
+    const stageTimer = setInterval(() => {
+      if (currentStageIndex < loadingStages.length - 1) {
+        currentStageIndex++;
+        setLoadingStepText(loadingStages[currentStageIndex]);
+      }
+    }, 1200);
+
+    const ideaText = `Original Concept: ${idea}
+Target Customer: ${answers.customer}
+Core Problem: ${answers.problem}
+Competitors: ${answers.competitors}
+Moat: ${answers.moat}`;
+
+    try {
+      const response = await fetch('/founder/idea-validator/api', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ideaText, answers })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Server error generating scores');
+      }
+
+      clearInterval(stageTimer);
+      setIsLoading(false);
+      if (data.id) {
+        window.location.href = `/founder/idea-validator/report?id=${data.id}`;
+      } else {
+        throw new Error('No report ID returned from server');
+      }
+    } catch (err: any) {
+      console.error(err);
+      setFormError(err.message || 'An unexpected error occurred. Please try again.');
+      setSubmissionStep(2); // Return to step 2
+      setIsLoading(false);
+      clearInterval(stageTimer);
+    }
+  };
   const [flippedCards, setFlippedCards] = useState<Set<number>>(new Set());
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const heroRef = useRef(null);
@@ -537,7 +712,7 @@ export default function LandingPage() {
 
   // Handle body scroll locking for modals
   useEffect(() => {
-    if (submissionStep === 1 || submissionStep === 3) {
+    if (submissionStep >= 1 && submissionStep <= 4) {
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
     } else {
@@ -613,9 +788,8 @@ export default function LandingPage() {
       setMessageType('error');
       return;
     }
-    setPendingIdea(idea);
-    setSubmissionStep(1);
     setFormMessage('');
+    window.location.href = `/founder/idea-validator?idea=${encodeURIComponent(idea)}`;
   };
 
   const handleFinalSubmit = async (e: any) => {
@@ -1640,7 +1814,8 @@ export default function LandingPage() {
           position: fixed; inset: 0;
           background: rgba(10, 15, 28, 0.4);
           backdrop-filter: blur(12px);
-          z-index: 1000; display: flex; align-items: center; justify-content: center;
+          z-index: 1000; display: flex; align-items: flex-start; justify-content: center;
+          overflow-y: auto; padding: 40px 20px;
           animation: cc-fadeIn 0.3s ease;
         }
         .step-modal {
@@ -1649,9 +1824,94 @@ export default function LandingPage() {
           box-shadow: 0 40px 100px -20px rgba(0,0,0,0.25);
           animation: cc-popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
+        .step-modal-wizard {
+          background: white; border-radius: 24px; width: min(680px, 95vw);
+          padding: 24px 32px; position: relative; text-align: left;
+          box-shadow: 0 40px 100px -20px rgba(0,0,0,0.25);
+          margin-top: auto; margin-bottom: auto;
+          animation: cc-popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .step-modal-wizard .form-group {
+          margin-bottom: 14px !important;
+          gap: 4px !important;
+        }
+        .step-modal-wizard .form-label {
+          font-size: 0.88rem !important;
+          margin-bottom: 2px !important;
+          font-weight: 700 !important;
+          color: #334155 !important;
+        }
+        .step-modal-wizard .textarea-box {
+          min-height: 52px !important;
+          padding: 8px 12px !important;
+          font-size: 0.88rem !important;
+          border-radius: 8px !important;
+        }
+        .step-modal-wizard .radio-pills-row {
+          gap: 8px !important;
+        }
+        .step-modal-wizard .radio-pill-card {
+          padding: 10px 12px !important;
+          border-radius: 8px !important;
+          gap: 2px !important;
+        }
+        .step-modal-wizard .radio-title {
+          font-size: 0.85rem !important;
+        }
+        .step-modal-wizard .radio-desc {
+          font-size: 0.7rem !important;
+          line-height: 1.2 !important;
+        }
+        .step-modal-wizard .toggle-btn-group {
+          gap: 8px !important;
+        }
+        .step-modal-wizard .toggle-btn {
+          padding: 8px 14px !important;
+          font-size: 0.85rem !important;
+          border-radius: 8px !important;
+        }
+        .step-modal-wizard .pain-btn {
+          height: 32px !important;
+          font-size: 0.85rem !important;
+          border-radius: 6px !important;
+        }
+        .step-modal-wizard .form-heading {
+          font-size: 1.35rem !important;
+          margin-bottom: 4px !important;
+        }
+        .step-modal-wizard .form-subheading {
+          font-size: 0.88rem !important;
+          margin-bottom: 16px !important;
+        }
+        .step-modal-wizard .step-progress-row {
+          margin-bottom: 20px !important;
+        }
+        .step-modal-wizard .step-bubble {
+          width: 32px !important;
+          height: 32px !important;
+          font-size: 0.85rem !important;
+        }
         .step-modal-close {
-          position: absolute; top: 24px; right: 24px; background: none; border: none;
+          position: absolute; top: 20px; right: 20px; background: none; border: none;
           font-size: 24px; color: #94A3B8; cursor: pointer;
+        }
+        .form-section-card {
+          border: 1px solid #E2E8F0;
+          border-radius: 16px;
+          padding: 16px 20px;
+          margin-bottom: 16px;
+          background-color: #FCFDFE;
+        }
+        .form-section-title {
+          font-size: 1.05rem;
+          font-weight: 700;
+          color: #0F172A;
+          margin-bottom: 12px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          border-bottom: 1px solid #E2E8F0;
+          padding-bottom: 8px;
         }
         .step-modal-icon-wrap {
           width: 64px; height: 64px; background: #F1F5F9; border-radius: 50%;
@@ -2967,7 +3227,7 @@ export default function LandingPage() {
             />
           </div>
 
-          <form onSubmit={handleIdeaSubmit} method="POST" style={{ width: '100%', maxWidth: '580px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 10 }}>
+          <form id="idea-section" onSubmit={handleIdeaSubmit} method="POST" style={{ width: '100%', maxWidth: '580px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 10 }}>
             <div className="hero-idea-box" style={{ maxWidth: '580px', width: '100%' }}>
               <div className="hero-idea-inner">
                 <RotatingIdeaPlaceholder
@@ -3720,120 +3980,433 @@ export default function LandingPage() {
         <Footer />
       </div>
 
-      {/* Step 1: Email/Name Modal */}
-      {submissionStep === 1 && (
+      {/* 2-STEP FORM WIZARD & SCORECARD RESULTS OVERLAY */}
+      {submissionStep >= 1 && submissionStep <= 3 && (
         <div className="step-modal-overlay">
-          <div className="step-modal">
-            <button className="step-modal-close" onClick={() => setSubmissionStep(0)}>&times;</button>
-            <div className="step-modal-icon-wrap" style={{ background: '#F0F5FF', color: '#005AE2', marginBottom: '16px' }}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-            </div>
-            <EditableText
-              as="h3"
-              contentKey="home.hero.emailStep.title"
-              value={homeContent.hero.emailStep.title}
-            />
-            <EditableText
-              as="p"
-              contentKey="home.hero.emailStep.subtitle"
-              value={homeContent.hero.emailStep.subtitle}
-              style={{ color: '#64748B', fontSize: '0.9rem', marginBottom: '24px' }}
-            />
-            <form onSubmit={handleFinalSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div className="step-input-wrap" style={{ marginBottom: 0, padding: '12px 16px' }}>
-                <input
-                  type="text"
-                  className="step-input"
-                  placeholder={homeContent.hero.emailStep.namePlaceholder || "Your Name"}
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
-                  required
-                />
+          
+          {/* STEP 1 & 2: QUESTIONNAIRE WIZARD */}
+          {submissionStep >= 1 && submissionStep <= 2 && (
+            <div className="step-modal-wizard">
+              <button className="step-modal-close" onClick={handleReset}>&times;</button>
+              
+              {/* Stepper Progress bar */}
+              <div className="step-progress-row" style={{ maxWidth: 300, margin: '0 auto 40px', padding: 0 }}>
+                <div className="step-progress-bar" style={{ left: '20%', right: '20%' }}>
+                  <div className="step-progress-fill" style={{ width: `${(submissionStep === 2) ? 100 : 0}%` }}></div>
+                </div>
+                <div className={`step-bubble ${submissionStep === 1 ? 'active' : 'completed'}`}>1</div>
+                <div className={`step-bubble ${submissionStep === 2 ? 'active' : ''}`}>2</div>
               </div>
-              <div className="step-input-wrap" style={{ marginBottom: 0, padding: '12px 16px' }}>
-                <input
-                  type="email"
-                  className="step-input"
-                  placeholder={homeContent.hero.emailStep.placeholder || "businessname@email.com"}
-                  value={userEmail}
-                  onChange={(e) => setUserEmail(e.target.value)}
-                  required
-                />
-              </div>
-              {formMessage && <div className="form-message error">{formMessage}</div>}
-              <button type="submit" disabled={isLoading} className="btn-step-primary" style={{ marginTop: '8px', padding: '14px' }}>
-                {isLoading ? '...' : <EditableText contentKey="home.hero.emailStep.buttonText" value={homeContent.hero.emailStep.buttonText || "Register \u2192"} />}
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
 
-      {/* Step 4: Success / Next Steps */}
-      {submissionStep === 3 && (
-        <div className="step-modal-overlay">
-          <div className="step-modal" style={{ maxWidth: '480px', padding: '40px' }}>
-            <div className="step-modal-icon-wrap" style={{ background: '#ECFDF5', color: '#10B981', marginBottom: '24px' }}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
-            </div>
-            <h3 style={{ fontSize: '24px', fontWeight: 800, marginBottom: '16px', color: '#0F172A' }}>
-              <EditableText contentKey="home.hero.successModal.title" value={homeContent.hero.successModal.title} />
-            </h3>
+              <form onSubmit={handleValidatorSubmit} className="form-card" style={{ border: 'none', boxShadow: 'none', padding: 0 }}>
+                {formError && (
+                  <div className="error-banner" style={{ marginBottom: '24px' }}>
+                    <AlertTriangle size={18} />
+                    <span>{formError}</span>
+                  </div>
+                )}
 
-            {/* IP Protection Section */}
-            <div style={{ background: '#F0F5FF', borderRadius: '12px', padding: '16px', marginBottom: '16px', border: '1px solid #E0F2FE', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <div style={{ marginBottom: '12px' }}>
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#005AE2" strokeWidth="2">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                </svg>
-              </div>
-              <div style={{ textAlign: 'center' }}>
-                <p style={{ fontSize: '14px', fontWeight: 700, color: '#005AE2', margin: '0 0 4px 0' }}>
-                  Idea Safeguarded
-                </p>
-                <p style={{ fontSize: '13px', color: '#475569', margin: 0, lineHeight: 1.5 }}>
-                  Idea safely encrypted and locked under our standard mutual NDA.
-                </p>
-              </div>
-            </div>
+                {/* STEP 1: ABOUT THE IDEA */}
+                {submissionStep === 1 && (
+                  <div>
+                    <h2 className="form-heading">Step 1: About The Idea</h2>
+                    <p className="form-subheading" style={{ marginBottom: '24px' }}>Help us evaluate the core parameters, problem size, and validation level of your idea.</p>
 
-            {/* Timeline Section */}
-            <div style={{ marginBottom: '20px' }}>
-              <p style={{ fontSize: '14px', fontWeight: 700, color: '#0F172A', margin: '0 0 8px 0' }}>
-                What Happens Next
+                    <div className="form-section-card">
+                      <div className="form-section-title">
+                        <Lightbulb size={18} style={{ color: '#005AE2' }} />
+                        <span>Core Value Proposition</span>
+                      </div>
+                      
+                      <div className="form-group">
+                        <label className="form-label">Who is the customer? *</label>
+                        <textarea 
+                          className="textarea-box"
+                          placeholder="e.g. Small law firms with 5–20 attorneys..."
+                          value={answers.customer}
+                          onChange={(e) => handleInputChange('customer', e.target.value)}
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">What problem does it solve? *</label>
+                        <textarea 
+                          className="textarea-box"
+                          placeholder="e.g. Legal teams spend 40% of their time on repetitive manual research..."
+                          value={answers.problem}
+                          onChange={(e) => handleInputChange('problem', e.target.value)}
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Pain Score (1-10)</label>
+                        <div className="pain-score-group">
+                          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(val => (
+                            <button 
+                              key={val}
+                              type="button"
+                              className={`pain-btn ${answers.pain_score === val ? 'active' : ''}`}
+                              onClick={() => handleInputChange('pain_score', val)}
+                            >
+                              {val}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="form-section-card">
+                      <div className="form-section-title">
+                        <TrendingUp size={18} style={{ color: '#005AE2' }} />
+                        <span>Market & Defensibility</span>
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Validation Level</label>
+                        <div className="radio-pills-row">
+                          <div 
+                            className={`radio-pill-card ${answers.validation_level === 'none' ? 'active' : ''}`}
+                            onClick={() => handleInputChange('validation_level', 'none')}
+                          >
+                            <span className="radio-title">None</span>
+                            <span className="radio-desc">Just an early concept</span>
+                          </div>
+                          <div 
+                            className={`radio-pill-card ${answers.validation_level === 'conversations' ? 'active' : ''}`}
+                            onClick={() => handleInputChange('validation_level', 'conversations')}
+                          >
+                            <span className="radio-title">Conversations</span>
+                            <span className="radio-desc">Spoken with potential users</span>
+                          </div>
+                          <div 
+                            className={`radio-pill-card ${answers.validation_level === 'waitlist' ? 'active' : ''}`}
+                            onClick={() => handleInputChange('validation_level', 'waitlist')}
+                          >
+                            <span className="radio-title">Waitlist / Signups</span>
+                            <span className="radio-desc">Tangible user interest leads</span>
+                          </div>
+                          <div 
+                            className={`radio-pill-card ${answers.validation_level === 'paying_customers' ? 'active' : ''}`}
+                            onClick={() => handleInputChange('validation_level', 'paying_customers')}
+                          >
+                            <span className="radio-title">Paying Customers</span>
+                            <span className="radio-desc">Active pilot contracts</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Competitors *</label>
+                        <textarea 
+                          className="textarea-box"
+                          placeholder="e.g. competitor1.com, competitor2.com - enter website details..."
+                          value={answers.competitors}
+                          onChange={(e) => handleInputChange('competitors', e.target.value)}
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Do you have a MOAT? *</label>
+                        <textarea 
+                          className="textarea-box"
+                          placeholder="e.g. Proprietary verification model; deep workflow integrations..."
+                          value={answers.moat}
+                          onChange={(e) => handleInputChange('moat', e.target.value)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* STEP 2: ABOUT THE FOUNDER */}
+                {submissionStep === 2 && (
+                  <div>
+                    <h2 className="form-heading">Step 2: About The Founder</h2>
+                    <p className="form-subheading" style={{ marginBottom: '24px' }}>Help us evaluate execution capacity, timeline models, and founder alignment.</p>
+
+                    <div className="form-section-card">
+                      <div className="form-section-title">
+                        <Users size={18} style={{ color: '#005AE2' }} />
+                        <span>Founding Team & Capabilities</span>
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Are you a solo founder?</label>
+                        <div className="toggle-btn-group">
+                          <button 
+                            type="button" 
+                            className={`toggle-btn ${answers.solo_founder === true ? 'active' : ''}`}
+                            onClick={() => {
+                              handleInputChange('solo_founder', true);
+                              handleInputChange('has_technical_cofounder', false);
+                            }}
+                          >
+                            👤 Solo Founder
+                          </button>
+                          <button 
+                            type="button" 
+                            className={`toggle-btn ${answers.solo_founder === false ? 'active' : ''}`}
+                            onClick={() => handleInputChange('solo_founder', false)}
+                          >
+                            👥 Co-founders / Team
+                          </button>
+                        </div>
+                      </div>
+
+                      {!answers.solo_founder && (
+                        <div className="form-group">
+                          <label className="form-label">Is there a technical co-founder?</label>
+                          <div className="toggle-btn-group">
+                            <button 
+                              type="button" 
+                              className={`toggle-btn ${answers.has_technical_cofounder === true ? 'active' : ''}`}
+                              onClick={() => handleInputChange('has_technical_cofounder', true)}
+                            >
+                              💻 Yes, they can code
+                            </button>
+                            <button 
+                              type="button" 
+                              className={`toggle-btn ${answers.has_technical_cofounder === false ? 'active' : ''}`}
+                              onClick={() => handleInputChange('has_technical_cofounder', false)}
+                            >
+                              🚫 No tech co-founder
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="form-group">
+                        <label className="form-label">What is your technical background?</label>
+                        <div className="toggle-btn-group">
+                          <button 
+                            type="button" 
+                            className={`toggle-btn ${answers.technical_background === 'can_code' ? 'active' : ''}`}
+                            onClick={() => handleInputChange('technical_background', 'can_code')}
+                          >
+                            💻 I can code
+                          </button>
+                          <button 
+                            type="button" 
+                            className={`toggle-btn ${answers.technical_background === 'used_to_code' ? 'active' : ''}`}
+                            onClick={() => handleInputChange('technical_background', 'used_to_code')}
+                          >
+                            ⏳ I used to code
+                          </button>
+                          <button 
+                            type="button" 
+                            className={`toggle-btn ${answers.technical_background === 'no' ? 'active' : ''}`}
+                            onClick={() => handleInputChange('technical_background', 'no')}
+                          >
+                            🚫 Non-technical
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="form-section-card">
+                      <div className="form-section-title">
+                        <Compass size={18} style={{ color: '#005AE2' }} />
+                        <span>Execution Timeline & Stage</span>
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Current Stage</label>
+                        <div className="toggle-btn-group">
+                          <button 
+                            type="button" 
+                            className={`toggle-btn ${answers.current_stage === 'forming' ? 'active' : ''}`}
+                            onClick={() => handleInputChange('current_stage', 'forming')}
+                          >
+                            💡 Still forming
+                          </button>
+                          <button 
+                            type="button" 
+                            className={`toggle-btn ${answers.current_stage === 'ux_design' ? 'active' : ''}`}
+                            onClick={() => handleInputChange('current_stage', 'ux_design')}
+                          >
+                            🎨 Got UX design
+                          </button>
+                          <button 
+                            type="button" 
+                            className={`toggle-btn ${answers.current_stage === 'prototype' ? 'active' : ''}`}
+                            onClick={() => handleInputChange('current_stage', 'prototype')}
+                          >
+                            ⚙️ Have prototype
+                          </button>
+                          <button 
+                            type="button" 
+                            className={`toggle-btn ${answers.current_stage === 'mvp' ? 'active' : ''}`}
+                            onClick={() => handleInputChange('current_stage', 'mvp')}
+                          >
+                            🚀 Have MVP
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Launch Timeline *</label>
+                        <div className="launch-timeline-select-group" style={{ display: 'flex', gap: '12px' }}>
+                          <select 
+                            className="select-box"
+                            value={answers.launch_timeline.split(' ')[0] || 'January'}
+                            onChange={(e) => {
+                              const year = answers.launch_timeline.split(' ')[1] || '2026';
+                              handleInputChange('launch_timeline', `${e.target.value} ${year}`);
+                            }}
+                            style={{ flex: 1 }}
+                          >
+                            {['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map(m => (
+                              <option key={m} value={m}>{m}</option>
+                            ))}
+                          </select>
+                          <select 
+                            className="select-box"
+                            value={answers.launch_timeline.split(' ')[1] || '2026'}
+                            onChange={(e) => {
+                              const month = answers.launch_timeline.split(' ')[0] || 'January';
+                              handleInputChange('launch_timeline', `${month} ${e.target.value}`);
+                            }}
+                            style={{ flex: 1 }}
+                          >
+                            {['2026', '2027', '2028', '2029', '2030'].map(y => (
+                              <option key={y} value={y}>{y}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">Funding Status</label>
+                        <div className="toggle-btn-group">
+                          <button 
+                            type="button" 
+                            className={`toggle-btn ${answers.funding_status === 'bootstrapped' ? 'active' : ''}`}
+                            onClick={() => handleInputChange('funding_status', 'bootstrapped')}
+                          >
+                            🌱 Bootstrapped
+                          </button>
+                          <button 
+                            type="button" 
+                            className={`toggle-btn ${answers.funding_status === 'raising' ? 'active' : ''}`}
+                            onClick={() => handleInputChange('funding_status', 'raising')}
+                          >
+                            📈 Raising Seed
+                          </button>
+                          <button 
+                            type="button" 
+                            className={`toggle-btn ${answers.funding_status === 'raised' ? 'active' : ''}`}
+                            onClick={() => handleInputChange('funding_status', 'raised')}
+                          >
+                            💰 Funded
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="form-section-card">
+                      <div className="form-section-title">
+                        <User size={18} style={{ color: '#005AE2' }} />
+                        <span>Founder Contact Information</span>
+                      </div>
+
+                      <p style={{ fontSize: '0.85rem', color: '#64748B', marginTop: '0px', marginBottom: '16px', lineHeight: '1.4' }}>
+                        💡 <strong>Note:</strong> Your contact details are strictly used for communications and do not impact the score evaluation of the idea.
+                      </p>
+
+                      <div className="form-group" style={{ marginBottom: '20px' }}>
+                        <label className="form-label">Your Name *</label>
+                        <input 
+                          type="text" 
+                          className="input-text"
+                          placeholder="e.g. Jane Doe"
+                          value={answers.contact_name}
+                          onChange={(e) => handleInputChange('contact_name', e.target.value)}
+                        />
+                      </div>
+
+                      <div className="form-group" style={{ marginBottom: '20px' }}>
+                        <label className="form-label">Email Address *</label>
+                        <input 
+                          type="email" 
+                          className="input-text"
+                          placeholder="e.g. jane@example.com"
+                          value={answers.contact_email}
+                          onChange={(e) => handleInputChange('contact_email', e.target.value)}
+                        />
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 16 }}>
+                        <input 
+                          type="checkbox" 
+                          id="need_help"
+                          checked={answers.need_help || false}
+                          onChange={(e) => handleInputChange('need_help', e.target.checked)}
+                          style={{ width: 18, height: 18, accentColor: 'var(--primary-blue)', cursor: 'pointer' }}
+                        />
+                        <label htmlFor="need_help" style={{ fontSize: '0.875rem', fontWeight: 600, color: '#334155', cursor: 'pointer' }}>
+                          Do you need help from CrestCode?
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Navigation Buttons Row */}
+                <div className="btn-row" style={{ marginTop: '32px' }}>
+                  {submissionStep === 2 && (
+                    <button 
+                      type="button" 
+                      className="btn-form-prev"
+                      onClick={handlePrevStep}
+                    >
+                      <ArrowLeft size={16} />
+                      <span>Back</span>
+                    </button>
+                  )}
+
+                  {submissionStep === 1 ? (
+                    <button 
+                      type="button" 
+                      className="btn-form-next"
+                      onClick={handleNextStep}
+                      style={{ marginLeft: 'auto' }}
+                    >
+                      <span>Continue</span>
+                      <ArrowRight size={16} />
+                    </button>
+                  ) : (
+                    <button 
+                      type="submit" 
+                      className="btn-form-next"
+                      style={{ background: 'linear-gradient(135deg, #005AE2 0%, #4F46E5 100%)', marginLeft: 'auto' }}
+                    >
+                      <Sparkles size={16} />
+                      <span>Generate Report</span>
+                    </button>
+                  )}
+                </div>
+              </form>
+            </div>
+          )}
+
+          {/* STEP 3: LOADING SCREEN */}
+          {submissionStep === 3 && (
+            <div className="step-modal" style={{ maxWidth: '480px', padding: '40px' }}>
+              <div className="spinner-outer" style={{ margin: '0 auto 24px' }}>
+                <div className="spinner-circle"></div>
+                <div className="spinner-inner"></div>
+              </div>
+              <div className="loading-text" style={{ fontSize: '1.25rem', fontWeight: 700, color: '#0F172A', marginBottom: '8px' }}>
+                {loadingStepText}
+              </div>
+              <p className="loading-desc" style={{ color: '#64748B', fontSize: '0.9rem', margin: 0 }}>
+                Our AI due diligence engine is evaluating your startup signals...
               </p>
-              <p style={{ fontSize: '13px', color: '#64748B', margin: 0, lineHeight: 1.6 }}>
-                Our engineering and product partners review submissions every 24–48 hours. If there is a potential fit for a studio-backed venture, we will reach out to schedule a deep-dive scoping call.
-              </p>
             </div>
+          )}
 
-            <button
-              onClick={() => setSubmissionStep(0)}
-              style={{
-                width: '100%',
-                padding: '14px 24px',
-                backgroundColor: '#005AE2',
-                color: '#FFFFFF',
-                border: 'none',
-                borderRadius: '12px',
-                fontSize: '15px',
-                fontWeight: 700,
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseOver={(e: any) => {
-                e.currentTarget.style.backgroundColor = '#004ac2';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseOut={(e: any) => {
-                e.currentTarget.style.backgroundColor = '#005AE2';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
-            >
-              Close
-            </button>
-          </div>
+          {/* RESULTS DISPLAY HAS BEEN TRANSITIONED TO A DEDICATED FULL-SCREEN REPORT PAGE */}
+
         </div>
       )}
     </>

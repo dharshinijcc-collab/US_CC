@@ -65,7 +65,7 @@ export default function Header(props: any) {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const navItems = [
-    { label: 'Founder', href: '/' },
+    { label: 'Founder', href: '/founder' },
     { label: 'Studio', href: '/studio' },
     { label: 'Investors', href: '/investors' },
     { label: 'Resources', href: '/resources' },
@@ -361,7 +361,7 @@ export default function Header(props: any) {
           transition: all 0.3s ease;
         }
 
-        .hamburger.open span { background: #FFFFFF; }
+        .hamburger.open span { background: #0F172A; }
         .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
         .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
         .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
@@ -373,7 +373,7 @@ export default function Header(props: any) {
           left: 0;
           width: 100%;
           height: 100vh;
-          background: #0A0F1C;
+          background: #FFFFFF;
           display: flex;
           flex-direction: column;
           z-index: 1001;
@@ -396,7 +396,7 @@ export default function Header(props: any) {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          border-bottom: 1px solid rgba(255,255,255,0.05);
+          border-bottom: 1px solid rgba(0,0,0,0.08);
         }
 
         .menu-section {
@@ -406,7 +406,7 @@ export default function Header(props: any) {
         .menu-label {
           font-size: 0.7rem;
           font-weight: 800;
-          color: rgba(255,255,255,0.35);
+          color: rgba(0,0,0,0.4);
           text-transform: uppercase;
           letter-spacing: 0.15em;
           margin-bottom: 20px;
@@ -423,7 +423,7 @@ export default function Header(props: any) {
           font-family: 'Inter', sans-serif;
           font-size: clamp(1.1rem, 4vw, 1.4rem);
           font-weight: 700;
-          color: #FFFFFF;
+          color: #0F172A;
           text-decoration: none;
           line-height: 1.4;
           transition: opacity 0.25s ease;
@@ -438,7 +438,7 @@ export default function Header(props: any) {
           font-family: 'Outfit', 'Inter', sans-serif;
           font-size: clamp(1.2rem, 4vw, 1.6rem);
           font-weight: 700;
-          color: rgba(255,255,255,0.75);
+          color: rgba(0,0,0,0.55);
           text-decoration: none;
           transition: opacity 0.25s ease;
           text-transform: uppercase;
@@ -455,7 +455,7 @@ export default function Header(props: any) {
         }
 
         .menu-contact-link {
-          color: #FFFFFF;
+          color: #0F172A;
           font-size: 1.1rem;
           font-weight: 600;
           text-decoration: none;
@@ -534,7 +534,7 @@ export default function Header(props: any) {
               <Link
                 key={idx}
                 href={item.href}
-                className={pathname === item.href ? 'active-link' : ''}
+                className={pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href)) ? 'active-link' : ''}
               >
                 {item.label}
               </Link>
@@ -563,7 +563,7 @@ export default function Header(props: any) {
       <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
         <div className="mobile-menu-header">
           <Link href="/" className="navbar-brand" onClick={toggleMenu}>
-            <img src="/CC_US_Logo_-_White-removebg-preview.png" alt="Logo" className="mobile-menu-logo" />
+            <img src="/CC_US_Logo_-_Black_Patch-removebg-preview.png" alt="Logo" className="mobile-menu-logo" />
           </Link>
           <div className={`hamburger open`} onClick={toggleMenu}>
             <span />
