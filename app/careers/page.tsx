@@ -423,21 +423,43 @@ export default function CareersPage() {
             <span className="hero-eyebrow-pill" style={{ marginBottom: '32px' }}>
               <EditableText contentKey="careers.hero.eyebrow" value={careersContent.hero.eyebrow} />
             </span>
-            <div style={{ width: '100%', textAlign: 'center' }}>
-              <h1 className="hero-title" style={{ whiteSpace: 'pre-wrap' }}>
-                {careersContent.hero.title?.split(' ').map((word: string, i: number, arr: string[]) => {
-                  const isBlue = ['Us'].includes(word.replace(/[^a-zA-Z]/g, ''));
+            <EditableText
+              as="h1"
+              contentKey="careers.hero.title"
+              value={careersContent.hero.title || "Build Meaningful Technology With Us"}
+              className="hero-title"
+              style={{ whiteSpace: 'pre-wrap', width: '100%', textAlign: 'center' }}
+            >
+              {(() => {
+                const headingText = careersContent.hero.title || "Build Meaningful Technology With Us";
+                const lines = headingText.includes('\n') ? headingText.split('\n') : [headingText];
+                
+                return lines.map((line, lineIdx) => {
+                  const words = line.split(/[\s\u00a0]+/);
+                  const hasNewlines = headingText.includes('\n');
                   return (
-                    <React.Fragment key={i}>
-                      <span style={isBlue ? { color: '#005AE2' } : {}}>
-                        {word}{i < arr.length - 1 ? ' ' : ''}
-                      </span>
-                      {i === Math.floor(arr.length / 2) - 1 && <br />}
+                    <React.Fragment key={lineIdx}>
+                      {words.map((word: string, index: number) => {
+                        if (!word) return null;
+                        const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
+                        const cleanWordUpper = cleanWord.toUpperCase();
+                        const isBlue = ['US', 'CRESTCODE', 'CAREERS'].includes(cleanWordUpper);
+                        const isMidpoint = !hasNewlines && index === Math.floor(words.length / 2) - 1;
+                        return (
+                          <React.Fragment key={index}>
+                            <span style={isBlue ? { color: '#005AE2' } : {}}>
+                              {word}{' '}
+                            </span>
+                            {isMidpoint && <br />}
+                          </React.Fragment>
+                        );
+                      })}
+                      {lineIdx < lines.length - 1 && <br />}
                     </React.Fragment>
                   );
-                })}
-              </h1>
-            </div>
+                });
+              })()}
+            </EditableText>
             <p style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)', color: 'var(--text-muted)', lineHeight: 1.8, marginBottom: '40px', maxWidth: '720px', fontWeight: 500, marginInline: 'auto', textAlign: 'center' }}>
               <EditableText contentKey="careers.hero.description" value={careersContent.hero.description} />
             </p>

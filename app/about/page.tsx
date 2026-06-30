@@ -324,10 +324,42 @@ export default function AboutPage() {
               className="hero-eyebrow-pill"
               as="div"
             />
-            <h1 className="hero-title">
-              Built on <EditableText contentKey="about.hero.trust" value={getContent('about.hero.trust', 'trust')} as="span" style={{ color: 'var(--primary-blue)' }} /> <br />
-              and the <EditableText contentKey="about.hero.execute" value={getContent('about.hero.execute', 'will to execute')} as="span" style={{ color: 'var(--primary-blue)' }} />.
-            </h1>
+            <EditableText
+              as="h1"
+              contentKey="about.hero.title"
+              value={getContent('about.hero.title', 'Built on trust \n and the will to execute.')}
+              className="hero-title"
+              style={{ whiteSpace: 'pre-wrap' }}
+            >
+              {(() => {
+                const headingText = getContent('about.hero.title', 'Built on trust \n and the will to execute.');
+                const lines = headingText.includes('\n') ? headingText.split('\n') : [headingText];
+                return lines.map((line, lineIdx) => {
+                  const words = line.split(/[\s\u00a0]+/);
+                  const hasNewlines = headingText.includes('\n');
+                  return (
+                    <React.Fragment key={lineIdx}>
+                      {words.map((word: string, index: number) => {
+                        if (!word) return null;
+                        const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
+                        const cleanWordUpper = cleanWord.toUpperCase();
+                        const isBlue = ['TRUST', 'WILL', 'TO', 'EXECUTE'].includes(cleanWordUpper);
+                        const isMidpoint = !hasNewlines && index === Math.floor(words.length / 2) - 1;
+                        return (
+                          <React.Fragment key={index}>
+                            <span style={isBlue ? { color: 'var(--primary-blue)' } : {}}>
+                              {word}{' '}
+                            </span>
+                            {isMidpoint && <br />}
+                          </React.Fragment>
+                        );
+                      })}
+                      {lineIdx < lines.length - 1 && <br />}
+                    </React.Fragment>
+                  );
+                });
+              })()}
+            </EditableText>
             <EditableText 
               contentKey="about.hero.description" 
               value={getContent('about.hero.description', 'CrestCode is a venture studio born from a simple observation — identifying a truly great idea is rare, and executing it with conviction is rarer still. We exist to do both.')}

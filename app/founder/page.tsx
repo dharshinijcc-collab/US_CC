@@ -3204,7 +3204,8 @@ Moat: ${answers.moat}`;
                 const lines = headingText.split('\n');
                 return lines.map((line, lineIdx) => (
                   <React.Fragment key={lineIdx}>
-                    {line.split(' ').map((word: string, index: number) => {
+                    {line.split(/[\s\u00a0]+/).map((word: string, index: number) => {
+                      if (!word) return null;
                       const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
                       const cleanWordUpper = cleanWord.toUpperCase();
                       const isBlue = ['BOLD', 'IDEAS', 'REAL', 'IDEA', 'CUSTOMER', 'CUSTOMERS', 'PRODUCTS', 'PRODUCT', 'VENTURES', 'VENTURE'].includes(cleanWordUpper);
@@ -3511,13 +3512,13 @@ Moat: ${answers.moat}`;
                 <div className="spoke-card" style={{ left: '50%', top: '0px', transform: 'translateX(-50%)' }}>
                   <h4 className="spoke-card-title">
                     <EditableText
-                      contentKey="methodology.cards.0.title"
+                      contentKey="home.methodology.cards.0.title"
                       value={methodologyCards[0].title}
                     />
                   </h4>
                   <p className="spoke-card-desc">
                     <EditableText
-                      contentKey="methodology.cards.0.description"
+                      contentKey="home.methodology.cards.0.description"
                       value={methodologyCards[0].description}
                     />
                   </p>
@@ -3529,13 +3530,13 @@ Moat: ${answers.moat}`;
                 <div className="spoke-card" style={{ left: '67%', top: '150px' }}>
                   <h4 className="spoke-card-title">
                     <EditableText
-                      contentKey="methodology.cards.1.title"
+                      contentKey="home.methodology.cards.1.title"
                       value={methodologyCards[1].title}
                     />
                   </h4>
                   <p className="spoke-card-desc">
                     <EditableText
-                      contentKey="methodology.cards.1.description"
+                      contentKey="home.methodology.cards.1.description"
                       value={methodologyCards[1].description}
                     />
                   </p>
@@ -3547,13 +3548,13 @@ Moat: ${answers.moat}`;
                 <div className="spoke-card" style={{ left: '69%', top: '410px' }}>
                   <h4 className="spoke-card-title">
                     <EditableText
-                      contentKey="methodology.cards.2.title"
+                      contentKey="home.methodology.cards.2.title"
                       value={methodologyCards[2].title}
                     />
                   </h4>
                   <p className="spoke-card-desc">
                     <EditableText
-                      contentKey="methodology.cards.2.description"
+                      contentKey="home.methodology.cards.2.description"
                       value={methodologyCards[2].description}
                     />
                   </p>
@@ -3565,13 +3566,13 @@ Moat: ${answers.moat}`;
                 <div className="spoke-card" style={{ left: '50%', bottom: '0px', top: 'auto', transform: 'translateX(-50%)' }}>
                   <h4 className="spoke-card-title">
                     <EditableText
-                      contentKey="methodology.cards.3.title"
+                      contentKey="home.methodology.cards.3.title"
                       value={methodologyCards[3].title}
                     />
                   </h4>
                   <p className="spoke-card-desc">
                     <EditableText
-                      contentKey="methodology.cards.3.description"
+                      contentKey="home.methodology.cards.3.description"
                       value={methodologyCards[3].description}
                     />
                   </p>
@@ -3583,13 +3584,13 @@ Moat: ${answers.moat}`;
                 <div className="spoke-card" style={{ left: '6%', top: '410px' }}>
                   <h4 className="spoke-card-title">
                     <EditableText
-                      contentKey="methodology.cards.4.title"
+                      contentKey="home.methodology.cards.4.title"
                       value={methodologyCards[4].title}
                     />
                   </h4>
                   <p className="spoke-card-desc">
                     <EditableText
-                      contentKey="methodology.cards.4.description"
+                      contentKey="home.methodology.cards.4.description"
                       value={methodologyCards[4].description}
                     />
                   </p>
@@ -3645,7 +3646,8 @@ Moat: ${answers.moat}`;
 
         {/* ── Partners Products Section ── */}
         {(() => {
-          const prod = PARTNER_PRODUCTS[activeProd];
+          const items = homeContent.partnerProducts?.items || PARTNER_PRODUCTS;
+          const prod = items[activeProd] || PARTNER_PRODUCTS[activeProd];
 
           return (
             <section className="page-section" style={{ backgroundColor: '#F5F5F0', fontFamily: "'Inter', sans-serif" }}>
@@ -3664,7 +3666,12 @@ Moat: ${answers.moat}`;
                     padding: '8px 18px',
                     borderRadius: '100px',
                     marginBottom: '16px',
-                  }}>Partners&apos; Products</span>
+                  }}>
+                    <EditableText
+                      contentKey="home.partnerProducts.eyebrow"
+                      value={homeContent.partnerProducts?.eyebrow || "Partners' Products"}
+                    />
+                  </span>
                   <h2 style={{
                     fontFamily: "'Manrope', sans-serif",
                     fontSize: 'clamp(1.75rem, 3vw, 2.25rem)',
@@ -3673,9 +3680,17 @@ Moat: ${answers.moat}`;
                     letterSpacing: '-0.02em',
                     margin: '0 auto 12px',
                     lineHeight: 1.25,
-                  }}>What we&apos;ve built together</h2>
+                  }}>
+                    <EditableText
+                      contentKey="home.partnerProducts.title"
+                      value={homeContent.partnerProducts?.title || "What we've built together"}
+                    />
+                  </h2>
                   <p style={{ color: '#64748B', fontSize: '1rem', maxWidth: '500px', margin: '0 auto', lineHeight: 1.6, fontWeight: 500 }}>
-                    Real ventures built in partnership with founders who chose to build, not just plan.
+                    <EditableText
+                      contentKey="home.partnerProducts.description"
+                      value={homeContent.partnerProducts?.description || "Real ventures built in partnership with founders who chose to build, not just plan."}
+                    />
                   </p>
                 </div>
 
@@ -3696,9 +3711,9 @@ Moat: ${answers.moat}`;
                     padding: '8px 0',
                     background: '#F5F5F0',
                   }}>
-                    {PARTNER_PRODUCTS.map((p, idx) => (
+                    {items.map((p: any, idx: number) => (
                       <button
-                        key={p.id}
+                        key={p.id || idx}
                         onClick={() => setActiveProd(idx)}
                         style={{
                           display: 'flex',
@@ -3728,7 +3743,7 @@ Moat: ${answers.moat}`;
                           flexShrink: 0,
                           transition: 'all 0.2s ease',
                         }}>
-                          {p.icon}
+                          {p.icon || PARTNER_PRODUCTS[idx]?.icon}
                         </div>
                         <div>
                           <div style={{
@@ -3738,14 +3753,24 @@ Moat: ${answers.moat}`;
                             color: activeProd === idx ? '#0F172A' : '#475569',
                             lineHeight: 1.3,
                             transition: 'color 0.2s',
-                          }}>{p.name}</div>
+                          }}>
+                            <EditableText
+                              contentKey={`home.partnerProducts.items.${idx}.name`}
+                              value={p.name}
+                            />
+                          </div>
                           <div style={{
                             fontFamily: "'Inter', sans-serif",
                             fontSize: '0.8rem',
                             color: '#6B7280',
                             fontWeight: 500,
                             marginTop: '2px',
-                          }}>{p.tagline}</div>
+                          }}>
+                            <EditableText
+                              contentKey={`home.partnerProducts.items.${idx}.tagline`}
+                              value={p.tagline}
+                            />
+                          </div>
                         </div>
                       </button>
                     ))}
@@ -3762,7 +3787,12 @@ Moat: ${answers.moat}`;
                         color: '#0F172A',
                         letterSpacing: '-0.03em',
                         margin: '0 0 8px',
-                      }}>{prod.name}</h3>
+                      }}>
+                        <EditableText
+                          contentKey={`home.partnerProducts.items.${activeProd}.name`}
+                          value={prod.name}
+                        />
+                      </h3>
                       <p style={{
                         fontFamily: "'Inter', sans-serif",
                         fontSize: '1.125rem',
@@ -3770,40 +3800,14 @@ Moat: ${answers.moat}`;
                         fontWeight: 600,
                         margin: 0,
                         lineHeight: 1.4,
-                      }}>{prod.subtitle}</p>
+                      }}>
+                        <EditableText
+                          contentKey={`home.partnerProducts.items.${activeProd}.subtitle`}
+                          value={prod.subtitle}
+                        />
+                      </p>
                     </div>
 
-                    {/* Stat banner */}
-                    <div style={{
-                      background: prod.statTheme.bg,
-                      borderRadius: '16px',
-                      padding: '18px 24px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '16px',
-                      marginBottom: '28px',
-                    }}>
-                      <div style={{
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '50%',
-                        background: prod.statTheme.iconBg,
-                        color: prod.statTheme.iconColor,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
-                      }}>
-                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-                          <polyline points="17 6 23 6 23 12" />
-                        </svg>
-                      </div>
-                      <div>
-                        <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: '1.25rem', color: prod.statTheme.text, lineHeight: 1.2 }}>{prod.stat}</div>
-                        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.875rem', color: prod.statTheme.subText, fontWeight: 500, marginTop: '4px' }}>{prod.statSub}</div>
-                      </div>
-                    </div>
 
                     {/* What CrestCode did */}
                     <div style={{
@@ -3825,14 +3829,19 @@ Moat: ${answers.moat}`;
                         </svg>
                         <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6B7280' }}>What CrestCode Did</span>
                       </div>
-                      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '1rem', color: '#334155', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>{prod.whatWeDid}</p>
+                      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '1rem', color: '#334155', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
+                        <EditableText
+                          contentKey={`home.partnerProducts.items.${activeProd}.whatWeDid`}
+                          value={prod.whatWeDid}
+                        />
+                      </p>
                     </div>
 
                     {/* Key Features */}
                     <div style={{ marginBottom: '28px' }}>
                       <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6B7280', marginBottom: '12px' }}>Key Features</div>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                        {prod.features.map((f, i) => (
+                        {(prod.features || []).map((f: any, i: number) => (
                           <span key={i} style={{
                             display: 'inline-flex',
                             alignItems: 'center',
@@ -3844,8 +3853,11 @@ Moat: ${answers.moat}`;
                             color: '#334155',
                             fontWeight: 600,
                           }}>
-                            {f.icon}
-                            {f.text}
+                            {f.icon || PARTNER_PRODUCTS[activeProd]?.features[i]?.icon}
+                            <EditableText
+                              contentKey={`home.partnerProducts.items.${activeProd}.features.${i}.text`}
+                              value={f.text}
+                            />
                           </span>
                         ))}
                       </div>
@@ -3854,9 +3866,9 @@ Moat: ${answers.moat}`;
                     {/* Industry / Duration / Team */}
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '28px' }}>
                       {[
-                        { label: 'Industry', value: prod.industry },
-                        { label: 'Duration', value: prod.duration },
-                        { label: 'Team size', value: prod.team },
+                        { label: 'Industry', value: prod.industry, key: 'industry' },
+                        { label: 'Duration', value: prod.duration, key: 'duration' },
+                        { label: 'Team size', value: prod.team, key: 'team' },
                       ].map((meta, i) => (
                         <div key={i} style={{
                           background: '#FAF9F6',
@@ -3864,7 +3876,12 @@ Moat: ${answers.moat}`;
                           padding: '16px 18px',
                         }}>
                           <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', color: '#6B7280', fontWeight: 600, marginBottom: '6px' }}>{meta.label}</div>
-                          <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '1rem', fontWeight: 800, color: '#0F172A' }}>{meta.value}</div>
+                          <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '1rem', fontWeight: 800, color: '#0F172A' }}>
+                            <EditableText
+                              contentKey={`home.partnerProducts.items.${activeProd}.${meta.key}`}
+                              value={meta.value}
+                            />
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -3873,7 +3890,7 @@ Moat: ${answers.moat}`;
                     <div style={{ marginBottom: '32px' }}>
                       <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6B7280', marginBottom: '12px' }}>Technology Stack</div>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                        {prod.stack.map((s, i) => (
+                        {(prod.stack || []).map((s: string, i: number) => (
                           <span key={i} style={{
                             background: '#FFFFFF',
                             border: '1px solid #E2E8F0',
@@ -3882,7 +3899,12 @@ Moat: ${answers.moat}`;
                             fontSize: '0.875rem',
                             color: '#334155',
                             fontWeight: 600,
-                          }}>{s}</span>
+                          }}>
+                            <EditableText
+                              contentKey={`home.partnerProducts.items.${activeProd}.stack.${i}`}
+                              value={s}
+                            />
+                          </span>
                         ))}
                       </div>
                     </div>
