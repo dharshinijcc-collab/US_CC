@@ -47,7 +47,10 @@ def get_content():
     response = WebsiteModel.get_all_content()
     return jsonify(response)
 
+from flask_jwt_extended import jwt_required, create_access_token
+
 @main_bp.route('/seed-db', methods=['POST'])
+@jwt_required()
 def seed_db():
     response = WebsiteModel.seed_from_json()
     return jsonify(response)
@@ -61,6 +64,7 @@ def test_db():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 @main_bp.route('/content/update', methods=['POST'])
+@jwt_required()
 def update_content():
     data = request.get_json()
     if not data or 'payload' not in data:
@@ -74,6 +78,11 @@ def admin_login():
     if not data or 'email' not in data or 'password' not in data:
         return jsonify({"status": "error", "payload": "Missing email or password"}), 400
     response = WebsiteModel.admin_login(data['email'], data['password'])
+    if response.get("status") == "success":
+        # Generate real cryptographic JWT token signed by Flask secret key
+        email = response["payload"]["user"]["email"]
+        token = create_access_token(identity=email)
+        response["payload"]["token"] = token
     return jsonify(response)
 
 @main_bp.route('/submit-idea', methods=['POST'])

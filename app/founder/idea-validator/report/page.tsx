@@ -176,69 +176,81 @@ function ReportContent() {
       return;
     }
 
-    // ── SIGN UP (via server API — creates pre-confirmed user, no email loop) ──
+    setLoading(true);
+
+    // ── SIGN UP (using standard Supabase Auth with verification email) ──
     if (authTab === 'signup') {
       if (!authName || authName.trim().length < 2) {
         setGateError('Please enter your full name.');
+        setLoading(false);
         return;
       }
 
-      const res = await fetch('/founder/idea-validator/auth?action=signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: authName, email: authEmail, password: authPassword }),
-      });
-
-      const result = await res.json();
-
-      if (!res.ok) {
-        if (result.error === 'already_exists') {
-          setGateError('An account with this email already exists. Please log in instead.');
-          setAuthTab('login');
-        } else {
-          setGateError(result.error || 'Signup failed. Please try again.');
-        }
-        return;
-      }
-
-      // Server returned a valid session — set it on the Supabase client
-      if (supabase && result.access_token) {
-        await supabase.auth.setSession({
-          access_token: result.access_token,
-          refresh_token: result.refresh_token,
+      try {
+        const { data, error } = await supabase.auth.signUp({
+          email: authEmail,
+          password: authPassword,
+          options: {
+            data: {
+              full_name: authName,
+            },
+            emailRedirectTo: `${window.location.origin}/founder/idea-validator/report?id=${id}`,
+          },
         });
-      }
-      setIsAuthenticated(true);
 
-    // ── LOG IN (via server API — checks email+password in Supabase, no email confirm needed) ──
+        if (error) throw error;
+
+        // If email verification is enabled, user may not have an active session yet
+        if (data.user && !data.session) {
+          setGateSuccess('Registration successful! A verification link has been sent to your email. Please verify your email to unlock your due diligence report.');
+          setGateError(null);
+        } else if (data.session && data.user) {
+          // Logged in automatically
+          setIsAuthenticated(true);
+          // Link this report to the user
+          await fetch('/founder/idea-validator/api', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reportId: id, userId: data.user.id }),
+          });
+        }
+      } catch (err: any) {
+        console.error('Signup error:', err);
+        setGateError(err.message || 'Signup failed. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+
+    // ── LOG IN (using standard Supabase Auth) ──
     } else {
-      const res = await fetch('/founder/idea-validator/auth?action=login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: authEmail, password: authPassword }),
-      });
-
-      const result = await res.json();
-
-      if (!res.ok) {
-        if (result.error === 'invalid_credentials') {
-          setGateError('Incorrect email or password. No account found with these details.');
-        } else if (result.error === 'email_not_confirmed') {
-          setGateError('Your account email is not confirmed. Please contact support.');
-        } else {
-          setGateError(result.error || 'Login failed. Please try again.');
-        }
-        return;
-      }
-
-      // Set session on client
-      if (supabase && result.access_token) {
-        await supabase.auth.setSession({
-          access_token: result.access_token,
-          refresh_token: result.refresh_token,
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: authEmail,
+          password: authPassword,
         });
+
+        if (error) {
+          if (error.message.toLowerCase().includes('email not confirmed')) {
+            throw new Error('Your email address is not verified. Please check your inbox and verify your email.');
+          }
+          throw error;
+        }
+
+        if (data.session && data.user) {
+          setIsAuthenticated(true);
+          // Link this report to the user
+          await fetch('/founder/idea-validator/api', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reportId: id, userId: data.user.id }),
+          });
+        }
+      } catch (err: any) {
+        console.error('Login error:', err);
+        setGateError(err.message || 'Incorrect email or password. Please try again.');
+      } finally {
+        setLoading(false);
       }
-      setIsAuthenticated(true);
     }
   };
 
@@ -986,6 +998,16 @@ const link = document.createElement('a');
                     {showPassword ? <EyeOff size={12} /> : <Eye size={12} />}
                   </button>
                 </div>
+                {authTab === 'login' && (
+                  <div style={{ textAlign: 'right', marginTop: '6px' }}>
+                    <Link 
+                      href="/founder/idea-validator/forgot-password" 
+                      style={{ color: 'var(--accent-blue)', fontSize: '0.75rem', fontWeight: 600, textDecoration: 'none' }}
+                    >
+                      Forgot Password?
+                    </Link>
+                  </div>
+                )}
               </div>
 
               <button 
