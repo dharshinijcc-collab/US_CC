@@ -53,15 +53,13 @@ export function calculateAggregatedScores(
   const founderMarketFit = dimensions.founder_market_fit.score;
   const investorAppeal = dimensions.investor_appeal.score;
   const marketTiming = dimensions.market_timing.score;
-  const buildTimeline = dimensions.build_timeline?.score ?? 5;
 
   // 1. Startup Quality Score
   const startupQualityScore =
-    0.32 * customerDemand +
-    0.28 * competitiveMoat +
+    0.35 * customerDemand +
+    0.30 * competitiveMoat +
     0.20 * technicalFeasibility +
-    0.12 * founderMarketFit +
-    0.08 * buildTimeline;
+    0.15 * founderMarketFit;
 
   // 2. Investor Readiness Score
   const investorReadinessScore =

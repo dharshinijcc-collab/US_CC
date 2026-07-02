@@ -287,13 +287,12 @@ Provide the response in strict JSON matching this exact structure:
   },
   
   "dimensions": {
-    "investor_appeal": { "evaluation_criteria": [string], "why_this_score": "100-200 words explaining how market size, revenue model, scalability and validation level drove this score", "improvement_actions": [string, string, string] },
-    "customer_demand": { "evaluation_criteria": [string], "why_this_score": "100-200 words explaining how pain severity, problem frequency, willingness to pay, and validation evidence drove this score", "improvement_actions": [string, string, string] },
-    "market_timing": { "evaluation_criteria": [string], "why_this_score": "100-200 words explaining how industry growth, technology maturity, regulatory environment, and why-now strength drove this score", "improvement_actions": [string, string, string] },
-    "technical_feasibility": { "evaluation_criteria": [string], "why_this_score": "100-200 words explaining how MVP complexity, infrastructure requirements, existing APIs, and development stage drove this score", "improvement_actions": [string, string, string] },
-    "competitive_moat": { "evaluation_criteria": [string], "why_this_score": "100-200 words explaining how proprietary data, network effects, switching costs, and differentiation drove this score", "improvement_actions": [string, string, string] },
-    "founder_market_fit": { "evaluation_criteria": [string], "why_this_score": "100-200 words explaining how domain expertise, technical background, industry experience, and execution track record drove this score", "improvement_actions": [string, string, string] },
-    "build_timeline": { "evaluation_criteria": [string], "why_this_score": "100-200 words explaining how the founder's current build stage, technical capability, team composition, and product complexity affect how quickly this team can ship a working product. Reference the estimated timeline_months and engineering_complexity from the buildtime_estimator context.", "improvement_actions": [string, string, string] }
+    "investor_appeal": { "evaluation_criteria": [string], "why_this_score": "100-200 words", "improvement_actions": [string, string, string] },
+    "customer_demand": { "evaluation_criteria": [string], "why_this_score": "100-200 words", "improvement_actions": [string, string, string] },
+    "market_timing": { "evaluation_criteria": [string], "why_this_score": "100-200 words", "improvement_actions": [string, string, string] },
+    "technical_feasibility": { "evaluation_criteria": [string], "why_this_score": "100-200 words", "improvement_actions": [string, string, string] },
+    "competitive_moat": { "evaluation_criteria": [string], "why_this_score": "100-200 words", "improvement_actions": [string, string, string] },
+    "founder_market_fit": { "evaluation_criteria": [string], "why_this_score": "100-200 words", "improvement_actions": [string, string, string] }
   }
 }`;
 
@@ -317,15 +316,11 @@ Individual Dimension Scores & Signals:
 - Technical Feasibility: Score ${dimensions.technical_feasibility.score}/10
 - Competitive Moat: Score ${dimensions.competitive_moat.score}/10
 - Founder-Market Fit: Score ${dimensions.founder_market_fit.score}/10
-- Build Timeline: Score ${dimensions.build_timeline?.score ?? 'N/A'}/10 (Estimated ${scores.buildtime_estimator?.timeline_months ?? '?'} months | Complexity: ${scores.buildtime_estimator?.engineering_complexity ?? 'unknown'})
 
 Founder answers for reference:
 - Target Customer: ${answers.customer}
 - Core Problem: ${answers.problem}
 - Validation: ${answers.validation_level}
-- Current Stage: ${answers.current_stage}
-- Technical Background: ${answers.technical_background}
-- Has Technical Co-Founder: ${answers.has_technical_cofounder ?? false}
 - Why Now: ${answers.why_now}
 - Competitors: ${answers.competitors}
 - Moat: ${answers.moat}`;

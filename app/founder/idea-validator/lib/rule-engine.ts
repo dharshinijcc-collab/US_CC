@@ -280,38 +280,6 @@ export function runRuleEngine(signals: ExtractedSignals): Record<string, Dimensi
     'domain_expertise', 'technical_background', 'industry_experience', 'execution_track_record', 'credibility'
   ];
 
-  // 7. Build Timeline Readiness
-  // Scores how fast/lean this team can actually execute the build.
-  // High score = team can ship fast. Low score = long build, high risk.
-  const buildTimelineFactors = [
-    // Current Stage (most impactful)
-    { label: 'MVP Already Launched', points: 4, detected: signals.current_stage === 'mvp', signalKey: 'current_stage' },
-    { label: 'Prototype / Interactive Stage', points: 2, detected: signals.current_stage === 'prototype', signalKey: 'current_stage' },
-    { label: 'UX Design Stage', points: 1, detected: signals.current_stage === 'ux_design', signalKey: 'current_stage' },
-    { label: 'Concept / Ideation Stage (No Build Yet)', points: -3, detected: signals.current_stage === 'forming', signalKey: 'current_stage' },
-    // Technical ability
-    { label: 'Founder Can Code Directly', points: 2, detected: signals.technical_background_choice === 'can_code', signalKey: 'technical_background_choice' },
-    { label: 'Founder Previously Coded', points: 1, detected: signals.technical_background_choice === 'used_to_code', signalKey: 'technical_background_choice' },
-    { label: 'No Technical Skill on Team', points: -2, detected: signals.technical_background_choice === 'no' && !signals.has_technical_cofounder, signalKey: 'technical_background_choice' },
-    // Technical cofounder
-    { label: 'Technical Co-Founder On Team', points: 2, detected: signals.has_technical_cofounder === true, signalKey: 'has_technical_cofounder' },
-    // MVP complexity
-    { label: 'Simple MVP Build Path', points: 2, detected: signals.mvp_complexity === 'simple', signalKey: 'mvp_complexity' },
-    { label: 'Moderate MVP Build Path', points: 1, detected: signals.mvp_complexity === 'moderate', signalKey: 'mvp_complexity' },
-    { label: 'Complex MVP Build Path', points: -1, detected: signals.mvp_complexity === 'complex', signalKey: 'mvp_complexity' },
-    { label: 'R&D / Research Required Before Build', points: -3, detected: signals.mvp_complexity === 'research_required', signalKey: 'mvp_complexity' },
-    // Existing APIs speed up build
-    { label: 'Existing APIs Available to Integrate', points: 1, detected: signals.existing_apis_available === true, signalKey: 'existing_apis_available' },
-    // Infrastructure burden
-    { label: 'Low Infrastructure Overhead', points: 1, detected: signals.infrastructure_complexity === 'low', signalKey: 'infrastructure_complexity' },
-    { label: 'High Infrastructure Complexity', points: -1, detected: signals.infrastructure_complexity === 'high', signalKey: 'infrastructure_complexity' },
-    // Hardware requirement is a massive blocker
-    { label: 'Requires Custom Hardware Development', points: -3, detected: signals.requires_new_hardware === true, signalKey: 'requires_new_hardware' },
-  ];
-  const buildTimelineKeys: (keyof ExtractedSignals)[] = [
-    'current_stage', 'technical_background_choice', 'has_technical_cofounder', 'mvp_complexity', 'infrastructure_complexity', 'existing_apis_available'
-  ];
-
   return {
     investor_appeal: evaluateDimension(5, investorAppealFactors, investorAppealKeys),
     customer_demand: evaluateDimension(5, customerDemandFactors, customerDemandKeys),
@@ -319,7 +287,5 @@ export function runRuleEngine(signals: ExtractedSignals): Record<string, Dimensi
     technical_feasibility: evaluateDimension(5, technicalFeasibilityFactors, technicalFeasibilityKeys),
     competitive_moat: evaluateDimension(5, competitiveMoatFactors, competitiveMoatKeys),
     founder_market_fit: evaluateDimension(5, founderMarketFitFactors, founderMarketFitKeys),
-    build_timeline: evaluateDimension(4, buildTimelineFactors, buildTimelineKeys),
   };
 }
-
