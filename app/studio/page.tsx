@@ -509,6 +509,51 @@ export default function StudioPage() {
           text-transform: uppercase !important;
           font-family: 'Manrope', sans-serif !important;
         }
+
+        .thesis-grid {
+          display: grid;
+          grid-template-columns: 1fr 1.3fr;
+          gap: 4rem;
+          align-items: start;
+        }
+        @media(max-width: 991px) {
+          .thesis-grid {
+            grid-template-columns: 1fr !important;
+            gap: 2.5rem !important;
+          }
+        }
+
+        .values-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 24px;
+        }
+
+        .thesis-text-scroll {
+          max-height: 440px;
+          overflow-y: auto;
+          padding-right: 16px;
+        }
+        .thesis-text-scroll::-webkit-scrollbar {
+          width: 6px;
+        }
+        .thesis-text-scroll::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .thesis-text-scroll::-webkit-scrollbar-thumb {
+          background: #CBD5E1;
+          border-radius: 4px;
+        }
+        .thesis-text-scroll::-webkit-scrollbar-thumb:hover {
+          background: #94A3B8;
+        }
+        @media(max-width: 991px) {
+          .thesis-text-scroll {
+            max-height: none !important;
+            overflow-y: visible !important;
+            padding-right: 0 !important;
+          }
+        }
         
         .section-subtitle, .hero-description {
           font-family: 'Inter', sans-serif !important;
@@ -1674,7 +1719,7 @@ export default function StudioPage() {
               />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
+            <div className="values-grid">
               {(() => {
                 // Two alternating colors only: blue (#3B82F6) and teal (#0D9488)
                 const VALUE_COLORS = [
@@ -1764,6 +1809,9 @@ export default function StudioPage() {
                       padding: '28px',
                       transition: 'all 0.25s ease',
                       cursor: 'default',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: '100%',
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.borderColor = val.borderHover;
@@ -1864,37 +1912,7 @@ export default function StudioPage() {
                 </h3>
 
                 {/* Quadrant Chart — matches reference image */}
-                <div style={{ position: 'relative', paddingTop: '28px', paddingBottom: '36px', paddingLeft: '70px' }}>
-
-                  {/* Y-axis labels */}
-                  <div style={{
-                    position: 'absolute',
-                    left: 0,
-                    top: '28px',
-                    bottom: '36px',
-                    width: '60px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    paddingRight: '15px'
-                  }}>
-                    {/* Top Label */}
-                    <div style={{ textAlign: 'center', fontFamily: "'Inter', sans-serif", fontSize: '0.8rem', lineHeight: 1.3 }}>
-                      <div style={{ fontWeight: 800, color: '#0F172A', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-                        <EditableText contentKey="studio.selectiveness.axis.broad" value={studioContent.selectiveness?.axis?.broad || "Broad"} />
-                      </div>
-                      <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 500 }}>(Top)</div>
-                    </div>
-
-                    {/* Bottom Label */}
-                    <div style={{ textAlign: 'center', fontFamily: "'Inter', sans-serif", fontSize: '0.8rem', lineHeight: 1.3 }}>
-                      <div style={{ fontWeight: 800, color: '#0F172A', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-                        <EditableText contentKey="studio.selectiveness.axis.niche" value={studioContent.selectiveness?.axis?.niche || "Niche"} />
-                      </div>
-                      <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 500 }}>(Bottom)</div>
-                    </div>
-                  </div>
+                <div style={{ position: 'relative', paddingTop: '28px', paddingBottom: '36px', paddingLeft: '0px' }}>
 
                   {/* Chart box */}
                   <div style={{
@@ -2131,7 +2149,7 @@ export default function StudioPage() {
               </div>
 
               {/* ── RIGHT: Editorial text ── */}
-              <div style={{ paddingTop: '0.5rem' }}>
+              <div className="thesis-text-scroll" style={{ paddingTop: '0.5rem' }}>
                 <div style={{ fontSize: '0.92rem', color: '#334155', lineHeight: 1.85, fontFamily: "'Inter', sans-serif", fontWeight: 450, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                   <p style={{ margin: 0 }}>
                     <EditableText
