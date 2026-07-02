@@ -194,7 +194,7 @@ def submit_contact():
             try:
                 threading.Thread(
                     target=send_contact_confirmation,
-                    args=(email, first_name, service, message),
+                    args=(email, first_name, service, message, company, stage),
                     daemon=True
                 ).start()
                 print(f"[EMAIL] Contact confirmation queued for {email}")

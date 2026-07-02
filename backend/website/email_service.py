@@ -85,7 +85,7 @@ def _base_template(title: str, body_html: str) -> str:
     """
 
 
-def send_contact_confirmation(to_email: str, first_name: str, service: str, message: str):
+def send_contact_confirmation(to_email: str, first_name: str, service: str, message: str, company: str = '', stage: str = ''):
     """Send confirmation email after Contact Us form submission."""
     body = f"""
       <h2 style="margin:0 0 8px;font-size:24px;font-weight:800;color:#020617;">
@@ -97,7 +97,9 @@ def send_contact_confirmation(to_email: str, first_name: str, service: str, mess
 
       <div style="background:#F0F7FF;border-left:4px solid #005AE2;border-radius:4px 12px 12px 4px;padding:20px 24px;margin-bottom:32px;">
         <p style="margin:0 0 8px;font-size:12px;font-weight:800;color:#005AE2;text-transform:uppercase;letter-spacing:0.08em;">Your Submission</p>
+        <p style="margin:0 0 6px;font-size:14px;color:#334155;"><strong>Company:</strong> {company or 'Not specified'}</p>
         <p style="margin:0 0 6px;font-size:14px;color:#334155;"><strong>Service Interest:</strong> {service or 'General Enquiry'}</p>
+        <p style="margin:0 0 6px;font-size:14px;color:#334155;"><strong>Project Stage:</strong> {stage or 'Not specified'}</p>
         <p style="margin:0;font-size:14px;color:#334155;"><strong>Your Message:</strong> {message[:200] + '...' if len(message) > 200 else message}</p>
       </div>
 
@@ -130,7 +132,9 @@ def send_contact_confirmation(to_email: str, first_name: str, service: str, mess
     team_body = f"""
       <h2 style="font-size:20px;color:#020617;">New Contact Inquiry</h2>
       <p><strong>From:</strong> {first_name} ({to_email})</p>
-      <p><strong>Service:</strong> {service}</p>
+      <p><strong>Company:</strong> {company or 'Not specified'}</p>
+      <p><strong>Service:</strong> {service or 'General Enquiry'}</p>
+      <p><strong>Project Stage:</strong> {stage or 'Not specified'}</p>
       <p><strong>Message:</strong> {message}</p>
     """
     _send_email(
