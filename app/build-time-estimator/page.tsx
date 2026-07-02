@@ -4,6 +4,8 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import EditableText from '@/components/admin/EditableText';
+import { useContent } from '@/context/ContentContext';
 import {
   ArrowRight, ArrowLeft, CheckCircle, Clock, Users, Zap, AlertTriangle,
   BarChart2, Layers, Cpu, Package, ChevronRight, ExternalLink, CalendarDays,
@@ -507,6 +509,7 @@ function ComplexityBadge({ level }: { level: EstimateResult['complexity'] }) {
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function BuildTimeEstimatorPage() {
+  const { content } = useContent();
   const [step, setStep] = useState(1);
   const [showReport, setShowReport] = useState(false);
   const [answers, setAnswers] = useState<Answers>({
@@ -542,12 +545,69 @@ export default function BuildTimeEstimatorPage() {
         body { margin: 0; font-family: 'Manrope', sans-serif; }
         .bte-btn:hover { opacity: 0.88; transform: translateY(-1px); }
         .bte-btn { transition: all 0.15s; }
+
+        /* ── Questionnaire Responsive ─────────────────────────────────────── */
+        .bte-main {
+          min-height: 100vh;
+          background: linear-gradient(135deg, #F8FAFF 0%, #EFF6FF 100%);
+          padding: 120px 16px 80px;
+        }
+        .bte-container { max-width: 780px; margin: 0 auto; }
+        .bte-card {
+          background: #fff;
+          border-radius: 16px;
+          border: 1px solid #E2E8F0;
+          padding: 32px;
+          box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        }
+        .bte-step-heading {
+          font-size: 1.15rem;
+          font-weight: 800;
+          color: #0F172A;
+          margin-bottom: 6px;
+        }
+        .bte-step-desc {
+          font-size: 0.82rem;
+          color: #64748B;
+          margin-bottom: 20px;
+        }
+        .bte-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid #E2E8F0; }
+
+        /* Progress bar step labels hidden on small screens */
+        @media (max-width: 600px) {
+          .bte-main { padding: 90px 12px 60px; }
+          .bte-card { padding: 20px 14px; }
+          .bte-step-heading { font-size: 1rem; }
+          .bte-step-desc { font-size: 0.78rem; }
+          .bte-progress-label { display: none; }
+          .bte-nav { gap: 8px; }
+        }
+
+        /* Option grids: 2-col on tablet, 1-col on mobile */
+        .bte-grid-single {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          gap: 10px;
+        }
+        .bte-grid-multi {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+          gap: 8px;
+        }
+        @media (max-width: 480px) {
+          .bte-grid-single { grid-template-columns: 1fr 1fr; }
+          .bte-grid-multi  { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 360px) {
+          .bte-grid-single { grid-template-columns: 1fr; }
+          .bte-grid-multi  { grid-template-columns: 1fr; }
+        }
       `}</style>
 
       <Header />
 
-      <main style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #F8FAFF 0%, #EFF6FF 100%)', padding: '120px 16px 80px' }}>
-        <div style={{ maxWidth: '780px', margin: '0 auto' }}>
+      <main className="bte-main">
+        <div className="bte-container">
 
           <div style={{ textAlign: 'center', marginBottom: '20px' }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: BLUE_LIGHT, border: `1px solid #BFDBFE`, borderRadius: '20px', padding: '6px 16px' }}>
@@ -557,24 +617,48 @@ export default function BuildTimeEstimatorPage() {
           </div>
 
           {/* Card */}
-          <div style={{ background: '#fff', borderRadius: '16px', border: `1px solid ${BORDER}`, padding: '32px', boxShadow: '0 4px 24px rgba(0,0,0,0.06)' }}>
+          <div className="bte-card">
             <ProgressBar step={step} total={STEPS.length} />
 
             {/* Step Content */}
             {step === 1 && (
               <div>
-                <h2 style={{ fontSize: '1.15rem', fontWeight: 800, color: DARK, marginBottom: '6px' }}>What are you building?</h2>
-                <p style={{ fontSize: '0.82rem', color: MUTED, marginBottom: '20px' }}>Select the product type that best describes your idea.</p>
+                <EditableText
+                  contentKey="estimator.step1.heading"
+                  value="What are you building?"
+                  as="h2"
+                  className="bte-step-heading"
+                />
+                <EditableText
+                  contentKey="estimator.step1.desc"
+                  value="Select the product type that best describes your idea."
+                  as="p"
+                  className="bte-step-desc"
+                />
                 <SingleSelect options={PRODUCT_TYPES} value={answers.productType} onChange={v => setField('productType', v)} />
               </div>
             )}
 
             {step === 2 && (
               <div>
-                <h2 style={{ fontSize: '1.15rem', fontWeight: 800, color: DARK, marginBottom: '6px' }}>What do you already have?</h2>
-                <p style={{ fontSize: '0.82rem', color: MUTED, marginBottom: '6px' }}>Select everything that currently exists. Existing assets <strong>significantly reduce</strong> the estimated effort.</p>
+                <EditableText
+                  contentKey="estimator.step2.heading"
+                  value="What do you already have?"
+                  as="h2"
+                  className="bte-step-heading"
+                />
+                <EditableText
+                  contentKey="estimator.step2.desc"
+                  value="Select everything that currently exists. Existing assets significantly reduce the estimated effort."
+                  as="p"
+                  className="bte-step-desc"
+                  style={{ marginBottom: '6px' }}
+                />
                 <div style={{ background: '#FFF8E1', border: '1px solid #FCD34D', borderRadius: '8px', padding: '10px 14px', marginBottom: '18px', fontSize: '0.76rem', color: '#92400E' }}>
-                  💡 Example: A landing page with a Final UI Design + Existing Codebase may only take <strong>1 day</strong>.
+                  <EditableText
+                    contentKey="estimator.step2.hint"
+                    value="💡 Example: A landing page with a Final UI Design + Existing Codebase may only take 1 day."
+                  />
                 </div>
                 <MultiSelect options={ASSET_OPTIONS} values={answers.assets} onChange={v => setField('assets', v)} />
               </div>
@@ -582,49 +666,104 @@ export default function BuildTimeEstimatorPage() {
 
             {step === 3 && (
               <div>
-                <h2 style={{ fontSize: '1.15rem', fontWeight: 800, color: DARK, marginBottom: '6px' }}>Which platforms do you need?</h2>
-                <p style={{ fontSize: '0.82rem', color: MUTED, marginBottom: '20px' }}>Select all deployment targets for your product.</p>
+                <EditableText
+                  contentKey="estimator.step3.heading"
+                  value="Which platforms do you need?"
+                  as="h2"
+                  className="bte-step-heading"
+                />
+                <EditableText
+                  contentKey="estimator.step3.desc"
+                  value="Select all deployment targets for your product."
+                  as="p"
+                  className="bte-step-desc"
+                />
                 <MultiSelect options={PLATFORM_OPTIONS} values={answers.platforms} onChange={v => setField('platforms', v)} />
               </div>
             )}
 
             {step === 4 && (
               <div>
-                <h2 style={{ fontSize: '1.15rem', fontWeight: 800, color: DARK, marginBottom: '6px' }}>Which features do you need?</h2>
-                <p style={{ fontSize: '0.82rem', color: MUTED, marginBottom: '20px' }}>Select only what's essential for your MVP. You can always add more later.</p>
+                <EditableText
+                  contentKey="estimator.step4.heading"
+                  value="Which features do you need?"
+                  as="h2"
+                  className="bte-step-heading"
+                />
+                <EditableText
+                  contentKey="estimator.step4.desc"
+                  value="Select only what's essential for your MVP. You can always add more later."
+                  as="p"
+                  className="bte-step-desc"
+                />
                 <MultiSelect options={FEATURE_OPTIONS} values={answers.features} onChange={v => setField('features', v)} />
               </div>
             )}
 
             {step === 5 && (
               <div>
-                <h2 style={{ fontSize: '1.15rem', fontWeight: 800, color: DARK, marginBottom: '6px' }}>Will AI be part of the product?</h2>
-                <p style={{ fontSize: '0.82rem', color: MUTED, marginBottom: '20px' }}>AI integration adds significant engineering complexity and timeline.</p>
+                <EditableText
+                  contentKey="estimator.step5.heading"
+                  value="Will AI be part of the product?"
+                  as="h2"
+                  className="bte-step-heading"
+                />
+                <EditableText
+                  contentKey="estimator.step5.desc"
+                  value="AI integration adds significant engineering complexity and timeline."
+                  as="p"
+                  className="bte-step-desc"
+                />
                 <SingleSelect options={AI_OPTIONS} value={answers.aiLevel} onChange={v => setField('aiLevel', v)} />
               </div>
             )}
 
             {step === 6 && (
               <div>
-                <h2 style={{ fontSize: '1.15rem', fontWeight: 800, color: DARK, marginBottom: '6px' }}>Which external integrations are required?</h2>
-                <p style={{ fontSize: '0.82rem', color: MUTED, marginBottom: '20px' }}>Skip this if no third-party services are needed for V1.</p>
+                <EditableText
+                  contentKey="estimator.step6.heading"
+                  value="Which external integrations are required?"
+                  as="h2"
+                  className="bte-step-heading"
+                />
+                <EditableText
+                  contentKey="estimator.step6.desc"
+                  value="Skip this if no third-party services are needed for V1."
+                  as="p"
+                  className="bte-step-desc"
+                />
                 <MultiSelect options={INTEGRATION_OPTIONS} values={answers.integrations} onChange={v => setField('integrations', v)} />
                 {answers.integrations.length === 0 && (
-                  <p style={{ fontSize: '0.75rem', color: '#A0AEC0', marginTop: '12px', textAlign: 'center' }}>No integrations selected — you can proceed.</p>
+                  <EditableText
+                    contentKey="estimator.step6.empty"
+                    value="No integrations selected — you can proceed."
+                    as="p"
+                    style={{ fontSize: '0.75rem', color: '#A0AEC0', marginTop: '12px', textAlign: 'center' }}
+                  />
                 )}
               </div>
             )}
 
             {step === 7 && (
               <div>
-                <h2 style={{ fontSize: '1.15rem', fontWeight: 800, color: DARK, marginBottom: '6px' }}>How would you like to build?</h2>
-                <p style={{ fontSize: '0.82rem', color: MUTED, marginBottom: '20px' }}>Your team composition affects both delivery speed and overall investment.</p>
+                <EditableText
+                  contentKey="estimator.step7.heading"
+                  value="How would you like to build?"
+                  as="h2"
+                  className="bte-step-heading"
+                />
+                <EditableText
+                  contentKey="estimator.step7.desc"
+                  value="Your team composition affects both delivery speed and overall investment."
+                  as="p"
+                  className="bte-step-desc"
+                />
                 <SingleSelect options={TEAM_OPTIONS} value={answers.teamPref} onChange={v => setField('teamPref', v)} />
               </div>
             )}
 
             {/* Navigation */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '32px', paddingTop: '24px', borderTop: `1px solid ${BORDER}` }}>
+            <div className="bte-nav">
               <button
                 onClick={() => step > 1 ? setStep(s => s - 1) : undefined}
                 disabled={step === 1}
@@ -635,7 +774,8 @@ export default function BuildTimeEstimatorPage() {
                   fontSize: '0.85rem', fontWeight: 700, color: step === 1 ? '#CBD5E1' : MUTED,
                 }}
               >
-                <ArrowLeft size={14} /> Back
+                <ArrowLeft size={14} />
+                <EditableText contentKey="estimator.nav.back" value="Back" />
               </button>
 
               {step < STEPS.length ? (
@@ -649,7 +789,7 @@ export default function BuildTimeEstimatorPage() {
                     fontSize: '0.85rem', fontWeight: 700, color: '#fff',
                   }}
                 >
-                  Next <ArrowRight size={14} />
+                  <EditableText contentKey="estimator.nav.next" value="Next" /> <ArrowRight size={14} />
                 </button>
               ) : (
                 <button
@@ -662,7 +802,8 @@ export default function BuildTimeEstimatorPage() {
                     fontSize: '0.9rem', fontWeight: 800, color: '#fff',
                   }}
                 >
-                  <Rocket size={16} /> Generate Estimate
+                  <Rocket size={16} />
+                  <EditableText contentKey="estimator.nav.generate" value="Generate Estimate" />
                 </button>
               )}
             </div>
@@ -678,7 +819,9 @@ export default function BuildTimeEstimatorPage() {
 // ─── Report View ──────────────────────────────────────────────────────────────
 
 function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; answers: Answers; onBack: () => void }) {
+  const { content } = useContent();
   const [activeSection, setActiveSection] = useState('timeline');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const productLabel = PRODUCT_TYPES.find(p => p.key === answers.productType)?.label || 'Product';
   const duration = formatDuration(estimate.minDays, estimate.maxDays);
 
@@ -705,7 +848,58 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
         .rpt-card { background:#fff; border-radius:14px; border:1px solid #E2E8F0; padding:24px; margin-bottom:16px; }
         .bte-btn:hover { opacity:0.88; transform:translateY(-1px); }
         .bte-btn { transition:all 0.15s; }
-        @media(max-width:768px){.rpt-layout{flex-direction:column!important;} .rpt-sidebar{width:100%!important; position:static!important;}}
+
+        /* ── Report Layout ──────────────────────────────────────────────────── */
+        .rpt-layout { max-width:1100px; margin:24px auto; padding:0 16px; display:flex; gap:20px; align-items:flex-start; }
+        .rpt-sidebar { width:210px; flex-shrink:0; position:sticky; top:100px; }
+        .rpt-content { flex:1; min-width:0; }
+
+        /* Hero stats row responsive */
+        .rpt-hero-stats { display:flex; gap:24px; flex-wrap:wrap; margin-top:20px; }
+        .rpt-hero-stat { background:rgba(255,255,255,0.10); border-radius:12px; padding:16px 24px; min-width:140px; }
+
+        /* Team grid and report grids */
+        .rpt-team-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:10px; }
+        .rpt-tl-grid  { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:12px; }
+        .rpt-mvp-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+
+        /* Sidebar mobile toggle button */
+        .rpt-sidebar-toggle { display:none; width:100%; margin-bottom:10px; padding:10px 16px; border-radius:8px; border:1.5px solid #E2E8F0; background:#fff; cursor:pointer; font-family:'Manrope',sans-serif; font-size:0.82rem; font-weight:700; color:#64748B; }
+
+        /* ── Tablet: sidebar goes to top ───────────────────────────────────── */
+        @media (max-width: 900px) {
+          .rpt-layout { flex-direction: column; }
+          .rpt-sidebar { width: 100%; position: static; }
+          .rpt-sidebar-inner { display: flex; flex-wrap: wrap; gap: 6px; }
+          .rpt-nav-btn { width: auto; flex: 0 0 auto; }
+          .rpt-sidebar-toggle { display: block; }
+          .rpt-sidebar-collapsed { display: none; }
+          .rpt-sidebar-expanded  { display: block; }
+        }
+
+        /* ── Mobile ─────────────────────────────────────────────────────────── */
+        @media (max-width: 600px) {
+          .rpt-hero-stats { gap: 12px; }
+          .rpt-hero-stat  { padding: 12px 16px; min-width: 120px; }
+          .rpt-card       { padding: 16px 14px; }
+          .rpt-mvp-grid   { grid-template-columns: 1fr; }
+          .rpt-tl-grid    { grid-template-columns: 1fr 1fr; }
+          .rpt-team-grid  { grid-template-columns: 1fr 1fr; }
+          .rpt-cta-wrap   { flex-direction: column; gap: 16px; align-items: flex-start; }
+          .rpt-layout     { padding: 0 10px; margin: 16px auto; }
+        }
+        @media (max-width: 400px) {
+          .rpt-tl-grid   { grid-template-columns: 1fr; }
+          .rpt-team-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Section heading font scaling */
+        .rpt-section-h2 { font-size: 1.05rem; font-weight: 800; color: #0F172A; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+        .rpt-section-p  { font-size: 0.82rem; color: #64748B; margin-bottom: 20px; }
+        @media (max-width: 600px) {
+          .rpt-section-h2 { font-size: 0.95rem; }
+          .rpt-section-p  { font-size: 0.78rem; margin-bottom: 14px; }
+        }
       `}</style>
 
       <Header />
@@ -715,22 +909,22 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.12)', borderRadius: '20px', padding: '5px 14px', marginBottom: '14px' }}>
             <Rocket size={12} color="#93C5FD" />
-            <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#93C5FD' }}>BUILD TIME ESTIMATE</span>
+            <EditableText contentKey="estimator.report.badge" value="BUILD TIME ESTIMATE" style={{ fontSize: '0.72rem', fontWeight: 700, color: '#93C5FD' }} />
           </div>
-          <h1 style={{ fontSize: 'clamp(1.4rem, 3vw, 2rem)', fontWeight: 900, margin: '0 0 8px', letterSpacing: '-0.03em' }}>
+          <h1 style={{ fontSize: 'clamp(1.2rem, 3vw, 2rem)', fontWeight: 900, margin: '0 0 8px', letterSpacing: '-0.03em' }}>
             {productLabel} — Development Estimate
           </h1>
-          <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', marginTop: '20px' }}>
-            <div style={{ background: 'rgba(255,255,255,0.10)', borderRadius: '12px', padding: '16px 24px', minWidth: '160px' }}>
-              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#93C5FD', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px' }}>MVP Timeline</div>
+          <div className="rpt-hero-stats">
+            <div className="rpt-hero-stat">
+              <EditableText contentKey="estimator.report.stat.timeline.label" value="MVP Timeline" style={{ fontSize: '0.68rem', fontWeight: 700, color: '#93C5FD', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px', display: 'block' }} />
               <div style={{ fontSize: '1.7rem', fontWeight: 900, color: '#fff', lineHeight: 1 }}>{duration}</div>
             </div>
-            <div style={{ background: 'rgba(255,255,255,0.10)', borderRadius: '12px', padding: '16px 24px', minWidth: '140px' }}>
-              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#93C5FD', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px' }}>Complexity</div>
+            <div className="rpt-hero-stat">
+              <EditableText contentKey="estimator.report.stat.complexity.label" value="Complexity" style={{ fontSize: '0.68rem', fontWeight: 700, color: '#93C5FD', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px', display: 'block' }} />
               <div style={{ fontSize: '1.3rem', fontWeight: 900, color: '#fff', lineHeight: 1.1 }}>{estimate.complexity}</div>
             </div>
-            <div style={{ background: 'rgba(255,255,255,0.10)', borderRadius: '12px', padding: '16px 24px', minWidth: '140px' }}>
-              <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#93C5FD', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px' }}>Team Size</div>
+            <div className="rpt-hero-stat">
+              <EditableText contentKey="estimator.report.stat.team.label" value="Team Size" style={{ fontSize: '0.68rem', fontWeight: 700, color: '#93C5FD', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px', display: 'block' }} />
               <div style={{ fontSize: '1.3rem', fontWeight: 900, color: '#fff', lineHeight: 1.1 }}>{estimate.team.length} Roles</div>
             </div>
           </div>
@@ -738,46 +932,65 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
       </div>
 
       {/* Layout */}
-      <div className="rpt-layout" style={{ maxWidth: '1100px', margin: '24px auto', padding: '0 16px', display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+      <div className="rpt-layout">
 
         {/* Sidebar */}
-        <div className="rpt-sidebar" style={{ width: '210px', flexShrink: 0, position: 'sticky', top: '100px' }}>
+        <div className="rpt-sidebar">
           <button onClick={onBack} className="bte-btn" style={{ width: '100%', marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '10px 14px', borderRadius: '8px', border: `1.5px solid ${BORDER}`, background: 'transparent', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 700, color: MUTED }}>
-            <ArrowLeft size={12} /> Edit Answers
+            <ArrowLeft size={12} />
+            <EditableText contentKey="estimator.report.editAnswers" value="Edit Answers" />
           </button>
-          <div style={{ background: '#fff', borderRadius: '12px', border: `1px solid ${BORDER}`, padding: '12px', marginBottom: '12px' }}>
-            {navItems.map(n => {
-              const Icon = n.icon;
-              return (
-                <button key={n.key} className={`rpt-nav-btn ${activeSection === n.key ? 'active' : ''}`} onClick={() => setActiveSection(n.key)}>
-                  <Icon size={14} />
-                  {n.label}
-                </button>
-              );
-            })}
+
+          {/* Mobile toggle */}
+          <button className="rpt-sidebar-toggle" onClick={() => setSidebarOpen(o => !o)}>
+            {sidebarOpen ? '▲ Hide Navigation' : '▼ Jump to Section'}
+          </button>
+
+          <div className={`${sidebarOpen ? 'rpt-sidebar-expanded' : 'rpt-sidebar-collapsed'}`} style={{ background: '#fff', borderRadius: '12px', border: `1px solid ${BORDER}`, padding: '12px', marginBottom: '12px' }}>
+            <div className="rpt-sidebar-inner">
+              {navItems.map(n => {
+                const Icon = n.icon;
+                return (
+                  <button key={n.key} className={`rpt-nav-btn ${activeSection === n.key ? 'active' : ''}`} onClick={() => { setActiveSection(n.key); setSidebarOpen(false); }}>
+                    <Icon size={14} />
+                    {n.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
           <Link href="/contact" style={{ display: 'block', background: BLUE, color: '#fff', borderRadius: '10px', padding: '12px 16px', textDecoration: 'none', textAlign: 'center', fontWeight: 800, fontSize: '0.8rem' }}>
-            Contact CrestCode
+            <EditableText contentKey="estimator.report.cta.sidebar" value="Contact CrestCode" />
           </Link>
         </div>
 
         {/* Main content */}
-        <div style={{ flex: 1, minWidth: 0 }}>
+        <div className="rpt-content">
 
           {activeSection === 'timeline' && (
             <div className="rpt-card">
-              <h2 style={{ fontSize: '1.05rem', fontWeight: 800, color: DARK, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Clock size={18} color={BLUE} /> Development Estimate
+              <h2 className="rpt-section-h2">
+                <Clock size={18} color={BLUE} />
+                <EditableText contentKey="estimator.report.timeline.heading" value="Development Estimate" />
               </h2>
-              <p style={{ fontSize: '0.82rem', color: MUTED, marginBottom: '20px' }}>Your personalised MVP timeline based on product scope, existing assets, and team structure.</p>
+              <EditableText
+                contentKey="estimator.report.timeline.desc"
+                value="Your personalised MVP timeline based on product scope, existing assets, and team structure."
+                as="p"
+                className="rpt-section-p"
+              />
               <div style={{ background: `linear-gradient(135deg, ${BLUE} 0%, #1D4ED8 100%)`, borderRadius: '12px', padding: '28px 32px', color: '#fff', marginBottom: '20px', textAlign: 'center' }}>
-                <div style={{ fontSize: '0.75rem', fontWeight: 700, opacity: 0.8, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>Estimated MVP Timeline</div>
+                <EditableText
+                  contentKey="estimator.report.timeline.stat.label"
+                  value="Estimated MVP Timeline"
+                  style={{ fontSize: '0.75rem', fontWeight: 700, opacity: 0.8, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px', display: 'block' }}
+                />
                 <div style={{ fontSize: 'clamp(2rem, 6vw, 3.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1 }}>{duration}</div>
                 <div style={{ fontSize: '0.78rem', opacity: 0.75, marginTop: '8px' }}>
                   {answers.teamPref === 'solo' ? 'Solo developer pace' : answers.teamPref === 'dedicated' ? 'Dedicated team sprint pace' : 'Standard small team pace'}
                 </div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '12px' }}>
+              <div className="rpt-tl-grid">
                 {[
                   { label: 'Product Type', value: productLabel },
                   { label: 'Build Stage', value: answers.assets.includes('idea_only') ? 'From Scratch' : answers.assets.includes('codebase') ? 'Existing Codebase' : 'Partial Assets' },
@@ -795,16 +1008,27 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
 
           {activeSection === 'complexity' && (
             <div className="rpt-card">
-              <h2 style={{ fontSize: '1.05rem', fontWeight: 800, color: DARK, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <BarChart2 size={18} color={BLUE} /> Build Complexity
+              <h2 className="rpt-section-h2">
+                <BarChart2 size={18} color={BLUE} />
+                <EditableText contentKey="estimator.report.complexity.heading" value="Build Complexity" />
               </h2>
-              <p style={{ fontSize: '0.82rem', color: MUTED, marginBottom: '20px' }}>An assessment of the technical and product complexity of this build.</p>
+              <EditableText
+                contentKey="estimator.report.complexity.desc"
+                value="An assessment of the technical and product complexity of this build."
+                as="p"
+                className="rpt-section-p"
+              />
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
                 <ComplexityBadge level={estimate.complexity} />
                 <div style={{ fontSize: '0.85rem', color: '#334155', lineHeight: 1.6 }}>{estimate.complexityReason}</div>
               </div>
               <div style={{ borderTop: `1px solid ${BORDER}`, paddingTop: '20px' }}>
-                <h4 style={{ fontSize: '0.78rem', fontWeight: 800, color: MUTED, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '12px' }}>Complexity Indicators</h4>
+                <EditableText
+                  contentKey="estimator.report.complexity.indicators.heading"
+                  value="Complexity Indicators"
+                  as="h4"
+                  style={{ fontSize: '0.78rem', fontWeight: 800, color: MUTED, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '12px' }}
+                />
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {[
                     { label: 'AI Integration', val: answers.aiLevel !== 'none', detail: answers.aiLevel !== 'none' ? AI_OPTIONS.find(o=>o.key===answers.aiLevel)?.label : 'None' },
@@ -826,11 +1050,17 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
 
           {activeSection === 'team' && (
             <div className="rpt-card">
-              <h2 style={{ fontSize: '1.05rem', fontWeight: 800, color: DARK, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Users size={18} color={BLUE} /> Recommended Team
+              <h2 className="rpt-section-h2">
+                <Users size={18} color={BLUE} />
+                <EditableText contentKey="estimator.report.team.heading" value="Recommended Team" />
               </h2>
-              <p style={{ fontSize: '0.82rem', color: MUTED, marginBottom: '20px' }}>Roles actually needed for this product scope. Only relevant positions are shown.</p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '10px' }}>
+              <EditableText
+                contentKey="estimator.report.team.desc"
+                value="Roles actually needed for this product scope. Only relevant positions are shown."
+                as="p"
+                className="rpt-section-p"
+              />
+              <div className="rpt-team-grid">
                 {estimate.team.map((member, i) => (
                   <div key={i} style={{ padding: '16px', borderRadius: '12px', background: BLUE_LIGHT, border: `1px solid #BFDBFE`, display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <span style={{ fontSize: '1.4rem' }}>{member.icon}</span>
@@ -846,10 +1076,16 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
 
           {activeSection === 'drivers' && (
             <div className="rpt-card">
-              <h2 style={{ fontSize: '1.05rem', fontWeight: 800, color: DARK, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Zap size={18} color={BLUE} /> Key Build Drivers
+              <h2 className="rpt-section-h2">
+                <Zap size={18} color={BLUE} />
+                <EditableText contentKey="estimator.report.drivers.heading" value="Key Build Drivers" />
               </h2>
-              <p style={{ fontSize: '0.82rem', color: MUTED, marginBottom: '20px' }}>The primary factors influencing your development timeline.</p>
+              <EditableText
+                contentKey="estimator.report.drivers.desc"
+                value="The primary factors influencing your development timeline."
+                as="p"
+                className="rpt-section-p"
+              />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {estimate.drivers.map((driver, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '14px 16px', borderRadius: '10px', background: '#F8FAFC', border: `1px solid ${BORDER}` }}>
@@ -863,10 +1099,16 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
 
           {activeSection === 'roadmap' && (
             <div className="rpt-card">
-              <h2 style={{ fontSize: '1.05rem', fontWeight: 800, color: DARK, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <CalendarDays size={18} color={BLUE} /> Development Roadmap
+              <h2 className="rpt-section-h2">
+                <CalendarDays size={18} color={BLUE} />
+                <EditableText contentKey="estimator.report.roadmap.heading" value="Development Roadmap" />
               </h2>
-              <p style={{ fontSize: '0.82rem', color: MUTED, marginBottom: '20px' }}>A high-level phased delivery plan tailored to your product scope.</p>
+              <EditableText
+                contentKey="estimator.report.roadmap.desc"
+                value="A high-level phased delivery plan tailored to your product scope."
+                as="p"
+                className="rpt-section-p"
+              />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 {estimate.phases.map((phase, i) => (
                   <div key={i} style={{ borderRadius: '12px', border: `1px solid ${BORDER}`, overflow: 'hidden' }}>
@@ -889,10 +1131,16 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
 
           {activeSection === 'risks' && (
             <div className="rpt-card">
-              <h2 style={{ fontSize: '1.05rem', fontWeight: 800, color: DARK, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <AlertTriangle size={18} color="#C2410C" /> Technical Risks
+              <h2 className="rpt-section-h2">
+                <AlertTriangle size={18} color="#C2410C" />
+                <EditableText contentKey="estimator.report.risks.heading" value="Technical Risks" />
               </h2>
-              <p style={{ fontSize: '0.82rem', color: MUTED, marginBottom: '20px' }}>Risks that may affect your delivery timeline if not proactively managed.</p>
+              <EditableText
+                contentKey="estimator.report.risks.desc"
+                value="Risks that may affect your delivery timeline if not proactively managed."
+                as="p"
+                className="rpt-section-p"
+              />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {estimate.risks.map((risk, i) => (
                   <div key={i} style={{ borderRadius: '10px', border: `1px solid ${risk.severity === 'high' ? '#FCA5A5' : '#FCD34D'}`, background: risk.severity === 'high' ? '#FEF2F2' : '#FFFBEB', padding: '16px' }}>
@@ -912,10 +1160,16 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
 
           {activeSection === 'costs' && (
             <div className="rpt-card">
-              <h2 style={{ fontSize: '1.05rem', fontWeight: 800, color: DARK, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <BarChart2 size={18} color={BLUE} /> Cost Drivers
+              <h2 className="rpt-section-h2">
+                <BarChart2 size={18} color={BLUE} />
+                <EditableText contentKey="estimator.report.costs.heading" value="Cost Drivers" />
               </h2>
-              <p style={{ fontSize: '0.82rem', color: MUTED, marginBottom: '20px' }}>What contributes most to development effort and ongoing operational costs.</p>
+              <EditableText
+                contentKey="estimator.report.costs.desc"
+                value="What contributes most to development effort and ongoing operational costs."
+                as="p"
+                className="rpt-section-p"
+              />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {estimate.costDrivers.map((driver, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '14px 16px', borderRadius: '10px', background: '#F8FAFC', border: `1px solid ${BORDER}` }}>
@@ -925,23 +1179,31 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
                 ))}
               </div>
               <div style={{ marginTop: '16px', padding: '14px 16px', background: BLUE_LIGHT, border: `1px solid #BFDBFE`, borderRadius: '10px', fontSize: '0.78rem', color: '#1E40AF', lineHeight: 1.6 }}>
-                💡 <strong>Note:</strong> Exact costs depend on team rates, cloud provider selection, and contracted delivery model. CrestCode can provide a detailed project quote after a discovery call.
+                <EditableText
+                  contentKey="estimator.report.costs.note"
+                  value="💡 Note: Exact costs depend on team rates, cloud provider selection, and contracted delivery model. CrestCode can provide a detailed project quote after a discovery call."
+                />
               </div>
             </div>
           )}
 
           {activeSection === 'mvp' && (
             <div className="rpt-card">
-              <h2 style={{ fontSize: '1.05rem', fontWeight: 800, color: DARK, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Rocket size={18} color={BLUE} /> Recommended MVP Scope
+              <h2 className="rpt-section-h2">
+                <Rocket size={18} color={BLUE} />
+                <EditableText contentKey="estimator.report.mvp.heading" value="Recommended MVP Scope" />
               </h2>
-              <p style={{ fontSize: '0.82rem', color: MUTED, marginBottom: '20px' }}>
-                Ship fast with what matters most. This scope recommendation is designed to maximise value in the shortest delivery window.
-              </p>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <EditableText
+                contentKey="estimator.report.mvp.desc"
+                value="Ship fast with what matters most. This scope recommendation is designed to maximise value in the shortest delivery window."
+                as="p"
+                className="rpt-section-p"
+              />
+              <div className="rpt-mvp-grid">
                 <div style={{ borderRadius: '12px', border: '1px solid #A5D6A7', overflow: 'hidden' }}>
                   <div style={{ background: '#E8F5E9', padding: '12px 16px', fontWeight: 800, fontSize: '0.82rem', color: '#2E7D32', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <CheckCircle size={14} /> Include in V1
+                    <CheckCircle size={14} />
+                    <EditableText contentKey="estimator.report.mvp.include.label" value="Include in V1" />
                   </div>
                   <div style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     {estimate.mvpScope.include.map((item, i) => (
@@ -953,7 +1215,8 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
                 </div>
                 <div style={{ borderRadius: '12px', border: '1px solid #FCA5A5', overflow: 'hidden' }}>
                   <div style={{ background: '#FEE2E2', padding: '12px 16px', fontWeight: 800, fontSize: '0.82rem', color: '#B91C1C', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Shield size={14} /> Defer to V2
+                    <Shield size={14} />
+                    <EditableText contentKey="estimator.report.mvp.defer.label" value="Defer to V2" />
                   </div>
                   <div style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     {estimate.mvpScope.defer.map((item, i) => (
@@ -965,26 +1228,37 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
                 </div>
               </div>
               <div style={{ marginTop: '16px', padding: '14px 16px', background: '#FFF8E1', border: '1px solid #FCD34D', borderRadius: '10px', fontSize: '0.78rem', color: '#92400E', lineHeight: 1.7 }}>
-                ⚠️ <strong>Avoid overbuilding.</strong> Many early-stage products fail not because of what they built — but because they built too much before validating demand. Ship V1, learn, then expand.
+                <EditableText
+                  contentKey="estimator.report.mvp.warning"
+                  value="⚠️ Avoid overbuilding. Many early-stage products fail not because of what they built — but because they built too much before validating demand. Ship V1, learn, then expand."
+                />
               </div>
             </div>
           )}
 
           {/* CTA Banner */}
-          <div style={{ background: '#fff', border: `2px solid ${BLUE}`, borderRadius: '16px', padding: '32px', marginTop: '8px', display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
-            <div style={{ flex: 1, minWidth: '240px' }}>
+          <div className="rpt-cta-wrap" style={{ background: '#fff', border: `2px solid ${BLUE}`, borderRadius: '16px', padding: '32px', marginTop: '8px', display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
+            <div style={{ flex: 1, minWidth: '220px' }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#EFF6FF', borderRadius: '20px', padding: '5px 14px', marginBottom: '12px' }}>
                 <Zap size={12} color={BLUE} />
-                <span style={{ fontSize: '0.7rem', fontWeight: 700, color: BLUE, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Let's Build Together</span>
+                <EditableText contentKey="estimator.report.cta.badge" value="Let's Build Together" style={{ fontSize: '0.7rem', fontWeight: 700, color: BLUE, textTransform: 'uppercase', letterSpacing: '0.08em' }} />
               </div>
-              <h3 style={{ margin: '0 0 8px', fontWeight: 900, fontSize: '1.1rem', color: DARK, letterSpacing: '-0.02em' }}>Need Help Building This?</h3>
-              <p style={{ fontSize: '0.85rem', color: MUTED, margin: '0', lineHeight: 1.6 }}>
-                CrestCode can take your idea from estimate to launch. We handle Product Strategy, UI/UX Design, MVP Development, AI Integration, and Product Launch.
-              </p>
+              <EditableText
+                contentKey="estimator.report.cta.heading"
+                value="Need Help Building This?"
+                as="h3"
+                style={{ margin: '0 0 8px', fontWeight: 900, fontSize: '1.1rem', color: DARK, letterSpacing: '-0.02em' }}
+              />
+              <EditableText
+                contentKey="estimator.report.cta.desc"
+                value="CrestCode can take your idea from estimate to launch. We handle Product Strategy, UI/UX Design, MVP Development, AI Integration, and Product Launch."
+                as="p"
+                style={{ fontSize: '0.85rem', color: MUTED, margin: '0', lineHeight: 1.6 }}
+              />
             </div>
             <div style={{ flexShrink: 0 }}>
               <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: BLUE, color: '#fff', borderRadius: '10px', padding: '13px 24px', textDecoration: 'none', fontWeight: 800, fontSize: '0.9rem', whiteSpace: 'nowrap' }}>
-                Contact CrestCode <ArrowRight size={14} />
+                <EditableText contentKey="estimator.report.cta.button" value="Contact CrestCode" /> <ArrowRight size={14} />
               </Link>
             </div>
           </div>

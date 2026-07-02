@@ -1230,27 +1230,32 @@ const validatorStyles = `
   --mono-font: 'Fira Code', monospace;
 }
 
-/* ── Unified Report Typography ── */
-h1, h2, h3, h4, h5, h6 {
+/* ── Scoped Report Typography (only inside .validator-container) ── */
+.validator-container h1,
+.validator-container h2,
+.validator-container h3,
+.validator-container h4,
+.validator-container h5,
+.validator-container h6 {
   font-family: 'Manrope', sans-serif;
   color: var(--text-black);
   margin-top: 0;
 }
 
-h2 { font-size: 1.35rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.02em; }
-h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
-h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
-h5 { font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; }
+.validator-container h2 { font-size: 1.35rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.02em; }
+.validator-container h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
+.validator-container h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
+.validator-container h5 { font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; }
 
-body,
-p,
-li,
-span,
-div {
+.validator-container,
+.validator-container p,
+.validator-container li,
+.validator-container span:not(.cc-footer-wrapper span),
+.validator-container div:not(.cc-footer-wrapper div) {
   font-family: 'Inter', sans-serif;
 }
 
-p {
+.validator-container p {
   font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
   line-height: 1.65;
@@ -1258,12 +1263,13 @@ p {
   margin: 0 0 14px 0;
 }
 
-li {
+.validator-container li {
   font-family: 'Inter', sans-serif;
   font-size: 0.875rem;
   line-height: 1.6;
   color: #334155;
 }
+
 
 .validator-container {
   padding-top: 90px;
