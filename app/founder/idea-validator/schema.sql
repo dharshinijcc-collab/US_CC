@@ -71,7 +71,11 @@ CREATE TABLE IF NOT EXISTS idea_submissions (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
   name TEXT,
   email TEXT,
-  idea TEXT
+  idea TEXT,
+  status TEXT DEFAULT 'submitted' CHECK (status IN ('submitted', 'under_review', 'reviewed', 'accepted', 'rejected', 'contacted')),
+  status_updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()),
+  last_notification_sent TIMESTAMP WITH TIME ZONE,
+  notification_type TEXT
 );
 
 -- RLS for idea_submissions

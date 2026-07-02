@@ -1,7 +1,13 @@
+const { createClient } = require('@supabase/supabase-js');
 const { Resend } = require('resend');
 
-// Initialize Resend with key from environment variables
+// Initialize Resend
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+// Initialize Supabase Admin with service role key (required to bypass RLS and perform updates)
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 async function handler(req, res) {
   // Only allow POST requests (Supabase Webhooks send POST requests)
@@ -10,92 +16,180 @@ async function handler(req, res) {
   }
 
   try {
-    console.log("Supabase Webhook Triggered. Body:", req.body);
-
     const { record, old_record, type, table } = req.body;
 
-    if (!record || !record.email) {
-      console.log("No record or email found in webhook payload.");
-      return res.json({ success: true, message: 'Skipped: No record or email' });
+    console.log(`[Status Webhook] Received webhook event. Type: ${type}, Table: ${table}`);
+
+    // Guard: Only process UPDATE events on idea_submissions
+    if (type !== 'UPDATE') {
+      return res.json({ success: true, message: 'Ignored: Event is not an UPDATE' });
     }
 
-    // Only send email if the status column has changed
+    if (!record || !record.id || !record.email) {
+      return res.json({ success: true, message: 'Ignored: Missing record details or email' });
+    }
+
     const oldStatus = old_record ? old_record.status : null;
     const newStatus = record.status;
+    const name = record.name || 'Founder';
 
+    // 1. Guard: Only proceed if status actually changed
     if (oldStatus === newStatus) {
-      console.log(`Status unchanged (${newStatus}). Skipping email.`);
+      console.log(`[Status Webhook] Status did not change (${newStatus}). Skipping.`);
       return res.json({ success: true, message: 'Skipped: Status unchanged' });
     }
 
-    console.log(`Status changed from "${oldStatus}" to "${newStatus}" for ${record.email}. Sending email...`);
-
-    // Determine custom message based on the new status
-    let statusDescription = 'Your venture project status has been updated. Our team is actively moving it forward.';
-    let actionCTA = '';
-
-    if (newStatus === 'Under Review') {
-      statusDescription = 'Our product strategists and engineers are currently reviewing your idea and requirements to refine the scope.';
-    } else if (newStatus === 'MVP Scoping') {
-      statusDescription = 'We are now translating your requirements into a detailed MVP roadmap and technical specification sheet.';
-    } else if (newStatus === 'Approved') {
-      statusDescription = 'Excellent news! Your venture is approved for build phase. We are ready to begin development.';
-      actionCTA = `
-        <div style="margin: 24px 0;">
-          <a href="https://crestcodeproductstudio.com/contact" style="background-color: #005AE2; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block;">Schedule Kick-off Call</a>
-        </div>
-      `;
-    } else if (newStatus === 'On Hold') {
-      statusDescription = 'Your venture scoping is currently on hold. If you have any questions or updates, please reach out to us.';
+    // 2. Guard: Prevent duplicate emails for the same status (Idempotency)
+    if (record.notification_type === newStatus) {
+      console.log(`[Status Webhook] Notification for "${newStatus}" already sent. Skipping.`);
+      return res.json({ success: true, message: 'Skipped: Notification already sent' });
     }
 
-    // Send email to user
+    // 3. Define email templates based on transitions
+    let emailSubject = '';
+    let emailHtml = '';
+    let isTransitionValid = false;
+
+    // Transition A: submitted → under_review
+    if (oldStatus === 'submitted' && newStatus === 'under_review') {
+      isTransitionValid = true;
+      emailSubject = 'Your Idea Is Under Review';
+      emailHtml = `
+        <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; padding: 32px; color: #0F172A; max-width: 600px; margin: 0 auto; border: 1px solid #E2E8F0; border-radius: 12px; background-color: #ffffff;">
+          <h2 style="font-size: 20px; font-weight: 700; margin-top: 0; margin-bottom: 16px; color: #0F172A;">Hi ${name},</h2>
+          <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 16px;">
+            Thank you for submitting your idea.
+          </p>
+          <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 16px;">
+            Our team has started reviewing your submission and is currently evaluating the opportunity, market, and product potential.
+          </p>
+          <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 24px;">
+            We'll keep you updated on the next steps.
+          </p>
+          <p style="font-size: 14px; line-height: 1.6; color: #64748B; margin-bottom: 0;">
+            Regards,<br />
+            <strong>CrestCode Team</strong>
+          </p>
+        </div>
+      `;
+    }
+    // Transition B: submitted / under_review → reviewed
+    else if ((oldStatus === 'submitted' || oldStatus === 'under_review') && newStatus === 'reviewed') {
+      isTransitionValid = true;
+      emailSubject = 'Your Idea Has Been Reviewed';
+      emailHtml = `
+        <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; padding: 32px; color: #0F172A; max-width: 600px; margin: 0 auto; border: 1px solid #E2E8F0; border-radius: 12px; background-color: #ffffff;">
+          <h2 style="font-size: 20px; font-weight: 700; margin-top: 0; margin-bottom: 16px; color: #0F172A;">Hi ${name},</h2>
+          <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 16px;">
+            Thank you for submitting your idea to CrestCode.
+          </p>
+          <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 16px;">
+            Our team has completed the initial review of your submission.
+          </p>
+          <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 16px;">
+            We've evaluated the concept, market opportunity, and overall potential based on the information provided.
+          </p>
+          <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 24px;">
+            If further discussion is required, a member of our team may reach out shortly.
+          </p>
+          <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 24px;">
+            Thank you for sharing your vision with us.
+          </p>
+          <p style="font-size: 14px; line-height: 1.6; color: #64748B; margin-bottom: 0;">
+            Regards,<br />
+            <strong>CrestCode Team</strong>
+          </p>
+        </div>
+      `;
+    }
+    // Transition C: reviewed → accepted
+    else if (oldStatus === 'reviewed' && newStatus === 'accepted') {
+      isTransitionValid = true;
+      emailSubject = 'Your Idea Has Been Selected For Further Discussion';
+      emailHtml = `
+        <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; padding: 32px; color: #0F172A; max-width: 600px; margin: 0 auto; border: 1px solid #E2E8F0; border-radius: 12px; background-color: #ffffff;">
+          <h2 style="font-size: 20px; font-weight: 700; margin-top: 0; margin-bottom: 16px; color: #0F172A;">Hi ${name},</h2>
+          <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 16px;">
+            We're pleased to inform you that your idea has been selected for further evaluation.
+          </p>
+          <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 16px;">
+            We believe the concept shows potential and would like to explore next steps with you.
+          </p>
+          <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 24px;">
+            A member of the CrestCode team will contact you shortly to schedule a discussion.
+          </p>
+          <p style="font-size: 14px; line-height: 1.6; color: #64748B; margin-bottom: 0;">
+            Regards,<br />
+            <strong>CrestCode Team</strong>
+          </p>
+        </div>
+      `;
+    }
+    // Transition D: reviewed → rejected
+    else if (oldStatus === 'reviewed' && newStatus === 'rejected') {
+      isTransitionValid = true;
+      emailSubject = 'Update Regarding Your Submission';
+      emailHtml = `
+        <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; padding: 32px; color: #0F172A; max-width: 600px; margin: 0 auto; border: 1px solid #E2E8F0; border-radius: 12px; background-color: #ffffff;">
+          <h2 style="font-size: 20px; font-weight: 700; margin-top: 0; margin-bottom: 16px; color: #0F172A;">Hi ${name},</h2>
+          <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 16px;">
+            Thank you for taking the time to share your idea with CrestCode.
+          </p>
+          <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 16px;">
+            After careful review, we will not be moving forward with the submission at this time.
+          </p>
+          <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 16px;">
+            We sincerely appreciate your interest and encourage you to continue developing your ideas and innovations.
+          </p>
+          <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 24px;">
+            We wish you success in your journey.
+          </p>
+          <p style="font-size: 14px; line-height: 1.6; color: #64748B; margin-bottom: 0;">
+            Regards,<br />
+            <strong>CrestCode Team</strong>
+          </p>
+        </div>
+      `;
+    }
+
+    if (!isTransitionValid) {
+      console.log(`[Status Webhook] No valid transition matched (${oldStatus} -> ${newStatus}). Skipping notification.`);
+      return res.json({ success: true, message: 'Skipped: No valid transition matched' });
+    }
+
+    // 4. Send the email via Resend
+    console.log(`[Status Webhook] Sending email to ${record.email} (Subject: "${emailSubject}")`);
     const emailResult = await resend.emails.send({
       from: process.env.FROM_EMAIL || 'Crestcode <contact@crestcodeproductstudio.com>',
       to: record.email,
-      subject: `Project Update: Status is now "${newStatus}"`,
-      html: `
-        <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; padding: 32px; color: #0F172A; max-width: 600px; margin: 0 auto; border: 1px solid #E2E8F0; border-radius: 12px; background-color: #ffffff;">
-          <div style="text-align: center; margin-bottom: 24px;">
-            <h1 style="color: #005AE2; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.02em;">CRESTCODE</h1>
-            <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #64748B;">Product Studio</span>
-          </div>
-          
-          <h2 style="font-size: 20px; font-weight: 700; margin-top: 0; margin-bottom: 12px;">Hello ${record.name || 'Founder'},</h2>
-          <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 20px;">
-            We wanted to update you on your venture request. The current status of your project has been updated:
-          </p>
-
-          <div style="background-color: #EFF6FF; border-left: 4px solid #005AE2; padding: 16px; margin: 20px 0; border-radius: 6px;">
-            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #005AE2; font-weight: 700; margin-bottom: 4px;">Current Status</div>
-            <div style="font-size: 18px; font-weight: 800; color: #1E3A8A;">${newStatus}</div>
-          </div>
-
-          <p style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 20px;">
-            ${statusDescription}
-          </p>
-
-          ${actionCTA}
-
-          <p style="font-size: 14px; line-height: 1.6; color: #64748B; margin-top: 32px; margin-bottom: 0;">
-            Best regards,<br />
-            <strong>The CrestCode Team</strong>
-          </p>
-          
-          <hr style="border: 0; border-top: 1px solid #F1F5F9; margin: 32px 0 16px 0;" />
-          <p style="font-size: 11px; color: #94A3B8; text-align: center; margin: 0;">
-            This is an automated update for your submission. Replying to this email will reach our support team directly.
-          </p>
-        </div>
-      `
+      subject: emailSubject,
+      html: emailHtml
     });
 
-    console.log("Email sent successfully. Result:", emailResult);
-    res.json({ success: true, emailId: emailResult.id });
+    console.log(`[Status Webhook] Resend API success. Email ID: ${emailResult.id}`);
+
+    // 5. Log details back to Supabase to update metadata columns
+    console.log(`[Status Webhook] Logging metadata back to Supabase for record ${record.id}`);
+    const { error: dbError } = await supabase
+      .from('idea_submissions')
+      .update({
+        status_updated_at: new Date().toISOString(),
+        last_notification_sent: new Date().toISOString(),
+        notification_type: newStatus
+      })
+      .eq('id', record.id);
+
+    if (dbError) {
+      console.error(`[Status Webhook] Supabase update logging error:`, dbError);
+      return res.status(500).json({ error: dbError.message });
+    }
+
+    console.log(`[Status Webhook] Logging complete for record ${record.id}`);
+    return res.json({ success: true, emailId: emailResult.id });
 
   } catch (err) {
-    console.error("Webhook processing error:", err);
-    res.status(500).json({ error: err.message });
+    console.error("[Status Webhook] Webhook handler error:", err);
+    return res.status(500).json({ error: err.message });
   }
 }
 
