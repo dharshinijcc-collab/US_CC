@@ -221,6 +221,7 @@ export const ScoringResponseSchema = z.object({
     technical_feasibility: DimensionDetailSchema,
     competitive_moat: DimensionDetailSchema,
     founder_market_fit: DimensionDetailSchema,
+    build_timeline: DimensionDetailSchema,
   }),
   answers: z.any().optional(),
   signals: z.any().optional(),
@@ -229,12 +230,13 @@ export const ScoringResponseSchema = z.object({
 export type ScoringResponse = z.infer<typeof ScoringResponseSchema>;
 
 export const DIMENSION_META = [
-  { key: 'investor_appeal',       label: 'Investor Appeal',       weight: 0.20, icon: '💼' },
-  { key: 'customer_demand',       label: 'Customer Demand',       weight: 0.20, icon: '🎯' },
-  { key: 'market_timing',         label: 'Market Timing',         weight: 0.15, icon: '⏱️' },
-  { key: 'technical_feasibility', label: 'Technical Feasibility', weight: 0.15, icon: '⚙️' },
-  { key: 'competitive_moat',      label: 'Competitive Moat',      weight: 0.15, icon: '🏰' },
-  { key: 'founder_market_fit',    label: 'Founder-Market Fit',    weight: 0.15, icon: '🧭' },
+  { key: 'investor_appeal',       label: 'Investor Appeal',       weight: 0.18, icon: '💼' },
+  { key: 'customer_demand',       label: 'Customer Demand',       weight: 0.18, icon: '🎯' },
+  { key: 'market_timing',         label: 'Market Timing',         weight: 0.14, icon: '⏱️' },
+  { key: 'technical_feasibility', label: 'Technical Feasibility', weight: 0.14, icon: '⚙️' },
+  { key: 'competitive_moat',      label: 'Competitive Moat',      weight: 0.14, icon: '🏰' },
+  { key: 'founder_market_fit',    label: 'Founder-Market Fit',    weight: 0.14, icon: '🧭' },
+  { key: 'build_timeline',        label: 'Build Timeline',        weight: 0.08, icon: '🗓️' },
 ] as const;
 
 export type DimensionKey = typeof DIMENSION_META[number]['key'];

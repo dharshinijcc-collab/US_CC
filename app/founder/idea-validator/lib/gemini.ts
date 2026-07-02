@@ -49,6 +49,32 @@ export function generateMockNarratives(
 
   Object.entries(dimensions).forEach(([key, dim]: [string, any]) => {
     const label = getDimensionLabel(key);
+
+    // Build Timeline gets a custom narrative referencing actual estimator data
+    if (key === 'build_timeline') {
+      const tl = scores.buildtime_estimator;
+      dimensionNarratives[key] = {
+        score: dim.score,
+        confidence: dim.confidence,
+        evaluation_criteria: dim.factors.map((f: any) => f.label),
+        why_this_score: `The Build Timeline score of ${dim.score}/10 reflects this team's execution readiness from a product engineering perspective. Based on the current stage (${answers.current_stage}), technical background, and MVP complexity, the estimated build window is approximately ${tl?.timeline_months ?? '?'} month(s) with ${tl?.engineering_complexity ?? 'medium'} engineering complexity. ${dim.positive_signals.length > 0 ? `Positive indicators include: ${dim.positive_signals.slice(0, 2).join(' and ')}.` : ''} ${dim.negative_signals.length > 0 ? `Build risks include: ${dim.negative_signals.slice(0, 2).join(' and ')}.` : ''} A faster timeline with lower complexity translates directly to lower burn, faster learning cycles, and earlier customer feedback loops — all of which significantly improve the investment profile.`,
+        positive_signals: dim.positive_signals.length > 0 ? dim.positive_signals : ['Basic build infrastructure identified'],
+        negative_signals: dim.negative_signals.length > 0 ? dim.negative_signals : ['No build has been started yet'],
+        improvement_actions: [
+          `Advance to the next build stage (${answers.current_stage === 'forming' ? 'create interactive wireframes' : answers.current_stage === 'ux_design' ? 'build a clickable prototype' : 'launch an MVP with at least one working workflow'}) to reduce timeline risk.`,
+          `Identify and integrate existing APIs or SaaS tools (Stripe, Auth0, Firebase) to avoid reinventing core infrastructure and compress development by 20–30%.`,
+          tl?.engineering_complexity === 'high'
+            ? 'Consider scoping down the initial MVP to reduce engineering complexity — focus on one core workflow that delivers immediate user value.'
+            : 'Recruit a technical co-founder or lead engineer to own the engineering roadmap and reduce delivery timeline risk.'
+        ],
+        base_score: dim.base_score,
+        positive_adjustments: dim.positive_adjustments,
+        negative_adjustments: dim.negative_adjustments,
+        neutral_signals: dim.neutral_signals
+      };
+      return;
+    }
+
     dimensionNarratives[key] = {
       score: dim.score,
       confidence: dim.confidence,
@@ -67,6 +93,7 @@ export function generateMockNarratives(
       neutral_signals: dim.neutral_signals
     };
   });
+
 
   // Pick mock comparable startups from curated list
   const mockComps = CURATED_STARTUPS.slice(0, 3).map(c => ({
@@ -260,12 +287,13 @@ Provide the response in strict JSON matching this exact structure:
   },
   
   "dimensions": {
-    "investor_appeal": { "evaluation_criteria": [string], "why_this_score": "100-200 words", "improvement_actions": [string, string, string] },
-    "customer_demand": { "evaluation_criteria": [string], "why_this_score": "100-200 words", "improvement_actions": [string, string, string] },
-    "market_timing": { "evaluation_criteria": [string], "why_this_score": "100-200 words", "improvement_actions": [string, string, string] },
-    "technical_feasibility": { "evaluation_criteria": [string], "why_this_score": "100-200 words", "improvement_actions": [string, string, string] },
-    "competitive_moat": { "evaluation_criteria": [string], "why_this_score": "100-200 words", "improvement_actions": [string, string, string] },
-    "founder_market_fit": { "evaluation_criteria": [string], "why_this_score": "100-200 words", "improvement_actions": [string, string, string] }
+    "investor_appeal": { "evaluation_criteria": [string], "why_this_score": "100-200 words explaining how market size, revenue model, scalability and validation level drove this score", "improvement_actions": [string, string, string] },
+    "customer_demand": { "evaluation_criteria": [string], "why_this_score": "100-200 words explaining how pain severity, problem frequency, willingness to pay, and validation evidence drove this score", "improvement_actions": [string, string, string] },
+    "market_timing": { "evaluation_criteria": [string], "why_this_score": "100-200 words explaining how industry growth, technology maturity, regulatory environment, and why-now strength drove this score", "improvement_actions": [string, string, string] },
+    "technical_feasibility": { "evaluation_criteria": [string], "why_this_score": "100-200 words explaining how MVP complexity, infrastructure requirements, existing APIs, and development stage drove this score", "improvement_actions": [string, string, string] },
+    "competitive_moat": { "evaluation_criteria": [string], "why_this_score": "100-200 words explaining how proprietary data, network effects, switching costs, and differentiation drove this score", "improvement_actions": [string, string, string] },
+    "founder_market_fit": { "evaluation_criteria": [string], "why_this_score": "100-200 words explaining how domain expertise, technical background, industry experience, and execution track record drove this score", "improvement_actions": [string, string, string] },
+    "build_timeline": { "evaluation_criteria": [string], "why_this_score": "100-200 words explaining how the founder's current build stage, technical capability, team composition, and product complexity affect how quickly this team can ship a working product. Reference the estimated timeline_months and engineering_complexity from the buildtime_estimator context.", "improvement_actions": [string, string, string] }
   }
 }`;
 
@@ -289,11 +317,15 @@ Individual Dimension Scores & Signals:
 - Technical Feasibility: Score ${dimensions.technical_feasibility.score}/10
 - Competitive Moat: Score ${dimensions.competitive_moat.score}/10
 - Founder-Market Fit: Score ${dimensions.founder_market_fit.score}/10
+- Build Timeline: Score ${dimensions.build_timeline?.score ?? 'N/A'}/10 (Estimated ${scores.buildtime_estimator?.timeline_months ?? '?'} months | Complexity: ${scores.buildtime_estimator?.engineering_complexity ?? 'unknown'})
 
 Founder answers for reference:
 - Target Customer: ${answers.customer}
 - Core Problem: ${answers.problem}
 - Validation: ${answers.validation_level}
+- Current Stage: ${answers.current_stage}
+- Technical Background: ${answers.technical_background}
+- Has Technical Co-Founder: ${answers.has_technical_cofounder ?? false}
 - Why Now: ${answers.why_now}
 - Competitors: ${answers.competitors}
 - Moat: ${answers.moat}`;
