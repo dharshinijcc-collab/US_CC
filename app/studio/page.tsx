@@ -2018,8 +2018,8 @@ export default function StudioPage() {
                     {/* OpenCap — Q4: bottom-right, very close to center */}
                     <div style={{
                       position: 'absolute',
-                      left: '56%',
-                      top: '56%',
+                      left: '58%',
+                      top: '58%',
                       transform: 'translate(-50%, -50%)',
                       width: '16px',
                       height: '16px',
