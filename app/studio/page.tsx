@@ -1834,9 +1834,13 @@ export default function StudioPage() {
         
 
         {/* ── INVESTMENT THESIS — redesigned 2-col layout ── */}
-        <section style={{ backgroundColor: '#F8F9FC', position: 'relative', borderTop: '1px solid #E2E8F0' }}>
+        <section style={{
+          background: 'linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%)',
+          position: 'relative',
+          boxShadow: '0 20px 40px -20px rgba(0,0,0,0.05)'
+        }}>
           <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <div className="thesis-grid">
+            <div className="thesis-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1.3fr', gap: '4rem', alignItems: 'start' }}>
 
               {/* ── LEFT: Quadrant Chart + caption ── */}
               <div>
