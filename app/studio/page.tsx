@@ -1858,35 +1858,51 @@ export default function StudioPage() {
                 </h3>
 
                 {/* Quadrant Chart — matches reference image */}
-                <div style={{ position: 'relative', paddingTop: '28px', paddingBottom: '36px', paddingLeft: '45px' }}>
+                <div style={{ position: 'relative', paddingTop: '28px', paddingBottom: '36px', paddingLeft: '70px' }}>
 
-                  {/* Y-axis labels: Broad top, Niche bottom */}
+                  {/* Y-axis arrow + labels */}
                   <div style={{
                     position: 'absolute',
                     left: 0,
                     top: '28px',
                     bottom: '36px',
-                    width: '35px',
+                    width: '60px',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    alignItems: 'flex-end',
-                    paddingRight: '8px',
-                    color: '#94A3B8',
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    letterSpacing: '0.06em',
-                    textTransform: 'uppercase'
+                    alignItems: 'center',
+                    paddingRight: '15px'
                   }}>
-                    <EditableText
-                      contentKey="studio.selectiveness.axis.broad"
-                      value={studioContent.selectiveness?.axis?.broad || "Broad"}
-                    />
-                    <EditableText
-                      contentKey="studio.selectiveness.axis.niche"
-                      value={studioContent.selectiveness?.axis?.niche || "Niche"}
-                    />
+                    {/* Top Label */}
+                    <div style={{ textAlign: 'center', fontFamily: "'Inter', sans-serif", fontSize: '0.8rem', lineHeight: 1.3 }}>
+                      <div style={{ fontWeight: 800, color: '#0F172A', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                        <EditableText contentKey="studio.selectiveness.axis.broad" value={studioContent.selectiveness?.axis?.broad || "Broad"} />
+                      </div>
+                      <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 500 }}>(Top)</div>
+                    </div>
+
+                    {/* Vertical Double-Headed Arrow */}
+                    <div style={{ flex: 1, width: '100%', display: 'flex', justifyContent: 'center', margin: '8px 0' }}>
+                      <svg width="12" height="100%" viewBox="0 0 12 100" preserveAspectRatio="none" style={{ overflow: 'visible' }}>
+                        <defs>
+                          <marker id="arrow-y-start" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M 5 0 L 10 10 L 0 10 z" fill="#94A3B8" />
+                          </marker>
+                          <marker id="arrow-y-end" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                            <path d="M 5 10 L 10 0 L 0 0 z" fill="#94A3B8" />
+                          </marker>
+                        </defs>
+                        <line x1="6" y1="5" x2="6" y2="95" stroke="#94A3B8" strokeWidth="1.5" markerStart="url(#arrow-y-start)" markerEnd="url(#arrow-y-end)" />
+                      </svg>
+                    </div>
+
+                    {/* Bottom Label */}
+                    <div style={{ textAlign: 'center', fontFamily: "'Inter', sans-serif", fontSize: '0.8rem', lineHeight: 1.3 }}>
+                      <div style={{ fontWeight: 800, color: '#0F172A', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                        <EditableText contentKey="studio.selectiveness.axis.niche" value={studioContent.selectiveness?.axis?.niche || "Niche"} />
+                      </div>
+                      <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 500 }}>(Bottom)</div>
+                    </div>
                   </div>
 
                   {/* Chart box */}
@@ -1900,15 +1916,15 @@ export default function StudioPage() {
                     boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
                     backgroundColor: '#fff',
                   }}>
-                    {/* ── Quadrant fills (match image exactly) ── */}
-                    {/* Q2 top-left: very pale/white — broad family */}
-                    <div style={{ position: 'absolute', top: 0, left: 0, width: '50%', height: '50%', backgroundColor: '#F8F7FC' }} />
-                    {/* Q1 top-right: light mint/green — broad business */}
-                    <div style={{ position: 'absolute', top: 0, right: 0, width: '50%', height: '50%', backgroundColor: '#EEF8F2' }} />
-                    {/* Q3 bottom-left: medium lavender — niche family */}
-                    <div style={{ position: 'absolute', bottom: 0, left: 0, width: '50%', height: '50%', backgroundColor: '#EEEAF7' }} />
-                    {/* Q4 bottom-right: light green — niche business */}
-                    <div style={{ position: 'absolute', bottom: 0, right: 0, width: '50%', height: '50%', backgroundColor: '#E8F5EE' }} />
+                    {/* ── Quadrant fills (uniform lavender left, mint green right) ── */}
+                    {/* Q2 top-left: lavender */}
+                    <div style={{ position: 'absolute', top: 0, left: 0, width: '50%', height: '50%', backgroundColor: '#F5F3FF' }} />
+                    {/* Q1 top-right: mint green */}
+                    <div style={{ position: 'absolute', top: 0, right: 0, width: '50%', height: '50%', backgroundColor: '#F0FDF4' }} />
+                    {/* Q3 bottom-left: lavender */}
+                    <div style={{ position: 'absolute', bottom: 0, left: 0, width: '50%', height: '50%', backgroundColor: '#F5F3FF' }} />
+                    {/* Q4 bottom-right: mint green */}
+                    <div style={{ position: 'absolute', bottom: 0, right: 0, width: '50%', height: '50%', backgroundColor: '#F0FDF4' }} />
 
                     {/* ── Divider lines ── */}
                     <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: '1px', backgroundColor: '#D1D9E4', transform: 'translateX(-50%)' }} />
@@ -1919,8 +1935,8 @@ export default function StudioPage() {
                     {/* Limelite — Q1: top-right, broad business */}
                     <div style={{
                       position: 'absolute',
-                      left: '68%',
-                      top: '29%',
+                      left: '70%',
+                      top: '25%',
                       transform: 'translate(-50%, -50%)',
                       width: '16px',
                       height: '16px',
@@ -2019,7 +2035,7 @@ export default function StudioPage() {
                     <div style={{
                       position: 'absolute',
                       left: '58%',
-                      top: '58%',
+                      top: '57%',
                       transform: 'translate(-50%, -50%)',
                       width: '16px',
                       height: '16px',
@@ -2042,16 +2058,10 @@ export default function StudioPage() {
                         <EditableText
                           contentKey="studio.selectiveness.products.openCap"
                           value={studioContent.selectiveness?.products?.openCap || "OpenCap"}
-                          style={{ color: '#94A3B8' }}
+                          style={{ color: '#1A7A4A' }}
                         />
                       </span>
-                      <div style={{
-                        width: '15px',
-                        height: '15px',
-                        borderRadius: '50%',
-                        border: '1.5px dashed #94A3B8',
-                        backgroundColor: '#fff',
-                      }} />
+                      <div style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid #22C55E', backgroundColor: 'transparent' }} />
                     </div>
 
                     {/* NestBloq — Q4: bottom-right, near center */}
@@ -2089,20 +2099,41 @@ export default function StudioPage() {
 
                   </div>{/* end chart box */}
 
+                  {/* X-axis Arrow */}
+                  <div style={{ maxWidth: '340px', height: '16px', marginTop: '8px', display: 'flex', alignItems: 'center' }}>
+                    <svg width="100%" height="12" viewBox="0 0 100 12" preserveAspectRatio="none" style={{ overflow: 'visible' }}>
+                      <defs>
+                        <marker id="arrow-x-start" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                          <path d="M 0 5 L 10 10 L 10 0 z" fill="#94A3B8" />
+                        </marker>
+                        <marker id="arrow-x-end" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                          <path d="M 10 5 L 0 10 L 0 0 z" fill="#94A3B8" />
+                        </marker>
+                      </defs>
+                      <line x1="5" y1="6" x2="95" y2="6" stroke="#94A3B8" strokeWidth="1.5" markerStart="url(#arrow-x-start)" markerEnd="url(#arrow-x-end)" />
+                    </svg>
+                  </div>
+
                   {/* X-axis labels: Family left, Business right */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', maxWidth: '340px', marginTop: '10px', paddingTop: '4px', borderTop: 'none' }}>
-                    <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#94A3B8', letterSpacing: '0.06em', fontFamily: "'Inter', sans-serif" }}>
-                      <EditableText
-                        contentKey="studio.selectiveness.axis.family"
-                        value={studioContent.selectiveness?.axis?.family || "Family"}
-                      />
-                    </span>
-                    <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#94A3B8', letterSpacing: '0.06em', fontFamily: "'Inter', sans-serif" }}>
-                      <EditableText
-                        contentKey="studio.selectiveness.axis.business"
-                        value={studioContent.selectiveness?.axis?.business || "Business"}
-                      />
-                    </span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', maxWidth: '340px', marginTop: '6px' }}>
+                    <div style={{ textAlign: 'left', fontFamily: "'Inter', sans-serif", fontSize: '0.8rem', lineHeight: 1.3 }}>
+                      <div style={{ fontWeight: 800, color: '#0F172A', letterSpacing: '0.06em' }}>
+                        <EditableText
+                          contentKey="studio.selectiveness.axis.family"
+                          value={studioContent.selectiveness?.axis?.family || "Family"}
+                        />
+                      </div>
+                      <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 500 }}>(Left)</div>
+                    </div>
+                    <div style={{ textAlign: 'right', fontFamily: "'Inter', sans-serif", fontSize: '0.8rem', lineHeight: 1.3 }}>
+                      <div style={{ fontWeight: 800, color: '#0F172A', letterSpacing: '0.06em' }}>
+                        <EditableText
+                          contentKey="studio.selectiveness.axis.business"
+                          value={studioContent.selectiveness?.axis?.business || "Business"}
+                        />
+                      </div>
+                      <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 500 }}>(Right)</div>
+                    </div>
                   </div>
 
 
