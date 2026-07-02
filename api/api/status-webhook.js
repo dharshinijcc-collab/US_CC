@@ -29,13 +29,16 @@ async function handler(req, res) {
       return res.json({ success: true, message: 'Ignored: Missing record details or email' });
     }
 
-    const oldStatus = old_record ? old_record.status : null;
+    const rawOldStatus = old_record ? old_record.status : null;
+    const oldStatus = (!rawOldStatus) ? 'submitted' : rawOldStatus;
     const newStatus = record.status;
     const name = record.name || 'Founder';
 
+    console.log(`[Status Webhook] Status changed detection. rawOldStatus: ${rawOldStatus}, oldStatus (normalized): ${oldStatus}, newStatus: ${newStatus}`);
+
     // 1. Guard: Only proceed if status actually changed
-    if (oldStatus === newStatus) {
-      console.log(`[Status Webhook] Status did not change (${newStatus}). Skipping.`);
+    if (rawOldStatus === newStatus) {
+      console.log(`[Status Webhook] Status did not change (raw old: ${rawOldStatus} === new: ${newStatus}). Skipping.`);
       return res.json({ success: true, message: 'Skipped: Status unchanged' });
     }
 
