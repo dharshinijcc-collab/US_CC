@@ -150,7 +150,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 11. Save to Supabase dd_reports table
-    if (supabaseAdmin) {
+    if (supabaseAdmin && body.saveToDb !== false) {
       console.log('💾 Saving report to Supabase dd_reports...');
       const verdict =
         finalPayload.overall_score >= 7.5 ? 'Proceed' :

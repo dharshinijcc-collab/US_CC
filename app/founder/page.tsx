@@ -435,7 +435,7 @@ Moat: ${answers.moat}`;
       const response = await fetch('/founder/idea-validator/api', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ideaText, answers })
+        body: JSON.stringify({ ideaText, answers, saveToDb: false })
       });
 
       const data = await response.json();
@@ -447,7 +447,8 @@ Moat: ${answers.moat}`;
       clearInterval(stageTimer);
       setIsLoading(false);
       if (data.id) {
-        window.location.href = `/founder/idea-validator/report?id=${data.id}`;
+        sessionStorage.setItem(`cc_report_${data.id}`, JSON.stringify(data));
+        window.location.href = `/founder/idea-validator/report?id=${data.id}&temp=true`;
       } else {
         throw new Error('No report ID returned from server');
       }

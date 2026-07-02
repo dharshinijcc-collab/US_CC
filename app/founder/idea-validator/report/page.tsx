@@ -19,6 +19,7 @@ import { supabase } from '@/lib/supabase';
 function ReportContent() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
+  const isTemp = searchParams.get('temp') === 'true';
 
   const [report, setReport] = useState<ScoringResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -37,6 +38,8 @@ function ReportContent() {
   const [gateError, setGateError] = useState<string | null>(null);
   const [gateSuccess, setGateSuccess] = useState<string | null>(null);
   const [activeNotebookPage, setActiveNotebookPage] = useState<'executive' | 'dimensions' | 'memo' | 'risks' | 'roadmap'>('executive');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({ dimensions: true, memo: false, flags: false, roadmap: false });
   const toggleSection = (sec: string) => { setExpandedSections(prev => ({ ...prev, [sec]: !prev[sec] })); };
 
@@ -71,6 +74,15 @@ function ReportContent() {
       async function fetchReportFallback() {
         try {
           setLoading(true);
+          // If temp=true, try sessionStorage first (report not yet saved to DB)
+          if (isTemp) {
+            const cached = sessionStorage.getItem(`cc_report_${id}`);
+            if (cached) {
+              setReport(JSON.parse(cached));
+              setLoading(false);
+              return;
+            }
+          }
           const res = await fetch(`/founder/idea-validator/api?id=${id}`);
           if (!res.ok) {
             const errData = await res.json();
@@ -109,6 +121,15 @@ function ReportContent() {
     async function fetchReport() {
       try {
         setLoading(true);
+        // If temp=true, try sessionStorage first (report not yet saved to DB)
+        if (isTemp) {
+          const cached = sessionStorage.getItem(`cc_report_${id}`);
+          if (cached) {
+            setReport(JSON.parse(cached));
+            setLoading(false);
+            return;
+          }
+        }
         const res = await fetch(`/founder/idea-validator/api?id=${id}`);
         if (!res.ok) {
           const errData = await res.json();
@@ -126,7 +147,30 @@ function ReportContent() {
 
     fetchReport();
     return () => subscription.unsubscribe();
-  }, [id]);
+  }, [id, isTemp]);
+
+  // Submit report to CrestCode DB when user clicks the CTA
+  const handleSubmitToCrestCode = async () => {
+    if (!report) return;
+    setSubmitStatus('loading');
+    setSubmitError(null);
+    try {
+      const res = await fetch('/founder/idea-validator/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ report })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Submission failed');
+      // Clear sessionStorage cache now that it's saved
+      if (id) sessionStorage.removeItem(`cc_report_${id}`);
+      setSubmitStatus('success');
+    } catch (err: any) {
+      console.error(err);
+      setSubmitError(err.message || 'An unexpected error occurred. Please try again.');
+      setSubmitStatus('error');
+    }
+  };
 
   const handleGateAuthSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -862,6 +906,114 @@ const link = document.createElement('a');
                   </div>
                 </div>
 
+                {/* ── Build Time Estimator CTA ── */}
+                <div style={{ marginTop: '40px', marginBottom: '20px' }}>
+                  <div style={{
+                    background: 'linear-gradient(135deg, #005AE2 0%, #4F46E5 100%)',
+                    borderRadius: '12px',
+                    padding: '28px 32px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '24px',
+                    flexWrap: 'wrap',
+                  }}>
+                    <div style={{ flex: 1, minWidth: '260px' }}>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.15)', borderRadius: '20px', padding: '5px 14px', marginBottom: '12px' }}>
+                        <Zap size={12} color="#fff" />
+                        <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Free Tool</span>
+                      </div>
+                      <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#fff', margin: '0 0 8px', letterSpacing: '-0.02em' }}>
+                        🚀 Wondering how long this will take to build?
+                      </h3>
+                      <p style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.9)', margin: '0 0 16px', lineHeight: 1.6 }}>
+                        Get a personalised development estimate including MVP Timeline, Team Requirements, Complexity Assessment, Development Roadmap, and Technical Risks.
+                      </p>
+                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                        {['MVP Timeline', 'Team Requirements', 'Complexity Assessment', 'Dev Roadmap', 'Technical Risks'].map((tag, i) => (
+                          <span key={i} style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: '12px', padding: '3px 10px', fontSize: '0.7rem', fontWeight: 600, color: '#fff' }}>
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div style={{ flexShrink: 0 }}>
+                      <Link
+                        href="/build-time-estimator"
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: '8px',
+                          background: '#fff', color: '#005AE2', borderRadius: '10px',
+                          padding: '14px 28px', textDecoration: 'none', fontWeight: 800,
+                          fontSize: '0.9rem', whiteSpace: 'nowrap',
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                          transition: 'all 0.2s ease',
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.02)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
+                      >
+                        Estimate Build Time
+                        <ArrowRight size={16} />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── Submit to CrestCode CTA ── */}
+                {isTemp && (
+                  <div style={{ marginTop: '28px', marginBottom: '8px' }}>
+                    <div style={{
+                      background: '#fff',
+                      border: '2px solid #005AE2',
+                      borderRadius: '12px',
+                      padding: '28px 32px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '24px',
+                      flexWrap: 'wrap',
+                    }}>
+                      <div style={{ flex: 1, minWidth: '240px' }}>
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#EFF6FF', borderRadius: '20px', padding: '5px 14px', marginBottom: '12px' }}>
+                          <Sparkles size={12} color="#005AE2" />
+                          <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#005AE2', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Ready to Build?</span>
+                        </div>
+                        <h3 style={{ fontSize: '1.15rem', fontWeight: 900, color: '#0F172A', margin: '0 0 8px', letterSpacing: '-0.02em' }}>
+                          Submit Your Idea to CrestCode
+                        </h3>
+                        <p style={{ fontSize: '0.82rem', color: '#64748B', margin: '0', lineHeight: 1.6 }}>
+                          Our team will review your validated idea and reach out to discuss how we can help bring it to life — from MVP development to product launch.
+                        </p>
+                        {submitError && (
+                          <p style={{ fontSize: '0.78rem', color: '#DC2626', marginTop: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <AlertTriangle size={13} /> {submitError}
+                          </p>
+                        )}
+                      </div>
+                      <div style={{ flexShrink: 0 }}>
+                        {submitStatus === 'success' ? (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#F0FDF4', border: '1.5px solid #86EFAC', borderRadius: '10px', padding: '14px 24px', color: '#166534', fontWeight: 700, fontSize: '0.9rem' }}>
+                            <Check size={16} /> Submitted! We'll be in touch.
+                          </div>
+                        ) : (
+                          <button
+                            onClick={handleSubmitToCrestCode}
+                            disabled={submitStatus === 'loading'}
+                            style={{
+                              display: 'inline-flex', alignItems: 'center', gap: '8px',
+                              background: submitStatus === 'loading' ? '#93C5FD' : '#005AE2',
+                              color: '#fff', border: 'none', borderRadius: '10px',
+                              padding: '14px 28px', fontWeight: 800, fontSize: '0.9rem',
+                              cursor: submitStatus === 'loading' ? 'not-allowed' : 'pointer',
+                              whiteSpace: 'nowrap', transition: 'all 0.2s ease',
+                            }}
+                          >
+                            {submitStatus === 'loading' ? 'Submitting…' : 'Submit to CrestCode'}
+                            {submitStatus !== 'loading' && <ArrowRight size={16} />}
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
               </div>
             </div>
 
@@ -870,53 +1022,7 @@ const link = document.createElement('a');
         )}
       </div>
 
-      {/* ── Build Time Estimator CTA ── */}
-      <div style={{ padding: '0 24px 40px', maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{
-            background: 'linear-gradient(135deg, #0F172A 0%, #1E3A6E 100%)',
-            borderRadius: '16px',
-            padding: '32px 36px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '32px',
-            flexWrap: 'wrap',
-          }}>
-            <div style={{ flex: 1, minWidth: '260px' }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.12)', borderRadius: '20px', padding: '5px 14px', marginBottom: '12px' }}>
-                <Zap size={12} color="#93C5FD" />
-                <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#93C5FD', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Free Tool</span>
-              </div>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#fff', margin: '0 0 8px', letterSpacing: '-0.02em' }}>
-                🚀 Wondering how long this will take to build?
-              </h3>
-              <p style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.7)', margin: '0 0 16px', lineHeight: 1.6 }}>
-                Get a personalised development estimate including MVP Timeline, Team Requirements, Complexity Assessment, Development Roadmap, and Technical Risks.
-              </p>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {['MVP Timeline', 'Team Requirements', 'Complexity Assessment', 'Dev Roadmap', 'Technical Risks'].map((tag, i) => (
-                  <span key={i} style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: '12px', padding: '3px 10px', fontSize: '0.7rem', fontWeight: 600, color: 'rgba(255,255,255,0.85)' }}>
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div style={{ flexShrink: 0 }}>
-              <Link
-                href="/build-time-estimator"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '8px',
-                  background: '#005AE2', color: '#fff', borderRadius: '10px',
-                  padding: '14px 28px', textDecoration: 'none', fontWeight: 800,
-                  fontSize: '0.9rem', whiteSpace: 'nowrap',
-                  boxShadow: '0 4px 16px rgba(0,90,226,0.4)',
-                }}
-              >
-                Estimate Build Time
-                <ArrowRight size={16} />
-              </Link>
-            </div>
-          </div>
-        </div>
+
 
       {/* Auth Gate Overlay */}
       {!isAuthenticated && !isAuthChecking && (

@@ -2,10 +2,12 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import {
   ArrowRight, ArrowLeft, CheckCircle, Clock, Users, Zap, AlertTriangle,
   BarChart2, Layers, Cpu, Package, ChevronRight, ExternalLink, CalendarDays,
-  Shield, Star, Rocket, Phone
+  Shield, Star, Rocket
 } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -127,106 +129,89 @@ function calculateEstimate(a: Answers): EstimateResult {
     return { minDays: 0, maxDays: 0, complexity: 'Low', complexityReason: '', team: [], drivers: [], phases: [], risks: [], costDrivers: [], mvpScope: { include: [], defer: [] } };
   }
 
-  // Base effort in days (small team baseline)
-  const BASE: Record<ProductType, [number, number]> = {
-    landing:    [2, 4],
-    marketing:  [4, 8],
-    internal:   [10, 20],
-    saas:       [40, 60],
-    marketplace:[55, 85],
-    mobile:     [40, 70],
-    ai_product: [50, 80],
-    enterprise: [80, 120],
-    other:      [30, 50],
+  // ── Fixed CrestCode Timeline Ranges (weeks, manually curated) ─────────────
+  // Format: [minWeeks, maxWeeks] for a standard small team
+  const FIXED_WEEKS: Record<ProductType, [number, number]> = {
+    landing:    [1,  2],
+    marketing:  [2,  4],
+    internal:   [3,  6],
+    saas:       [8,  14],
+    marketplace:[10, 18],
+    mobile:     [8,  16],
+    ai_product: [10, 20],
+    enterprise: [16, 28],
+    other:      [6,  12],
   };
 
-  let [minD, maxD] = BASE[a.productType];
-
-  // Asset reductions
-  const assetReductions: Record<string, number> = {
-    requirements: 0.05,
-    wireframes:   0.10,
-    final_design: 0.22,
-    codebase:     0.25,
-    database:     0.10,
-    api:          0.08,
-    auth:         0.08,
+  // Team preference adjustments (multiplied against week ranges)
+  const TEAM_MULT: Record<TeamPref, [number, number]> = {
+    solo:      [1.5, 1.75],
+    small:     [1.0, 1.0],
+    dedicated: [0.6, 0.75],
   };
-  let totalReduction = 0;
-  a.assets.forEach(asset => {
-    if (assetReductions[asset]) totalReduction += assetReductions[asset];
-  });
-  totalReduction = Math.min(totalReduction, 0.70); // cap at 70% reduction
-  minD = Math.max(1, minD * (1 - totalReduction));
-  maxD = Math.max(1, maxD * (1 - totalReduction));
 
-  // Platform additions
+  const [baseMin, baseMax] = FIXED_WEEKS[a.productType];
+  const [tMin, tMax] = TEAM_MULT[a.teamPref];
+
+  // Convert to days (5 working days per week) and apply team multiplier
+  let minD = Math.round(baseMin * 5 * tMin);
+  let maxD = Math.round(baseMax * 5 * tMax);
+
+  // Platform additions (fixed week additions)
   const hasIOS = a.platforms.includes('ios');
   const hasAndroid = a.platforms.includes('android');
-  if (hasIOS) { minD += 12; maxD += 18; }
-  if (hasAndroid) { minD += hasIOS ? 5 : 12; maxD += hasIOS ? 8 : 18; }
+  if (hasIOS) { minD += 10; maxD += 15; }
+  if (hasAndroid) { minD += hasIOS ? 5 : 10; maxD += hasIOS ? 10 : 15; }
   if (a.platforms.includes('admin') && !['saas','marketplace','enterprise'].includes(a.productType)) {
     minD += 5; maxD += 10;
   }
 
-  // Feature additions
-  const featureDays: Record<string, [number, number]> = {
-    profiles:      [2, 4],
-    dashboard:     [4, 7],
-    analytics:     [5, 8],
-    reporting:     [5, 8],
-    payments:      [5, 9],
-    booking:       [8, 12],
-    search:        [3, 6],
-    notifications: [3, 6],
-    messaging:     [9, 14],
-    file_uploads:  [2, 4],
-    roles:         [5, 8],
-    collaboration: [8, 12],
+  // AI additions (fixed weeks)
+  const AI_WEEKS: Record<AILevel, [number, number]> = {
+    none:       [0,  0],
+    assistant:  [5,  10],
+    report_gen: [10, 15],
+    ocr:        [10, 15],
+    ai_core:    [15, 25],
+  };
+  minD += AI_WEEKS[a.aiLevel][0];
+  maxD += AI_WEEKS[a.aiLevel][1];
+
+  // Integration additions (fixed per integration)
+  a.integrations.forEach(i => {
+    if (i === 'custom') { minD += 5; maxD += 10; }
+    else { minD += 3; maxD += 5; }
+  });
+
+  // Feature additions (selective — only heavy features add time)
+  const FEATURE_WEEKS: Partial<Record<string, [number, number]>> = {
+    payments:      [5, 10],
+    booking:       [5, 10],
+    messaging:     [10, 15],
+    collaboration: [10, 15],
+    analytics:     [5, 10],
+    reporting:     [5, 10],
+    roles:         [5, 5],
   };
   a.features.forEach(f => {
-    if (featureDays[f]) { minD += featureDays[f][0]; maxD += featureDays[f][1]; }
+    const fw = FEATURE_WEEKS[f];
+    if (fw) { minD += fw[0]; maxD += fw[1]; }
   });
 
-  // AI additions
-  const aiDays: Record<AILevel, [number, number]> = {
-    none:       [0, 0],
-    assistant:  [5, 9],
-    report_gen: [9, 14],
-    ocr:        [12, 18],
-    ai_core:    [22, 35],
-  };
-  minD += aiDays[a.aiLevel][0];
-  maxD += aiDays[a.aiLevel][1];
+  minD = Math.max(5, minD);
+  maxD = Math.max(5, maxD);
 
-  // Integration additions
-  a.integrations.forEach(i => {
-    if (i === 'custom') { minD += 5; maxD += 9; }
-    else { minD += 2; maxD += 4; }
-  });
-
-  // Team size multipliers
-  const teamMult: Record<TeamPref, [number, number]> = {
-    solo:      [1.45, 1.55],
-    small:     [1.0, 1.0],
-    dedicated: [0.60, 0.70],
-  };
-  minD = Math.round(minD * teamMult[a.teamPref][0]);
-  maxD = Math.round(maxD * teamMult[a.teamPref][1]);
-  minD = Math.max(1, minD);
-  maxD = Math.max(1, maxD);
-
-  // Complexity assessment
-  const totalRawMax = maxD / teamMult[a.teamPref][1];
+  // ── Complexity assessment (based on fixed week total) ────────────────────
+  const totalWeeks = maxD / 5;
   let complexity: EstimateResult['complexity'] = 'Low';
   let complexityReason = '';
-  if (totalRawMax <= 8) {
+  if (totalWeeks <= 4) {
     complexity = 'Low';
     complexityReason = 'Straightforward scope with minimal custom logic — well within standard development capacity.';
-  } else if (totalRawMax <= 30) {
+  } else if (totalWeeks <= 12) {
     complexity = 'Medium';
     complexityReason = 'Moderate scope requiring careful architecture planning across several interconnected components.';
-  } else if (totalRawMax <= 70) {
+  } else if (totalWeeks <= 24) {
     complexity = 'High';
     complexityReason = 'Significant scope with multiple complex modules. Requires experienced engineers and structured delivery.';
   } else {
@@ -234,7 +219,7 @@ function calculateEstimate(a: Answers): EstimateResult {
     complexityReason = 'Enterprise-grade complexity. Requires a dedicated product team, phased delivery, and strong technical governance.';
   }
 
-  // Team composition
+  // ── Team composition ──────────────────────────────────────────────────────
   const team: { role: string; icon: string }[] = [];
   team.push({ role: 'Product Manager', icon: '📋' });
   if (!a.assets.includes('final_design')) {
@@ -252,7 +237,7 @@ function calculateEstimate(a: Answers): EstimateResult {
   if (['enterprise', 'marketplace'].includes(a.productType)) team.push({ role: 'DevOps Engineer', icon: '🚀' });
   if (a.teamPref === 'dedicated') team.push({ role: 'QA Engineer', icon: '🧪' });
 
-  // Key build drivers
+  // ── Key build drivers ─────────────────────────────────────────────────────
   const drivers: string[] = [];
   if (a.aiLevel !== 'none') drivers.push(`${AI_OPTIONS.find(o=>o.key===a.aiLevel)?.label} integration`);
   if (a.features.includes('payments')) drivers.push('Payment processing & financial compliance');
@@ -263,24 +248,26 @@ function calculateEstimate(a: Answers): EstimateResult {
   if (a.integrations.includes('custom')) drivers.push('Custom third-party API integrations');
   if (a.features.includes('collaboration')) drivers.push('Real-time team collaboration system');
   if (drivers.length === 0) drivers.push('Core product development & infrastructure setup');
-  if (totalReduction > 0.3) drivers.push(`Existing assets reduce effort by ~${Math.round(totalReduction*100)}%`);
 
-  // Development roadmap phases
-  const totalWeeks = maxD / 5;
-  const p1 = Math.max(1, Math.round(totalWeeks * 0.15));
-  const p2 = Math.max(1, Math.round(totalWeeks * 0.40));
-  const p3 = a.integrations.length > 0 || a.aiLevel !== 'none' ? Math.max(1, Math.round(totalWeeks * 0.25)) : 0;
-  const p4 = Math.max(1, Math.round(totalWeeks * 0.20));
+  // ── Fixed development phases per product tier ─────────────────────────────
+  const PHASE_MAP: Record<string, { p1: string; p2: string; p3: string; p4: string }> = {
+    Low:       { p1: '1 week',   p2: '1–2 weeks', p3: '1 week',   p4: '1 week'   },
+    Medium:    { p1: '1–2 weeks', p2: '3–5 weeks', p3: '1–2 weeks', p4: '1–2 weeks' },
+    High:      { p1: '2–3 weeks', p2: '6–10 weeks', p3: '2–4 weeks', p4: '2–3 weeks' },
+    'Very High': { p1: '3–4 weeks', p2: '10–16 weeks', p3: '4–6 weeks', p4: '3–4 weeks' },
+  };
+  const pm = PHASE_MAP[complexity];
+  const hasIntegrationsOrAI = a.integrations.length > 0 || a.aiLevel !== 'none';
 
   const phases: EstimateResult['phases'] = [
     {
       name: 'Phase 1: Planning & Architecture',
-      duration: p1 <= 1 ? '1 week' : `${p1} weeks`,
+      duration: pm.p1,
       tasks: ['Product requirements & user story mapping', 'Technical architecture design', 'Database schema & API contract definition', 'UI/UX wireframes & design system setup']
     },
     {
       name: 'Phase 2: Core Development',
-      duration: p2 <= 1 ? '1 week' : `${p2} weeks`,
+      duration: pm.p2,
       tasks: [
         'Core product pages & user flows',
         ...(a.features.includes('auth') ? ['Authentication & user management'] : []),
@@ -289,9 +276,9 @@ function calculateEstimate(a: Answers): EstimateResult {
         'Backend APIs & database logic',
       ]
     },
-    ...(p3 > 0 ? [{
+    ...(hasIntegrationsOrAI ? [{
       name: 'Phase 3: Integrations & AI',
-      duration: p3 <= 1 ? '1 week' : `${p3} weeks`,
+      duration: pm.p3,
       tasks: [
         ...(a.aiLevel !== 'none' ? [`${AI_OPTIONS.find(o=>o.key===a.aiLevel)?.label} implementation`] : []),
         ...(a.integrations.length > 0 ? [`Third-party integrations (${a.integrations.slice(0,3).map(i=>INTEGRATION_OPTIONS.find(o=>o.key===i)?.label).join(', ')})`] : []),
@@ -299,13 +286,13 @@ function calculateEstimate(a: Answers): EstimateResult {
       ]
     }] : []),
     {
-      name: `Phase ${p3 > 0 ? 4 : 3}: Testing & Launch`,
-      duration: p4 <= 1 ? '1 week' : `${p4} weeks`,
+      name: `Phase ${hasIntegrationsOrAI ? 4 : 3}: Testing & Launch`,
+      duration: pm.p4,
       tasks: ['QA testing across devices & browsers', 'Performance optimisation & load testing', 'Security audit & penetration testing', 'Production deployment & monitoring setup']
     }
   ];
 
-  // Technical risks
+  // ── Technical risks ───────────────────────────────────────────────────────
   const risks: EstimateResult['risks'] = [];
   if (a.aiLevel === 'ai_core' || a.aiLevel === 'report_gen') {
     risks.push({ title: 'AI Output Consistency', detail: 'LLM responses may vary in quality and format. Requires robust prompt engineering, output validation layers, and fallback handling.', severity: 'high' });
@@ -332,7 +319,7 @@ function calculateEstimate(a: Answers): EstimateResult {
     risks.push({ title: 'Scope Creep', detail: 'Without strict MVP discipline, feature additions during development are the most common cause of timeline overruns in early-stage products.', severity: 'medium' });
   }
 
-  // Cost drivers
+  // ── Cost drivers ──────────────────────────────────────────────────────────
   const costDrivers: string[] = [];
   if (a.aiLevel !== 'none') costDrivers.push('AI/LLM API costs (ongoing per-request pricing that scales with usage)');
   if (hasIOS || hasAndroid) costDrivers.push('Apple Developer ($99/yr) and Google Play ($25 one-time) accounts plus device testing');
@@ -342,7 +329,7 @@ function calculateEstimate(a: Answers): EstimateResult {
   if (a.features.includes('messaging')) costDrivers.push('Real-time messaging infrastructure (WebSocket servers or managed services like Ably/Pusher)');
   if (costDrivers.length === 0) costDrivers.push('Development time is the primary cost driver for this scope');
 
-  // MVP Scope recommendation
+  // ── MVP Scope recommendation ──────────────────────────────────────────────
   const highValueFeatures = a.features.filter(f => ['auth','dashboard','payments','profiles'].includes(f));
   const deferFeatures = a.features.filter(f => ['analytics','reporting','messaging','collaboration','booking'].includes(f));
   const mvpInclude = [
@@ -546,38 +533,16 @@ export default function BuildTimeEstimatorPage() {
         .bte-btn { transition: all 0.15s; }
       `}</style>
 
-      {/* Header */}
-      <header style={{ borderBottom: `1px solid ${BORDER}`, background: '#fff', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: '12px', position: 'sticky', top: 0, zIndex: 100 }}>
-        <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{ width: 32, height: 32, background: BLUE, borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ color: '#fff', fontWeight: 900, fontSize: '0.9rem' }}>CC</span>
-          </div>
-          <span style={{ fontWeight: 800, fontSize: '0.95rem', color: DARK }}>CrestCode</span>
-        </Link>
-        <span style={{ color: BORDER, fontSize: '1.2rem' }}>|</span>
-        <span style={{ fontWeight: 700, fontSize: '0.9rem', color: MUTED }}>Build Time Estimator</span>
-        <div style={{ marginLeft: 'auto' }}>
-          <Link href="/founder" style={{ fontSize: '0.8rem', color: BLUE, textDecoration: 'none', fontWeight: 600 }}>
-            ← Idea Validator
-          </Link>
-        </div>
-      </header>
+      <Header />
 
-      <main style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #F8FAFF 0%, #EFF6FF 100%)', padding: '40px 16px 80px' }}>
+      <main style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #F8FAFF 0%, #EFF6FF 100%)', padding: '120px 16px 80px' }}>
         <div style={{ maxWidth: '780px', margin: '0 auto' }}>
 
-          {/* Hero */}
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: BLUE_LIGHT, border: `1px solid #BFDBFE`, borderRadius: '20px', padding: '6px 16px', marginBottom: '16px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: BLUE_LIGHT, border: `1px solid #BFDBFE`, borderRadius: '20px', padding: '6px 16px' }}>
               <Clock size={14} color={BLUE} />
               <span style={{ fontSize: '0.78rem', fontWeight: 700, color: BLUE }}>Step {step} of {STEPS.length}</span>
             </div>
-            <h1 style={{ fontSize: 'clamp(1.6rem, 4vw, 2.2rem)', fontWeight: 900, color: DARK, margin: '0 0 10px', letterSpacing: '-0.03em' }}>
-              Build Time Estimator
-            </h1>
-            <p style={{ fontSize: '0.95rem', color: MUTED, margin: 0, lineHeight: 1.6 }}>
-              Get a personalised development estimate for your product — no jargon, just clarity.
-            </p>
           </div>
 
           {/* Card */}
@@ -693,6 +658,8 @@ export default function BuildTimeEstimatorPage() {
           </div>
         </div>
       </main>
+
+      <Footer />
     </>
   );
 }
@@ -730,23 +697,10 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
         @media(max-width:768px){.rpt-layout{flex-direction:column!important;} .rpt-sidebar{width:100%!important; position:static!important;}}
       `}</style>
 
-      {/* Header */}
-      <header style={{ borderBottom: `1px solid ${BORDER}`, background: '#fff', padding: '14px 24px', display: 'flex', alignItems: 'center', gap: '12px', position: 'sticky', top: 0, zIndex: 100 }}>
-        <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{ width: 30, height: 30, background: BLUE, borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ color: '#fff', fontWeight: 900, fontSize: '0.8rem' }}>CC</span>
-          </div>
-          <span style={{ fontWeight: 800, fontSize: '0.9rem', color: DARK }}>CrestCode</span>
-        </Link>
-        <span style={{ color: BORDER }}>|</span>
-        <span style={{ fontWeight: 700, fontSize: '0.85rem', color: MUTED }}>Build Estimate Report</span>
-        <button onClick={onBack} className="bte-btn" style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '6px', padding: '7px 14px', borderRadius: '7px', border: `1.5px solid ${BORDER}`, background: 'transparent', cursor: 'pointer', fontSize: '0.78rem', fontWeight: 700, color: MUTED }}>
-          <ArrowLeft size={12} /> Edit Answers
-        </button>
-      </header>
+      <Header />
 
       {/* Report hero */}
-      <div style={{ background: `linear-gradient(135deg, ${DARK} 0%, #1E3A6E 100%)`, padding: '32px 24px', color: '#fff' }}>
+      <div style={{ background: `linear-gradient(135deg, ${DARK} 0%, #1E3A6E 100%)`, padding: '120px 24px 32px', color: '#fff' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.12)', borderRadius: '20px', padding: '5px 14px', marginBottom: '14px' }}>
             <Rocket size={12} color="#93C5FD" />
@@ -776,7 +730,10 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
       <div className="rpt-layout" style={{ maxWidth: '1100px', margin: '24px auto', padding: '0 16px', display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
 
         {/* Sidebar */}
-        <div className="rpt-sidebar" style={{ width: '210px', flexShrink: 0, position: 'sticky', top: '70px' }}>
+        <div className="rpt-sidebar" style={{ width: '210px', flexShrink: 0, position: 'sticky', top: '100px' }}>
+          <button onClick={onBack} className="bte-btn" style={{ width: '100%', marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '10px 14px', borderRadius: '8px', border: `1.5px solid ${BORDER}`, background: 'transparent', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 700, color: MUTED }}>
+            <ArrowLeft size={12} /> Edit Answers
+          </button>
           <div style={{ background: '#fff', borderRadius: '12px', border: `1px solid ${BORDER}`, padding: '12px', marginBottom: '12px' }}>
             {navItems.map(n => {
               const Icon = n.icon;
@@ -789,7 +746,7 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
             })}
           </div>
           <Link href="/contact" style={{ display: 'block', background: BLUE, color: '#fff', borderRadius: '10px', padding: '12px 16px', textDecoration: 'none', textAlign: 'center', fontWeight: 800, fontSize: '0.8rem' }}>
-            Book Discovery Call
+            Contact CrestCode
           </Link>
         </div>
 
@@ -1003,25 +960,27 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
           )}
 
           {/* CTA Banner */}
-          <div style={{ background: `linear-gradient(135deg, ${DARK} 0%, #1E3A6E 100%)`, borderRadius: '16px', padding: '32px', color: '#fff', marginTop: '8px' }}>
-            <div style={{ display: 'flex', gap: '12px', marginBottom: '12px' }}>
-              <Phone size={20} color="#93C5FD" />
-              <h3 style={{ margin: 0, fontWeight: 900, fontSize: '1.1rem' }}>Need Help Building This?</h3>
+          <div style={{ background: '#fff', border: `2px solid ${BLUE}`, borderRadius: '16px', padding: '32px', marginTop: '8px', display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
+            <div style={{ flex: 1, minWidth: '240px' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#EFF6FF', borderRadius: '20px', padding: '5px 14px', marginBottom: '12px' }}>
+                <Zap size={12} color={BLUE} />
+                <span style={{ fontSize: '0.7rem', fontWeight: 700, color: BLUE, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Let's Build Together</span>
+              </div>
+              <h3 style={{ margin: '0 0 8px', fontWeight: 900, fontSize: '1.1rem', color: DARK, letterSpacing: '-0.02em' }}>Need Help Building This?</h3>
+              <p style={{ fontSize: '0.85rem', color: MUTED, margin: '0', lineHeight: 1.6 }}>
+                CrestCode can take your idea from estimate to launch. We handle Product Strategy, UI/UX Design, MVP Development, AI Integration, and Product Launch.
+              </p>
             </div>
-            <p style={{ fontSize: '0.85rem', opacity: 0.8, margin: '0 0 20px', lineHeight: 1.6 }}>
-              CrestCode can take your idea from estimate to launch. We handle Product Strategy, UI/UX Design, MVP Development, AI Integration, and Product Launch.
-            </p>
-            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-              <Link href="/contact" style={{ display: 'flex', alignItems: 'center', gap: '8px', background: BLUE, color: '#fff', borderRadius: '8px', padding: '11px 22px', textDecoration: 'none', fontWeight: 800, fontSize: '0.85rem' }}>
-                <Phone size={14} /> Book Discovery Call
-              </Link>
-              <Link href="/contact" style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.12)', color: '#fff', borderRadius: '8px', padding: '11px 22px', textDecoration: 'none', fontWeight: 700, fontSize: '0.85rem', border: '1px solid rgba(255,255,255,0.2)' }}>
-                Contact CrestCode <ExternalLink size={13} />
+            <div style={{ flexShrink: 0 }}>
+              <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: BLUE, color: '#fff', borderRadius: '10px', padding: '13px 24px', textDecoration: 'none', fontWeight: 800, fontSize: '0.9rem', whiteSpace: 'nowrap' }}>
+                Contact CrestCode <ArrowRight size={14} />
               </Link>
             </div>
           </div>
         </div>
       </div>
+
+      <Footer />
     </>
   );
 }

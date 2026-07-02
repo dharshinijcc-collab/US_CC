@@ -3,10 +3,12 @@
 -- Run this in your Supabase SQL Editor (Dashboard → SQL Editor)
 -- ============================================================
 
--- 1. USER PROFILES TABLE
+-- 1. USER PROFILES TABLE (Existing 'profiles' table)
 -- Stores name + email of every registered user for easy viewing
 -- Auto-populated via a trigger when a user signs up via Supabase Auth
-CREATE TABLE IF NOT EXISTS user_profiles (
+-- Note: If you already have the 'profiles' table created as shown in your schema, 
+-- you do not need to run this CREATE TABLE block.
+CREATE TABLE IF NOT EXISTS profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   full_name TEXT,
   email TEXT NOT NULL,
@@ -17,7 +19,7 @@ CREATE TABLE IF NOT EXISTS user_profiles (
 CREATE OR REPLACE FUNCTION handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO public.user_profiles (id, email, full_name)
+  INSERT INTO public.profiles (id, email, full_name)
   VALUES (
     NEW.id,
     NEW.email,
@@ -34,9 +36,10 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION handle_new_user();
 
--- RLS for user_profiles
-ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Service role full access" ON user_profiles USING (true) WITH CHECK (true);
+-- RLS for profiles
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Service role full access" ON profiles USING (true) WITH CHECK (true);
+
 
 
 -- ============================================================
@@ -46,7 +49,7 @@ CREATE POLICY "Service role full access" ON user_profiles USING (true) WITH CHEC
 CREATE TABLE IF NOT EXISTS dd_reports (
   id UUID PRIMARY KEY,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
-  user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  user_id UUID REFERENCES profiles(id) ON DELETE SET NULL,
   overall_score NUMERIC(4, 2),
   verdict TEXT,
   is_mock BOOLEAN DEFAULT FALSE,
