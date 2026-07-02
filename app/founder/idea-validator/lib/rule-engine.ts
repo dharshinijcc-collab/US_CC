@@ -286,6 +286,6 @@ export function runRuleEngine(signals: ExtractedSignals): Record<string, Dimensi
     market_timing: evaluateDimension(5, marketTimingFactors, marketTimingKeys),
     technical_feasibility: evaluateDimension(5, technicalFeasibilityFactors, technicalFeasibilityKeys),
     competitive_moat: evaluateDimension(5, competitiveMoatFactors, competitiveMoatKeys),
-    founder_market_fit: evaluateDimension(5, founderMarketFitFactors, founderMarketFitKeys)
+    founder_market_fit: evaluateDimension(5, founderMarketFitFactors, founderMarketFitKeys),
   };
 }

@@ -8,9 +8,11 @@ import Blogs from '@/components/blogs';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
 
+import localConfig from '@/backend/config.json';
+
 export default function ResourcesPage() {
   const { content, loading, error } = useContent();
-  const resourcesContent = content?.resources || {};
+  const resourcesContent = content?.resources || (localConfig as any).resources || {};
 
 
   const toolsCards = [
@@ -21,9 +23,10 @@ export default function ResourcesPage() {
           <path d="M12 6v6l4 2" />
         </svg>
       ),
-      title: 'Timeline & Cost Estimator', status: 'COMING SOON', statusColor: '#F59E0B', statusBg: 'rgba(245, 158, 11, 0.1)',
+      title: 'Timeline & Cost Estimator', status: 'ACTIVE', statusColor: '#10B981', statusBg: 'rgba(16, 185, 129, 0.1)',
       desc: "Describe what you want to build and get a rough timeline and cost estimate based on Crestcode's engagement model — broken down by stage and scope.",
-      tags: ['Founders', 'Business Owners', 'Free']
+      tags: ['Founders', 'Business Owners', 'Free'],
+      href: '/build-time-estimator'
     },
     {
       icon: (
@@ -482,20 +485,27 @@ export default function ResourcesPage() {
             <div className="hero-eyebrow-pill">
               <EditableText contentKey="resources.hero.eyebrow" value={resourcesContent.hero?.eyebrow || 'RESOURCES'} />
             </div>
-            <h1 className="hero-title" style={{ color: '#020617' }}>
+            <EditableText
+              as="h1"
+              contentKey="resources.hero.title"
+              value={resourcesContent.hero?.title || 'Everything you need to build\nWith Confidence'}
+              className="hero-title"
+              style={{ color: '#020617' }}
+            >
               {(() => {
                 const titleText = resourcesContent.hero?.title || 'Everything you need to build\nWith Confidence';
                 const lines = titleText.split('\n');
                 return lines.map((line, lineIdx) => {
-                  const words = line.split(' ');
+                  const words = line.split(/[\s\u00a0]+/);
                   return (
                     <React.Fragment key={lineIdx}>
                       {words.map((word: string, index: number) => {
+                        if (!word) return null;
                         const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").toUpperCase();
                         const isBlue = ['BUILD', 'CONFIDENCE'].includes(cleanWord);
                         return (
                           <span key={index} style={isBlue ? { color: '#005AE2' } : {}}>
-                            {word}{index < words.length - 1 ? ' ' : ''}
+                            {word}{' '}
                           </span>
                         );
                       })}
@@ -504,7 +514,7 @@ export default function ResourcesPage() {
                   );
                 });
               })()}
-            </h1>
+            </EditableText>
             <p className="hero-description" style={{ marginBottom: '32px', lineHeight: '1.8', maxWidth: '720px' }}>
               <EditableText contentKey="resources.hero.description" value={resourcesContent.hero?.description || 'Guides, tools, and insights for founders and investors — covering how CrestCode works, how the industry is moving, and what it takes to build a product that lasts.'} />
             </p>
@@ -532,36 +542,78 @@ export default function ResourcesPage() {
           </div>
 
           <div className="cards-grid">
-            {toolsCards.map((tool, idx) => (
-              <div key={idx} className="res-card">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
-                  <div style={{
-                    width: '46px',
-                    height: '46px',
-                    borderRadius: '12px',
-                    background: 'rgba(0, 90, 226, 0.08)',
-                    color: 'var(--primary-blue)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: 0,
-                    flexShrink: 0
+            {(() => {
+              const cards = resourcesContent.tools?.cards || toolsCards;
+              return cards.map((tool, idx) => {
+                const href = tool.href || toolsCards[idx]?.href;
+                const cardContent = (
+                  <div className="res-card" style={{
+                    height: '100%',
+                    cursor: href ? 'pointer' : 'default',
+                    transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s',
                   }}>
-                    {tool.icon}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
+                      <div style={{
+                        width: '46px',
+                        height: '46px',
+                        borderRadius: '12px',
+                        background: 'rgba(0, 90, 226, 0.08)',
+                        color: 'var(--primary-blue)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        margin: 0,
+                        flexShrink: 0
+                      }}>
+                        {tool.icon || toolsCards[idx]?.icon}
+                      </div>
+                      <span className="tool-badge" style={{ backgroundColor: tool.statusBg || toolsCards[idx]?.statusBg, color: tool.statusColor || toolsCards[idx]?.statusColor }}>
+                        <EditableText
+                          contentKey={`resources.tools.cards.${idx}.status`}
+                          value={tool.status}
+                        />
+                      </span>
+                    </div>
+                    <h3 className="card-title manrope-font">
+                      <EditableText
+                        contentKey={`resources.tools.cards.${idx}.title`}
+                        value={tool.title}
+                      />
+                    </h3>
+                    <p className="card-desc" style={{ marginBottom: '24px' }}>
+                      <EditableText
+                        contentKey={`resources.tools.cards.${idx}.desc`}
+                        value={tool.desc}
+                      />
+                    </p>
+                    <div className="tool-tags">
+                      {(tool.tags || toolsCards[idx]?.tags || []).map((tag: string, tagIdx: number) => (
+                        <span key={tagIdx} className="tool-tag">
+                          <EditableText
+                            contentKey={`resources.tools.cards.${idx}.tags.${tagIdx}`}
+                            value={tag}
+                          />
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <span className="tool-badge" style={{ backgroundColor: tool.statusBg, color: tool.statusColor }}>
-                    {tool.status}
-                  </span>
-                </div>
-                <h3 className="card-title manrope-font">{tool.title}</h3>
-                <p className="card-desc" style={{ marginBottom: '24px' }}>{tool.desc}</p>
-                <div className="tool-tags">
-                  {tool.tags.map(tag => (
-                    <span key={tag} className="tool-tag">{tag}</span>
-                  ))}
-                </div>
-              </div>
-            ))}
+                );
+
+                if (href) {
+                  return (
+                    <Link key={idx} href={href} style={{ textDecoration: 'none', color: 'inherit' }} className="res-card-link">
+                      {cardContent}
+                    </Link>
+                  );
+                }
+
+                return (
+                  <div key={idx} className="res-card-wrapper">
+                    {cardContent}
+                  </div>
+                );
+              });
+            })()}
           </div>
           </div>
         </section>

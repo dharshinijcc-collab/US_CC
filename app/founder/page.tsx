@@ -435,7 +435,7 @@ Moat: ${answers.moat}`;
       const response = await fetch('/founder/idea-validator/api', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ideaText, answers })
+        body: JSON.stringify({ ideaText, answers, saveToDb: false })
       });
 
       const data = await response.json();
@@ -447,7 +447,8 @@ Moat: ${answers.moat}`;
       clearInterval(stageTimer);
       setIsLoading(false);
       if (data.id) {
-        window.location.href = `/founder/idea-validator/report?id=${data.id}`;
+        sessionStorage.setItem(`cc_report_${data.id}`, JSON.stringify(data));
+        window.location.href = `/founder/idea-validator/report?id=${data.id}&temp=true`;
       } else {
         throw new Error('No report ID returned from server');
       }
@@ -3174,6 +3175,165 @@ Moat: ${answers.moat}`;
             gap: 12px;
           }
         }
+
+        /* ===== PARTNERS PRODUCTS — MOBILE RESPONSIVE ===== */
+
+        /* Desktop: two-column grid layout */
+        .pp-layout {
+          display: grid;
+          grid-template-columns: 260px 1fr;
+          gap: 0;
+          background: #FFFFFF;
+          border: 1px solid #E2E8F0;
+          border-radius: 20px;
+          overflow: hidden;
+          box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        }
+
+        /* Desktop sidebar */
+        .pp-sidebar {
+          border-right: 1px solid #E2E8F0;
+          padding: 8px 0;
+          background: #F1F5F9;
+        }
+
+        /* Desktop content panel */
+        .pp-content {
+          padding: 32px 36px;
+          background: #FFFFFF;
+        }
+
+        /* Stats grid: 3-col desktop */
+        .pp-stats-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+          margin-bottom: 28px;
+        }
+
+        /* CTA button */
+        .pp-cta-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          width: 100%;
+          padding: 14px 24px;
+          background: #FFFFFF;
+          border: 1.5px solid #E2E8F0;
+          border-radius: 12px;
+          font-size: 0.925rem;
+          font-weight: 700;
+          color: #0F172A;
+          text-decoration: none;
+          font-family: 'Inter', sans-serif;
+          transition: all 0.2s ease;
+          cursor: pointer;
+          min-height: 48px;
+        }
+        .pp-cta-btn:hover {
+          background: #F8FAFC;
+          border-color: #005AE2;
+          color: #005AE2;
+        }
+
+        /* ── TABLET (768px–1024px) ── */
+        @media (max-width: 1024px) and (min-width: 769px) {
+          .pp-layout {
+            grid-template-columns: 220px 1fr;
+          }
+        }
+
+        /* ── MOBILE (≤768px) ── */
+        @media (max-width: 768px) {
+          .pp-layout {
+            display: flex;
+            flex-direction: column;
+            border-radius: 16px;
+          }
+
+          /* Sidebar → horizontal scroll tab strip */
+          .pp-sidebar {
+            border-right: none;
+            border-bottom: 1px solid #E2E8F0;
+            background: #F8FAFC;
+            padding: 0;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            gap: 0;
+          }
+          .pp-sidebar::-webkit-scrollbar { display: none; }
+
+          /* Each sidebar button → horizontal tab card */
+          .pp-sidebar button {
+            flex-direction: column !important;
+            align-items: center !important;
+            flex-shrink: 0 !important;
+            width: auto !important;
+            min-width: 100px !important;
+            padding: 12px 16px !important;
+            border-left: none !important;
+            border-bottom: 3px solid transparent !important;
+            text-align: center !important;
+            gap: 6px !important;
+            min-height: 80px !important;
+          }
+          .pp-sidebar button[data-active="true"] {
+            border-bottom-color: #005AE2 !important;
+            background: #FFFFFF !important;
+          }
+
+          /* Content panel → full width, tighter padding */
+          .pp-content {
+            padding: 20px 16px;
+          }
+
+          /* Project name: smaller on mobile */
+          .pp-product-name {
+            font-size: 1.6rem !important;
+          }
+
+          /* Stats → 2-column grid on mobile */
+          .pp-stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+          }
+
+          /* CTA → full width sticky-style at bottom */
+          .pp-cta-btn {
+            width: 100%;
+            min-height: 52px;
+            font-size: 1rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #005AE2 0%, #0047C4 100%);
+            color: #FFFFFF;
+            border: none;
+          }
+          .pp-cta-btn:hover {
+            background: linear-gradient(135deg, #0047C4 0%, #003699 100%);
+            color: #FFFFFF;
+          }
+        }
+
+        /* ── SMALL MOBILE (≤480px) ── */
+        @media (max-width: 480px) {
+          .pp-content {
+            padding: 16px 12px;
+          }
+          .pp-stats-grid {
+            grid-template-columns: 1fr;
+            gap: 8px;
+          }
+          .pp-sidebar button {
+            min-width: 88px !important;
+            padding: 10px 12px !important;
+          }
+        }
   `;
 
   return (
@@ -3182,7 +3342,7 @@ Moat: ${answers.moat}`;
 
       <Header />
 
-      <div className="landing-page" style={{ overflow: 'hidden', position: 'relative', backgroundColor: '#F8FAFC' }}>
+      <div className="landing-page" style={{ overflow: 'clip', position: 'relative', backgroundColor: '#F8FAFC' }}>
 
         {/* Step 1: Idea Submission Hero */}
         <header ref={heroRef} className="hero-section" style={{ position: 'relative', overflow: 'hidden', minHeight: '700px' }}>
@@ -3204,7 +3364,8 @@ Moat: ${answers.moat}`;
                 const lines = headingText.split('\n');
                 return lines.map((line, lineIdx) => (
                   <React.Fragment key={lineIdx}>
-                    {line.split(' ').map((word: string, index: number) => {
+                    {line.split(/[\s\u00a0]+/).map((word: string, index: number) => {
+                      if (!word) return null;
                       const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
                       const cleanWordUpper = cleanWord.toUpperCase();
                       const isBlue = ['BOLD', 'IDEAS', 'REAL', 'IDEA', 'CUSTOMER', 'CUSTOMERS', 'PRODUCTS', 'PRODUCT', 'VENTURES', 'VENTURE'].includes(cleanWordUpper);
@@ -3511,13 +3672,13 @@ Moat: ${answers.moat}`;
                 <div className="spoke-card" style={{ left: '50%', top: '0px', transform: 'translateX(-50%)' }}>
                   <h4 className="spoke-card-title">
                     <EditableText
-                      contentKey="methodology.cards.0.title"
+                      contentKey="home.methodology.cards.0.title"
                       value={methodologyCards[0].title}
                     />
                   </h4>
                   <p className="spoke-card-desc">
                     <EditableText
-                      contentKey="methodology.cards.0.description"
+                      contentKey="home.methodology.cards.0.description"
                       value={methodologyCards[0].description}
                     />
                   </p>
@@ -3529,13 +3690,13 @@ Moat: ${answers.moat}`;
                 <div className="spoke-card" style={{ left: '67%', top: '150px' }}>
                   <h4 className="spoke-card-title">
                     <EditableText
-                      contentKey="methodology.cards.1.title"
+                      contentKey="home.methodology.cards.1.title"
                       value={methodologyCards[1].title}
                     />
                   </h4>
                   <p className="spoke-card-desc">
                     <EditableText
-                      contentKey="methodology.cards.1.description"
+                      contentKey="home.methodology.cards.1.description"
                       value={methodologyCards[1].description}
                     />
                   </p>
@@ -3547,13 +3708,13 @@ Moat: ${answers.moat}`;
                 <div className="spoke-card" style={{ left: '69%', top: '410px' }}>
                   <h4 className="spoke-card-title">
                     <EditableText
-                      contentKey="methodology.cards.2.title"
+                      contentKey="home.methodology.cards.2.title"
                       value={methodologyCards[2].title}
                     />
                   </h4>
                   <p className="spoke-card-desc">
                     <EditableText
-                      contentKey="methodology.cards.2.description"
+                      contentKey="home.methodology.cards.2.description"
                       value={methodologyCards[2].description}
                     />
                   </p>
@@ -3565,13 +3726,13 @@ Moat: ${answers.moat}`;
                 <div className="spoke-card" style={{ left: '50%', bottom: '0px', top: 'auto', transform: 'translateX(-50%)' }}>
                   <h4 className="spoke-card-title">
                     <EditableText
-                      contentKey="methodology.cards.3.title"
+                      contentKey="home.methodology.cards.3.title"
                       value={methodologyCards[3].title}
                     />
                   </h4>
                   <p className="spoke-card-desc">
                     <EditableText
-                      contentKey="methodology.cards.3.description"
+                      contentKey="home.methodology.cards.3.description"
                       value={methodologyCards[3].description}
                     />
                   </p>
@@ -3583,13 +3744,13 @@ Moat: ${answers.moat}`;
                 <div className="spoke-card" style={{ left: '6%', top: '410px' }}>
                   <h4 className="spoke-card-title">
                     <EditableText
-                      contentKey="methodology.cards.4.title"
+                      contentKey="home.methodology.cards.4.title"
                       value={methodologyCards[4].title}
                     />
                   </h4>
                   <p className="spoke-card-desc">
                     <EditableText
-                      contentKey="methodology.cards.4.description"
+                      contentKey="home.methodology.cards.4.description"
                       value={methodologyCards[4].description}
                     />
                   </p>
@@ -3645,10 +3806,11 @@ Moat: ${answers.moat}`;
 
         {/* ── Partners Products Section ── */}
         {(() => {
-          const prod = PARTNER_PRODUCTS[activeProd];
+          const items = homeContent.partnerProducts?.items || PARTNER_PRODUCTS;
+          const prod = items[activeProd] || PARTNER_PRODUCTS[activeProd];
 
           return (
-            <section className="page-section" style={{ backgroundColor: '#F5F5F0', fontFamily: "'Inter', sans-serif" }}>
+            <section className="page-section" style={{ backgroundColor: '#F8FAFC', fontFamily: "'Inter', sans-serif" }}>
               <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
                 {/* Section Eyebrow */}
                 <div style={{ textAlign: 'center', marginBottom: '48px' }}>
@@ -3664,7 +3826,12 @@ Moat: ${answers.moat}`;
                     padding: '8px 18px',
                     borderRadius: '100px',
                     marginBottom: '16px',
-                  }}>Partners&apos; Products</span>
+                  }}>
+                    <EditableText
+                      contentKey="home.partnerProducts.eyebrow"
+                      value={homeContent.partnerProducts?.eyebrow || "Partners' Products"}
+                    />
+                  </span>
                   <h2 style={{
                     fontFamily: "'Manrope', sans-serif",
                     fontSize: 'clamp(1.75rem, 3vw, 2.25rem)',
@@ -3673,33 +3840,29 @@ Moat: ${answers.moat}`;
                     letterSpacing: '-0.02em',
                     margin: '0 auto 12px',
                     lineHeight: 1.25,
-                  }}>What we&apos;ve built together</h2>
+                  }}>
+                    <EditableText
+                      contentKey="home.partnerProducts.title"
+                      value={homeContent.partnerProducts?.title || "What we've built together"}
+                    />
+                  </h2>
                   <p style={{ color: '#64748B', fontSize: '1rem', maxWidth: '500px', margin: '0 auto', lineHeight: 1.6, fontWeight: 500 }}>
-                    Real ventures built in partnership with founders who chose to build, not just plan.
+                    <EditableText
+                      contentKey="home.partnerProducts.description"
+                      value={homeContent.partnerProducts?.description || "Real ventures built in partnership with founders who chose to build, not just plan."}
+                    />
                   </p>
                 </div>
 
                 {/* Two-column layout */}
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: '260px 1fr',
-                  gap: '0',
-                  background: '#FFFFFF',
-                  border: '1px solid #E2E8F0',
-                  borderRadius: '20px',
-                  overflow: 'hidden',
-                  boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
-                }}>
+                <div className="pp-layout">
                   {/* Left sidebar — product list */}
-                  <div style={{
-                    borderRight: '1px solid #E2E8F0',
-                    padding: '8px 0',
-                    background: '#F5F5F0',
-                  }}>
-                    {PARTNER_PRODUCTS.map((p, idx) => (
+                  <div className="pp-sidebar">
+                    {items.map((p: any, idx: number) => (
                       <button
-                        key={p.id}
+                        key={p.id || idx}
                         onClick={() => setActiveProd(idx)}
+                        data-active={activeProd === idx ? 'true' : 'false'}
                         style={{
                           display: 'flex',
                           alignItems: 'center',
@@ -3728,7 +3891,7 @@ Moat: ${answers.moat}`;
                           flexShrink: 0,
                           transition: 'all 0.2s ease',
                         }}>
-                          {p.icon}
+                          {p.icon || PARTNER_PRODUCTS[idx]?.icon}
                         </div>
                         <div>
                           <div style={{
@@ -3738,31 +3901,46 @@ Moat: ${answers.moat}`;
                             color: activeProd === idx ? '#0F172A' : '#475569',
                             lineHeight: 1.3,
                             transition: 'color 0.2s',
-                          }}>{p.name}</div>
+                          }}>
+                            <EditableText
+                              contentKey={`home.partnerProducts.items.${idx}.name`}
+                              value={p.name}
+                            />
+                          </div>
                           <div style={{
                             fontFamily: "'Inter', sans-serif",
                             fontSize: '0.8rem',
                             color: '#6B7280',
                             fontWeight: 500,
                             marginTop: '2px',
-                          }}>{p.tagline}</div>
+                          }}>
+                            <EditableText
+                              contentKey={`home.partnerProducts.items.${idx}.tagline`}
+                              value={p.tagline}
+                            />
+                          </div>
                         </div>
                       </button>
                     ))}
                   </div>
 
                   {/* Right detail panel */}
-                  <div style={{ padding: '32px 36px', background: '#FFFFFF' }}>
+                  <div className="pp-content">
                     {/* Product name + subtitle */}
                     <div style={{ marginBottom: '24px' }}>
-                      <h3 style={{
+                      <h3 className="pp-product-name" style={{
                         fontFamily: "'Inter', sans-serif",
                         fontSize: '2.25rem',
                         fontWeight: 800,
                         color: '#0F172A',
                         letterSpacing: '-0.03em',
                         margin: '0 0 8px',
-                      }}>{prod.name}</h3>
+                      }}>
+                        <EditableText
+                          contentKey={`home.partnerProducts.items.${activeProd}.name`}
+                          value={prod.name}
+                        />
+                      </h3>
                       <p style={{
                         fontFamily: "'Inter', sans-serif",
                         fontSize: '1.125rem',
@@ -3770,44 +3948,18 @@ Moat: ${answers.moat}`;
                         fontWeight: 600,
                         margin: 0,
                         lineHeight: 1.4,
-                      }}>{prod.subtitle}</p>
+                      }}>
+                        <EditableText
+                          contentKey={`home.partnerProducts.items.${activeProd}.subtitle`}
+                          value={prod.subtitle}
+                        />
+                      </p>
                     </div>
 
-                    {/* Stat banner */}
-                    <div style={{
-                      background: prod.statTheme.bg,
-                      borderRadius: '16px',
-                      padding: '18px 24px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '16px',
-                      marginBottom: '28px',
-                    }}>
-                      <div style={{
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '50%',
-                        background: prod.statTheme.iconBg,
-                        color: prod.statTheme.iconColor,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
-                      }}>
-                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-                          <polyline points="17 6 23 6 23 12" />
-                        </svg>
-                      </div>
-                      <div>
-                        <div style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: '1.25rem', color: prod.statTheme.text, lineHeight: 1.2 }}>{prod.stat}</div>
-                        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.875rem', color: prod.statTheme.subText, fontWeight: 500, marginTop: '4px' }}>{prod.statSub}</div>
-                      </div>
-                    </div>
 
                     {/* What CrestCode did */}
                     <div style={{
-                      background: '#FAF9F6',
+                      background: '#F1F5F9',
                       borderRadius: '12px',
                       padding: '20px 24px',
                       marginBottom: '28px',
@@ -3825,46 +3977,59 @@ Moat: ${answers.moat}`;
                         </svg>
                         <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6B7280' }}>What CrestCode Did</span>
                       </div>
-                      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '1rem', color: '#334155', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>{prod.whatWeDid}</p>
+                      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '1rem', color: '#334155', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
+                        <EditableText
+                          contentKey={`home.partnerProducts.items.${activeProd}.whatWeDid`}
+                          value={prod.whatWeDid}
+                        />
+                      </p>
                     </div>
 
                     {/* Key Features */}
                     <div style={{ marginBottom: '28px' }}>
                       <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6B7280', marginBottom: '12px' }}>Key Features</div>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                        {prod.features.map((f, i) => (
+                        {(prod.features || []).map((f: any, i: number) => (
                           <span key={i} style={{
                             display: 'inline-flex',
                             alignItems: 'center',
                             gap: '6px',
-                            background: '#FAF9F6',
+                            background: '#F1F5F9',
                             borderRadius: '8px',
                             padding: '8px 16px',
                             fontSize: '0.875rem',
                             color: '#334155',
                             fontWeight: 600,
                           }}>
-                            {f.icon}
-                            {f.text}
+                            {f.icon || PARTNER_PRODUCTS[activeProd]?.features[i]?.icon}
+                            <EditableText
+                              contentKey={`home.partnerProducts.items.${activeProd}.features.${i}.text`}
+                              value={f.text}
+                            />
                           </span>
                         ))}
                       </div>
                     </div>
 
                     {/* Industry / Duration / Team */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '28px' }}>
+                    <div className="pp-stats-grid">
                       {[
-                        { label: 'Industry', value: prod.industry },
-                        { label: 'Duration', value: prod.duration },
-                        { label: 'Team size', value: prod.team },
+                        { label: 'Industry', value: prod.industry, key: 'industry' },
+                        { label: 'Duration', value: prod.duration, key: 'duration' },
+                        { label: 'Team size', value: prod.team, key: 'team' },
                       ].map((meta, i) => (
                         <div key={i} style={{
-                          background: '#FAF9F6',
+                          background: '#F1F5F9',
                           borderRadius: '12px',
                           padding: '16px 18px',
                         }}>
                           <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', color: '#6B7280', fontWeight: 600, marginBottom: '6px' }}>{meta.label}</div>
-                          <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '1rem', fontWeight: 800, color: '#0F172A' }}>{meta.value}</div>
+                          <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '1rem', fontWeight: 800, color: '#0F172A' }}>
+                            <EditableText
+                              contentKey={`home.partnerProducts.items.${activeProd}.${meta.key}`}
+                              value={meta.value}
+                            />
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -3873,7 +4038,7 @@ Moat: ${answers.moat}`;
                     <div style={{ marginBottom: '32px' }}>
                       <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6B7280', marginBottom: '12px' }}>Technology Stack</div>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                        {prod.stack.map((s, i) => (
+                        {(prod.stack || []).map((s: string, i: number) => (
                           <span key={i} style={{
                             background: '#FFFFFF',
                             border: '1px solid #E2E8F0',
@@ -3882,30 +4047,18 @@ Moat: ${answers.moat}`;
                             fontSize: '0.875rem',
                             color: '#334155',
                             fontWeight: 600,
-                          }}>{s}</span>
+                          }}>
+                            <EditableText
+                              contentKey={`home.partnerProducts.items.${activeProd}.stack.${i}`}
+                              value={s}
+                            />
+                          </span>
                         ))}
                       </div>
                     </div>
 
                     {/* Visit live product button */}
-                    <a href={prod.liveUrl} target="_blank" rel="noopener noreferrer" style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '8px',
-                      width: '100%',
-                      padding: '14px 24px',
-                      background: '#FFFFFF',
-                      border: '1.5px solid #E2E8F0',
-                      borderRadius: '12px',
-                      fontSize: '0.925rem',
-                      fontWeight: 700,
-                      color: '#0F172A',
-                      textDecoration: 'none',
-                      fontFamily: "'Inter', sans-serif",
-                      transition: 'all 0.2s ease',
-                      cursor: 'pointer',
-                    }}>
+                    <a href={prod.liveUrl} target="_blank" rel="noopener noreferrer" className="pp-cta-btn">
                       <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="7" y1="17" x2="17" y2="7" />
                         <polyline points="7 7 17 7 17 17" />

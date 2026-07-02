@@ -1,0 +1,1321 @@
+{
+  "startup_summary": "The startup proposes an application for selling clothes, targeting a customer segment described as 'hjbsjnds hjbdsbnkjs' to address the core problem of 'jdnsjnkjndj jhbskjnhdbjwh'. While operating in a market with strong timing, the concept currently lacks specific details on its unique value proposition and faces significant execution and defensibility challenges.",
+  "why_this_score": "The overall score of 5/10 reflects a significant disparity between strong market signals and weak foundational elements. The Investor Readiness Score of 8.3/10 is driven by high scores in Investor Appeal (9/10), Market Timing (10/10), and Customer Demand (7/10), suggesting a potentially attractive market opportunity. However, the Startup Quality Score of 4.8/10 is severely hampered by a very low Evidence Score (2/10) and critical red flags. The absence of a technical lead, the solo founder structure, and a weak competitive moat significantly reduce the perceived quality and increase investment risk, pulling the overall score down despite the favorable market conditions. The high estimated build complexity and long timeline further contribute to the low quality score, indicating substantial hurdles to product realization.",
+  "biggest_assumption": "The primary unvalidated leap-of-faith assumption is that the target customers ('hjbsjnds hjbdsbnkjs') will actively use and derive sufficient value from an 'app to sell clothes' to overcome existing solutions, and that their stated interest in 'conversations' translates into actual adoption and willingness to pay.",
+  "missing_evidence": "The single most critical missing proof point is concrete, quantitative validation of customer demand beyond 'conversations', such as a waitlist with significant sign-ups, pre-orders, or locked-in pilot users demonstrating a clear intent to use or pay for the solution.",
+  "what_increased_the_score": [
+    "Strong Market Timing (10/10) indicating a 'why now' opportunity.",
+    "High Investor Appeal (9/10) suggesting a large addressable market and attractive revenue potential.",
+    "Decent Customer Demand (7/10) based on perceived pain points.",
+    "Reasonable Technical Feasibility (7/10) for the core concept, despite team limitations."
+  ],
+  "what_reduced_the_score": [
+    "Very low Competitive Moat (2/10) indicating high susceptibility to competition.",
+    "Poor Build Timeline (1/10) due to high complexity and lack of technical leadership.",
+    "Low Founder-Market Fit (4/10) lacking direct technical or deep industry experience.",
+    "Presence of three critical red flags: Solo Founder, No Technical Lead, and Weak Defensibility Moat.",
+    "Extremely low Evidence Score (2/10) demonstrating minimal validation beyond early conversations."
+  ],
+  "how_to_improve": [
+    "Recruit a strong technical co-founder with relevant development experience.",
+    "Clearly articulate and validate a unique defensibility strategy (moat) beyond generic features.",
+    "Gather concrete evidence of customer demand through waitlists, pilot programs, or pre-sales.",
+    "Refine the problem statement and target customer segment with more specificity and quantitative data."
+  ],
+  "investor_questions": [
+    "What specific, quantifiable evidence (beyond conversations) do you have that customers will adopt and pay for this app?",
+    "How do you plan to build and maintain the technical product without a dedicated technical co-founder or in-house engineering lead?",
+    "What is your unique defensibility strategy to prevent competitors from easily replicating your 'app to sell clothes' concept?"
+  ],
+  "highest_scoring_dimension": "Market Timing",
+  "lowest_scoring_dimension": "Build Timeline",
+  "risk_matrix": {
+    "market": {
+      "severity": "medium",
+      "reason": "While market timing is strong, the specific niche and differentiation for 'an app to sell clothes' is not clearly defined, risking commoditization.",
+      "mitigation": "Conduct deeper market segmentation research to identify an underserved niche and articulate a clear value proposition for that segment."
+    },
+    "execution": {
+      "severity": "high",
+      "reason": "The solo founder model, coupled with the absence of a technical lead and high build complexity, significantly increases the risk of delays, scope creep, or outright failure to deliver the product.",
+      "mitigation": "Immediately prioritize recruiting a co-founder with strong technical expertise and a proven track record in product development. Develop a detailed, phased execution plan with clear milestones."
+    },
+    "funding": {
+      "severity": "medium",
+      "reason": "The low evidence score and significant execution risks make securing early-stage funding challenging without substantial de-risking.",
+      "mitigation": "Focus on achieving critical validation milestones (e.g., strong waitlist, technical co-founder onboarded, refined MVP plan) to increase investor confidence before seeking significant capital."
+    },
+    "competition": {
+      "severity": "high",
+      "reason": "The stated 'moat' is weak, and the market for selling clothes apps is crowded, making it highly vulnerable to existing players or new entrants.",
+      "mitigation": "Develop a proprietary data strategy, embed network effects, or design unique switching costs that create a sustainable competitive advantage and differentiate from 'dsjnjkdsknjdsh hjsjnhhbdjsdsjnb'."
+    },
+    "technical": {
+      "severity": "high",
+      "reason": "Without a technical co-founder or in-house expertise, building a 'high complexity' product within a 2.5-month estimated timeline is highly improbable and prone to quality issues.",
+      "mitigation": "Secure a technical co-founder, conduct a thorough technical architecture review, and develop a realistic, phased development roadmap that accounts for current team capabilities."
+    },
+    "legal": {
+      "severity": "low",
+      "reason": "The concept of an 'app to sell clothes' typically involves standard e-commerce legal considerations, which are generally well-understood.",
+      "mitigation": "Consult with legal counsel early to establish appropriate terms of service, privacy policies, and intellectual property protections for the platform and its users."
+    },
+    "operational": {
+      "severity": "medium",
+      "reason": "A solo founder will face immense operational strain managing all aspects of the business, from product development to marketing and customer support.",
+      "mitigation": "Build out a core team, starting with a co-founder, to distribute responsibilities and ensure operational resilience and scalability."
+    }
+  },
+  "validation_roadmap": [
+    {
+      "phase": "Phase 1: Deep Customer Validation & Moat Definition",
+      "task": "Conduct 50+ in-depth customer interviews, analyze competitor offerings, and clearly define a unique value proposition and defensibility strategy. Launch a landing page with a waitlist to gauge quantitative interest.",
+      "timeline": "Weeks 1-4",
+      "impact": "Provides concrete evidence of demand, refines target market, and establishes a clear competitive differentiation.",
+      "effort": "Medium",
+      "expected_score_improvement": "+0.8"
+    },
+    {
+      "phase": "Phase 2: Technical Co-founder Recruitment & MVP Blueprint",
+      "task": "Actively recruit a technical co-founder with relevant experience. Collaborate with the new co-founder to develop a detailed MVP specification, technical architecture, and realistic development timeline.",
+      "timeline": "Weeks 5-8",
+      "impact": "Addresses critical execution risk, validates technical feasibility internally, and provides a credible path to product development.",
+      "effort": "High",
+      "expected_score_improvement": "+1.2"
+    }
+  ],
+  "comparable_startups": [
+    {
+      "name": "Shopify",
+      "description": "E-commerce platform enabling merchant storefronts and payment systems.",
+      "why_comparable": "Shopify provides the infrastructure for individuals and businesses to sell goods online, similar to the core function of an 'app to sell clothes'. It highlights the importance of a robust, user-friendly platform for merchants.",
+      "business_model": "SaaS subscription + payment processing percentages",
+      "lessons_learned": "Build an open ecosystem app store so third-party developers construct features you do not need to build."
+    },
+    {
+      "name": "Airbnb",
+      "description": "Global peer-to-peer online marketplace for homestays and lodging.",
+      "why_comparable": "Airbnb is a successful marketplace connecting demand and supply (hosts and guests). An 'app to sell clothes' is also a marketplace, requiring similar solutions for trust, transactions, and user experience.",
+      "business_model": "Dual-sided booking service fees (host and guest percentages)",
+      "lessons_learned": "Solve double-sided trust issues through verified reviews, profiles, and institutional insurances."
+    },
+    {
+      "name": "Upwork",
+      "description": "Freelance talent matching and remote project management platform.",
+      "why_comparable": "Upwork facilitates transactions and project management between independent parties. For an app selling clothes, this comparison highlights the need for integrated tools to manage listings, communication, and secure payments.",
+      "business_model": "Contractor transaction fees + client service charges",
+      "lessons_learned": "Embed collaboration and payment escrow systems within the marketplace to lock in user activity."
+    },
+    {
+      "name": "Instacart",
+      "description": "On-demand grocery delivery connecting local shoppers with retail partners.",
+      "why_comparable": "Instacart operates as a marketplace for physical goods with a strong logistical component. While clothes selling might not have the same delivery urgency, the model of connecting consumers with available inventory (or sellers) is relevant.",
+      "business_model": "Delivery fees + retail markup commissions",
+      "lessons_learned": "Build asset-light operations by outsourcing delivery logistics to independent contractors."
+    }
+  ],
+  "due_diligence_questions": {
+    "market": [
+      {
+        "question": "Beyond 'an app to sell clothes,' what specific niche or segment within the apparel resale market are you targeting, and what unique pain points does it address?",
+        "expected_evidence": "Market research reports, specific customer persona definitions, TAM/SAM/SOM analysis for the niche.",
+        "suggested_prep": "Refine target customer description, quantify market size for the specific segment, and articulate the unique value proposition for that segment."
+      }
+    ],
+    "customer": [
+      {
+        "question": "You mentioned 'conversations' as validation. Can you provide quantitative data on customer interest, such as waitlist sign-ups, survey results, or pre-orders?",
+        "expected_evidence": "Landing page conversion rates, waitlist size, results from user surveys (e.g., NPS, willingness to pay), or letters of intent from pilot users.",
+        "suggested_prep": "Launch a basic landing page with a clear call to action (e.g., 'Join Waitlist') and gather quantitative data. Conduct structured customer interviews to identify specific pain points and validate solutions."
+      }
+    ],
+    "revenue": [
+      {
+        "question": "What is your proposed business model and pricing strategy? How have you validated customer willingness to pay for this model?",
+        "expected_evidence": "Detailed pricing tiers, competitor pricing analysis, results from willingness-to-pay surveys or experiments, and early revenue projections.",
+        "suggested_prep": "Develop a clear business model (e.g., commission, subscription, listing fees) and conduct pricing validation through customer surveys or A/B testing on a landing page."
+      }
+    ],
+    "technology": [
+      {
+        "question": "Given the 'high' technical complexity and lack of an in-house technical lead, how do you plan to build, maintain, and scale the product effectively?",
+        "expected_evidence": "A detailed technical roadmap, a plan for recruiting a technical co-founder or CTO, and a breakdown of the MVP's technical components and dependencies.",
+        "suggested_prep": "Prioritize recruitment of a technical co-founder. Work with a technical advisor to outline the MVP architecture and identify key technical challenges."
+      }
+    ],
+    "competition": [
+      {
+        "question": "Your 'moat' is described as 'bdsjkbbdx dshsjdks'. Can you elaborate on how this creates a sustainable competitive advantage against existing players like 'dsjnjkdsknjdsh hjsjnhhbdjsdsjnb'?",
+        "expected_evidence": "Detailed competitive analysis matrix, specific features or strategies that create network effects, proprietary data, or high switching costs, and evidence of unique user acquisition channels.",
+        "suggested_prep": "Clearly articulate a defensibility strategy that goes beyond generic features. Research existing players and identify their weaknesses that your solution can exploit."
+      }
+    ],
+    "operations": [
+      {
+        "question": "As a solo founder, how do you plan to manage the diverse demands of product development, marketing, customer support, and business operations simultaneously?",
+        "expected_evidence": "Organizational chart outlining planned hires, a clear delegation strategy, and a timeline for bringing on key team members.",
+        "suggested_prep": "Develop a plan for team expansion, focusing on critical early hires (e.g., co-founder, operations lead) to distribute workload and expertise."
+      }
+    ],
+    "legal": [
+      {
+        "question": "What are the key legal and regulatory considerations for an app facilitating the sale of clothes, particularly concerning user content, payments, and consumer protection?",
+        "expected_evidence": "Draft terms of service, privacy policy, and understanding of relevant e-commerce and consumer protection laws.",
+        "suggested_prep": "Consult with legal counsel to understand compliance requirements for user-generated content, payment processing, and consumer rights in your target regions."
+      }
+    ],
+    "financial": [
+      {
+        "question": "What are your initial funding requirements, and how will these funds be allocated to achieve your next key milestones, especially given the high build complexity?",
+        "expected_evidence": "Detailed financial projections (burn rate, runway), use of funds breakdown, and clear milestone definitions tied to funding tranches.",
+        "suggested_prep": "Create a realistic budget that accounts for technical development, team salaries (especially a technical co-founder), and initial marketing efforts, tied to specific, measurable milestones."
+      }
+    ]
+  },
+  "co_founder_recommendations": "Given the 'Solo Founder' and 'No Technical Lead' red flags, the most critical recommendation is to recruit a highly skilled and complementary co-founder. This individual should ideally possess a strong technical background (e.g., a CTO with experience in building scalable marketplace or e-commerce platforms) to address the 'high' engineering complexity and '1/10' build timeline score. A co-founder will not only alleviate the immense workload on a single person but also bring essential product development expertise, increase investor confidence, and provide a critical thought partner to navigate the challenges of launching a startup. This recruitment should be prioritized immediately, potentially offering significant equity to attract top talent.",
+  "investor_memo": {
+    "executive_summary": "This opportunity involves an 'app to sell clothes' targeting 'hjbsjnds hjbdsbnkjs' to solve 'jdnsjnkjndj jhbskjnhdbjwh'. While the market timing is exceptionally strong (10/10) and investor appeal is high (9/10), the overall investment case is significantly weakened by a low Startup Quality Score (4.8/10) and a critical lack of validation (Evidence Score 2/10). Key red flags include a solo founder, absence of a technical lead for a 'high complexity' product, and a weak competitive moat, presenting substantial execution and defensibility risks.",
+    "investment_thesis": "The investment thesis hinges on the strong market timing and inherent customer demand for solutions in the apparel resale space. If the team can successfully de-risk the execution by bringing in a technical co-founder, clearly defining a defensible product, and validating demand with concrete metrics, there is potential to capture a segment of this large and growing market.",
+    "strengths": "Exceptional market timing, high investor appeal due to market size, and a perceived customer pain point. The core concept addresses a prevalent consumer need.",
+    "weaknesses": "Significant technical execution risk due to lack of a technical co-founder, very low product defensibility, insufficient customer validation beyond conversations, and a solo founder model increasing operational fragility.",
+    "major_risks": [
+      "Execution Risk: Inability to build and scale the product effectively without a technical co-founder, leading to delays or failure.",
+      "Competition Risk: Lack of a strong competitive moat makes the solution highly vulnerable to existing players or new entrants, leading to commoditization."
+    ],
+    "recommendation": "Proceed Carefully",
+    "confidence_rating": "62%",
+    "next_validation_step": "Secure a technical co-founder and gather quantitative evidence of customer demand through a waitlist or pilot program."
+  },
+  "dimensions": {
+    "investor_appeal": {
+      "evaluation_criteria": [
+        "Market Size & Growth",
+        "Revenue Model Scalability",
+        "Exit Potential",
+        "Overall Validation Level"
+      ],
+      "why_this_score": "The Investor Appeal score of 9/10 is largely driven by the inherent attractiveness of the 'app to sell clothes' market, which is generally large and growing. The potential for a scalable revenue model, likely transaction-based or subscription, offers significant upside. Despite the low overall validation level, the broad appeal of the problem statement and the 'why now' market timing contribute to a perception of high investment potential. Investors are drawn to markets with clear demand, even if the specific solution is nascent, as long as the market itself is substantial and expanding.",
+      "improvement_actions": [
+        "Clearly define the specific target market segment and quantify its size and growth potential.",
+        "Articulate a detailed and scalable revenue model with clear unit economics.",
+        "Showcase initial traction or strong validation signals to de-risk the investment."
+      ],
+      "score": 9,
+      "confidence": 40,
+      "scoring_factors": [
+        {
+          "label": "Large Addressable Market",
+          "points": 2,
+          "detected": true,
+          "signal_key": "market_size"
+        },
+        {
+          "label": "Medium Addressable Market",
+          "points": 1,
+          "detected": false,
+          "signal_key": "market_size"
+        },
+        {
+          "label": "Subscription / Recurring Revenue",
+          "points": 2,
+          "detected": false,
+          "signal_key": "revenue_model"
+        },
+        {
+          "label": "One-Time Revenue Model",
+          "points": -1,
+          "detected": false,
+          "signal_key": "revenue_model"
+        },
+        {
+          "label": "High Scalability Potential",
+          "points": 2,
+          "detected": false,
+          "signal_key": "scalability"
+        },
+        {
+          "label": "Moderate Scalability Potential",
+          "points": 1,
+          "detected": false,
+          "signal_key": "scalability"
+        },
+        {
+          "label": "Strong Exit Potential",
+          "points": 1,
+          "detected": false,
+          "signal_key": "exit_potential"
+        },
+        {
+          "label": "Active Investor Interest in Space",
+          "points": 1,
+          "detected": false,
+          "signal_key": "investor_interest_in_space"
+        },
+        {
+          "label": "High Growth Potential",
+          "points": 1,
+          "detected": false,
+          "signal_key": "growth_potential"
+        },
+        {
+          "label": "Small Addressable Market",
+          "points": -2,
+          "detected": false,
+          "signal_key": "market_size"
+        },
+        {
+          "label": "Low Scalability Potential",
+          "points": -1,
+          "detected": false,
+          "signal_key": "scalability"
+        },
+        {
+          "label": "Active Funding Stage (Raising/Raised)",
+          "points": 1,
+          "detected": false,
+          "signal_key": "funding_status"
+        },
+        {
+          "label": "Validated with Paying Customers",
+          "points": 4,
+          "detected": false,
+          "signal_key": "validation_level"
+        },
+        {
+          "label": "Validated with Waitlist",
+          "points": 2,
+          "detected": false,
+          "signal_key": "validation_level"
+        },
+        {
+          "label": "Validated with User Conversations",
+          "points": 1,
+          "detected": true,
+          "signal_key": "validation_level"
+        },
+        {
+          "label": "No Prior Validation Done",
+          "points": -2,
+          "detected": false,
+          "signal_key": "validation_level"
+        },
+        {
+          "label": "Targeting Mass Market",
+          "points": 3,
+          "detected": false,
+          "signal_key": "market_size_choice"
+        },
+        {
+          "label": "Targeting Large Market Segment",
+          "points": 2,
+          "detected": false,
+          "signal_key": "market_size_choice"
+        },
+        {
+          "label": "Targeting Medium Market Segment",
+          "points": 1,
+          "detected": true,
+          "signal_key": "market_size_choice"
+        },
+        {
+          "label": "Targeting Small/Niche Market Segment",
+          "points": -2,
+          "detected": false,
+          "signal_key": "market_size_choice"
+        }
+      ],
+      "base_score": 5,
+      "positive_adjustments": 4,
+      "negative_adjustments": 0,
+      "positive_signals": [
+        "Large Addressable Market",
+        "Validated with User Conversations",
+        "Targeting Medium Market Segment"
+      ],
+      "negative_signals": [
+        "Minor optimization opportunities"
+      ],
+      "neutral_signals": [
+        "Medium Addressable Market",
+        "Subscription / Recurring Revenue",
+        "One-Time Revenue Model",
+        "High Scalability Potential",
+        "Moderate Scalability Potential",
+        "Strong Exit Potential",
+        "Active Investor Interest in Space",
+        "High Growth Potential",
+        "Small Addressable Market",
+        "Low Scalability Potential",
+        "Active Funding Stage (Raising/Raised)",
+        "Validated with Paying Customers",
+        "Validated with Waitlist",
+        "No Prior Validation Done",
+        "Targeting Mass Market",
+        "Targeting Large Market Segment",
+        "Targeting Small/Niche Market Segment"
+      ]
+    },
+    "customer_demand": {
+      "evaluation_criteria": [
+        "Pain Severity & Frequency",
+        "Existing Solutions & Workarounds",
+        "Willingness to Pay",
+        "Validation Evidence (Interviews, Surveys, Pilots)"
+      ],
+      "why_this_score": "A score of 7/10 for Customer Demand indicates that the core problem ('jdnsjnkjndj jhbskjnhdbjwh') is perceived to be real and frequent for the target customers ('hjbsjnds hjbdsbnkjs'). The idea of 'an app to sell clothes' generally resonates with a broad audience, suggesting a latent need. However, the validation evidence is limited to 'conversations', which, while positive, does not provide concrete, quantitative proof of willingness to pay or commitment to use. This lack of hard evidence prevents a higher score, as stated interest often doesn't translate to actual adoption.",
+      "improvement_actions": [
+        "Conduct structured customer interviews to quantify pain points and validate solution desirability.",
+        "Launch a minimum viable product (MVP) or landing page with a waitlist to measure actual interest.",
+        "Gather data on willingness to pay through surveys or pre-order campaigns."
+      ],
+      "score": 7,
+      "confidence": 50,
+      "scoring_factors": [
+        {
+          "label": "Severe Customer Pain Point",
+          "points": 3,
+          "detected": false,
+          "signal_key": "pain_severity"
+        },
+        {
+          "label": "Moderate Customer Pain Point",
+          "points": 1,
+          "detected": false,
+          "signal_key": "pain_severity"
+        },
+        {
+          "label": "Frequent Problem Occurrence (Daily/Weekly)",
+          "points": 2,
+          "detected": false,
+          "signal_key": "problem_frequency"
+        },
+        {
+          "label": "Existing Buyers/Users Present",
+          "points": 2,
+          "detected": false,
+          "signal_key": "existing_buyers"
+        },
+        {
+          "label": "Clear ROI for Buyer",
+          "points": 2,
+          "detected": false,
+          "signal_key": "clear_roi"
+        },
+        {
+          "label": "High Willingness to Pay",
+          "points": 1,
+          "detected": false,
+          "signal_key": "willingness_to_pay"
+        },
+        {
+          "label": "Nice-to-Have Product Concept",
+          "points": -2,
+          "detected": false,
+          "signal_key": "nice_to_have"
+        },
+        {
+          "label": "Low Willingness to Pay",
+          "points": -2,
+          "detected": false,
+          "signal_key": "willingness_to_pay"
+        },
+        {
+          "label": "Infrequent Problem Occurrence",
+          "points": -2,
+          "detected": false,
+          "signal_key": "problem_frequency"
+        },
+        {
+          "label": "Mild Customer Pain Point",
+          "points": -1,
+          "detected": false,
+          "signal_key": "pain_severity"
+        },
+        {
+          "label": "Proven Demand via Paying Customers",
+          "points": 5,
+          "detected": false,
+          "signal_key": "validation_level"
+        },
+        {
+          "label": "Proven Demand via Waitlist Signups",
+          "points": 3,
+          "detected": false,
+          "signal_key": "validation_level"
+        },
+        {
+          "label": "Proven Demand via Interviews",
+          "points": 1,
+          "detected": true,
+          "signal_key": "validation_level"
+        },
+        {
+          "label": "Zero Validated Demand",
+          "points": -2,
+          "detected": false,
+          "signal_key": "validation_level"
+        },
+        {
+          "label": "Critical Pain Score (8-10)",
+          "points": 2,
+          "detected": false,
+          "signal_key": "pain_score"
+        },
+        {
+          "label": "Elevated Pain Score (5-7)",
+          "points": 1,
+          "detected": true,
+          "signal_key": "pain_score"
+        },
+        {
+          "label": "Low Pain Score (1-4)",
+          "points": -1,
+          "detected": false,
+          "signal_key": "pain_score"
+        }
+      ],
+      "base_score": 5,
+      "positive_adjustments": 2,
+      "negative_adjustments": 0,
+      "positive_signals": [
+        "Proven Demand via Interviews",
+        "Elevated Pain Score (5-7)"
+      ],
+      "negative_signals": [
+        "Minor optimization opportunities"
+      ],
+      "neutral_signals": [
+        "Severe Customer Pain Point",
+        "Moderate Customer Pain Point",
+        "Frequent Problem Occurrence (Daily/Weekly)",
+        "Existing Buyers/Users Present",
+        "Clear ROI for Buyer",
+        "High Willingness to Pay",
+        "Nice-to-Have Product Concept",
+        "Low Willingness to Pay",
+        "Infrequent Problem Occurrence",
+        "Mild Customer Pain Point",
+        "Proven Demand via Paying Customers",
+        "Proven Demand via Waitlist Signups",
+        "Zero Validated Demand",
+        "Critical Pain Score (8-10)",
+        "Low Pain Score (1-4)"
+      ]
+    },
+    "market_timing": {
+      "evaluation_criteria": [
+        "Industry Growth & Trends",
+        "Technology Maturity & Accessibility",
+        "Regulatory Environment",
+        "Strength of 'Why Now'"
+      ],
+      "why_this_score": "The Market Timing score of 10/10 is exceptionally high, primarily due to the founder's assertion that 'The timing is right due to market shifts and technological advancements.' This aligns with general trends in e-commerce, sustainability, and peer-to-peer marketplaces. The increasing comfort with online transactions, the growth of the circular economy, and the accessibility of mobile technology create a fertile ground for an app to sell clothes. This 'why now' factor is a significant strength, indicating that external forces are highly favorable for this type of solution.",
+      "improvement_actions": [
+        "Provide specific data and trends supporting the 'market shifts and technological advancements'.",
+        "Identify specific regulatory changes or consumer behavior shifts that create this opportune moment.",
+        "Show how the solution uniquely leverages current trends to gain an advantage."
+      ],
+      "score": 10,
+      "confidence": 60,
+      "scoring_factors": [
+        {
+          "label": "Fast-Growing Industry Segment",
+          "points": 3,
+          "detected": false,
+          "signal_key": "industry_growth"
+        },
+        {
+          "label": "Moderate Industry Segment Growth",
+          "points": 1,
+          "detected": false,
+          "signal_key": "industry_growth"
+        },
+        {
+          "label": "Technology Ready for Commercial Deployment",
+          "points": 2,
+          "detected": true,
+          "signal_key": "technology_maturity"
+        },
+        {
+          "label": "Emerging Technology Stack",
+          "points": 1,
+          "detected": false,
+          "signal_key": "technology_maturity"
+        },
+        {
+          "label": "Growing Consumer/Enterprise Adoption Curve",
+          "points": 2,
+          "detected": false,
+          "signal_key": "consumer_adoption"
+        },
+        {
+          "label": "Supportive Regulatory Framework",
+          "points": 1,
+          "detected": false,
+          "signal_key": "regulatory_environment"
+        },
+        {
+          "label": "Too Early for Commercial Scaling",
+          "points": -3,
+          "detected": false,
+          "signal_key": "too_early"
+        },
+        {
+          "label": "Declining Industry Core Growth",
+          "points": -3,
+          "detected": false,
+          "signal_key": "industry_growth"
+        },
+        {
+          "label": "Restrictive Regulatory Environment",
+          "points": -2,
+          "detected": false,
+          "signal_key": "regulatory_environment"
+        },
+        {
+          "label": "Technology Stack Unripe / Unproven",
+          "points": -2,
+          "detected": false,
+          "signal_key": "technology_maturity"
+        },
+        {
+          "label": "Strong \"Why Now\" Case",
+          "points": 3,
+          "detected": true,
+          "signal_key": "why_now_strength"
+        },
+        {
+          "label": "Moderate \"Why Now\" Case",
+          "points": 1,
+          "detected": false,
+          "signal_key": "why_now_strength"
+        },
+        {
+          "label": "Weak \"Why Now\" Case",
+          "points": -2,
+          "detected": false,
+          "signal_key": "why_now_strength"
+        }
+      ],
+      "base_score": 5,
+      "positive_adjustments": 5,
+      "negative_adjustments": 0,
+      "positive_signals": [
+        "Technology Ready for Commercial Deployment",
+        "Strong \"Why Now\" Case"
+      ],
+      "negative_signals": [
+        "Minor optimization opportunities"
+      ],
+      "neutral_signals": [
+        "Fast-Growing Industry Segment",
+        "Moderate Industry Segment Growth",
+        "Emerging Technology Stack",
+        "Growing Consumer/Enterprise Adoption Curve",
+        "Supportive Regulatory Framework",
+        "Too Early for Commercial Scaling",
+        "Declining Industry Core Growth",
+        "Restrictive Regulatory Environment",
+        "Technology Stack Unripe / Unproven",
+        "Moderate \"Why Now\" Case",
+        "Weak \"Why Now\" Case"
+      ]
+    },
+    "technical_feasibility": {
+      "evaluation_criteria": [
+        "MVP Complexity",
+        "Infrastructure Requirements",
+        "Availability of APIs/Tools",
+        "Development Stage & Team Capability"
+      ],
+      "why_this_score": "The Technical Feasibility score of 7/10 suggests that, conceptually, building 'an app to sell clothes' is achievable, as the core components (user profiles, listings, search, payments) are well-understood in software development. Existing APIs and cloud infrastructure can support many aspects. However, the 'high' estimated MVP complexity and the founder's 'no' technical background, coupled with the absence of a technical co-founder, introduce significant execution challenges. The feasibility is high for an experienced technical team, but lower for the current founding team, leading to a moderate score rather than a perfect one.",
+      "improvement_actions": [
+        "Recruit a technical co-founder or CTO to lead product development.",
+        "Break down the 'high complexity' MVP into smaller, manageable, and prioritized features.",
+        "Utilize off-the-shelf solutions and third-party APIs where possible to reduce initial development burden."
+      ],
+      "score": 7,
+      "confidence": 98,
+      "scoring_factors": [
+        {
+          "label": "Existing Ecosystem APIs/APIs Available",
+          "points": 3,
+          "detected": true,
+          "signal_key": "existing_apis_available"
+        },
+        {
+          "label": "Simple MVP Development Path",
+          "points": 2,
+          "detected": false,
+          "signal_key": "mvp_complexity"
+        },
+        {
+          "label": "Moderate MVP Development Path",
+          "points": 1,
+          "detected": true,
+          "signal_key": "mvp_complexity"
+        },
+        {
+          "label": "Low Infrastructure Complexity",
+          "points": 1,
+          "detected": false,
+          "signal_key": "infrastructure_complexity"
+        },
+        {
+          "label": "Basic R&D or Scientific Research Required",
+          "points": -3,
+          "detected": false,
+          "signal_key": "mvp_complexity"
+        },
+        {
+          "label": "Requires Custom New Hardware",
+          "points": -2,
+          "detected": false,
+          "signal_key": "requires_new_hardware"
+        },
+        {
+          "label": "Complex Frontend/Backend MVP Scope",
+          "points": -1,
+          "detected": false,
+          "signal_key": "mvp_complexity"
+        },
+        {
+          "label": "High Infrastructure / Server Complexity",
+          "points": -1,
+          "detected": false,
+          "signal_key": "infrastructure_complexity"
+        },
+        {
+          "label": "Concept Phase / Ideation Stage",
+          "points": -2,
+          "detected": true,
+          "signal_key": "current_stage"
+        },
+        {
+          "label": "Prototype / Wired Interactive Stage",
+          "points": 2,
+          "detected": false,
+          "signal_key": "current_stage"
+        },
+        {
+          "label": "Launched MVP Stage",
+          "points": 4,
+          "detected": false,
+          "signal_key": "current_stage"
+        }
+      ],
+      "base_score": 5,
+      "positive_adjustments": 4,
+      "negative_adjustments": -2,
+      "positive_signals": [
+        "Existing Ecosystem APIs/APIs Available",
+        "Moderate MVP Development Path"
+      ],
+      "negative_signals": [
+        "Concept Phase / Ideation Stage"
+      ],
+      "neutral_signals": [
+        "Simple MVP Development Path",
+        "Low Infrastructure Complexity",
+        "Basic R&D or Scientific Research Required",
+        "Requires Custom New Hardware",
+        "Complex Frontend/Backend MVP Scope",
+        "High Infrastructure / Server Complexity",
+        "Prototype / Wired Interactive Stage",
+        "Launched MVP Stage"
+      ]
+    },
+    "competitive_moat": {
+      "evaluation_criteria": [
+        "Proprietary Data & IP",
+        "Network Effects",
+        "Switching Costs",
+        "Unique Technology/Algorithm",
+        "Brand & Community"
+      ],
+      "why_this_score": "A score of 2/10 for Competitive Moat indicates a significant weakness. The founder's description of the moat as 'bdsjkbbdx dshsjdks' is vague and does not articulate any clear, defensible advantage. In a market with 'dsjnjkdsknjdsh hjsjnhhbdjsdsjnb' competitors, simply being 'an app to sell clothes' offers no inherent protection. Without proprietary technology, data, strong network effects, or high switching costs, the product is highly susceptible to replication and intense competition, making it difficult to sustain long-term growth and market share.",
+      "improvement_actions": [
+        "Identify and integrate features that create strong network effects (e.g., social features, community building).",
+        "Develop proprietary algorithms or data sets that enhance user experience or efficiency.",
+        "Design workflows or integrations that create high switching costs for users.",
+        "Build a strong brand and community around a specific niche or value proposition."
+      ],
+      "score": 2,
+      "confidence": 83,
+      "scoring_factors": [
+        {
+          "label": "Proprietary Data Accumulation Loop",
+          "points": 3,
+          "detected": false,
+          "signal_key": "has_proprietary_data"
+        },
+        {
+          "label": "Organic Network Effects Loop",
+          "points": 3,
+          "detected": true,
+          "signal_key": "has_network_effects"
+        },
+        {
+          "label": "High Switching Costs for Customers",
+          "points": 2,
+          "detected": false,
+          "signal_key": "switching_costs"
+        },
+        {
+          "label": "Moderate Customer Switching Costs",
+          "points": 1,
+          "detected": true,
+          "signal_key": "switching_costs"
+        },
+        {
+          "label": "Strong Product Differentiation",
+          "points": 2,
+          "detected": false,
+          "signal_key": "differentiation"
+        },
+        {
+          "label": "Moderate Product Differentiation",
+          "points": 1,
+          "detected": false,
+          "signal_key": "differentiation"
+        },
+        {
+          "label": "Product is Extremely Easy to Clone",
+          "points": -3,
+          "detected": true,
+          "signal_key": "easy_to_copy"
+        },
+        {
+          "label": "Very High Competitive Saturation",
+          "points": -2,
+          "detected": true,
+          "signal_key": "competition_level"
+        },
+        {
+          "label": "High Competitive Saturation",
+          "points": -1,
+          "detected": false,
+          "signal_key": "competition_level"
+        },
+        {
+          "label": "Weak Core Differentiation",
+          "points": -2,
+          "detected": false,
+          "signal_key": "differentiation"
+        },
+        {
+          "label": "Low Customer Switching Costs",
+          "points": -1,
+          "detected": false,
+          "signal_key": "switching_costs"
+        },
+        {
+          "label": "Defensible Competitor Moat",
+          "points": 3,
+          "detected": false,
+          "signal_key": "moat_strength"
+        },
+        {
+          "label": "Moderate Defensibility Moat",
+          "points": 1,
+          "detected": false,
+          "signal_key": "moat_strength"
+        },
+        {
+          "label": "No Moat / Low Defensibility",
+          "points": -2,
+          "detected": true,
+          "signal_key": "moat_strength"
+        }
+      ],
+      "base_score": 5,
+      "positive_adjustments": 4,
+      "negative_adjustments": -7,
+      "positive_signals": [
+        "Organic Network Effects Loop",
+        "Moderate Customer Switching Costs"
+      ],
+      "negative_signals": [
+        "Product is Extremely Easy to Clone",
+        "Very High Competitive Saturation",
+        "No Moat / Low Defensibility"
+      ],
+      "neutral_signals": [
+        "Proprietary Data Accumulation Loop",
+        "High Switching Costs for Customers",
+        "Strong Product Differentiation",
+        "Moderate Product Differentiation",
+        "High Competitive Saturation",
+        "Weak Core Differentiation",
+        "Low Customer Switching Costs",
+        "Defensible Competitor Moat",
+        "Moderate Defensibility Moat"
+      ]
+    },
+    "founder_market_fit": {
+      "evaluation_criteria": [
+        "Domain Expertise",
+        "Technical Background",
+        "Industry Experience",
+        "Execution Track Record",
+        "Personal Network"
+      ],
+      "why_this_score": "The Founder-Market Fit score of 4/10 is low due to several critical gaps. The founder's 'no' technical background is a major detractor for a 'high complexity' tech product, indicating a reliance on external development. While direct domain expertise is not explicitly stated, the generic problem and moat descriptions suggest a lack of deep, nuanced understanding of the specific apparel resale market dynamics. The solo founder structure also raises concerns about execution capacity and diverse skill sets needed for a startup. Without a strong track record or relevant industry experience, the fit is considerably weaker.",
+      "improvement_actions": [
+        "Recruit a technical co-founder with proven experience in building similar platforms.",
+        "Deepen personal domain expertise through extensive market research and engagement with target users.",
+        "Leverage existing networks to bring on advisors with relevant industry experience.",
+        "Clearly articulate any past entrepreneurial successes or relevant project management experience."
+      ],
+      "score": 4,
+      "confidence": 60,
+      "scoring_factors": [
+        {
+          "label": "Domain Expert Founder(s)",
+          "points": 3,
+          "detected": false,
+          "signal_key": "domain_expertise"
+        },
+        {
+          "label": "Experienced in Core Domain",
+          "points": 2,
+          "detected": false,
+          "signal_key": "domain_expertise"
+        },
+        {
+          "label": "Founder is Technical",
+          "points": 2,
+          "detected": false,
+          "signal_key": "technical_background"
+        },
+        {
+          "label": "Deep Industry Experience",
+          "points": 2,
+          "detected": false,
+          "signal_key": "industry_experience"
+        },
+        {
+          "label": "Some Industry Experience",
+          "points": 1,
+          "detected": false,
+          "signal_key": "industry_experience"
+        },
+        {
+          "label": "Strong Track Record of Launching",
+          "points": 2,
+          "detected": false,
+          "signal_key": "execution_track_record"
+        },
+        {
+          "label": "Some Track Record of Launching",
+          "points": 1,
+          "detected": false,
+          "signal_key": "execution_track_record"
+        },
+        {
+          "label": "Zero Prior Domain Knowledge",
+          "points": -2,
+          "detected": false,
+          "signal_key": "domain_expertise"
+        },
+        {
+          "label": "Domain is in Learning Phase",
+          "points": -1,
+          "detected": false,
+          "signal_key": "domain_expertise"
+        },
+        {
+          "label": "Zero Core Industry Experience",
+          "points": -1,
+          "detected": false,
+          "signal_key": "industry_experience"
+        },
+        {
+          "label": "Zero Launching Track Record",
+          "points": -1,
+          "detected": true,
+          "signal_key": "execution_track_record"
+        },
+        {
+          "label": "Founder Can Code Directly",
+          "points": 2,
+          "detected": false,
+          "signal_key": "technical_background_choice"
+        },
+        {
+          "label": "Founder Used to Code",
+          "points": 1,
+          "detected": false,
+          "signal_key": "technical_background_choice"
+        },
+        {
+          "label": "Team features Technical Co-Founder",
+          "points": 1,
+          "detected": false,
+          "signal_key": "has_technical_cofounder"
+        }
+      ],
+      "base_score": 5,
+      "positive_adjustments": 0,
+      "negative_adjustments": -1,
+      "positive_signals": [
+        "Basic signals detected"
+      ],
+      "negative_signals": [
+        "Zero Launching Track Record"
+      ],
+      "neutral_signals": [
+        "Domain Expert Founder(s)",
+        "Experienced in Core Domain",
+        "Founder is Technical",
+        "Deep Industry Experience",
+        "Some Industry Experience",
+        "Strong Track Record of Launching",
+        "Some Track Record of Launching",
+        "Zero Prior Domain Knowledge",
+        "Domain is in Learning Phase",
+        "Zero Core Industry Experience",
+        "Founder Can Code Directly",
+        "Founder Used to Code",
+        "Team features Technical Co-Founder"
+      ]
+    },
+    "build_timeline": {
+      "evaluation_criteria": [
+        "Current Build Stage",
+        "Technical Capability of Team",
+        "Team Composition (e.g., Solo, Co-founders)",
+        "Product Complexity"
+      ],
+      "why_this_score": "The Build Timeline score of 1/10 is critically low, directly reflecting the 'Estimated 2.5 months' timeline for a 'high' engineering complexity product, especially with a 'solo founder' and 'no' technical background. This timeline is highly unrealistic and indicates a significant disconnect between the product vision and the current team's capacity to execute. Building a functional 'app to sell clothes' with payment processing, user profiles, and marketplace features in 2.5 months would be challenging even for an experienced, well-resourced technical team, let alone a solo, non-technical founder. This score highlights a major execution risk.",
+      "improvement_actions": [
+        "Recruit a technical co-founder to lead product development and provide realistic timeline estimates.",
+        "Break down the MVP into the absolute core features to reduce initial complexity.",
+        "Re-evaluate the estimated timeline with expert technical input to set achievable milestones.",
+        "Consider using no-code/low-code tools for initial prototyping to accelerate early validation, if feasible."
+      ],
+      "score": 1,
+      "confidence": 98,
+      "scoring_factors": [
+        {
+          "label": "MVP Already Launched",
+          "points": 4,
+          "detected": false,
+          "signal_key": "current_stage"
+        },
+        {
+          "label": "Prototype / Interactive Stage",
+          "points": 2,
+          "detected": false,
+          "signal_key": "current_stage"
+        },
+        {
+          "label": "UX Design Stage",
+          "points": 1,
+          "detected": false,
+          "signal_key": "current_stage"
+        },
+        {
+          "label": "Concept / Ideation Stage (No Build Yet)",
+          "points": -3,
+          "detected": true,
+          "signal_key": "current_stage"
+        },
+        {
+          "label": "Founder Can Code Directly",
+          "points": 2,
+          "detected": false,
+          "signal_key": "technical_background_choice"
+        },
+        {
+          "label": "Founder Previously Coded",
+          "points": 1,
+          "detected": false,
+          "signal_key": "technical_background_choice"
+        },
+        {
+          "label": "No Technical Skill on Team",
+          "points": -2,
+          "detected": true,
+          "signal_key": "technical_background_choice"
+        },
+        {
+          "label": "Technical Co-Founder On Team",
+          "points": 2,
+          "detected": false,
+          "signal_key": "has_technical_cofounder"
+        },
+        {
+          "label": "Simple MVP Build Path",
+          "points": 2,
+          "detected": false,
+          "signal_key": "mvp_complexity"
+        },
+        {
+          "label": "Moderate MVP Build Path",
+          "points": 1,
+          "detected": true,
+          "signal_key": "mvp_complexity"
+        },
+        {
+          "label": "Complex MVP Build Path",
+          "points": -1,
+          "detected": false,
+          "signal_key": "mvp_complexity"
+        },
+        {
+          "label": "R&D / Research Required Before Build",
+          "points": -3,
+          "detected": false,
+          "signal_key": "mvp_complexity"
+        },
+        {
+          "label": "Existing APIs Available to Integrate",
+          "points": 1,
+          "detected": true,
+          "signal_key": "existing_apis_available"
+        },
+        {
+          "label": "Low Infrastructure Overhead",
+          "points": 1,
+          "detected": false,
+          "signal_key": "infrastructure_complexity"
+        },
+        {
+          "label": "High Infrastructure Complexity",
+          "points": -1,
+          "detected": false,
+          "signal_key": "infrastructure_complexity"
+        },
+        {
+          "label": "Requires Custom Hardware Development",
+          "points": -3,
+          "detected": false,
+          "signal_key": "requires_new_hardware"
+        }
+      ],
+      "base_score": 4,
+      "positive_adjustments": 2,
+      "negative_adjustments": -5,
+      "positive_signals": [
+        "Moderate MVP Build Path",
+        "Existing APIs Available to Integrate"
+      ],
+      "negative_signals": [
+        "Concept / Ideation Stage (No Build Yet)",
+        "No Technical Skill on Team"
+      ],
+      "neutral_signals": [
+        "MVP Already Launched",
+        "Prototype / Interactive Stage",
+        "UX Design Stage",
+        "Founder Can Code Directly",
+        "Founder Previously Coded",
+        "Technical Co-Founder On Team",
+        "Simple MVP Build Path",
+        "Complex MVP Build Path",
+        "R&D / Research Required Before Build",
+        "Low Infrastructure Overhead",
+        "High Infrastructure Complexity",
+        "Requires Custom Hardware Development"
+      ]
+    }
+  },
+  "overall_score": 5,
+  "startup_quality_score": 4.8,
+  "investor_readiness_score": 8.3,
+  "triage_band": "Promising / Needs Work",
+  "confidence_level": 62,
+  "evidence_score": 2,
+  "investment_probability": 61,
+  "confidence_breakdown": {
+    "questionnaire_completeness": 83,
+    "signal_confidence": 70,
+    "evidence_confidence": 20,
+    "rule_confidence": 100,
+    "overall_confidence": 62
+  },
+  "evidence_checklist": [
+    {
+      "item": "Customer Discovery Interviews",
+      "status": "completed",
+      "gap_description": "Conducted initial discussions"
+    },
+    {
+      "item": "Interactive Design/Wired Prototype",
+      "status": "missing",
+      "gap_description": "No clickable demo or user-interface mockups available."
+    },
+    {
+      "item": "Waitlist & Landing Page Traction",
+      "status": "missing",
+      "gap_description": "No active landing page or signup waitlist deployed."
+    },
+    {
+      "item": "Minimum Viable Product (MVP)",
+      "status": "missing",
+      "gap_description": "Full MVP software has not yet been built or released."
+    },
+    {
+      "item": "Early Paying Customers / Traction",
+      "status": "missing",
+      "gap_description": "Zero revenue transactions or subscription contracts validated."
+    }
+  ],
+  "score_sensitivity": [
+    {
+      "milestone": "Launch landing page & collect 100+ signups",
+      "estimated_increase": 0.8
+    },
+    {
+      "milestone": "Acquire first 3 paying customers",
+      "estimated_increase": 1.7
+    },
+    {
+      "milestone": "Build interactive clickable prototype",
+      "estimated_increase": 0.8
+    },
+    {
+      "milestone": "Develop and launch MVP software",
+      "estimated_increase": 1.5
+    }
+  ],
+  "investor_red_flags": [
+    {
+      "flag": "Solo Founder",
+      "severity": "medium",
+      "reason": "Venture is operated by a single founder, raising execution risk and key-person dependency.",
+      "recommendation": "Recruit a complementary co-founder (ideally technical or operations-focused) to distribute workload and build investor trust."
+    },
+    {
+      "flag": "No Technical Lead",
+      "severity": "high",
+      "reason": "The team lacks internal coding/engineering leadership, relying heavily on external agencies or contractors.",
+      "recommendation": "Onboard a CTO or technical co-founder with equity to bring product development and system architecture in-house."
+    },
+    {
+      "flag": "Weak Defensibility Moat",
+      "severity": "high",
+      "reason": "The product has no proprietary datasets, network effects, or switching costs, making it highly susceptible to cloning.",
+      "recommendation": "Design lock-in mechanics, proprietary workflows, or data loops that make the solution more defensible over time."
+    }
+  ],
+  "buildtime_estimator": {
+    "timeline_months": 2.5,
+    "engineering_complexity": "high",
+    "team_recommendation": "1 Tech Lead, 2 Full-Stack Developers, 1 DevOps Engineer, 1 Product Designer, 1 AI/Data Specialist",
+    "technical_risks": [
+      "Database scale issues with massive real-time data loops.",
+      "Training and fine-tuning custom AI models within budget.",
+      "Securing regulatory compliance (GDPR/HIPAA) for custom storage structures."
+    ],
+    "development_phases": [
+      {
+        "phase": "Discovery & UX Spec",
+        "timeline": "0.4 month(s)",
+        "estimated_effort": "15%",
+        "description": "Map workflows, user flows, database architecture blueprints, and interactive wireframes."
+      },
+      {
+        "phase": "UI/UX Interactive Design",
+        "timeline": "0.4 month(s)",
+        "estimated_effort": "15%",
+        "description": "Create high-fidelity design sheets, responsive templates, and style system configurations."
+      },
+      {
+        "phase": "Frontend Engineering",
+        "timeline": "0.6 month(s)",
+        "estimated_effort": "25%",
+        "description": "Develop Next.js/React layout templates, client page routings, and browser storage components."
+      },
+      {
+        "phase": "Backend API & Infrastructure",
+        "timeline": "0.6 month(s)",
+        "estimated_effort": "25%",
+        "description": "Establish database connections, schema constraints, security keys, and router pipelines."
+      },
+      {
+        "phase": "AI & Custom Integrations",
+        "timeline": "0.3 month(s)",
+        "estimated_effort": "10%",
+        "description": "Integrate Gemini LLM prompts, caching algorithms, and third-party SaaS hooks."
+      },
+      {
+        "phase": "QA Testing & Launch Deployment",
+        "timeline": "0.3 month(s)",
+        "estimated_effort": "10%",
+        "description": "Run build tests, cross-browser responsiveness checks, and deploy to Vercel/AWS environments."
+      }
+    ]
+  },
+  "is_mock": false,
+  "id": "025b5cd5-8616-462d-81f3-30ce72f7d73e",
+  "signals": {
+    "market_size": "large",
+    "revenue_model": "unknown",
+    "growth_potential": "unknown",
+    "scalability": "unknown",
+    "exit_potential": "unknown",
+    "investor_interest_in_space": "unknown",
+    "pain_severity": "unknown",
+    "problem_frequency": "unknown",
+    "existing_buyers": false,
+    "clear_roi": false,
+    "nice_to_have": false,
+    "willingness_to_pay": "unknown",
+    "industry_growth": "unknown",
+    "technology_maturity": "ready",
+    "consumer_adoption": "mass_market",
+    "regulatory_environment": "unknown",
+    "too_early": false,
+    "existing_apis_available": true,
+    "mvp_complexity": "moderate",
+    "requires_new_hardware": false,
+    "ai_dependency": "none",
+    "infrastructure_complexity": "medium",
+    "has_proprietary_data": false,
+    "has_network_effects": true,
+    "switching_costs": "medium",
+    "differentiation": "unknown",
+    "competition_level": "very_high",
+    "easy_to_copy": true,
+    "domain_expertise": "unknown",
+    "technical_background": false,
+    "industry_experience": "unknown",
+    "execution_track_record": "none",
+    "credibility": "low",
+    "moat_strength": "weak",
+    "why_now_strength": "strong",
+    "validation_level": "conversations",
+    "pain_score": 5,
+    "technical_background_choice": "no",
+    "founder_count": "solo",
+    "has_technical_cofounder": false,
+    "funding_status": "bootstrapped",
+    "current_stage": "forming",
+    "market_size_choice": "medium",
+    "revenue_model_choice": "subscription"
+  },
+  "answers": {
+    "customer": "hjbsjnds hjbdsbnkjs",
+    "problem": "jdnsjnkjndj jhbskjnhdbjwh",
+    "pain_score": 5,
+    "validation_level": "conversations",
+    "market_size_choice": "medium",
+    "revenue_model_choice": "subscription",
+    "why_now": "The timing is right due to market shifts and technological advancements.",
+    "competitors": "dsjnjkdsknjdsh hjsjnhhbdjsdsjnb",
+    "moat": "bdsjkbbdx dshsjdks",
+    "solo_founder": true,
+    "has_technical_cofounder": false,
+    "technical_background": "no",
+    "current_stage": "forming",
+    "launch_timeline": "January 2026",
+    "funding_status": "bootstrapped",
+    "contact_name": "ayshu",
+    "contact_email": "ayshu9000@gmail.com",
+    "need_help": true
+  },
+  "unlocked": true,
+  "created_at": "2026-07-02T10:10:26.515Z"
+}

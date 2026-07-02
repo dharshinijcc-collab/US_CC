@@ -489,20 +489,27 @@ export default function InvestorsPage() {
             <div className="hero-eyebrow-pill">
               <EditableText contentKey="investors.hero.eyebrow" value={content?.investors?.hero?.eyebrow || 'INVESTOR RELATIONS'} />
             </div>
-            <h1 className="hero-title" style={{ color: '#020617' }}>
+            <EditableText
+              as="h1"
+              contentKey="investors.hero.titleText"
+              value={content?.investors?.hero?.titleText || (content?.investors?.hero?.title1 && content?.investors?.hero?.title2 ? (content.investors.hero.title1 + '\n' + content.investors.hero.title2) : 'Not Just Capital.\nBuild With Us.')}
+              className="hero-title"
+              style={{ color: '#020617' }}
+            >
               {(() => {
-                const titleText = content?.investors?.hero?.title1 + '\n' + content?.investors?.hero?.title2 || 'Not Just Capital.\nBuild With Us.';
+                const titleText = content?.investors?.hero?.titleText || (content?.investors?.hero?.title1 && content?.investors?.hero?.title2 ? (content.investors.hero.title1 + '\n' + content.investors.hero.title2) : 'Not Just Capital.\nBuild With Us.');
                 const lines = titleText.split('\n');
                 return lines.map((line, lineIdx) => {
-                  const words = line.split(' ');
+                  const words = line.split(/[\s\u00a0]+/);
                   return (
                     <React.Fragment key={lineIdx}>
                       {words.map((word: string, index: number) => {
+                        if (!word) return null;
                         const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").toUpperCase();
                         const isBlue = ['CAPITAL', 'BUILD', 'US'].includes(cleanWord);
                         return (
                           <span key={index} style={isBlue ? { color: '#005AE2' } : {}}>
-                            {word}{index < words.length - 1 ? ' ' : ''}
+                            {word}{' '}
                           </span>
                         );
                       })}
@@ -511,7 +518,7 @@ export default function InvestorsPage() {
                   );
                 });
               })()}
-            </h1>
+            </EditableText>
             <p className="hero-description" style={{ marginBottom: '40px', maxWidth: '720px', lineHeight: 1.8, fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}>
               <EditableText contentKey="investors.hero.description" value={content?.investors?.hero?.description || 'CrestCode partners with strategic investors who believe in the long game — backing the studio, the ventures, or both. We offer full transparency, shared conviction, and two clear paths to participate.'} />
             </p>
@@ -549,7 +556,7 @@ export default function InvestorsPage() {
             </div>
 
             {/* Premium 2x2 Balanced Cards Grid */}
-            <div className="grid-2" style={{ gridTemplateColumns: '1fr 1fr', gap: '24px', alignItems: 'stretch' }}>
+            <div className="why-invest-grid" style={{ gap: '24px', alignItems: 'stretch' }}>
               {[
                 {
                   title: getContent('investors.whyInvest.0.title', 'Execution-first model'),
@@ -641,7 +648,7 @@ export default function InvestorsPage() {
             </div>
 
             {/* Responsive Paths Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px', alignItems: 'stretch' }}>
+            <div className="paths-two-col-grid" style={{ alignItems: 'stretch' }}>
               
               {/* Path 1 Card */}
               <div className="path-card">
@@ -1067,7 +1074,7 @@ export default function InvestorsPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} style={{ textAlign: 'left' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+                    <div className="form-row-2" style={{ marginBottom: '20px' }}>
                       <div className="form-group">
                         <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Manrope', sans-serif" }}>
                           <EditableText contentKey="investors.form.labelName" value={getContent('investors.form.labelName', 'FULL NAME')} />
@@ -1096,7 +1103,7 @@ export default function InvestorsPage() {
                       </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '24px' }}>
+                    <div className="form-row-2" style={{ marginBottom: '24px' }}>
                       <div className="form-group">
                         <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Manrope', sans-serif" }}>
                           <EditableText contentKey="investors.form.labelExpertise" value={getContent('investors.form.labelExpertise', 'PRIMARY EXPERTISE')} />

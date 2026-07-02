@@ -49,6 +49,32 @@ export function generateMockNarratives(
 
   Object.entries(dimensions).forEach(([key, dim]: [string, any]) => {
     const label = getDimensionLabel(key);
+
+    // Build Timeline gets a custom narrative referencing actual estimator data
+    if (key === 'build_timeline') {
+      const tl = scores.buildtime_estimator;
+      dimensionNarratives[key] = {
+        score: dim.score,
+        confidence: dim.confidence,
+        evaluation_criteria: dim.factors.map((f: any) => f.label),
+        why_this_score: `The Build Timeline score of ${dim.score}/10 reflects this team's execution readiness from a product engineering perspective. Based on the current stage (${answers.current_stage}), technical background, and MVP complexity, the estimated build window is approximately ${tl?.timeline_months ?? '?'} month(s) with ${tl?.engineering_complexity ?? 'medium'} engineering complexity. ${dim.positive_signals.length > 0 ? `Positive indicators include: ${dim.positive_signals.slice(0, 2).join(' and ')}.` : ''} ${dim.negative_signals.length > 0 ? `Build risks include: ${dim.negative_signals.slice(0, 2).join(' and ')}.` : ''} A faster timeline with lower complexity translates directly to lower burn, faster learning cycles, and earlier customer feedback loops — all of which significantly improve the investment profile.`,
+        positive_signals: dim.positive_signals.length > 0 ? dim.positive_signals : ['Basic build infrastructure identified'],
+        negative_signals: dim.negative_signals.length > 0 ? dim.negative_signals : ['No build has been started yet'],
+        improvement_actions: [
+          `Advance to the next build stage (${answers.current_stage === 'forming' ? 'create interactive wireframes' : answers.current_stage === 'ux_design' ? 'build a clickable prototype' : 'launch an MVP with at least one working workflow'}) to reduce timeline risk.`,
+          `Identify and integrate existing APIs or SaaS tools (Stripe, Auth0, Firebase) to avoid reinventing core infrastructure and compress development by 20–30%.`,
+          tl?.engineering_complexity === 'high'
+            ? 'Consider scoping down the initial MVP to reduce engineering complexity — focus on one core workflow that delivers immediate user value.'
+            : 'Recruit a technical co-founder or lead engineer to own the engineering roadmap and reduce delivery timeline risk.'
+        ],
+        base_score: dim.base_score,
+        positive_adjustments: dim.positive_adjustments,
+        negative_adjustments: dim.negative_adjustments,
+        neutral_signals: dim.neutral_signals
+      };
+      return;
+    }
+
     dimensionNarratives[key] = {
       score: dim.score,
       confidence: dim.confidence,
@@ -67,6 +93,7 @@ export function generateMockNarratives(
       neutral_signals: dim.neutral_signals
     };
   });
+
 
   // Pick mock comparable startups from curated list
   const mockComps = CURATED_STARTUPS.slice(0, 3).map(c => ({

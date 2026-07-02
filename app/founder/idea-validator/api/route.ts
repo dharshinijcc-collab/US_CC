@@ -150,7 +150,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 11. Save to Supabase dd_reports table
-    if (supabaseAdmin) {
+    if (supabaseAdmin && body.saveToDb !== false) {
       console.log('💾 Saving report to Supabase dd_reports...');
       const verdict =
         finalPayload.overall_score >= 7.5 ? 'Proceed' :
@@ -344,5 +344,43 @@ export async function GET(req: NextRequest) {
   } catch (error: any) {
     console.error('❌ GET API endpoint error:', error);
     return NextResponse.json({ error: 'Failed to retrieve report', message: error.message }, { status: 500 });
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  try {
+    const { reportId, userId } = await req.json();
+    if (!reportId || !userId) {
+      return NextResponse.json({ error: 'Missing reportId or userId' }, { status: 400 });
+    }
+
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const isSupabaseConfigured = 
+      supabaseUrl && 
+      supabaseUrl.startsWith('http') && 
+      supabaseServiceKey;
+
+    if (!isSupabaseConfigured) {
+      // Mock DB mode: succeed silently
+      return NextResponse.json({ success: true, message: 'Mock link successful' });
+    }
+
+    const supabaseAdmin = createClient(supabaseUrl!, supabaseServiceKey!);
+    const { error } = await supabaseAdmin
+      .from('dd_reports')
+      .update({ user_id: userId })
+      .eq('id', reportId);
+
+    if (error) {
+      console.error('⚠️ Failed to link report:', error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    console.log(`✅ Successfully linked report ${reportId} to user ${userId}`);
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
+    console.error('❌ PUT API endpoint error:', error);
+    return NextResponse.json({ error: 'Failed to link report', message: error.message }, { status: 500 });
   }
 }

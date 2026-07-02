@@ -21,11 +21,13 @@
   margin: 0;
 }
 
-html,
+html {
+  overflow-x: hidden; /* Prevent page-level overflow */
+}
 body {
   max-width: 100vw;
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip; /* clip doesn't block inner scroll containers */
   background-color: var(--bg-light);
   color: var(--text-black);
   font-family: var(--font-inter), sans-serif;
@@ -115,12 +117,8 @@ img, video, iframe, table, svg {
 /* Mobile (≤768px) */
 @media (max-width: 768px) {
   .btn-primary { padding: 12px 28px; font-size: 14px; }
-
-  /* Safe side padding for any section on mobile */
-  section {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
+  /* Note: section padding is managed by .section-container and .page-section
+     in global-styles.css — no blanket section override here */
 }
 
 /* Small phones (≤480px) */

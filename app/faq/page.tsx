@@ -465,10 +465,43 @@ export default function FaqPage() {
             <div className="hero-eyebrow-pill">
               <EditableText contentKey="faq.hero.eyebrow" value={faqContent.hero.eyebrow || "FREQUENTLY ASKED QUESTIONS"} />
             </div>
-            <h1 className="hero-title">
-              Got <span style={{ color: '#005AE2' }}>Questions</span>? <br />
-              We've Got <span style={{ color: '#005AE2' }}>Answers</span>
-            </h1>
+            <EditableText
+              as="h1"
+              contentKey="faq.hero.title"
+              value={faqContent.hero.title || "Got Questions? We've Got Answers"}
+              className="hero-title"
+              style={{ whiteSpace: 'pre-wrap' }}
+            >
+              {(() => {
+                const headingText = faqContent.hero.title || "Got Questions? We've Got Answers";
+                const lines = headingText.includes('\n') ? headingText.split('\n') : [headingText];
+                
+                return lines.map((line, lineIdx) => {
+                  const words = line.split(/[\s\u00a0]+/);
+                  const hasNewlines = headingText.includes('\n');
+                  return (
+                    <React.Fragment key={lineIdx}>
+                      {words.map((word: string, index: number) => {
+                        if (!word) return null;
+                        const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
+                        const cleanWordUpper = cleanWord.toUpperCase();
+                        const isBlue = ['QUESTIONS', 'ANSWERS'].includes(cleanWordUpper);
+                        const isMidpoint = !hasNewlines && index === Math.floor(words.length / 2) - 1;
+                        return (
+                          <React.Fragment key={index}>
+                            <span style={isBlue ? { color: '#005AE2' } : {}}>
+                              {word}{' '}
+                            </span>
+                            {isMidpoint && <br />}
+                          </React.Fragment>
+                        );
+                      })}
+                      {lineIdx < lines.length - 1 && <br />}
+                    </React.Fragment>
+                  );
+                });
+              })()}
+            </EditableText>
             <p className="hero-description">
               <EditableText
                 contentKey="faq.hero.subheading"

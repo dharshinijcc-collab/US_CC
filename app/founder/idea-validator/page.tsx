@@ -6,6 +6,7 @@ import React, { Suspense, useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import EditableText from '@/components/admin/EditableText';
 import { 
   Lightbulb, TrendingUp, Users, Compass, User, 
   ArrowLeft, ArrowRight, Sparkles, AlertTriangle, Eye, EyeOff, Lock, Mail, UserCheck
@@ -286,7 +287,7 @@ Moat: ${answers.moat}`;
       const response = await fetch('/founder/idea-validator/api', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ideaText, answers })
+        body: JSON.stringify({ ideaText, answers, saveToDb: false })
       });
 
       const data = await response.json();
@@ -299,7 +300,8 @@ Moat: ${answers.moat}`;
       setIsLoading(false);
       
       if (data.id) {
-        router.push(`/founder/idea-validator/report?id=${data.id}`);
+        sessionStorage.setItem(`cc_report_${data.id}`, JSON.stringify(data));
+        router.push(`/founder/idea-validator/report?id=${data.id}&temp=true`);
       } else {
         throw new Error('No report ID returned from server');
       }
@@ -323,16 +325,21 @@ Moat: ${answers.moat}`;
           {/* Progress Indicator Header */}
           {currentStep <= 3 && (
             <div style={{ marginBottom: '40px', textAlign: 'center' }}>
-              <span style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--primary-blue)', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
-                Venture Accelerator
-              </span>
+              <EditableText
+                contentKey="validator.hero.eyebrow"
+                value="Venture Accelerator"
+                as="span"
+                style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--primary-blue)', letterSpacing: '0.15em', textTransform: 'uppercase' }}
+              />
               <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.25rem)', fontWeight: 800, color: '#0F172A', marginTop: '8px', marginBottom: '8px', letterSpacing: '-0.03em' }}>
-                {currentStep === 3 ? 'Secure Your Analysis' : 'Venture Idea Validator'}
+                {currentStep === 3 ? 'Secure Your Analysis' : (
+                  <EditableText contentKey="validator.hero.title" value="Venture Idea Validator" />
+                )}
               </h1>
               <p style={{ color: '#64748B', fontSize: '0.95rem', maxWidth: '550px', margin: '0 auto 24px', lineHeight: '1.6' }}>
-                {currentStep === 1 && 'Refine your core value proposition, targeted consumer base, and market defensibility.'}
-                {currentStep === 2 && 'Help us evaluate execution capabilities, launch models, and timeline projections.'}
-                {currentStep === 3 && 'Save your progress and create a free account to unlock your comprehensive VC-grade report.'}
+                {currentStep === 1 && <EditableText contentKey="validator.hero.step1desc" value="Refine your core value proposition, targeted consumer base, and market defensibility." />}
+                {currentStep === 2 && <EditableText contentKey="validator.hero.step2desc" value="Help us evaluate execution capabilities, launch models, and timeline projections." />}
+                {currentStep === 3 && <EditableText contentKey="validator.hero.step3desc" value="Save your progress and create a free account to unlock your comprehensive VC-grade report." />}
               </p>
 
               {/* Progress Stepper Bullets */}
@@ -364,7 +371,7 @@ Moat: ${answers.moat}`;
               <div className="form-section-card" style={{ border: 'none', padding: 0, background: 'transparent' }}>
                 <div className="form-section-title" style={{ fontSize: '1.1rem', fontWeight: 700, display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '24px', color: '#0F172A' }}>
                   <Lightbulb size={20} style={{ color: 'var(--primary-blue)' }} />
-                  <span>The Core Concept</span>
+                  <EditableText contentKey="validator.step1.sectionTitle" value="The Core Concept" as="span" />
                 </div>
 
                 <div className="form-group" style={{ marginBottom: '24px' }}>
@@ -440,7 +447,7 @@ Moat: ${answers.moat}`;
               <div className="form-section-card" style={{ borderTop: '1px solid #E2E8F0', marginTop: '32px', paddingTop: '32px', borderBottom: 'none', paddingBottom: 0, background: 'transparent' }}>
                 <div className="form-section-title" style={{ fontSize: '1.1rem', fontWeight: 700, display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '24px', color: '#0F172A' }}>
                   <TrendingUp size={20} style={{ color: 'var(--primary-blue)' }} />
-                  <span>Market Defensibility</span>
+                  <EditableText contentKey="validator.step1.marketTitle" value="Market Defensibility" as="span" />
                 </div>
 
                 <div className="form-group" style={{ marginBottom: '24px' }}>
@@ -536,7 +543,7 @@ Moat: ${answers.moat}`;
               <div className="form-section-card" style={{ border: 'none', padding: 0, background: 'transparent' }}>
                 <div className="form-section-title" style={{ fontSize: '1.1rem', fontWeight: 700, display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '24px', color: '#0F172A' }}>
                   <Users size={20} style={{ color: 'var(--primary-blue)' }} />
-                  <span>Founder Capabilities</span>
+                  <EditableText contentKey="validator.step2.founderTitle" value="Founder Capabilities" as="span" />
                 </div>
 
                 <div className="form-group" style={{ marginBottom: '24px' }}>
@@ -664,7 +671,7 @@ Moat: ${answers.moat}`;
               <div className="form-section-card" style={{ borderTop: '1px solid #E2E8F0', marginTop: '32px', paddingTop: '32px', borderBottom: 'none', paddingBottom: 0, background: 'transparent' }}>
                 <div className="form-section-title" style={{ fontSize: '1.1rem', fontWeight: 700, display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '24px', color: '#0F172A' }}>
                   <Compass size={20} style={{ color: 'var(--primary-blue)' }} />
-                  <span>Project Timeline & Contact</span>
+                  <EditableText contentKey="validator.step2.timelineTitle" value="Project Timeline & Contact" as="span" />
                 </div>
 
                 <div className="form-group" style={{ marginBottom: '24px' }}>
@@ -2722,5 +2729,43 @@ h1, h2, h3, h4, h5, h6, .manrope-font {
 
 .cc-page-enter {
   animation: ccFadeIn 0.4s ease forwards;
+}
+/* ── Extra Mobile Responsiveness ─────────────────── */
+@media (max-width: 600px) {
+  .validator-page-root {
+    padding-top: 80px !important;
+    padding-bottom: 48px !important;
+  }
+  .validator-page-root > div {
+    padding: 0 16px !important;
+  }
+  .form-card {
+    padding: 20px 16px !important;
+    border-radius: 16px !important;
+  }
+  .form-section-title {
+    font-size: 0.95rem !important;
+  }
+  .radio-pills-row {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .toggle-btn-group {
+    flex-wrap: wrap !important;
+  }
+  .toggle-btn {
+    font-size: 0.8rem !important;
+    padding: 8px 12px !important;
+  }
+  .step-progress-row {
+    max-width: 300px !important;
+  }
+}
+@media (max-width: 400px) {
+  .radio-pills-row {
+    grid-template-columns: 1fr !important;
+  }
+  .form-card {
+    padding: 16px 12px !important;
+  }
 }
 `;

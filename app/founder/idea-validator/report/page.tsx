@@ -19,6 +19,7 @@ import { supabase } from '@/lib/supabase';
 function ReportContent() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
+  const isTemp = searchParams.get('temp') === 'true';
 
   const [report, setReport] = useState<ScoringResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -37,6 +38,8 @@ function ReportContent() {
   const [gateError, setGateError] = useState<string | null>(null);
   const [gateSuccess, setGateSuccess] = useState<string | null>(null);
   const [activeNotebookPage, setActiveNotebookPage] = useState<'executive' | 'dimensions' | 'memo' | 'risks' | 'roadmap'>('executive');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({ dimensions: true, memo: false, flags: false, roadmap: false });
   const toggleSection = (sec: string) => { setExpandedSections(prev => ({ ...prev, [sec]: !prev[sec] })); };
 
@@ -71,6 +74,15 @@ function ReportContent() {
       async function fetchReportFallback() {
         try {
           setLoading(true);
+          // If temp=true, try sessionStorage first (report not yet saved to DB)
+          if (isTemp) {
+            const cached = sessionStorage.getItem(`cc_report_${id}`);
+            if (cached) {
+              setReport(JSON.parse(cached));
+              setLoading(false);
+              return;
+            }
+          }
           const res = await fetch(`/founder/idea-validator/api?id=${id}`);
           if (!res.ok) {
             const errData = await res.json();
@@ -109,6 +121,15 @@ function ReportContent() {
     async function fetchReport() {
       try {
         setLoading(true);
+        // If temp=true, try sessionStorage first (report not yet saved to DB)
+        if (isTemp) {
+          const cached = sessionStorage.getItem(`cc_report_${id}`);
+          if (cached) {
+            setReport(JSON.parse(cached));
+            setLoading(false);
+            return;
+          }
+        }
         const res = await fetch(`/founder/idea-validator/api?id=${id}`);
         if (!res.ok) {
           const errData = await res.json();
@@ -126,7 +147,30 @@ function ReportContent() {
 
     fetchReport();
     return () => subscription.unsubscribe();
-  }, [id]);
+  }, [id, isTemp]);
+
+  // Submit report to CrestCode DB when user clicks the CTA
+  const handleSubmitToCrestCode = async () => {
+    if (!report) return;
+    setSubmitStatus('loading');
+    setSubmitError(null);
+    try {
+      const res = await fetch('/founder/idea-validator/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ report })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Submission failed');
+      // Clear sessionStorage cache now that it's saved
+      if (id) sessionStorage.removeItem(`cc_report_${id}`);
+      setSubmitStatus('success');
+    } catch (err: any) {
+      console.error(err);
+      setSubmitError(err.message || 'An unexpected error occurred. Please try again.');
+      setSubmitStatus('error');
+    }
+  };
 
   const handleGateAuthSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -176,69 +220,81 @@ function ReportContent() {
       return;
     }
 
-    // ── SIGN UP (via server API — creates pre-confirmed user, no email loop) ──
+    setLoading(true);
+
+    // ── SIGN UP (using standard Supabase Auth with verification email) ──
     if (authTab === 'signup') {
       if (!authName || authName.trim().length < 2) {
         setGateError('Please enter your full name.');
+        setLoading(false);
         return;
       }
 
-      const res = await fetch('/founder/idea-validator/auth?action=signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: authName, email: authEmail, password: authPassword }),
-      });
-
-      const result = await res.json();
-
-      if (!res.ok) {
-        if (result.error === 'already_exists') {
-          setGateError('An account with this email already exists. Please log in instead.');
-          setAuthTab('login');
-        } else {
-          setGateError(result.error || 'Signup failed. Please try again.');
-        }
-        return;
-      }
-
-      // Server returned a valid session — set it on the Supabase client
-      if (supabase && result.access_token) {
-        await supabase.auth.setSession({
-          access_token: result.access_token,
-          refresh_token: result.refresh_token,
+      try {
+        const { data, error } = await supabase.auth.signUp({
+          email: authEmail,
+          password: authPassword,
+          options: {
+            data: {
+              full_name: authName,
+            },
+            emailRedirectTo: `${window.location.origin}/founder/idea-validator/report?id=${id}`,
+          },
         });
-      }
-      setIsAuthenticated(true);
 
-    // ── LOG IN (via server API — checks email+password in Supabase, no email confirm needed) ──
+        if (error) throw error;
+
+        // If email verification is enabled, user may not have an active session yet
+        if (data.user && !data.session) {
+          setGateSuccess('Registration successful! A verification link has been sent to your email. Please verify your email to unlock your due diligence report.');
+          setGateError(null);
+        } else if (data.session && data.user) {
+          // Logged in automatically
+          setIsAuthenticated(true);
+          // Link this report to the user
+          await fetch('/founder/idea-validator/api', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reportId: id, userId: data.user.id }),
+          });
+        }
+      } catch (err: any) {
+        console.error('Signup error:', err);
+        setGateError(err.message || 'Signup failed. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+
+    // ── LOG IN (using standard Supabase Auth) ──
     } else {
-      const res = await fetch('/founder/idea-validator/auth?action=login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: authEmail, password: authPassword }),
-      });
-
-      const result = await res.json();
-
-      if (!res.ok) {
-        if (result.error === 'invalid_credentials') {
-          setGateError('Incorrect email or password. No account found with these details.');
-        } else if (result.error === 'email_not_confirmed') {
-          setGateError('Your account email is not confirmed. Please contact support.');
-        } else {
-          setGateError(result.error || 'Login failed. Please try again.');
-        }
-        return;
-      }
-
-      // Set session on client
-      if (supabase && result.access_token) {
-        await supabase.auth.setSession({
-          access_token: result.access_token,
-          refresh_token: result.refresh_token,
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: authEmail,
+          password: authPassword,
         });
+
+        if (error) {
+          if (error.message.toLowerCase().includes('email not confirmed')) {
+            throw new Error('Your email address is not verified. Please check your inbox and verify your email.');
+          }
+          throw error;
+        }
+
+        if (data.session && data.user) {
+          setIsAuthenticated(true);
+          // Link this report to the user
+          await fetch('/founder/idea-validator/api', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reportId: id, userId: data.user.id }),
+          });
+        }
+      } catch (err: any) {
+        console.error('Login error:', err);
+        setGateError(err.message || 'Incorrect email or password. Please try again.');
+      } finally {
+        setLoading(false);
       }
-      setIsAuthenticated(true);
     }
   };
 
@@ -850,13 +906,118 @@ const link = document.createElement('a');
                   </div>
                 </div>
 
+                {/* ── Submit to CrestCode CTA (inside Roadmap tab) ── */}
+                {isTemp && (
+                  <div style={{ marginTop: '40px', marginBottom: '8px' }}>
+                    <div style={{
+                      background: '#fff',
+                      border: '2px solid #005AE2',
+                      borderRadius: '12px',
+                      padding: '28px 32px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '24px',
+                      flexWrap: 'wrap',
+                    }}>
+                      <div style={{ flex: 1, minWidth: '240px' }}>
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#EFF6FF', borderRadius: '20px', padding: '5px 14px', marginBottom: '12px' }}>
+                          <Sparkles size={12} color="#005AE2" />
+                          <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#005AE2', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Ready to Build?</span>
+                        </div>
+                        <h3 style={{ fontSize: '1.15rem', fontWeight: 900, color: '#0F172A', margin: '0 0 8px', letterSpacing: '-0.02em' }}>
+                          Submit Your Idea to CrestCode
+                        </h3>
+                        <p style={{ fontSize: '0.82rem', color: '#64748B', margin: '0', lineHeight: 1.6 }}>
+                          Our team will review your validated idea and reach out to discuss how we can help bring it to life — from MVP development to product launch.
+                        </p>
+                        {submitError && (
+                          <p style={{ fontSize: '0.78rem', color: '#DC2626', marginTop: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <AlertTriangle size={13} /> {submitError}
+                          </p>
+                        )}
+                      </div>
+                      <div style={{ flexShrink: 0 }}>
+                        {submitStatus === 'success' ? (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#F0FDF4', border: '1.5px solid #86EFAC', borderRadius: '10px', padding: '14px 24px', color: '#166534', fontWeight: 700, fontSize: '0.9rem' }}>
+                            <Check size={16} /> Submitted! We'll be in touch.
+                          </div>
+                        ) : (
+                          <button
+                            onClick={handleSubmitToCrestCode}
+                            disabled={submitStatus === 'loading'}
+                            style={{
+                              display: 'inline-flex', alignItems: 'center', gap: '8px',
+                              background: submitStatus === 'loading' ? '#93C5FD' : '#005AE2',
+                              color: '#fff', border: 'none', borderRadius: '10px',
+                              padding: '14px 28px', fontWeight: 800, fontSize: '0.9rem',
+                              cursor: submitStatus === 'loading' ? 'not-allowed' : 'pointer',
+                              whiteSpace: 'nowrap', transition: 'all 0.2s ease',
+                            }}
+                          >
+                            {submitStatus === 'loading' ? 'Submitting…' : 'Submit to CrestCode'}
+                            {submitStatus !== 'loading' && <ArrowRight size={16} />}
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* ── Build Time Estimator CTA (Roadmap tab, always shown as last section) ── */}
+                <div style={{ marginTop: '32px', marginBottom: '8px' }}>
+                  <div style={{
+                    background: 'linear-gradient(135deg, #005AE2 0%, #4F46E5 100%)',
+                    borderRadius: '12px',
+                    padding: '28px 32px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '24px',
+                    flexWrap: 'wrap',
+                  }}>
+                    <div style={{ flex: 1, minWidth: '240px' }}>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.15)', borderRadius: '20px', padding: '5px 14px', marginBottom: '12px' }}>
+                        <Zap size={12} color="#fff" />
+                        <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Next Step: Estimate Build Time</span>
+                      </div>
+                      <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#fff', margin: '0 0 8px', letterSpacing: '-0.02em' }}>
+                        🚀 How long will it take to build your product?
+                      </h3>
+                      <p style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.9)', margin: '0 0 16px', lineHeight: 1.6 }}>
+                        Get a personalised development estimate — MVP Timeline, Team Requirements, Complexity Assessment, Roadmap, and Technical Risks.
+                      </p>
+                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                        {['MVP Timeline', 'Team Requirements', 'Complexity', 'Dev Roadmap', 'Tech Risks'].map((tag, i) => (
+                          <span key={i} style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: '12px', padding: '3px 10px', fontSize: '0.7rem', fontWeight: 600, color: '#fff' }}>
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div style={{ flexShrink: 0 }}>
+                      <Link
+                        href="/build-time-estimator"
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: '8px',
+                          background: '#fff', color: '#005AE2', borderRadius: '10px',
+                          padding: '14px 28px', textDecoration: 'none', fontWeight: 800,
+                          fontSize: '0.9rem', whiteSpace: 'nowrap',
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                        }}
+                      >
+                        Estimate Build Time
+                        <ArrowRight size={16} />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
           </div>
         </div>
-      )}
+        )}
       </div>
+
 
       {/* Auth Gate Overlay */}
       {!isAuthenticated && !isAuthChecking && (
@@ -986,6 +1147,16 @@ const link = document.createElement('a');
                     {showPassword ? <EyeOff size={12} /> : <Eye size={12} />}
                   </button>
                 </div>
+                {authTab === 'login' && (
+                  <div style={{ textAlign: 'right', marginTop: '6px' }}>
+                    <Link 
+                      href="/founder/idea-validator/forgot-password" 
+                      style={{ color: 'var(--accent-blue)', fontSize: '0.75rem', fontWeight: 600, textDecoration: 'none' }}
+                    >
+                      Forgot Password?
+                    </Link>
+                  </div>
+                )}
               </div>
 
               <button 
@@ -1059,27 +1230,32 @@ const validatorStyles = `
   --mono-font: 'Fira Code', monospace;
 }
 
-/* ── Unified Report Typography ── */
-h1, h2, h3, h4, h5, h6 {
+/* ── Scoped Report Typography (only inside .validator-container) ── */
+.validator-container h1,
+.validator-container h2,
+.validator-container h3,
+.validator-container h4,
+.validator-container h5,
+.validator-container h6 {
   font-family: 'Manrope', sans-serif;
   color: var(--text-black);
   margin-top: 0;
 }
 
-h2 { font-size: 1.35rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.02em; }
-h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
-h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
-h5 { font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; }
+.validator-container h2 { font-size: 1.35rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.02em; }
+.validator-container h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
+.validator-container h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
+.validator-container h5 { font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; }
 
-body,
-p,
-li,
-span,
-div {
+.validator-container,
+.validator-container p,
+.validator-container li,
+.validator-container span:not(.cc-footer-wrapper span),
+.validator-container div:not(.cc-footer-wrapper div) {
   font-family: 'Inter', sans-serif;
 }
 
-p {
+.validator-container p {
   font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
   line-height: 1.65;
@@ -1087,12 +1263,13 @@ p {
   margin: 0 0 14px 0;
 }
 
-li {
+.validator-container li {
   font-family: 'Inter', sans-serif;
   font-size: 0.875rem;
   line-height: 1.6;
   color: #334155;
 }
+
 
 .validator-container {
   padding-top: 90px;

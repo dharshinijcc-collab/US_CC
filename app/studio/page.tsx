@@ -71,9 +71,10 @@ function SolvingSection({ stackCards, studioContent, EditableText }: any) {
           alignItems: 'center',
         }}>
 
-          {/* ── Left ── */}
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div className="hero-eyebrow-pill" style={{ marginBottom: '24px' }}>Solving It</div>
+            <div className="hero-eyebrow-pill" style={{ marginBottom: '24px' }}>
+              <EditableText contentKey="studio.solving.eyebrow" value={studioContent.solving?.eyebrow || "Solving It"} />
+            </div>
             <EditableText
               as="h2"
               contentKey="studio.solving.title"
@@ -507,6 +508,51 @@ export default function StudioPage() {
           margin-bottom: 32px;
           text-transform: uppercase !important;
           font-family: 'Manrope', sans-serif !important;
+        }
+
+        .thesis-grid {
+          display: grid;
+          grid-template-columns: 1fr 1.3fr;
+          gap: 4rem;
+          align-items: start;
+        }
+        @media(max-width: 991px) {
+          .thesis-grid {
+            grid-template-columns: 1fr !important;
+            gap: 2.5rem !important;
+          }
+        }
+
+        .values-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 24px;
+        }
+
+        .thesis-text-scroll {
+          max-height: 440px;
+          overflow-y: auto;
+          padding-right: 16px;
+        }
+        .thesis-text-scroll::-webkit-scrollbar {
+          width: 6px;
+        }
+        .thesis-text-scroll::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .thesis-text-scroll::-webkit-scrollbar-thumb {
+          background: #CBD5E1;
+          border-radius: 4px;
+        }
+        .thesis-text-scroll::-webkit-scrollbar-thumb:hover {
+          background: #94A3B8;
+        }
+        @media(max-width: 991px) {
+          .thesis-text-scroll {
+            max-height: none !important;
+            overflow-y: visible !important;
+            padding-right: 0 !important;
+          }
         }
         
         .section-subtitle, .hero-description {
@@ -1486,7 +1532,7 @@ export default function StudioPage() {
       `}} />
 
       <Header />
-      <div className="studio-page" style={{ position: 'relative', overflow: 'hidden', backgroundColor: '#F8FAFC' }}>
+      <div className="studio-page" style={{ position: 'relative', overflow: 'clip', backgroundColor: '#F8FAFC' }}>
 
         {/* Ambient glow orbs */}
 
@@ -1514,15 +1560,21 @@ export default function StudioPage() {
               zIndex: 1,
             }}>
               <span className="hero-eyebrow-pill" style={{ marginBottom: '24px' }}>
-                <EditableText contentKey="studio.consolidated.whoweare.eyebrow" value="Who we are" />
+                <EditableText contentKey="studio.consolidated.whoweare.eyebrow" value={studioContent.consolidated?.whoweare?.eyebrow || "Who we are"} />
               </span>
-              <h1 className="hero-title">
+              <EditableText
+                as="h1"
+                contentKey="studio.consolidated.whoweare.title"
+                value={studioContent.consolidated?.whoweare?.title || "Not an agency. Not an accelerator.\nA venture partner."}
+                className="hero-title"
+              >
                 {(() => {
                   const headingText = studioContent.consolidated?.whoweare?.title || "Not an agency. Not an accelerator.\nA venture partner.";
                   const lines = headingText.split('\n');
                   return lines.map((line, lineIdx) => (
                     <React.Fragment key={lineIdx}>
-                      {line.split(' ').map((word: string, index: number) => {
+                      {line.split(/[\s\u00a0]+/).map((word: string, index: number) => {
+                        if (!word) return null;
                         const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").toLowerCase();
                         const isBlue = cleanWord === 'partner';
                         return (
@@ -1535,11 +1587,11 @@ export default function StudioPage() {
                     </React.Fragment>
                   ));
                 })()}
-              </h1>
+              </EditableText>
               <p className="hero-description" style={{ margin: '0 auto' }}>
                 <EditableText
                   contentKey="studio.consolidated.whoweare.desc"
-                  value="CrestCode exists to level the playing field — combining elite engineering with strategic partnership to turn bold ideas into ventures built to last, not just launched."
+                  value={studioContent.consolidated?.whoweare?.desc || "CrestCode exists to level the playing field — combining elite engineering with strategic partnership to turn bold ideas into ventures built to last, not just launched."}
                 />
               </p>
             </div>
@@ -1568,7 +1620,7 @@ export default function StudioPage() {
                   marginBottom: '12px',
                   fontFamily: "'Manrope', sans-serif"
                 }}>
-                  <EditableText contentKey="studio.consolidated.vision.eyebrow" value="VISION & MISSION" />
+                  <EditableText contentKey="studio.consolidated.vision.eyebrow" value={studioContent.consolidated?.vision?.eyebrow || "VISION & MISSION"} />
                 </span>
                 <h2 style={{
                   fontSize: 'clamp(1.5rem, 3vw, 2.1rem)',
@@ -1579,7 +1631,7 @@ export default function StudioPage() {
                   fontFamily: "'Manrope', sans-serif",
                   letterSpacing: '-0.02em',
                 }}>
-                  <EditableText contentKey="studio.consolidated.vision.title" value="What we're building toward, and how we get there" />
+                  <EditableText contentKey="studio.consolidated.vision.title" value={studioContent.consolidated?.vision?.title || "What we're building toward, and how we get there"} />
                 </h2>
               </div>
 
@@ -1667,7 +1719,7 @@ export default function StudioPage() {
               />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
+            <div className="values-grid">
               {(() => {
                 // Two alternating colors only: blue (#3B82F6) and teal (#0D9488)
                 const VALUE_COLORS = [
@@ -1757,6 +1809,9 @@ export default function StudioPage() {
                       padding: '28px',
                       transition: 'all 0.25s ease',
                       cursor: 'default',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: '100%',
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.borderColor = val.borderHover;
@@ -1826,68 +1881,311 @@ export default function StudioPage() {
 
         
 
-        {/* Selection Process Heading & Description Section */}
-        <section style={{ backgroundColor: '#EFF6FF', position: 'relative' }}>
+        {/* ── INVESTMENT THESIS — redesigned 2-col layout ── */}
+        <section style={{
+          background: 'linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%)',
+          position: 'relative',
+          boxShadow: 'inset 0 20px 20px -20px rgba(0, 0, 0, 0.08), inset 0 -20px 20px -20px rgba(0, 0, 0, 0.05), 0 20px 40px -20px rgba(0, 0, 0, 0.05)'
+        }}>
           <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-              <EditableText
-                contentKey="studio.selectiveness.eyebrow"
-                value={studioContent.selectiveness?.eyebrow || "Selection Process"}
-                className="hero-eyebrow-pill"
-              />
-              <EditableText
-                as="h2"
-                contentKey="studio.selectiveness.title"
-                value={studioContent.selectiveness?.title || "We are selective\nfor a reason."}
-                className="section-title"
-                style={{
+            <div className="thesis-grid">
+
+              {/* ── LEFT: Quadrant Chart + caption ── */}
+              <div>
+                {/* Eyebrow + Title */}
+                <div style={{ marginBottom: '1.25rem' }}>
+                  <span className="hero-eyebrow-pill" style={{ display: 'inline-block', marginBottom: 0 }}>
+                    <EditableText contentKey="studio.selectiveness.thesisLabel" value={studioContent.selectiveness?.thesisLabel || "LET'S START FROM HERE"} />
+                  </span>
+                </div>
+                <h3 style={{
+                  fontSize: 'clamp(1.5rem, 2.5vw, 2.1rem)',
+                  fontWeight: 800,
                   color: '#0F172A',
-                  maxWidth: '800px',
-                  margin: '0 auto 16px',
-                  whiteSpace: 'pre-line'
-                }}
-              />
-              <EditableText
-                as="p"
-                contentKey="studio.selectiveness.subtitle"
-                value={studioContent.selectiveness?.subtitle || "We partner with a small number of founders and business owners each year. Every engagement gets our full attention — which means we choose carefully."}
-                className="section-subtitle"
-                style={{
-                  maxWidth: '640px',
-                  margin: '0 auto'
-                }}
-              />
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1.2fr', gap: '3rem', marginTop: '2rem', alignItems: 'start' }}>
-              {/* Left Column */}
-              <div>
-                <span style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#005AE2', display: 'block', marginBottom: '0.75rem', fontFamily: "'Manrope', sans-serif" }}>
-                  <EditableText
-                    contentKey="studio.selectiveness.thesisLabel"
-                    value={studioContent.selectiveness?.thesisLabel || "LET'S START FROM HERE"}
-                  />
-                </span>
-                <h3 style={{ fontSize: 'clamp(1.3rem, 2.5vw, 1.65rem)', fontWeight: 800, color: '#0F172A', lineHeight: 1.25, letterSpacing: '-0.02em', textTransform: 'uppercase', fontFamily: "'Manrope', sans-serif" }}>
-                  <EditableText
-                    contentKey="studio.selectiveness.thesisTitle"
-                    value={studioContent.selectiveness?.thesisTitle || "INVESTMENT THESIS: THE PROCESS OF CREATING A STARTUP WITHIN VENTURE BUILDER CRESTCODE"}
-                  />
+                  lineHeight: 1.25,
+                  letterSpacing: '-0.02em',
+                  fontFamily: "'Manrope', sans-serif",
+                  marginBottom: '1.75rem',
+                  textTransform: 'uppercase'
+                }}>
+                  <EditableText contentKey="studio.selectiveness.thesisTitle" value={studioContent.selectiveness?.thesisTitle || "INVESTMENT THESIS: SMALL BUSINESSES ARE STILL RUNNING ON YESTERDAY'S TOOLS"} />
                 </h3>
-              </div>
 
-              {/* Right Column */}
-              <div>
-                <p style={{ fontSize: '0.95rem', color: '#64748B', lineHeight: 1.65, fontFamily: "'Inter', sans-serif", margin: 0, fontWeight: 500 }}>
+                {/* Quadrant Chart — matches reference image */}
+                <div style={{ position: 'relative', paddingTop: '28px', paddingBottom: '36px', paddingLeft: '0px' }}>
+
+                  {/* Chart box */}
+                  <div style={{
+                    position: 'relative',
+                    width: '100%', maxWidth: '340px',
+                    aspectRatio: '1 / 1',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    border: '1px solid #E2E8F0',
+                    boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+                    backgroundColor: '#fff',
+                  }}>
+                    {/* ── Quadrant fills (uniform lavender left, mint green right) ── */}
+                    {/* Q2 top-left: lavender */}
+                    <div style={{ position: 'absolute', top: 0, left: 0, width: '50%', height: '50%', backgroundColor: '#F5F3FF' }} />
+                    {/* Q1 top-right: mint green */}
+                    <div style={{ position: 'absolute', top: 0, right: 0, width: '50%', height: '50%', backgroundColor: '#F0FDF4' }} />
+                    {/* Q3 bottom-left: lavender */}
+                    <div style={{ position: 'absolute', bottom: 0, left: 0, width: '50%', height: '50%', backgroundColor: '#F5F3FF' }} />
+                    {/* Q4 bottom-right: mint green */}
+                    <div style={{ position: 'absolute', bottom: 0, right: 0, width: '50%', height: '50%', backgroundColor: '#F0FDF4' }} />
+
+                    {/* ── Divider lines ── */}
+                    <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: '1px', backgroundColor: '#D1D9E4', transform: 'translateX(-50%)' }} />
+                    <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: '1px', backgroundColor: '#D1D9E4', transform: 'translateY(-50%)' }} />
+
+                    {/* ── Products ── (label above, circle centered exactly) ── */}
+
+                    {/* Limelite — Q1: top-right, broad business */}
+                    <div style={{
+                      position: 'absolute',
+                      left: '70%',
+                      top: '25%',
+                      transform: 'translate(-50%, -50%)',
+                      width: '16px',
+                      height: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      zIndex: 10
+                    }}>
+                      <span style={{
+                        position: 'absolute',
+                        bottom: '100%',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        fontSize: '0.65rem',
+                        fontWeight: 700,
+                        fontFamily: "'Inter', sans-serif",
+                        whiteSpace: 'nowrap',
+                        marginBottom: '5px'
+                      }}>
+                        <EditableText
+                          contentKey="studio.selectiveness.products.limelite"
+                          value={studioContent.selectiveness?.products?.limelite || "Limelite"}
+                          style={{ color: '#1A7A4A' }}
+                        />
+                      </span>
+                      <div style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid #22C55E', backgroundColor: 'transparent' }} />
+                    </div>
+
+                    {/* Dockly — Q3: bottom-left, broad family */}
+                    <div style={{
+                      position: 'absolute',
+                      left: '30%',
+                      top: '25%',
+                      transform: 'translate(-50%, -50%)',
+                      width: '16px',
+                      height: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      zIndex: 10
+                    }}>
+                      <span style={{
+                        position: 'absolute',
+                        bottom: '100%',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        fontSize: '0.65rem',
+                        fontWeight: 700,
+                        fontFamily: "'Inter', sans-serif",
+                        whiteSpace: 'nowrap',
+                        marginBottom: '5px'
+                      }}>
+                        <EditableText
+                          contentKey="studio.selectiveness.products.dockly"
+                          value={studioContent.selectiveness?.products?.dockly || "Dockly"}
+                          style={{ color: '#4338CA' }}
+                        />
+                      </span>
+                      <div style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid #6366F1', backgroundColor: 'transparent' }} />
+                    </div>
+
+                    {/* CastleGEC — Q3: bottom-left lower area, deeper niche */}
+                    <div style={{
+                      position: 'absolute',
+                      left: '36%',
+                      top: '70%',
+                      transform: 'translate(-50%, -50%)',
+                      width: '16px',
+                      height: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      zIndex: 10
+                    }}>
+                      <span style={{
+                        position: 'absolute',
+                        top: '100%',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        fontSize: '0.65rem',
+                        fontWeight: 700,
+                        fontFamily: "'Inter', sans-serif",
+                        whiteSpace: 'nowrap',
+                        marginTop: '5px'
+                      }}>
+                        <EditableText
+                          contentKey="studio.selectiveness.products.castleGEC"
+                          value={studioContent.selectiveness?.products?.castleGEC || "CastleGEC"}
+                          style={{ color: '#4338CA' }}
+                        />
+                      </span>
+                      <div style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid #6366F1', backgroundColor: 'transparent' }} />
+                    </div>
+
+                    {/* OpenCap — centered where X and Y axes meet */}
+                    <div style={{
+                      position: 'absolute',
+                      left: '50%',
+                      top: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      width: '16px',
+                      height: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      zIndex: 12
+                    }}>
+                      <span style={{
+                        position: 'absolute',
+                        bottom: '100%',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        fontSize: '0.65rem',
+                        fontWeight: 600,
+                        fontFamily: "'Inter', sans-serif",
+                        whiteSpace: 'nowrap',
+                        marginBottom: '5px'
+                      }}>
+                        <EditableText
+                          contentKey="studio.selectiveness.products.openCap"
+                          value={studioContent.selectiveness?.products?.openCap || "OpenCap"}
+                          style={{ color: '#94A3B8' }}
+                        />
+                      </span>
+                      <div style={{
+                        width: '15px',
+                        height: '15px',
+                        borderRadius: '50%',
+                        border: '1.5px dashed #94A3B8',
+                        backgroundColor: '#fff',
+                      }} />
+                    </div>
+
+                    {/* NestBloq — Q4: bottom-right, near center */}
+                    <div style={{
+                      position: 'absolute',
+                      left: '70%',
+                      top: '68%',
+                      transform: 'translate(-50%, -50%)',
+                      width: '16px',
+                      height: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      zIndex: 10
+                    }}>
+                      <span style={{
+                        position: 'absolute',
+                        top: '100%',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        fontSize: '0.65rem',
+                        fontWeight: 700,
+                        fontFamily: "'Inter', sans-serif",
+                        whiteSpace: 'nowrap',
+                        marginTop: '5px'
+                      }}>
+                        <EditableText
+                          contentKey="studio.selectiveness.products.nestBloq"
+                          value={studioContent.selectiveness?.products?.nestBloq || "NestBloq"}
+                          style={{ color: '#1A7A4A' }}
+                        />
+                      </span>
+                      <div style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid #22C55E', backgroundColor: 'transparent' }} />
+                    </div>
+
+                  </div>{/* end chart box */}
+
+                  {/* X-axis labels: Family left, Business right */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', maxWidth: '340px', marginTop: '12px' }}>
+                    <div style={{ textAlign: 'left', fontFamily: "'Inter', sans-serif", fontSize: '0.8rem', lineHeight: 1.3 }}>
+                      <div style={{ fontWeight: 800, color: '#0F172A', letterSpacing: '0.06em' }}>
+                        <EditableText
+                          contentKey="studio.selectiveness.axis.family"
+                          value={studioContent.selectiveness?.axis?.family || "Family"}
+                        />
+                      </div>
+                    </div>
+                    <div style={{ textAlign: 'right', fontFamily: "'Inter', sans-serif", fontSize: '0.8rem', lineHeight: 1.3 }}>
+                      <div style={{ fontWeight: 800, color: '#0F172A', letterSpacing: '0.06em' }}>
+                        <EditableText
+                          contentKey="studio.selectiveness.axis.business"
+                          value={studioContent.selectiveness?.axis?.business || "Business"}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                </div>{/* end chart wrapper */}
+
+
+                {/* Chart caption */}
+                <p style={{ marginTop: '2.2rem', fontSize: '0.78rem', color: '#94A3B8', lineHeight: 1.6, fontFamily: "'Inter', sans-serif", maxWidth: '320px', fontStyle: 'italic' }}>
                   <EditableText
-                    contentKey="studio.selectiveness.thesisDesc"
-                    value={studioContent.selectiveness?.thesisDesc || "Crestcode Startup Studio's startups aim to shift the paradigm of analog services, customer experience, and process management. Micro and small businesses that are still under-digitalized are the primary targets of this transformation. The solutions we will build together will put customers at the center, enabling them to access the services of artisans and professionals with a simple click, enabling them to continue to succeed in a rapidly evolving digital landscape. We create plug-and-play platforms that streamline processes, improve customer experience, and create cross-functional tools for digital transformation. The goal is to reduce inefficiencies and enable professionals to attract, manage, and retain clients, allowing them to focus exclusively on their specific profession."}
+                    contentKey="studio.selectiveness.chartCaption"
+                    value={studioContent.selectiveness?.chartCaption || "How we think about who we build for — not a measured market view."}
                   />
                 </p>
               </div>
+
+              {/* ── RIGHT: Editorial text ── */}
+              <div className="thesis-text-scroll" style={{ paddingTop: '0.5rem' }}>
+                <div style={{ fontSize: '0.92rem', color: '#334155', lineHeight: 1.85, fontFamily: "'Inter', sans-serif", fontWeight: 450, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                  <p style={{ margin: 0 }}>
+                    <EditableText
+                      as="span"
+                      contentKey="studio.selectiveness.thesisP1"
+                      value={studioContent.selectiveness?.thesisP1 || "Families managing the moving parts of a household. Small business owners running operations with no IT department behind them. Different scale, same problem — they're stuck with spreadsheets, phone calls, and guesswork, while the software built for them is either too generic to fit how they actually operate, or too complex to bother adopting."}
+                    />
+                  </p>
+                  <p style={{ margin: 0 }}>
+                    <EditableText
+                      as="span"
+                      contentKey="studio.selectiveness.thesisP2"
+                      value={studioContent.selectiveness?.thesisP2 || "It's not for lack of technology. It's cost, habit, and a real fear: that handing the work over to software means losing the judgment that made it succeed in the first place."}
+                    />
+                  </p>
+                  <p style={{ margin: 0 }}>
+                    <EditableText
+                      as="span"
+                      contentKey="studio.selectiveness.thesisP3"
+                      value={studioContent.selectiveness?.thesisP3 || "We build for both sides of that gap. For families, that means products like Dockly and CastleGEC — tools that hold the everyday logistics and the major decisions of a household in one place, instead of scattered across apps no one fully trusts. For small businesses, that means products like Limelite and NestBloq — tools built around how an independent operator actually works, not how an enterprise vendor assumes they should."}
+                    />
+                  </p>
+                  <p style={{ margin: 0 }}>
+                    <EditableText
+                      as="span"
+                      contentKey="studio.selectiveness.thesisP4"
+                      value={studioContent.selectiveness?.thesisP4 || "That's our bet: the families and small operators still under-digitized today are the ones with the most room to grow tomorrow — and the ones we're building for first."}
+                    />
+                  </p>
+                </div>
+              </div>
+
             </div>
           </div>
         </section>
+
 
         {/* ═══════════════════════════════════════════════════════ */}
         {/* SECTION A: Selection Process — 5 Phase Tabs + Cards   */}
@@ -1986,304 +2284,155 @@ export default function StudioPage() {
         {/* ═══════════════════════════════════════════════════════ */}
 
         {content?.ourModel && (() => {
+          // ── CMS-driven tabs: read from studioContent, fall back to hardcoded labels ──
+          const CMS_TABS = studioContent.selection_process?.tabs;
           const PHASE_TABS = [
-            { title: 'SELECT', id: 0 },
-            { title: 'SUBMIT', id: 1 },
-            { title: 'VALIDATE', id: 2 },
-            { title: 'BUILD', id: 3 },
-            { title: 'LAUNCH', id: 4 },
-            { title: 'PMF', id: 5 },
-            { title: 'SCALE', id: 6 },
+            { title: CMS_TABS?.[0]?.title || 'SELECT', id: 0 },
+            { title: CMS_TABS?.[1]?.title || 'SUBMIT', id: 1 },
+            { title: CMS_TABS?.[2]?.title || 'VALIDATE', id: 2 },
+            { title: CMS_TABS?.[3]?.title || 'BUILD', id: 3 },
+            { title: CMS_TABS?.[4]?.title || 'LAUNCH', id: 4 },
+            { title: CMS_TABS?.[5]?.title || 'PMF', id: 5 },
+            { title: CMS_TABS?.[6]?.title || 'SCALE', id: 6 },
           ];
 
-          const PHASE_DATA = [
+          // ── CMS-driven items: merge CMS data over hardcoded fallbacks ──
+          const CMS_ITEMS = studioContent.selection_process?.items || [];
+          const mergePhase = (idx: number, fallback: any) => {
+            const cms = CMS_ITEMS[idx] || {};
+            return {
+              ...fallback,
+              title: cms.title ?? fallback.title,
+              description: cms.description ?? fallback.description,
+              metricHeader: cms.metricHeader !== undefined ? cms.metricHeader : fallback.metricHeader,
+              bullets: (cms.bullets && cms.bullets.length > 0)
+                ? cms.bullets.map((b: any, bIdx: number) => ({
+                    ...(fallback.bullets[bIdx] || {}),
+                    title: b.title ?? (fallback.bullets[bIdx]?.title || ''),
+                    desc: b.desc ?? (fallback.bullets[bIdx]?.desc || ''),
+                    ...(b.duration !== undefined ? { duration: b.duration } : {}),
+                  }))
+                : fallback.bullets,
+              metrics: (cms.metrics && cms.metrics.length > 0)
+                ? cms.metrics.map((m: any, mIdx: number) => ({
+                    ...(fallback.metrics[mIdx] || {}),
+                    ...m,
+                  }))
+                : fallback.metrics,
+            };
+          };
+
+          const FALLBACK_PHASE_DATA = [
             {
-              phaseNum: "01",
-              phaseKey: "SELECT",
+              phaseNum: "01", phaseKey: "SELECT",
               title: "We choose ideas worth building",
               description: "Submit your idea — not the how, just the what and why, in one page or less. Every submission gets reviewed by our partners directly.",
               bullets: [
-                {
-                  title: "Submit your idea",
-                  desc: "One page max. We're evaluating the problem and your fit — not asking for a business plan yet."
-                },
-                {
-                  title: "Meet with partners",
-                  desc: "You'll learn what CrestCode does, what support looks like, and the full process ahead."
-                }
+                { title: "Submit your idea", desc: "One page max. We're evaluating the problem and your fit — not asking for a business plan yet." },
+                { title: "Meet with partners", desc: "You'll learn what CrestCode does, what support looks like, and the full process ahead." }
               ],
               metricHeader: null,
               metrics: [
-                {
-                  num: "01",
-                  label: "Typical duration",
-                  value: "1-2 weeks",
-                  valueColor: "#0F172A"
-                },
-                {
-                  num: "",
-                  label: "What you need",
-                  value: "Just the idea",
-                  valueColor: "#0F172A"
-                }
+                { num: "01", label: "Typical duration", value: "1-2 weeks", valueColor: "#0F172A" },
+                { num: "", label: "What you need", value: "Just the idea", valueColor: "#0F172A" }
               ]
             },
             {
-              phaseNum: "02",
-              phaseKey: "SUBMIT",
+              phaseNum: "02", phaseKey: "SUBMIT",
               title: "Submit your idea",
               description: "Share your concept with our team. We review every submission within 24–48 hours and assess fit across market potential, technical feasibility, and founder conviction.",
               bullets: [
-                {
-                  title: "Initial assessment",
-                  desc: "We review every submission within 24–48 hours to assess market potential, technical feasibility, and founder conviction."
-                },
-                {
-                  title: "Partner meeting",
-                  desc: "Get invited to learn what Crestcode does, the support we provide, and the overall process."
-                }
+                { title: "Initial assessment", desc: "We review every submission within 24–48 hours to assess market potential, technical feasibility, and founder conviction." },
+                { title: "Partner meeting", desc: "Get invited to learn what Crestcode does, the support we provide, and the overall process." }
               ],
               metricHeader: null,
               metrics: [
-                {
-                  num: "01",
-                  label: "Typical duration",
-                  value: "24-48 hours",
-                  valueColor: "#0F172A"
-                },
-                {
-                  num: "",
-                  label: "What you need",
-                  value: "1 page max",
-                  valueColor: "#0F172A"
-                }
+                { num: "01", label: "Typical duration", value: "24-48 hours", valueColor: "#0F172A" },
+                { num: "", label: "What you need", value: "1 page max", valueColor: "#0F172A" }
               ]
             },
             {
-              phaseNum: "03",
-              phaseKey: "VALIDATE",
+              phaseNum: "03", phaseKey: "VALIDATE",
               title: "We pressure-test before we build",
               description: "If there's mutual fit, you submit the full proposal — business model, strategic alignment, and technical scope — before any code gets written.",
               bullets: [
-                {
-                  title: "Full proposal",
-                  desc: "Business model, target customer, and technical specifications get detailed and stress-tested together."
-                },
-                {
-                  title: "Team assigned",
-                  desc: "Senior engineers and product leads are allocated — the people you meet are the people who build."
-                }
+                { title: "Full proposal", desc: "Business model, target customer, and technical specifications get detailed and stress-tested together." },
+                { title: "Team assigned", desc: "Senior engineers and product leads are allocated — the people you meet are the people who build." }
               ],
               metricHeader: null,
               metrics: [
-                {
-                  num: "01",
-                  label: "Typical duration",
-                  value: "1-2 weeks",
-                  sub: "Proposal review through team allocation",
-                  valueColor: "#0F172A"
-                },
-                {
-                  num: "02",
-                  label: "Output",
-                  value: "Signed scope + team",
-                  sub: "Clear deliverables before build begins",
-                  valueColor: "#0F172A"
-                }
+                { num: "01", label: "Typical duration", value: "1-2 weeks", sub: "Proposal review through team allocation", valueColor: "#0F172A" },
+                { num: "02", label: "Output", value: "Signed scope + team", sub: "Clear deliverables before build begins", valueColor: "#0F172A" }
               ]
             },
             {
-              phaseNum: "04",
-              phaseKey: "BUILD",
+              phaseNum: "04", phaseKey: "BUILD",
               title: "Design and engineering, in lockstep",
               description: "A high-velocity, structured roadmap from zero to market entry — six execution stages optimized for speed without sacrificing quality.",
               bullets: [
-                {
-                  title: "Discovery & requirements",
-                  duration: "1-2 weeks",
-                  desc: "Defining core goals and user needs for a scalable architecture."
-                },
-                {
-                  title: "Strategy & setup",
-                  duration: "1-2 weeks",
-                  desc: "Technical planning and resource allocation."
-                },
-                {
-                  title: "Design & prototyping",
-                  duration: "3-4 weeks",
-                  desc: "High-fidelity UI/UX design and interaction mapping."
-                },
-                {
-                  title: "Agile development",
-                  duration: "8-12 weeks",
-                  desc: "Building core features with bi-weekly demos."
-                },
-                {
-                  title: "QA & launch prep",
-                  duration: "2 weeks",
-                  desc: "Rigorous testing and production deployment."
-                }
+                { title: "Discovery & requirements", duration: "1-2 weeks", desc: "Defining core goals and user needs for a scalable architecture." },
+                { title: "Strategy & setup", duration: "1-2 weeks", desc: "Technical planning and resource allocation." },
+                { title: "Design & prototyping", duration: "3-4 weeks", desc: "High-fidelity UI/UX design and interaction mapping." },
+                { title: "Agile development", duration: "8-12 weeks", desc: "Building core features with bi-weekly demos." },
+                { title: "QA & launch prep", duration: "2 weeks", desc: "Rigorous testing and production deployment." }
               ],
               metricHeader: "HOW WE MEASURE THIS PHASE",
               metrics: [
-                {
-                  num: "01",
-                  label: "Sprint velocity",
-                  value: "Bi-weekly demos",
-                  sub: "Working software shown every cycle",
-                  valueColor: "#005AE2"
-                },
-                {
-                  num: "02",
-                  label: "Scope stability",
-                  value: "85%+ on-spec",
-                  sub: "Features matching original scope",
-                  valueColor: "#10B981"
-                },
-                {
-                  num: "03",
-                  label: "Code quality gate",
-                  value: "80%+ test coverage",
-                  sub: "Minimum before a feature is \"done\"",
-                  valueColor: "#005AE2"
-                },
-                {
-                  num: "04",
-                  label: "Time to MLP",
-                  value: "15-22 weeks",
-                  sub: "Discovery through QA, idea-dependent",
-                  valueColor: "#B45309"
-                }
+                { num: "01", label: "Sprint velocity", value: "Bi-weekly demos", sub: "Working software shown every cycle", valueColor: "#005AE2" },
+                { num: "02", label: "Scope stability", value: "85%+ on-spec", sub: "Features matching original scope", valueColor: "#10B981" },
+                { num: "03", label: "Code quality gate", value: "80%+ test coverage", sub: "Minimum before a feature is \"done\"", valueColor: "#005AE2" },
+                { num: "04", label: "Time to MLP", value: "15-22 weeks", sub: "Discovery through QA, idea-dependent", valueColor: "#B45309" }
               ]
             },
             {
-              phaseNum: "05",
-              phaseKey: "LAUNCH",
+              phaseNum: "05", phaseKey: "LAUNCH",
               title: "Precision over noise",
               description: "Founder-led, community-first, metrics-gated. Growth is earned before it's amplified — we deploy strategically to a beachhead market first.",
               bullets: [
-                {
-                  title: "Beachhead deployment",
-                  desc: "Controlled release, rapid feedback gathering, and early community seeding."
-                }
+                { title: "Beachhead deployment", desc: "Controlled release, rapid feedback gathering, and early community seeding." }
               ],
               metricHeader: "HOW WE MEASURE THIS PHASE",
               metrics: [
-                {
-                  num: "01",
-                  label: "User retention (Day 30)",
-                  value: "Target 20-40%",
-                  sub: "Early product-market signal",
-                  valueColor: "#B45309"
-                },
-                {
-                  num: "02",
-                  label: "CAC : LTV ratio",
-                  value: "Target 1 : 4-5",
-                  sub: "Threshold before recommending paid growth",
-                  valueColor: "#B45309"
-                },
-                {
-                  num: "03",
-                  label: "Platform stability",
-                  value: "99.5%+ uptime",
-                  sub: "Monitored from first public release",
-                  valueColor: "#10B981"
-                },
-                {
-                  num: "04",
-                  label: "Time to first 100 users",
-                  value: "2-4 weeks",
-                  sub: "From beachhead release to adoption",
-                  valueColor: "#005AE2"
-                }
+                { num: "01", label: "User retention (Day 30)", value: "Target 20-40%", sub: "Early product-market signal", valueColor: "#B45309" },
+                { num: "02", label: "CAC : LTV ratio", value: "Target 1 : 4-5", sub: "Threshold before recommending paid growth", valueColor: "#B45309" },
+                { num: "03", label: "Platform stability", value: "99.5%+ uptime", sub: "Monitored from first public release", valueColor: "#10B981" },
+                { num: "04", label: "Time to first 100 users", value: "2-4 weeks", sub: "From beachhead release to adoption", valueColor: "#005AE2" }
               ]
             },
             {
-              phaseNum: "06",
-              phaseKey: "PMF",
+              phaseNum: "06", phaseKey: "PMF",
               title: "Achieving Product-Market Fit",
               description: "We measure, iterate, and refine until your product earns genuine retention. PMF is not declared — it is proven through real user behavior and engagement signals.",
               bullets: [
-                {
-                  title: "Retention signals",
-                  desc: "Track repeat usage, engagement depth, and organic referral patterns that indicate real product value."
-                },
-                {
-                  title: "User feedback loops",
-                  desc: "Structured interviews and behavioral data to identify what resonates and what needs refinement."
-                },
-                {
-                  title: "Iteration cycles",
-                  desc: "Rapid product adjustments based on validated learnings — not assumptions."
-                }
+                { title: "Retention signals", desc: "Track repeat usage, engagement depth, and organic referral patterns that indicate real product value." },
+                { title: "User feedback loops", desc: "Structured interviews and behavioral data to identify what resonates and what needs refinement." },
+                { title: "Iteration cycles", desc: "Rapid product adjustments based on validated learnings — not assumptions." }
               ],
               metricHeader: "HOW WE MEASURE THIS PHASE",
               metrics: [
-                {
-                  num: "01",
-                  label: "Target PMF timeline",
-                  value: "3-6 months",
-                  sub: "Structured iteration cycles",
-                  valueColor: "#B45309"
-                },
-                {
-                  num: "02",
-                  label: "Retention metric",
-                  value: "Sustained active usage",
-                  sub: "Product-market confirmation",
-                  valueColor: "#005AE2"
-                }
+                { num: "01", label: "Target PMF timeline", value: "3-6 months", sub: "Structured iteration cycles", valueColor: "#B45309" },
+                { num: "02", label: "Retention metric", value: "Sustained active usage", sub: "Product-market confirmation", valueColor: "#005AE2" }
               ]
             },
             {
-              phaseNum: "07",
-              phaseKey: "SCALE",
+              phaseNum: "07", phaseKey: "SCALE",
               title: "We stay past the finish line",
               description: "This is where most studios disappear. We don't — refining distribution, optimizing the acquisition funnel, and supporting fundraising as the venture grows.",
               bullets: [
-                {
-                  title: "Distribution & growth",
-                  desc: "Refining channels and optimizing the acquisition funnel for sustained impact."
-                },
-                {
-                  title: "Ongoing partnership",
-                  desc: "Continued access to the CrestCode network, engineering support, and strategic guidance."
-                }
+                { title: "Distribution & growth", desc: "Refining channels and optimizing the acquisition funnel for sustained impact." },
+                { title: "Ongoing partnership", desc: "Continued access to the CrestCode network, engineering support, and strategic guidance." }
               ],
               metricHeader: "HOW WE MEASURE THIS PHASE",
               metrics: [
-                {
-                  num: "01",
-                  label: "Month-over-month growth",
-                  value: "Target 10-20%",
-                  sub: "Sustainable compounding growth",
-                  valueColor: "#10B981"
-                },
-                {
-                  num: "02",
-                  label: "Channel diversification",
-                  value: "2+ active channels",
-                  sub: "Reduces single-source dependency",
-                  valueColor: "#005AE2"
-                },
-                {
-                  num: "03",
-                  label: "Net revenue retention",
-                  value: "Target 100%+",
-                  sub: "Expansion outpacing churn",
-                  valueColor: "#B45309"
-                },
-                {
-                  num: "04",
-                  label: "Continued engagement",
-                  value: "Ongoing partnership",
-                  sub: "Engaged through fundraising & beyond",
-                  valueColor: "#005AE2"
-                }
+                { num: "01", label: "Month-over-month growth", value: "Target 10-20%", sub: "Sustainable compounding growth", valueColor: "#10B981" },
+                { num: "02", label: "Channel diversification", value: "2+ active channels", sub: "Reduces single-source dependency", valueColor: "#005AE2" },
+                { num: "03", label: "Net revenue retention", value: "Target 100%+", sub: "Expansion outpacing churn", valueColor: "#B45309" },
+                { num: "04", label: "Continued engagement", value: "Ongoing partnership", sub: "Engaged through fundraising & beyond", valueColor: "#005AE2" }
               ]
             }
           ];
+
+          const PHASE_DATA = FALLBACK_PHASE_DATA.map((fallback, idx) => mergePhase(idx, fallback));
 
           const currentPhaseData = PHASE_DATA[heroCarouselIndex];
 
@@ -2415,7 +2564,7 @@ export default function StudioPage() {
                     background: '#FFFFFF',
                     border: '1px solid #E2E8F0',
                     borderRadius: '20px',
-                    padding: '40px 48px',
+                    padding: 'clamp(20px, 4vw, 48px) clamp(16px, 4vw, 48px)',
                     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.015)',
                     maxWidth: '960px',
                     margin: '0 auto',
@@ -2667,6 +2816,8 @@ export default function StudioPage() {
             </div>
           </div>
 
+          {/* Diff table: outer scroll wrapper for mobile, inner wrap for styling */}
+          <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', paddingBottom: '4px' }}>
           <div className="diff-table-wrap">
             <table className="diff-table">
               <thead>
@@ -2757,6 +2908,7 @@ export default function StudioPage() {
               </tbody>
             </table>
           </div>
+          </div> {/* end outer scroll wrapper */}
         </section>
 
         {/* CTA */}
@@ -2764,7 +2916,9 @@ export default function StudioPage() {
           <section className="section-white text-center">
             <div className="section-container">
               <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-                <div className="hero-eyebrow-pill">Get Started</div>
+                <div className="hero-eyebrow-pill">
+                  <EditableText contentKey="studio.cta.eyebrow" value={studioContent.cta?.eyebrow || "Get Started"} />
+                </div>
               </div>
               <EditableText
                 as="h2"

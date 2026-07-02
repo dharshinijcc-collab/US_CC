@@ -15,7 +15,6 @@ export interface BuildTimeEstimates {
   timeline_months: number;
   engineering_complexity: 'low' | 'medium' | 'high';
   team_recommendation: string;
-  approximate_cost_usd: number;
   technical_risks: string[];
   development_phases: {
     phase: string;
@@ -212,17 +211,43 @@ export function calculateAggregatedScores(
   }
 
   // 11. BuildTime Estimator
-  let complexity: BuildTimeEstimates['engineering_complexity'] = 'medium';
+  // Base SaaS MVP = 10 weeks (approx 2.5 months)
+  let baseWeeks = 10;
+
+  // Design & Code adjustments based on current_stage
   if (answers.current_stage === 'mvp') {
-    complexity = 'low'; // already launched
-  } else if (technicalFeasibility >= 7.5) {
+    baseWeeks -= 10 * 0.70;
+  } else if (answers.current_stage === 'prototype') {
+    baseWeeks -= 10 * 0.35;
+  } else if (answers.current_stage === 'ux_design') {
+    baseWeeks -= 10 * 0.20;
+  }
+
+  // Technical cofounder / team adjustments
+  if (answers.has_technical_cofounder || answers.technical_background === 'can_code') {
+    baseWeeks -= 2.0;
+  }
+
+  // Complexity adders based on technicalFeasibility
+  if (technicalFeasibility < 5.0) {
+    baseWeeks += 3.0;
+  } else if (technicalFeasibility < 7.0) {
+    baseWeeks += 1.0;
+  }
+
+  // Ensure logical minimum constraints (minimum 1.5 weeks)
+  const finalWeeks = Math.max(1.5, Math.round(baseWeeks * 10) / 10);
+
+  // Convert weeks to months for schema (1 week = 0.25 months)
+  const timeline_months = Math.max(0.4, Math.round((finalWeeks / 4) * 10) / 10);
+  
+  let complexity: BuildTimeEstimates['engineering_complexity'] = 'medium';
+  if (finalWeeks <= 4) {
     complexity = 'low';
-  } else if (technicalFeasibility < 4.5) {
+  } else if (finalWeeks >= 10) {
     complexity = 'high';
   }
 
-  let timeline = 5;
-  let cost = 50000;
   let team = '1 Tech Lead, 1 Frontend Developer, 1 Backend Developer, 1 Product Designer';
   let technical_risks = [
     'Ensuring scalable API response times under high concurrency.',
@@ -230,16 +255,12 @@ export function calculateAggregatedScores(
   ];
 
   if (complexity === 'low') {
-    timeline = 2.5;
-    cost = 18000;
     team = '1 Full-Stack Developer + 1 Part-Time UI/UX Designer';
     technical_risks = [
       'Maintaining simplicity to avoid scope creep in initial V1 launch.',
       'Hosting resources on serverless endpoints to keep cloud costs low.'
     ];
   } else if (complexity === 'high') {
-    timeline = 9;
-    cost = 115000;
     team = '1 Tech Lead, 2 Full-Stack Developers, 1 DevOps Engineer, 1 Product Designer, 1 AI/Data Specialist';
     technical_risks = [
       'Database scale issues with massive real-time data loops.',
@@ -249,12 +270,12 @@ export function calculateAggregatedScores(
   }
 
   const development_phases = [
-    { phase: 'Discovery & UX Spec', timeline: `${Math.round(timeline * 0.15 * 10) / 10} months`, estimated_effort: '15%', description: 'Map workflows, user flows, database architecture blueprints, and interactive wireframes.' },
-    { phase: 'UI/UX Interactive Design', timeline: `${Math.round(timeline * 0.15 * 10) / 10} months`, estimated_effort: '15%', description: 'Create high-fidelity design sheets, responsive templates, and style system configurations.' },
-    { phase: 'Frontend Engineering', timeline: `${Math.round(timeline * 0.25 * 10) / 10} months`, estimated_effort: '25%', description: 'Develop Next.js/React layout templates, client page routings, and browser storage components.' },
-    { phase: 'Backend API & Infrastructure', timeline: `${Math.round(timeline * 0.25 * 10) / 10} months`, estimated_effort: '25%', description: 'Establish database connections, schema constraints, security keys, and router pipelines.' },
-    { phase: 'AI & Custom Integrations', timeline: `${Math.round(timeline * 0.10 * 10) / 10} months`, estimated_effort: '10%', description: 'Integrate Gemini LLM prompts, caching algorithms, and third-party SaaS hooks.' },
-    { phase: 'QA Testing & Launch Deployment', timeline: `${Math.round(timeline * 0.10 * 10) / 10} months`, estimated_effort: '10%', description: 'Run build tests, cross-browser responsiveness checks, and deploy to Vercel/AWS environments.' },
+    { phase: 'Discovery & UX Spec', timeline: `${Math.round(timeline_months * 0.15 * 10) / 10} month(s)`, estimated_effort: '15%', description: 'Map workflows, user flows, database architecture blueprints, and interactive wireframes.' },
+    { phase: 'UI/UX Interactive Design', timeline: `${Math.round(timeline_months * 0.15 * 10) / 10} month(s)`, estimated_effort: '15%', description: 'Create high-fidelity design sheets, responsive templates, and style system configurations.' },
+    { phase: 'Frontend Engineering', timeline: `${Math.round(timeline_months * 0.25 * 10) / 10} month(s)`, estimated_effort: '25%', description: 'Develop Next.js/React layout templates, client page routings, and browser storage components.' },
+    { phase: 'Backend API & Infrastructure', timeline: `${Math.round(timeline_months * 0.25 * 10) / 10} month(s)`, estimated_effort: '25%', description: 'Establish database connections, schema constraints, security keys, and router pipelines.' },
+    { phase: 'AI & Custom Integrations', timeline: `${Math.round(timeline_months * 0.10 * 10) / 10} month(s)`, estimated_effort: '10%', description: 'Integrate Gemini LLM prompts, caching algorithms, and third-party SaaS hooks.' },
+    { phase: 'QA Testing & Launch Deployment', timeline: `${Math.round(timeline_months * 0.10 * 10) / 10} month(s)`, estimated_effort: '10%', description: 'Run build tests, cross-browser responsiveness checks, and deploy to Vercel/AWS environments.' },
   ];
 
   return {
@@ -275,12 +296,12 @@ export function calculateAggregatedScores(
     evidence_checklist,
     score_sensitivity,
     buildtime_estimator: {
-      timeline_months: timeline,
+      timeline_months,
       engineering_complexity: complexity,
       team_recommendation: team,
-      approximate_cost_usd: cost,
       technical_risks,
       development_phases
     }
   };
 }
+
