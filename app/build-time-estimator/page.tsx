@@ -129,79 +129,83 @@ function calculateEstimate(a: Answers): EstimateResult {
     return { minDays: 0, maxDays: 0, complexity: 'Low', complexityReason: '', team: [], drivers: [], phases: [], risks: [], costDrivers: [], mvpScope: { include: [], defer: [] } };
   }
 
-  // ── Fixed CrestCode Timeline Ranges (weeks, manually curated) ─────────────
-  // Format: [minWeeks, maxWeeks] for a standard small team
-  const FIXED_WEEKS: Record<ProductType, [number, number]> = {
-    landing:    [1,  2],
-    marketing:  [2,  4],
-    internal:   [3,  6],
-    saas:       [8,  14],
-    marketplace:[10, 18],
-    mobile:     [8,  16],
-    ai_product: [10, 20],
-    enterprise: [16, 28],
-    other:      [6,  12],
+  // ── Rule: 1 page/screen = 1 day (min) · 2 days (max) ────────────────────
+  // Base screen counts per product type (CrestCode curated)
+  const BASE_PAGES: Record<ProductType, number> = {
+    landing:    1,   // 1 page
+    marketing:  5,   // ~5 pages (Home, About, Services, Blog, Contact)
+    internal:   8,   // ~8 screens
+    saas:       18,  // ~18 screens
+    marketplace:22,  // ~22 screens
+    mobile:     18,  // ~18 screens
+    ai_product: 16,  // ~16 screens
+    enterprise: 30,  // ~30 screens
+    other:      10,  // ~10 screens
   };
 
-  // Team preference adjustments (multiplied against week ranges)
-  const TEAM_MULT: Record<TeamPref, [number, number]> = {
-    solo:      [1.5, 1.75],
-    small:     [1.0, 1.0],
-    dedicated: [0.6, 0.75],
-  };
+  let pages = BASE_PAGES[a.productType];
 
-  const [baseMin, baseMax] = FIXED_WEEKS[a.productType];
-  const [tMin, tMax] = TEAM_MULT[a.teamPref];
-
-  // Convert to days (5 working days per week) and apply team multiplier
-  let minD = Math.round(baseMin * 5 * tMin);
-  let maxD = Math.round(baseMax * 5 * tMax);
-
-  // Platform additions (fixed week additions)
+  // Platform additions (extra screens)
   const hasIOS = a.platforms.includes('ios');
   const hasAndroid = a.platforms.includes('android');
-  if (hasIOS) { minD += 10; maxD += 15; }
-  if (hasAndroid) { minD += hasIOS ? 5 : 10; maxD += hasIOS ? 10 : 15; }
+  if (hasIOS)    pages += 8;                   // 8 mobile-specific screens
+  if (hasAndroid) pages += hasIOS ? 4 : 8;     // shared screens if iOS already counted
   if (a.platforms.includes('admin') && !['saas','marketplace','enterprise'].includes(a.productType)) {
-    minD += 5; maxD += 10;
+    pages += 5;                                 // ~5 admin screens
   }
 
-  // AI additions (fixed weeks)
-  const AI_WEEKS: Record<AILevel, [number, number]> = {
-    none:       [0,  0],
-    assistant:  [5,  10],
-    report_gen: [10, 15],
-    ocr:        [10, 15],
-    ai_core:    [15, 25],
+  // AI feature additions (extra screens/flows)
+  const AI_PAGES: Record<AILevel, number> = {
+    none:       0,
+    assistant:  3,   // chat UI + config + history
+    report_gen: 5,   // input form + processing + report view + export + history
+    ocr:        4,   // upload + processing + results + corrections
+    ai_core:    8,   // model config + training UI + dashboard + results + 4 more
   };
-  minD += AI_WEEKS[a.aiLevel][0];
-  maxD += AI_WEEKS[a.aiLevel][1];
+  pages += AI_PAGES[a.aiLevel];
 
-  // Integration additions (fixed per integration)
+  // Integration additions (each integration adds setup/config screens)
   a.integrations.forEach(i => {
-    if (i === 'custom') { minD += 5; maxD += 10; }
-    else { minD += 3; maxD += 5; }
+    pages += i === 'custom' ? 3 : 2;
   });
 
-  // Feature additions (selective — only heavy features add time)
-  const FEATURE_WEEKS: Partial<Record<string, [number, number]>> = {
-    payments:      [5, 10],
-    booking:       [5, 10],
-    messaging:     [10, 15],
-    collaboration: [10, 15],
-    analytics:     [5, 10],
-    reporting:     [5, 10],
-    roles:         [5, 5],
+  // Feature additions (extra screens per feature)
+  const FEATURE_PAGES: Partial<Record<string, number>> = {
+    profiles:      2,  // profile view + edit
+    dashboard:     3,  // main dash + widgets + settings
+    analytics:     4,  // overview + charts + filters + export
+    reporting:     3,  // report list + viewer + builder
+    payments:      4,  // checkout + billing + invoices + history
+    booking:       4,  // calendar + booking form + confirmation + management
+    search:        2,  // search results + filters
+    notifications: 2,  // notification centre + settings
+    messaging:     5,  // inbox + thread + compose + contacts + settings
+    file_uploads:  2,  // upload UI + file manager
+    roles:         3,  // role list + permissions matrix + assignment
+    collaboration: 5,  // workspace + members + activity + shared views + settings
   };
   a.features.forEach(f => {
-    const fw = FEATURE_WEEKS[f];
-    if (fw) { minD += fw[0]; maxD += fw[1]; }
+    const fp = FEATURE_PAGES[f];
+    if (fp) pages += fp;
   });
 
-  minD = Math.max(5, minD);
-  maxD = Math.max(5, maxD);
+  // ── Convert pages → days (1 page = 1 day min, 2 days max) ────────────────
+  let minD = pages * 1;
+  let maxD = pages * 2;
 
-  // ── Complexity assessment (based on fixed week total) ────────────────────
+  // Team preference: solo dev is slower, dedicated team is faster
+  // These adjust effective days-per-page rate
+  const TEAM_MULT: Record<TeamPref, [number, number]> = {
+    solo:      [1.5, 1.75],  // solo takes longer
+    small:     [1.0, 1.0],   // baseline
+    dedicated: [0.6, 0.75],  // dedicated team moves faster
+  };
+  minD = Math.round(minD * TEAM_MULT[a.teamPref][0]);
+  maxD = Math.round(maxD * TEAM_MULT[a.teamPref][1]);
+  minD = Math.max(1, minD);
+  maxD = Math.max(2, maxD);
+
+  // ── Complexity assessment ─────────────────────────────────────────────────
   const totalWeeks = maxD / 5;
   let complexity: EstimateResult['complexity'] = 'Low';
   let complexityReason = '';
@@ -249,25 +253,32 @@ function calculateEstimate(a: Answers): EstimateResult {
   if (a.features.includes('collaboration')) drivers.push('Real-time team collaboration system');
   if (drivers.length === 0) drivers.push('Core product development & infrastructure setup');
 
-  // ── Fixed development phases per product tier ─────────────────────────────
-  const PHASE_MAP: Record<string, { p1: string; p2: string; p3: string; p4: string }> = {
-    Low:       { p1: '1 week',   p2: '1–2 weeks', p3: '1 week',   p4: '1 week'   },
-    Medium:    { p1: '1–2 weeks', p2: '3–5 weeks', p3: '1–2 weeks', p4: '1–2 weeks' },
-    High:      { p1: '2–3 weeks', p2: '6–10 weeks', p3: '2–4 weeks', p4: '2–3 weeks' },
-    'Very High': { p1: '3–4 weeks', p2: '10–16 weeks', p3: '4–6 weeks', p4: '3–4 weeks' },
-  };
-  const pm = PHASE_MAP[complexity];
+  // ── Phase durations (proportional from total days) ────────────────────────
+  // Phase split: 15% planning · 45% core dev · 25% integrations/AI · 15% launch
   const hasIntegrationsOrAI = a.integrations.length > 0 || a.aiLevel !== 'none';
+  const fmtDays = (d: number) => {
+    if (d <= 5) return `${d} day${d === 1 ? '' : 's'}`;
+    const w = Math.round(d / 5);
+    return `${w} week${w === 1 ? '' : 's'}`;
+  };
+  const p1min = Math.max(1, Math.round(minD * 0.15));
+  const p1max = Math.max(1, Math.round(maxD * 0.15));
+  const p2min = Math.max(1, Math.round(minD * 0.45));
+  const p2max = Math.max(1, Math.round(maxD * 0.45));
+  const p3min = Math.max(1, Math.round(minD * 0.25));
+  const p3max = Math.max(1, Math.round(maxD * 0.25));
+  const p4min = Math.max(1, Math.round(minD * 0.15));
+  const p4max = Math.max(1, Math.round(maxD * 0.15));
 
   const phases: EstimateResult['phases'] = [
     {
       name: 'Phase 1: Planning & Architecture',
-      duration: pm.p1,
+      duration: `${fmtDays(p1min)}–${fmtDays(p1max)}`,
       tasks: ['Product requirements & user story mapping', 'Technical architecture design', 'Database schema & API contract definition', 'UI/UX wireframes & design system setup']
     },
     {
       name: 'Phase 2: Core Development',
-      duration: pm.p2,
+      duration: `${fmtDays(p2min)}–${fmtDays(p2max)}`,
       tasks: [
         'Core product pages & user flows',
         ...(a.features.includes('auth') ? ['Authentication & user management'] : []),
@@ -278,7 +289,7 @@ function calculateEstimate(a: Answers): EstimateResult {
     },
     ...(hasIntegrationsOrAI ? [{
       name: 'Phase 3: Integrations & AI',
-      duration: pm.p3,
+      duration: `${fmtDays(p3min)}–${fmtDays(p3max)}`,
       tasks: [
         ...(a.aiLevel !== 'none' ? [`${AI_OPTIONS.find(o=>o.key===a.aiLevel)?.label} implementation`] : []),
         ...(a.integrations.length > 0 ? [`Third-party integrations (${a.integrations.slice(0,3).map(i=>INTEGRATION_OPTIONS.find(o=>o.key===i)?.label).join(', ')})`] : []),
@@ -287,7 +298,7 @@ function calculateEstimate(a: Answers): EstimateResult {
     }] : []),
     {
       name: `Phase ${hasIntegrationsOrAI ? 4 : 3}: Testing & Launch`,
-      duration: pm.p4,
+      duration: `${fmtDays(p4min)}–${fmtDays(p4max)}`,
       tasks: ['QA testing across devices & browsers', 'Performance optimisation & load testing', 'Security audit & penetration testing', 'Production deployment & monitoring setup']
     }
   ];
