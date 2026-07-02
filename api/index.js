@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const submitIdea = require('./api/submit-idea');
 const submitContact = require('./api/submit-contact');
+const statusWebhook = require('./api/status-webhook');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,6 +18,10 @@ app.post('/api/submit-idea', async (req, res) => {
 
 app.post('/api/submit-contact', async (req, res) => {
   await submitContact(req, res);
+});
+
+app.post('/api/status-webhook', async (req, res) => {
+  await statusWebhook(req, res);
 });
 
 // Health check
