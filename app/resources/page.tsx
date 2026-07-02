@@ -23,9 +23,10 @@ export default function ResourcesPage() {
           <path d="M12 6v6l4 2" />
         </svg>
       ),
-      title: 'Timeline & Cost Estimator', status: 'COMING SOON', statusColor: '#F59E0B', statusBg: 'rgba(245, 158, 11, 0.1)',
+      title: 'Timeline & Cost Estimator', status: 'ACTIVE', statusColor: '#10B981', statusBg: 'rgba(16, 185, 129, 0.1)',
       desc: "Describe what you want to build and get a rough timeline and cost estimate based on Crestcode's engagement model — broken down by stage and scope.",
-      tags: ['Founders', 'Business Owners', 'Free']
+      tags: ['Founders', 'Business Owners', 'Free'],
+      href: '/resources/estimator'
     },
     {
       icon: (
@@ -543,54 +544,75 @@ export default function ResourcesPage() {
           <div className="cards-grid">
             {(() => {
               const cards = resourcesContent.tools?.cards || toolsCards;
-              return cards.map((tool, idx) => (
-                <div key={idx} className="res-card">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
-                    <div style={{
-                      width: '46px',
-                      height: '46px',
-                      borderRadius: '12px',
-                      background: 'rgba(0, 90, 226, 0.08)',
-                      color: 'var(--primary-blue)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      margin: 0,
-                      flexShrink: 0
-                    }}>
-                      {tool.icon || toolsCards[idx]?.icon}
-                    </div>
-                    <span className="tool-badge" style={{ backgroundColor: tool.statusBg || toolsCards[idx]?.statusBg, color: tool.statusColor || toolsCards[idx]?.statusColor }}>
-                      <EditableText
-                        contentKey={`resources.tools.cards.${idx}.status`}
-                        value={tool.status}
-                      />
-                    </span>
-                  </div>
-                  <h3 className="card-title manrope-font">
-                    <EditableText
-                      contentKey={`resources.tools.cards.${idx}.title`}
-                      value={tool.title}
-                    />
-                  </h3>
-                  <p className="card-desc" style={{ marginBottom: '24px' }}>
-                    <EditableText
-                      contentKey={`resources.tools.cards.${idx}.desc`}
-                      value={tool.desc}
-                    />
-                  </p>
-                  <div className="tool-tags">
-                    {(tool.tags || toolsCards[idx]?.tags || []).map((tag: string, tagIdx: number) => (
-                      <span key={tagIdx} className="tool-tag">
+              return cards.map((tool, idx) => {
+                const href = tool.href || toolsCards[idx]?.href;
+                const cardContent = (
+                  <div className="res-card" style={{
+                    height: '100%',
+                    cursor: href ? 'pointer' : 'default',
+                    transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s',
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
+                      <div style={{
+                        width: '46px',
+                        height: '46px',
+                        borderRadius: '12px',
+                        background: 'rgba(0, 90, 226, 0.08)',
+                        color: 'var(--primary-blue)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        margin: 0,
+                        flexShrink: 0
+                      }}>
+                        {tool.icon || toolsCards[idx]?.icon}
+                      </div>
+                      <span className="tool-badge" style={{ backgroundColor: tool.statusBg || toolsCards[idx]?.statusBg, color: tool.statusColor || toolsCards[idx]?.statusColor }}>
                         <EditableText
-                          contentKey={`resources.tools.cards.${idx}.tags.${tagIdx}`}
-                          value={tag}
+                          contentKey={`resources.tools.cards.${idx}.status`}
+                          value={tool.status}
                         />
                       </span>
-                    ))}
+                    </div>
+                    <h3 className="card-title manrope-font">
+                      <EditableText
+                        contentKey={`resources.tools.cards.${idx}.title`}
+                        value={tool.title}
+                      />
+                    </h3>
+                    <p className="card-desc" style={{ marginBottom: '24px' }}>
+                      <EditableText
+                        contentKey={`resources.tools.cards.${idx}.desc`}
+                        value={tool.desc}
+                      />
+                    </p>
+                    <div className="tool-tags">
+                      {(tool.tags || toolsCards[idx]?.tags || []).map((tag: string, tagIdx: number) => (
+                        <span key={tagIdx} className="tool-tag">
+                          <EditableText
+                            contentKey={`resources.tools.cards.${idx}.tags.${tagIdx}`}
+                            value={tag}
+                          />
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ));
+                );
+
+                if (href) {
+                  return (
+                    <Link key={idx} href={href} style={{ textDecoration: 'none', color: 'inherit' }} className="res-card-link">
+                      {cardContent}
+                    </Link>
+                  );
+                }
+
+                return (
+                  <div key={idx} className="res-card-wrapper">
+                    {cardContent}
+                  </div>
+                );
+              });
             })()}
           </div>
           </div>
