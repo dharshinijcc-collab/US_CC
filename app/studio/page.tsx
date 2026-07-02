@@ -1837,7 +1837,7 @@ export default function StudioPage() {
         <section style={{
           background: 'linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%)',
           position: 'relative',
-          boxShadow: '0 20px 40px -20px rgba(0,0,0,0.05)'
+          boxShadow: 'inset 0 20px 20px -20px rgba(0, 0, 0, 0.08), inset 0 -20px 20px -20px rgba(0, 0, 0, 0.05), 0 20px 40px -20px rgba(0, 0, 0, 0.05)'
         }}>
           <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <div className="thesis-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1.3fr', gap: '4rem', alignItems: 'start' }}>
@@ -1960,7 +1960,7 @@ export default function StudioPage() {
                     <div style={{
                       position: 'absolute',
                       left: '30%',
-                      top: '55%',
+                      top: '25%',
                       transform: 'translate(-50%, -50%)',
                       width: '16px',
                       height: '16px',
@@ -1992,8 +1992,8 @@ export default function StudioPage() {
                     {/* CastleGEC — Q3: bottom-left lower area, deeper niche */}
                     <div style={{
                       position: 'absolute',
-                      left: '30%',
-                      top: '78%',
+                      left: '36%',
+                      top: '70%',
                       transform: 'translate(-50%, -50%)',
                       width: '16px',
                       height: '16px',
@@ -2004,14 +2004,14 @@ export default function StudioPage() {
                     }}>
                       <span style={{
                         position: 'absolute',
-                        bottom: '100%',
+                        top: '100%',
                         left: '50%',
                         transform: 'translateX(-50%)',
                         fontSize: '0.65rem',
                         fontWeight: 700,
                         fontFamily: "'Inter', sans-serif",
                         whiteSpace: 'nowrap',
-                        marginBottom: '5px'
+                        marginTop: '5px'
                       }}>
                         <EditableText
                           contentKey="studio.selectiveness.products.castleGEC"
@@ -2022,11 +2022,11 @@ export default function StudioPage() {
                       <div style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid #6366F1', backgroundColor: 'transparent' }} />
                     </div>
 
-                    {/* OpenCap — Q4: bottom-right, very close to center */}
+                    {/* OpenCap — centered where X and Y axes meet */}
                     <div style={{
                       position: 'absolute',
-                      left: '58%',
-                      top: '53%',
+                      left: '50%',
+                      top: '50%',
                       transform: 'translate(-50%, -50%)',
                       width: '16px',
                       height: '16px',
@@ -2049,17 +2049,23 @@ export default function StudioPage() {
                         <EditableText
                           contentKey="studio.selectiveness.products.openCap"
                           value={studioContent.selectiveness?.products?.openCap || "OpenCap"}
-                          style={{ color: '#1A7A4A' }}
+                          style={{ color: '#94A3B8' }}
                         />
                       </span>
-                      <div style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid #22C55E', backgroundColor: 'transparent' }} />
+                      <div style={{
+                        width: '15px',
+                        height: '15px',
+                        borderRadius: '50%',
+                        border: '1.5px dashed #94A3B8',
+                        backgroundColor: '#fff',
+                      }} />
                     </div>
 
                     {/* NestBloq — Q4: bottom-right, near center */}
                     <div style={{
                       position: 'absolute',
                       left: '70%',
-                      top: '72%',
+                      top: '68%',
                       transform: 'translate(-50%, -50%)',
                       width: '16px',
                       height: '16px',
@@ -2070,14 +2076,14 @@ export default function StudioPage() {
                     }}>
                       <span style={{
                         position: 'absolute',
-                        bottom: '100%',
+                        top: '100%',
                         left: '50%',
                         transform: 'translateX(-50%)',
                         fontSize: '0.65rem',
                         fontWeight: 700,
                         fontFamily: "'Inter', sans-serif",
                         whiteSpace: 'nowrap',
-                        marginBottom: '5px'
+                        marginTop: '5px'
                       }}>
                         <EditableText
                           contentKey="studio.selectiveness.products.nestBloq"
@@ -2099,7 +2105,6 @@ export default function StudioPage() {
                           value={studioContent.selectiveness?.axis?.family || "Family"}
                         />
                       </div>
-                      <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 500 }}>(Left)</div>
                     </div>
                     <div style={{ textAlign: 'right', fontFamily: "'Inter', sans-serif", fontSize: '0.8rem', lineHeight: 1.3 }}>
                       <div style={{ fontWeight: 800, color: '#0F172A', letterSpacing: '0.06em' }}>
@@ -2108,7 +2113,6 @@ export default function StudioPage() {
                           value={studioContent.selectiveness?.axis?.business || "Business"}
                         />
                       </div>
-                      <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 500 }}>(Right)</div>
                     </div>
                   </div>
 
