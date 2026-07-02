@@ -3341,7 +3341,7 @@ Moat: ${answers.moat}`;
 
       <Header />
 
-      <div className="landing-page" style={{ overflow: 'hidden', position: 'relative', backgroundColor: '#F8FAFC' }}>
+      <div className="landing-page" style={{ overflow: 'clip', position: 'relative', backgroundColor: '#F8FAFC' }}>
 
         {/* Step 1: Idea Submission Hero */}
         <header ref={heroRef} className="hero-section" style={{ position: 'relative', overflow: 'hidden', minHeight: '700px' }}>

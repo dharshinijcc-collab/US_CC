@@ -556,7 +556,7 @@ export default function InvestorsPage() {
             </div>
 
             {/* Premium 2x2 Balanced Cards Grid */}
-            <div className="grid-2" style={{ gridTemplateColumns: '1fr 1fr', gap: '24px', alignItems: 'stretch' }}>
+            <div className="why-invest-grid" style={{ gap: '24px', alignItems: 'stretch' }}>
               {[
                 {
                   title: getContent('investors.whyInvest.0.title', 'Execution-first model'),
@@ -648,7 +648,7 @@ export default function InvestorsPage() {
             </div>
 
             {/* Responsive Paths Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px', alignItems: 'stretch' }}>
+            <div className="paths-two-col-grid" style={{ alignItems: 'stretch' }}>
               
               {/* Path 1 Card */}
               <div className="path-card">
@@ -1074,7 +1074,7 @@ export default function InvestorsPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} style={{ textAlign: 'left' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+                    <div className="form-row-2" style={{ marginBottom: '20px' }}>
                       <div className="form-group">
                         <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Manrope', sans-serif" }}>
                           <EditableText contentKey="investors.form.labelName" value={getContent('investors.form.labelName', 'FULL NAME')} />
@@ -1103,7 +1103,7 @@ export default function InvestorsPage() {
                       </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '24px' }}>
+                    <div className="form-row-2" style={{ marginBottom: '24px' }}>
                       <div className="form-group">
                         <label style={{ display: 'block', color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.75rem', fontWeight: 800, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: "'Manrope', sans-serif" }}>
                           <EditableText contentKey="investors.form.labelExpertise" value={getContent('investors.form.labelExpertise', 'PRIMARY EXPERTISE')} />

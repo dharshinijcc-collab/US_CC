@@ -1532,7 +1532,7 @@ export default function StudioPage() {
       `}} />
 
       <Header />
-      <div className="studio-page" style={{ position: 'relative', overflow: 'hidden', backgroundColor: '#F8FAFC' }}>
+      <div className="studio-page" style={{ position: 'relative', overflow: 'clip', backgroundColor: '#F8FAFC' }}>
 
         {/* Ambient glow orbs */}
 
@@ -1888,7 +1888,7 @@ export default function StudioPage() {
           boxShadow: 'inset 0 20px 20px -20px rgba(0, 0, 0, 0.08), inset 0 -20px 20px -20px rgba(0, 0, 0, 0.05), 0 20px 40px -20px rgba(0, 0, 0, 0.05)'
         }}>
           <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <div className="thesis-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1.3fr', gap: '4rem', alignItems: 'start' }}>
+            <div className="thesis-grid">
 
               {/* ── LEFT: Quadrant Chart + caption ── */}
               <div>
@@ -2564,7 +2564,7 @@ export default function StudioPage() {
                     background: '#FFFFFF',
                     border: '1px solid #E2E8F0',
                     borderRadius: '20px',
-                    padding: '40px 48px',
+                    padding: 'clamp(20px, 4vw, 48px) clamp(16px, 4vw, 48px)',
                     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.015)',
                     maxWidth: '960px',
                     margin: '0 auto',
@@ -2816,6 +2816,8 @@ export default function StudioPage() {
             </div>
           </div>
 
+          {/* Diff table: outer scroll wrapper for mobile, inner wrap for styling */}
+          <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', paddingBottom: '4px' }}>
           <div className="diff-table-wrap">
             <table className="diff-table">
               <thead>
@@ -2906,6 +2908,7 @@ export default function StudioPage() {
               </tbody>
             </table>
           </div>
+          </div> {/* end outer scroll wrapper */}
         </section>
 
         {/* CTA */}
