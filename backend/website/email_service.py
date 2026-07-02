@@ -99,7 +99,7 @@ def send_contact_confirmation(to_email: str, first_name: str, service: str, mess
         <p style="margin:0 0 8px;font-size:12px;font-weight:800;color:#005AE2;text-transform:uppercase;letter-spacing:0.08em;">Your Submission</p>
         <p style="margin:0 0 6px;font-size:14px;color:#334155;"><strong>Company:</strong> {company or 'Not specified'}</p>
         <p style="margin:0 0 6px;font-size:14px;color:#334155;"><strong>Service Interest:</strong> {service or 'General Enquiry'}</p>
-        <p style="margin:0 0 6px;font-size:14px;color:#334155;"><strong>Project Stage:</strong> {stage or 'Not specified'}</p>
+        <p style="margin:0 0 6px;font-size:14px;color:#334155;"><strong>Product Stage:</strong> {stage or 'Not specified'}</p>
         <p style="margin:0;font-size:14px;color:#334155;"><strong>Your Message:</strong> {message[:200] + '...' if len(message) > 200 else message}</p>
       </div>
 
@@ -134,7 +134,7 @@ def send_contact_confirmation(to_email: str, first_name: str, service: str, mess
       <p><strong>From:</strong> {first_name} ({to_email})</p>
       <p><strong>Company:</strong> {company or 'Not specified'}</p>
       <p><strong>Service:</strong> {service or 'General Enquiry'}</p>
-      <p><strong>Project Stage:</strong> {stage or 'Not specified'}</p>
+      <p><strong>Product Stage:</strong> {stage or 'Not specified'}</p>
       <p><strong>Message:</strong> {message}</p>
     """
     _send_email(
