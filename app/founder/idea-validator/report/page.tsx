@@ -963,63 +963,59 @@ const link = document.createElement('a');
                   </div>
                 )}
 
+                {/* ── Build Time Estimator CTA (Roadmap tab, always shown as last section) ── */}
+                <div style={{ marginTop: '32px', marginBottom: '8px' }}>
+                  <div style={{
+                    background: 'linear-gradient(135deg, #005AE2 0%, #4F46E5 100%)',
+                    borderRadius: '12px',
+                    padding: '28px 32px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '24px',
+                    flexWrap: 'wrap',
+                  }}>
+                    <div style={{ flex: 1, minWidth: '240px' }}>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.15)', borderRadius: '20px', padding: '5px 14px', marginBottom: '12px' }}>
+                        <Zap size={12} color="#fff" />
+                        <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Next Step: Estimate Build Time</span>
+                      </div>
+                      <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#fff', margin: '0 0 8px', letterSpacing: '-0.02em' }}>
+                        🚀 How long will it take to build your product?
+                      </h3>
+                      <p style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.9)', margin: '0 0 16px', lineHeight: 1.6 }}>
+                        Get a personalised development estimate — MVP Timeline, Team Requirements, Complexity Assessment, Roadmap, and Technical Risks.
+                      </p>
+                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                        {['MVP Timeline', 'Team Requirements', 'Complexity', 'Dev Roadmap', 'Tech Risks'].map((tag, i) => (
+                          <span key={i} style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: '12px', padding: '3px 10px', fontSize: '0.7rem', fontWeight: 600, color: '#fff' }}>
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div style={{ flexShrink: 0 }}>
+                      <Link
+                        href="/build-time-estimator"
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: '8px',
+                          background: '#fff', color: '#005AE2', borderRadius: '10px',
+                          padding: '14px 28px', textDecoration: 'none', fontWeight: 800,
+                          fontSize: '0.9rem', whiteSpace: 'nowrap',
+                          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                        }}
+                      >
+                        Estimate Build Time
+                        <ArrowRight size={16} />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
           </div>
         </div>
         )}
-      </div>
-
-      {/* ── Free Tool: Build Time Estimator (very last section) ── */}
-      <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 24px 48px' }}>
-        <div style={{
-          background: 'linear-gradient(135deg, #005AE2 0%, #4F46E5 100%)',
-          borderRadius: '16px',
-          padding: '32px 36px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '24px',
-          flexWrap: 'wrap',
-        }}>
-          <div style={{ flex: 1, minWidth: '260px' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.15)', borderRadius: '20px', padding: '5px 14px', marginBottom: '14px' }}>
-              <Zap size={12} color="#fff" />
-              <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Free Tool</span>
-            </div>
-            <h3 style={{ fontSize: '1.2rem', fontWeight: 900, color: '#fff', margin: '0 0 8px', letterSpacing: '-0.02em' }}>
-              🚀 Wondering how long this will take to build?
-            </h3>
-            <p style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.9)', margin: '0 0 16px', lineHeight: 1.6 }}>
-              Get a personalised development estimate including MVP Timeline, Team Requirements, Complexity Assessment, Development Roadmap, and Technical Risks.
-            </p>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-              {['MVP Timeline', 'Team Requirements', 'Complexity Assessment', 'Dev Roadmap', 'Technical Risks'].map((tag, i) => (
-                <span key={i} style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', borderRadius: '12px', padding: '3px 10px', fontSize: '0.7rem', fontWeight: 600, color: '#fff' }}>
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div style={{ flexShrink: 0 }}>
-            <Link
-              href="/build-time-estimator"
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: '8px',
-                background: '#fff', color: '#005AE2', borderRadius: '10px',
-                padding: '14px 28px', textDecoration: 'none', fontWeight: 800,
-                fontSize: '0.9rem', whiteSpace: 'nowrap',
-                boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.03)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
-            >
-              Estimate Build Time
-              <ArrowRight size={16} />
-            </Link>
-          </div>
-        </div>
       </div>
 
 
