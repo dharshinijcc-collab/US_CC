@@ -26,7 +26,7 @@ export default function ResourcesPage() {
       title: 'Timeline & Cost Estimator', status: 'ACTIVE', statusColor: '#10B981', statusBg: 'rgba(16, 185, 129, 0.1)',
       desc: "Describe what you want to build and get a rough timeline and cost estimate based on Crestcode's engagement model — broken down by stage and scope.",
       tags: ['Founders', 'Business Owners', 'Free'],
-      href: '/resources/estimator'
+      href: '/build-time-estimator'
     },
     {
       icon: (
