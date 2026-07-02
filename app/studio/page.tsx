@@ -1836,14 +1836,16 @@ export default function StudioPage() {
         {/* ── INVESTMENT THESIS — redesigned 2-col layout ── */}
         <section style={{ backgroundColor: '#F8F9FC', position: 'relative', borderTop: '1px solid #E2E8F0' }}>
           <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.3fr', gap: '4rem', alignItems: 'start' }}>
+            <div className="thesis-grid">
 
               {/* ── LEFT: Quadrant Chart + caption ── */}
               <div>
                 {/* Eyebrow + Title */}
-                <span style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#005AE2', display: 'block', marginBottom: '0.75rem', fontFamily: "'Manrope', sans-serif" }}>
-                  <EditableText contentKey="studio.selectiveness.thesisLabel" value={studioContent.selectiveness?.thesisLabel || "LET'S START FROM HERE"} />
-                </span>
+                <div style={{ marginBottom: '1.25rem' }}>
+                  <span className="hero-eyebrow-pill" style={{ display: 'inline-block', marginBottom: 0 }}>
+                    <EditableText contentKey="studio.selectiveness.thesisLabel" value={studioContent.selectiveness?.thesisLabel || "LET'S START FROM HERE"} />
+                  </span>
+                </div>
                 <h3 style={{
                   fontSize: 'clamp(1.5rem, 2.5vw, 2.1rem)',
                   fontWeight: 800,
@@ -1860,7 +1862,7 @@ export default function StudioPage() {
                 {/* Quadrant Chart — matches reference image */}
                 <div style={{ position: 'relative', paddingTop: '28px', paddingBottom: '36px', paddingLeft: '70px' }}>
 
-                  {/* Y-axis arrow + labels */}
+                  {/* Y-axis labels */}
                   <div style={{
                     position: 'absolute',
                     left: 0,
@@ -1879,21 +1881,6 @@ export default function StudioPage() {
                         <EditableText contentKey="studio.selectiveness.axis.broad" value={studioContent.selectiveness?.axis?.broad || "Broad"} />
                       </div>
                       <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 500 }}>(Top)</div>
-                    </div>
-
-                    {/* Vertical Double-Headed Arrow */}
-                    <div style={{ flex: 1, width: '100%', display: 'flex', justifyContent: 'center', margin: '8px 0' }}>
-                      <svg width="12" height="100%" viewBox="0 0 12 100" preserveAspectRatio="none" style={{ overflow: 'visible' }}>
-                        <defs>
-                          <marker id="arrow-y-start" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                            <path d="M 5 0 L 10 10 L 0 10 z" fill="#94A3B8" />
-                          </marker>
-                          <marker id="arrow-y-end" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                            <path d="M 5 10 L 10 0 L 0 0 z" fill="#94A3B8" />
-                          </marker>
-                        </defs>
-                        <line x1="6" y1="5" x2="6" y2="95" stroke="#94A3B8" strokeWidth="1.5" markerStart="url(#arrow-y-start)" markerEnd="url(#arrow-y-end)" />
-                      </svg>
                     </div>
 
                     {/* Bottom Label */}
@@ -1968,8 +1955,8 @@ export default function StudioPage() {
                     {/* Dockly — Q3: bottom-left, broad family */}
                     <div style={{
                       position: 'absolute',
-                      left: '24%',
-                      top: '62%',
+                      left: '30%',
+                      top: '55%',
                       transform: 'translate(-50%, -50%)',
                       width: '16px',
                       height: '16px',
@@ -2002,7 +1989,7 @@ export default function StudioPage() {
                     <div style={{
                       position: 'absolute',
                       left: '30%',
-                      top: '74%',
+                      top: '78%',
                       transform: 'translate(-50%, -50%)',
                       width: '16px',
                       height: '16px',
@@ -2035,7 +2022,7 @@ export default function StudioPage() {
                     <div style={{
                       position: 'absolute',
                       left: '58%',
-                      top: '57%',
+                      top: '53%',
                       transform: 'translate(-50%, -50%)',
                       width: '16px',
                       height: '16px',
@@ -2067,8 +2054,8 @@ export default function StudioPage() {
                     {/* NestBloq — Q4: bottom-right, near center */}
                     <div style={{
                       position: 'absolute',
-                      left: '65%',
-                      top: '65%',
+                      left: '70%',
+                      top: '72%',
                       transform: 'translate(-50%, -50%)',
                       width: '16px',
                       height: '16px',
@@ -2099,23 +2086,8 @@ export default function StudioPage() {
 
                   </div>{/* end chart box */}
 
-                  {/* X-axis Arrow */}
-                  <div style={{ maxWidth: '340px', height: '16px', marginTop: '8px', display: 'flex', alignItems: 'center' }}>
-                    <svg width="100%" height="12" viewBox="0 0 100 12" preserveAspectRatio="none" style={{ overflow: 'visible' }}>
-                      <defs>
-                        <marker id="arrow-x-start" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                          <path d="M 0 5 L 10 10 L 10 0 z" fill="#94A3B8" />
-                        </marker>
-                        <marker id="arrow-x-end" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                          <path d="M 10 5 L 0 10 L 0 0 z" fill="#94A3B8" />
-                        </marker>
-                      </defs>
-                      <line x1="5" y1="6" x2="95" y2="6" stroke="#94A3B8" strokeWidth="1.5" markerStart="url(#arrow-x-start)" markerEnd="url(#arrow-x-end)" />
-                    </svg>
-                  </div>
-
                   {/* X-axis labels: Family left, Business right */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', maxWidth: '340px', marginTop: '6px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', maxWidth: '340px', marginTop: '12px' }}>
                     <div style={{ textAlign: 'left', fontFamily: "'Inter', sans-serif", fontSize: '0.8rem', lineHeight: 1.3 }}>
                       <div style={{ fontWeight: 800, color: '#0F172A', letterSpacing: '0.06em' }}>
                         <EditableText
