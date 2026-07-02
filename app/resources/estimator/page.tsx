@@ -19,7 +19,6 @@ type TeamSize = 'solo' | 'standard' | 'dedicated';
 interface ProductBase {
   name: string;
   baseWeeks: number;
-  baseCost: number;
   defaultFeatures: string[];
 }
 
@@ -27,37 +26,31 @@ const PRODUCT_BASES: Record<ProductType, ProductBase> = {
   saas: {
     name: 'SaaS Web App / MVP',
     baseWeeks: 10,
-    baseCost: 60000,
     defaultFeatures: ['User Authentication & Profiles', 'Core Multi-tenant Dashboard', 'Billing / Stripe Subscription Integration', 'Settings & Notifications']
   },
   mobile: {
     name: 'Mobile App (iOS & Android)',
     baseWeeks: 12,
-    baseCost: 75000,
     defaultFeatures: ['App Store / Google Play configuration', 'Push Notifications', 'Native API connections', 'Offline caching & Storage']
   },
   landing: {
     name: 'Landing Page / Marketing Site',
     baseWeeks: 1.5,
-    baseCost: 8000,
     defaultFeatures: ['Premium custom styling', 'SEO optimization', 'Analytics integration', 'Lead collection form']
   },
   marketplace: {
     name: 'Marketplace Platform',
     baseWeeks: 14,
-    baseCost: 90000,
     defaultFeatures: ['Buyer/Seller profile structures', 'Product listings & search indexing', 'Escrow / Multi-party payment flows', 'Admin review panel']
   },
   ai_agent: {
     name: 'AI Agent / LLM Core Product',
     baseWeeks: 12,
-    baseCost: 80000,
     defaultFeatures: ['LLM API prompt engineering', 'Vector database & embeddings', 'Context window history cache', 'Dynamic agent tool pipelines']
   },
   custom_api: {
     name: 'Custom API / Integration Service',
     baseWeeks: 6,
-    baseCost: 35000,
     defaultFeatures: ['REST / GraphQL endpoint structures', 'Rate limiting & API keys', 'Legacy database integrations', 'Detailed API documentation docs']
   }
 };
@@ -85,99 +78,77 @@ export default function EstimatorPage() {
   const calculateEstimate = () => {
     const base = PRODUCT_BASES[productType];
     let weeks = base.baseWeeks;
-    let cost = base.baseCost;
     const reasons: string[] = [];
 
     // 1. Design Readiness Adjustments
     if (designStatus === 'final_design') {
-      weeks -= base.baseWeeks * 0.40; // -40% effort
-      cost -= base.baseCost * 0.40;
+      weeks -= base.baseWeeks * 0.40;
       reasons.push('final designs are ready');
     } else if (designStatus === 'wireframes') {
-      weeks -= base.baseWeeks * 0.20; // -20% effort
-      cost -= base.baseCost * 0.20;
+      weeks -= base.baseWeeks * 0.20;
       reasons.push('interactive wireframes are ready');
     }
 
     // 2. Existing Codebase Adjustments
     if (codebaseStatus === 'existing') {
-      weeks -= base.baseWeeks * 0.30; // -30% effort
-      cost -= base.baseCost * 0.30;
+      weeks -= base.baseWeeks * 0.30;
       reasons.push('an existing Next.js/React codebase is available');
     } else if (codebaseStatus === 'partial') {
-      weeks -= base.baseWeeks * 0.15; // -15% effort
-      cost -= base.baseCost * 0.15;
+      weeks -= base.baseWeeks * 0.15;
       reasons.push('a partial codebase is available');
     }
 
     // 3. Existing Components Adjustments (Saves modular weeks)
     if (hasDesignSystem && productType !== 'landing') {
       weeks -= 1.0;
-      cost -= 6000;
       reasons.push('an existing design system is in place');
     }
     if (hasAuth && productType !== 'landing') {
       weeks -= 1.0;
-      cost -= 6000;
       reasons.push('core authentication is already built');
     }
     if (hasDashboard && (productType === 'saas' || productType === 'marketplace')) {
       weeks -= 1.5;
-      cost -= 9000;
       reasons.push('an existing dashboard framework is available');
     }
     if (hasCMS) {
       weeks -= 1.0;
-      cost -= 6000;
       reasons.push('an existing CMS structure is available');
     }
 
     // 4. AI Complexity Adders
     if (aiComplexity === 'basic') {
       weeks += 1.5;
-      cost += 10000;
     } else if (aiComplexity === 'core') {
       weeks += 4.5;
-      cost += 32000;
     }
 
     // 5. Integration Complexity Adders
     if (integrationComplexity === 'medium') {
       weeks += 1.5;
-      cost += 12000;
     } else if (integrationComplexity === 'high') {
       weeks += 3.5;
-      cost += 25000;
     }
 
     // 6. Team Size Scalers
     if (teamSize === 'solo') {
-      weeks = weeks * 1.35; // Takes longer with 1 dev
-      cost = cost * 0.85; // Less management overhead
+      weeks = weeks * 1.35;
     } else if (teamSize === 'dedicated') {
-      weeks = weeks * 0.75; // Faster with team size overlap
-      cost = cost * 1.35; // Higher developer overhead
+      weeks = weeks * 0.75;
     }
 
     // Protect minimum boundaries
     const finalWeeks = Math.max(1, Math.round(weeks * 10) / 10);
-    const finalCost = Math.max(3000, Math.round(cost / 1000) * 1000);
 
     // Timeline range (e.g. 4-6 weeks)
     const minWeeks = Math.max(1, Math.round(finalWeeks * 0.85));
     const maxWeeks = Math.round(finalWeeks * 1.15);
     const timelineString = minWeeks === maxWeeks ? `${minWeeks} Week(s)` : `${minWeeks}–${maxWeeks} Weeks`;
 
-    // Cost range
-    const minCost = Math.max(3000, Math.round((finalCost * 0.85) / 1000) * 1000);
-    const maxCost = Math.round((finalCost * 1.15) / 1000) * 1000;
-
     return {
       minWeeks,
       maxWeeks,
       timelineString,
-      minCost,
-      maxCost,
       reasons,
       complexity: finalWeeks < 4 ? 'Low' : finalWeeks < 9 ? 'Medium' : 'High'
     };
@@ -693,23 +664,7 @@ export default function EstimatorPage() {
                       </div>
                     </div>
 
-                    <div style={{
-                      backgroundColor: '#F8FAFC',
-                      border: '1px solid #E2E8F0',
-                      borderRadius: '12px',
-                      padding: '16px'
-                    }}>
-                      <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#64748B', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '4px' }}>
-                        Budget Allocation Range
-                      </div>
-                      <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0F172A', letterSpacing: '-0.02em' }}>
-                        ${est.minCost.toLocaleString()} – ${est.maxCost.toLocaleString()}
-                      </div>
-                      <p style={{ margin: '8px 0 0 0', fontSize: '0.7rem', color: '#64748B', lineHeight: 1.4 }}>
-                        Costs are based on standard venture studio billing brackets. Actual contract fees depend on finalized deliverables.
-                      </p>
                     </div>
-                  </div>
 
                   {/* Right Column: Phase Breakdown */}
                   <div>

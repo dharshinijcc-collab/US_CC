@@ -15,7 +15,6 @@ export interface BuildTimeEstimates {
   timeline_months: number;
   engineering_complexity: 'low' | 'medium' | 'high';
   team_recommendation: string;
-  approximate_cost_usd: number;
   technical_risks: string[];
   development_phases: {
     phase: string;
@@ -212,44 +211,32 @@ export function calculateAggregatedScores(
   }
 
   // 11. BuildTime Estimator
-  // Base SaaS MVP = 10 weeks (approx 2.5 months), $60,000 cost.
+  // Base SaaS MVP = 10 weeks (approx 2.5 months)
   let baseWeeks = 10;
-  let baseCost = 60000;
 
   // Design & Code adjustments based on current_stage
   if (answers.current_stage === 'mvp') {
-    // Design ready (-40% base) + Code ready (-30% base)
     baseWeeks -= 10 * 0.70;
-    baseCost -= 60000 * 0.70;
   } else if (answers.current_stage === 'prototype') {
-    // Wireframes ready (-20% base) + Partial codebase (-15% base)
     baseWeeks -= 10 * 0.35;
-    baseCost -= 60000 * 0.35;
   } else if (answers.current_stage === 'ux_design') {
-    // Wireframes ready (-20% base)
     baseWeeks -= 10 * 0.20;
-    baseCost -= 60000 * 0.20;
   }
 
   // Technical cofounder / team adjustments
   if (answers.has_technical_cofounder || answers.technical_background === 'can_code') {
-    // Existing design system & auth components setup: -2.0 weeks, -$12,000
     baseWeeks -= 2.0;
-    baseCost -= 12000;
   }
 
   // Complexity adders based on technicalFeasibility
   if (technicalFeasibility < 5.0) {
-    baseWeeks += 3.0; // High complexity
-    baseCost += 20000;
+    baseWeeks += 3.0;
   } else if (technicalFeasibility < 7.0) {
-    baseWeeks += 1.0; // Medium complexity
-    baseCost += 8000;
+    baseWeeks += 1.0;
   }
 
-  // Ensure logical minimum constraints (minimum 1.5 weeks and $9,000)
+  // Ensure logical minimum constraints (minimum 1.5 weeks)
   const finalWeeks = Math.max(1.5, Math.round(baseWeeks * 10) / 10);
-  const finalCost = Math.max(9000, Math.round(baseCost / 1000) * 1000);
 
   // Convert weeks to months for schema (1 week = 0.25 months)
   const timeline_months = Math.max(0.4, Math.round((finalWeeks / 4) * 10) / 10);
@@ -312,9 +299,9 @@ export function calculateAggregatedScores(
       timeline_months,
       engineering_complexity: complexity,
       team_recommendation: team,
-      approximate_cost_usd: finalCost,
       technical_risks,
       development_phases
     }
   };
 }
+

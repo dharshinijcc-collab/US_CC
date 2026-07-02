@@ -205,7 +205,6 @@ export const ScoringResponseSchema = z.object({
     timeline_months: z.number(),
     engineering_complexity: z.enum(['low', 'medium', 'high']),
     team_recommendation: z.string(),
-    approximate_cost_usd: z.number(),
     technical_risks: z.array(z.string()),
     development_phases: z.array(z.object({
       phase: z.string(),
