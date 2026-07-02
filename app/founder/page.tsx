@@ -3174,6 +3174,165 @@ Moat: ${answers.moat}`;
             gap: 12px;
           }
         }
+
+        /* ===== PARTNERS PRODUCTS — MOBILE RESPONSIVE ===== */
+
+        /* Desktop: two-column grid layout */
+        .pp-layout {
+          display: grid;
+          grid-template-columns: 260px 1fr;
+          gap: 0;
+          background: #FFFFFF;
+          border: 1px solid #E2E8F0;
+          border-radius: 20px;
+          overflow: hidden;
+          box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        }
+
+        /* Desktop sidebar */
+        .pp-sidebar {
+          border-right: 1px solid #E2E8F0;
+          padding: 8px 0;
+          background: #F1F5F9;
+        }
+
+        /* Desktop content panel */
+        .pp-content {
+          padding: 32px 36px;
+          background: #FFFFFF;
+        }
+
+        /* Stats grid: 3-col desktop */
+        .pp-stats-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+          margin-bottom: 28px;
+        }
+
+        /* CTA button */
+        .pp-cta-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          width: 100%;
+          padding: 14px 24px;
+          background: #FFFFFF;
+          border: 1.5px solid #E2E8F0;
+          border-radius: 12px;
+          font-size: 0.925rem;
+          font-weight: 700;
+          color: #0F172A;
+          text-decoration: none;
+          font-family: 'Inter', sans-serif;
+          transition: all 0.2s ease;
+          cursor: pointer;
+          min-height: 48px;
+        }
+        .pp-cta-btn:hover {
+          background: #F8FAFC;
+          border-color: #005AE2;
+          color: #005AE2;
+        }
+
+        /* ── TABLET (768px–1024px) ── */
+        @media (max-width: 1024px) and (min-width: 769px) {
+          .pp-layout {
+            grid-template-columns: 220px 1fr;
+          }
+        }
+
+        /* ── MOBILE (≤768px) ── */
+        @media (max-width: 768px) {
+          .pp-layout {
+            display: flex;
+            flex-direction: column;
+            border-radius: 16px;
+          }
+
+          /* Sidebar → horizontal scroll tab strip */
+          .pp-sidebar {
+            border-right: none;
+            border-bottom: 1px solid #E2E8F0;
+            background: #F8FAFC;
+            padding: 0;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            gap: 0;
+          }
+          .pp-sidebar::-webkit-scrollbar { display: none; }
+
+          /* Each sidebar button → horizontal tab card */
+          .pp-sidebar button {
+            flex-direction: column !important;
+            align-items: center !important;
+            flex-shrink: 0 !important;
+            width: auto !important;
+            min-width: 100px !important;
+            padding: 12px 16px !important;
+            border-left: none !important;
+            border-bottom: 3px solid transparent !important;
+            text-align: center !important;
+            gap: 6px !important;
+            min-height: 80px !important;
+          }
+          .pp-sidebar button[data-active="true"] {
+            border-bottom-color: #005AE2 !important;
+            background: #FFFFFF !important;
+          }
+
+          /* Content panel → full width, tighter padding */
+          .pp-content {
+            padding: 20px 16px;
+          }
+
+          /* Project name: smaller on mobile */
+          .pp-product-name {
+            font-size: 1.6rem !important;
+          }
+
+          /* Stats → 2-column grid on mobile */
+          .pp-stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+          }
+
+          /* CTA → full width sticky-style at bottom */
+          .pp-cta-btn {
+            width: 100%;
+            min-height: 52px;
+            font-size: 1rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #005AE2 0%, #0047C4 100%);
+            color: #FFFFFF;
+            border: none;
+          }
+          .pp-cta-btn:hover {
+            background: linear-gradient(135deg, #0047C4 0%, #003699 100%);
+            color: #FFFFFF;
+          }
+        }
+
+        /* ── SMALL MOBILE (≤480px) ── */
+        @media (max-width: 480px) {
+          .pp-content {
+            padding: 16px 12px;
+          }
+          .pp-stats-grid {
+            grid-template-columns: 1fr;
+            gap: 8px;
+          }
+          .pp-sidebar button {
+            min-width: 88px !important;
+            padding: 10px 12px !important;
+          }
+        }
   `;
 
   return (
@@ -3695,26 +3854,14 @@ Moat: ${answers.moat}`;
                 </div>
 
                 {/* Two-column layout */}
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: '260px 1fr',
-                  gap: '0',
-                  background: '#FFFFFF',
-                  border: '1px solid #E2E8F0',
-                  borderRadius: '20px',
-                  overflow: 'hidden',
-                  boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
-                }}>
+                <div className="pp-layout">
                   {/* Left sidebar — product list */}
-                  <div style={{
-                    borderRight: '1px solid #E2E8F0',
-                    padding: '8px 0',
-                    background: '#F1F5F9',
-                  }}>
+                  <div className="pp-sidebar">
                     {items.map((p: any, idx: number) => (
                       <button
                         key={p.id || idx}
                         onClick={() => setActiveProd(idx)}
+                        data-active={activeProd === idx ? 'true' : 'false'}
                         style={{
                           display: 'flex',
                           alignItems: 'center',
@@ -3777,10 +3924,10 @@ Moat: ${answers.moat}`;
                   </div>
 
                   {/* Right detail panel */}
-                  <div style={{ padding: '32px 36px', background: '#FFFFFF' }}>
+                  <div className="pp-content">
                     {/* Product name + subtitle */}
                     <div style={{ marginBottom: '24px' }}>
-                      <h3 style={{
+                      <h3 className="pp-product-name" style={{
                         fontFamily: "'Inter', sans-serif",
                         fontSize: '2.25rem',
                         fontWeight: 800,
@@ -3864,7 +4011,7 @@ Moat: ${answers.moat}`;
                     </div>
 
                     {/* Industry / Duration / Team */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '28px' }}>
+                    <div className="pp-stats-grid">
                       {[
                         { label: 'Industry', value: prod.industry, key: 'industry' },
                         { label: 'Duration', value: prod.duration, key: 'duration' },
@@ -3910,24 +4057,7 @@ Moat: ${answers.moat}`;
                     </div>
 
                     {/* Visit live product button */}
-                    <a href={prod.liveUrl} target="_blank" rel="noopener noreferrer" style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '8px',
-                      width: '100%',
-                      padding: '14px 24px',
-                      background: '#FFFFFF',
-                      border: '1.5px solid #E2E8F0',
-                      borderRadius: '12px',
-                      fontSize: '0.925rem',
-                      fontWeight: 700,
-                      color: '#0F172A',
-                      textDecoration: 'none',
-                      fontFamily: "'Inter', sans-serif",
-                      transition: 'all 0.2s ease',
-                      cursor: 'pointer',
-                    }}>
+                    <a href={prod.liveUrl} target="_blank" rel="noopener noreferrer" className="pp-cta-btn">
                       <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="7" y1="17" x2="17" y2="7" />
                         <polyline points="7 7 17 7 17 17" />
