@@ -1844,12 +1844,50 @@ export default function StudioPage() {
                 <span style={{ fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#005AE2', display: 'block', marginBottom: '0.75rem', fontFamily: "'Manrope', sans-serif" }}>
                   <EditableText contentKey="studio.selectiveness.thesisLabel" value={studioContent.selectiveness?.thesisLabel || "LET'S START FROM HERE"} />
                 </span>
-                <h3 style={{ fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', fontWeight: 800, color: '#0F172A', lineHeight: 1.3, letterSpacing: '-0.02em', fontFamily: "'Manrope', sans-serif", marginBottom: '1.75rem', maxWidth: '320px' }}>
-                  <EditableText contentKey="studio.selectiveness.thesisTitle" value={studioContent.selectiveness?.thesisTitle || "Investment thesis: the people running things still run on outdated tools"} />
+                <h3 style={{
+                  fontSize: 'clamp(1.5rem, 2.5vw, 2.1rem)',
+                  fontWeight: 800,
+                  color: '#0F172A',
+                  lineHeight: 1.25,
+                  letterSpacing: '-0.02em',
+                  fontFamily: "'Manrope', sans-serif",
+                  marginBottom: '1.75rem',
+                  textTransform: 'uppercase'
+                }}>
+                  <EditableText contentKey="studio.selectiveness.thesisTitle" value={studioContent.selectiveness?.thesisTitle || "INVESTMENT THESIS: SMALL BUSINESSES ARE STILL RUNNING ON YESTERDAY'S TOOLS"} />
                 </h3>
 
                 {/* Quadrant Chart — matches reference image */}
-                <div style={{ position: 'relative', paddingTop: '28px', paddingBottom: '36px' }}>
+                <div style={{ position: 'relative', paddingTop: '28px', paddingBottom: '36px', paddingLeft: '45px' }}>
+
+                  {/* Y-axis labels: Broad top, Niche bottom */}
+                  <div style={{
+                    position: 'absolute',
+                    left: 0,
+                    top: '28px',
+                    bottom: '36px',
+                    width: '35px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-end',
+                    paddingRight: '8px',
+                    color: '#94A3B8',
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: '0.75rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.06em',
+                    textTransform: 'uppercase'
+                  }}>
+                    <EditableText
+                      contentKey="studio.selectiveness.axis.broad"
+                      value={studioContent.selectiveness?.axis?.broad || "Broad"}
+                    />
+                    <EditableText
+                      contentKey="studio.selectiveness.axis.niche"
+                      value={studioContent.selectiveness?.axis?.niche || "Niche"}
+                    />
+                  </div>
 
                   {/* Chart box */}
                   <div style={{
@@ -1911,11 +1949,11 @@ export default function StudioPage() {
                       <div style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid #22C55E', backgroundColor: 'transparent' }} />
                     </div>
 
-                    {/* Dockly — Q2: top-left, broad family */}
+                    {/* Dockly — Q3: bottom-left, broad family */}
                     <div style={{
                       position: 'absolute',
-                      left: '25%',
-                      top: '30%',
+                      left: '24%',
+                      top: '62%',
                       transform: 'translate(-50%, -50%)',
                       width: '16px',
                       height: '16px',
@@ -1977,11 +2015,11 @@ export default function StudioPage() {
                       <div style={{ width: '16px', height: '16px', borderRadius: '50%', border: '2px solid #6366F1', backgroundColor: 'transparent' }} />
                     </div>
 
-                    {/* OpenCap — centered where X and Y axes meet */}
+                    {/* OpenCap — Q4: bottom-right, very close to center */}
                     <div style={{
                       position: 'absolute',
-                      left: '50%',
-                      top: '50%',
+                      left: '56%',
+                      top: '56%',
                       transform: 'translate(-50%, -50%)',
                       width: '16px',
                       height: '16px',
@@ -2019,8 +2057,8 @@ export default function StudioPage() {
                     {/* NestBloq — Q4: bottom-right, near center */}
                     <div style={{
                       position: 'absolute',
-                      left: '68%',
-                      top: '64%',
+                      left: '65%',
+                      top: '65%',
                       transform: 'translate(-50%, -50%)',
                       width: '16px',
                       height: '16px',

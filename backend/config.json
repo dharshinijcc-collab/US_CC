@@ -1516,12 +1516,26 @@
     },
     "selectiveness": {
       "eyebrow": "OUR THESIS",
+      "thesisLabel": "LET'S START FROM HERE",
       "thesisDesc": "Independent professionals and small operators — the people doing real, skilled work — are stuck managing their business with spreadsheets, phone calls, and guesswork, while the software built for them is either too generic or too complex.\n\nIt's not for lack of technology. It's cost, habit, and a real fear: that handing the business over to software means losing the judgment that made it succeed in the first place.\n\nWe build the missing layer — simple, plug-and-play products that earn that trust by fitting how these businesses actually work, not the other way around. A click for the customer. Less admin, more craft, for the professional.\n\nThat's our bet: the businesses still under-digitized today are the ones with the most room to grow tomorrow.\"",
       "thesisTitle": "INVESTMENT THESIS: SMALL BUSINESSES ARE STILL RUNNING ON YESTERDAY'S TOOLS",
       "title": "We Are Selective\nFor A Reason.",
       "thesisP1": "Families managing the moving parts of a household. Small business owners running operations with no IT department behind them. Different scale, same problem they're stuck with spreadsheets, phone calls, and guesswork, while the software built for them is either too generic to fit how they actually operate, or too complex to bother adopting.",
       "thesisP3": "We build for both sides of that gap. For families, that means products like Dockly and CastleGEC tools that hold the everyday logistics and the major decisions of a household in one place, instead of scattered across apps no one fully trusts. For small businesses, that means products like Limelite and NestBloq tools built around how an independent operator actually works, not how an enterprise vendor assumes they should.",
-      "thesisP4": "That's our bet: the families and small operators still under digitized today are the ones with the most room to grow tomorrow and the ones we're building for first."
+      "thesisP4": "That's our bet: the families and small operators still under digitized today are the ones with the most room to grow tomorrow and the ones we're building for first.",
+      "axis": {
+        "family": "Family",
+        "business": "Business",
+        "broad": "Broad",
+        "niche": "Niche"
+      },
+      "products": {
+        "limelite": "Limelite",
+        "dockly": "Dockly",
+        "castleGEC": "CastleGEC",
+        "openCap": "OpenCap",
+        "nestBloq": "NestBloq"
+      }
     },
     "solving": {
       "caption": "How Crestcode Resolves It",

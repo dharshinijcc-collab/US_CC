@@ -3650,7 +3650,7 @@ Moat: ${answers.moat}`;
           const prod = items[activeProd] || PARTNER_PRODUCTS[activeProd];
 
           return (
-            <section className="page-section" style={{ backgroundColor: '#F5F5F0', fontFamily: "'Inter', sans-serif" }}>
+            <section className="page-section" style={{ backgroundColor: '#F8FAFC', fontFamily: "'Inter', sans-serif" }}>
               <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px' }}>
                 {/* Section Eyebrow */}
                 <div style={{ textAlign: 'center', marginBottom: '48px' }}>
@@ -3709,7 +3709,7 @@ Moat: ${answers.moat}`;
                   <div style={{
                     borderRight: '1px solid #E2E8F0',
                     padding: '8px 0',
-                    background: '#F5F5F0',
+                    background: '#F1F5F9',
                   }}>
                     {items.map((p: any, idx: number) => (
                       <button
@@ -3811,7 +3811,7 @@ Moat: ${answers.moat}`;
 
                     {/* What CrestCode did */}
                     <div style={{
-                      background: '#FAF9F6',
+                      background: '#F1F5F9',
                       borderRadius: '12px',
                       padding: '20px 24px',
                       marginBottom: '28px',
@@ -3846,7 +3846,7 @@ Moat: ${answers.moat}`;
                             display: 'inline-flex',
                             alignItems: 'center',
                             gap: '6px',
-                            background: '#FAF9F6',
+                            background: '#F1F5F9',
                             borderRadius: '8px',
                             padding: '8px 16px',
                             fontSize: '0.875rem',
@@ -3871,7 +3871,7 @@ Moat: ${answers.moat}`;
                         { label: 'Team size', value: prod.team, key: 'team' },
                       ].map((meta, i) => (
                         <div key={i} style={{
-                          background: '#FAF9F6',
+                          background: '#F1F5F9',
                           borderRadius: '12px',
                           padding: '16px 18px',
                         }}>
