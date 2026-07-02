@@ -31,6 +31,19 @@ export default function ResourcesPage() {
     {
       icon: (
         <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M9 12l2 2 4-4" />
+          <path d="M12 2a10 10 0 0110 10c0 5.523-4.477 10-10 10S2 17.523 2 12c0-2.4 1.15-4.5 2.93-6" />
+        </svg>
+      ),
+      title: 'Venture Idea Validator', status: 'ACTIVE', statusColor: '#10B981', statusBg: 'rgba(16, 185, 129, 0.1)',
+      desc: "Validate your startup idea's market potential, target customer pain score, and investor appeal with our comprehensive assessment framework.",
+      tags: ['Founders', 'Idea Stage', 'Free'],
+      href: '/founder/idea-validator'
+    },
+    {
+      icon: (
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2" />
           <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
         </svg>
