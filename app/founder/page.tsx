@@ -29,6 +29,7 @@ const PARTNER_PRODUCTS = [
     id: '01',
     name: 'Dockly',
     status: { type: 'live', text: 'Live', subText: 'Web ready' },
+    logo: 'https://www.google.com/s2/favicons?sz=64&domain=dockly.me',
     tagline: 'Family connectivity',
     subtitle: 'One connected platform to manage your life, simplified',
     accentBg: '#ECFDF5',
@@ -78,7 +79,7 @@ const PARTNER_PRODUCTS = [
     duration: '4 months',
     team: '3 members',
     stack: ['Next.js', 'Node.js', 'Tailwind CSS'],
-    liveUrl: 'https://app.dockly.me/',
+    liveUrl: 'https://dockly.me/',
     statTheme: {
       bg: '#E6F4EA',
       text: '#064E3B',
@@ -91,6 +92,7 @@ const PARTNER_PRODUCTS = [
     id: '02',
     name: 'CastleGEC',
     status: { type: 'live', text: 'Live', subText: 'Web ready' },
+    logo: 'https://www.google.com/s2/favicons?sz=64&domain=castlegec.com',
     tagline: 'Global education',
     subtitle: 'Study abroad & admissions consulting, simplified',
     accentBg: '#ECFDF5',
@@ -274,6 +276,28 @@ const PARTNER_PRODUCTS = [
     }
   }
 ];
+
+const renderProductIcon = (p: any, idx: number) => {
+  const original = PARTNER_PRODUCTS[idx];
+  const logoUrl = p.logo || original?.logo;
+  
+  if (logoUrl) {
+    return (
+      <img 
+        src={logoUrl} 
+        alt={p.name}
+        style={{ 
+          width: '20px', 
+          height: '20px', 
+          objectFit: 'contain',
+          borderRadius: '4px'
+        }} 
+      />
+    );
+  }
+  
+  return p.icon || original?.icon;
+};
 
 export default function LandingPage() {
   const { content, loading, error } = useContent();
@@ -3238,6 +3262,11 @@ Moat: ${answers.moat}`;
           border-color: #005AE2;
           color: #005AE2;
         }
+        .web-ready-link:hover {
+          background-color: #F8FAFC !important;
+          border-color: #005AE2 !important;
+          color: #005AE2 !important;
+        }
 
         /* ── TABLET (768px–1024px) ── */
         @media (max-width: 1024px) and (min-width: 769px) {
@@ -3908,8 +3937,9 @@ Moat: ${answers.moat}`;
                             justifyContent: 'center',
                             flexShrink: 0,
                             transition: 'all 0.2s ease',
+                            overflow: 'hidden'
                           }}>
-                            {p.icon || PARTNER_PRODUCTS[idx]?.icon}
+                            {renderProductIcon(p, idx)}
                           </div>
                           <div>
                             <div style={{
@@ -3985,7 +4015,7 @@ Moat: ${answers.moat}`;
                                   Live
                                 </span>
                                 {resolvedStatus.subText && (
-                                  <span style={{
+                                  <a href={prod.liveUrl} target="_blank" rel="noopener noreferrer" style={{
                                     display: 'inline-flex',
                                     alignItems: 'center',
                                     gap: '5px',
@@ -3997,14 +4027,19 @@ Moat: ${answers.moat}`;
                                     fontSize: '0.72rem',
                                     fontWeight: 700,
                                     fontFamily: "'Inter', sans-serif",
-                                  }}>
+                                    textDecoration: 'none',
+                                    cursor: 'pointer',
+                                    transition: 'border-color 0.2s, color 0.2s'
+                                  }}
+                                  className="web-ready-link"
+                                  >
                                     <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" style={{ flexShrink: 0 }}>
                                       <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
                                       <line x1="8" y1="21" x2="16" y2="21" />
                                       <line x1="12" y1="17" x2="12" y2="21" />
                                     </svg>
                                     {resolvedStatus.subText}
-                                  </span>
+                                  </a>
                                 )}
                               </>
                             )}
@@ -4169,14 +4204,35 @@ Moat: ${answers.moat}`;
                       </div>
                     </div>
 
-                    {/* Visit live product button */}
-                    <a href={prod.liveUrl} target="_blank" rel="noopener noreferrer" className="pp-cta-btn">
-                      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="7" y1="17" x2="17" y2="7" />
-                        <polyline points="7 7 17 7 17 17" />
-                      </svg>
-                      Visit live product
-                    </a>
+                    {/* Action CTA Button based on status */}
+                    {resolvedStatus && resolvedStatus.type === 'live' && (
+                      <a href={prod.liveUrl} target="_blank" rel="noopener noreferrer" className="pp-cta-btn">
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <line x1="7" y1="17" x2="17" y2="7" />
+                          <polyline points="7 7 17 7 17 17" />
+                        </svg>
+                        Visit live product
+                      </a>
+                    )}
+
+                    {resolvedStatus && resolvedStatus.type === 'beta' && (
+                      <div className="pp-cta-btn" style={{ background: '#F8FAFC', color: '#64748B', borderColor: '#E2E8F0', cursor: 'default' }}>
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                        </svg>
+                        Beta phase
+                      </div>
+                    )}
+
+                    {resolvedStatus && resolvedStatus.type === 'development' && (
+                      <div className="pp-cta-btn" style={{ background: '#F8FAFC', color: '#64748B', borderColor: '#E2E8F0', cursor: 'default' }}>
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="12" cy="12" r="10" />
+                          <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                        In development
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
