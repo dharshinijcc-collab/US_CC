@@ -309,7 +309,7 @@ export default function AboutPage() {
         {/* ── 1. HERO SECTION (Image 1) ── */}
         <section className="hero-section" style={{ position: 'relative', overflow: 'hidden' }}>
           {/* Hero Background */}
-          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }}></div>
           {/* Hero Grid */}
           <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(37,99,235,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.08) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 60% at 50% 30%, black 0%, transparent 80%)', opacity: 0.4, pointerEvents: 'none', zIndex: 0 }}></div>
           {/* Ambient Glows */}
@@ -871,10 +871,10 @@ export default function AboutPage() {
               />
             </div>
 
-            {/* 4 Cards Auto-balanced Responsive Grid */}
+            {/* 3 Cards Auto-balanced Responsive Grid */}
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
               gap: '24px'
             }}>
               {[
@@ -908,19 +908,9 @@ export default function AboutPage() {
                   ),
                   title: getContent('about.community.2.title', 'Advisor Pool'),
                   desc: getContent('about.community.2.desc', 'Domain experts across finance, healthcare, product, and operations — available to every entrepreneur we work with.')
-                },
-                {
-                  icon: (
-                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="10" />
-                      <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
-                    </svg>
-                  ),
-                  title: getContent('about.community.3.title', 'Remote-First'),
-                  desc: getContent('about.community.3.desc', 'Our team and network operate fully remotely — giving access to the best people regardless of geography.')
                 }
               ].map((item, idx) => (
-                <div key={idx} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                <div key={idx} className="about-card" style={{ background: 'var(--white)', display: 'flex', flexDirection: 'column', height: '100%' }}>
                   <div style={{
                     width: '46px',
                     height: '46px',
