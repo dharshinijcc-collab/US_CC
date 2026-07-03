@@ -662,6 +662,7 @@
       "items": [
         {
           "name": "Dockly",
+          "status": { "type": "live", "text": "Live", "subText": "Web ready" },
           "tagline": "Family connectivity",
           "subtitle": "One connected platform to manage your life, simplified",
           "stat": "2,400+ families onboarded",
@@ -689,6 +690,7 @@
         },
         {
           "name": "CastleGEC",
+          "status": { "type": "live", "text": "Live", "subText": "Web ready" },
           "tagline": "Global education",
           "subtitle": "Study abroad & admissions consulting, simplified",
           "stat": "500+ student placements",
@@ -716,6 +718,7 @@
         },
         {
           "name": "OpenCap",
+          "status": { "type": "beta", "text": "Beta phase" },
           "tagline": "Trading analytics",
           "subtitle": "Trading analytics & prediction dashboard, simplified",
           "stat": "$12M+ monthly trading volume",
@@ -742,25 +745,26 @@
           ]
         },
         {
-          "name": "VHOA",
-          "tagline": "Real estate tech",
-          "subtitle": "Virtual homeowners association portal, simplified",
-          "stat": "1,200+ active residents",
-          "statSub": "Engaged across 15 premium communities",
-          "whatWeDid": "Built an all-in-one HOA resident and property portal to streamline maintenance requests, announcements, and board communications.",
+          "name": "NestBloq",
+          "status": { "type": "development", "text": "In development" },
+          "tagline": "Partner operations",
+          "subtitle": "B2B partner operations and workflow automation",
+          "stat": "5+ active operations hubs",
+          "statSub": "Deployed for strategic partner products",
+          "whatWeDid": "Designed and built the operations hub to orchestrate workflow management, delivery logistics, and service coordination for B2B partner products.",
           "features": [
             {
-              "text": "Resident dashboard"
+              "text": "Partner workspace"
             },
             {
-              "text": "Service requests"
+              "text": "Integration gateway"
             },
             {
-              "text": "Announcements"
+              "text": "Delivery flows"
             }
           ],
-          "industry": "PropTech",
-          "duration": "6 months",
+          "industry": "B2B / Operations",
+          "duration": "5 months",
           "team": "3 members",
           "stack": [
             "Next.js",

@@ -3809,7 +3809,19 @@ Moat: ${answers.moat}`;
         {/* ── Partners Products Section ── */}
         {(() => {
           const items = homeContent.partnerProducts?.items || PARTNER_PRODUCTS;
-          const prod = items[activeProd] || PARTNER_PRODUCTS[activeProd];
+          const rawProd = items[activeProd] || PARTNER_PRODUCTS[activeProd];
+          
+          // Map VHOA to NestBloq if database still returns the old VHOA name
+          const prod = {
+            ...rawProd,
+            name: rawProd.name === 'VHOA' ? 'NestBloq' : rawProd.name,
+            subtitle: rawProd.name === 'VHOA' ? 'B2B partner operations and workflow automation' : rawProd.subtitle,
+            whatWeDid: rawProd.name === 'VHOA' ? 'Designed and built the operations hub to orchestrate workflow management, delivery logistics, and service coordination for B2B partner products.' : rawProd.whatWeDid
+          };
+          
+          const resolvedStatus = prod.status || 
+            PARTNER_PRODUCTS.find(p => p.name.toLowerCase() === prod.name?.toLowerCase())?.status ||
+            (rawProd.name?.toLowerCase() === 'vhoa' ? PARTNER_PRODUCTS.find(p => p.name === 'NestBloq')?.status : null);
 
           return (
             <section className="page-section" style={{ backgroundColor: '#F8FAFC', fontFamily: "'Inter', sans-serif" }}>
@@ -3860,77 +3872,82 @@ Moat: ${answers.moat}`;
                 <div className="pp-layout">
                   {/* Left sidebar — product list */}
                   <div className="pp-sidebar">
-                    {items.map((p: any, idx: number) => (
-                      <button
-                        key={p.id || idx}
-                        onClick={() => setActiveProd(idx)}
-                        data-active={activeProd === idx ? 'true' : 'false'}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '12px',
-                          width: '100%',
-                          padding: '14px 20px',
-                          border: 'none',
-                          borderLeft: activeProd === idx ? `3px solid #005AE2` : '3px solid transparent',
-                          background: activeProd === idx ? '#FFFFFF' : 'transparent',
-                          cursor: 'pointer',
-                          textAlign: 'left',
-                          transition: 'all 0.2s ease',
-                        }}
-                      >
-                        {/* Icon box */}
-                        <div style={{
-                          width: '36px',
-                          height: '36px',
-                          borderRadius: '8px',
-                          background: activeProd === idx ? '#E6EFFF' : '#FFFFFF',
-                          color: activeProd === idx ? '#005AE2' : '#475569',
-                          border: activeProd === idx ? '1px solid #BAE6FD' : '1px solid #E5E7EB',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          flexShrink: 0,
-                          transition: 'all 0.2s ease',
-                        }}>
-                          {p.icon || PARTNER_PRODUCTS[idx]?.icon}
-                        </div>
-                        <div>
+                    {items.map((p: any, idx: number) => {
+                      const nameToRender = p.name === 'VHOA' ? 'NestBloq' : p.name;
+                      const taglineToRender = p.name === 'VHOA' ? 'Partner operations' : p.tagline;
+                      
+                      return (
+                        <button
+                          key={p.id || idx}
+                          onClick={() => setActiveProd(idx)}
+                          data-active={activeProd === idx ? 'true' : 'false'}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px',
+                            width: '100%',
+                            padding: '14px 20px',
+                            border: 'none',
+                            borderLeft: activeProd === idx ? `3px solid #005AE2` : '3px solid transparent',
+                            background: activeProd === idx ? '#FFFFFF' : 'transparent',
+                            cursor: 'pointer',
+                            textAlign: 'left',
+                            transition: 'all 0.2s ease',
+                          }}
+                        >
+                          {/* Icon box */}
                           <div style={{
-                            fontFamily: "'Inter', sans-serif",
-                            fontWeight: 700,
-                            fontSize: '0.95rem',
-                            color: activeProd === idx ? '#0F172A' : '#475569',
-                            lineHeight: 1.3,
-                            transition: 'color 0.2s',
+                            width: '36px',
+                            height: '36px',
+                            borderRadius: '8px',
+                            background: activeProd === idx ? '#E6EFFF' : '#FFFFFF',
+                            color: activeProd === idx ? '#005AE2' : '#475569',
+                            border: activeProd === idx ? '1px solid #BAE6FD' : '1px solid #E5E7EB',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexShrink: 0,
+                            transition: 'all 0.2s ease',
                           }}>
-                            <EditableText
-                              contentKey={`home.partnerProducts.items.${idx}.name`}
-                              value={p.name}
-                            />
+                            {p.icon || PARTNER_PRODUCTS[idx]?.icon}
                           </div>
-                          <div style={{
-                            fontFamily: "'Inter', sans-serif",
-                            fontSize: '0.8rem',
-                            color: '#6B7280',
-                            fontWeight: 500,
-                            marginTop: '2px',
-                          }}>
-                            <EditableText
-                              contentKey={`home.partnerProducts.items.${idx}.tagline`}
-                              value={p.tagline}
-                            />
+                          <div>
+                            <div style={{
+                              fontFamily: "'Inter', sans-serif",
+                              fontWeight: 700,
+                              fontSize: '0.95rem',
+                              color: activeProd === idx ? '#0F172A' : '#475569',
+                              lineHeight: 1.3,
+                              transition: 'color 0.2s',
+                            }}>
+                              <EditableText
+                                contentKey={`home.partnerProducts.items.${idx}.name`}
+                                value={nameToRender}
+                              />
+                            </div>
+                            <div style={{
+                              fontFamily: "'Inter', sans-serif",
+                              fontSize: '0.8rem',
+                              color: '#6B7280',
+                              fontWeight: 500,
+                              marginTop: '2px',
+                            }}>
+                              <EditableText
+                                contentKey={`home.partnerProducts.items.${idx}.tagline`}
+                                value={taglineToRender}
+                              />
+                            </div>
                           </div>
-                        </div>
-                      </button>
-                    ))}
+                        </button>
+                      );
+                    })}
                   </div>
 
                   {/* Right detail panel */}
                   <div className="pp-content">
                     {/* Product name + subtitle */}
                     <div style={{ marginBottom: '24px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '8px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap', marginBottom: '8px' }}>
                         <h3 className="pp-product-name" style={{
                           fontFamily: "'Inter', sans-serif",
                           fontSize: '2.25rem',
@@ -3946,9 +3963,9 @@ Moat: ${answers.moat}`;
                         </h3>
 
                         {/* Dynamic Status Badges matching layout requirements */}
-                        {prod.status && (
+                        {resolvedStatus && (
                           <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-                            {prod.status.type === 'live' && (
+                            {resolvedStatus.type === 'live' && (
                               <>
                                 <span style={{
                                   display: 'inline-flex',
@@ -3967,7 +3984,7 @@ Moat: ${answers.moat}`;
                                   </svg>
                                   Live
                                 </span>
-                                {prod.status.subText && (
+                                {resolvedStatus.subText && (
                                   <span style={{
                                     display: 'inline-flex',
                                     alignItems: 'center',
@@ -3986,13 +4003,13 @@ Moat: ${answers.moat}`;
                                       <line x1="8" y1="21" x2="16" y2="21" />
                                       <line x1="12" y1="17" x2="12" y2="21" />
                                     </svg>
-                                    {prod.status.subText}
+                                    {resolvedStatus.subText}
                                   </span>
                                 )}
                               </>
                             )}
 
-                            {prod.status.type === 'beta' && (
+                            {resolvedStatus.type === 'beta' && (
                               <span style={{
                                 display: 'inline-flex',
                                 alignItems: 'center',
@@ -4008,11 +4025,11 @@ Moat: ${answers.moat}`;
                                 <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" style={{ flexShrink: 0 }}>
                                   <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                                 </svg>
-                                {prod.status.text}
+                                {resolvedStatus.text}
                               </span>
                             )}
 
-                            {prod.status.type === 'development' && (
+                            {resolvedStatus.type === 'development' && (
                               <span style={{
                                 display: 'inline-flex',
                                 alignItems: 'center',
@@ -4029,7 +4046,7 @@ Moat: ${answers.moat}`;
                                   <circle cx="12" cy="12" r="10" />
                                   <polyline points="12 6 12 12 16 14" />
                                 </svg>
-                                {prod.status.text}
+                                {resolvedStatus.text}
                               </span>
                             )}
                           </div>
