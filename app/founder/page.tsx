@@ -287,8 +287,8 @@ const renderProductIcon = (p: any, idx: number) => {
         src={logoUrl} 
         alt={p.name}
         style={{ 
-          width: '20px', 
-          height: '20px', 
+          width: '28px', 
+          height: '28px', 
           objectFit: 'contain',
           borderRadius: '4px'
         }} 

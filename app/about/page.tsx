@@ -871,27 +871,6 @@ export default function AboutPage() {
                 as="p"
                 style={{ marginBottom: '32px' }}
               />
-
-              {/* Coming in 2025 Alert Banner */}
-              <div style={{
-                background: 'rgba(0, 90, 226, 0.05)',
-                border: '1px solid rgba(0, 90, 226, 0.15)',
-                borderRadius: '16px',
-                padding: '18px 24px',
-                fontSize: '0.9rem',
-                color: 'var(--primary-blue)',
-                lineHeight: 1.5,
-                fontWeight: 600,
-                maxWidth: '820px',
-                margin: '0 auto',
-                textAlign: 'center'
-              }}>
-                <EditableText 
-                  contentKey="about.community.alert"
-                  value={getContent('about.community.alert', 'Coming in 2025: The CrestCode founder and investor network — a curated community of builders and backers across the CrestCode portfolio. If you want to be part of it early, reach out directly.')}
-                  as="span"
-                />
-              </div>
             </div>
 
             {/* 4 Cards Auto-balanced Responsive Grid */}
@@ -974,68 +953,6 @@ export default function AboutPage() {
               ))}
             </div>
 
-          </div>
-        </section>
-
-        {/* ── 8. CALL TO ACTION (WORK WITH US) (Image 5) ── */}
-        <section className="page-section" style={{ backgroundColor: '#FFFFFF', position: 'relative' }}>
-          <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
-            <div style={{ display: 'inline-block', marginBottom: '16px' }}>
-              <span className="hero-eyebrow-pill" style={{ marginBottom: 0 }}>
-                <EditableText 
-                  contentKey="about.cta.label"
-                  value={getContent('about.cta.label', 'WORK WITH US')}
-                />
-              </span>
-            </div>
-            <EditableText
-              contentKey="about.cta.title"
-              value={getContent('about.cta.title', "If this sounds like\nthe partner you've been\nlooking for")}
-              as="h2"
-              className="section-title"
-              style={{
-                color: 'var(--text-black)',
-                marginBottom: '24px',
-                maxWidth: '800px',
-                margin: '0 auto 24px',
-                fontSize: '36px',
-                fontWeight: 800,
-                letterSpacing: '-0.02em',
-                lineHeight: 1.25
-              }}
-            />
-            <EditableText 
-              contentKey="about.cta.description"
-              value={getContent('about.cta.description', "We'd love to hear what you're building. Or what problem you're trying to solve. Either way, let's talk.")}
-              as="p"
-              className="section-subtitle"
-              style={{
-                maxWidth: '600px',
-                margin: '0 auto 40px'
-              }}
-            />
-
-            {/* Dual Action Buttons */}
-            <div style={{ display: 'inline-flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center' }}>
-              <Link href="/contact">
-                <button className="btn-pill btn-primary">
-                  <EditableText 
-                    contentKey="about.cta.button1"
-                    value={getContent('about.cta.button1', 'Start a Conversation')}
-                    as="span"
-                  />
-                </button>
-              </Link>
-              <Link href="/studio">
-                <button className="btn-pill btn-secondary">
-                  <EditableText 
-                    contentKey="about.cta.button2"
-                    value={getContent('about.cta.button2', 'See The Studio')}
-                    as="span"
-                  />
-                </button>
-              </Link>
-            </div>
           </div>
         </section>
 
