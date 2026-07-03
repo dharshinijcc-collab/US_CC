@@ -2,15 +2,47 @@
 
 export const dynamic = 'force-dynamic';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import EditableText from '@/components/admin/EditableText';
 import { useContent } from '@/context/ContentContext';
 import Link from 'next/link';
+import type { TeamMember } from '@/types/team';
+
+// ── Hardcoded fallback data ────────────────────────────────
+const FALLBACK_TEAM: TeamMember[] = [
+  { id: '1', name: 'Asfarul Huda',   role: 'CEO & Founder', bio: 'Former Amazon Product Manager with a decade of experience building digital products at scale. Founded CrestCode in 2025 with a mission to give every founder access to world-class execution.', image_url: null, category: 'Founder',     display_order: 1, is_active: true, created_at: '', updated_at: '' },
+  { id: '2', name: 'Adam Braasch',   role: 'Partner',       bio: 'A strategic and operational partner at CrestCode, Adam brings deep expertise in building and scaling early-stage ventures from idea to market.',                                                   image_url: null, category: 'Partner',     display_order: 2, is_active: true, created_at: '', updated_at: '' },
+  { id: '3', name: 'Pranali Choubal',role: 'Partner',       bio: 'Pranali brings a sharp product and design sensibility to CrestCode, ensuring that every venture we build is not just functional — but genuinely lovable.',                                       image_url: null, category: 'Partner',     display_order: 3, is_active: true, created_at: '', updated_at: '' },
+  { id: '4', name: 'Amir Hoda',      role: 'Partner',       bio: 'A technical and business partner at CrestCode, Amir focuses on engineering strategy, delivery excellence, and helping ventures scale with confidence.',                                           image_url: null, category: 'Partner',     display_order: 4, is_active: true, created_at: '', updated_at: '' },
+  { id: '5', name: 'Fahad Siddiqui', role: 'Finance Advisor',    bio: 'Advises CrestCode and its ventures on financial strategy, investment structuring, and capital planning.',                                                                                         image_url: null, category: 'Advisor',     display_order: 5, is_active: true, created_at: '', updated_at: '' },
+  { id: '6', name: 'Dr. Faria Ali',  role: 'Healthcare Advisor', bio: 'Brings deep domain expertise in healthcare, guiding CrestCode ventures in health-adjacent product strategy and compliance.',                                                                       image_url: null, category: 'Advisor',     display_order: 6, is_active: true, created_at: '', updated_at: '' },
+];
+
+function getInitials(name: string) {
+  return name.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase();
+}
 
 export default function AboutPage() {
   const { content, loading, error } = useContent();
+
+  // ── Dynamic team state ──────────────────────────────────
+  const [teamData, setTeamData] = useState<TeamMember[]>(FALLBACK_TEAM);
+
+  useEffect(() => {
+    fetch('/api/team')
+      .then((r) => r.json())
+      .then((json) => {
+        if (json.status === 'success' && json.payload?.length > 0) {
+          setTeamData(json.payload);
+        }
+      })
+      .catch(() => { /* keep fallback */ });
+  }, []);
+
+  const coreTeam   = teamData.filter((m) => m.category !== 'Advisor').sort((a, b) => a.display_order - b.display_order);
+  const advisors   = teamData.filter((m) => m.category === 'Advisor').sort((a, b) => a.display_order - b.display_order);
 
   // Helper function to safely get content values
   const getContent = (path: string, defaultValue: string) => {
@@ -619,69 +651,31 @@ export default function AboutPage() {
               />
             </div>
 
-            {/* Grid 4 columns */}
+            {/* Grid 4 columns — dynamic from Supabase */}
             <div className="grid-4">
-              {[
-                {
-                  initials: getContent('about.team.0.initials', 'AH'),
-                  name: getContent('about.team.0.name', 'Asfarul Huda'),
-                  role: getContent('about.team.0.role', 'CEO & FOUNDER'),
-                  bio: getContent('about.team.0.bio', 'Former Amazon Product Manager with a decade of experience building digital products at scale. Founded CrestCode in 2025 with a mission to give every founder access to world-class execution.')
-                },
-                {
-                  initials: getContent('about.team.1.initials', 'AB'),
-                  name: getContent('about.team.1.name', 'Adam Braasch'),
-                  role: getContent('about.team.1.role', 'PARTNER'),
-                  bio: getContent('about.team.1.bio', 'A strategic and operational partner at CrestCode, Adam brings deep expertise in building and scaling early-stage ventures from idea to market.')
-                },
-                {
-                  initials: getContent('about.team.2.initials', 'PC'),
-                  name: getContent('about.team.2.name', 'Pranali Choubal'),
-                  role: getContent('about.team.2.role', 'PARTNER'),
-                  bio: getContent('about.team.2.bio', 'Pranali brings a sharp product and design sensibility to CrestCode, ensuring that every venture we build is not just functional — but genuinely lovable.')
-                },
-                {
-                  initials: getContent('about.team.3.initials', 'AH'),
-                  name: getContent('about.team.3.name', 'Amir Hoda'),
-                  role: getContent('about.team.3.role', 'PARTNER'),
-                  bio: getContent('about.team.3.bio', 'A technical and business partner at CrestCode, Amir focuses on engineering strategy, delivery excellence, and helping ventures scale with confidence.')
-                }
-              ].map((member, idx) => (
-                <div key={idx} className="about-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              {coreTeam.map((member) => (
+                <div key={member.id} className="about-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                   <div className="avatar-circle">
-                    <EditableText 
-                      contentKey={`about.team.${idx}.initials`}
-                      value={member.initials}
-                      as="span"
-                    />
+                    <span>{getInitials(member.name)}</span>
                   </div>
-                  <EditableText 
-                    contentKey={`about.team.${idx}.name`}
-                    value={member.name}
-                    as="h3"
-                    style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '4px' }}
-                  />
-                  <EditableText 
-                    contentKey={`about.team.${idx}.role`}
-                    value={member.role}
-                    as="span"
-                    style={{
-                      color: 'var(--primary-blue)',
-                      fontSize: '0.68rem',
-                      fontWeight: 800,
-                      letterSpacing: '0.1em',
-                      textTransform: 'uppercase',
-                      display: 'block',
-                      marginBottom: '16px',
-                      fontFamily: "'Manrope', sans-serif"
-                    }}
-                  />
-                  <EditableText 
-                    contentKey={`about.team.${idx}.bio`}
-                    value={member.bio}
-                    as="p"
-                    style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}
-                  />
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '4px' }}>
+                    {member.name}
+                  </h3>
+                  <span style={{
+                    color: 'var(--primary-blue)',
+                    fontSize: '0.68rem',
+                    fontWeight: 800,
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    display: 'block',
+                    marginBottom: '16px',
+                    fontFamily: "'Manrope', sans-serif"
+                  }}>
+                    {member.role}
+                  </span>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
+                    {member.bio}
+                  </p>
                 </div>
               ))}
             </div>
@@ -708,58 +702,32 @@ export default function AboutPage() {
               />
             </div>
 
-            {/* 2 columns advisors */}
+            {/* 2 columns advisors — dynamic from Supabase */}
             <div className="grid-2-equal" style={{ maxWidth: '900px', margin: '0 auto' }}>
-              {[
-                {
-                  initials: getContent('about.advisors.0.initials', 'FS'),
-                  name: getContent('about.advisors.0.name', 'Fahad Siddiqui'),
-                  role: getContent('about.advisors.0.role', 'FINANCE ADVISOR'),
-                  bio: getContent('about.advisors.0.bio', 'Advises CrestCode and its ventures on financial strategy, investment structuring, and capital planning.')
-                },
-                {
-                  initials: getContent('about.advisors.1.initials', 'FA'),
-                  name: getContent('about.advisors.1.name', 'Dr. Faria Ali'),
-                  role: getContent('about.advisors.1.role', 'HEALTHCARE ADVISOR'),
-                  bio: getContent('about.advisors.1.bio', 'Brings deep domain expertise in healthcare, guiding CrestCode ventures in health-adjacent product strategy and compliance.')
-                }
-              ].map((adv, idx) => (
-                <div key={idx} className="about-card" style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', background: 'var(--white)' }}>
+              {advisors.map((adv) => (
+                <div key={adv.id} className="about-card" style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', background: 'var(--white)' }}>
                   <div className="avatar-circle" style={{ margin: 0, flexShrink: 0 }}>
-                    <EditableText 
-                      contentKey={`about.advisors.${idx}.initials`}
-                      value={adv.initials}
-                      as="span"
-                    />
+                    <span>{getInitials(adv.name)}</span>
                   </div>
                   <div>
-                    <EditableText 
-                      contentKey={`about.advisors.${idx}.name`}
-                      value={adv.name}
-                      as="h3"
-                      style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '4px' }}
-                    />
-                    <EditableText 
-                      contentKey={`about.advisors.${idx}.role`}
-                      value={adv.role}
-                      as="span"
-                      style={{
-                        color: 'var(--primary-blue)',
-                        fontSize: '0.68rem',
-                        fontWeight: 800,
-                        letterSpacing: '0.1em',
-                        textTransform: 'uppercase',
-                        display: 'block',
-                        marginBottom: '12px',
-                        fontFamily: "'Manrope', sans-serif"
-                      }}
-                    />
-                    <EditableText 
-                      contentKey={`about.advisors.${idx}.bio`}
-                      value={adv.bio}
-                      as="p"
-                      style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}
-                    />
+                    <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '4px' }}>
+                      {adv.name}
+                    </h3>
+                    <span style={{
+                      color: 'var(--primary-blue)',
+                      fontSize: '0.68rem',
+                      fontWeight: 800,
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
+                      display: 'block',
+                      marginBottom: '12px',
+                      fontFamily: "'Manrope', sans-serif"
+                    }}>
+                      {adv.role}
+                    </span>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
+                      {adv.bio}
+                    </p>
                   </div>
                 </div>
               ))}

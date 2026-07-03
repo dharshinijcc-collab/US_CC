@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { Inter, Manrope } from 'next/font/google'
-import './globals.css'
-import './animations.css'
-import './global-styles.css'
-import './responsive.css'
+import '../styles/globals.css'
+import '../styles/animations.css'
+import '../styles/global-styles.css'
+import '../styles/responsive.css'
 import { Providers } from '@/components/Providers'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })

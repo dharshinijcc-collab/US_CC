@@ -8,7 +8,7 @@ import SpotlightCursor from '@/components/effects/SpotlightCursor';
 import BorderBeam from '@/components/effects/BorderBeam';
 import Link from 'next/link';
 import { useContent } from '@/context/ContentContext';
-import localConfig from '@/backend/config.json';
+import localConfig from '@/shared/config.json';
 
 // Map categories to modern gradient/glow themes (styling, not content)
 const CATEGORY_THEMES: Record<string, { gradient: string; glow: string; text: string }> = {

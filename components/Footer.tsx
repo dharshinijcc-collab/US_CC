@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
 import EditableImage from '@/components/admin/EditableImage';
-import localConfig from '@/backend/config.json';
+import localConfig from '@/shared/config.json';
 
 export default function Footer() {
   const { content } = useContent();

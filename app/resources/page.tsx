@@ -8,7 +8,7 @@ import Blogs from '@/components/blogs';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
 
-import localConfig from '@/backend/config.json';
+import localConfig from '@/shared/config.json';
 
 export default function ResourcesPage() {
   const { content, loading, error } = useContent();
@@ -370,6 +370,25 @@ export default function ResourcesPage() {
           border-color: var(--primary-blue);
           box-shadow: 0 16px 32px rgba(0, 90, 226, 0.05);
         }
+        .btn-tool-cta {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 8px 18px;
+          border-radius: 100px;
+          font-size: 0.85rem;
+          font-weight: 700;
+          background-color: var(--primary-blue);
+          color: #FFFFFF;
+          transition: all 0.2s ease;
+          border: none;
+          cursor: pointer;
+        }
+        .res-card-link:hover .btn-tool-cta {
+          background-color: #004ac2;
+          box-shadow: 0 4px 12px rgba(0, 90, 226, 0.25);
+        }
 
         /* Resource Card Interiors */
         
@@ -609,6 +628,16 @@ export default function ResourcesPage() {
                         </span>
                       ))}
                     </div>
+                    {href && (
+                      <div style={{ marginTop: 'auto', paddingTop: '16px' }}>
+                        <span className="btn-tool-cta">
+                          <span>Use Tool</span>
+                          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                          </svg>
+                        </span>
+                      </div>
+                    )}
                   </div>
                 );
 

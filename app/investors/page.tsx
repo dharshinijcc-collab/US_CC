@@ -9,7 +9,7 @@ import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
 import Link from 'next/link';
 import { API_URL } from '@/services/api';
-import '@/app/global-styles.css';
+import '@/styles/global-styles.css';
 
 export default function InvestorsPage() {
   const { content, loading, error } = useContent();

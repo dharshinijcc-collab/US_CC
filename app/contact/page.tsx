@@ -11,7 +11,7 @@ import { useContent } from '@/context/ContentContext';
 import BorderBeam from '@/components/effects/BorderBeam';
 import EditableText from '@/components/admin/EditableText';
 import { API_URL } from '@/services/api';
-import '@/app/global-styles.css';
+import '@/styles/global-styles.css';
 
 export default function ContactPage() {
   const { content, loading, error } = useContent();

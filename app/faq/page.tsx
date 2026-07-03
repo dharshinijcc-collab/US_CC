@@ -14,7 +14,7 @@ import BorderBeam from '@/components/effects/BorderBeam';
 import TextReveal from '@/components/effects/TextReveal';
 import GradientText from '@/components/effects/GradientText';
 import EditableText from '@/components/admin/EditableText';
-import '@/app/global-styles.css';
+import '@/styles/global-styles.css';
 
 export default function FaqPage() {
   const { content, loading, error } = useContent();

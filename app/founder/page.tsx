@@ -8,7 +8,7 @@ import useScrollReveal from '@/hooks/useScrollReveal';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import { useContent } from '@/context/ContentContext';
-import localConfig from '@/backend/config.json';
+import localConfig from '@/shared/config.json';
 import GlobalCursorGlow from '@/components/effects/GlobalCursorGlow';
 import EditableText from '@/components/admin/EditableText';
 import EditableImage from '@/components/admin/EditableImage';
