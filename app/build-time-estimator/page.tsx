@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -126,14 +126,14 @@ const STEPS = [
 
 // ─── Estimation Logic ─────────────────────────────────────────────────────────
 
-function calculateEstimate(a: Answers): EstimateResult {
+function calculateEstimate(a: Answers, customConfig?: any): EstimateResult {
   if (!a.productType || !a.aiLevel || !a.teamPref) {
     return { minDays: 0, maxDays: 0, complexity: 'Low', complexityReason: '', team: [], drivers: [], phases: [], risks: [], costDrivers: [], mvpScope: { include: [], defer: [] } };
   }
 
   // ── Rule: 1 page/screen = 1 day (min) · 2 days (max) ────────────────────
   // Base screen counts per product type (CrestCode curated)
-  const BASE_PAGES: Record<ProductType, number> = {
+  const BASE_PAGES: Record<ProductType, number> = customConfig?.screen_counts || {
     landing:    1,   // 1 page
     marketing:  5,   // ~5 pages (Home, About, Services, Blog, Contact)
     internal:   8,   // ~8 screens
@@ -145,34 +145,41 @@ function calculateEstimate(a: Answers): EstimateResult {
     other:      10,  // ~10 screens
   };
 
-  let pages = BASE_PAGES[a.productType];
+  let pages = BASE_PAGES[a.productType] || 10;
 
   // Platform additions (extra screens)
+  const platformAdditions = customConfig?.platform_additions || {
+    ios: 8,
+    android_shared: 4,
+    android_only: 8,
+    admin: 5
+  };
   const hasIOS = a.platforms.includes('ios');
   const hasAndroid = a.platforms.includes('android');
-  if (hasIOS)    pages += 8;                   // 8 mobile-specific screens
-  if (hasAndroid) pages += hasIOS ? 4 : 8;     // shared screens if iOS already counted
+  if (hasIOS)    pages += platformAdditions.ios ?? 8;
+  if (hasAndroid) pages += hasIOS ? (platformAdditions.android_shared ?? 4) : (platformAdditions.android_only ?? 8);
   if (a.platforms.includes('admin') && !['saas','marketplace','enterprise'].includes(a.productType)) {
-    pages += 5;                                 // ~5 admin screens
+    pages += platformAdditions.admin ?? 5;
   }
 
   // AI feature additions (extra screens/flows)
-  const AI_PAGES: Record<AILevel, number> = {
+  const AI_PAGES: Record<AILevel, number> = customConfig?.ai_additions || {
     none:       0,
     assistant:  3,   // chat UI + config + history
     report_gen: 5,   // input form + processing + report view + export + history
     ocr:        4,   // upload + processing + results + corrections
     ai_core:    8,   // model config + training UI + dashboard + results + 4 more
   };
-  pages += AI_PAGES[a.aiLevel];
+  pages += AI_PAGES[a.aiLevel] ?? 0;
 
   // Integration additions (each integration adds setup/config screens)
+  const integrationAdditions = customConfig?.integration_additions || { standard: 2, custom: 3 };
   a.integrations.forEach(i => {
-    pages += i === 'custom' ? 3 : 2;
+    pages += i === 'custom' ? (integrationAdditions.custom ?? 3) : (integrationAdditions.standard ?? 2);
   });
 
   // Feature additions (extra screens per feature)
-  const FEATURE_PAGES: Partial<Record<string, number>> = {
+  const FEATURE_PAGES: Record<string, number> = customConfig?.feature_additions || {
     profiles:      2,  // profile view + edit
     dashboard:     3,  // main dash + widgets + settings
     analytics:     4,  // overview + charts + filters + export
@@ -191,13 +198,25 @@ function calculateEstimate(a: Answers): EstimateResult {
     if (fp) pages += fp;
   });
 
+  // Feature count tier adjustments (Low, Medium, High)
+  const featureTiers = customConfig?.feature_tiers || { low: 3, medium: 7 };
+  const featureTierAdditions = customConfig?.feature_tier_additions || { low: 0, medium: 2, high: 5 };
+  const numFeatures = a.features.length;
+  if (numFeatures <= (featureTiers.low ?? 3)) {
+    pages += featureTierAdditions.low ?? 0;
+  } else if (numFeatures <= (featureTiers.medium ?? 7)) {
+    pages += featureTierAdditions.medium ?? 2;
+  } else {
+    pages += featureTierAdditions.high ?? 5;
+  }
+
   // ── Convert pages → days (1 page = 1 day min, 2 days max) ────────────────
   let minD = pages * 1;
   let maxD = pages * 2;
 
   // Team preference: solo dev is slower, dedicated team is faster
   // These adjust effective days-per-page rate
-  const TEAM_MULT: Record<TeamPref, [number, number]> = {
+  const TEAM_MULT: Record<TeamPref, [number, number]> = customConfig?.team_multipliers || {
     solo:      [1.5, 1.75],  // solo takes longer
     small:     [1.0, 1.0],   // baseline
     dedicated: [0.6, 0.75],  // dedicated team moves faster
@@ -211,13 +230,14 @@ function calculateEstimate(a: Answers): EstimateResult {
   const totalWeeks = maxD / 5;
   let complexity: EstimateResult['complexity'] = 'Low';
   let complexityReason = '';
-  if (totalWeeks <= 4) {
+  const cThresholds = customConfig?.complexity_thresholds || { low: 4, medium: 12, high: 24 };
+  if (totalWeeks <= (cThresholds.low ?? 4)) {
     complexity = 'Low';
     complexityReason = 'Straightforward scope with minimal custom logic — well within standard development capacity.';
-  } else if (totalWeeks <= 12) {
+  } else if (totalWeeks <= (cThresholds.medium ?? 12)) {
     complexity = 'Medium';
     complexityReason = 'Moderate scope requiring careful architecture planning across several interconnected components.';
-  } else if (totalWeeks <= 24) {
+  } else if (totalWeeks <= (cThresholds.high ?? 24)) {
     complexity = 'High';
     complexityReason = 'Significant scope with multiple complex modules. Requires experienced engineers and structured delivery.';
   } else {
@@ -517,7 +537,22 @@ export default function BuildTimeEstimatorPage() {
     features: [], aiLevel: null, integrations: [], teamPref: null,
   });
 
-  const estimate = useMemo(() => calculateEstimate(answers), [answers]);
+  const [customConfig, setCustomConfig] = useState<any>(null);
+  const [loadingConfig, setLoadingConfig] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/tool-config?key=build_estimator')
+      .then(r => r.json())
+      .then(json => {
+        if (json.status === 'success') {
+          setCustomConfig(json.payload);
+        }
+      })
+      .catch(err => console.error('Error fetching build estimator config:', err))
+      .finally(() => setLoadingConfig(false));
+  }, []);
+
+  const estimate = useMemo(() => calculateEstimate(answers, customConfig), [answers, customConfig]);
 
   const canNext = () => {
     if (step === 1) return !!answers.productType;
@@ -534,7 +569,7 @@ export default function BuildTimeEstimatorPage() {
     setAnswers(prev => ({ ...prev, [k]: v }));
 
   if (showReport) {
-    return <ReportView estimate={estimate} answers={answers} onBack={() => setShowReport(false)} />;
+    return <ReportView estimate={estimate} answers={answers} onBack={() => setShowReport(false)} customConfig={customConfig} />;
   }
 
   return (
@@ -818,7 +853,7 @@ export default function BuildTimeEstimatorPage() {
 
 // ─── Report View ──────────────────────────────────────────────────────────────
 
-function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; answers: Answers; onBack: () => void }) {
+function ReportView({ estimate, answers, onBack, customConfig }: { estimate: EstimateResult; answers: Answers; onBack: () => void; customConfig: any }) {
   const { content } = useContent();
   const [activeSection, setActiveSection] = useState('timeline');
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -959,8 +994,8 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
               })}
             </div>
           </div>
-          <Link href="/contact" style={{ display: 'block', background: BLUE, color: '#fff', borderRadius: '10px', padding: '12px 16px', textDecoration: 'none', textAlign: 'center', fontWeight: 800, fontSize: '0.8rem' }}>
-            <EditableText contentKey="estimator.report.cta.sidebar" value="Contact CrestCode" />
+          <Link href={customConfig?.cta_values?.href || '/contact'} style={{ display: 'block', background: BLUE, color: '#fff', borderRadius: '10px', padding: '12px 16px', textDecoration: 'none', textAlign: 'center', fontWeight: 800, fontSize: '0.8rem' }}>
+            {customConfig?.cta_values?.text || 'Contact CrestCode'}
           </Link>
         </div>
 
@@ -1257,8 +1292,8 @@ function ReportView({ estimate, answers, onBack }: { estimate: EstimateResult; a
               />
             </div>
             <div style={{ flexShrink: 0 }}>
-              <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: BLUE, color: '#fff', borderRadius: '10px', padding: '13px 24px', textDecoration: 'none', fontWeight: 800, fontSize: '0.9rem', whiteSpace: 'nowrap' }}>
-                <EditableText contentKey="estimator.report.cta.button" value="Contact CrestCode" /> <ArrowRight size={14} />
+              <Link href={customConfig?.cta_values?.href || '/contact'} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: BLUE, color: '#fff', borderRadius: '10px', padding: '13px 24px', textDecoration: 'none', fontWeight: 800, fontSize: '0.9rem', whiteSpace: 'nowrap' }}>
+                {customConfig?.cta_values?.text || 'Contact CrestCode'} <ArrowRight size={14} />
               </Link>
             </div>
           </div>

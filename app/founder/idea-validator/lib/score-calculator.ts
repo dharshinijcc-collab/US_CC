@@ -27,7 +27,8 @@ export interface BuildTimeEstimates {
 export function calculateAggregatedScores(
   dimensions: Record<string, DimensionRuleResult>,
   answers: QAAnswers,
-  redFlagCount: number
+  redFlagCount: number,
+  config?: any
 ): {
   startup_quality_score: number;
   investor_readiness_score: number;
@@ -54,33 +55,44 @@ export function calculateAggregatedScores(
   const investorAppeal = dimensions.investor_appeal.score;
   const marketTiming = dimensions.market_timing.score;
 
+  // Retrieve dynamic configurations with fallbacks
+  const wQuality = config?.scoring_weights?.quality || { demand: 0.35, moat: 0.30, technical: 0.20, founder: 0.15 };
+  const wReadiness = config?.scoring_weights?.readiness || { appeal: 0.40, timing: 0.30, founder: 0.15, demand: 0.15 };
+  const adjValidation = config?.adjustments?.validation || { none: -1.5, paying_customers: 1.5 };
+  const adjStage = config?.adjustments?.stage || { forming: -1.5, mvp: 1.0 };
+  const thresholds = config?.triage_thresholds || { strong_pass: 7.5, needs_work: 4.5 };
+
   // 1. Startup Quality Score
   const startupQualityScore =
-    0.35 * customerDemand +
-    0.30 * competitiveMoat +
-    0.20 * technicalFeasibility +
-    0.15 * founderMarketFit;
+    (wQuality.demand ?? 0.35) * customerDemand +
+    (wQuality.moat ?? 0.30) * competitiveMoat +
+    (wQuality.technical ?? 0.20) * technicalFeasibility +
+    (wQuality.founder ?? 0.15) * founderMarketFit;
 
   // 2. Investor Readiness Score
   const investorReadinessScore =
-    0.40 * investorAppeal +
-    0.30 * marketTiming +
-    0.15 * founderMarketFit +
-    0.15 * customerDemand;
+    (wReadiness.appeal ?? 0.40) * investorAppeal +
+    (wReadiness.timing ?? 0.30) * marketTiming +
+    (wReadiness.founder ?? 0.15) * founderMarketFit +
+    (wReadiness.demand ?? 0.15) * customerDemand;
 
   // 3. Adjustments
   let validationAdj = 0;
   if (answers.validation_level === 'none') {
-    validationAdj = -1.5;
+    validationAdj = adjValidation.none ?? -1.5;
   } else if (answers.validation_level === 'paying_customers') {
-    validationAdj = 1.5;
+    validationAdj = adjValidation.paying_customers ?? 1.5;
+  } else if (answers.validation_level && adjValidation[answers.validation_level] !== undefined) {
+    validationAdj = adjValidation[answers.validation_level];
   }
 
   let stageAdj = 0;
   if (answers.current_stage === 'forming') {
-    stageAdj = -1.5;
+    stageAdj = adjStage.forming ?? -1.5;
   } else if (answers.current_stage === 'mvp') {
-    stageAdj = 1.0;
+    stageAdj = adjStage.mvp ?? 1.0;
+  } else if (answers.current_stage && adjStage[answers.current_stage] !== undefined) {
+    stageAdj = adjStage[answers.current_stage];
   }
 
   // 4. Overall Score calculation
@@ -89,9 +101,9 @@ export function calculateAggregatedScores(
 
   // 5. Triage Band
   let triageBand: TriageBand = 'Promising / Needs Work';
-  if (overallScore >= 7.5) {
+  if (overallScore >= (thresholds.strong_pass ?? 7.5)) {
     triageBand = 'Strong Pass';
-  } else if (overallScore < 4.5) {
+  } else if (overallScore < (thresholds.needs_work ?? 4.5)) {
     triageBand = 'Not a Fit (Currently)';
   }
 

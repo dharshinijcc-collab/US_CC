@@ -8,7 +8,7 @@ import Blogs from '@/components/blogs';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
 
-import localConfig from '@/backend/config.json';
+import localConfig from '@/shared/config.json';
 
 export default function ResourcesPage() {
   const { content, loading, error } = useContent();
@@ -27,6 +27,19 @@ export default function ResourcesPage() {
       desc: "Describe what you want to build and get a rough timeline and cost estimate based on Crestcode's engagement model — broken down by stage and scope.",
       tags: ['Founders', 'Business Owners', 'Free'],
       href: '/build-time-estimator'
+    },
+    {
+      icon: (
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M9 12l2 2 4-4" />
+          <path d="M12 2a10 10 0 0110 10c0 5.523-4.477 10-10 10S2 17.523 2 12c0-2.4 1.15-4.5 2.93-6" />
+        </svg>
+      ),
+      title: 'Venture Idea Validator', status: 'ACTIVE', statusColor: '#10B981', statusBg: 'rgba(16, 185, 129, 0.1)',
+      desc: "Validate your startup idea's market potential, target customer pain score, and investor appeal with our comprehensive assessment framework.",
+      tags: ['Founders', 'Idea Stage', 'Free'],
+      href: '/founder/idea-validator'
     },
     {
       icon: (
@@ -357,6 +370,25 @@ export default function ResourcesPage() {
           border-color: var(--primary-blue);
           box-shadow: 0 16px 32px rgba(0, 90, 226, 0.05);
         }
+        .btn-tool-cta {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 8px 18px;
+          border-radius: 100px;
+          font-size: 0.85rem;
+          font-weight: 700;
+          background-color: var(--primary-blue);
+          color: #FFFFFF;
+          transition: all 0.2s ease;
+          border: none;
+          cursor: pointer;
+        }
+        .res-card-link:hover .btn-tool-cta {
+          background-color: #004ac2;
+          box-shadow: 0 4px 12px rgba(0, 90, 226, 0.25);
+        }
 
         /* Resource Card Interiors */
         
@@ -596,6 +628,16 @@ export default function ResourcesPage() {
                         </span>
                       ))}
                     </div>
+                    {href && (
+                      <div style={{ marginTop: 'auto', paddingTop: '16px' }}>
+                        <span className="btn-tool-cta">
+                          <span>Use Tool</span>
+                          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                          </svg>
+                        </span>
+                      </div>
+                    )}
                   </div>
                 );
 

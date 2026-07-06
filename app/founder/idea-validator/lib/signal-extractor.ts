@@ -116,7 +116,8 @@ export function generateDynamicMockSignals(idea: string, answers: QAAnswers): Ex
 export async function extractSignals(
   idea: string,
   answers: QAAnswers,
-  apiKey: string | undefined
+  apiKey: string | undefined,
+  customPrompt?: string
 ): Promise<ExtractedSignals> {
   const useMockAI = process.env.USE_MOCK_AI === 'true' || !apiKey;
 
@@ -128,7 +129,7 @@ export async function extractSignals(
   try {
     const ai = new GoogleGenAI({ apiKey: apiKey! });
 
-    const systemPrompt = `You are a startup analyst. Your ONLY job is to extract factual, observable signals from a startup idea description. You must NOT assign scores, ratings, or judgements.
+    const systemPrompt = customPrompt || `You are a startup analyst. Your ONLY job is to extract factual, observable signals from a startup idea description. You must NOT assign scores, ratings, or judgements.
 Read the startup idea and output categorical signals using the exact values specified in the schema.
 RULES:
 - Use "unknown" when you cannot confidently determine a signal from the provided information

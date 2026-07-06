@@ -14,7 +14,8 @@ import BorderBeam from '@/components/effects/BorderBeam';
 import TextReveal from '@/components/effects/TextReveal';
 import GradientText from '@/components/effects/GradientText';
 import EditableText from '@/components/admin/EditableText';
-import '@/app/global-styles.css';
+
+import '@/styles/global-styles.css';
 
 export default function FaqPage() {
   const { content, loading, error } = useContent();
@@ -24,6 +25,19 @@ export default function FaqPage() {
   const magBtn = useMagneticHover(15);
   const magBtn2 = useMagneticHover(15);
   
+  const [faqsData, setFaqsData] = useState<any[]>([]);
+
+  React.useEffect(() => {
+    fetch('/api/faqs')
+      .then(res => res.json())
+      .then(json => {
+        if (json.status === 'success') {
+          setFaqsData(json.payload || []);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#F4F5F7] font-manrope">Loading FAQs...</div>;
   if (error) return <div className="flex items-center justify-center min-h-screen bg-[#F4F5F7] font-manrope text-red-500">Error: {error}</div>;
   if (!content) return null;
@@ -536,30 +550,27 @@ export default function FaqPage() {
                     </p>
                   </div>
 
-                  {faqContent.categories.engagement.faqs.map((faq, idx) => (
-                    <div key={idx} className={`accordion-item ${openFaq === `engagement-${idx + 1}` ? 'open' : ''}`} onClick={() => toggleFaq(`engagement-${idx + 1}`)}>
-                      <div className="accordion-question">
-                        <EditableText 
-                          contentKey={`faq.categories.engagement.faqs.${idx}.question`}
-                          value={faq.question}
-                        />
-                        <div className="faq-icon-wrapper">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M5 13V11H19V13H5Z" fill="currentColor" className="faq_line-icon horizontal"></path>
-                            <path d="M13 19L11 19L11 5L13 5L13 19Z" fill="currentColor" className="faq_line-icon vertical"></path>
-                          </svg>
+                  {(() => {
+                    const list = faqsData.length > 0 ? faqsData.filter(f => f.category === 'engagement') : faqContent.categories.engagement.faqs;
+                    return list.map((faq, idx) => (
+                      <div key={faq.id || idx} className={`accordion-item ${openFaq === `engagement-${idx + 1}` ? 'open' : ''}`} onClick={() => toggleFaq(`engagement-${idx + 1}`)}>
+                        <div className="accordion-question">
+                          <span>{faq.question}</span>
+                          <div className="faq-icon-wrapper">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M5 13V11H19V13H5Z" fill="currentColor" className="faq_line-icon horizontal"></path>
+                              <path d="M13 19L11 19L11 5L13 5L13 19Z" fill="currentColor" className="faq_line-icon vertical"></path>
+                            </svg>
+                          </div>
+                        </div>
+                        <div className="accordion-answer">
+                          <div className="faq_rich-text">
+                            <p>{faq.answer}</p>
+                          </div>
                         </div>
                       </div>
-                      <div className="accordion-answer">
-                        <div className="faq_rich-text">
-                          <EditableText 
-                            contentKey={`faq.categories.engagement.faqs.${idx}.answer`}
-                            value={faq.answer}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                    ));
+                  })()}
                 </div>
               )},
               { id: 'product', content: (
@@ -576,30 +587,27 @@ export default function FaqPage() {
                     </p>
                   </div>
 
-                  {faqContent.categories.product.faqs.map((faq, idx) => (
-                    <div key={idx} className={`accordion-item ${openFaq === `product-${idx + 1}` ? 'open' : ''}`} onClick={() => toggleFaq(`product-${idx + 1}`)}>
-                      <div className="accordion-question">
-                        <EditableText 
-                          contentKey={`faq.categories.product.faqs.${idx}.question`}
-                          value={faq.question}
-                        />
-                        <div className="faq-icon-wrapper">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M5 13V11H19V13H5Z" fill="currentColor" className="faq_line-icon horizontal"></path>
-                            <path d="M13 19L11 19L11 5L13 5L13 19Z" fill="currentColor" className="faq_line-icon vertical"></path>
-                          </svg>
+                  {(() => {
+                    const list = faqsData.length > 0 ? faqsData.filter(f => f.category === 'product') : faqContent.categories.product.faqs;
+                    return list.map((faq, idx) => (
+                      <div key={faq.id || idx} className={`accordion-item ${openFaq === `product-${idx + 1}` ? 'open' : ''}`} onClick={() => toggleFaq(`product-${idx + 1}`)}>
+                        <div className="accordion-question">
+                          <span>{faq.question}</span>
+                          <div className="faq-icon-wrapper">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M5 13V11H19V13H5Z" fill="currentColor" className="faq_line-icon horizontal"></path>
+                              <path d="M13 19L11 19L11 5L13 5L13 19Z" fill="currentColor" className="faq_line-icon vertical"></path>
+                            </svg>
+                          </div>
+                        </div>
+                        <div className="accordion-answer">
+                          <div className="faq_rich-text">
+                            <p>{faq.answer}</p>
+                          </div>
                         </div>
                       </div>
-                      <div className="accordion-answer">
-                        <div className="faq_rich-text">
-                          <EditableText 
-                            contentKey={`faq.categories.product.faqs.${idx}.answer`}
-                            value={faq.answer}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                    ));
+                  })()}
                 </div>
               )},
               { id: 'security', content: (
@@ -616,30 +624,27 @@ export default function FaqPage() {
                     </p>
                   </div>
 
-                  {faqContent.categories.security.faqs.map((faq, idx) => (
-                    <div key={idx} className={`accordion-item ${openFaq === `sec-${idx + 1}` ? 'open' : ''}`} onClick={() => toggleFaq(`sec-${idx + 1}`)}>
-                      <div className="accordion-question">
-                        <EditableText 
-                          contentKey={`faq.categories.security.faqs.${idx}.question`}
-                          value={faq.question}
-                        />
-                        <div className="faq-icon-wrapper">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M5 13V11H19V13H5Z" fill="currentColor" className="faq_line-icon horizontal"></path>
-                            <path d="M13 19L11 19L11 5L13 5L13 19Z" fill="currentColor" className="faq_line-icon vertical"></path>
-                          </svg>
+                  {(() => {
+                    const list = faqsData.length > 0 ? faqsData.filter(f => f.category === 'security') : faqContent.categories.security.faqs;
+                    return list.map((faq, idx) => (
+                      <div key={faq.id || idx} className={`accordion-item ${openFaq === `sec-${idx + 1}` ? 'open' : ''}`} onClick={() => toggleFaq(`sec-${idx + 1}`)}>
+                        <div className="accordion-question">
+                          <span>{faq.question}</span>
+                          <div className="faq-icon-wrapper">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                              <path d="M5 13V11H19V13H5Z" fill="currentColor" className="faq_line-icon horizontal"></path>
+                              <path d="M13 19L11 19L11 5L13 5L13 19Z" fill="currentColor" className="faq_line-icon vertical"></path>
+                            </svg>
+                          </div>
+                        </div>
+                        <div className="accordion-answer">
+                          <div className="faq_rich-text">
+                            <p>{faq.answer}</p>
+                          </div>
                         </div>
                       </div>
-                      <div className="accordion-answer">
-                        <div className="faq_rich-text">
-                          <EditableText 
-                            contentKey={`faq.categories.security.faqs.${idx}.answer`}
-                            value={faq.answer}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                    ));
+                  })()}
                 </div>
               )}
             ].sort((a, b) => (a.id === activeTab ? -1 : b.id === activeTab ? 1 : 0)).map(cat => cat.content)}
@@ -678,6 +683,7 @@ export default function FaqPage() {
 
           </div>
         </section>
+
 
         <Footer />
 

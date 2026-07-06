@@ -106,20 +106,48 @@ export async function POST(req: NextRequest) {
         : (answers.solo_founder ? false : true),
     };
 
+    // Fetch dynamic configurations from database if configured
+    let dynamicConfig: any = null;
+    if (supabaseAdmin) {
+      try {
+        const { data, error } = await supabaseAdmin
+          .from('tool_configurations')
+          .select('config')
+          .eq('key', 'idea_validator')
+          .maybeSingle();
+        if (!error && data) {
+          dynamicConfig = data.config;
+          console.log('✅ Loaded dynamic tool_configurations for idea_validator');
+        }
+      } catch (err) {
+        console.error('Failed to load tool_configurations:', err);
+      }
+    }
+
     // 6. Pass 1: Extract signals (using Gemini API or dynamic Mock generator)
     console.log('🤖 Extracting AI signals...');
-    const signals = await extractSignals(ideaText, answersWithDefaults, geminiKey);
+    const signals = await extractSignals(
+      ideaText,
+      answersWithDefaults,
+      geminiKey,
+      dynamicConfig?.prompt_templates?.signal_extraction
+    );
 
     // 7. TS Rule Engine: Calculate dimension scores
     console.log('⚙️ Evaluating deterministic scoring rule engine...');
-    const dimensionScores = runRuleEngine(signals);
+    const dimensionScores = runRuleEngine(signals, dynamicConfig?.rule_modifiers);
 
     // 8. Detect red flags
     const redFlags = detectRedFlags(signals);
 
     // 9. Score Aggregation
     console.log('📊 Aggregating overall scores...');
-    const aggregated = calculateAggregatedScores(dimensionScores, answersWithDefaults, redFlags.length);
+    const aggregated = calculateAggregatedScores(
+      dimensionScores,
+      answersWithDefaults,
+      redFlags.length,
+      dynamicConfig
+    );
 
     // 10. Pass 2: AI Narrative generation (prose explaining the scores)
     console.log('✍️ Generating due diligence narrative explanations...');
@@ -129,7 +157,8 @@ export async function POST(req: NextRequest) {
       aggregated,
       dimensionScores,
       redFlags,
-      geminiKey
+      geminiKey,
+      dynamicConfig?.prompt_templates?.narrative_generation
     );
 
     const reportId = crypto.randomUUID();

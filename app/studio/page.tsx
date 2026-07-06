@@ -9,7 +9,7 @@ import Footer from '@/components/Footer';
 import ScrollStack, { ScrollStackItem } from '@/components/ScrollStack';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
-import '@/app/global-styles.css';
+import '@/styles/global-styles.css';
 
 // Solving section — clean redesign
 // Small tight fan (9/17/23px offsets, 5/9/13deg), no dots, no progress bar
@@ -530,29 +530,9 @@ export default function StudioPage() {
         }
 
         .thesis-text-scroll {
-          max-height: 440px;
-          overflow-y: auto;
-          padding-right: 16px;
-        }
-        .thesis-text-scroll::-webkit-scrollbar {
-          width: 6px;
-        }
-        .thesis-text-scroll::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .thesis-text-scroll::-webkit-scrollbar-thumb {
-          background: #CBD5E1;
-          border-radius: 4px;
-        }
-        .thesis-text-scroll::-webkit-scrollbar-thumb:hover {
-          background: #94A3B8;
-        }
-        @media(max-width: 991px) {
-          .thesis-text-scroll {
-            max-height: none !important;
-            overflow-y: visible !important;
-            padding-right: 0 !important;
-          }
+          max-height: none;
+          overflow-y: visible;
+          padding-right: 0;
         }
         
         .section-subtitle, .hero-description {
@@ -1885,6 +1865,7 @@ export default function StudioPage() {
         <section style={{
           background: 'linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%)',
           position: 'relative',
+          padding: '6rem 0',
           boxShadow: 'inset 0 20px 20px -20px rgba(0, 0, 0, 0.08), inset 0 -20px 20px -20px rgba(0, 0, 0, 0.05), 0 20px 40px -20px rgba(0, 0, 0, 0.05)'
         }}>
           <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -2149,7 +2130,7 @@ export default function StudioPage() {
               </div>
 
               {/* ── RIGHT: Editorial text ── */}
-              <div className="thesis-text-scroll" style={{ paddingTop: '0.5rem' }}>
+              <div style={{ paddingTop: '0.5rem' }}>
                 <div style={{ fontSize: '0.92rem', color: '#334155', lineHeight: 1.85, fontFamily: "'Inter', sans-serif", fontWeight: 450, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                   <p style={{ margin: 0 }}>
                     <EditableText

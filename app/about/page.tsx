@@ -2,15 +2,48 @@
 
 export const dynamic = 'force-dynamic';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import EditableText from '@/components/admin/EditableText';
 import { useContent } from '@/context/ContentContext';
 import Link from 'next/link';
 
+import type { TeamMember } from '@/types/team';
+
+function getInitials(name: string) {
+  return name.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase();
+}
+
 export default function AboutPage() {
   const { content, loading, error } = useContent();
+
+  // ── Dynamic team state ──────────────────────────────────
+  const [teamData, setTeamData] = useState<TeamMember[]>([]);
+  const [milestonesData, setMilestonesData] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch('/api/team')
+      .then((r) => r.json())
+      .then((json) => {
+        if (json.status === 'success') {
+          setTeamData(json.payload || []);
+        }
+      })
+      .catch(() => { /* keep empty */ });
+
+    fetch('/api/milestones')
+      .then((r) => r.json())
+      .then((json) => {
+        if (json.status === 'success') {
+          setMilestonesData(json.payload || []);
+        }
+      })
+      .catch(() => { /* keep empty */ });
+  }, []);
+
+  const coreTeam   = teamData.filter((m) => m.category !== 'Advisor').sort((a, b) => a.display_order - b.display_order);
+  const advisors   = teamData.filter((m) => m.category === 'Advisor').sort((a, b) => a.display_order - b.display_order);
 
   // Helper function to safely get content values
   const getContent = (path: string, defaultValue: string) => {
@@ -309,13 +342,11 @@ export default function AboutPage() {
         {/* ── 1. HERO SECTION (Image 1) ── */}
         <section className="hero-section" style={{ position: 'relative', overflow: 'hidden' }}>
           {/* Hero Background */}
-          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }}></div>
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }}></div>
           {/* Hero Grid */}
           <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(37,99,235,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.08) 1px, transparent 1px)', backgroundSize: '80px 80px', maskImage: 'radial-gradient(ellipse 70% 60% at 50% 30%, black 0%, transparent 80%)', opacity: 0.4, pointerEvents: 'none', zIndex: 0 }}></div>
           {/* Ambient Glows */}
           <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.2), transparent 70%)', bottom: '0px', left: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.2), transparent 70%)', bottom: '0px', right: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
 
           <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <EditableText 
@@ -425,35 +456,32 @@ export default function AboutPage() {
                 }}></div>
                 
                 <div style={{ position: 'relative', zIndex: 1 }}>
-                {[
+                {(milestonesData.length > 0 ? milestonesData : [
                   {
                     year: getContent('about.timeline.0.year', '2023'),
                     title: getContent('about.timeline.0.title', 'The Seed of an Idea'),
-                    desc: getContent('about.timeline.0.desc', 'While working as a Product Manager at Amazon, Asfarul Huda began thinking seriously about the entrepreneur journey. He saw a consistent pattern — founders with genuine ideas struggling to find partners who could actually build. The idea for a product studio that could bridge that gap began to take shape.')
+                    description: getContent('about.timeline.0.desc', 'While working as a Product Manager at Amazon, Asfarul Huda began thinking seriously about the entrepreneur journey. He saw a consistent pattern — founders with genuine ideas struggling to find partners who could actually build. The idea for a product studio that could bridge that gap began to take shape.')
                   },
                   {
                     year: getContent('about.timeline.1.year', '2024'),
                     title: getContent('about.timeline.1.title', 'The First Client — and the First Lesson'),
-                    desc: getContent('about.timeline.1.desc', 'Premier Review became CrestCode\'s first client, seeking strategic guidance as an early-stage startup. That engagement crystallized two foundational truths: founders don\'t just need builders — they need someone who will challenge them, hold them accountable, and earn their trust. Those two pillars — execution and trust — became the foundation of everything CrestCode stands for.')
+                    description: getContent('about.timeline.1.desc', 'Premier Review became CrestCode\'s first client, seeking strategic guidance as an early-stage startup. That engagement crystallized two foundational truths: founders don\'t just need builders — they need someone who will challenge them, hold them accountable, and earn their trust. Those two pillars — execution and trust — became the foundation of everything CrestCode stands for.')
                   },
                   {
                     year: getContent('about.timeline.2.year', '2025'),
                     title: getContent('about.timeline.2.title', 'CrestCode Launches'),
-                    desc: getContent('about.timeline.2.desc', 'With a clear model and a founding team in place, CrestCode USA officially launched as a venture studio — offering end-to-end product building for founders and business owners. The mission: be the partner that turns ambitious ideas and real-world problems into products people actually use.')
+                    description: getContent('about.timeline.2.desc', 'With a clear model and a founding team in place, CrestCode USA officially launched as a venture studio — offering end-to-end product building for founders and business owners. The mission: be the partner that turns ambitious ideas and real-world problems into products people actually use.')
                   },
                   {
                     year: getContent('about.timeline.3.year', 'TODAY'),
                     title: getContent('about.timeline.3.title', 'Three Products. One Studio. A Growing Portfolio.'),
-                    desc: getContent('about.timeline.3.desc', 'CrestCode now has three active products in market — Dockly, OpenCapFi, and Vhoas — alongside strategic partnerships with Premier Review and CastleGEC. The studio is growing its team, its network, and its ambition.')
+                    description: getContent('about.timeline.3.desc', 'CrestCode now has three active products in market — Dockly, OpenCapFi, and Vhoas — alongside strategic partnerships with Premier Review and CastleGEC. The studio is growing its team, its network, and its ambition.')
                   }
-                ].map((item, idx) => (
-                  <div key={idx} style={{ display: 'flex', marginBottom: idx === 3 ? '0' : '48px', alignItems: 'flex-start' }}>
+                ]).map((item, idx, arr) => (
+                  <div key={item.id || idx} style={{ display: 'flex', marginBottom: idx === arr.length - 1 ? '0' : '48px', alignItems: 'flex-start' }}>
                     {/* Left side - Year */}
                     <div style={{ width: '70px', flexShrink: 0, textAlign: 'right', paddingRight: '14px', paddingTop: '2px' }}>
-                      <EditableText 
-                        contentKey={`about.timeline.${idx}.year`}
-                        value={item.year}
-                        as="span"
+                      <span
                         style={{
                           color: 'var(--primary-blue)',
                           fontSize: '0.9rem',
@@ -461,7 +489,9 @@ export default function AboutPage() {
                           letterSpacing: '0.05em',
                           fontFamily: "'Manrope', sans-serif"
                         }}
-                      />
+                      >
+                        {item.year}
+                      </span>
                     </div>
                     
                     {/* Center - Node on line */}
@@ -478,18 +508,21 @@ export default function AboutPage() {
                     
                     {/* Right side - Content */}
                     <div style={{ flex: 1, paddingLeft: '14px', paddingTop: '2px' }}>
-                      <EditableText 
-                        contentKey={`about.timeline.${idx}.title`}
-                        value={item.title}
-                        as="h3"
-                        style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '8px' }}
-                      />
-                      <EditableText 
-                        contentKey={`about.timeline.${idx}.desc`}
-                        value={item.desc}
-                        as="p"
+                      <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '8px' }}>
+                        {item.title}
+                      </h3>
+                      {item.image_url && (
+                        <img
+                          src={item.image_url}
+                          alt={item.title}
+                          style={{ width: '100%', maxWidth: '320px', borderRadius: '8px', marginBottom: '12px', display: 'block', objectFit: 'cover' }}
+                        />
+                      )}
+                      <p
                         style={{ fontSize: '1rem', color: 'var(--text-muted)', lineHeight: 1.7, margin: 0, fontWeight: 500 }}
-                      />
+                      >
+                        {item.description}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -621,69 +654,35 @@ export default function AboutPage() {
               />
             </div>
 
-            {/* Grid 4 columns */}
+            {/* Grid 4 columns — dynamic from Supabase */}
             <div className="grid-4">
-              {[
-                {
-                  initials: getContent('about.team.0.initials', 'AH'),
-                  name: getContent('about.team.0.name', 'Asfarul Huda'),
-                  role: getContent('about.team.0.role', 'CEO & FOUNDER'),
-                  bio: getContent('about.team.0.bio', 'Former Amazon Product Manager with a decade of experience building digital products at scale. Founded CrestCode in 2025 with a mission to give every founder access to world-class execution.')
-                },
-                {
-                  initials: getContent('about.team.1.initials', 'AB'),
-                  name: getContent('about.team.1.name', 'Adam Braasch'),
-                  role: getContent('about.team.1.role', 'PARTNER'),
-                  bio: getContent('about.team.1.bio', 'A strategic and operational partner at CrestCode, Adam brings deep expertise in building and scaling early-stage ventures from idea to market.')
-                },
-                {
-                  initials: getContent('about.team.2.initials', 'PC'),
-                  name: getContent('about.team.2.name', 'Pranali Choubal'),
-                  role: getContent('about.team.2.role', 'PARTNER'),
-                  bio: getContent('about.team.2.bio', 'Pranali brings a sharp product and design sensibility to CrestCode, ensuring that every venture we build is not just functional — but genuinely lovable.')
-                },
-                {
-                  initials: getContent('about.team.3.initials', 'AH'),
-                  name: getContent('about.team.3.name', 'Amir Hoda'),
-                  role: getContent('about.team.3.role', 'PARTNER'),
-                  bio: getContent('about.team.3.bio', 'A technical and business partner at CrestCode, Amir focuses on engineering strategy, delivery excellence, and helping ventures scale with confidence.')
-                }
-              ].map((member, idx) => (
-                <div key={idx} className="about-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              {coreTeam.map((member) => (
+                <div key={member.id} className="about-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                   <div className="avatar-circle">
-                    <EditableText 
-                      contentKey={`about.team.${idx}.initials`}
-                      value={member.initials}
-                      as="span"
-                    />
+                    {member.image_url ? (
+                      <img src={member.image_url} alt={member.name} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+                    ) : (
+                      <span>{getInitials(member.name)}</span>
+                    )}
                   </div>
-                  <EditableText 
-                    contentKey={`about.team.${idx}.name`}
-                    value={member.name}
-                    as="h3"
-                    style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '4px' }}
-                  />
-                  <EditableText 
-                    contentKey={`about.team.${idx}.role`}
-                    value={member.role}
-                    as="span"
-                    style={{
-                      color: 'var(--primary-blue)',
-                      fontSize: '0.68rem',
-                      fontWeight: 800,
-                      letterSpacing: '0.1em',
-                      textTransform: 'uppercase',
-                      display: 'block',
-                      marginBottom: '16px',
-                      fontFamily: "'Manrope', sans-serif"
-                    }}
-                  />
-                  <EditableText 
-                    contentKey={`about.team.${idx}.bio`}
-                    value={member.bio}
-                    as="p"
-                    style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}
-                  />
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '4px' }}>
+                    {member.name}
+                  </h3>
+                  <span style={{
+                    color: 'var(--primary-blue)',
+                    fontSize: '0.68rem',
+                    fontWeight: 800,
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    display: 'block',
+                    marginBottom: '16px',
+                    fontFamily: "'Manrope', sans-serif"
+                  }}>
+                    {member.role}
+                  </span>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
+                    {member.bio}
+                  </p>
                 </div>
               ))}
             </div>
@@ -710,58 +709,36 @@ export default function AboutPage() {
               />
             </div>
 
-            {/* 2 columns advisors */}
+            {/* 2 columns advisors — dynamic from Supabase */}
             <div className="grid-2-equal" style={{ maxWidth: '900px', margin: '0 auto' }}>
-              {[
-                {
-                  initials: getContent('about.advisors.0.initials', 'FS'),
-                  name: getContent('about.advisors.0.name', 'Fahad Siddiqui'),
-                  role: getContent('about.advisors.0.role', 'FINANCE ADVISOR'),
-                  bio: getContent('about.advisors.0.bio', 'Advises CrestCode and its ventures on financial strategy, investment structuring, and capital planning.')
-                },
-                {
-                  initials: getContent('about.advisors.1.initials', 'FA'),
-                  name: getContent('about.advisors.1.name', 'Dr. Faria Ali'),
-                  role: getContent('about.advisors.1.role', 'HEALTHCARE ADVISOR'),
-                  bio: getContent('about.advisors.1.bio', 'Brings deep domain expertise in healthcare, guiding CrestCode ventures in health-adjacent product strategy and compliance.')
-                }
-              ].map((adv, idx) => (
-                <div key={idx} className="about-card" style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', background: 'var(--white)' }}>
+              {advisors.map((adv) => (
+                <div key={adv.id} className="about-card" style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', background: 'var(--white)' }}>
                   <div className="avatar-circle" style={{ margin: 0, flexShrink: 0 }}>
-                    <EditableText 
-                      contentKey={`about.advisors.${idx}.initials`}
-                      value={adv.initials}
-                      as="span"
-                    />
+                    {adv.image_url ? (
+                      <img src={adv.image_url} alt={adv.name} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+                    ) : (
+                      <span>{getInitials(adv.name)}</span>
+                    )}
                   </div>
                   <div>
-                    <EditableText 
-                      contentKey={`about.advisors.${idx}.name`}
-                      value={adv.name}
-                      as="h3"
-                      style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '4px' }}
-                    />
-                    <EditableText 
-                      contentKey={`about.advisors.${idx}.role`}
-                      value={adv.role}
-                      as="span"
-                      style={{
-                        color: 'var(--primary-blue)',
-                        fontSize: '0.68rem',
-                        fontWeight: 800,
-                        letterSpacing: '0.1em',
-                        textTransform: 'uppercase',
-                        display: 'block',
-                        marginBottom: '12px',
-                        fontFamily: "'Manrope', sans-serif"
-                      }}
-                    />
-                    <EditableText 
-                      contentKey={`about.advisors.${idx}.bio`}
-                      value={adv.bio}
-                      as="p"
-                      style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}
-                    />
+                    <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '4px' }}>
+                      {adv.name}
+                    </h3>
+                    <span style={{
+                      color: 'var(--primary-blue)',
+                      fontSize: '0.68rem',
+                      fontWeight: 800,
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
+                      display: 'block',
+                      marginBottom: '12px',
+                      fontFamily: "'Manrope', sans-serif"
+                    }}>
+                      {adv.role}
+                    </span>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
+                      {adv.bio}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -871,33 +848,12 @@ export default function AboutPage() {
                 as="p"
                 style={{ marginBottom: '32px' }}
               />
-
-              {/* Coming in 2025 Alert Banner */}
-              <div style={{
-                background: 'rgba(0, 90, 226, 0.05)',
-                border: '1px solid rgba(0, 90, 226, 0.15)',
-                borderRadius: '16px',
-                padding: '18px 24px',
-                fontSize: '0.9rem',
-                color: 'var(--primary-blue)',
-                lineHeight: 1.5,
-                fontWeight: 600,
-                maxWidth: '820px',
-                margin: '0 auto',
-                textAlign: 'center'
-              }}>
-                <EditableText 
-                  contentKey="about.community.alert"
-                  value={getContent('about.community.alert', 'Coming in 2025: The CrestCode founder and investor network — a curated community of builders and backers across the CrestCode portfolio. If you want to be part of it early, reach out directly.')}
-                  as="span"
-                />
-              </div>
             </div>
 
-            {/* 4 Cards Auto-balanced Responsive Grid */}
+            {/* 3 Cards Auto-balanced Responsive Grid */}
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
               gap: '24px'
             }}>
               {[
@@ -931,16 +887,6 @@ export default function AboutPage() {
                   ),
                   title: getContent('about.community.2.title', 'Advisor Pool'),
                   desc: getContent('about.community.2.desc', 'Domain experts across finance, healthcare, product, and operations — available to every entrepreneur we work with.')
-                },
-                {
-                  icon: (
-                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="10" />
-                      <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
-                    </svg>
-                  ),
-                  title: getContent('about.community.3.title', 'Remote-First'),
-                  desc: getContent('about.community.3.desc', 'Our team and network operate fully remotely — giving access to the best people regardless of geography.')
                 }
               ].map((item, idx) => (
                 <div key={idx} className="about-card" style={{ background: 'var(--white)', display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -977,69 +923,8 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ── 8. CALL TO ACTION (WORK WITH US) (Image 5) ── */}
-        <section className="page-section" style={{ backgroundColor: '#FFFFFF', position: 'relative' }}>
-          <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
-            <div style={{ display: 'inline-block', marginBottom: '16px' }}>
-              <span className="hero-eyebrow-pill" style={{ marginBottom: 0 }}>
-                <EditableText 
-                  contentKey="about.cta.label"
-                  value={getContent('about.cta.label', 'WORK WITH US')}
-                />
-              </span>
-            </div>
-            <EditableText
-              contentKey="about.cta.title"
-              value={getContent('about.cta.title', "If this sounds like\nthe partner you've been\nlooking for")}
-              as="h2"
-              className="section-title"
-              style={{
-                color: 'var(--text-black)',
-                marginBottom: '24px',
-                maxWidth: '800px',
-                margin: '0 auto 24px',
-                fontSize: '36px',
-                fontWeight: 800,
-                letterSpacing: '-0.02em',
-                lineHeight: 1.25
-              }}
-            />
-            <EditableText 
-              contentKey="about.cta.description"
-              value={getContent('about.cta.description', "We'd love to hear what you're building. Or what problem you're trying to solve. Either way, let's talk.")}
-              as="p"
-              className="section-subtitle"
-              style={{
-                maxWidth: '600px',
-                margin: '0 auto 40px'
-              }}
-            />
-
-            {/* Dual Action Buttons */}
-            <div style={{ display: 'inline-flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center' }}>
-              <Link href="/contact">
-                <button className="btn-pill btn-primary">
-                  <EditableText 
-                    contentKey="about.cta.button1"
-                    value={getContent('about.cta.button1', 'Start a Conversation')}
-                    as="span"
-                  />
-                </button>
-              </Link>
-              <Link href="/studio">
-                <button className="btn-pill btn-secondary">
-                  <EditableText 
-                    contentKey="about.cta.button2"
-                    value={getContent('about.cta.button2', 'See The Studio')}
-                    as="span"
-                  />
-                </button>
-              </Link>
-            </div>
-          </div>
-        </section>
-
       </div>
+
 
       <Footer />
     </>

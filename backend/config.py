@@ -5,7 +5,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 POSTGRES_URI = os.getenv("POSTGRES_URI")
-G_SECRET_KEY = os.getenv("G_SECRET_KEY", "default_secret_key")
+G_SECRET_KEY = os.getenv("G_SECRET_KEY")
+if not G_SECRET_KEY:
+    print("WARNING: G_SECRET_KEY not found in environment variables.")
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 
 # Email configuration

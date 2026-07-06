@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
-import localConfig from '@/backend/config.json';
+import localConfig from '@/shared/config.json';
 
 export default function Header(props: any) {
   const { content } = useContent();

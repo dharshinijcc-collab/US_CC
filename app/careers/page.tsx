@@ -29,6 +29,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
+
 import { API_URL } from '@/services/api';
 
 export default function CareersPage() {
@@ -50,16 +51,29 @@ export default function CareersPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; linkedin?: string }>({});
 
+  const [jobsData, setJobsData] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch('/api/open-positions')
+      .then(res => res.json())
+      .then(json => {
+        if (json.status === 'success') {
+          setJobsData(json.payload || []);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#F8FAFC] font-manrope">Loading careers...</div>;
   if (error) return <div className="flex items-center justify-center min-h-screen bg-[#F8FAFC] font-manrope text-red-500">Error: {error}</div>;
   if (!content) return <div className="flex items-center justify-center min-h-screen bg-[#F8FAFC] font-manrope">Loading content...</div>;
 
   const careersContent = content.careers;
 
-  const jobs = [
-    { title: "Frontend Developer", location: "Chennai, TN", type: "Full Time", exp: "Mid-Level (2-3 Yrs)", category: "Engineering" },
-    { title: "Backend Developer", location: "Chennai, TN", type: "Full Time", exp: "Mid-Level (2-3 Yrs)", category: "Engineering" },
-    { title: "Product Designer", location: "Chennai, TN", type: "Full Time", exp: "Entry-Level", category: "Design" }
+  const jobs = jobsData.length > 0 ? jobsData : [
+    { title: "Frontend Developer", location: "Chennai, TN", type: "Full Time", experience: "Mid-Level (2-3 Yrs)", category: "Engineering", apply_link: "mailto:careers@crestcode.usa", application_email: "careers@crestcode.usa" },
+    { title: "Backend Developer", location: "Chennai, TN", type: "Full Time", experience: "Mid-Level (2-3 Yrs)", category: "Engineering", apply_link: "mailto:careers@crestcode.usa", application_email: "careers@crestcode.usa" },
+    { title: "Product Designer", location: "Chennai, TN", type: "Full Time", experience: "Entry-Level", category: "Design", apply_link: "mailto:careers@crestcode.usa", application_email: "careers@crestcode.usa" }
   ];
 
   const filteredJobs = activeFilter === "All Departments" ? jobs : jobs.filter(j => j.category === activeFilter);
@@ -635,12 +649,22 @@ export default function CareersPage() {
                         <MapPin size={16} /> 
                         {job.location}
                       </span>
+                      <span>•</span>
+                      <span>{job.experience || job.exp}</span>
+                      <span>•</span>
+                      <span>{job.type}</span>
                     </div>
                   </div>
                   <button
                     onClick={() => {
-                      setFormData({...formData, jobTitle: job.title});
-                      handleScroll('apply-now');
+                      if (job.apply_link && job.apply_link.startsWith('mailto:')) {
+                        window.location.href = job.apply_link;
+                      } else if (job.apply_link) {
+                        window.open(job.apply_link, '_blank');
+                      } else {
+                        setFormData({...formData, jobTitle: job.title});
+                        handleScroll('apply-now');
+                      }
                     }}
                     style={{ backgroundColor: 'var(--light-blue-bg)', color: 'var(--primary-blue)', padding: '12px 28px', borderRadius: '100px', fontWeight: 800, fontSize: '14px', border: 'none', cursor: 'pointer', transition: 'all 0.2s' }}
                     onMouseOver={(e: any) => e.currentTarget.style.backgroundColor = '#DBEAFE'}
@@ -859,6 +883,7 @@ export default function CareersPage() {
             </div>
           </div>
         </section>
+
 
         <Footer />
       </div>

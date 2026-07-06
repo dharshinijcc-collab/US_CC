@@ -8,10 +8,11 @@ import useScrollReveal from '@/hooks/useScrollReveal';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import { useContent } from '@/context/ContentContext';
-import localConfig from '@/backend/config.json';
+import localConfig from '@/shared/config.json';
 import GlobalCursorGlow from '@/components/effects/GlobalCursorGlow';
 import EditableText from '@/components/admin/EditableText';
 import EditableImage from '@/components/admin/EditableImage';
+
 import SpotlightCursor from '@/components/effects/SpotlightCursor';
 import BorderBeam from '@/components/effects/BorderBeam';
 import CountUp from '@/components/effects/CountUp';
@@ -28,6 +29,8 @@ const PARTNER_PRODUCTS = [
   {
     id: '01',
     name: 'Dockly',
+    status: { type: 'live', text: 'Live', subText: 'Web ready' },
+    logo: 'https://www.google.com/s2/favicons?sz=64&domain=dockly.me',
     tagline: 'Family connectivity',
     subtitle: 'One connected platform to manage your life, simplified',
     accentBg: '#ECFDF5',
@@ -77,7 +80,7 @@ const PARTNER_PRODUCTS = [
     duration: '4 months',
     team: '3 members',
     stack: ['Next.js', 'Node.js', 'Tailwind CSS'],
-    liveUrl: 'https://app.dockly.me/',
+    liveUrl: 'https://dockly.me/',
     statTheme: {
       bg: '#E6F4EA',
       text: '#064E3B',
@@ -89,6 +92,8 @@ const PARTNER_PRODUCTS = [
   {
     id: '02',
     name: 'CastleGEC',
+    status: { type: 'live', text: 'Live', subText: 'Web ready' },
+    logo: 'https://www.google.com/s2/favicons?sz=64&domain=castlegec.com',
     tagline: 'Global education',
     subtitle: 'Study abroad & admissions consulting, simplified',
     accentBg: '#ECFDF5',
@@ -151,6 +156,7 @@ const PARTNER_PRODUCTS = [
   {
     id: '03',
     name: 'OpenCap',
+    status: { type: 'beta', text: 'Beta phase' },
     tagline: 'Trading analytics',
     subtitle: 'Trading analytics & prediction dashboard, simplified',
     accentBg: '#ECFDF5',
@@ -211,26 +217,25 @@ const PARTNER_PRODUCTS = [
   },
   {
     id: '04',
-    name: 'VHOA',
-    tagline: 'Real estate tech',
-    subtitle: 'Virtual homeowners association portal, simplified',
+    name: 'NestBloq',
+    status: { type: 'development', text: 'In development' },
+    tagline: 'Partner operations',
+    subtitle: 'B2B partner operations and workflow automation',
     accentBg: '#ECFDF5',
     accentColor: '#059669',
     icon: (
       <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
-        <line x1="9" y1="22" x2="9" y2="16" />
-        <line x1="15" y1="22" x2="15" y2="16" />
-        <line x1="9" y1="16" x2="15" y2="16" />
-        <path d="M9 8h.01M15 8h.01M9 12h.01M15 12h.01" />
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+        <line x1="12" y1="22.08" x2="12" y2="12" />
       </svg>
     ),
-    stat: '1,200+ active residents',
-    statSub: 'Engaged across 15 premium communities',
-    whatWeDid: 'Built an all-in-one HOA resident and property portal to streamline maintenance requests, announcements, and board communications.',
+    stat: '5+ active operations hubs',
+    statSub: 'Deployed for strategic partner products',
+    whatWeDid: 'Designed and built the operations hub to orchestrate workflow management, delivery logistics, and service coordination for B2B partner products.',
     features: [
       {
-        text: 'Resident dashboard',
+        text: 'Partner workspace',
         icon: (
           <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
             <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
@@ -241,7 +246,7 @@ const PARTNER_PRODUCTS = [
         )
       },
       {
-        text: 'Service requests',
+        text: 'Integration gateway',
         icon: (
           <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
             <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
@@ -249,7 +254,7 @@ const PARTNER_PRODUCTS = [
         )
       },
       {
-        text: 'Announcements',
+        text: 'Delivery flows',
         icon: (
           <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
             <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
@@ -258,8 +263,8 @@ const PARTNER_PRODUCTS = [
         )
       }
     ],
-    industry: 'PropTech',
-    duration: '6 months',
+    industry: 'B2B / Operations',
+    duration: '5 months',
     team: '3 members',
     stack: ['Next.js', 'Node.js', 'PostgreSQL'],
     liveUrl: '#',
@@ -272,6 +277,28 @@ const PARTNER_PRODUCTS = [
     }
   }
 ];
+
+const renderProductIcon = (p: any, idx: number) => {
+  const original = PARTNER_PRODUCTS[idx];
+  const logoUrl = p.logo || original?.logo;
+  
+  if (logoUrl) {
+    return (
+      <img 
+        src={logoUrl} 
+        alt={p.name}
+        style={{ 
+          width: '28px', 
+          height: '28px', 
+          objectFit: 'contain',
+          borderRadius: '4px'
+        }} 
+      />
+    );
+  }
+  
+  return p.icon || original?.icon;
+};
 
 export default function LandingPage() {
   const { content, loading, error } = useContent();
@@ -297,6 +324,19 @@ export default function LandingPage() {
   const [outcomeSubmitted, setOutcomeSubmitted] = useState<boolean>(false);
   const [outcomeForm, setOutcomeForm] = useState({ launched: 'no', monthly_revenue: '0', customers: '0', funding: 'none' });
   const [loadingStepText, setLoadingStepText] = useState('Extracting business signals...');
+  const [partnerProductsData, setPartnerProductsData] = useState<any[]>([]);
+
+  // Fetch partner products from API
+  useEffect(() => {
+    fetch('/api/partner-products')
+      .then(res => res.json())
+      .then(json => {
+        if (json.status === 'success') {
+          setPartnerProductsData(json.payload || []);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // Form Fields State matching exact blueprint specifications
   const [answers, setAnswers] = useState<QAAnswers>({
@@ -3236,6 +3276,11 @@ Moat: ${answers.moat}`;
           border-color: #005AE2;
           color: #005AE2;
         }
+        .web-ready-link:hover {
+          background-color: #F8FAFC !important;
+          border-color: #005AE2 !important;
+          color: #005AE2 !important;
+        }
 
         /* ── TABLET (768px–1024px) ── */
         @media (max-width: 1024px) and (min-width: 769px) {
@@ -3806,8 +3851,20 @@ Moat: ${answers.moat}`;
 
         {/* ── Partners Products Section ── */}
         {(() => {
-          const items = homeContent.partnerProducts?.items || PARTNER_PRODUCTS;
-          const prod = items[activeProd] || PARTNER_PRODUCTS[activeProd];
+          const items = partnerProductsData.length > 0 ? partnerProductsData : (homeContent.partnerProducts?.items || PARTNER_PRODUCTS);
+          const rawProd = items[activeProd] || (partnerProductsData.length > 0 ? partnerProductsData[activeProd] : PARTNER_PRODUCTS[activeProd]);
+          
+          // Map VHOA to NestBloq if database still returns the old VHOA name
+          const prod = {
+            ...rawProd,
+            name: rawProd.name === 'VHOA' ? 'NestBloq' : rawProd.name,
+            subtitle: rawProd.name === 'VHOA' ? 'B2B partner operations and workflow automation' : rawProd.subtitle,
+            whatWeDid: rawProd.name === 'VHOA' ? 'Designed and built the operations hub to orchestrate workflow management, delivery logistics, and service coordination for B2B partner products.' : rawProd.whatWeDid
+          };
+          
+          const resolvedStatus = prod.status || 
+            PARTNER_PRODUCTS.find(p => p.name.toLowerCase() === prod.name?.toLowerCase())?.status ||
+            (rawProd.name?.toLowerCase() === 'vhoa' ? PARTNER_PRODUCTS.find(p => p.name === 'NestBloq')?.status : null);
 
           return (
             <section className="page-section" style={{ backgroundColor: '#F8FAFC', fontFamily: "'Inter', sans-serif" }}>
@@ -3858,89 +3915,193 @@ Moat: ${answers.moat}`;
                 <div className="pp-layout">
                   {/* Left sidebar — product list */}
                   <div className="pp-sidebar">
-                    {items.map((p: any, idx: number) => (
-                      <button
-                        key={p.id || idx}
-                        onClick={() => setActiveProd(idx)}
-                        data-active={activeProd === idx ? 'true' : 'false'}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '12px',
-                          width: '100%',
-                          padding: '14px 20px',
-                          border: 'none',
-                          borderLeft: activeProd === idx ? `3px solid #005AE2` : '3px solid transparent',
-                          background: activeProd === idx ? '#FFFFFF' : 'transparent',
-                          cursor: 'pointer',
-                          textAlign: 'left',
-                          transition: 'all 0.2s ease',
-                        }}
-                      >
-                        {/* Icon box */}
-                        <div style={{
-                          width: '36px',
-                          height: '36px',
-                          borderRadius: '8px',
-                          background: activeProd === idx ? '#E6EFFF' : '#FFFFFF',
-                          color: activeProd === idx ? '#005AE2' : '#475569',
-                          border: activeProd === idx ? '1px solid #BAE6FD' : '1px solid #E5E7EB',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          flexShrink: 0,
-                          transition: 'all 0.2s ease',
-                        }}>
-                          {p.icon || PARTNER_PRODUCTS[idx]?.icon}
-                        </div>
-                        <div>
+                    {items.map((p: any, idx: number) => {
+                      const nameToRender = p.name === 'VHOA' ? 'NestBloq' : p.name;
+                      const taglineToRender = p.name === 'VHOA' ? 'Partner operations' : p.tagline;
+                      
+                      return (
+                        <button
+                          key={p.id || idx}
+                          onClick={() => setActiveProd(idx)}
+                          data-active={activeProd === idx ? 'true' : 'false'}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px',
+                            width: '100%',
+                            padding: '14px 20px',
+                            border: 'none',
+                            borderLeft: activeProd === idx ? `3px solid #005AE2` : '3px solid transparent',
+                            background: activeProd === idx ? '#FFFFFF' : 'transparent',
+                            cursor: 'pointer',
+                            textAlign: 'left',
+                            transition: 'all 0.2s ease',
+                          }}
+                        >
+                          {/* Icon box */}
                           <div style={{
-                            fontFamily: "'Inter', sans-serif",
-                            fontWeight: 700,
-                            fontSize: '0.95rem',
-                            color: activeProd === idx ? '#0F172A' : '#475569',
-                            lineHeight: 1.3,
-                            transition: 'color 0.2s',
+                            width: '36px',
+                            height: '36px',
+                            borderRadius: '8px',
+                            background: activeProd === idx ? '#E6EFFF' : '#FFFFFF',
+                            color: activeProd === idx ? '#005AE2' : '#475569',
+                            border: activeProd === idx ? '1px solid #BAE6FD' : '1px solid #E5E7EB',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexShrink: 0,
+                            transition: 'all 0.2s ease',
+                            overflow: 'hidden'
                           }}>
-                            <EditableText
-                              contentKey={`home.partnerProducts.items.${idx}.name`}
-                              value={p.name}
-                            />
+                            {renderProductIcon(p, idx)}
                           </div>
-                          <div style={{
-                            fontFamily: "'Inter', sans-serif",
-                            fontSize: '0.8rem',
-                            color: '#6B7280',
-                            fontWeight: 500,
-                            marginTop: '2px',
-                          }}>
-                            <EditableText
-                              contentKey={`home.partnerProducts.items.${idx}.tagline`}
-                              value={p.tagline}
-                            />
+                          <div>
+                            <div style={{
+                              fontFamily: "'Inter', sans-serif",
+                              fontWeight: 700,
+                              fontSize: '0.95rem',
+                              color: activeProd === idx ? '#0F172A' : '#475569',
+                              lineHeight: 1.3,
+                              transition: 'color 0.2s',
+                            }}>
+                              <EditableText
+                                contentKey={`home.partnerProducts.items.${idx}.name`}
+                                value={nameToRender}
+                              />
+                            </div>
+                            <div style={{
+                              fontFamily: "'Inter', sans-serif",
+                              fontSize: '0.8rem',
+                              color: '#6B7280',
+                              fontWeight: 500,
+                              marginTop: '2px',
+                            }}>
+                              <EditableText
+                                contentKey={`home.partnerProducts.items.${idx}.tagline`}
+                                value={taglineToRender}
+                              />
+                            </div>
                           </div>
-                        </div>
-                      </button>
-                    ))}
+                        </button>
+                      );
+                    })}
                   </div>
 
                   {/* Right detail panel */}
                   <div className="pp-content">
                     {/* Product name + subtitle */}
                     <div style={{ marginBottom: '24px' }}>
-                      <h3 className="pp-product-name" style={{
-                        fontFamily: "'Inter', sans-serif",
-                        fontSize: '2.25rem',
-                        fontWeight: 800,
-                        color: '#0F172A',
-                        letterSpacing: '-0.03em',
-                        margin: '0 0 8px',
-                      }}>
-                        <EditableText
-                          contentKey={`home.partnerProducts.items.${activeProd}.name`}
-                          value={prod.name}
-                        />
-                      </h3>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap', marginBottom: '8px' }}>
+                        <h3 className="pp-product-name" style={{
+                          fontFamily: "'Inter', sans-serif",
+                          fontSize: '2.25rem',
+                          fontWeight: 800,
+                          color: '#0F172A',
+                          letterSpacing: '-0.03em',
+                          margin: 0,
+                        }}>
+                          <EditableText
+                            contentKey={`home.partnerProducts.items.${activeProd}.name`}
+                            value={prod.name}
+                          />
+                        </h3>
+
+                        {/* Dynamic Status Badges matching layout requirements */}
+                        {resolvedStatus && (
+                          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+                            {resolvedStatus.type === 'live' && (
+                              <>
+                                <span style={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '5px',
+                                  backgroundColor: '#E6F4EA',
+                                  color: '#137333',
+                                  padding: '4px 12px',
+                                  borderRadius: '100px',
+                                  fontSize: '0.72rem',
+                                  fontWeight: 700,
+                                  fontFamily: "'Inter', sans-serif",
+                                }}>
+                                  <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3" style={{ flexShrink: 0 }}>
+                                    <polyline points="20 6 9 17 4 12" />
+                                  </svg>
+                                  Live
+                                </span>
+                                {resolvedStatus.subText && (
+                                  <a href={prod.liveUrl} target="_blank" rel="noopener noreferrer" style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '5px',
+                                    backgroundColor: '#FFFFFF',
+                                    color: '#3C4043',
+                                    border: '1.5px solid #DADCE0',
+                                    padding: '3px 12px',
+                                    borderRadius: '100px',
+                                    fontSize: '0.72rem',
+                                    fontWeight: 700,
+                                    fontFamily: "'Inter', sans-serif",
+                                    textDecoration: 'none',
+                                    cursor: 'pointer',
+                                    transition: 'border-color 0.2s, color 0.2s'
+                                  }}
+                                  className="web-ready-link"
+                                  >
+                                    <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" style={{ flexShrink: 0 }}>
+                                      <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                                      <line x1="8" y1="21" x2="16" y2="21" />
+                                      <line x1="12" y1="17" x2="12" y2="21" />
+                                    </svg>
+                                    {resolvedStatus.subText}
+                                  </a>
+                                )}
+                              </>
+                            )}
+
+                            {resolvedStatus.type === 'beta' && (
+                              <span style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '5px',
+                                backgroundColor: '#E8F0FE',
+                                color: '#1A73E8',
+                                padding: '4px 12px',
+                                borderRadius: '100px',
+                                fontSize: '0.72rem',
+                                fontWeight: 700,
+                                fontFamily: "'Inter', sans-serif",
+                              }}>
+                                <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" style={{ flexShrink: 0 }}>
+                                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                                </svg>
+                                {resolvedStatus.text}
+                              </span>
+                            )}
+
+                            {resolvedStatus.type === 'development' && (
+                              <span style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '5px',
+                                backgroundColor: '#FEF3C7',
+                                color: '#D97706',
+                                padding: '4px 12px',
+                                borderRadius: '100px',
+                                fontSize: '0.72rem',
+                                fontWeight: 700,
+                                fontFamily: "'Inter', sans-serif",
+                              }}>
+                                <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" style={{ flexShrink: 0 }}>
+                                  <circle cx="12" cy="12" r="10" />
+                                  <polyline points="12 6 12 12 16 14" />
+                                </svg>
+                                {resolvedStatus.text}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+
                       <p style={{
                         fontFamily: "'Inter', sans-serif",
                         fontSize: '1.125rem',
@@ -4033,6 +4194,26 @@ Moat: ${answers.moat}`;
                         </div>
                       ))}
                     </div>
+                    
+                    {/* Screenshots Gallery */}
+                    {rawProd.gallery_images && Array.isArray(rawProd.gallery_images) && rawProd.gallery_images.length > 0 && (
+                      <div style={{ marginBottom: '32px' }}>
+                        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6B7280', marginBottom: '12px' }}>Product Gallery / Screenshots</div>
+                        <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingBottom: '12px' }}>
+                          {rawProd.gallery_images.map((imgUrl: string, imgIdx: number) => (
+                            <img
+                              key={imgIdx}
+                              src={imgUrl}
+                              alt={`${rawProd.name} Screenshot ${imgIdx + 1}`}
+                              style={{ height: '140px', borderRadius: '8px', border: '1px solid #E2E8F0', objectFit: 'cover', cursor: 'pointer', transition: 'transform 0.2s' }}
+                              onClick={() => window.open(imgUrl, '_blank')}
+                              onMouseOver={(e: any) => e.currentTarget.style.transform = 'scale(1.05)'}
+                              onMouseOut={(e: any) => e.currentTarget.style.transform = 'scale(1)'}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
                     {/* Tech Stack */}
                     <div style={{ marginBottom: '32px' }}>
@@ -4057,14 +4238,35 @@ Moat: ${answers.moat}`;
                       </div>
                     </div>
 
-                    {/* Visit live product button */}
-                    <a href={prod.liveUrl} target="_blank" rel="noopener noreferrer" className="pp-cta-btn">
-                      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="7" y1="17" x2="17" y2="7" />
-                        <polyline points="7 7 17 7 17 17" />
-                      </svg>
-                      Visit live product
-                    </a>
+                    {/* Action CTA Button based on status */}
+                    {resolvedStatus && resolvedStatus.type === 'live' && (
+                      <a href={prod.liveUrl} target="_blank" rel="noopener noreferrer" className="pp-cta-btn">
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <line x1="7" y1="17" x2="17" y2="7" />
+                          <polyline points="7 7 17 7 17 17" />
+                        </svg>
+                        Visit live product
+                      </a>
+                    )}
+
+                    {resolvedStatus && resolvedStatus.type === 'beta' && (
+                      <div className="pp-cta-btn" style={{ background: '#F8FAFC', color: '#64748B', borderColor: '#E2E8F0', cursor: 'default' }}>
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                        </svg>
+                        Beta phase
+                      </div>
+                    )}
+
+                    {resolvedStatus && resolvedStatus.type === 'development' && (
+                      <div className="pp-cta-btn" style={{ background: '#F8FAFC', color: '#64748B', borderColor: '#E2E8F0', cursor: 'default' }}>
+                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="12" cy="12" r="10" />
+                          <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                        In development
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -4127,6 +4329,7 @@ Moat: ${answers.moat}`;
 
           </div>
         </section>
+
 
 
 
