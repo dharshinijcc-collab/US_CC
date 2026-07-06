@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Calendar, Clock, ArrowRight } from "lucide-react";
@@ -45,9 +45,31 @@ const FONT_HEADING = "'Manrope', sans-serif";
 export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
+  const [posts, setPosts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const { isAdminMode } = useAdmin();
   const { content } = useContent();
+
+  useEffect(() => {
+    const loadBlogs = async () => {
+      try {
+        const res = await fetch('/api/blogs');
+        const json = await res.json();
+        if (json.status === 'success') {
+          setPosts(json.payload || []);
+        } else {
+          setPosts(BLOG_CONFIG.posts);
+        }
+      } catch (err) {
+        console.error('Failed to fetch blogs from API:', err);
+        setPosts(BLOG_CONFIG.posts);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadBlogs();
+  }, []);
 
   // Read saved values from ContentContext (set by admin edits), fall back to hardcoded defaults
   const heroBadge   = content?.blog?.hero?.badge       || "Our Blog";
@@ -56,8 +78,7 @@ export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
   const heroSuffix  = content?.blog?.hero?.suffix      || BLOG_CONFIG.header.suffix;
   const heroDesc    = content?.blog?.hero?.description || BLOG_CONFIG.header.description;
 
-
-  const filteredBlogs = BLOG_CONFIG.posts.filter(post => {
+  const filteredBlogs = posts.filter(post => {
     const matchesFilter = activeFilter === "All" || post.category === activeFilter;
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           post.author.toLowerCase().includes(searchTerm.toLowerCase());
@@ -192,7 +213,7 @@ export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
                 onClick={() => router.push(`/blogs/${post.slug}`)}
               >
                 <div style={{ position: 'relative', height: '180px', overflow: 'hidden' }}>
-                  <img src={post.image} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img src={post.image_url || post.image} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   <div style={{ position: 'absolute', top: '12px', left: '12px', backgroundColor: COLORS.primary, padding: '3px 8px', borderRadius: '8px', fontSize: '10px', fontWeight: 800, color: COLORS.white, textTransform: 'uppercase' }}>
                     {post.category}
                   </div>
@@ -201,10 +222,14 @@ export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
                 <div style={{ padding: '24px', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                   <div style={{ display: 'flex', gap: '12px', marginBottom: '12px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: COLORS.textMuted, fontWeight: 600 }}>
-                      <Calendar size={12} color={COLORS.primary} /> {post.date}
+                      <Calendar size={12} color={COLORS.primary} /> {
+                        post.published_at 
+                          ? new Date(post.published_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+                          : post.date || 'March 1, 2025'
+                      }
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: COLORS.textMuted, fontWeight: 600 }}>
-                      <Clock size={12} color={COLORS.primary} /> {post.readTime}
+                      <Clock size={12} color={COLORS.primary} /> {post.read_time || post.readTime}
                     </div>
                   </div>
 
@@ -219,7 +244,7 @@ export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
                   <div style={{ marginTop: 'auto', paddingTop: '16px', borderTop: `1px solid ${COLORS.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <div style={{ width: '32px', height: '32px', borderRadius: '10px', backgroundColor: `${COLORS.primary}12`, color: COLORS.primary, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 800 }}>
-                        {post.author[0]}
+                        {post.author ? post.author[0] : 'U'}
                       </div>
                       <span style={{ fontSize: '14px', fontWeight: 700, color: COLORS.textBlack }}>{post.author}</span>
                     </div>

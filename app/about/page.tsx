@@ -8,17 +8,8 @@ import Footer from '@/components/Footer';
 import EditableText from '@/components/admin/EditableText';
 import { useContent } from '@/context/ContentContext';
 import Link from 'next/link';
-import type { TeamMember } from '@/types/team';
 
-// ── Hardcoded fallback data ────────────────────────────────
-const FALLBACK_TEAM: TeamMember[] = [
-  { id: '1', name: 'Asfarul Huda',   role: 'CEO & Founder', bio: 'Former Amazon Product Manager with a decade of experience building digital products at scale. Founded CrestCode in 2025 with a mission to give every founder access to world-class execution.', image_url: null, category: 'Founder',     display_order: 1, is_active: true, created_at: '', updated_at: '' },
-  { id: '2', name: 'Adam Braasch',   role: 'Partner',       bio: 'A strategic and operational partner at CrestCode, Adam brings deep expertise in building and scaling early-stage ventures from idea to market.',                                                   image_url: null, category: 'Partner',     display_order: 2, is_active: true, created_at: '', updated_at: '' },
-  { id: '3', name: 'Pranali Choubal',role: 'Partner',       bio: 'Pranali brings a sharp product and design sensibility to CrestCode, ensuring that every venture we build is not just functional — but genuinely lovable.',                                       image_url: null, category: 'Partner',     display_order: 3, is_active: true, created_at: '', updated_at: '' },
-  { id: '4', name: 'Amir Hoda',      role: 'Partner',       bio: 'A technical and business partner at CrestCode, Amir focuses on engineering strategy, delivery excellence, and helping ventures scale with confidence.',                                           image_url: null, category: 'Partner',     display_order: 4, is_active: true, created_at: '', updated_at: '' },
-  { id: '5', name: 'Fahad Siddiqui', role: 'Finance Advisor',    bio: 'Advises CrestCode and its ventures on financial strategy, investment structuring, and capital planning.',                                                                                         image_url: null, category: 'Advisor',     display_order: 5, is_active: true, created_at: '', updated_at: '' },
-  { id: '6', name: 'Dr. Faria Ali',  role: 'Healthcare Advisor', bio: 'Brings deep domain expertise in healthcare, guiding CrestCode ventures in health-adjacent product strategy and compliance.',                                                                       image_url: null, category: 'Advisor',     display_order: 6, is_active: true, created_at: '', updated_at: '' },
-];
+import type { TeamMember } from '@/types/team';
 
 function getInitials(name: string) {
   return name.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase();
@@ -28,17 +19,27 @@ export default function AboutPage() {
   const { content, loading, error } = useContent();
 
   // ── Dynamic team state ──────────────────────────────────
-  const [teamData, setTeamData] = useState<TeamMember[]>(FALLBACK_TEAM);
+  const [teamData, setTeamData] = useState<TeamMember[]>([]);
+  const [milestonesData, setMilestonesData] = useState<any[]>([]);
 
   useEffect(() => {
     fetch('/api/team')
       .then((r) => r.json())
       .then((json) => {
-        if (json.status === 'success' && json.payload?.length > 0) {
-          setTeamData(json.payload);
+        if (json.status === 'success') {
+          setTeamData(json.payload || []);
         }
       })
-      .catch(() => { /* keep fallback */ });
+      .catch(() => { /* keep empty */ });
+
+    fetch('/api/milestones')
+      .then((r) => r.json())
+      .then((json) => {
+        if (json.status === 'success') {
+          setMilestonesData(json.payload || []);
+        }
+      })
+      .catch(() => { /* keep empty */ });
   }, []);
 
   const coreTeam   = teamData.filter((m) => m.category !== 'Advisor').sort((a, b) => a.display_order - b.display_order);
@@ -455,35 +456,32 @@ export default function AboutPage() {
                 }}></div>
                 
                 <div style={{ position: 'relative', zIndex: 1 }}>
-                {[
+                {(milestonesData.length > 0 ? milestonesData : [
                   {
                     year: getContent('about.timeline.0.year', '2023'),
                     title: getContent('about.timeline.0.title', 'The Seed of an Idea'),
-                    desc: getContent('about.timeline.0.desc', 'While working as a Product Manager at Amazon, Asfarul Huda began thinking seriously about the entrepreneur journey. He saw a consistent pattern — founders with genuine ideas struggling to find partners who could actually build. The idea for a product studio that could bridge that gap began to take shape.')
+                    description: getContent('about.timeline.0.desc', 'While working as a Product Manager at Amazon, Asfarul Huda began thinking seriously about the entrepreneur journey. He saw a consistent pattern — founders with genuine ideas struggling to find partners who could actually build. The idea for a product studio that could bridge that gap began to take shape.')
                   },
                   {
                     year: getContent('about.timeline.1.year', '2024'),
                     title: getContent('about.timeline.1.title', 'The First Client — and the First Lesson'),
-                    desc: getContent('about.timeline.1.desc', 'Premier Review became CrestCode\'s first client, seeking strategic guidance as an early-stage startup. That engagement crystallized two foundational truths: founders don\'t just need builders — they need someone who will challenge them, hold them accountable, and earn their trust. Those two pillars — execution and trust — became the foundation of everything CrestCode stands for.')
+                    description: getContent('about.timeline.1.desc', 'Premier Review became CrestCode\'s first client, seeking strategic guidance as an early-stage startup. That engagement crystallized two foundational truths: founders don\'t just need builders — they need someone who will challenge them, hold them accountable, and earn their trust. Those two pillars — execution and trust — became the foundation of everything CrestCode stands for.')
                   },
                   {
                     year: getContent('about.timeline.2.year', '2025'),
                     title: getContent('about.timeline.2.title', 'CrestCode Launches'),
-                    desc: getContent('about.timeline.2.desc', 'With a clear model and a founding team in place, CrestCode USA officially launched as a venture studio — offering end-to-end product building for founders and business owners. The mission: be the partner that turns ambitious ideas and real-world problems into products people actually use.')
+                    description: getContent('about.timeline.2.desc', 'With a clear model and a founding team in place, CrestCode USA officially launched as a venture studio — offering end-to-end product building for founders and business owners. The mission: be the partner that turns ambitious ideas and real-world problems into products people actually use.')
                   },
                   {
                     year: getContent('about.timeline.3.year', 'TODAY'),
                     title: getContent('about.timeline.3.title', 'Three Products. One Studio. A Growing Portfolio.'),
-                    desc: getContent('about.timeline.3.desc', 'CrestCode now has three active products in market — Dockly, OpenCapFi, and Vhoas — alongside strategic partnerships with Premier Review and CastleGEC. The studio is growing its team, its network, and its ambition.')
+                    description: getContent('about.timeline.3.desc', 'CrestCode now has three active products in market — Dockly, OpenCapFi, and Vhoas — alongside strategic partnerships with Premier Review and CastleGEC. The studio is growing its team, its network, and its ambition.')
                   }
-                ].map((item, idx) => (
-                  <div key={idx} style={{ display: 'flex', marginBottom: idx === 3 ? '0' : '48px', alignItems: 'flex-start' }}>
+                ]).map((item, idx, arr) => (
+                  <div key={item.id || idx} style={{ display: 'flex', marginBottom: idx === arr.length - 1 ? '0' : '48px', alignItems: 'flex-start' }}>
                     {/* Left side - Year */}
                     <div style={{ width: '70px', flexShrink: 0, textAlign: 'right', paddingRight: '14px', paddingTop: '2px' }}>
-                      <EditableText 
-                        contentKey={`about.timeline.${idx}.year`}
-                        value={item.year}
-                        as="span"
+                      <span
                         style={{
                           color: 'var(--primary-blue)',
                           fontSize: '0.9rem',
@@ -491,7 +489,9 @@ export default function AboutPage() {
                           letterSpacing: '0.05em',
                           fontFamily: "'Manrope', sans-serif"
                         }}
-                      />
+                      >
+                        {item.year}
+                      </span>
                     </div>
                     
                     {/* Center - Node on line */}
@@ -508,18 +508,21 @@ export default function AboutPage() {
                     
                     {/* Right side - Content */}
                     <div style={{ flex: 1, paddingLeft: '14px', paddingTop: '2px' }}>
-                      <EditableText 
-                        contentKey={`about.timeline.${idx}.title`}
-                        value={item.title}
-                        as="h3"
-                        style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '8px' }}
-                      />
-                      <EditableText 
-                        contentKey={`about.timeline.${idx}.desc`}
-                        value={item.desc}
-                        as="p"
+                      <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '8px' }}>
+                        {item.title}
+                      </h3>
+                      {item.image_url && (
+                        <img
+                          src={item.image_url}
+                          alt={item.title}
+                          style={{ width: '100%', maxWidth: '320px', borderRadius: '8px', marginBottom: '12px', display: 'block', objectFit: 'cover' }}
+                        />
+                      )}
+                      <p
                         style={{ fontSize: '1rem', color: 'var(--text-muted)', lineHeight: 1.7, margin: 0, fontWeight: 500 }}
-                      />
+                      >
+                        {item.description}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -656,7 +659,11 @@ export default function AboutPage() {
               {coreTeam.map((member) => (
                 <div key={member.id} className="about-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                   <div className="avatar-circle">
-                    <span>{getInitials(member.name)}</span>
+                    {member.image_url ? (
+                      <img src={member.image_url} alt={member.name} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+                    ) : (
+                      <span>{getInitials(member.name)}</span>
+                    )}
                   </div>
                   <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '4px' }}>
                     {member.name}
@@ -707,7 +714,11 @@ export default function AboutPage() {
               {advisors.map((adv) => (
                 <div key={adv.id} className="about-card" style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', background: 'var(--white)' }}>
                   <div className="avatar-circle" style={{ margin: 0, flexShrink: 0 }}>
-                    <span>{getInitials(adv.name)}</span>
+                    {adv.image_url ? (
+                      <img src={adv.image_url} alt={adv.name} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+                    ) : (
+                      <span>{getInitials(adv.name)}</span>
+                    )}
                   </div>
                   <div>
                     <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-black)', marginBottom: '4px' }}>
@@ -913,6 +924,7 @@ export default function AboutPage() {
         </section>
 
       </div>
+
 
       <Footer />
     </>

@@ -12,6 +12,7 @@ import localConfig from '@/shared/config.json';
 import GlobalCursorGlow from '@/components/effects/GlobalCursorGlow';
 import EditableText from '@/components/admin/EditableText';
 import EditableImage from '@/components/admin/EditableImage';
+
 import SpotlightCursor from '@/components/effects/SpotlightCursor';
 import BorderBeam from '@/components/effects/BorderBeam';
 import CountUp from '@/components/effects/CountUp';
@@ -323,6 +324,19 @@ export default function LandingPage() {
   const [outcomeSubmitted, setOutcomeSubmitted] = useState<boolean>(false);
   const [outcomeForm, setOutcomeForm] = useState({ launched: 'no', monthly_revenue: '0', customers: '0', funding: 'none' });
   const [loadingStepText, setLoadingStepText] = useState('Extracting business signals...');
+  const [partnerProductsData, setPartnerProductsData] = useState<any[]>([]);
+
+  // Fetch partner products from API
+  useEffect(() => {
+    fetch('/api/partner-products')
+      .then(res => res.json())
+      .then(json => {
+        if (json.status === 'success') {
+          setPartnerProductsData(json.payload || []);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // Form Fields State matching exact blueprint specifications
   const [answers, setAnswers] = useState<QAAnswers>({
@@ -3837,8 +3851,8 @@ Moat: ${answers.moat}`;
 
         {/* ── Partners Products Section ── */}
         {(() => {
-          const items = homeContent.partnerProducts?.items || PARTNER_PRODUCTS;
-          const rawProd = items[activeProd] || PARTNER_PRODUCTS[activeProd];
+          const items = partnerProductsData.length > 0 ? partnerProductsData : (homeContent.partnerProducts?.items || PARTNER_PRODUCTS);
+          const rawProd = items[activeProd] || (partnerProductsData.length > 0 ? partnerProductsData[activeProd] : PARTNER_PRODUCTS[activeProd]);
           
           // Map VHOA to NestBloq if database still returns the old VHOA name
           const prod = {
@@ -4180,6 +4194,26 @@ Moat: ${answers.moat}`;
                         </div>
                       ))}
                     </div>
+                    
+                    {/* Screenshots Gallery */}
+                    {rawProd.gallery_images && Array.isArray(rawProd.gallery_images) && rawProd.gallery_images.length > 0 && (
+                      <div style={{ marginBottom: '32px' }}>
+                        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6B7280', marginBottom: '12px' }}>Product Gallery / Screenshots</div>
+                        <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingBottom: '12px' }}>
+                          {rawProd.gallery_images.map((imgUrl: string, imgIdx: number) => (
+                            <img
+                              key={imgIdx}
+                              src={imgUrl}
+                              alt={`${rawProd.name} Screenshot ${imgIdx + 1}`}
+                              style={{ height: '140px', borderRadius: '8px', border: '1px solid #E2E8F0', objectFit: 'cover', cursor: 'pointer', transition: 'transform 0.2s' }}
+                              onClick={() => window.open(imgUrl, '_blank')}
+                              onMouseOver={(e: any) => e.currentTarget.style.transform = 'scale(1.05)'}
+                              onMouseOut={(e: any) => e.currentTarget.style.transform = 'scale(1)'}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
                     {/* Tech Stack */}
                     <div style={{ marginBottom: '32px' }}>
@@ -4295,6 +4329,7 @@ Moat: ${answers.moat}`;
 
           </div>
         </section>
+
 
 
 

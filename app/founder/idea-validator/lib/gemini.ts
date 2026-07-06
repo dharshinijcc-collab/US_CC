@@ -211,7 +211,8 @@ export async function generateNarrative(
   },
   dimensions: Record<string, any>,
   redFlags: any[],
-  apiKey: string | undefined
+  apiKey: string | undefined,
+  customPrompt?: string
 ): Promise<ScoringResponse> {
   const useMockAI = process.env.USE_MOCK_AI === 'true' || !apiKey;
 
@@ -223,7 +224,7 @@ export async function generateNarrative(
   try {
     const ai = new GoogleGenAI({ apiKey: apiKey! });
 
-    const systemPrompt = `You are an expert venture capital investment analyst writing a premium, investor-grade startup due diligence report.
+    const systemPrompt = customPrompt || `You are an expert venture capital investment analyst writing a premium, investor-grade startup due diligence report.
 Your role is to write narrative explanations, risk mitigation plans, comparable startup analyses, and investor memos that strictly align with the pre-computed scores and signals.
 You must NOT change or contradict any score.
 

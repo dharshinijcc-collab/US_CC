@@ -2,18 +2,38 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '../services/supabase';
 import jwt from 'jsonwebtoken';
 
-const G_SECRET_KEY = process.env.G_SECRET_KEY || 'default_secret_key';
+const G_SECRET_KEY = process.env.G_SECRET_KEY;
 
-// Helper to verify JWT token
-function verifyToken(req: NextRequest) {
+async function verifyToken(req: NextRequest): Promise<boolean> {
+  if (!G_SECRET_KEY) {
+    console.error('Server configuration error: G_SECRET_KEY is missing');
+    return false;
+  }
   try {
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    let token = req.cookies.get('admin-token')?.value || '';
+    if (!token) {
+      const authHeader = req.headers.get('Authorization');
+      if (authHeader && authHeader.startsWith('Bearer ')) {
+        token = authHeader.split(' ')[1];
+      }
+    }
+    if (!token) return false;
+    const decoded = jwt.verify(token, G_SECRET_KEY) as any;
+    if (!decoded || !decoded.email) return false;
+
+    // Direct check against admin_users table in Supabase
+    if (!supabaseAdmin) return false;
+    const { data, error } = await supabaseAdmin
+      .from('admin_users')
+      .select('id')
+      .eq('email', decoded.email)
+      .maybeSingle();
+
+    if (error || !data) {
+      console.warn(`Admin verification failed in content helper for email: ${decoded.email}`);
       return false;
     }
-    const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, G_SECRET_KEY);
-    return !!decoded;
+    return true;
   } catch (err) {
     console.error('JWT verification failed:', err);
     return false;
@@ -54,7 +74,7 @@ export async function getContentHandler(req: NextRequest) {
 export async function updateContentHandler(req: NextRequest) {
   try {
     // 1. Verify token
-    if (!verifyToken(req)) {
+    if (!await verifyToken(req)) {
       return NextResponse.json({ status: 'error', payload: 'Unauthorized' }, { status: 401 });
     }
 

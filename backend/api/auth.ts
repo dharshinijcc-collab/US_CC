@@ -3,10 +3,13 @@ import { supabaseAdmin } from '../services/supabase';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-const G_SECRET_KEY = process.env.G_SECRET_KEY || 'default_secret_key';
+const G_SECRET_KEY = process.env.G_SECRET_KEY;
 
 export async function adminLoginHandler(req: NextRequest) {
   try {
+    if (!G_SECRET_KEY) {
+      return NextResponse.json({ status: 'error', payload: 'G_SECRET_KEY configuration is missing on the server.' }, { status: 500 });
+    }
     const { email, password } = await req.json();
 
     if (!email || !password) {
@@ -42,13 +45,22 @@ export async function adminLoginHandler(req: NextRequest) {
     // 3. Generate JWT access token
     const token = jwt.sign({ email: data.email }, G_SECRET_KEY, { expiresIn: '24h' });
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       status: 'success',
       payload: {
-        user: { email: data.email, id: data.id },
-        token: token
+        user: { email: data.email, id: data.id }
       }
     });
+
+    response.cookies.set('admin-token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24, // 24 hours
+      path: '/'
+    });
+
+    return response;
   } catch (err: any) {
     console.error('admin-login API error:', err);
     return NextResponse.json({ status: 'error', payload: err.message }, { status: 500 });
