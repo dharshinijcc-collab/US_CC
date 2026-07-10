@@ -37,6 +37,25 @@ export async function submitContactHandler(req: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
+    // 1.1 Insert into unified submissions table
+    try {
+      await supabaseAdmin
+        .from('submissions')
+        .insert([{
+          form_type: 'contact',
+          name: firstName,
+          email: email,
+          company: company || null,
+          payload: {
+            service_interest: service,
+            project_stage: stage,
+            message: message
+          }
+        }]);
+    } catch (subErr) {
+      console.error('Failed to log contact form in unified submissions:', subErr);
+    }
+
     // 2. Send confirmation email to user
     try {
       await resend.emails.send({

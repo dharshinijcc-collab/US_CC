@@ -21,7 +21,8 @@ import { useInView } from 'framer-motion';
 import { API_URL } from '@/services/api';
 import { 
   User, Building, Lightbulb, Compass, Zap, Users, TrendingUp, Cpu, Globe, Brain, Home,
-  ArrowLeft, ArrowRight, Sparkles, Check, X, AlertTriangle, Info, RefreshCw, ChevronRight 
+  ArrowLeft, ArrowRight, Sparkles, Check, X, AlertTriangle, Info, RefreshCw, ChevronRight,
+  Code2, Ban, History, Sprout, Briefcase, DollarSign, Layers, Palette
 } from 'lucide-react';
 import { QAAnswers, ScoringResponse, DIMENSION_META, TRIAGE_CONFIG } from './idea-validator/types/scoring';
 
@@ -868,6 +869,102 @@ Moat: ${answers.moat}`;
     }
   };
   const PAGE_STYLES = String.raw`
+        /* Clean, professional radio pills grid */
+        .radio-pills-row {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+          grid-auto-rows: 1fr;
+          gap: 12px;
+          width: 100%;
+        }
+        .radio-pill-card {
+          padding: 16px;
+          border-radius: 12px;
+          border: 1px solid #E2E8F0;
+          background: #FFFFFF;
+          cursor: pointer;
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          text-align: left;
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+          box-sizing: border-box;
+        }
+        .radio-pill-card:hover {
+          border-color: #CBD5E1;
+          transform: translateY(-1px);
+        }
+        .radio-pill-card.active {
+          border-color: #005AE2;
+          border-width: 2px;
+          background-color: rgba(0, 90, 226, 0.02);
+          box-shadow: 0 4px 12px rgba(0, 90, 226, 0.06);
+        }
+        .radio-pill-title {
+          font-weight: 700;
+          font-size: 0.875rem;
+          color: #0F172A;
+          transition: color 0.2s;
+        }
+        .radio-pill-card.active .radio-pill-title {
+          color: #005AE2;
+        }
+        .radio-pill-desc {
+          font-size: 0.75rem;
+          color: #64748B;
+          margin-top: 4px;
+          line-height: 1.3;
+        }
+
+        /* Toggle Button Group & Grid */
+        .toggle-btn-group {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+          grid-auto-rows: 1fr;
+          gap: 12px;
+          width: 100%;
+        }
+        .toggle-btn {
+          padding: 14px 20px;
+          border-radius: 12px;
+          border: 1px solid #E2E8F0;
+          background: #FFFFFF;
+          font-weight: 700;
+          font-size: 0.875rem;
+          cursor: pointer;
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          color: #334155;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+          height: 100%;
+          min-height: 50px;
+          outline: none;
+          box-sizing: border-box;
+        }
+        .toggle-btn:hover {
+          border-color: #CBD5E1;
+          background: #FAFAFA;
+        }
+        .toggle-btn.active {
+          background-color: rgba(0, 90, 226, 0.04) !important;
+          border-color: #005AE2 !important;
+          border-width: 2px !important;
+          color: #005AE2 !important;
+          box-shadow: 0 4px 12px rgba(0, 90, 226, 0.08);
+        }
+        .toggle-btn svg {
+          color: #64748B;
+          transition: color 0.2s;
+          flex-shrink: 0;
+        }
+        .toggle-btn.active svg {
+          color: #005AE2 !important;
+        }
+
         @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
@@ -1903,14 +2000,7 @@ Moat: ${answers.moat}`;
           font-size: 0.7rem !important;
           line-height: 1.2 !important;
         }
-        .step-modal-wizard .toggle-btn-group {
-          gap: 8px !important;
-        }
-        .step-modal-wizard .toggle-btn {
-          padding: 8px 14px !important;
-          font-size: 0.85rem !important;
-          border-radius: 8px !important;
-        }
+
         .step-modal-wizard .pain-btn {
           height: 32px !important;
           font-size: 0.85rem !important;
@@ -3855,11 +3945,18 @@ Moat: ${answers.moat}`;
           const rawProd = items[activeProd] || (partnerProductsData.length > 0 ? partnerProductsData[activeProd] : PARTNER_PRODUCTS[activeProd]);
           
           // Map VHOA to NestBloq if database still returns the old VHOA name
+          const nameToRender = rawProd.name === 'VHOA' ? 'NestBloq' : rawProd.name;
           const prod = {
             ...rawProd,
-            name: rawProd.name === 'VHOA' ? 'NestBloq' : rawProd.name,
-            subtitle: rawProd.name === 'VHOA' ? 'B2B partner operations and workflow automation' : rawProd.subtitle,
-            whatWeDid: rawProd.name === 'VHOA' ? 'Designed and built the operations hub to orchestrate workflow management, delivery logistics, and service coordination for B2B partner products.' : rawProd.whatWeDid
+            name: nameToRender,
+            subtitle: rawProd.name === 'VHOA' ? 'B2B partner operations and workflow automation' : (rawProd.subtitle || rawProd.tagline),
+            whatWeDid: rawProd.name === 'VHOA' 
+              ? 'Designed and built the operations hub to orchestrate workflow management, delivery logistics, and service coordination for B2B partner products.' 
+              : (rawProd.whatWeDid || rawProd.what_we_did),
+            team: rawProd.team || rawProd.team_size,
+            stack: rawProd.stack || rawProd.tech_stack,
+            liveUrl: rawProd.liveUrl || rawProd.website_url,
+            features: (rawProd.features || []).map((f: any) => typeof f === 'string' ? { text: f } : f),
           };
           
           const resolvedStatus = prod.status || 
@@ -4150,25 +4247,30 @@ Moat: ${answers.moat}`;
                     <div style={{ marginBottom: '28px' }}>
                       <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6B7280', marginBottom: '12px' }}>Key Features</div>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                        {(prod.features || []).map((f: any, i: number) => (
-                          <span key={i} style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '6px',
-                            background: '#F1F5F9',
-                            borderRadius: '8px',
-                            padding: '8px 16px',
-                            fontSize: '0.875rem',
-                            color: '#334155',
-                            fontWeight: 600,
-                          }}>
-                            {f.icon || PARTNER_PRODUCTS[activeProd]?.features[i]?.icon}
-                            <EditableText
-                              contentKey={`home.partnerProducts.items.${activeProd}.features.${i}.text`}
-                              value={f.text}
-                            />
-                          </span>
-                        ))}
+                        {(prod.features || []).map((f: any, i: number) => {
+                          const matchedFallbackProduct = PARTNER_PRODUCTS.find(p => p.name.toLowerCase() === prod.name?.toLowerCase());
+                          const fallbackIcon = matchedFallbackProduct?.features?.[i]?.icon;
+
+                          return (
+                            <span key={i} style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '6px',
+                              background: '#F1F5F9',
+                              borderRadius: '8px',
+                              padding: '8px 16px',
+                              fontSize: '0.875rem',
+                              color: '#334155',
+                              fontWeight: 600,
+                            }}>
+                              {f.icon || fallbackIcon}
+                              <EditableText
+                                contentKey={`home.partnerProducts.items.${activeProd}.features.${i}.text`}
+                                value={f.text}
+                              />
+                            </span>
+                          );
+                        })}
                       </div>
                     </div>
 
@@ -4780,39 +4882,75 @@ function RotatingIdeaPlaceholder({
   onIdeaChange: (value: string) => void;
 }) {
   const [exampleIndex, setExampleIndex] = useState(0);
+  const [isFocused, setIsFocused] = useState(false);
+  const [fadeState, setFadeState] = useState<'fade-in' | 'fade-out'>('fade-in');
 
   useEffect(() => {
     if (idea.trim()) return;
     const interval = setInterval(() => {
-      setExampleIndex((prev) => (prev + 1) % examples.length);
+      setFadeState('fade-out');
+      setTimeout(() => {
+        setExampleIndex((prev) => (prev + 1) % examples.length);
+        setFadeState('fade-in');
+      }, 300);
     }, 5000);
     return () => clearInterval(interval);
   }, [idea, examples.length]);
 
+  const showPlaceholder = !idea && !isFocused;
+
   return (
-    <textarea
-      id="idea"
-      name="idea"
-      className="idea-textarea"
-      style={{
-        width: '100%',
-        height: '96px',
-        border: 'none',
-        resize: 'none',
+    <div style={{ position: 'relative', width: '100%', height: '96px' }}>
+      <textarea
+        id="idea"
+        name="idea"
+        className="idea-textarea"
+        style={{
+          width: '100%',
+          height: '100%',
+          border: 'none',
+          resize: 'none',
+          padding: '16px 20px',
+          fontSize: '1.05rem',
+          fontFamily: 'inherit',
+          color: '#0A0F1C',
+          backgroundColor: 'transparent',
+          outline: 'none',
+          borderRadius: '14px',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          zIndex: 2,
+        }}
+        value={idea}
+        onChange={(e) => onIdeaChange(e.target.value)}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        disabled={isLoading}
+        maxLength={500}
+      />
+      {/* Custom animated placeholder overlay */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         padding: '16px 20px',
         fontSize: '1.05rem',
         fontFamily: 'inherit',
-        color: '#0A0F1C',
-        backgroundColor: 'transparent',
-        outline: 'none',
-        borderRadius: '14px',
-      }}
-      placeholder={examples[exampleIndex]}
-      value={idea}
-      onChange={(e) => onIdeaChange(e.target.value)}
-      disabled={isLoading}
-      maxLength={500}
-    />
+        color: '#94A3B8',
+        pointerEvents: 'none',
+        zIndex: 1,
+        opacity: showPlaceholder ? (fadeState === 'fade-in' ? 0.75 : 0) : 0,
+        transform: showPlaceholder ? (fadeState === 'fade-in' ? 'translateY(0)' : 'translateY(-6px)') : 'translateY(0)',
+        transition: 'opacity 0.3s ease, transform 0.3s ease',
+        whiteSpace: 'pre-wrap',
+        lineHeight: 1.5,
+      }}>
+        {examples[exampleIndex]}
+      </div>
+    </div>
   );
 }
 

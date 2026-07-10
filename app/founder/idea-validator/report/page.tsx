@@ -372,19 +372,19 @@ function ReportContent() {
           <title>Venture Readiness Report</title>
           <style>
             body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #0F172A; line-height: 1.6; margin: 48px; }
-            h1 { font-size: 26pt; color: #0F172A; font-weight: 800; border-bottom: 2px solid #2563EB; padding-bottom: 8px; margin-bottom: 6px; }
-            h2 { font-size: 16pt; color: #1E293B; font-weight: 800; margin-top: 32px; margin-bottom: 10px; border-left: 4px solid #2563EB; padding-left: 10px; }
-            h3 { font-size: 13pt; color: #1E293B; font-weight: 700; margin-top: 20px; margin-bottom: 8px; }
+            h1 { font-size: 26pt; color: #0F172A; font-weight: 800; border-bottom: 3px solid #005AE2; padding-bottom: 8px; margin-bottom: 6px; }
+            h2 { font-size: 16pt; color: #0F172A; font-weight: 800; margin-top: 32px; margin-bottom: 10px; border-left: 4px solid #005AE2; padding-left: 10px; }
+            h3 { font-size: 13pt; color: #0F172A; font-weight: 700; margin-top: 20px; margin-bottom: 8px; }
             p { margin: 0 0 10px 0; font-size: 11pt; }
             ul { margin: 0 0 12px 16px; } li { margin-bottom: 5px; font-size: 11pt; }
-            table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-            th { background: #F1F5F9; font-weight: bold; border: 1px solid #CBD5E1; padding: 10px; text-align: left; font-size: 10pt; }
-            td { border: 1px solid #CBD5E1; padding: 10px; font-size: 10pt; }
-            .meta { font-size: 9pt; color: #64748B; margin-bottom: 4px; }
-            .score-box { display: inline-block; background: #EFF6FF; border: 1px solid #BFDBFE; padding: 6px 14px; border-radius: 4px; font-weight: 800; font-size: 14pt; color: #1D4ED8; margin-bottom: 10px; }
+            table { width: 100%; border-collapse: collapse; margin-bottom: 24px; margin-top: 12px; }
+            th { background: #F8FAFC; font-weight: bold; border-bottom: 2px solid #CBD5E1; padding: 10px 12px; text-align: left; font-size: 9.5pt; color: #0F172A; }
+            td { border-bottom: 1px solid #E2E8F0; padding: 12px; font-size: 9.5pt; color: #334155; }
+            .meta { font-size: 9.5pt; color: #64748B; margin-bottom: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; padding: 12px 16px; border-radius: 6px; }
+            .score-box { display: inline-block; background: #F0F6FF; border: 1.5px solid #BFDBFE; padding: 8px 16px; border-radius: 8px; font-weight: 800; font-size: 14pt; color: #005AE2; margin-bottom: 12px; }
             .section { margin-bottom: 28px; }
-            .verdict { background: #F0FDF4; border-left: 4px solid #16A34A; padding: 14px 18px; margin: 16px 0; }
-            .risk-high { color: #B91C1C; } .risk-med { color: #D97706; } .risk-low { color: #0F766E; }
+            .verdict { background: #F8FAFC; border-left: 4px solid #005AE2; padding: 14px 18px; margin: 16px 0; border-radius: 0 8px 8px 0; border-top: 1px solid #E2E8F0; border-right: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0; }
+            .risk-high { color: #B91C1C; font-weight: bold; } .risk-med { color: #D97706; font-weight: bold; } .risk-low { color: #0F766E; font-weight: bold; }
           </style>
         </head>
         <body>
@@ -1171,8 +1171,8 @@ const validatorStyles = `
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  --primary-blue: #1E3A8A;
-  --accent-blue: #2563EB;
+  --primary-blue: #005AE2;
+  --accent-blue: #005AE2;
   --bg-dark: #0F172A;
   --bg-light: #F8FAFC;
   --text-black: #1E293B;
@@ -1227,7 +1227,7 @@ const validatorStyles = `
   padding-top: 90px;
   padding-bottom: 96px;
   min-height: 100vh;
-  background: var(--bg-light);
+  background: #FAFAFA;
 }
 
 .content-box {
@@ -1296,7 +1296,7 @@ const validatorStyles = `
   text-transform: uppercase;
   font-size: 0.72rem;
   font-weight: 600;
-  color: var(--accent-blue);
+  color: #005AE2;
   letter-spacing: 0.05em;
   display: block;
 }
@@ -1429,8 +1429,8 @@ const validatorStyles = `
 
 /* Left Sidebar Navigation */
 .notebook-sidebar {
-  background: var(--white);
-  border: 1px solid var(--border-light);
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
   border-radius: 8px;
   padding: 16px;
   position: sticky;
@@ -1460,14 +1460,14 @@ const validatorStyles = `
 .sidebar-item-btn {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
+  gap: 12px;
+  padding: 12px 16px;
   border: none;
   background: transparent;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   text-align: left;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
 }
 
 .sidebar-item-btn:hover {
@@ -1476,7 +1476,7 @@ const validatorStyles = `
 
 .sidebar-item-btn.active {
   background-color: #F0F6FF;
-  border-left: 3px solid var(--accent-blue) !important;
+  border-left: 3px solid #005AE2 !important;
   border-radius: 0 4px 4px 0;
 }
 
@@ -1488,7 +1488,7 @@ const validatorStyles = `
 }
 
 .sidebar-item-btn.active .cell-num {
-  color: var(--accent-blue);
+  color: #005AE2;
 }
 
 .cell-name {
@@ -1498,7 +1498,7 @@ const validatorStyles = `
 }
 
 .sidebar-item-btn.active .cell-name {
-  color: var(--accent-blue);
+  color: #005AE2;
 }
 
 /* Notebook Right Content Area */
@@ -1510,8 +1510,8 @@ const validatorStyles = `
 
 .notebook-cell-panel {
   display: none;
-  background: var(--white);
-  border: 1px solid var(--border-light);
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
   border-radius: 8px;
   overflow: hidden;
 }
@@ -1538,7 +1538,7 @@ const validatorStyles = `
   font-family: var(--mono-font);
   font-size: 0.78rem;
   font-weight: 600;
-  color: var(--accent-blue);
+  color: #005AE2;
 }
 
 .cell-out-tag {
@@ -1561,7 +1561,7 @@ const validatorStyles = `
 
 /* Notebook Score Design */
 .notebook-score-index {
-  border: 1px solid var(--border-light);
+  border: 1.5px solid #E2E8F0;
   border-radius: 6px;
   padding: 16px;
   text-align: center;
@@ -1608,7 +1608,7 @@ const validatorStyles = `
 /* Dimensions list */
 .dim-nav-item-nb {
   background-color: var(--white);
-  border: 1px solid var(--border-light);
+  border: 1.5px solid #E2E8F0;
   border-radius: 6px;
   padding: 10px 12px;
   cursor: pointer;
@@ -1619,10 +1619,10 @@ const validatorStyles = `
   margin-bottom: 8px;
 }
 
-.dim-nav-item-nb:hover { border-color: var(--accent-blue); }
+.dim-nav-item-nb:hover { border-color: #005AE2; }
 .dim-nav-item-nb.active {
   border-color: var(--border-light);
-  border-left: 3px solid var(--accent-blue) !important;
+  border-left: 3px solid #005AE2 !important;
   background-color: var(--bg-light);
 }
 
@@ -1636,13 +1636,13 @@ const validatorStyles = `
 
 .dim-progress-fill {
   height: 100%;
-  background-color: var(--accent-blue);
+  background-color: #005AE2;
   border-radius: 2px;
 }
 
 .dim-detail-panel-nb {
   background-color: var(--white);
-  border: 1px solid var(--border-light);
+  border: 1.5px solid #E2E8F0;
   border-radius: 6px;
   padding: 16px;
 }
@@ -1666,7 +1666,7 @@ const validatorStyles = `
   font-size: 0.72rem;
   font-weight: 800;
   background: #F0F6FF;
-  color: var(--accent-blue);
+  color: #005AE2;
   padding: 3px 6px;
   border-radius: 3px;
 }
@@ -1725,7 +1725,7 @@ const validatorStyles = `
 
 .actions-box {
   background-color: #F8FAFC;
-  border: 1px solid var(--border-light);
+  border: 1.5px solid #E2E8F0;
   border-radius: 4px;
   padding: 10px;
 }
@@ -1739,8 +1739,8 @@ const validatorStyles = `
 
 /* Strengths and Risks */
 .sr-card-half {
-  background: var(--white);
-  border: 1px solid var(--border-light);
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
   border-radius: 6px;
 }
 
@@ -1798,11 +1798,11 @@ const validatorStyles = `
 }
 
 .memo-tab-btn:hover { color: var(--text-black); }
-.memo-tab-btn.active { color: var(--accent-blue); border-bottom-color: var(--accent-blue); }
+.memo-tab-btn.active { color: #005AE2; border-bottom-color: #005AE2; }
 
 .memo-content-box {
-  background: var(--white);
-  border: 1px solid var(--border-light);
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
   border-radius: 6px;
 }
 
@@ -1810,7 +1810,7 @@ const validatorStyles = `
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 10px;
-  background: var(--bg-light);
+  background: #FAFAFA;
   padding: 8px 12px;
   border-radius: 4px;
 }
@@ -1825,15 +1825,15 @@ const validatorStyles = `
 
 /* Red flags */
 .red-flag-card-flat {
-  background: var(--white);
-  border: 1px solid var(--border-light);
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
   border-radius: 4px;
 }
 
 /* Risk Matrix */
 .risk-matrix-card {
-  background: var(--white);
-  border: 1px solid var(--border-light);
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
   border-radius: 4px;
 }
 
@@ -1866,14 +1866,14 @@ const validatorStyles = `
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid var(--border-light);
+  border: 1.5px solid #E2E8F0;
   border-radius: 4px;
-  background: var(--white);
+  background: #FFFFFF;
 }
 
 .roadmap-phase-card {
-  background: var(--white);
-  border: 1px solid var(--border-light);
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
   border-radius: 6px;
 }
 
@@ -1885,8 +1885,8 @@ const validatorStyles = `
 }
 
 .roadmap-step-box-flat {
-  background: var(--bg-light);
-  border: 1px solid var(--border-light);
+  background: #FAFAFA;
+  border: 1.5px solid #E2E8F0;
   border-radius: 4px;
 }
 
@@ -1903,7 +1903,7 @@ const validatorStyles = `
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background-color: var(--accent-blue);
+  background-color: #005AE2;
   color: var(--white);
   padding: 10px 18px;
   border-radius: 4px;
@@ -1925,7 +1925,7 @@ const validatorStyles = `
   gap: 6px;
   background-color: var(--white);
   color: var(--text-black);
-  border: 1px solid var(--border-light);
+  border: 1.5px solid #E2E8F0;
   padding: 10px 18px;
   border-radius: 4px;
   font-weight: 700;
