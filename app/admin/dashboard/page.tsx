@@ -3,36 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  Home, BookOpen, Layers, Users, Star, Handshake, Briefcase, FileText, HelpCircle,
-  LogOut, Plus, Trash2, Edit, Save, ArrowUp, ArrowDown, Upload, X, Check, AlertTriangle, Search, Filter, Sliders, Settings
+  Home, BookOpen, Layers, Users, Star, Handshake, Briefcase, HelpCircle,
+  LogOut, Plus, Trash2, Edit, Save, ArrowUp, ArrowDown, Upload, X, Check, AlertTriangle, Search, Filter, Sliders, Settings,
+  Inbox
 } from 'lucide-react';
 import type { TeamMember } from '@/types/team';
+import SubmissionManagement from '@/components/admin/SubmissionManagement';
 
-type TabType = 'people' | 'blogs' | 'blog_authors' | 'faqs' | 'open_positions' | 'milestones' | 'partner_products' | 'tool_config';
-
-interface Blog {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string | null;
-  content: string;
-  category: string;
-  author: string;
-  author_id: string | null;
-  read_time: string | null;
-  image_url: string | null;
-  published_at: string | null;
-  author_details?: { name: string; avatar_url?: string | null; role?: string | null } | null;
-}
-
-interface BlogAuthor {
-  id: string;
-  name: string;
-  role: string;
-  avatar_url: string | null;
-  bio: string | null;
-  is_active: boolean;
-}
+type TabType = 'people' | 'faqs' | 'open_positions' | 'milestones' | 'partner_products' | 'tool_config' | 'submissions';
 
 interface FAQ {
   id: string;
@@ -98,8 +76,7 @@ export default function AdminDashboardPage() {
   // Database models
   const [contentConfig, setContentConfig] = useState<any>(null);
   const [team, setTeam] = useState<TeamMember[]>([]);
-  const [blogs, setBlogs] = useState<Blog[]>([]);
-  const [blogAuthors, setBlogAuthors] = useState<BlogAuthor[]>([]);
+
   const [faqs, setFaqs] = useState<FAQ[]>([]);
   const [openPositions, setOpenPositions] = useState<OpenPosition[]>([]);
   const [milestones, setMilestones] = useState<Milestone[]>([]);
@@ -133,9 +110,7 @@ export default function AdminDashboardPage() {
   const [editingProduct, setEditingProduct] = useState<Partial<PartnerProduct> | null>(null);
   const [productSearch, setProductSearch] = useState('');
 
-  // Blog Authors State
-  const [authorModalOpen, setAuthorModalOpen] = useState(false);
-  const [editingAuthor, setEditingAuthor] = useState<Partial<BlogAuthor> | null>(null);
+
 
   // Global Search State
   const [globalSearchKeyword, setGlobalSearchKeyword] = useState('');
@@ -156,10 +131,7 @@ export default function AdminDashboardPage() {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string; permanent: boolean } | null>(null);
 
-  // Blog Modals
-  const [blogModalOpen, setBlogModalOpen] = useState(false);
-  const [editingBlog, setEditingBlog] = useState<Partial<Blog> | null>(null);
-  const [blogsSubTab, setBlogsSubTab] = useState<'posts' | 'authors'>('posts');
+
 
   // Toast Helper
   const showToast = (type: 'success' | 'error', message: string) => {
@@ -179,39 +151,33 @@ export default function AdminDashboardPage() {
         }
         setUser({ email: authJson.user?.email || 'admin@crestcode.com' });
 
-        // Fetch configs, team, blogs, tool configs, FAQs, Positions, Milestones, Products, Authors
-        const [contentRes, teamRes, blogsRes, toolConfigRes, faqsRes, positionsRes, milestonesRes, productsRes, authorsRes] = await Promise.all([
+        // Fetch configs, team, tool configs, FAQs, Positions, Milestones, Products
+        const [contentRes, teamRes, toolConfigRes, faqsRes, positionsRes, milestonesRes, productsRes] = await Promise.all([
           fetch('/api/content'),
           fetch('/api/team?all=true'),
-          fetch('/api/blogs'),
           fetch('/api/tool-config'),
           fetch('/api/faqs?all=true'),
           fetch('/api/open-positions?all=true'),
           fetch('/api/milestones'),
-          fetch('/api/partner-products?all=true'),
-          fetch('/api/blog-authors?all=true')
+          fetch('/api/partner-products?all=true')
         ]);
 
         const contentJson = await contentRes.json();
         const teamJson = await teamRes.json();
-        const blogsJson = await blogsRes.json();
         const toolConfigJson = await toolConfigRes.json();
         const faqsJson = await faqsRes.json();
         const positionsJson = await positionsRes.json();
         const milestonesJson = await milestonesRes.json();
         const productsJson = await productsRes.json();
-        const authorsJson = await authorsRes.json();
 
         if (contentJson.status === 'success') {
           setContentConfig(contentJson.payload);
         }
         setTeam(teamJson.payload || []);
-        setBlogs(blogsJson.payload || []);
         setFaqs(faqsJson.payload || []);
         setOpenPositions(positionsJson.payload || []);
         setMilestones(milestonesJson.payload || []);
         setPartnerProducts(productsJson.payload || []);
-        setBlogAuthors(authorsJson.payload || []);
 
         if (toolConfigJson.status === 'success' && toolConfigJson.payload) {
           setToolConfigs(toolConfigJson.payload);
@@ -226,13 +192,7 @@ export default function AdminDashboardPage() {
           setActiveTab(queryTab);
           
           if (editId) {
-            if (queryTab === 'blogs') {
-              const matchedBlog = (blogsJson.payload || []).find((b: any) => b.id === editId || b.slug === editId);
-              if (matchedBlog) {
-                setEditingBlog(matchedBlog);
-                setBlogModalOpen(true);
-              }
-            } else if (queryTab === 'people') {
+            if (queryTab === 'people') {
               const matchedMember = (teamJson.payload || []).find((m: any) => m.id === editId);
               if (matchedMember) {
                 setEditingMember(matchedMember);
@@ -563,33 +523,6 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // ==========================================
-  // BLOG METHODS
-  // ==========================================
-  const handleBlogFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, callback: (url: string) => void) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setImageUploading(true);
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('/api/blogs/upload', {
-        method: 'POST',
-        body: formData
-      });
-      const json = await res.json();
-      if (json.status === 'success' && json.url) {
-        callback(json.url);
-        showToast('success', 'Blog image uploaded successfully!');
-      } else {
-        showToast('error', json.error || 'Upload failed');
-      }
-    } catch (err: any) {
-      showToast('error', err.message);
-    } finally {
-      setImageUploading(false);
-    }
-  };
 
   const handlePortfolioFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, callback: (url: string) => void) => {
     const file = e.target.files?.[0];
@@ -616,144 +549,7 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const openAddBlog = () => {
-    setEditingBlog({
-      title: '', slug: '', excerpt: '', content: '',
-      category: 'Technology', author: 'CrestCode Team', author_id: '',
-      image_url: '', published_at: new Date().toISOString()
-    });
-    setBlogModalOpen(true);
-  };
 
-  const openEditBlog = (post: Blog) => {
-    setEditingBlog({ ...post });
-    setBlogModalOpen(true);
-  };
-
-  const handleSaveBlog = async () => {
-    if (!editingBlog?.title || !editingBlog?.content) {
-      showToast('error', 'Title and Content are required.');
-      return;
-    }
-    setSaveStatus('saving');
-    try {
-      const isEdit = !!editingBlog.id;
-      const url = isEdit ? `/api/blogs?id=${editingBlog.id}` : '/api/blogs';
-      const method = isEdit ? 'PUT' : 'POST';
-      const res = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editingBlog),
-      });
-      const json = await res.json();
-      if (json.status === 'success') {
-        const refresh = await fetch('/api/blogs');
-        const rJson = await refresh.json();
-        setBlogs(rJson.payload || []);
-        setBlogModalOpen(false);
-        setEditingBlog(null);
-        setSaveStatus('idle');
-        showToast('success', isEdit ? 'Blog post updated!' : 'Blog post published!');
-      } else {
-        setSaveStatus('error');
-        showToast('error', json.message || 'Saving blog failed');
-      }
-    } catch (err: any) {
-      setSaveStatus('error');
-      showToast('error', err.message);
-    }
-  };
-
-  const handleDeleteBlog = async (id: string) => {
-    if (!confirm('Are you sure you want to permanently delete this blog post?')) return;
-    setSaveStatus('saving');
-    try {
-      const res = await fetch(`/api/blogs?id=${id}`, { method: 'DELETE' });
-      const json = await res.json();
-      if (json.status === 'success') {
-        const refresh = await fetch('/api/blogs');
-        const rJson = await refresh.json();
-        setBlogs(rJson.payload || []);
-        setSaveStatus('idle');
-        showToast('success', 'Blog post deleted!');
-      } else {
-        setSaveStatus('error');
-        showToast('error', json.message || 'Deletion failed');
-      }
-    } catch (err: any) {
-      setSaveStatus('error');
-      showToast('error', err.message);
-    }
-  };
-
-  // ==========================================
-  // BLOG AUTHOR METHODS
-  // ==========================================
-  const openAddAuthor = () => {
-    setEditingAuthor({ name: '', role: '', avatar_url: '', bio: '', is_active: true });
-    setAuthorModalOpen(true);
-  };
-
-  const openEditAuthor = (author: BlogAuthor) => {
-    setEditingAuthor({ ...author });
-    setAuthorModalOpen(true);
-  };
-
-  const handleSaveAuthor = async () => {
-    if (!editingAuthor?.name || !editingAuthor?.role) {
-      showToast('error', 'Name and Role are required.');
-      return;
-    }
-    setSaveStatus('saving');
-    try {
-      const isEdit = !!editingAuthor.id;
-      const url = isEdit ? `/api/blog-authors?id=${editingAuthor.id}` : '/api/blog-authors';
-      const method = isEdit ? 'PUT' : 'POST';
-      const res = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editingAuthor),
-      });
-      const json = await res.json();
-      if (json.status === 'success') {
-        const refresh = await fetch('/api/blog-authors?all=true');
-        const rJson = await refresh.json();
-        setBlogAuthors(rJson.payload || []);
-        setAuthorModalOpen(false);
-        setEditingAuthor(null);
-        setSaveStatus('idle');
-        showToast('success', isEdit ? 'Author profile updated!' : 'Author profile created!');
-      } else {
-        setSaveStatus('error');
-        showToast('error', json.message || 'Saving author failed');
-      }
-    } catch (err: any) {
-      setSaveStatus('error');
-      showToast('error', err.message);
-    }
-  };
-
-  const handleDeleteAuthor = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this author?')) return;
-    setSaveStatus('saving');
-    try {
-      const res = await fetch(`/api/blog-authors?id=${id}`, { method: 'DELETE' });
-      const json = await res.json();
-      if (json.status === 'success') {
-        const refresh = await fetch('/api/blog-authors?all=true');
-        const rJson = await refresh.json();
-        setBlogAuthors(rJson.payload || []);
-        setSaveStatus('idle');
-        showToast('success', 'Author deleted!');
-      } else {
-        setSaveStatus('error');
-        showToast('error', json.message || 'Deletion failed');
-      }
-    } catch (err: any) {
-      setSaveStatus('error');
-      showToast('error', err.message);
-    }
-  };
 
   // ==========================================
   // FAQ METHODS
@@ -1181,7 +977,6 @@ export default function AdminDashboardPage() {
     const kw = globalSearchKeyword.toLowerCase();
 
     const matchedTeam = team.filter(m => m.name.toLowerCase().includes(kw) || m.role.toLowerCase().includes(kw) || (m.bio && m.bio.toLowerCase().includes(kw)));
-    const matchedBlogs = blogs.filter(b => b.title.toLowerCase().includes(kw) || b.content.toLowerCase().includes(kw) || b.category.toLowerCase().includes(kw));
     const matchedFaqs = faqs.filter(f => f.question.toLowerCase().includes(kw) || f.answer.toLowerCase().includes(kw) || f.category.toLowerCase().includes(kw));
     const matchedJobs = openPositions.filter(j => j.title.toLowerCase().includes(kw) || j.experience.toLowerCase().includes(kw) || j.category.toLowerCase().includes(kw));
     const matchedMilestones = milestones.filter(m => m.year.toLowerCase().includes(kw) || m.title.toLowerCase().includes(kw) || m.description.toLowerCase().includes(kw));
@@ -1189,7 +984,6 @@ export default function AdminDashboardPage() {
 
     return {
       team: matchedTeam,
-      blogs: matchedBlogs,
       faqs: matchedFaqs,
       jobs: matchedJobs,
       milestones: matchedMilestones,
@@ -1262,11 +1056,12 @@ export default function AdminDashboardPage() {
           <nav style={ds.nav}>
             <div style={ds.navDivider}>DATABASES</div>
             <SidebarButton active={activeTab === 'people'} icon={<Users size={18} />} label="People Management" onClick={() => setActiveTab('people')} />
-            {/* BLOGS HIDDEN — uncomment to restore: <SidebarButton active={activeTab === 'blogs'} icon={<FileText size={18} />} label="Blogs & Authors" onClick={() => setActiveTab('blogs')} /> */}
+
             <SidebarButton active={activeTab === 'faqs'} icon={<HelpCircle size={18} />} label="FAQs CRUD" onClick={() => setActiveTab('faqs')} />
             <SidebarButton active={activeTab === 'open_positions'} icon={<Briefcase size={18} />} label="Open Positions" onClick={() => setActiveTab('open_positions')} />
             <SidebarButton active={activeTab === 'milestones'} icon={<BookOpen size={18} />} label="Timeline Milestones" onClick={() => setActiveTab('milestones')} />
             <SidebarButton active={activeTab === 'partner_products'} icon={<Layers size={18} />} label="Partner Products" onClick={() => setActiveTab('partner_products')} />
+            <SidebarButton active={activeTab === 'submissions'} icon={<Inbox size={18} />} label="Submissions Management" onClick={() => setActiveTab('submissions')} />
             <div style={ds.navDivider}>SYSTEMS</div>
             <SidebarButton active={activeTab === 'tool_config'} icon={<Sliders size={18} />} label="Tool Configs" onClick={() => setActiveTab('tool_config')} />
           </nav>
@@ -1282,7 +1077,7 @@ export default function AdminDashboardPage() {
         <main style={ds.content}>
           <header style={ds.headerBar}>
             <h2 style={ds.tabTitle}>
-              {activeTab === 'tool_config' ? 'SYSTEM TOOL CONFIGURATIONS' : activeTab === 'open_positions' ? 'OPEN POSITIONS' : activeTab === 'partner_products' ? 'PARTNER PRODUCTS' : activeTab === 'blog_authors' ? 'BLOG AUTHORS' : `${activeTab.toUpperCase()} MANAGEMENT`}
+              {activeTab === 'tool_config' ? 'SYSTEM TOOL CONFIGURATIONS' : activeTab === 'open_positions' ? 'OPEN POSITIONS' : activeTab === 'partner_products' ? 'PARTNER PRODUCTS' : `${activeTab.toUpperCase()} MANAGEMENT`}
             </h2>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
               {/* Global Search Bar */}
@@ -1346,7 +1141,7 @@ export default function AdminDashboardPage() {
                 {(() => {
                   const results = getGlobalSearchResults();
                   if (!results) return null;
-                  const totalCount = results.team.length + results.blogs.length + results.faqs.length + results.jobs.length + results.milestones.length + results.products.length;
+                  const totalCount = results.team.length + results.faqs.length + results.jobs.length + results.milestones.length + results.products.length;
 
                   if (totalCount === 0) {
                     return <div style={{ color: '#64748B', padding: 24, textAlign: 'center' }}>No matched records found across database tables.</div>;
@@ -1372,23 +1167,7 @@ export default function AdminDashboardPage() {
                         </div>
                       )}
 
-                      {/* Matched Blogs */}
-                      {results.blogs.length > 0 && (
-                        <div>
-                          <h4 style={{ color: '#94A3B8', borderBottom: '1px solid #1E293B', paddingBottom: 4, marginBottom: 10, fontSize: 14 }}>Blog Posts ({results.blogs.length})</h4>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                            {results.blogs.map(x => (
-                              <div key={x.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#0F172A', padding: '10px 16px', borderRadius: 8 }}>
-                                <div>
-                                  <div style={{ color: '#F1F5F9', fontWeight: 600 }}>{x.title}</div>
-                                  <div style={{ color: '#64748B', fontSize: 12 }}>Category: {x.category} • {x.slug}</div>
-                                </div>
-                                <button style={ds.editBtn} onClick={() => { setActiveTab('blogs'); setGlobalSearchKeyword(''); openEditBlog(x); }}><Edit size={14} /></button>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
+
 
                       {/* Matched FAQs */}
                       {results.faqs.length > 0 && (
@@ -1951,131 +1730,7 @@ export default function AdminDashboardPage() {
               </div>
             )}
 
-            {/* BLOGS & AUTHORS UNIFIED TAB */}
-            {!globalSearchKeyword && activeTab === 'blogs' && (
-              <div>
-                {/* Sub-tab switcher */}
-                <div style={{ display: 'flex', gap: 8, marginBottom: 20, background: '#0B132B', borderRadius: 10, padding: 6, border: '1px solid #1C2541' }}>
-                  <button
-                    onClick={() => setBlogsSubTab('posts')}
-                    style={{ flex: 1, padding: '8px 16px', borderRadius: 8, border: 'none', cursor: 'pointer', fontWeight: 700, fontSize: 13, background: blogsSubTab === 'posts' ? '#3B82F6' : 'transparent', color: blogsSubTab === 'posts' ? '#fff' : '#94A3B8', transition: 'all 0.2s' }}
-                  >
-                    📝 Blog Posts ({blogs.length})
-                  </button>
-                  <button
-                    onClick={() => setBlogsSubTab('authors')}
-                    style={{ flex: 1, padding: '8px 16px', borderRadius: 8, border: 'none', cursor: 'pointer', fontWeight: 700, fontSize: 13, background: blogsSubTab === 'authors' ? '#3B82F6' : 'transparent', color: blogsSubTab === 'authors' ? '#fff' : '#94A3B8', transition: 'all 0.2s' }}
-                  >
-                    👤 Blog Authors ({blogAuthors.length})
-                  </button>
-                </div>
 
-                {/* POSTS LIST */}
-                {blogsSubTab === 'posts' && (
-                  <div style={ds.card}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                      <h3 style={ds.cardTitle}>Blog Posts</h3>
-                      <button style={ds.addButton} onClick={openAddBlog}>
-                        <Plus size={16} /> Add Post
-                      </button>
-                    </div>
-                    <div style={ds.tableContainer}>
-                      <table style={ds.table}>
-                        <thead>
-                          <tr>
-                            <th style={ds.th}>Title</th>
-                            <th style={ds.th}>Slug</th>
-                            <th style={ds.th}>Author</th>
-                            <th style={ds.th}>Category</th>
-                            <th style={ds.th}>Date</th>
-                            <th style={ds.th}>Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {blogs.map(post => (
-                            <tr key={post.id} style={ds.tr}>
-                              <td style={ds.td}>
-                                <span style={{ fontWeight: 600, fontSize: 14 }}>{post.title}</span>
-                              </td>
-                              <td style={ds.td}>
-                                <code style={{ fontSize: 12, background: '#0F172A', padding: '2px 6px', borderRadius: 4, color: '#38BDF8' }}>{post.slug}</code>
-                              </td>
-                              <td style={ds.td}>{post.author_details?.name || post.author}</td>
-                              <td style={ds.td}>{post.category}</td>
-                              <td style={ds.td}>
-                                {post.published_at ? new Date(post.published_at).toLocaleDateString() : 'Draft'}
-                              </td>
-                              <td style={ds.td}>
-                                <div style={{ display: 'flex', gap: 8 }}>
-                                  <button style={ds.editBtn} onClick={() => openEditBlog(post)}><Edit size={14} /></button>
-                                  <button style={ds.deleteBtn} onClick={() => handleDeleteBlog(post.id)}><Trash2 size={14} /></button>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                )}
-
-                {/* AUTHORS LIST */}
-                {blogsSubTab === 'authors' && (
-                  <div style={ds.card}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                      <h3 style={ds.cardTitle}>Blog Authors</h3>
-                      <button style={ds.addButton} onClick={openAddAuthor}>
-                        <Plus size={16} /> Add Author
-                      </button>
-                    </div>
-                    <div style={ds.tableContainer}>
-                      <table style={ds.table}>
-                        <thead>
-                          <tr>
-                            <th style={ds.th}>Name</th>
-                            <th style={ds.th}>Role</th>
-                            <th style={ds.th}>Bio</th>
-                            <th style={ds.th}>Status</th>
-                            <th style={ds.th}>Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {blogAuthors.map(auth => (
-                            <tr key={auth.id} style={ds.tr}>
-                              <td style={ds.td}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                                  {auth.avatar_url ? (
-                                    <img src={auth.avatar_url} alt={auth.name} style={{ width: 32, height: 32, borderRadius: '50%', objectFit: 'cover' }} />
-                                  ) : (
-                                    <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#1E293B', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#38BDF8', fontWeight: 'bold', fontSize: 12 }}>
-                                      {auth.name.substring(0, 2).toUpperCase()}
-                                    </div>
-                                  )}
-                                  <span style={{ fontWeight: 600, color: '#F1F5F9' }}>{auth.name}</span>
-                                </div>
-                              </td>
-                              <td style={ds.td}>{auth.role}</td>
-                              <td style={ds.td}><span style={{ fontSize: 13, color: '#94A3B8' }}>{auth.bio || 'No bio entered'}</span></td>
-                              <td style={ds.td}>
-                                <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 12, background: auth.is_active ? 'rgba(52, 211, 153, 0.1)' : 'rgba(100, 116, 139, 0.1)', color: auth.is_active ? '#34D399' : '#64748B' }}>
-                                  {auth.is_active ? 'Active' : 'Inactive'}
-                                </span>
-                              </td>
-                              <td style={ds.td}>
-                                <div style={{ display: 'flex', gap: 8 }}>
-                                  <button style={ds.editBtn} onClick={() => openEditAuthor(auth)}><Edit size={14} /></button>
-                                  <button style={ds.deleteBtn} onClick={() => handleDeleteAuthor(auth.id)}><Trash2 size={14} /></button>
-                                </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
 
             {/* NEW SYSTEM TOOL CONFIGURATIONS TAB */}
             {!globalSearchKeyword && activeTab === 'tool_config' && (
@@ -2582,6 +2237,10 @@ export default function AdminDashboardPage() {
               </div>
             )}
 
+            {!globalSearchKeyword && activeTab === 'submissions' && (
+              <SubmissionManagement />
+            )}
+
           </div>
         </main>
       </div>
@@ -2776,143 +2435,7 @@ export default function AdminDashboardPage() {
         </div>
       )}
 
-      {/* BLOG POST ADD/EDIT MODAL */}
-      {blogModalOpen && editingBlog && (
-        <div style={ds.overlay}>
-          <div style={{ ...ds.modalCard, maxWidth: 640 }}>
-            <div style={ds.modalHeader}>
-              <h3 style={{ margin: 0, color: '#F1F5F9' }}>
-                {editingBlog.id ? 'Edit Blog Post' : 'Add Blog Post'}
-              </h3>
-              <button style={ds.closeBtn} onClick={() => setBlogModalOpen(false)}><X size={18} /></button>
-            </div>
-            
-            <div style={ds.modalBody}>
-              <div style={ds.formGroup}>
-                <label style={ds.formLabel}>Blog Title</label>
-                <input
-                  type="text"
-                  style={ds.input}
-                  value={editingBlog.title || ''}
-                  onChange={e => setEditingBlog({ ...editingBlog, title: e.target.value })}
-                  placeholder="e.g. The Future of AI in Venture Studios"
-                />
-              </div>
 
-              <div style={ds.formGroup}>
-                <label style={ds.formLabel}>URL Slug (leave blank to auto-generate)</label>
-                <input
-                  type="text"
-                  style={ds.input}
-                  value={editingBlog.slug || ''}
-                  onChange={e => setEditingBlog({ ...editingBlog, slug: e.target.value })}
-                  placeholder="e.g. future-of-ai-venture-studios"
-                />
-              </div>
-
-              <div style={ds.formGroup}>
-                <label style={ds.formLabel}>Excerpt / Description</label>
-                <textarea
-                  style={ds.textarea}
-                  rows={2}
-                  value={editingBlog.excerpt || ''}
-                  onChange={e => setEditingBlog({ ...editingBlog, excerpt: e.target.value })}
-                  placeholder="Short elevator hook for blog cards..."
-                />
-              </div>
-
-              <div style={ds.formGroup}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                  <label style={ds.formLabel}>Body Content (Markdown / HTML)</label>
-                  <button
-                    onClick={() => setEditingBlog({ ...(editingBlog as any), _preview: !(editingBlog as any)._preview } as any)}
-                    style={{ background: '#1E293B', color: '#F1F5F9', border: 'none', borderRadius: 4, padding: '2px 8px', fontSize: 11, cursor: 'pointer' }}
-                  >
-                    {(editingBlog as any)._preview ? 'Show Editor' : 'Show Markdown Preview'}
-                  </button>
-                </div>
-                
-                {(editingBlog as any)._preview ? (
-                  <div style={{ background: '#090D16', border: '1px solid #1E293B', borderRadius: 8, padding: 16, minHeight: 200, color: '#E2E8F0', overflowY: 'auto', fontSize: 14 }}>
-                    <div style={{ fontWeight: 'bold', color: '#38BDF8', borderBottom: '1px solid #1E293B', paddingBottom: 4, marginBottom: 10 }}>Markdown Preview:</div>
-                    <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'monospace', margin: 0 }}>{editingBlog.content || '(No content to preview)'}</pre>
-                  </div>
-                ) : (
-                  <textarea
-                    style={ds.textarea}
-                    rows={10}
-                    value={editingBlog.content || ''}
-                    onChange={e => setEditingBlog({ ...editingBlog, content: e.target.value })}
-                    placeholder="# Writing content..."
-                  />
-                )}
-              </div>
-
-              <div style={{ display: 'flex', gap: 16 }}>
-                <div style={{ ...ds.formGroup, flex: 1 }}>
-                  <label style={ds.formLabel}>Author (Relational)</label>
-                  <select
-                    style={ds.input}
-                    value={editingBlog.author_id || ''}
-                    onChange={e => {
-                      const sel = blogAuthors.find(a => a.id === e.target.value);
-                      setEditingBlog({
-                        ...editingBlog,
-                        author_id: e.target.value || null,
-                        author: sel ? sel.name : ''
-                      });
-                    }}
-                  >
-                    <option value="">Select Author</option>
-                    {blogAuthors.map(auth => (
-                      <option key={auth.id} value={auth.id}>{auth.name} ({auth.role})</option>
-                    ))}
-                  </select>
-                </div>
-                <div style={{ ...ds.formGroup, flex: 1 }}>
-                  <label style={ds.formLabel}>Category</label>
-                  <input
-                    type="text"
-                    style={ds.input}
-                    value={editingBlog.category || ''}
-                    onChange={e => setEditingBlog({ ...editingBlog, category: e.target.value })}
-                  />
-                </div>
-              </div>
-
-              <div style={ds.formGroup}>
-                <label style={ds.formLabel}>Header Card Image</label>
-                <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    style={{ display: 'none' }}
-                    id="blog-img-upload"
-                    onChange={e => handleBlogFileUpload(e, url => setEditingBlog({ ...editingBlog, image_url: url }))}
-                  />
-                  <label htmlFor="blog-img-upload" style={ds.uploadLabelBtn}>
-                    <Upload size={14} /> Upload Image
-                  </label>
-                  <input
-                    type="text"
-                    style={{ ...ds.input, flex: 1 }}
-                    value={editingBlog.image_url || ''}
-                    onChange={e => setEditingBlog({ ...editingBlog, image_url: e.target.value })}
-                    placeholder="Or enter public link"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div style={ds.modalFooter}>
-              <button style={ds.cancelBtn} onClick={() => setBlogModalOpen(false)}>Cancel</button>
-              <button style={ds.saveButton} onClick={handleSaveBlog} disabled={saveStatus === 'saving' || imageUploading}>
-                {saveStatus === 'saving' ? 'Publishing...' : 'Publish Post'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* FAQ ADD/EDIT MODAL */}
       {faqModalOpen && editingFaq && (
@@ -3406,92 +2929,7 @@ export default function AdminDashboardPage() {
         </div>
       )}
 
-      {/* BLOG AUTHOR ADD/EDIT MODAL */}
-      {authorModalOpen && editingAuthor && (
-        <div style={ds.overlay}>
-          <div style={{ ...ds.modalCard, maxWidth: 540 }}>
-            <div style={ds.modalHeader}>
-              <h3 style={{ margin: 0, color: '#F1F5F9' }}>
-                {editingAuthor.id ? 'Edit Author Profile' : 'Add Author Profile'}
-              </h3>
-              <button style={ds.closeBtn} onClick={() => setAuthorModalOpen(false)}><X size={18} /></button>
-            </div>
 
-            <div style={ds.modalBody}>
-              <div style={{ display: 'flex', gap: 16 }}>
-                <div style={{ ...ds.formGroup, flex: 1 }}>
-                  <label style={ds.formLabel}>Author Name</label>
-                  <input
-                    type="text"
-                    style={ds.input}
-                    value={editingAuthor.name || ''}
-                    onChange={e => setEditingAuthor({ ...editingAuthor, name: e.target.value })}
-                  />
-                </div>
-                <div style={{ ...ds.formGroup, flex: 1 }}>
-                  <label style={ds.formLabel}>Role / Designation</label>
-                  <input
-                    type="text"
-                    style={ds.input}
-                    value={editingAuthor.role || ''}
-                    onChange={e => setEditingAuthor({ ...editingAuthor, role: e.target.value })}
-                    placeholder="e.g. principal architect"
-                  />
-                </div>
-              </div>
-
-              <div style={ds.formGroup}>
-                <label style={ds.formLabel}>Short Bio</label>
-                <textarea
-                  style={ds.textarea}
-                  rows={3}
-                  value={editingAuthor.bio || ''}
-                  onChange={e => setEditingAuthor({ ...editingAuthor, bio: e.target.value })}
-                />
-              </div>
-
-              <div style={ds.formGroup}>
-                <label style={ds.formLabel}>Profile Avatar Image</label>
-                <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    style={{ display: 'none' }}
-                    id="author-avatar-upload"
-                    onChange={e => handlePortfolioFileUpload(e, url => setEditingAuthor({ ...editingAuthor, avatar_url: url }))}
-                  />
-                  <label htmlFor="author-avatar-upload" style={ds.uploadLabelBtn}>
-                    <Upload size={14} /> Upload Avatar
-                  </label>
-                  <input
-                    type="text"
-                    style={{ ...ds.input, flex: 1 }}
-                    value={editingAuthor.avatar_url || ''}
-                    onChange={e => setEditingAuthor({ ...editingAuthor, avatar_url: e.target.value })}
-                  />
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10 }}>
-                <input
-                  type="checkbox"
-                  id="author-active-check"
-                  checked={editingAuthor.is_active ?? true}
-                  onChange={e => setEditingAuthor({ ...editingAuthor, is_active: e.target.checked })}
-                />
-                <label htmlFor="author-active-check" style={{ color: '#F1F5F9', fontSize: 13 }}>Display as active author</label>
-              </div>
-            </div>
-
-            <div style={ds.modalFooter}>
-              <button style={ds.cancelBtn} onClick={() => setAuthorModalOpen(false)}>Cancel</button>
-              <button style={ds.saveButton} onClick={handleSaveAuthor} disabled={saveStatus === 'saving' || imageUploading}>
-                {saveStatus === 'saving' ? 'Saving...' : 'Save Author'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }

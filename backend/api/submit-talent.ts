@@ -82,6 +82,25 @@ export async function submitTalentHandler(req: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
+    // 1.1 Insert into unified submissions table
+    try {
+      await supabaseAdmin
+        .from('submissions')
+        .insert([{
+          form_type: 'talent',
+          name: firstName,
+          email: email,
+          company: null,
+          payload: {
+            interest_area: finalInterest,
+            linkedin_url: linkedin,
+            resume_url: resumeUrl
+          }
+        }]);
+    } catch (subErr) {
+      console.error('Failed to log talent form in unified submissions:', subErr);
+    }
+
     // 2. Send confirmation email to user
     try {
       await resend.emails.send({

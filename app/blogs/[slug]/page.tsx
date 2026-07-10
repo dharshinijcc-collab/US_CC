@@ -18,12 +18,11 @@ export default function DynamicBlogArticlePage() {
   useEffect(() => {
     if (!slug) return;
 
-    fetch(`/api/blogs`)
+    fetch(`/api/blogs?slug=${slug}`)
       .then(res => res.json())
       .then(json => {
         if (json.status === 'success') {
-          const matched = (json.payload || []).find((b: any) => b.slug === slug);
-          setBlog(matched || null);
+          setBlog(json.payload || null);
         }
       })
       .catch(err => {

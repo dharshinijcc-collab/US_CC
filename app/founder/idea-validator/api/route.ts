@@ -198,6 +198,28 @@ export async function POST(req: NextRequest) {
 
       if (dbError) {
         console.error('⚠️ Failed to save to dd_reports:', dbError);
+      } else {
+        // Also log to the central submissions table
+        try {
+          await supabaseAdmin
+            .from('submissions')
+            .insert([{
+              form_type: 'idea',
+              name: answersWithDefaults.contact_name || 'Anonymous',
+              email: answersWithDefaults.contact_email || 'anonymous@example.com',
+              company: null,
+              payload: {
+                ideaText: ideaText,
+                overall_score: finalPayload.overall_score,
+                verdict,
+                report_id: reportId,
+                answers: answersWithDefaults
+              }
+            }]);
+          console.log('💾 Saved idea validator submission to submissions table.');
+        } catch (subErr) {
+          console.error('⚠️ Failed to log idea validator submission to submissions table:', subErr);
+        }
       }
 
       // If AI failed (meaning is_mock is true), save the idea, name, and email ID to idea_submissions

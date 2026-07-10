@@ -9,7 +9,8 @@ import Footer from '@/components/Footer';
 import EditableText from '@/components/admin/EditableText';
 import { 
   Lightbulb, TrendingUp, Users, Compass, User, 
-  ArrowLeft, ArrowRight, Sparkles, AlertTriangle, Eye, EyeOff, Lock, Mail, UserCheck
+  ArrowLeft, ArrowRight, Sparkles, AlertTriangle, Eye, EyeOff, Lock, Mail, UserCheck,
+  Code2, Ban, History, Palette, Layers, Sprout, Briefcase, Rocket, DollarSign
 } from 'lucide-react';
 import { QAAnswers } from './types/scoring';
 
@@ -454,7 +455,7 @@ Moat: ${answers.moat}`;
                   <label className="form-label" style={{ display: 'block', fontWeight: 600, color: '#334155', marginBottom: '12px', fontSize: '0.9rem' }}>
                     Validation Level
                   </label>
-                  <div className="radio-pills-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '12px' }}>
+                  <div className="radio-pills-row">
                     {[
                       { key: 'none', title: 'Concept Only', desc: 'No validation yet' },
                       { key: 'conversations', title: 'User Interviews', desc: 'Spoken with prospects' },
@@ -465,18 +466,9 @@ Moat: ${answers.moat}`;
                         key={opt.key}
                         className={`radio-pill-card ${answers.validation_level === opt.key ? 'active' : ''}`}
                         onClick={() => handleInputChange('validation_level', opt.key)}
-                        style={{
-                          padding: '14px',
-                          borderRadius: '12px',
-                          border: answers.validation_level === opt.key ? '2px solid var(--primary-blue)' : '1px solid #E2E8F0',
-                          backgroundColor: answers.validation_level === opt.key ? 'rgba(0, 90, 226, 0.02)' : '#FFFFFF',
-                          cursor: 'pointer',
-                          transition: 'all 0.2s ease',
-                          textAlign: 'left'
-                        }}
                       >
-                        <div style={{ fontWeight: 700, fontSize: '0.875rem', color: answers.validation_level === opt.key ? 'var(--primary-blue)' : '#0F172A' }}>{opt.title}</div>
-                        <div style={{ fontSize: '0.75rem', color: '#64748B', marginTop: '4px' }}>{opt.desc}</div>
+                        <div className="radio-pill-title">{opt.title}</div>
+                        <div className="radio-pill-desc">{opt.desc}</div>
                       </div>
                     ))}
                   </div>
@@ -550,7 +542,7 @@ Moat: ${answers.moat}`;
                   <label className="form-label" style={{ display: 'block', fontWeight: 600, color: '#334155', marginBottom: '8px', fontSize: '0.9rem' }}>
                     Are you a solo founder?
                   </label>
-                  <div className="toggle-btn-group" style={{ display: 'flex', gap: '12px' }}>
+                  <div className="toggle-btn-group">
                     <button 
                       type="button" 
                       className={`toggle-btn ${answers.solo_founder === true ? 'active' : ''}`}
@@ -558,35 +550,17 @@ Moat: ${answers.moat}`;
                         handleInputChange('solo_founder', true);
                         handleInputChange('has_technical_cofounder', false);
                       }}
-                      style={{
-                        flex: 1,
-                        padding: '14px',
-                        borderRadius: '12px',
-                        border: answers.solo_founder === true ? '2px solid var(--primary-blue)' : '1px solid #E2E8F0',
-                        backgroundColor: answers.solo_founder === true ? 'rgba(0, 90, 226, 0.05)' : '#FFFFFF',
-                        color: answers.solo_founder === true ? 'var(--primary-blue)' : '#334155',
-                        fontWeight: 700,
-                        cursor: 'pointer'
-                      }}
                     >
-                      👤 Solo Founder
+                      <User size={16} />
+                      <span>Solo Founder</span>
                     </button>
                     <button 
                       type="button" 
                       className={`toggle-btn ${answers.solo_founder === false ? 'active' : ''}`}
                       onClick={() => handleInputChange('solo_founder', false)}
-                      style={{
-                        flex: 1,
-                        padding: '14px',
-                        borderRadius: '12px',
-                        border: answers.solo_founder === false ? '2px solid var(--primary-blue)' : '1px solid #E2E8F0',
-                        backgroundColor: answers.solo_founder === false ? 'rgba(0, 90, 226, 0.05)' : '#FFFFFF',
-                        color: answers.solo_founder === false ? 'var(--primary-blue)' : '#334155',
-                        fontWeight: 700,
-                        cursor: 'pointer'
-                      }}
                     >
-                      👥 Co-founders / Team
+                      <Users size={16} />
+                      <span>Co-founders / Team</span>
                     </button>
                   </div>
                 </div>
@@ -596,40 +570,22 @@ Moat: ${answers.moat}`;
                     <label className="form-label" style={{ display: 'block', fontWeight: 600, color: '#334155', marginBottom: '8px', fontSize: '0.9rem' }}>
                       Is there a technical co-founder?
                     </label>
-                    <div className="toggle-btn-group" style={{ display: 'flex', gap: '12px' }}>
+                    <div className="toggle-btn-group">
                       <button 
                         type="button" 
                         className={`toggle-btn ${answers.has_technical_cofounder === true ? 'active' : ''}`}
                         onClick={() => handleInputChange('has_technical_cofounder', true)}
-                        style={{
-                          flex: 1,
-                          padding: '12px',
-                          borderRadius: '12px',
-                          border: answers.has_technical_cofounder === true ? '2px solid var(--primary-blue)' : '1px solid #E2E8F0',
-                          backgroundColor: answers.has_technical_cofounder === true ? 'rgba(0, 90, 226, 0.05)' : '#FFFFFF',
-                          color: answers.has_technical_cofounder === true ? 'var(--primary-blue)' : '#334155',
-                          fontWeight: 700,
-                          cursor: 'pointer'
-                        }}
                       >
-                        💻 Yes, they can code
+                        <Code2 size={16} />
+                        <span>Yes, they can code</span>
                       </button>
                       <button 
                         type="button" 
                         className={`toggle-btn ${answers.has_technical_cofounder === false ? 'active' : ''}`}
                         onClick={() => handleInputChange('has_technical_cofounder', false)}
-                        style={{
-                          flex: 1,
-                          padding: '12px',
-                          borderRadius: '12px',
-                          border: answers.has_technical_cofounder === false ? '2px solid var(--primary-blue)' : '1px solid #E2E8F0',
-                          backgroundColor: answers.has_technical_cofounder === false ? 'rgba(0, 90, 226, 0.05)' : '#FFFFFF',
-                          color: answers.has_technical_cofounder === false ? 'var(--primary-blue)' : '#334155',
-                          fontWeight: 700,
-                          cursor: 'pointer'
-                        }}
                       >
-                        🚫 No tech co-founder
+                        <Ban size={16} />
+                        <span>No tech co-founder</span>
                       </button>
                     </div>
                   </div>
@@ -639,29 +595,20 @@ Moat: ${answers.moat}`;
                   <label className="form-label" style={{ display: 'block', fontWeight: 600, color: '#334155', marginBottom: '8px', fontSize: '0.9rem' }}>
                     What is your personal technical background?
                   </label>
-                  <div className="toggle-btn-group" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                  <div className="toggle-btn-group">
                     {[
-                      { key: 'can_code', label: '💻 I can code' },
-                      { key: 'used_to_code', label: '⏳ I used to code' },
-                      { key: 'no', label: '🚫 Non-technical' }
+                      { key: 'can_code', label: 'I can code', icon: <Code2 size={16} /> },
+                      { key: 'used_to_code', label: 'I used to code', icon: <History size={16} /> },
+                      { key: 'no', label: 'Non-technical', icon: <Ban size={16} /> }
                     ].map(opt => (
                       <button 
                         key={opt.key}
                         type="button" 
                         className={`toggle-btn ${answers.technical_background === opt.key ? 'active' : ''}`}
                         onClick={() => handleInputChange('technical_background', opt.key)}
-                        style={{
-                          flex: '1 1 120px',
-                          padding: '12px',
-                          borderRadius: '12px',
-                          border: answers.technical_background === opt.key ? '2px solid var(--primary-blue)' : '1px solid #E2E8F0',
-                          backgroundColor: answers.technical_background === opt.key ? 'rgba(0, 90, 226, 0.05)' : '#FFFFFF',
-                          color: answers.technical_background === opt.key ? 'var(--primary-blue)' : '#334155',
-                          fontWeight: 700,
-                          cursor: 'pointer'
-                        }}
                       >
-                        {opt.label}
+                        {opt.icon}
+                        <span>{opt.label}</span>
                       </button>
                     ))}
                   </div>
@@ -678,29 +625,21 @@ Moat: ${answers.moat}`;
                   <label className="form-label" style={{ display: 'block', fontWeight: 600, color: '#334155', marginBottom: '8px', fontSize: '0.9rem' }}>
                     Current Development Stage
                   </label>
-                  <div className="toggle-btn-group" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '12px' }}>
+                  <div className="toggle-btn-group">
                     {[
-                      { key: 'forming', label: '💡 Idea Only' },
-                      { key: 'ux_design', label: '🎨 Design Stage' },
-                      { key: 'prototype', label: '⚙️ Mock/Prototype' },
-                      { key: 'mvp', label: '🚀 Active MVP' }
+                      { key: 'forming', label: 'Idea Only', icon: <Lightbulb size={16} /> },
+                      { key: 'ux_design', label: 'Design Stage', icon: <Palette size={16} /> },
+                      { key: 'prototype', label: 'Mock/Prototype', icon: <Layers size={16} /> },
+                      { key: 'mvp', label: 'Active MVP', icon: <Rocket size={16} /> }
                     ].map(opt => (
                       <button 
                         key={opt.key}
                         type="button" 
                         className={`toggle-btn ${answers.current_stage === opt.key ? 'active' : ''}`}
                         onClick={() => handleInputChange('current_stage', opt.key)}
-                        style={{
-                          padding: '12px',
-                          borderRadius: '12px',
-                          border: answers.current_stage === opt.key ? '2px solid var(--primary-blue)' : '1px solid #E2E8F0',
-                          backgroundColor: answers.current_stage === opt.key ? 'rgba(0, 90, 226, 0.05)' : '#FFFFFF',
-                          color: answers.current_stage === opt.key ? 'var(--primary-blue)' : '#334155',
-                          fontWeight: 700,
-                          cursor: 'pointer'
-                        }}
                       >
-                        {opt.label}
+                        {opt.icon}
+                        <span>{opt.label}</span>
                       </button>
                     ))}
                   </div>
@@ -744,29 +683,20 @@ Moat: ${answers.moat}`;
                   <label className="form-label" style={{ display: 'block', fontWeight: 600, color: '#334155', marginBottom: '8px', fontSize: '0.9rem' }}>
                     Funding Stage
                   </label>
-                  <div className="toggle-btn-group" style={{ display: 'flex', gap: '12px' }}>
+                  <div className="toggle-btn-group">
                     {[
-                      { key: 'bootstrapped', label: '🌱 Bootstrapped' },
-                      { key: 'raising', label: '📈 Raising Seed' },
-                      { key: 'raised', label: '💰 Funded' }
+                      { key: 'bootstrapped', label: 'Bootstrapped', icon: <Sprout size={16} /> },
+                      { key: 'raising', label: 'Raising Seed', icon: <TrendingUp size={16} /> },
+                      { key: 'raised', label: 'Funded', icon: <DollarSign size={16} /> }
                     ].map(opt => (
                       <button 
                         key={opt.key}
                         type="button" 
                         className={`toggle-btn ${answers.funding_status === opt.key ? 'active' : ''}`}
                         onClick={() => handleInputChange('funding_status', opt.key)}
-                        style={{
-                          flex: 1,
-                          padding: '12px',
-                          borderRadius: '12px',
-                          border: answers.funding_status === opt.key ? '2px solid var(--primary-blue)' : '1px solid #E2E8F0',
-                          backgroundColor: answers.funding_status === opt.key ? 'rgba(0, 90, 226, 0.05)' : '#FFFFFF',
-                          color: answers.funding_status === opt.key ? 'var(--primary-blue)' : '#334155',
-                          fontWeight: 700,
-                          cursor: 'pointer'
-                        }}
                       >
-                        {opt.label}
+                        {opt.icon}
+                        <span>{opt.label}</span>
                       </button>
                     ))}
                   </div>
@@ -1232,39 +1162,108 @@ h1, h2, h3, h4, h5, h6, .manrope-font {
   min-height: 110px;
 }
 
-/* Toggle Button Group */
-.toggle-btn-group {
-  display: flex;
+/* Clean, professional radio pills grid */
+.radio-pills-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-auto-rows: 1fr;
   gap: 12px;
-  align-items: center;
-  flex-wrap: wrap;
+}
+
+.radio-pill-card {
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.radio-pill-card:hover {
+  border-color: #CBD5E1;
+  transform: translateY(-1px);
+}
+
+.radio-pill-card.active {
+  border-color: #005AE2;
+  border-width: 2px;
+  background-color: rgba(0, 90, 226, 0.02);
+  box-shadow: 0 4px 12px rgba(0, 90, 226, 0.06);
+}
+
+.radio-pill-title {
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: #0F172A;
+  transition: color 0.2s;
+}
+
+.radio-pill-card.active .radio-pill-title {
+  color: #005AE2;
+}
+
+.radio-pill-desc {
+  font-size: 0.75rem;
+  color: #64748B;
+  margin-top: 4px;
+  line-height: 1.3;
+}
+
+/* Toggle Button Group & Grid */
+.toggle-btn-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 12px;
+  width: 100%;
 }
 
 .toggle-btn {
-  padding: 12px 20px;
-  border-radius: 10px;
-  border: 1px solid var(--border-light);
-  background: #FAFAFA;
-  font-weight: 600;
-  font-size: 0.9rem;
+  padding: 14px 20px;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+  background: #FFFFFF;
+  font-weight: 700;
+  font-size: 0.875rem;
   cursor: pointer;
-  transition: all 0.2s;
-  text-align: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  flex-grow: 1;
+  color: #334155;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  height: 100%;
+  min-height: 50px;
+  outline: none;
 }
 
 .toggle-btn:hover {
   border-color: #CBD5E1;
+  background: #FAFAFA;
 }
 
 .toggle-btn.active {
-  background-color: #E6EFFF;
-  border-color: var(--primary-blue);
-  color: var(--primary-blue);
+  background-color: rgba(0, 90, 226, 0.04) !important;
+  border-color: #005AE2 !important;
+  border-width: 2px !important;
+  color: #005AE2 !important;
+  box-shadow: 0 4px 12px rgba(0, 90, 226, 0.08);
+}
+
+.toggle-btn svg {
+  color: #64748B;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+
+.toggle-btn.active svg {
+  color: #005AE2 !important;
 }
 
 /* 1 to 10 Button Group for Pain Score */

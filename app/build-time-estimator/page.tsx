@@ -9,7 +9,14 @@ import { useContent } from '@/context/ContentContext';
 import {
   ArrowRight, ArrowLeft, CheckCircle, Clock, Users, Zap, AlertTriangle,
   BarChart2, Layers, Cpu, Package, ChevronRight, ExternalLink, CalendarDays,
-  Shield, Star, Rocket
+  Shield, Star, Rocket,
+  
+  // Clean, professional, minimalistic Lucide icons
+  Home, Globe, ShoppingCart, Smartphone, Bot, Wrench, Building2, Sparkles,
+  Lightbulb, FileText, Layout, Palette, Code2, Database, KeyRound, Lock,
+  User, LayoutDashboard, ClipboardList, CreditCard, Calendar, Search, Bell,
+  MessageSquare, Paperclip, Handshake, Ban, Brain, Mail, Cloud, Plug, ShieldCheck,
+  Check, Play, Settings
 } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -23,7 +30,7 @@ interface Answers {
   assets: string[];
   platforms: string[];
   features: string[];
-  aiLevel: AILevel | null;
+  aiLevel: AILevel[];
   integrations: string[];
   teamPref: TeamPref | null;
 }
@@ -43,75 +50,75 @@ interface EstimateResult {
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
-const PRODUCT_TYPES: { key: ProductType; label: string; icon: string; desc: string }[] = [
-  { key: 'landing',    label: 'Landing Page',        icon: '🏠', desc: 'Single page for marketing or lead capture' },
-  { key: 'marketing',  label: 'Marketing Website',   icon: '🌐', desc: 'Multi-page brand & content site' },
-  { key: 'saas',       label: 'SaaS Platform',        icon: '⚡', desc: 'Web app with subscriptions & dashboards' },
-  { key: 'marketplace',label: 'Marketplace',          icon: '🛒', desc: 'Buyer/seller transaction platform' },
-  { key: 'mobile',     label: 'Mobile App',           icon: '📱', desc: 'iOS and/or Android native app' },
-  { key: 'ai_product', label: 'AI Product',           icon: '🤖', desc: 'AI-first product or LLM-powered tool' },
-  { key: 'internal',   label: 'Internal Tool',        icon: '🔧', desc: 'Internal ops, admin or workflow tool' },
-  { key: 'enterprise', label: 'Enterprise Platform',  icon: '🏢', desc: 'Complex multi-tenant enterprise system' },
-  { key: 'other',      label: 'Other',                icon: '✨', desc: 'Custom or hybrid product' },
+const PRODUCT_TYPES: { key: ProductType; label: string; icon: React.ReactNode; desc: string }[] = [
+  { key: 'landing',    label: 'Landing Page',        icon: <Home size={20} />, desc: 'Single page for marketing or lead capture' },
+  { key: 'marketing',  label: 'Marketing Website',   icon: <Globe size={20} />, desc: 'Multi-page brand & content site' },
+  { key: 'saas',       label: 'SaaS Platform',        icon: <Zap size={20} />, desc: 'Web app with subscriptions & dashboards' },
+  { key: 'marketplace',label: 'Marketplace',          icon: <ShoppingCart size={20} />, desc: 'Buyer/seller transaction platform' },
+  { key: 'mobile',     label: 'Mobile App',           icon: <Smartphone size={20} />, desc: 'iOS and/or Android native app' },
+  { key: 'ai_product', label: 'AI Product',           icon: <Bot size={20} />, desc: 'AI-first product or LLM-powered tool' },
+  { key: 'internal',   label: 'Internal Tool',        icon: <Wrench size={20} />, desc: 'Internal ops, admin or workflow tool' },
+  { key: 'enterprise', label: 'Enterprise Platform',  icon: <Building2 size={20} />, desc: 'Complex multi-tenant enterprise system' },
+  { key: 'other',      label: 'Other',                icon: <Sparkles size={20} />, desc: 'Custom or hybrid product' },
 ];
 
-const ASSET_OPTIONS = [
-  { key: 'idea_only',      label: 'Idea Only',                  icon: '💡' },
-  { key: 'requirements',   label: 'Requirements Document',       icon: '📋' },
-  { key: 'wireframes',     label: 'Wireframes',                 icon: '🖼️' },
-  { key: 'final_design',   label: 'Final UI Design',            icon: '🎨' },
-  { key: 'codebase',       label: 'Existing Codebase',          icon: '💻' },
-  { key: 'database',       label: 'Existing Database',          icon: '🗄️' },
-  { key: 'api',            label: 'Existing API',               icon: '🔌' },
-  { key: 'auth',           label: 'Existing Auth System',       icon: '🔐' },
+const ASSET_OPTIONS: { key: string; label: string; icon: React.ReactNode }[] = [
+  { key: 'idea_only',      label: 'Idea Only',                  icon: <Lightbulb size={16} /> },
+  { key: 'requirements',   label: 'Requirements Document',       icon: <FileText size={16} /> },
+  { key: 'wireframes',     label: 'Wireframes',                 icon: <Layout size={16} /> },
+  { key: 'final_design',   label: 'Final UI Design',            icon: <Palette size={16} /> },
+  { key: 'codebase',       label: 'Existing Codebase',          icon: <Code2 size={16} /> },
+  { key: 'database',       label: 'Existing Database',          icon: <Database size={16} /> },
+  { key: 'api',            label: 'Existing API',               icon: <Plug size={16} /> },
+  { key: 'auth',           label: 'Existing Auth System',       icon: <KeyRound size={16} /> },
 ];
 
-const PLATFORM_OPTIONS = [
-  { key: 'web',     label: 'Web Application',  icon: '🌐' },
-  { key: 'ios',     label: 'iOS App',           icon: '🍎' },
-  { key: 'android', label: 'Android App',       icon: '🤖' },
-  { key: 'admin',   label: 'Admin Dashboard',   icon: '⚙️' },
-  { key: 'api',     label: 'API Only',          icon: '🔌' },
+const PLATFORM_OPTIONS: { key: string; label: string; icon: React.ReactNode }[] = [
+  { key: 'web',     label: 'Web Application',  icon: <Globe size={16} /> },
+  { key: 'ios',     label: 'iOS App',           icon: <Smartphone size={16} /> },
+  { key: 'android', label: 'Android App',       icon: <Smartphone size={16} /> },
+  { key: 'admin',   label: 'Admin Dashboard',   icon: <LayoutDashboard size={16} /> },
+  { key: 'api',     label: 'API Only',          icon: <Plug size={16} /> },
 ];
 
-const FEATURE_OPTIONS = [
-  { key: 'auth',          label: 'User Authentication',   icon: '🔐' },
-  { key: 'profiles',      label: 'User Profiles',         icon: '👤' },
-  { key: 'dashboard',     label: 'Dashboard',             icon: '📊' },
-  { key: 'analytics',     label: 'Analytics',             icon: '📈' },
-  { key: 'reporting',     label: 'Reporting',             icon: '📑' },
-  { key: 'payments',      label: 'Payments',              icon: '💳' },
-  { key: 'booking',       label: 'Booking System',        icon: '📅' },
-  { key: 'search',        label: 'Search',                icon: '🔍' },
-  { key: 'notifications', label: 'Notifications',         icon: '🔔' },
-  { key: 'messaging',     label: 'Messaging',             icon: '💬' },
-  { key: 'file_uploads',  label: 'File Uploads',          icon: '📎' },
-  { key: 'roles',         label: 'Multi-User Roles',      icon: '👥' },
-  { key: 'collaboration', label: 'Team Collaboration',    icon: '🤝' },
+const FEATURE_OPTIONS: { key: string; label: string; icon: React.ReactNode }[] = [
+  { key: 'auth',          label: 'User Authentication',   icon: <Lock size={16} /> },
+  { key: 'profiles',      label: 'User Profiles',         icon: <User size={16} /> },
+  { key: 'dashboard',     label: 'Dashboard',             icon: <LayoutDashboard size={16} /> },
+  { key: 'analytics',     label: 'Analytics',             icon: <BarChart2 size={16} /> },
+  { key: 'reporting',     label: 'Reporting',             icon: <ClipboardList size={16} /> },
+  { key: 'payments',      label: 'Payments',              icon: <CreditCard size={16} /> },
+  { key: 'booking',       label: 'Booking System',        icon: <Calendar size={16} /> },
+  { key: 'search',        label: 'Search',                icon: <Search size={16} /> },
+  { key: 'notifications', label: 'Notifications',         icon: <Bell size={16} /> },
+  { key: 'messaging',     label: 'Messaging',             icon: <MessageSquare size={16} /> },
+  { key: 'file_uploads',  label: 'File Uploads',          icon: <Paperclip size={16} /> },
+  { key: 'roles',         label: 'Multi-User Roles',      icon: <ShieldCheck size={16} /> },
+  { key: 'collaboration', label: 'Team Collaboration',    icon: <Handshake size={16} /> },
 ];
 
-const AI_OPTIONS: { key: AILevel; label: string; icon: string; desc: string }[] = [
-  { key: 'none',       label: 'No AI',                    icon: '—',  desc: 'Traditional software only' },
-  { key: 'assistant',  label: 'AI Assistant',             icon: '🤖', desc: 'Chatbot or AI help widget' },
-  { key: 'report_gen', label: 'AI Report Generation',     icon: '📄', desc: 'AI writes structured outputs' },
-  { key: 'ocr',        label: 'OCR / Document Processing',icon: '📷', desc: 'Extract data from documents' },
-  { key: 'ai_core',   label: 'AI Core Product',           icon: '🧠', desc: 'AI is the product itself' },
+const AI_OPTIONS: { key: AILevel; label: string; icon: React.ReactNode; desc: string }[] = [
+  { key: 'none',       label: 'No AI',                    icon: <Ban size={20} />,  desc: 'Traditional software only' },
+  { key: 'assistant',  label: 'AI Assistant',             icon: <Bot size={20} />, desc: 'Chatbot or AI help widget' },
+  { key: 'report_gen', label: 'AI Report Generation',     icon: <FileText size={20} />, desc: 'AI writes structured outputs' },
+  { key: 'ocr',        label: 'OCR / Document Processing',icon: <FileText size={20} />, desc: 'Extract data from documents' },
+  { key: 'ai_core',    label: 'AI Core Product',           icon: <Brain size={20} />, desc: 'AI is the product itself' },
 ];
 
-const INTEGRATION_OPTIONS = [
-  { key: 'stripe',     label: 'Stripe',              icon: '💳' },
-  { key: 'hubspot',    label: 'HubSpot',             icon: '🔶' },
-  { key: 'salesforce', label: 'Salesforce',          icon: '☁️' },
-  { key: 'slack',      label: 'Slack',               icon: '💬' },
-  { key: 'google',     label: 'Google Services',     icon: '🔵' },
-  { key: 'microsoft',  label: 'Microsoft Services',  icon: '🟦' },
-  { key: 'custom',     label: 'Custom APIs',         icon: '🔌' },
+const INTEGRATION_OPTIONS: { key: string; label: string; desc: string; icon: React.ReactNode }[] = [
+  { key: 'payment',    label: 'Payment Processors',                  desc: 'Stripe, PayPal, Razorpay',           icon: <CreditCard size={16} /> },
+  { key: 'email',      label: 'Email Integration',                   desc: 'Outlook, Gmail, Apple Mail',         icon: <Mail size={16} /> },
+  { key: 'microsoft',  label: 'Microsoft Services',                  desc: 'Microsoft 365, Teams, Azure',        icon: <Cloud size={16} /> },
+  { key: 'custom',     label: 'Custom APIs',                         desc: 'Internal or proprietary systems',    icon: <Plug size={16} /> },
+  { key: 'chatbot',    label: 'Chatbot',                             desc: 'Support & conversational bots',      icon: <Bot size={16} /> },
+  { key: 'slack',      label: 'Messenger such as Slack',             desc: 'Slack, Discord, Microsoft Teams',    icon: <MessageSquare size={16} /> },
+  { key: 'salesforce', label: 'Custom Applications such as Salesforce', desc: 'Salesforce, HubSpot, Zoho CRM',      icon: <Database size={16} /> },
 ];
 
-const TEAM_OPTIONS: { key: TeamPref; label: string; icon: string; desc: string }[] = [
-  { key: 'solo',      label: 'Solo Developer',          icon: '🧑‍💻', desc: 'One developer building everything' },
-  { key: 'small',     label: 'Small Team (2–4)',         icon: '👥', desc: 'Standard cross-functional squad' },
-  { key: 'dedicated', label: 'Dedicated Product Team',  icon: '🚀', desc: 'Full-scale team, fastest delivery' },
+const TEAM_OPTIONS: { key: TeamPref; label: string; icon: React.ReactNode; desc: string }[] = [
+  { key: 'solo',      label: 'Solo Developer',          icon: <User size={20} />, desc: 'One developer building everything' },
+  { key: 'small',     label: 'Small Team (2–4)',         icon: <Users size={20} />, desc: 'Standard cross-functional squad' },
+  { key: 'dedicated', label: 'Dedicated Product Team',  icon: <Rocket size={20} />, desc: 'Full-scale team, fastest delivery' },
 ];
 
 const STEPS = [
@@ -127,7 +134,7 @@ const STEPS = [
 // ─── Estimation Logic ─────────────────────────────────────────────────────────
 
 function calculateEstimate(a: Answers, customConfig?: any): EstimateResult {
-  if (!a.productType || !a.aiLevel || !a.teamPref) {
+  if (!a.productType || a.aiLevel.length === 0 || !a.teamPref) {
     return { minDays: 0, maxDays: 0, complexity: 'Low', complexityReason: '', team: [], drivers: [], phases: [], risks: [], costDrivers: [], mvpScope: { include: [], defer: [] } };
   }
 
@@ -170,7 +177,9 @@ function calculateEstimate(a: Answers, customConfig?: any): EstimateResult {
     ocr:        4,   // upload + processing + results + corrections
     ai_core:    8,   // model config + training UI + dashboard + results + 4 more
   };
-  pages += AI_PAGES[a.aiLevel] ?? 0;
+  a.aiLevel.forEach(level => {
+    pages += AI_PAGES[level] ?? 0;
+  });
 
   // Integration additions (each integration adds setup/config screens)
   const integrationAdditions = customConfig?.integration_additions || { standard: 2, custom: 3 };
@@ -258,14 +267,19 @@ function calculateEstimate(a: Answers, customConfig?: any): EstimateResult {
     team.push({ role: 'Full-Stack Developer', icon: '💻' });
   }
   if (hasIOS || hasAndroid) team.push({ role: 'Mobile Developer', icon: '📱' });
-  if (a.aiLevel !== 'none') team.push({ role: 'AI / ML Engineer', icon: '🤖' });
+  if (a.aiLevel.length > 0 && !a.aiLevel.includes('none')) team.push({ role: 'AI / ML Engineer', icon: '🤖' });
   if (a.integrations.length > 2 || a.platforms.includes('api')) team.push({ role: 'Integration Specialist', icon: '🔌' });
   if (['enterprise', 'marketplace'].includes(a.productType)) team.push({ role: 'DevOps Engineer', icon: '🚀' });
   if (a.teamPref === 'dedicated') team.push({ role: 'QA Engineer', icon: '🧪' });
 
   // ── Key build drivers ─────────────────────────────────────────────────────
   const drivers: string[] = [];
-  if (a.aiLevel !== 'none') drivers.push(`${AI_OPTIONS.find(o=>o.key===a.aiLevel)?.label} integration`);
+  a.aiLevel.forEach(level => {
+    if (level !== 'none') {
+      const opt = AI_OPTIONS.find(o => o.key === level);
+      if (opt) drivers.push(`${opt.label} integration`);
+    }
+  });
   if (a.features.includes('payments')) drivers.push('Payment processing & financial compliance');
   if (a.features.includes('messaging')) drivers.push('Real-time messaging infrastructure');
   if (a.features.includes('analytics') || a.features.includes('reporting')) drivers.push('Analytics & reporting engine');
@@ -277,7 +291,7 @@ function calculateEstimate(a: Answers, customConfig?: any): EstimateResult {
 
   // ── Phase durations (proportional from total days) ────────────────────────
   // Phase split: 15% planning · 45% core dev · 25% integrations/AI · 15% launch
-  const hasIntegrationsOrAI = a.integrations.length > 0 || a.aiLevel !== 'none';
+  const hasIntegrationsOrAI = a.integrations.length > 0 || (a.aiLevel.length > 0 && !a.aiLevel.includes('none'));
   const fmtDays = (d: number) => {
     if (d <= 5) return `${d} day${d === 1 ? '' : 's'}`;
     const w = Math.round(d / 5);
@@ -313,7 +327,10 @@ function calculateEstimate(a: Answers, customConfig?: any): EstimateResult {
       name: 'Phase 3: Integrations & AI',
       duration: `${fmtDays(p3min)}–${fmtDays(p3max)}`,
       tasks: [
-        ...(a.aiLevel !== 'none' ? [`${AI_OPTIONS.find(o=>o.key===a.aiLevel)?.label} implementation`] : []),
+        ...a.aiLevel.filter(level => level !== 'none').map(level => {
+          const opt = AI_OPTIONS.find(o => o.key === level);
+          return `${opt?.label || level} implementation`;
+        }),
         ...(a.integrations.length > 0 ? [`Third-party integrations (${a.integrations.slice(0,3).map(i=>INTEGRATION_OPTIONS.find(o=>o.key===i)?.label).join(', ')})`] : []),
         'API hardening, rate limiting & security',
       ]
@@ -327,7 +344,7 @@ function calculateEstimate(a: Answers, customConfig?: any): EstimateResult {
 
   // ── Technical risks ───────────────────────────────────────────────────────
   const risks: EstimateResult['risks'] = [];
-  if (a.aiLevel === 'ai_core' || a.aiLevel === 'report_gen') {
+  if (a.aiLevel.includes('ai_core') || a.aiLevel.includes('report_gen')) {
     risks.push({ title: 'AI Output Consistency', detail: 'LLM responses may vary in quality and format. Requires robust prompt engineering, output validation layers, and fallback handling.', severity: 'high' });
   }
   if (a.integrations.includes('custom')) {
@@ -354,7 +371,7 @@ function calculateEstimate(a: Answers, customConfig?: any): EstimateResult {
 
   // ── Cost drivers ──────────────────────────────────────────────────────────
   const costDrivers: string[] = [];
-  if (a.aiLevel !== 'none') costDrivers.push('AI/LLM API costs (ongoing per-request pricing that scales with usage)');
+  if (a.aiLevel.length > 0 && !a.aiLevel.includes('none')) costDrivers.push('AI/LLM API costs (ongoing per-request pricing that scales with usage)');
   if (hasIOS || hasAndroid) costDrivers.push('Apple Developer ($99/yr) and Google Play ($25 one-time) accounts plus device testing');
   if (a.integrations.length > 0) costDrivers.push('Third-party SaaS subscription costs for integrated services');
   if (['enterprise','saas','marketplace'].includes(a.productType)) costDrivers.push('Cloud infrastructure (compute, storage, CDN) — scales with user growth');
@@ -368,8 +385,8 @@ function calculateEstimate(a: Answers, customConfig?: any): EstimateResult {
   const mvpInclude = [
     `Core ${PRODUCT_TYPES.find(p=>p.key===a.productType)?.label} functionality`,
     ...highValueFeatures.map(f => FEATURE_OPTIONS.find(o=>o.key===f)?.label || f),
-    ...(a.aiLevel !== 'none' && a.aiLevel !== 'ai_core' ? ['Basic AI feature (simplified prompt)'] : []),
-    ...(a.aiLevel === 'ai_core' ? ['Core AI engine (V1 capability)'] : []),
+    ...(a.aiLevel.some(level => level !== 'none' && level !== 'ai_core') ? ['Basic AI feature (simplified prompt)'] : []),
+    ...(a.aiLevel.includes('ai_core') ? ['Core AI engine (V1 capability)'] : []),
     ...(a.platforms.includes('web') ? ['Web application'] : []),
   ].filter(Boolean).slice(0, 6);
 
@@ -380,6 +397,15 @@ function calculateEstimate(a: Answers, customConfig?: any): EstimateResult {
     'API documentation portal',
     'White-label / multi-tenant customisation',
   ].filter(Boolean).slice(0, 5);
+
+  // Mathematically bound the maximum days to be 30% to 35% higher than minimum days
+  // to ensure a tight, confident estimation range (avoiding unrealistic 100% variation)
+  if (maxD > Math.round(minD * 1.35)) {
+    maxD = Math.round(minD * 1.35);
+  }
+  if (maxD < Math.round(minD * 1.30)) {
+    maxD = Math.round(minD * 1.30);
+  }
 
   return { minDays: minD, maxDays: maxD, complexity, complexityReason, team, drivers, phases, risks, costDrivers, mvpScope: { include: mvpInclude, defer: mvpDefer } };
 }
@@ -411,37 +437,58 @@ const BORDER = '#E2E8F0';
 
 function ProgressBar({ step, total }: { step: number; total: number }) {
   return (
-    <div style={{ display: 'flex', gap: '6px', marginBottom: '32px', alignItems: 'center' }}>
-      {STEPS.map((s, i) => {
-        const Icon = s.icon;
-        const done = i < step - 1;
-        const active = i === step - 1;
-        return (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', flex: i < total - 1 ? 1 : 'none' }}>
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0,
-              padding: active ? '6px 12px' : '6px',
-              borderRadius: '20px',
-              background: active ? BLUE : done ? '#E8F5E9' : '#F8FAFC',
-              border: `1.5px solid ${active ? BLUE : done ? '#A5D6A7' : BORDER}`,
-              transition: 'all 0.2s',
-            }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '36px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', width: '100%', padding: '0 12px' }}>
+        {/* Background Line */}
+        <div style={{ position: 'absolute', top: '16px', left: '20px', right: '20px', height: '2px', background: '#E2E8F0', zIndex: 0 }} />
+        {/* Active Progress Line */}
+        <div style={{
+          position: 'absolute', top: '16px', left: '20px',
+          width: `${((step - 1) / (total - 1)) * 94}%`,
+          height: '2px', background: BLUE, transition: 'all 0.3s ease', zIndex: 0
+        }} />
+
+        {STEPS.map((s, i) => {
+          const done = i < step - 1;
+          const active = i === step - 1;
+          return (
+            <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 1, position: 'relative', width: '60px' }}>
               <div style={{
-                width: 22, height: 22, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                background: active ? 'rgba(255,255,255,0.2)' : done ? '#16A34A' : BORDER,
-                color: active ? '#fff' : done ? '#fff' : MUTED,
-                fontSize: '0.65rem',
+                width: '32px',
+                height: '32px',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: active ? BLUE : done ? '#FFFFFF' : '#FFFFFF',
+                border: `2px solid ${active ? BLUE : done ? BLUE : '#CBD5E1'}`,
+                color: active ? '#FFFFFF' : done ? BLUE : '#64748B',
+                fontWeight: 700,
+                fontSize: '0.85rem',
+                boxShadow: active ? '0 0 0 4px rgba(0, 90, 226, 0.15)' : 'none',
+                transition: 'all 0.25s ease',
               }}>
-                {done ? <CheckCircle size={12} color="#fff" /> : <span style={{ fontWeight: 800, fontSize: '0.65rem' }}>{i + 1}</span>}
+                {done ? <Check size={14} strokeWidth={3} /> : <span>{i + 1}</span>}
               </div>
-              {active && <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#fff', whiteSpace: 'nowrap' }}>{s.label}</span>}
+              <span className="bte-step-label" style={{
+                marginTop: '8px',
+                fontSize: '0.72rem',
+                fontWeight: active ? 700 : 500,
+                color: active ? DARK : done ? MUTED : '#94A3B8',
+                textAlign: 'center',
+                whiteSpace: 'nowrap',
+                position: 'absolute',
+                top: '32px',
+                transition: 'color 0.2s',
+              }}>
+                {s.label}
+              </span>
             </div>
-            {i < total - 1 && (
-              <div style={{ flex: 1, height: 1.5, background: done ? '#A5D6A7' : BORDER, margin: '0 4px' }} />
-            )}
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
+      {/* Margin spacer to prevent labels from overlapping content */}
+      <div style={{ height: '20px' }} />
     </div>
   );
 }
@@ -449,22 +496,21 @@ function ProgressBar({ step, total }: { step: number; total: number }) {
 function SingleSelect<T extends string>({
   options, value, onChange
 }: {
-  options: { key: T; label: string; icon: string; desc?: string }[];
+  options: { key: T; label: string; icon: React.ReactNode; desc?: string }[];
   value: T | null;
   onChange: (v: T) => void;
 }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '10px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(215px, 1fr))', gridAutoRows: '1fr', gap: '12px' }}>
       {options.map(o => (
-        <button key={o.key} onClick={() => onChange(o.key)} style={{
-          padding: '14px 16px', borderRadius: '10px', textAlign: 'left', cursor: 'pointer',
-          border: `2px solid ${value === o.key ? BLUE : BORDER}`,
-          background: value === o.key ? BLUE_LIGHT : '#FAFAFA',
-          transition: 'all 0.15s', outline: 'none',
-        }}>
-          <div style={{ fontSize: '1.4rem', marginBottom: '6px' }}>{o.icon}</div>
-          <div style={{ fontWeight: 700, fontSize: '0.85rem', color: value === o.key ? BLUE : DARK }}>{o.label}</div>
-          {o.desc && <div style={{ fontSize: '0.72rem', color: MUTED, marginTop: '2px', lineHeight: 1.4 }}>{o.desc}</div>}
+        <button
+          key={o.key}
+          onClick={() => onChange(o.key)}
+          className={`bte-option-btn ${value === o.key ? 'selected' : ''}`}
+        >
+          <div className="bte-option-icon">{o.icon}</div>
+          <div className="bte-option-label">{o.label}</div>
+          {o.desc && <div className="bte-option-desc">{o.desc}</div>}
         </button>
       ))}
     </div>
@@ -474,34 +520,102 @@ function SingleSelect<T extends string>({
 function MultiSelect({
   options, values, onChange
 }: {
-  options: { key: string; label: string; icon: string }[];
+  options: { key: string; label: string; desc?: string; icon: React.ReactNode }[];
   values: string[];
   onChange: (v: string[]) => void;
 }) {
   const toggle = (k: string) => {
     if (k === 'idea_only') { onChange(['idea_only']); return; }
-    const next = values.filter(v => v !== 'idea_only');
-    onChange(next.includes(k) ? next.filter(v => v !== k) : [...next, k]);
+    if (k === 'none') { onChange(['none']); return; }
+    
+    let next = values.filter(v => v !== 'idea_only' && v !== 'none');
+    if (next.includes(k)) {
+      next = next.filter(v => v !== k);
+    } else {
+      next = [...next, k];
+    }
+    
+    if (next.length === 0) {
+      if (options.some(o => o.key === 'none')) {
+        onChange(['none']);
+      } else if (options.some(o => o.key === 'idea_only')) {
+        onChange(['idea_only']);
+      } else {
+        onChange([]);
+      }
+    } else {
+      onChange(next);
+    }
   };
+
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '8px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(215px, 1fr))', gridAutoRows: '1fr', gap: '12px' }}>
       {options.map(o => {
         const selected = values.includes(o.key);
         return (
-          <button key={o.key} onClick={() => toggle(o.key)} style={{
-            padding: '12px 14px', borderRadius: '10px', cursor: 'pointer', textAlign: 'left', outline: 'none',
-            border: `2px solid ${selected ? BLUE : BORDER}`,
-            background: selected ? BLUE_LIGHT : '#FAFAFA', transition: 'all 0.15s',
-            display: 'flex', alignItems: 'center', gap: '10px',
-          }}>
-            <div style={{
-              width: 18, height: 18, borderRadius: '4px', border: `2px solid ${selected ? BLUE : '#CBD5E1'}`,
-              background: selected ? BLUE : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-            }}>
-              {selected && <CheckCircle size={10} color="#fff" />}
+          <button
+            key={o.key}
+            onClick={() => toggle(o.key)}
+            className={`bte-multi-btn ${selected ? 'selected' : ''}`}
+          >
+            <div className="bte-checkbox">
+              {selected && <Check size={12} color="#fff" strokeWidth={3} />}
             </div>
-            <span style={{ fontSize: '0.75rem' }}>{o.icon}</span>
-            <span style={{ fontWeight: selected ? 700 : 500, fontSize: '0.82rem', color: selected ? BLUE : DARK }}>{o.label}</span>
+            <span className="bte-multi-icon">{o.icon}</span>
+            <span className="bte-multi-label">{o.label}</span>
+            {o.desc && (
+              <div className="bte-card-tooltip">
+                <span style={{ fontWeight: 600, color: '#94A3B8', fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '2px' }}>Examples</span>
+                {o.desc}
+              </div>
+            )}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function MultiSelectCards<T extends string>({
+  options, values, onChange
+}: {
+  options: { key: T; label: string; icon: React.ReactNode; desc?: string }[];
+  values: T[];
+  onChange: (v: T[]) => void;
+}) {
+  const toggle = (k: T) => {
+    if (k === 'none') { onChange(['none' as T]); return; }
+    let next = values.filter(v => v !== ('none' as T));
+    if (next.includes(k)) {
+      next = next.filter(v => v !== k);
+    } else {
+      next = [...next, k];
+    }
+    if (next.length === 0) {
+      onChange(['none' as T]);
+    } else {
+      onChange(next);
+    }
+  };
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(215px, 1fr))', gridAutoRows: '1fr', gap: '12px' }}>
+      {options.map(o => {
+        const selected = values.includes(o.key);
+        return (
+          <button
+            key={o.key}
+            onClick={() => toggle(o.key)}
+            className={`bte-option-btn ${selected ? 'selected' : ''}`}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '10px' }}>
+              <div className="bte-option-icon">{o.icon}</div>
+              <div className="bte-checkbox">
+                {selected && <Check size={12} color="#fff" strokeWidth={3} />}
+              </div>
+            </div>
+            <div className="bte-option-label">{o.label}</div>
+            {o.desc && <div className="bte-option-desc">{o.desc}</div>}
           </button>
         );
       })}
@@ -534,7 +648,7 @@ export default function BuildTimeEstimatorPage() {
   const [showReport, setShowReport] = useState(false);
   const [answers, setAnswers] = useState<Answers>({
     productType: null, assets: ['idea_only'], platforms: ['web'],
-    features: [], aiLevel: null, integrations: [], teamPref: null,
+    features: [], aiLevel: ['none'], integrations: [], teamPref: null,
   });
 
   const [customConfig, setCustomConfig] = useState<any>(null);
@@ -559,7 +673,7 @@ export default function BuildTimeEstimatorPage() {
     if (step === 2) return answers.assets.length > 0;
     if (step === 3) return answers.platforms.length > 0;
     if (step === 4) return true; // features optional
-    if (step === 5) return !!answers.aiLevel;
+    if (step === 5) return answers.aiLevel.length > 0;
     if (step === 6) return true; // integrations optional
     if (step === 7) return !!answers.teamPref;
     return true;
@@ -580,6 +694,175 @@ export default function BuildTimeEstimatorPage() {
         body { margin: 0; font-family: 'Manrope', sans-serif; }
         .bte-btn:hover { opacity: 0.88; transform: translateY(-1px); }
         .bte-btn { transition: all 0.15s; }
+
+        
+        /* Trendy, consistent option buttons (Single & Multi Select Cards) */
+        .bte-option-btn {
+          padding: 16px 20px;
+          border-radius: 12px;
+          text-align: left;
+          cursor: pointer;
+          border: 1.5px solid #E2E8F0;
+          background: #FFFFFF;
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          outline: none;
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          min-height: 125px;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+          position: relative;
+          box-sizing: border-box;
+        }
+        .bte-option-btn:hover {
+          border-color: #CBD5E1;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+        }
+        .bte-option-btn.selected {
+          border-color: #005AE2 !important;
+          background: #F0F6FF !important;
+          box-shadow: 0 4px 12px rgba(0, 90, 226, 0.08) !important;
+        }
+        .bte-option-icon {
+          margin-bottom: 10px;
+          display: flex;
+          align-items: center;
+          transition: color 0.2s;
+        }
+        .bte-option-btn .bte-option-icon {
+          color: #64748B;
+        }
+        .bte-option-btn.selected .bte-option-icon {
+          color: #005AE2 !important;
+        }
+        .bte-option-label {
+          font-weight: 700;
+          font-size: 0.85rem;
+          transition: color 0.2s;
+          color: #0F172A;
+        }
+        .bte-option-btn.selected .bte-option-label {
+          color: #005AE2 !important;
+        }
+        .bte-option-desc {
+          font-size: 0.72rem;
+          color: #64748B;
+          margin-top: 4px;
+          line-height: 1.4;
+        }
+
+        /* Trendy, consistent multi-select pills (horizontal style) */
+        .bte-multi-btn {
+          padding: 14px 18px;
+          border-radius: 12px;
+          cursor: pointer;
+          text-align: left;
+          outline: none;
+          border: 1.5px solid #E2E8F0;
+          background: #FFFFFF;
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          height: 100%;
+          min-height: 58px;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+          box-sizing: border-box;
+        }
+        .bte-multi-btn:hover {
+          border-color: #CBD5E1;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+        }
+        .bte-multi-btn.selected {
+          border-color: #005AE2 !important;
+          background: #F0F6FF !important;
+          box-shadow: 0 4px 12px rgba(0, 90, 226, 0.08) !important;
+        }
+        .bte-checkbox {
+          width: 18px;
+          height: 18px;
+          border-radius: 4px;
+          border: 2px solid #CBD5E1;
+          background: #FFFFFF;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          transition: all 0.2s;
+        }
+        .bte-multi-btn.selected .bte-checkbox,
+        .bte-option-btn.selected .bte-checkbox {
+          border-color: #005AE2 !important;
+          background: #005AE2 !important;
+        }
+        .bte-multi-icon {
+          display: inline-flex;
+          align-items: center;
+          color: #64748B;
+          transition: color 0.2s;
+          flex-shrink: 0;
+        }
+        .bte-multi-btn.selected .bte-multi-icon {
+          color: #005AE2 !important;
+        }
+        .bte-multi-label {
+          font-weight: 500;
+          font-size: 0.875rem;
+          color: #334155;
+          transition: color 0.2s;
+          line-height: 1.3;
+        }
+        /* Option B: Premium Floating Tooltip for Multi-select Cards */
+        .bte-multi-btn {
+          position: relative; /* Anchor for absolute tooltip */
+        }
+        .bte-card-tooltip {
+          visibility: hidden;
+          width: 190px;
+          background-color: #0F172A;
+          color: #FFFFFF;
+          text-align: center;
+          border-radius: 8px;
+          padding: 8px 12px;
+          position: absolute;
+          z-index: 20;
+          bottom: 125%; /* Float above the card */
+          left: 50%;
+          transform: translateX(-50%) translateY(6px);
+          opacity: 0;
+          transition: opacity 0.2s ease, transform 0.2s ease;
+          font-size: 0.72rem;
+          line-height: 1.4;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          pointer-events: none;
+          font-weight: 500;
+        }
+        .bte-card-tooltip::after {
+          content: "";
+          position: absolute;
+          top: 100%; /* Arrow pointing down */
+          left: 50%;
+          margin-left: -5px;
+          border-width: 5px;
+          border-style: solid;
+          border-color: #0F172A transparent transparent transparent;
+        }
+        .bte-multi-btn:hover .bte-card-tooltip {
+          visibility: visible;
+          opacity: 1;
+          transform: translateX(-50%) translateY(0);
+        }
+        .bte-multi-btn.selected .bte-multi-label {
+          font-weight: 600;
+          color: #005AE2 !important;
+        }
+        @media (max-width: 600px) {
+          .bte-step-label {
+            display: none !important;
+          }
+        }
 
         /* ── Questionnaire Responsive ─────────────────────────────────────── */
         .bte-main {
@@ -676,19 +959,46 @@ export default function BuildTimeEstimatorPage() {
 
             {step === 2 && (
               <div>
-                <EditableText
-                  contentKey="estimator.step2.heading"
-                  value="What do you already have?"
-                  as="h2"
-                  className="bte-step-heading"
-                />
-                <EditableText
-                  contentKey="estimator.step2.desc"
-                  value="Select everything that currently exists. Existing assets significantly reduce the estimated effort."
-                  as="p"
-                  className="bte-step-desc"
-                  style={{ marginBottom: '6px' }}
-                />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px', marginBottom: '12px', flexWrap: 'wrap' }}>
+                  <div style={{ flex: 1, minWidth: '250px' }}>
+                    <EditableText
+                      contentKey="estimator.step2.heading"
+                      value="What do you already have?"
+                      as="h2"
+                      className="bte-step-heading"
+                    />
+                    <EditableText
+                      contentKey="estimator.step2.desc"
+                      value="Select everything that currently exists. Existing assets significantly reduce the estimated effort."
+                      as="p"
+                      className="bte-step-desc"
+                      style={{ marginBottom: 0 }}
+                    />
+                  </div>
+                  <button
+                    onClick={() => {
+                      const allKeys = ASSET_OPTIONS.map(o => o.key).filter(k => k !== 'idea_only');
+                      const allSelected = allKeys.every(k => answers.assets.includes(k));
+                      setField('assets', allSelected ? [] : allKeys);
+                    }}
+                    style={{
+                      background: 'transparent',
+                      border: `1.5px solid ${BLUE}`,
+                      color: BLUE,
+                      borderRadius: '6px',
+                      padding: '6px 12px',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      flexShrink: 0,
+                      marginTop: '4px',
+                      transition: 'all 0.15s ease',
+                    }}
+                    className="bte-select-all-btn"
+                  >
+                    {ASSET_OPTIONS.map(o => o.key).filter(k => k !== 'idea_only').every(k => answers.assets.includes(k)) ? 'Deselect All' : 'Select All'}
+                  </button>
+                </div>
                 <div style={{ background: '#FFF8E1', border: '1px solid #FCD34D', borderRadius: '8px', padding: '10px 14px', marginBottom: '18px', fontSize: '0.76rem', color: '#92400E' }}>
                   <EditableText
                     contentKey="estimator.step2.hint"
@@ -701,72 +1011,184 @@ export default function BuildTimeEstimatorPage() {
 
             {step === 3 && (
               <div>
-                <EditableText
-                  contentKey="estimator.step3.heading"
-                  value="Which platforms do you need?"
-                  as="h2"
-                  className="bte-step-heading"
-                />
-                <EditableText
-                  contentKey="estimator.step3.desc"
-                  value="Select all deployment targets for your product."
-                  as="p"
-                  className="bte-step-desc"
-                />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px', marginBottom: '18px', flexWrap: 'wrap' }}>
+                  <div style={{ flex: 1, minWidth: '250px' }}>
+                    <EditableText
+                      contentKey="estimator.step3.heading"
+                      value="Which platforms do you need?"
+                      as="h2"
+                      className="bte-step-heading"
+                    />
+                    <EditableText
+                      contentKey="estimator.step3.desc"
+                      value="Select all deployment targets for your product."
+                      as="p"
+                      className="bte-step-desc"
+                      style={{ marginBottom: 0 }}
+                    />
+                  </div>
+                  <button
+                    onClick={() => {
+                      const allKeys = PLATFORM_OPTIONS.map(o => o.key);
+                      const allSelected = allKeys.every(k => answers.platforms.includes(k));
+                      setField('platforms', allSelected ? [] : allKeys);
+                    }}
+                    style={{
+                      background: 'transparent',
+                      border: `1.5px solid ${BLUE}`,
+                      color: BLUE,
+                      borderRadius: '6px',
+                      padding: '6px 12px',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      flexShrink: 0,
+                      marginTop: '4px',
+                      transition: 'all 0.15s ease',
+                    }}
+                    className="bte-select-all-btn"
+                  >
+                    {PLATFORM_OPTIONS.map(o => o.key).every(k => answers.platforms.includes(k)) ? 'Deselect All' : 'Select All'}
+                  </button>
+                </div>
                 <MultiSelect options={PLATFORM_OPTIONS} values={answers.platforms} onChange={v => setField('platforms', v)} />
               </div>
             )}
 
             {step === 4 && (
               <div>
-                <EditableText
-                  contentKey="estimator.step4.heading"
-                  value="Which features do you need?"
-                  as="h2"
-                  className="bte-step-heading"
-                />
-                <EditableText
-                  contentKey="estimator.step4.desc"
-                  value="Select only what's essential for your MVP. You can always add more later."
-                  as="p"
-                  className="bte-step-desc"
-                />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px', marginBottom: '18px', flexWrap: 'wrap' }}>
+                  <div style={{ flex: 1, minWidth: '250px' }}>
+                    <EditableText
+                      contentKey="estimator.step4.heading"
+                      value="Which features do you need?"
+                      as="h2"
+                      className="bte-step-heading"
+                    />
+                    <EditableText
+                      contentKey="estimator.step4.desc"
+                      value="Select only what's essential for your MVP. You can always add more later."
+                      as="p"
+                      className="bte-step-desc"
+                      style={{ marginBottom: 0 }}
+                    />
+                  </div>
+                  <button
+                    onClick={() => {
+                      const allKeys = FEATURE_OPTIONS.map(o => o.key);
+                      const allSelected = allKeys.every(k => answers.features.includes(k));
+                      setField('features', allSelected ? [] : allKeys);
+                    }}
+                    style={{
+                      background: 'transparent',
+                      border: `1.5px solid ${BLUE}`,
+                      color: BLUE,
+                      borderRadius: '6px',
+                      padding: '6px 12px',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      flexShrink: 0,
+                      marginTop: '4px',
+                      transition: 'all 0.15s ease',
+                    }}
+                    className="bte-select-all-btn"
+                  >
+                    {FEATURE_OPTIONS.map(o => o.key).every(k => answers.features.includes(k)) ? 'Deselect All' : 'Select All'}
+                  </button>
+                </div>
                 <MultiSelect options={FEATURE_OPTIONS} values={answers.features} onChange={v => setField('features', v)} />
               </div>
             )}
 
             {step === 5 && (
               <div>
-                <EditableText
-                  contentKey="estimator.step5.heading"
-                  value="Will AI be part of the product?"
-                  as="h2"
-                  className="bte-step-heading"
-                />
-                <EditableText
-                  contentKey="estimator.step5.desc"
-                  value="AI integration adds significant engineering complexity and timeline."
-                  as="p"
-                  className="bte-step-desc"
-                />
-                <SingleSelect options={AI_OPTIONS} value={answers.aiLevel} onChange={v => setField('aiLevel', v)} />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px', marginBottom: '18px', flexWrap: 'wrap' }}>
+                  <div style={{ flex: 1, minWidth: '250px' }}>
+                    <EditableText
+                      contentKey="estimator.step5.heading"
+                      value="Will AI be part of the product?"
+                      as="h2"
+                      className="bte-step-heading"
+                    />
+                    <EditableText
+                      contentKey="estimator.step5.desc"
+                      value="AI integration adds significant engineering complexity and timeline."
+                      as="p"
+                      className="bte-step-desc"
+                      style={{ marginBottom: 0 }}
+                    />
+                  </div>
+                  <button
+                    onClick={() => {
+                      const allKeys = AI_OPTIONS.map(o => o.key).filter(k => k !== 'none');
+                      const allSelected = allKeys.every(k => answers.aiLevel.includes(k));
+                      setField('aiLevel', allSelected ? ['none'] : allKeys);
+                    }}
+                    style={{
+                      background: 'transparent',
+                      border: `1.5px solid ${BLUE}`,
+                      color: BLUE,
+                      borderRadius: '6px',
+                      padding: '6px 12px',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      flexShrink: 0,
+                      marginTop: '4px',
+                      transition: 'all 0.15s ease',
+                    }}
+                    className="bte-select-all-btn"
+                  >
+                    {AI_OPTIONS.map(o => o.key).filter(k => k !== 'none').every(k => answers.aiLevel.includes(k)) ? 'Deselect All' : 'Select All'}
+                  </button>
+                </div>
+                <MultiSelectCards options={AI_OPTIONS} values={answers.aiLevel} onChange={v => setField('aiLevel', v)} />
               </div>
             )}
 
             {step === 6 && (
               <div>
-                <EditableText
-                  contentKey="estimator.step6.heading"
-                  value="Which external integrations are required?"
-                  as="h2"
-                  className="bte-step-heading"
-                />
-                <EditableText
-                  contentKey="estimator.step6.desc"
-                  value="Skip this if no third-party services are needed for V1."
-                  as="p"
-                  className="bte-step-desc"
-                />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px', marginBottom: '18px', flexWrap: 'wrap' }}>
+                  <div style={{ flex: 1, minWidth: '250px' }}>
+                    <EditableText
+                      contentKey="estimator.step6.heading"
+                      value="Which external integrations are required?"
+                      as="h2"
+                      className="bte-step-heading"
+                    />
+                    <EditableText
+                      contentKey="estimator.step6.desc"
+                      value="Skip this if no third-party services are needed for V1."
+                      as="p"
+                      className="bte-step-desc"
+                      style={{ marginBottom: 0 }}
+                    />
+                  </div>
+                  <button
+                    onClick={() => {
+                      const allKeys = INTEGRATION_OPTIONS.map(o => o.key);
+                      const allSelected = allKeys.every(k => answers.integrations.includes(k));
+                      setField('integrations', allSelected ? [] : allKeys);
+                    }}
+                    style={{
+                      background: 'transparent',
+                      border: `1.5px solid ${BLUE}`,
+                      color: BLUE,
+                      borderRadius: '6px',
+                      padding: '6px 12px',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      flexShrink: 0,
+                      marginTop: '4px',
+                      transition: 'all 0.15s ease',
+                    }}
+                    className="bte-select-all-btn"
+                  >
+                    {INTEGRATION_OPTIONS.map(o => o.key).every(k => answers.integrations.includes(k)) ? 'Deselect All' : 'Select All'}
+                  </button>
+                </div>
                 <MultiSelect options={INTEGRATION_OPTIONS} values={answers.integrations} onChange={v => setField('integrations', v)} />
                 {answers.integrations.length === 0 && (
                   <EditableText
@@ -853,6 +1275,177 @@ export default function BuildTimeEstimatorPage() {
 
 // ─── Report View ──────────────────────────────────────────────────────────────
 
+const ROLE_ICONS: Record<string, React.ReactNode> = {
+  'Product Manager': <ClipboardList size={18} color="#005AE2" />,
+  'UI/UX Designer': <Palette size={18} color="#005AE2" />,
+  'Frontend Engineer': <Code2 size={18} color="#005AE2" />,
+  'Backend Engineer': <Database size={18} color="#005AE2" />,
+  'Full-Stack Developer': <Code2 size={18} color="#005AE2" />,
+  'Mobile Developer': <Smartphone size={18} color="#005AE2" />,
+  'AI / ML Engineer': <Brain size={18} color="#005AE2" />,
+  'Integration Specialist': <Plug size={18} color="#005AE2" />,
+  'DevOps Engineer': <Cloud size={18} color="#005AE2" />,
+  'QA Engineer': <ShieldCheck size={18} color="#005AE2" />,
+};
+
+function SelectionsSummaryPanel({ answers, estimate, section }: { answers: Answers; estimate: EstimateResult; section: string }) {
+  const productTypeLabel = (answers.productType ? (PRODUCT_TYPES.find(p => p.key === answers.productType)?.label || answers.productType) : '') || 'None';
+  const platformLabels = answers.platforms.map(p => PLATFORM_OPTIONS.find(o => o.key === p)?.label || p).join(', ');
+  const featureLabels = answers.features.map(f => FEATURE_OPTIONS.find(o => o.key === f)?.label || f);
+  const aiLabels = answers.aiLevel.filter(l => l !== 'none').map(l => AI_OPTIONS.find(o => o.key === l)?.label || l);
+  const integrationLabels = answers.integrations.map(i => INTEGRATION_OPTIONS.find(o => o.key === i)?.label || i);
+  const teamPrefLabel = (answers.teamPref ? (TEAM_OPTIONS.find(t => t.key === answers.teamPref)?.label || answers.teamPref) : '') || 'None';
+
+  const selectionsList: { label: string; value: string }[] = [
+    { label: 'Product Type', value: productTypeLabel },
+    { label: 'Selected Platforms', value: platformLabels || 'None' },
+    { label: 'Selected Team Pref', value: teamPrefLabel || 'None' },
+  ];
+  if (featureLabels.length > 0) selectionsList.push({ label: 'Selected Features', value: featureLabels.join(', ') });
+  if (aiLabels.length > 0) selectionsList.push({ label: 'AI Features', value: aiLabels.join(', ') });
+  if (integrationLabels.length > 0) selectionsList.push({ label: 'Selected Integrations', value: integrationLabels.join(', ') });
+
+  let analysisTitle = "Outcome Analysis";
+  let analysisWhy: string[] = [];
+
+  if (section === 'timeline') {
+    analysisTitle = "How Selections Influenced Timeline";
+    analysisWhy.push(`Building a ${productTypeLabel} establishes the base development screen count.`);
+    if (answers.platforms.includes('ios') || answers.platforms.includes('android')) {
+      analysisWhy.push("Native mobile platforms add design and QA parity testing layers, scaling effort.");
+    }
+    if (answers.teamPref === 'solo') {
+      analysisWhy.push("Solo developer pace multiplies timelines by 1.5x due to lack of parallel execution.");
+    } else if (answers.teamPref === 'dedicated') {
+      analysisWhy.push("Dedicated squad pace compresses timeline by 0.6x through parallel dev, design, and testing.");
+    } else {
+      analysisWhy.push("Standard small team pace implements standard 1.0x baseline velocity.");
+    }
+  } else if (section === 'complexity') {
+    analysisTitle = "Technical Complexity Analysis";
+    if (answers.aiLevel.some(l => l !== 'none')) {
+      analysisWhy.push("AI integrations require pipeline orchestrations, prompt safety layers, and output validation.");
+    }
+    if (answers.features.includes('messaging') || answers.features.includes('collaboration')) {
+      analysisWhy.push("Real-time collaborative features require state synchronization and WebSocket infrastructure.");
+    }
+    if (answers.integrations.includes('custom')) {
+      analysisWhy.push("Custom APIs introduce technical uncertainties and require robust integration mapping.");
+    }
+    if (analysisWhy.length === 0) {
+      analysisWhy.push("Straightforward scope with standard CRUD operations and minimal complex third-party dependencies.");
+    }
+  } else if (section === 'team') {
+    analysisTitle = "Recommended Roles Analysis";
+    if (answers.platforms.includes('ios') || answers.platforms.includes('android')) {
+      analysisWhy.push("Mobile developer is recommended to ensure native OS integration and styling Parity.");
+    }
+    if (answers.aiLevel.some(l => l !== 'none')) {
+      analysisWhy.push("AI Engineer recommended to configure LLM agents, prompts, and inference integrations.");
+    }
+    if (answers.integrations.length > 2 || answers.platforms.includes('api')) {
+      analysisWhy.push("Integration Specialist recommended to coordinate secure API contracts and payloads.");
+    }
+    if (answers.teamPref === 'dedicated') {
+      analysisWhy.push("Dedicated team adds QA Specialist to prevent regressions and handle automated testing.");
+    } else {
+      analysisWhy.push("Standard engineering roles cover all requested features without custom QA overhead.");
+    }
+  } else if (section === 'drivers') {
+    analysisTitle = "Outcome Driver Mapping";
+    if (answers.features.includes('payments')) {
+      analysisWhy.push("Payment Processing: gateway integration, subscription webhooks, invoicing, and PCI audit compliance.");
+    }
+    if (answers.features.includes('messaging')) {
+      analysisWhy.push("Real-time Messaging: Socket connections, notification fallbacks, and connection drops management.");
+    }
+    if (answers.features.includes('analytics')) {
+      analysisWhy.push("Analytics Engine: aggregate querying, charting tools, and CSV/PDF report rendering.");
+    }
+    if (analysisWhy.length === 0) {
+      analysisWhy.push("Core product features, responsive frontend layouts, and database setup are the main drivers.");
+    }
+  } else if (section === 'roadmap') {
+    analysisTitle = "Roadmap Phase Allocation";
+    analysisWhy.push("Planning & Architecture: standard 15% allocation to specify API contracts and map databases.");
+    analysisWhy.push("Core Development: 45% allocation focused on delivering high-value user stories.");
+    if (answers.integrations.length > 0 || answers.aiLevel.some(l => l !== 'none')) {
+      analysisWhy.push("Integrations & AI: 25% phase dedicated to securing third-party webhooks and training prompt models.");
+    }
+    analysisWhy.push("Testing & Launch: 15% phase to perform end-to-end regression testing and cloud setup.");
+  } else if (section === 'risks') {
+    analysisTitle = "Risk Drivers Connection";
+    if (answers.teamPref === 'solo') {
+      analysisWhy.push("Solo Developer: creates single-point-of-failure risk if developer gets ill or hits roadblocks.");
+    }
+    if (answers.integrations.includes('custom')) {
+      analysisWhy.push("Custom APIs: third-party dependencies are prone to rate limits or API contract shifts.");
+    }
+    if (answers.platforms.includes('ios') && answers.platforms.includes('android')) {
+      analysisWhy.push("Cross-Platform: QA overhead maintaining exact Parity across differing devices and operating systems.");
+    }
+    if (analysisWhy.length === 0) {
+      analysisWhy.push("Standard project parameters minimize high technical delivery risks.");
+    }
+  } else if (section === 'costs') {
+    analysisTitle = "Ongoing Cost Allocation";
+    if (answers.aiLevel.some(l => l !== 'none')) {
+      analysisWhy.push("AI APIs: recurring pay-per-token API invocation costs (e.g. OpenAI/Anthropic).");
+    }
+    if (answers.platforms.includes('ios') || answers.platforms.includes('android')) {
+      analysisWhy.push("Developer Accounts: Apple/Google yearly registration and device testing fees.");
+    }
+    if (answers.integrations.length > 0) {
+      analysisWhy.push("Third-party SaaS: monthly costs for subscription integration services (e.g. Stripe, SendGrid).");
+    }
+    if (analysisWhy.length === 0) {
+      analysisWhy.push("Standard cloud hosting and database compute scale with user traffic.");
+    }
+  } else if (section === 'mvp') {
+    analysisTitle = "MVP Prioritization Rules";
+    analysisWhy.push("Core CRUD capability and user profiles are placed in V1 to establish functional value.");
+    if (answers.features.includes('payments')) {
+      analysisWhy.push("Billing and payments included in V1 to validate pricing and capture revenue immediately.");
+    }
+    if (answers.features.some(f => ['analytics', 'messaging', 'booking'].includes(f))) {
+      analysisWhy.push("Complex reporting, peer messaging, and custom scheduling deferred to V2 to secure a fast launch.");
+    }
+  }
+
+  return (
+    <div className="rpt-sel-panel" style={{ background: '#F8FAFC', borderRadius: '12px', border: '1px solid #E2E8F0', padding: '16px', marginBottom: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
+        <div style={{ background: '#FFFFFF', padding: '16px', borderRadius: '10px', border: '1px solid #E2E8F0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+            <ClipboardList size={14} color="#005AE2" />
+            <h4 style={{ margin: 0, fontSize: '0.78rem', fontWeight: 800, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Your Selections</h4>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {selectionsList.map((sel, idx) => (
+              <div key={idx} style={{ fontSize: '0.78rem', lineHeight: 1.4 }}>
+                <span style={{ fontWeight: 700, color: '#0F172A' }}>{sel.label}: </span>
+                <span style={{ color: '#475569' }}>{sel.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ background: '#FFFFFF', padding: '16px', borderRadius: '10px', border: '1px solid #E2E8F0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+            <Lightbulb size={14} color="#005AE2" />
+            <h4 style={{ margin: 0, fontSize: '0.78rem', fontWeight: 800, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{analysisTitle}</h4>
+          </div>
+          <ul style={{ margin: 0, paddingLeft: '16px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            {analysisWhy.map((why, idx) => (
+              <li key={idx} style={{ fontSize: '0.76rem', color: '#475569', lineHeight: 1.4 }}>{why}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ReportView({ estimate, answers, onBack, customConfig }: { estimate: EstimateResult; answers: Answers; onBack: () => void; customConfig: any }) {
   const { content } = useContent();
   const [activeSection, setActiveSection] = useState('timeline');
@@ -899,6 +1492,19 @@ function ReportView({ estimate, answers, onBack, customConfig }: { estimate: Est
         .rpt-mvp-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 
         /* Sidebar mobile toggle button */
+        
+        /* Accessibility Outline & Focus Indicator Audit */
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        textarea:focus-visible,
+        .bte-option-btn:focus-visible,
+        .bte-multi-btn:focus-visible,
+        .rpt-nav-btn:focus-visible {
+          outline: 2.5px solid #005AE2 !important;
+          outline-offset: 3px !important;
+        }
+        
         .rpt-sidebar-toggle { display:none; width:100%; margin-bottom:10px; padding:10px 16px; border-radius:8px; border:1.5px solid #E2E8F0; background:#fff; cursor:pointer; font-family:'Manrope',sans-serif; font-size:0.82rem; font-weight:700; color:#64748B; }
 
         /* ── Tablet: sidebar goes to top ───────────────────────────────────── */
@@ -1014,6 +1620,7 @@ function ReportView({ estimate, answers, onBack, customConfig }: { estimate: Est
                 as="p"
                 className="rpt-section-p"
               />
+              <SelectionsSummaryPanel answers={answers} estimate={estimate} section="timeline" />
               <div style={{ background: `linear-gradient(135deg, ${BLUE} 0%, #1D4ED8 100%)`, borderRadius: '12px', padding: '28px 32px', color: '#fff', marginBottom: '20px', textAlign: 'center' }}>
                 <EditableText
                   contentKey="estimator.report.timeline.stat.label"
@@ -1053,6 +1660,7 @@ function ReportView({ estimate, answers, onBack, customConfig }: { estimate: Est
                 as="p"
                 className="rpt-section-p"
               />
+              <SelectionsSummaryPanel answers={answers} estimate={estimate} section="complexity" />
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
                 <ComplexityBadge level={estimate.complexity} />
                 <div style={{ fontSize: '0.85rem', color: '#334155', lineHeight: 1.6 }}>{estimate.complexityReason}</div>
@@ -1066,7 +1674,7 @@ function ReportView({ estimate, answers, onBack, customConfig }: { estimate: Est
                 />
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {[
-                    { label: 'AI Integration', val: answers.aiLevel !== 'none', detail: answers.aiLevel !== 'none' ? AI_OPTIONS.find(o=>o.key===answers.aiLevel)?.label : 'None' },
+                    { label: 'AI Integration', val: !answers.aiLevel.includes('none'), detail: !answers.aiLevel.includes('none') ? answers.aiLevel.filter(level => level !== 'none').map(level => AI_OPTIONS.find(o=>o.key===level)?.label).join(', ') : 'None' },
                     { label: 'Mobile Platforms', val: answers.platforms.includes('ios') || answers.platforms.includes('android'), detail: [answers.platforms.includes('ios')?'iOS':'',answers.platforms.includes('android')?'Android':''].filter(Boolean).join(' + ') || 'None' },
                     { label: 'External Integrations', val: answers.integrations.length > 1, detail: answers.integrations.length > 0 ? `${answers.integrations.length} integrations` : 'None' },
                     { label: 'Complex Features', val: ['messaging','collaboration','booking'].some(f=>answers.features.includes(f)), detail: ['messaging','collaboration','booking'].filter(f=>answers.features.includes(f)).map(f=>FEATURE_OPTIONS.find(o=>o.key===f)?.label).join(', ') || 'None' },
@@ -1095,10 +1703,13 @@ function ReportView({ estimate, answers, onBack, customConfig }: { estimate: Est
                 as="p"
                 className="rpt-section-p"
               />
+              <SelectionsSummaryPanel answers={answers} estimate={estimate} section="team" />
               <div className="rpt-team-grid">
                 {estimate.team.map((member, i) => (
                   <div key={i} style={{ padding: '16px', borderRadius: '12px', background: BLUE_LIGHT, border: `1px solid #BFDBFE`, display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <span style={{ fontSize: '1.4rem' }}>{member.icon}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '32px', height: '32px', borderRadius: '50%', background: '#fff', border: '1px solid #BFDBFE', flexShrink: 0 }}>
+                      {ROLE_ICONS[member.role] || <User size={16} color="#005AE2" />}
+                    </div>
                     <span style={{ fontWeight: 700, fontSize: '0.82rem', color: DARK }}>{member.role}</span>
                   </div>
                 ))}
@@ -1121,6 +1732,7 @@ function ReportView({ estimate, answers, onBack, customConfig }: { estimate: Est
                 as="p"
                 className="rpt-section-p"
               />
+              <SelectionsSummaryPanel answers={answers} estimate={estimate} section="drivers" />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {estimate.drivers.map((driver, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '14px 16px', borderRadius: '10px', background: '#F8FAFC', border: `1px solid ${BORDER}` }}>
@@ -1144,6 +1756,7 @@ function ReportView({ estimate, answers, onBack, customConfig }: { estimate: Est
                 as="p"
                 className="rpt-section-p"
               />
+              <SelectionsSummaryPanel answers={answers} estimate={estimate} section="roadmap" />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 {estimate.phases.map((phase, i) => (
                   <div key={i} style={{ borderRadius: '12px', border: `1px solid ${BORDER}`, overflow: 'hidden' }}>
@@ -1176,6 +1789,39 @@ function ReportView({ estimate, answers, onBack, customConfig }: { estimate: Est
                 as="p"
                 className="rpt-section-p"
               />
+              <SelectionsSummaryPanel answers={answers} estimate={estimate} section="risks" />
+
+              {/* Overall Risk Summary Panel */}
+              {(() => {
+                const highCount = estimate.risks.filter(r => r.severity === 'high').length;
+                const medCount = estimate.risks.filter(r => r.severity === 'medium').length;
+                const scoreVal = Math.min(10, Math.max(1.5, Math.round((highCount * 2.5 + medCount * 1.2) * 10) / 10));
+                const riskLevel = scoreVal >= 7.0 ? 'High' : scoreVal >= 4.0 ? 'Medium' : 'Low';
+                const levelColor = riskLevel === 'High' ? '#EF4444' : riskLevel === 'Medium' ? '#F59E0B' : '#10B981';
+                const levelBg = riskLevel === 'High' ? '#FEF2F2' : riskLevel === 'Medium' ? '#FFFBEB' : '#ECFDF5';
+                const levelBorder = riskLevel === 'High' ? '#FCA5A5' : riskLevel === 'Medium' ? '#FCD34D' : '#A7F3D0';
+
+                return (
+                  <div style={{ display: 'flex', gap: '20px', padding: '20px', borderRadius: '12px', border: `1px solid ${levelBorder}`, background: levelBg, marginBottom: '24px', flexWrap: 'wrap' }}>
+                    <div style={{ flex: '0 0 160px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRight: '1px solid rgba(0,0,0,0.06)', paddingRight: '20px' }}>
+                      <span style={{ fontSize: '0.68rem', fontWeight: 800, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '6px' }}>Overall Risk Level</span>
+                      <span style={{ fontSize: '1.5rem', fontWeight: 900, color: levelColor }}>{riskLevel}</span>
+                      <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#475569', marginTop: '4px' }}>Score: {scoreVal} / 10</span>
+                    </div>
+                    <div style={{ flex: 1, minWidth: '220px' }}>
+                      <span style={{ fontSize: '0.68rem', fontWeight: 800, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px', display: 'block' }}>Primary Risk Drivers</span>
+                      <ul style={{ margin: 0, paddingLeft: '16px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        {estimate.risks.map((risk, i) => (
+                          <li key={i} style={{ fontSize: '0.78rem', color: '#334155', fontWeight: 600 }}>
+                            {risk.title} <span style={{ fontSize: '0.65rem', fontWeight: 700, color: risk.severity === 'high' ? '#EF4444' : '#F59E0B' }}>({risk.severity.toUpperCase()})</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                );
+              })()}
+
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {estimate.risks.map((risk, i) => (
                   <div key={i} style={{ borderRadius: '10px', border: `1px solid ${risk.severity === 'high' ? '#FCA5A5' : '#FCD34D'}`, background: risk.severity === 'high' ? '#FEF2F2' : '#FFFBEB', padding: '16px' }}>
@@ -1205,6 +1851,7 @@ function ReportView({ estimate, answers, onBack, customConfig }: { estimate: Est
                 as="p"
                 className="rpt-section-p"
               />
+              <SelectionsSummaryPanel answers={answers} estimate={estimate} section="costs" />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {estimate.costDrivers.map((driver, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', padding: '14px 16px', borderRadius: '10px', background: '#F8FAFC', border: `1px solid ${BORDER}` }}>
@@ -1234,6 +1881,7 @@ function ReportView({ estimate, answers, onBack, customConfig }: { estimate: Est
                 as="p"
                 className="rpt-section-p"
               />
+              <SelectionsSummaryPanel answers={answers} estimate={estimate} section="mvp" />
               <div className="rpt-mvp-grid">
                 <div style={{ borderRadius: '12px', border: '1px solid #A5D6A7', overflow: 'hidden' }}>
                   <div style={{ background: '#E8F5E9', padding: '12px 16px', fontWeight: 800, fontSize: '0.82rem', color: '#2E7D32', display: 'flex', alignItems: 'center', gap: '8px' }}>

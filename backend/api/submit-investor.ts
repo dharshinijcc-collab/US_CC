@@ -35,6 +35,25 @@ export async function submitInvestorHandler(req: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
+    // 1.1 Insert into unified submissions table
+    try {
+      await supabaseAdmin
+        .from('submissions')
+        .insert([{
+          form_type: 'investor',
+          name: fullName,
+          email: email,
+          company: null,
+          payload: {
+            expertise: expertise,
+            preferred_roles: preferredRoles,
+            background: background
+          }
+        }]);
+    } catch (subErr) {
+      console.error('Failed to log investor form in unified submissions:', subErr);
+    }
+
     // 2. Send confirmation email to user
     try {
       await resend.emails.send({
