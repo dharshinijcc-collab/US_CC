@@ -29,8 +29,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
-
-import { API_URL } from '@/services/api';
+import { API_URL, api } from '@/services/api';
 
 export default function CareersPage() {
   const { content, loading, error } = useContent();
@@ -158,12 +157,13 @@ export default function CareersPage() {
       if (resumeFile) payload.append('resume', resumeFile);
 
       // Use API endpoint for submission
-      const response = await fetch(`${API_URL}/submit-talent`, {
-        method: 'POST',
-        body: payload,
+      const response = await api.post('/submit-talent', payload, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
-      if (response.ok) {
+      if (response.status === 200 || response.status === 201) {
         setShowForm(false);
         setSubmitted(true); // Show success message after successful submission
         setFormData({ firstName: '', email: '', interest: 'Engineering', linkedin: '', jobTitle: '' });
@@ -171,11 +171,10 @@ export default function CareersPage() {
         setFileError('');
         setErrors({});
       } else {
-        const data = await response.json();
-        alert(data.error || data.message || 'Submission failed. Please try again.');
+        alert(response.data?.error || response.data?.message || 'Submission failed. Please try again.');
       }
-    } catch (error) {
-      alert('Network error. Please try again later.');
+    } catch (error: any) {
+      alert(error.response?.data?.error || error.response?.data?.message || 'Network error. Please try again later.');
     } finally {
       setIsSubmitting(false);
     }

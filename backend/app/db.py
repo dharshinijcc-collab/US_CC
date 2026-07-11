@@ -77,6 +77,41 @@ class DBHelper:
                 postgres.release_connection(conn)
 
     @staticmethod
+    @contextmanager
+    def cursor(cursor_factory=None):
+        """
+        Context manager that yields a cursor and automatically handles
+        commit/rollback and connection release.
+        """
+        conn = None
+        cur = None
+        is_transaction = getattr(_local, "conn", None) is not None
+        _broken = False
+        try:
+            if is_transaction:
+                conn = _local.conn
+                cur = conn.cursor(cursor_factory=cursor_factory)
+                yield cur
+            else:
+                conn = postgres.get_connection()
+                cur = conn.cursor(cursor_factory=cursor_factory)
+                yield cur
+                conn.commit()
+        except Exception as e:
+            _broken = True
+            if conn and not is_transaction:
+                try:
+                    conn.rollback()
+                except Exception:
+                    pass
+            raise e
+        finally:
+            if cur:
+                cur.close()
+            if conn and not is_transaction:
+                postgres.release_connection(conn, broken=_broken)
+
+    @staticmethod
     def _get_conn_cursor(cursor_factory=None):
         """Helper to get connection and cursor, handling transaction state."""
         txn_conn = getattr(_local, "conn", None)

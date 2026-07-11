@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
-import { supabaseAdmin } from '@/backend/services/supabase';
+import { supabaseAdmin } from '@/server/services/supabase';
 import crypto from 'crypto';
 
 const G_SECRET_KEY = process.env.G_SECRET_KEY;

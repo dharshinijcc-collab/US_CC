@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { api } from '@/services/api';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -10,13 +11,12 @@ export default function AdminLoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Pre-check if already logged in by pinging `/api/auth/check`
+  // Pre-check if already logged in by pinging `auth/check`
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const res = await fetch('/api/auth/check');
-        const json = await res.json();
-        if (json.status === 'success') {
+        const res = await api.get('auth/check');
+        if (res.data?.status === 'success') {
           router.push('/admin/dashboard');
         }
       } catch {}
@@ -29,19 +29,14 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('/api/auth/admin-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-      const json = await res.json();
-      if (json.status === 'success') {
+      const res = await api.post('auth/admin-login', { email, password });
+      if (res.data?.status === 'success') {
         router.push('/admin/dashboard');
       } else {
-        setError(json.payload || 'Invalid email or password');
+        setError(res.data?.payload || 'Invalid email or password');
       }
-    } catch {
-      setError('Connection error — please try again');
+    } catch (err: any) {
+      setError(err.response?.data?.payload || 'Connection error — please try again');
     } finally {
       setLoading(false);
     }

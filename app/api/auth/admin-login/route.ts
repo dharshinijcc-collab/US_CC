@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { adminLoginHandler } from '@/backend/api/auth';
+import { adminLoginHandler } from '@/server/api/auth';
 
 export async function POST(req: NextRequest) {
   return adminLoginHandler(req);

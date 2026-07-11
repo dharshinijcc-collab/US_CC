@@ -5,7 +5,7 @@ import {
   createTeamMemberHandler,
   updateTeamMemberHandler,
   deleteTeamMemberHandler,
-} from '@/backend/api/team';
+} from '@/server/api/team';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
