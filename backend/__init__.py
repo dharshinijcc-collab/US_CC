@@ -1,8 +1,8 @@
-from .website import create_app, socketio
+from backend.app import create_app, socketio
 
 # Create the app instance
 app = create_app()
 
 if __name__ == "__main__":
     # Use standard app.run
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host="0.0.0.0", port=5000)

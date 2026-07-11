@@ -10,7 +10,7 @@ import GrainOverlay from '@/components/effects/GrainOverlay';
 import { useContent } from '@/context/ContentContext';
 import BorderBeam from '@/components/effects/BorderBeam';
 import EditableText from '@/components/admin/EditableText';
-import { API_URL } from '@/services/api';
+import { API_URL, api } from '@/services/api';
 import '@/styles/global-styles.css';
 
 export default function ContactPage() {
@@ -40,15 +40,9 @@ export default function ContactPage() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${API_URL}/submit-contact`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await api.post('/submit-contact', formData);
 
-      if (response.ok) {
+      if (response.status === 200 || response.status === 201) {
         setSubmitted(true);
         setFormData({
           firstName: '',
@@ -59,11 +53,10 @@ export default function ContactPage() {
           message: ''
         });
       } else {
-        const data = await response.json();
-        alert(data.error || 'Submission failed. Please try again.');
+        alert(response.data?.error || 'Submission failed. Please try again.');
       }
-    } catch (error) {
-      alert('Network error. Please try again later.');
+    } catch (error: any) {
+      alert(error.response?.data?.error || 'Network error. Please try again later.');
     }
   };
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/backend/services/supabase';
-import { authenticate } from '@/backend/api/team';
+import { supabaseAdmin } from '@/server/services/supabase';
+import { authenticate } from '@/server/api/team';
 
 function unauthorized() {
   return NextResponse.json({ status: 'error', message: 'Unauthorized' }, { status: 401 });

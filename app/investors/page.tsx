@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
 import Link from 'next/link';
-import { API_URL } from '@/services/api';
+import { API_URL, api } from '@/services/api';
 import '@/styles/global-styles.css';
 
 export default function InvestorsPage() {
@@ -50,13 +50,9 @@ export default function InvestorsPage() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const response = await fetch(`${API_URL}/submit-investor`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+      const response = await api.post('/submit-investor', formData);
 
-      if (response.ok) {
+      if (response.status === 200 || response.status === 201) {
         setSubmitted(true);
         setFormData({
           fullName: '',
@@ -66,11 +62,10 @@ export default function InvestorsPage() {
           background: ''
         });
       } else {
-        const data = await response.json();
-        alert(data.error || 'Submission failed. Please try again.');
+        alert(response.data?.error || 'Submission failed. Please try again.');
       }
-    } catch (error) {
-      alert('Network error. Please try again later.');
+    } catch (error: any) {
+      alert(error.response?.data?.error || 'Network error. Please try again later.');
     } finally {
       setIsSubmitting(false);
     }

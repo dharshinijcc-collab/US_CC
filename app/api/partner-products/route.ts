@@ -4,7 +4,7 @@ import {
   createPartnerProductHandler,
   updatePartnerProductHandler,
   deletePartnerProductHandler
-} from '@/backend/api/partner-products';
+} from '@/server/api/partner-products';
 
 export async function GET(req: NextRequest) {
   return getPartnerProductsHandler(req);
