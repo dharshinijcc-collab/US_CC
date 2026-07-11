@@ -4,7 +4,7 @@ import {
   createMilestoneHandler,
   updateMilestoneHandler,
   deleteMilestoneHandler
-} from '@/backend/api/milestones';
+} from '@/server/api/milestones';
 
 export async function GET(req: NextRequest) {
   return getMilestonesHandler(req);

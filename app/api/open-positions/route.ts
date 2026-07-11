@@ -4,7 +4,7 @@ import {
   createOpenPositionHandler,
   updateOpenPositionHandler,
   deleteOpenPositionHandler
-} from '@/backend/api/open-positions';
+} from '@/server/api/open-positions';
 
 export async function GET(req: NextRequest) {
   return getOpenPositionsHandler(req);

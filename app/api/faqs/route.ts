@@ -4,7 +4,7 @@ import {
   createFaqHandler,
   updateFaqHandler,
   deleteFaqHandler
-} from '@/backend/api/faqs';
+} from '@/server/api/faqs';
 
 export async function GET(req: NextRequest) {
   return getFaqsHandler(req);

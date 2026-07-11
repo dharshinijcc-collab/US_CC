@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { getToolConfigHandler, updateToolConfigHandler } from '@/backend/api/tool-config';
+import { getToolConfigHandler, updateToolConfigHandler } from '@/server/api/tool-config';
 
 export async function GET(req: NextRequest) {
   return getToolConfigHandler(req);

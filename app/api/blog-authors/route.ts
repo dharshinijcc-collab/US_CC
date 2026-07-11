@@ -4,7 +4,7 @@ import {
   createBlogAuthorHandler,
   updateBlogAuthorHandler,
   deleteBlogAuthorHandler
-} from '@/backend/api/blog-authors';
+} from '@/server/api/blog-authors';
 
 export async function GET(req: NextRequest) {
   return getBlogAuthorsHandler(req);

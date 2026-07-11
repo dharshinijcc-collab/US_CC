@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/backend/services/supabase';
-import { authenticate } from '@/backend/api/team';
+import { supabaseAdmin } from '@/server/services/supabase';
+import { authenticate } from '@/server/api/team';
 import crypto from 'crypto';
 
 // Helper to verify admin token

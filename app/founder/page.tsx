@@ -18,7 +18,7 @@ import BorderBeam from '@/components/effects/BorderBeam';
 import CountUp from '@/components/effects/CountUp';
 import { useAdmin } from '@/context/AdminContext';
 import { useInView } from 'framer-motion';
-import { API_URL } from '@/services/api';
+import { API_URL, api } from '@/services/api';
 import { 
   User, Building, Lightbulb, Compass, Zap, Users, TrendingUp, Cpu, Globe, Brain, Home,
   ArrowLeft, ArrowRight, Sparkles, Check, X, AlertTriangle, Info, RefreshCw, ChevronRight,
@@ -845,16 +845,12 @@ Moat: ${answers.moat}`;
     }
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_URL}/submit-idea`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          idea: pendingIdea,
-          email: userEmail,
-          name: userName
-        }),
+      const response = await api.post('/submit-idea', {
+        idea: pendingIdea,
+        email: userEmail,
+        name: userName
       });
-      if (response.ok) {
+      if (response.status === 200 || response.status === 201) {
         setSubmissionStep(3);
         setIdea('');
       } else {

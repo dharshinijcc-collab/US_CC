@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/backend/services/supabase';
-import { authenticate } from '@/backend/api/team';
+import { supabaseAdmin } from '@/server/services/supabase';
+import { authenticate } from '@/server/api/team';
 
 // Fallback hardcoded posts (matching components/blogs.tsx defaults)
 const DEFAULT_POSTS = [
