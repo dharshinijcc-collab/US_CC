@@ -1,0 +1,2046 @@
+{
+  "about": {
+    "advisors": {
+      "title": "Expert Guidance Where It Matters Most."
+    },
+    "community": {
+      "title": "Building Something Bigger Than A Studio."
+    },
+    "cta": {
+      "title": "If This Sounds Like The Partner You've Been Looking For"
+    },
+    "governance": {
+      "title": "How We Decide What To Build."
+    },
+    "hero": {
+      "eyebrow": "ABOUT THE STUDIO",
+      "title": "Built on trust \n and the will to execute.",
+      "description": "CrestCode is a venture studio born from a simple observation — identifying a truly great idea is rare, and executing it with conviction is rarer still. We exist to do both.",
+      "cta": "Let's Build Together"
+    },
+    "pillars": {
+      "title": "Two Truths That Built This Studio."
+    },
+    "story": {
+      "title": "Where It All Began."
+    },
+    "team": {
+      "title": "The People Behind The Studio."
+    }
+  },
+  "blog": {
+    "hero": {
+      "badge": "Our Blog",
+      "title": "Our",
+      "accent": "Insights",
+      "suffix": "& Blogs.",
+      "description": "The future of digital product engineering and AI."
+    }
+  },
+  "careers": {
+    "benefits": {
+      "items": [
+        {
+          "desc": "Monthly budget for books, courses, and conferences to sharpen your skills.",
+          "title": "Continuous Learning"
+        },
+        {
+          "desc": "Work from anywhere. We value results over desk time and office hours.",
+          "title": "Flexible Work"
+        },
+        {
+          "desc": "Directly collaborate with founders and product owners on vision and strategy.",
+          "title": "Exposure to Product"
+        },
+        {
+          "desc": "Premium health insurance and monthly wellness allowance for gym/mental health.",
+          "title": "Health & Wellness"
+        },
+        {
+          "desc": "We trust you to manage your time. Rest is essential for peak performance.",
+          "title": "Unlimited PTO"
+        },
+        {
+          "desc": "Top-tier hardware and home-office setup budget for all team members.",
+          "title": "Tech Stipend"
+        }
+      ],
+      "subtitle": "Taking care of you so you can take care of business.",
+      "title": "Benefits & Perks"
+    },
+    "cta": {
+      "primaryButton": "Submit Resume",
+      "secondaryLink": "Follow us on LinkedIn →",
+      "subtitle": "We're always looking for talented individuals. If you're passionate about what we're building, we'd love to hear from you.",
+      "title": "Don't See the Right Role?"
+    },
+    "form": {
+      "buttonText": "Send Application",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "e.g. john@example.com",
+      "interestLabel": "Interest Area",
+      "interestOptions": [
+        "Engineering",
+        "Design",
+        "Product Management",
+        "Operations",
+        "Other"
+      ],
+      "linkedinLabel": "LinkedIn Profile",
+      "linkedinPlaceholder": "https://linkedin.com/in/username",
+      "nameLabel": "Full Name",
+      "namePlaceholder": "e.g. John Doe",
+      "resumeHint": "(PDF, DOC, DOCX · Max 5MB)",
+      "resumeLabel": "Resume / CV",
+      "submittingText": "Sending Application...",
+      "uploadHint": "PDF, DOC, DOCX · Maximum 5 MB",
+      "uploadTitle": "Drop your resume here or click to browse"
+    },
+    "hero": {
+      "description": "Join a team that values ownership, learning, and building scalable digital products used by startups and growing businesses.",
+      "eyebrow": "WE'RE HIRING GLOBALLY",
+      "primaryButton": "View Open Roles",
+      "secondaryButton": "Learn More",
+      "title": "Build Meaningful Technology With Us"
+    },
+    "jobs": {
+      "listings": [
+        {
+          "location": "Chennai, TN",
+          "title": "Frontend Developer"
+        },
+        {
+          "location": "Chennai, TN",
+          "title": "Backend Developer"
+        },
+        {
+          "location": "Chennai, TN",
+          "title": "Product Designer"
+        }
+      ],
+      "subtitle": "Find the perfect role that matches your expertise.",
+      "title": "Open Positions"
+    },
+    "life": {
+      "description1": "Our work culture is built on a foundation of radical trust and empowerment. We don't believe in micromanagement; we believe in hiring exceptional people and giving them the space to excel.",
+      "description2": "Whether you're working remotely or from our innovation hubs, you'll find a community that celebrates diversity of thought, celebrates wins together, and supports each other during challenges.",
+      "title": "Life at Crestcode"
+    },
+    "success": {
+      "buttonText": "Submit Another Application",
+      "message": "Thank you for your interest in joining Crestcode. Our team will review your profile and reach out if there's a match.",
+      "title": "Application Sent!"
+    },
+    "whyJoin": {
+      "items": [
+        {
+          "desc": "Work on live products that impact thousands of users daily from day one.",
+          "title": "Real Product Experience"
+        },
+        {
+          "desc": "Structured mentorship and generous education stipends for your career path.",
+          "title": "Growth & Learning"
+        },
+        {
+          "desc": "No silos. We work across teams to solve complex problems together.",
+          "title": "Collaborative Culture"
+        },
+        {
+          "desc": "We trust you with autonomy. Your decisions shape the future of our products.",
+          "title": "Ownership & Impact"
+        }
+      ],
+      "subtitle": "We provide the environment and resources you need to do the best work of your career.",
+      "title": "Why Join Crestcode"
+    }
+  },
+  "contact": {
+    "contactInfo": {
+      "address": "New York, NY 10001",
+      "email": "hello@crestcode.usa",
+      "emailDesc": "For general inquiries and hello's",
+      "emailTitle": "Email Us",
+      "items": [
+        {
+          "label": "General Inquiries",
+          "type": "EMAIL",
+          "value": "hello@crestcode.usa"
+        },
+        {
+          "label": "Our Headquarters",
+          "type": "LOCATION",
+          "value": "New York, NY 10001"
+        }
+      ],
+      "phone": "+1 (555) 000-0000",
+      "title": "Contact Information"
+    },
+    "cta": {
+      "buttonText": "Get in Touch",
+      "title": "Ready to Start?"
+    },
+    "form": {
+      "buttonText": "Send Message",
+      "companyLabel": "COMPANY",
+      "companyPlaceholder": "Acme Inc.",
+      "emailLabel": "WORK EMAIL",
+      "emailPlaceholder": "john@company.com",
+      "messageLabel": "MESSAGE",
+      "messagePlaceholder": "Tell us about your project...",
+      "nameLabel": "FULL NAME",
+      "namePlaceholder": "John Doe",
+      "serviceLabel": "SERVICE INTEREST",
+      "stageLabel": "PROJECT STAGE",
+      "stages": [
+        "Discovery",
+        "In Progress",
+        "Scaling",
+        "Support"
+      ],
+      "subtitle": "Fill out the form below and we'll get back to you.",
+      "success": {
+        "buttonText": "Send Another Message",
+        "message": "Thank you for reaching out. Our team will review your inquiry and get back to you within 24 hours.",
+        "title": "Message Sent!"
+      },
+      "title": "Project Inquiry"
+    },
+    "hero": {
+      "buttonText": "Get Started",
+      "eyebrow": "GET IN TOUCH",
+      "subheading": "Ready to start your project? Reach out and let's discuss how we can help bring your vision to life.",
+      "title": "Let's Build Something Great Together"
+    },
+    "process": {
+      "steps": [
+        {
+          "description": "We dive deep into your vision and market.",
+          "title": "Discovery"
+        },
+        {
+          "description": "Rapid iteration and high-fidelity execution.",
+          "title": "Build"
+        },
+        {
+          "description": "Go-to-market strategy and execution.",
+          "title": "Launch"
+        }
+      ],
+      "subtitle": "How we work together to build your venture.",
+      "title": "Our Partnership Process"
+    },
+    "services": {
+      "services": [
+        {
+          "description": "Data-back your concept with market data.",
+          "title": "Idea Validation"
+        },
+        {
+          "description": "Develop your core product in record time.",
+          "title": "MVP Build"
+        },
+        {
+          "description": "Optimize your venture for long-term growth.",
+          "title": "Scaling & Growth"
+        },
+        {
+          "description": "Create high-fidelity UI/UX interfaces.",
+          "title": "Product Design"
+        },
+        {
+          "description": "Expert guidance on system architecture.",
+          "title": "Technical Consulting"
+        }
+      ],
+      "subtitle": "Select an area of interest to see how we specialize in driving your success.",
+      "title": "How can we help?"
+    }
+  },
+  "faq": {
+    "categories": {
+      "engagement": {
+        "faqs": [
+          {
+            "answer": "Our process begins with a deep-dive discovery phase to align on goals. We then move into agile development cycles featuring bi-weekly demos, transparent roadmaps, and continuous feedback loops to ensure alignment at every step.",
+            "question": "What is your typical engagement process?"
+          },
+          {
+            "answer": "Upon completion and final payment, you retain 100% ownership of all source code, designs, and intellectual property generated during the engagement.",
+            "question": "Who owns the intellectual property?"
+          }
+        ],
+        "title": "Engagement Model"
+      },
+      "product": {
+        "faqs": [
+          {
+            "answer": "A typical MVP takes between 12 to 20 weeks depending on complexity, integrations, and feature scope.",
+            "question": "How long does it take to build an MVP?"
+          },
+          {
+            "answer": "We specialize in modern, scalable stacks including React/Next.js for frontend, Node.js or Python for backend, and PostgreSQL for databases, hosted on AWS or GCP.",
+            "question": "What technology stack do you use?"
+          }
+        ],
+        "title": "Product Build"
+      },
+      "security": {
+        "faqs": [
+          {
+            "answer": "We implement industry-standard security practices including encryption at rest and in transit, regular security audits, and compliance with data protection regulations.",
+            "question": "How do you handle data security?"
+          },
+          {
+            "answer": "We offer SLA-backed maintenance packages, ongoing feature iteration cycles, and proactive infrastructure monitoring to ensure your product scales seamlessly.",
+            "question": "What support do you provide after launch?"
+          }
+        ],
+        "title": "Security & Support"
+      }
+    },
+    "cta": {
+      "buttonText": "Contact Us",
+      "subtitle": "Can't find what you're looking for? Our team is here to help.",
+      "title": "Still Have Questions?"
+    },
+    "hero": {
+      "buttonText": "Explore FAQs",
+      "eyebrow": "FREQUENTLY ASKED QUESTIONS",
+      "subheading": "Find answers to common questions about our services, process, and partnership models.",
+      "title": "Got Questions? We've Got Answers"
+    },
+    "tabs": [
+      "Engagement",
+      "Product",
+      "Security"
+    ]
+  },
+  "global": {
+    "footer": {
+      "brand": "Crestcode USA",
+      "sections": [
+        {
+          "links": [
+            {
+              "href": "/investors",
+              "name": ""
+            },
+            {
+              "href": "/studio#methodology",
+              "name": ""
+            }
+          ],
+          "title": ""
+        },
+        {
+          "links": [
+            {
+              "href": "/#about",
+              "name": "About Us"
+            },
+            {
+              "href": "/progress",
+              "name": "blogs"
+            },
+            {
+              "href": "/careers",
+              "name": "Careers"
+            },
+            {
+              "href": "/faq",
+              "name": "FAQ"
+            }
+          ],
+          "title": "COMPANY"
+        },
+        {
+          "cta": {
+            "href": "/contact",
+            "name": "Partner With Us"
+          },
+          "links": [
+            {
+              "href": "/contact",
+              "name": "Contact Us"
+            }
+          ],
+          "social": [
+            {
+              "href": "https://linkedin.com",
+              "name": "in"
+            }
+          ],
+          "title": "CONNECT"
+        }
+      ],
+      "tagline": "Building the next generation of digital infrastructure and consumer ventures.",
+      "watermark": "CRESTCODE"
+    },
+    "header": {
+      "brand": "Crestcode Product Studio",
+      "cta": "Contact Us",
+      "dropdowns": [
+        {
+          "id": "company",
+          "label": "Company",
+          "links": [
+            {
+              "href": "/#about",
+              "name": "About Us"
+            },
+            {
+              "href": "/careers",
+              "name": "Careers"
+            },
+            {
+              "href": "/faq",
+              "name": "FAQ"
+            }
+          ]
+        },
+        {
+          "id": "our_model",
+          "label": "Resources",
+          "links": [
+            {
+              "href": "/playbook",
+              "name": "Selection Framework"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "href": "/",
+          "name": "Home"
+        },
+        {
+          "href": "/studio",
+          "name": "Studio"
+        }
+      ]
+    },
+    "site": {
+      "description": "Building the next generation of venture-backed startups.",
+      "name": "Crestcode Product Studio"
+    }
+  },
+  "home": {
+    "audiences": {
+      "eyebrow": "Who We Build For",
+      "items": [
+        {
+          "description": "You have an idea with or without a technical background. We help you validate it, define the product strategy, and build a scalable MLP with the engineering and execution power most early stage founders can't access alone.",
+          "features": [
+            "Validate Before You Build",
+            "Launch Faster",
+            "Rapid MVP Development"
+          ],
+          "icon": "user",
+          "title": "Visionary Founders"
+        },
+        {
+          "description": "Have a business problem? We'll help you solve it. You understand your industry. We understand technology. Together, we identify the right solution whether that's automation, AI, internal tools, or a customer facing product.",
+          "features": [
+            "Improve customer experiences",
+            "Automate repetitive workflows",
+            "Scale Your Business"
+          ],
+          "icon": "building",
+          "title": "Business Owners"
+        },
+        {
+          "description": "We collaborate with enterprises and innovation teams to accelerate digital transformation, modernize systems, and launch impactful technology solutions.",
+          "features": [
+            "CTO-as-a-Service",
+            "Tech Strategy & Mentorship"
+          ],
+          "icon": "idea",
+          "title": "Existing Startups & Enterprises"
+        }
+      ],
+      "subtitle": "We provide the strategic technical leadership and execution power needed by founders and business owners ready to build.",
+      "title": "Engineered For Visionaries"
+    },
+    "cta": {
+      "buttonText": "Our Methodology →",
+      "subtitle": "We help founders and businesses move from concept to launch - combining strategy, design, and engineering to build products that grow.",
+      "title": "We Accelerate Product Development"
+    },
+    "hero": {
+      "emailStep": {
+        "buttonText": "Proceed →",
+        "placeholder": "yourname@email.com",
+        "subtitle": "Enter your email and we'll notify you as soon as we review your idea.",
+        "title": "Where should we send updates?"
+      },
+      "eyebrow": "THE STUDIO ADVANTAGE",
+      "footerNote": "Your idea is protected by our standard mutual NDA.",
+      "heading": "From Your First Idea To Your First Customer\nWe Build It With You, Not For You",
+      "placeholder": "Submit your idea...",
+      "signupStep": {
+        "brand": "Crestcode",
+        "features": [
+          "Dedicated Product Manager",
+          "Real-time status updates",
+          "Seamless feedback loops"
+        ],
+        "form": {
+          "badge": "Step 1 of 1",
+          "businessNameLabel": "Enter Business Name",
+          "businessNamePlaceholder": "XYZ Company Ltd.,",
+          "confirmPasswordLabel": "Confirm Password",
+          "confirmPasswordPlaceholder": "Repeat your password",
+          "creatingBtn": "Creating...",
+          "emailLabel": "Email Business Address",
+          "footerLink": "Sign in",
+          "footerText": "Already have an account?",
+          "googleBtn": "Continue with Google",
+          "orText": "OR",
+          "passwordLabel": "Password",
+          "passwordPlaceholder": "Min. 8 characters",
+          "submitBtn": "Create Account →",
+          "subtitle": "It takes less than 2 minutes.",
+          "title": "Create your account"
+        },
+        "subtitle": "Create your account to track progress, get feedback, and stay connected with our team.",
+        "title": "Your idea is in\ngood hands."
+      },
+      "subheading": "CrestCode Studio partners with founders and business owners turning ideas and real problems into scalable products that people actually use.",
+      "submitBtn": "Submit",
+      "successModal": {
+        "buttonText": "Go to Progress Page →",
+        "description": "Your idea has been submitted and your account is ready. You can now track the progress of your venture.",
+        "title": "Success!"
+      }
+    },
+    "methodology": {
+      "cards": [
+        {
+          "description": "We've taken products from zero to market across industries. We know the exact traps — and how to avoid them.",
+          "highlight": "CLARITY BEFORE CODE",
+          "icon": "lambda",
+          "title": "1. Not theorists. Builders."
+        },
+        {
+          "description": "We invest real engineering capacity — not just hours. Our success is tied to yours, not to the invoice.",
+          "highlight": "STRATEGY THAT DRIVES EXECUTION",
+          "icon": "grid",
+          "title": "2. Not a vendor. A co-builder."
+        },
+        {
+          "description": "We define success from your customer's perspective first — then engineer the product to deliver exactly that outcome.",
+          "highlight": "LEAN, SCALABLE AND BUILT TO LEARN",
+          "icon": "layers",
+          "title": "3. Start from the customer. Build toward it."
+        },
+        {
+          "description": "Minimum lovable, not minimum viable. Every first release earns real users — not just a demo-ready prototype.",
+          "highlight": "REAL USERS, REAL FEEDBACK",
+          "icon": "star",
+          "title": "4. MLP, not MVP."
+        },
+        {
+          "description": "We sit at the intersection of product, engineering, and business — and we'll push back when something won't work.",
+          "icon": "lambda",
+          "title": "5. We challenge your assumptions."
+        },
+        {
+          "description": "Access curated co founders, operators, and investors who've been through the same journey when it actually matters.",
+          "icon": "layers",
+          "title": "6. Real introductions. Not a community."
+        }
+      ],
+      "subtitle": "In your  engagement with Crestcode, you will...",
+      "title": "What Differentiates Us"
+    },
+    "metrics": [
+      {
+        "label": "HOURS AUTOMATED",
+        "value": 50000
+      },
+      {
+        "label": "VALUE DELIVERED",
+        "prefix": "$",
+        "suffix": "M",
+        "value": 12
+      },
+      {
+        "label": "FASTER TO MARKET",
+        "suffix": "x",
+        "value": 3
+      },
+      {
+        "label": "PRODUCTS LAUNCHED",
+        "value": 150
+      }
+    ],
+    "partnership": {
+      "eyebrow": "WE AS CO-FOUNDERS",
+      "features": [
+        {
+          "description": "We build and scale digital products with dedicated in-house teams focused on strategy, design, development, and long-term product growth.",
+          "title": "In-house Product Development"
+        },
+        {
+          "description": "From operations and workflows to technology support and management systems, we streamline essential business functions for efficient execution.",
+          "title": "Comprehensive Back-Office Solutions"
+        },
+        {
+          "description": "We move with startup speed - Enabling rapid iterations, transparent collaboration, and flexible execution tailored to evolving business needs.",
+          "title": "Founder-Friendly Agility"
+        }
+      ],
+      "testimonial": {
+        "author": "Julian Rossi",
+        "quote": "\"Crestcode has been the catalyst for our growth, acting as an extension of our core team.\"",
+        "role": "CTO, ZENITH FINTECH"
+      },
+      "title": "Make Innovation Accessible."
+    },
+    "process": {
+      "steps": [
+        {
+          "color": "#FF8EBB",
+          "description": "Rigorous methodology designed to de-risk and accelerate.",
+          "title": "Ideation"
+        },
+        {
+          "color": "#5C67FF",
+          "description": "Rigorous methodology designed to de-risk and accelerate.",
+          "title": "Strategy & Setup"
+        },
+        {
+          "color": "#99C26D",
+          "description": "Rigorous methodology designed to de-risk and accelerate.",
+          "title": "Design"
+        },
+        {
+          "color": "#A855F7",
+          "description": "Rigorous methodology designed to de-risk and accelerate.",
+          "title": "Development"
+        },
+        {
+          "color": "#FF8B42",
+          "description": "Rigorous methodology designed to de-risk and accelerate.",
+          "title": "Launch & Market"
+        },
+        {
+          "color": "#34D399",
+          "description": "Rigorous methodology designed to de-risk and accelerate.",
+          "title": "Scale"
+        }
+      ],
+      "subtitle": "A rigorous methodology designed to de-risk startups and accelerate the path to Product-Market Fit.",
+      "title": "The 6-Step Venture Process"
+    },
+    "testimonials": {
+      "founder": {
+        "author": "Abdul",
+        "image": "/images/founder-asfarul.jpg",
+        "quote": "\"We believe strong ideas deserve structured execution. In the world of tech, brilliance is common, but discipline is rare. We bridge that gap.\"",
+        "role": "CEO & Founder, VENTA"
+      },
+      "items": [
+        {
+          "author": "Elena Rodriguez",
+          "quote": "\"Crestcode transformed our vague concept into a market ready platform in under 4 months. Their strategic clarity and technical speed are unmatched.\"",
+          "role": "CEO, FLUX SYSTEMS"
+        },
+        {
+          "author": "David Chen",
+          "quote": "\"They don't just build what you ask for; they build what you actually need to scale. A true partner in every sense of the word.\"",
+          "role": "PRODUCT HEAD, VANTAGE AI"
+        }
+      ],
+      "title": "The Verdict From Visionaries"
+    },
+    "partnerProducts": {
+      "eyebrow": "Partners' Products",
+      "title": "What we've built together",
+      "description": "Real ventures built in partnership with founders who chose to build, not just plan.",
+      "items": [
+        {
+          "name": "Dockly",
+          "status": { "type": "live", "text": "Live", "subText": "Web ready" },
+          "tagline": "Family connectivity",
+          "subtitle": "One connected platform to manage your life, simplified",
+          "stat": "2,400+ families onboarded",
+          "statSub": "Within the first 90 days post-launch",
+          "whatWeDid": "Scoped, designed, and built a unified family hub from scratch shipping a live product in 4 months with a 3 person team.",
+          "features": [
+            {
+              "text": "Planner & calendars"
+            },
+            {
+              "text": "Shared finances"
+            },
+            {
+              "text": "Secure vault"
+            }
+          ],
+          "industry": "Family Tech / SaaS",
+          "duration": "4 months",
+          "team": "3 members",
+          "stack": [
+            "Next.js",
+            "Node.js",
+            "Tailwind CSS"
+          ]
+        },
+        {
+          "name": "CastleGEC",
+          "status": { "type": "live", "text": "Live", "subText": "Web ready" },
+          "tagline": "Global education",
+          "subtitle": "Study abroad & admissions consulting, simplified",
+          "stat": "500+ student placements",
+          "statSub": "Secured in premier universities across the US and EU",
+          "whatWeDid": "Designed and engineered a global education portal, unifying visa tracking and admissions counseling into one workflow for international students.",
+          "features": [
+            {
+              "text": "University admissions"
+            },
+            {
+              "text": "Visa guidance"
+            },
+            {
+              "text": "Admissions insights"
+            }
+          ],
+          "industry": "EdTech / Consulting",
+          "duration": "3 months",
+          "team": "2 members",
+          "stack": [
+            "Next.js",
+            "React",
+            "Tailwind CSS"
+          ]
+        },
+        {
+          "name": "OpenCap",
+          "status": { "type": "beta", "text": "Beta phase" },
+          "tagline": "Trading analytics",
+          "subtitle": "Trading analytics & prediction dashboard, simplified",
+          "stat": "$12M+ monthly trading volume",
+          "statSub": "Processed through the prediction dashboard",
+          "whatWeDid": "Developed high-frequency trading analytics dashboard and prediction models, enabling real-time portfolio tracking and option analytics.",
+          "features": [
+            {
+              "text": "AI trade prediction"
+            },
+            {
+              "text": "Portfolio analytics"
+            },
+            {
+              "text": "Positions tracker"
+            }
+          ],
+          "industry": "Fintech / Trading",
+          "duration": "5 months",
+          "team": "4 members",
+          "stack": [
+            "React.js",
+            "Node.js",
+            "PostgreSQL"
+          ]
+        },
+        {
+          "name": "NestBloq",
+          "status": { "type": "development", "text": "In development" },
+          "tagline": "Partner operations",
+          "subtitle": "B2B partner operations and workflow automation",
+          "stat": "5+ active operations hubs",
+          "statSub": "Deployed for strategic partner products",
+          "whatWeDid": "Designed and built the operations hub to orchestrate workflow management, delivery logistics, and service coordination for B2B partner products.",
+          "features": [
+            {
+              "text": "Partner workspace"
+            },
+            {
+              "text": "Integration gateway"
+            },
+            {
+              "text": "Delivery flows"
+            }
+          ],
+          "industry": "B2B / Operations",
+          "duration": "5 months",
+          "team": "3 members",
+          "stack": [
+            "Next.js",
+            "Node.js",
+            "PostgreSQL"
+          ]
+        }
+      ]
+    }
+  },
+  "investors": {
+    "advantage": {
+      "cards": [
+        {
+          "desc": "Review roadmaps, participate in design sprints, and validate feature priorities with market reality.",
+          "title": "Product Strategy"
+        },
+        {
+          "desc": "Guide young studio-hired founders through the psychological and operational hurdles of early growth.",
+          "title": "Mentorship"
+        },
+        {
+          "desc": "Open your network and help define the high-velocity sales and marketing playbooks.",
+          "title": "GTM Decisions"
+        },
+        {
+          "desc": "Implement organizational structures and operational rhythms that you've mastered elsewhere.",
+          "title": "Scaling Frameworks"
+        }
+      ],
+      "title": "The Operator Advantage"
+    },
+    "architecture": {
+      "cards": [
+        {
+          "desc": "Those who have exited and want to build again without the 0-to-1 grind.",
+          "title": "Former Founders"
+        },
+        {
+          "desc": "Scaling experts from unicorn-stage companies looking for diversification.",
+          "title": "Operators & CXOs"
+        },
+        {
+          "desc": "Specialists in deep tech, logistics, or fintech who can de-risk technical roadmaps.",
+          "title": "Domain Experts"
+        },
+        {
+          "desc": "Seasoned investors who prefer the high-touch studio model over spray-and-pray.",
+          "title": "Strategic Angels"
+        }
+      ],
+      "subtitle": "We partner with individuals who bring more than a checkbook to the table.",
+      "title": "An Architecture for Experts"
+    },
+    "benefits": {
+      "heading": "What You Get As An",
+      "highlight": "Investor."
+    },
+    "builders": {
+      "description": "We believe that capital alone is no longer a competitive advantage. The modern venture landscape demands builders who have seen the patterns of scale before.",
+      "feature1": {
+        "desc": "Move beyond quarterly reports. Influence the product roadmap directly.",
+        "title": "Execution Focus"
+      },
+      "feature2": {
+        "desc": "Deploy your specific expertise where it moves the needle most.",
+        "title": "Operator Network"
+      },
+      "quote": "\"Passive capital is a commodity. Strategic execution is the alpha.\"",
+      "title": "From Passive Capital to Active Builders"
+    },
+    "cta": {
+      "description": "Join an elite circle of builders, operators, and visionary investors reshaping the architecture of innovation.",
+      "features": [
+        "Exclusive Early Access to Incubations",
+        "Proprietary Strategic Intel Reports",
+        "Invite-Only Executive Summits"
+      ],
+      "title": "Don't Just Invest in Startups. Build Them."
+    },
+    "engine": {
+      "description": "Our partnership with leading tech universities ensures a constant pipeline of breakthrough IP and hungry, world-class engineering talent.",
+      "tags": [
+        "University R&D Bridge",
+        "Talent Pipeline",
+        "IP Moat"
+      ],
+      "title": "The Repeatable Engine"
+    },
+    "execution": {
+      "items": [
+        {
+          "desc": "Studio infrastructure reduces time to market by 40%.",
+          "num": "01",
+          "title": "Speed to Market"
+        },
+        {
+          "desc": "Centralized engineering and design teams ensure quality.",
+          "num": "02",
+          "title": "Talent Density"
+        },
+        {
+          "desc": "Legal and back-office costs are shared across portfolio.",
+          "num": "03",
+          "title": "Shared Resources"
+        },
+        {
+          "desc": "Systematic validation gates ensure commercial potential.",
+          "num": "04",
+          "title": "Lower Failure Rates"
+        }
+      ],
+      "title": "Execution Over Speculation"
+    },
+    "form": {
+      "expertise": {
+        "options": [
+          "Product Strategy",
+          "Engineering / Architecture",
+          "GTM / Sales",
+          "Finance / M&A",
+          "Legal / Compliance"
+        ]
+      },
+      "labelBackground": "Tell us about your builder background",
+      "labelEmail": "Email Address",
+      "labelExpertise": "Domain Expertise",
+      "labelName": "Full Name",
+      "labelRole": "Preferred Role",
+      "roles": {
+        "options": [
+          "Investor Only",
+          "Strategic Advisor",
+          "Venture CEO",
+          "Network Partner"
+        ]
+      },
+      "submit": "Submit Application",
+      "title": "Join as an Operator-Investor"
+    },
+    "hero": {
+      "eyebrow": "INVESTOR RELATIONS",
+      "titleText": "Not Just Capital.\nBuild With Us.",
+      "description": "CrestCode partners with strategic investors who believe in the long game — backing the studio, the ventures, or both. We offer full transparency, shared conviction, and two clear paths to participate.",
+      "buttonText": "Express Your Interest"
+    },
+    "investmentPaths": {
+      "title": "Two Ways To Invest. One Shared Goal."
+    },
+    "orbit": {
+      "active": {
+        "points": [
+          "Fractional Leadership",
+          "Direct Incubation Access",
+          "Carry/Bonus Participation"
+        ],
+        "quote": "\"Venture Partner\"",
+        "title": "Active"
+      },
+      "passive": {
+        "points": [
+          "Quarterly Reports",
+          "Annual Meeting",
+          "Exit Rights"
+        ],
+        "quote": "\"Deploy and Watch\"",
+        "title": "Passive"
+      },
+      "strategic": {
+        "label": "RECOMMENDED",
+        "points": [
+          "Advisory Council Seat",
+          "Deal Flow Preview",
+          "Product Feedback Sprints"
+        ],
+        "quote": "\"The Operator-Investor\"",
+        "title": "Strategic"
+      },
+      "title": "Choose Your Orbit"
+    },
+    "outcomes": {
+      "description": "Our model is built for significant multiples, de-risked by operational excellence.",
+      "multiplier": "12.4x",
+      "multiplierLabel": "Average Follow-on Valuation Multiplier",
+      "placeholder": "NEXT VENTURE INCUBATION",
+      "title": "Asymmetric Outcomes",
+      "ventures": [
+        {
+          "sub": "SaaS",
+          "title": "LogiFlow AI"
+        },
+        {
+          "sub": "ML",
+          "title": "Veritas Health"
+        },
+        {
+          "sub": "Cyber",
+          "title": "Kernal Core"
+        },
+        {
+          "sub": "Fintech",
+          "title": "Nexus Prop"
+        },
+        {
+          "sub": "Retail",
+          "title": "Arcade Commerce"
+        }
+      ]
+    },
+    "participation": {
+      "card1": {
+        "description": "Standard cap table participation with clearly defined rights.",
+        "link": "Preferred Stock Terms",
+        "title": "Direct Equity"
+      },
+      "card2": {
+        "description": "Contribute expertise as \"Sweat Equity\" alongside your capital.",
+        "link": "Performance Based",
+        "title": "Studio Credits"
+      },
+      "title": "Flexible Participation"
+    },
+    "pathway": {
+      "description": "For the right investor, the studio offers a unique transition. Move from strategic advisor to venture CEO as the startup hits its growth inflection point.",
+      "step1": {
+        "desc": "Engage with a venture during its incubation.",
+        "num": "1",
+        "title": "Advisory Phase:"
+      },
+      "step2": {
+        "desc": "Transition into a full-time leadership role.",
+        "num": "2",
+        "title": "Operational Shift:"
+      },
+      "title": "The Pathway to CEO"
+    },
+    "selective": {
+      "title": "We're Selective. On Purpose."
+    },
+    "terms": {
+      "title": "Clear Terms. No Surprises."
+    },
+    "tiers": {
+      "startup": {
+        "cta": "Invest in Venture",
+        "description": "High-conviction bets on specific incubated ventures where your domain expertise is a direct catalyst.",
+        "points": [
+          "Targeted Impact",
+          "Domain Alignment",
+          "Direct Advisor Role"
+        ],
+        "title": "Startup-Level"
+      },
+      "studio": {
+        "cta": "Invest in Studio",
+        "description": "Invest in the infrastructure. Gain fractional equity across every venture Crestcode launches.",
+        "points": [
+          "Diversified Exposure",
+          "Operational Upside",
+          "Governance Role"
+        ],
+        "title": "Studio-Level"
+      }
+    },
+    "whyInvest": {
+      "heading": "Why Invest In"
+    }
+  },
+  "ourModel": {
+    "comparison": {
+      "h1": "Capability",
+      "h2": "Traditional Agency",
+      "h3": "Freelance Network",
+      "h4": "Crestcode Playbook",
+      "rows": [
+        {
+          "c1": "Minimal. They build what you ask.",
+          "c2": "Non-existent. pure execution.",
+          "c3": "Clinical validation before build.",
+          "f": "Risk Management"
+        },
+        {
+          "c1": "6-9 months (Heavy overhead)",
+          "c2": "Unpredictable (Siloed tasks)",
+          "c3": "10-12 Weeks (Parallel pods)",
+          "f": "Delivery Speed"
+        },
+        {
+          "c1": "Project-based (Fee for service)",
+          "c2": "Hourly (Incentivized slowness)",
+          "c3": "Equity-aligned performance goals.",
+          "f": "Ownership Model"
+        },
+        {
+          "c1": "Hand-off & Maintenance bills.",
+          "c2": "Hard to re-engage same talent.",
+          "c3": "Scale-up pods & growth ops.",
+          "f": "Post-Launch"
+        }
+      ],
+      "title": "An Honest Comparison"
+    },
+    "cta": {
+      "button": "Apply for a Build Slot"
+    },
+    "hero": {
+      "description": "We don’t just build software; we engineer market dominance. Our proprietary playbook transforms nebulosity into high-performance digital assets through clinical validation and rapid execution.",
+      "eyebrow": "THE PLAYBOOK",
+      "primaryButton": "Start a Project",
+      "quote": "The difference between a failed startup and a unicorn isn’t the idea—it’s the systematic elimination of risk at every stage of the lifecycle.",
+      "secondaryButton": "Download Playbook",
+      "title": "From Raw Idea to Proven Product — in 5 Phases"
+    },
+    "phases": {
+      "items": [
+        {
+          "desc": "High-speed engineering of the MVP. We focus on core loops that deliver immediate value while maintaining architectural integrity.",
+          "label": "PHASE 03",
+          "title": "Build"
+        },
+        {
+          "desc": "Strategic deployment to the beachhead market. Controlled release, rapid feedback gathering, and community seeding.",
+          "label": "PHASE 04",
+          "title": "Launch"
+        },
+        {
+          "desc": "Aggressive growth through analytics-driven optimization and infrastructure hardening for mass-market demand.",
+          "label": "PHASE 05",
+          "title": "Scale"
+        }
+      ],
+      "table": {
+        "h1": "Gate Criteria",
+        "h2": "Action: Continue",
+        "h3": "Action: Iterate",
+        "h4": "Action: Stop",
+        "rows": [
+          {
+            "c": "User Retention (Day 30)",
+            "v1": "> 40%",
+            "v2": "20% - 40%",
+            "v3": "< 20%"
+          },
+          {
+            "c": "CAC / LTV Ratio",
+            "v1": "< 3:1",
+            "v2": "4:1 - 5:1",
+            "v3": "> 5:1"
+          },
+          {
+            "c": "Platform Stability",
+            "v1": "99.9% Uptime",
+            "v2": "Minor Bugfixing",
+            "v3": "Critical Failures"
+          }
+        ]
+      },
+      "title": "What Happens After a Green Light"
+    },
+    "pods": {
+      "items": [
+        {
+          "desc": "Scale-first architecture with modern stacks.",
+          "id": "POD 01",
+          "title": "Product Engineering"
+        },
+        {
+          "desc": "Behavioral-led UI/UX that converts.",
+          "id": "POD 02",
+          "title": "Product Design"
+        },
+        {
+          "desc": "Loop optimization and funnel hardening.",
+          "id": "POD 03",
+          "title": "Growth & Analytics"
+        },
+        {
+          "desc": "LLM-ops and predictive intelligence layers.",
+          "id": "POD 04",
+          "title": "AI Integration"
+        },
+        {
+          "desc": "Cloud infra and CI/CD pipelines.",
+          "id": "POD 05",
+          "title": "Platform & Ops"
+        }
+      ],
+      "subtitle": "Cross-functional expertise deployed in surgical strikes. Every pod is incentivized by product success, not billable hours.",
+      "title": "The Five Pods That Run the Playbook"
+    },
+    "selection": {
+      "cards": [
+        {
+          "desc": "We analyze macroeconomic tailwinds to ensure we’re entering at the inflection point of adoption, avoiding the “too early” trap.",
+          "title": "Market Timing"
+        },
+        {
+          "desc": "Clinical assessment of build complexity vs. available pods to ensure 12-week MVP delivery windows.",
+          "title": "Technical Feasibility"
+        },
+        {
+          "desc": "Mapping the landscape to find the structural gaps where incumbents are too slow to move and startups are under-serving.",
+          "title": "Competitive Whitespace"
+        },
+        {
+          "desc": "Ensuring the core team possesses the domain expertise and obsession required to navigate the specific industry challenges.",
+          "title": "Founder-Market Fit"
+        }
+      ],
+      "filters": [
+        "ALL",
+        "MARKET",
+        "TECH",
+        "TEAM"
+      ],
+      "label": "SELECTION FRAMEWORK",
+      "subtitle": "We are highly selective. Our resources are finite, which is why we only partner with ventures that meet our Future-Standard criteria.",
+      "title": "Selection Process"
+    },
+    "stats": {
+      "s1": {
+        "label": "WEEKS TO MVP",
+        "value": "12"
+      },
+      "s2": {
+        "label": "FASTER DELIVERY",
+        "value": "10x"
+      },
+      "s3": {
+        "label": "IP OWNERSHIP",
+        "value": "100%"
+      }
+    },
+    "validation": {
+      "label": "PHASE 02 — CLINICAL VALIDATION",
+      "outcomes": [
+        {
+          "desc": "Strong market signal. Pre-commitments secured. Unit economics project a clear path to scale.",
+          "title": "Proceed"
+        },
+        {
+          "desc": "Problem confirmed but solution missed. Pivot core value prop and re-validate immediately.",
+          "title": "Iterate"
+        },
+        {
+          "desc": "Market apathy or structural roadblocks. Stop execution now to preserve capital and focus.",
+          "title": "Kill"
+        }
+      ],
+      "steps": [
+        {
+          "desc": "Extracting every \"must-be-true\" statement.",
+          "title": "Assumption Mapping"
+        },
+        {
+          "desc": "Identifying the deadliest uncertainties first.",
+          "title": "Risk Ranking"
+        },
+        {
+          "desc": "Cold outreach, smoke tests, and MVP-0.",
+          "title": "Signal Testing"
+        },
+        {
+          "desc": "Data-backed go/no-go final decision.",
+          "title": "Evidence Review"
+        }
+      ],
+      "title": "The Validation Framework"
+    }
+  },
+  "privacy": {
+    "lastUpdated": "October 26, 2023",
+    "sections": [
+      {
+        "content": [
+          "Crestcode USA (\"we\", \"our\", or \"us\") is committed to protecting your privacy and ensuring the security of your personal data. This Privacy Policy outlines types of information we collect, how we use it, and measures we take to protect it when you use our website and services.",
+          "By accessing or using our services, you acknowledge that you have read and understood this Privacy Policy. We may update this policy periodically to reflect changes in our practices or legal requirements."
+        ],
+        "number": "01",
+        "title": "Overview"
+      },
+      {
+        "content": [
+          "We collect information that you provide directly to us, such as when you create an account, fill out a form, or communicate with our support team. This may include:"
+        ],
+        "followUpContent": [
+          "We use this data to provide and improve our services, process transactions, send administrative updates, and ensure compliance with security protocols."
+        ],
+        "listItems": [
+          "Contact Information: Name, email address, phone number, and mailing address.",
+          "Professional Details: Job title, company name, and industry information.",
+          "Technical Usage: IP address, browser type, and operating system details."
+        ],
+        "number": "02",
+        "title": "Data Collection & Usage"
+      },
+      {
+        "content": [
+          "Our website uses cookies and similar tracking technologies to enhance your browsing experience and analyze site traffic."
+        ],
+        "cookieNote": "You can manage your cookie preferences through your browser settings at any time.",
+        "cookies": [
+          {
+            "description": "Necessary for the website to function properly, including security and session management.",
+            "title": "ESSENTIAL COOKIES"
+          },
+          {
+            "description": "Help us understand how visitors interact with our website through tools like Google Analytics.",
+            "title": "ANALYTICS COOKIES"
+          }
+        ],
+        "number": "03",
+        "title": "Cookies & Analytics"
+      },
+      {
+        "contactAddress": "New York, NY 10001, USA",
+        "contactEmail": "privacy@crestcode.usa",
+        "content": [
+          "If you have any questions, concerns, or requests regarding this Privacy Policy or how we handle your personal data, please contact our Data Protection Officer:"
+        ],
+        "number": "04",
+        "title": "Contact Information"
+      }
+    ],
+    "title": "Privacy Policy"
+  },
+  "progress": {
+    "details": {
+      "currentPhaseLabel": "Current Phase",
+      "estimatedReviewLabel": "ESTIMATED REVIEW",
+      "estimatedReviewValue": "2-3 Business Days",
+      "submittedOnLabel": "SUBMITTED ON",
+      "submittedOnValue": "Oct 24, 2023"
+    },
+    "header": {
+      "subtitle": "Real-time updates on your idea's journey from concept to market.",
+      "title": "Track Your Venture"
+    },
+    "steps": [
+      {
+        "description": "We are currently reviewing your idea and defining the core value proposition.",
+        "id": 1,
+        "name": "Ideation",
+        "status": "In Progress"
+      },
+      {
+        "description": "Technical planning and resource allocation for your venture.",
+        "id": 2,
+        "name": "Strategy & Setup",
+        "status": "Pending"
+      },
+      {
+        "description": "Creating high-fidelity UI/UX designs for your product.",
+        "id": 3,
+        "name": "Design",
+        "status": "Pending"
+      },
+      {
+        "description": "Building the scalable architecture and core features.",
+        "id": 4,
+        "name": "Development",
+        "status": "Pending"
+      },
+      {
+        "description": "Deploying to market and establishing feedback loops.",
+        "id": 5,
+        "name": "Launch",
+        "status": "Pending"
+      }
+    ],
+    "support": {
+      "buttonText": "Contact Support",
+      "subtitle": "Your dedicated product manager is here to help you.",
+      "title": "Need assistance?"
+    }
+  },
+  "resources": {
+    "hero": {
+      "eyebrow": "RESOURCES",
+      "title": "Everything You Need To Build With Confidence",
+      "description": "Guides, tools, and insights for founders and investors — covering how CrestCode works, how the industry is moving, and what it takes to build a product that lasts.",
+      "buttonText": "Ask Us Anything"
+    },
+    "tools": {
+      "eyebrow": "INTERACTIVE TOOLS",
+      "title": "Tools Built For Builders.",
+      "subtitle": "Practical calculators and frameworks to help you evaluate your idea, estimate timelines, and understand what it takes to build a product with CrestCode.",
+      "cards": [
+        {
+          "title": "Timeline & Cost Estimator",
+          "status": "ACTIVE",
+          "desc": "Describe what you want to build and get a rough timeline and cost estimate based on Crestcode's engagement model — broken down by stage and scope.",
+          "tags": [
+            "Founders",
+            "Business Owners",
+            "Free"
+          ]
+        },
+        {
+          "title": "Venture Idea Validator",
+          "status": "ACTIVE",
+          "desc": "Validate your startup idea's market potential, target customer pain score, and investor appeal with our comprehensive assessment framework.",
+          "tags": [
+            "Founders",
+            "Idea Stage",
+            "Free"
+          ]
+        },
+        {
+          "title": "Social Validation Engine",
+          "status": "ACTIVE",
+          "desc": "Validate your startup idea's market demand with empirical data scraped from public discussion forums (Reddit, HackerNews, Product Hunt) and competitive gap analysis.",
+          "tags": [
+            "Founders",
+            "Social Validation",
+            "Free"
+          ]
+        },
+        {
+          "title": "PRFAQ Template",
+          "status": "COMING SOON",
+          "desc": "A structured Amazon-style PRFAQ template pre-configured for early-stage product thinking. Download, fill in, and bring it to your first Crestcode conversation.",
+          "tags": [
+            "Founders",
+            "Template",
+            "Free"
+          ]
+        },
+        {
+          "title": "Investor Readiness Checklist",
+          "status": "COMING SOON",
+          "desc": "A step-by-step checklist covering everything a founder needs before approaching investors — from pitch deck to financials to product demo readiness.",
+          "tags": [
+            "Founders",
+            "Pre-raise",
+            "Free"
+          ]
+        },
+        {
+          "title": "Product Roadmap Builder",
+          "status": "COMING SOON",
+          "desc": "A lightweight tool to map your product from MLP to V2 — prioritizing features by impact, effort, and user value so you always know what to build next.",
+          "tags": [
+            "Founders",
+            "Post-launch",
+            "Free"
+          ]
+        },
+        {
+          "title": "Studio Investment Calculator",
+          "status": "COMING SOON",
+          "desc": "Model different investment scenarios across Crestcode's two investment paths — visualize projected returns, timelines, and exposure across the portfolio.",
+          "tags": [
+            "Investors",
+            "Free"
+          ]
+        }
+      ]
+    }
+  },
+  "studio": {
+    "consolidated": {
+      "whoweare": {
+        "eyebrow": "Who we are",
+        "title": "Not An Agency. Not An Accelerator.\nA Venture Partner.",
+        "desc": "CrestCode exists to level the playing field combining elite engineering with strategic partnership to turn bold ideas into ventures built to last, not just launched."
+      },
+      "vision": {
+        "eyebrow": "VISION & MISSION",
+        "title": "What we're building toward, and how we get there",
+        "paragraph1": "We envision a world where great ideas regardless of technical background or startup experience get the strategic and engineering firepower they deserve. No founder should have to build alone.",
+        "paragraph2": "Day to day, that means partnering with visionary founders and business owners through strategy, elite engineering, and relentless execution turning real problems into world-class digital products."
+      }
+    },
+    "cta": {
+      "eyebrow": "Get Started",
+      "buttonText": "Start Your Venture",
+      "subtitle": "Built to transform high potential ideas into scalable, venture ready products with real market relevance. Focused on validation, execution, and sustainable growth to create long-term value for founders and investors alike.",
+      "title": "Have A Venture Ready Idea?"
+    },
+    "differentiation": {
+      "title": "Not A Vendor.\nNot A Studio That Vanishes.\nA Co-builder.",
+      "subtitle": "Here is how we compare to the alternatives and why it matters for your venture.",
+      "rows": {
+        "1": {
+          "feature": "End to end product ownership"
+        },
+        "3": {
+          "feature": "MLP standard not just MVP"
+        },
+        "5": {
+          "feature": "Go to market & pitch support"
+        },
+        "6": {
+          "feature": "Co founder network access"
+        }
+      }
+    },
+    "faq": {
+      "items": [
+        {
+          "answer": "We partner with high-conviction founders building technology-driven businesses. We look for ideas with a large addressable market, a clear technical edge, and a founder who is deeply committed to execution. We work across B2B SaaS, consumer apps, fintech, and AI-enabled products.",
+          "question": "What types of ventures does Crestcode partner with?"
+        },
+        {
+          "answer": "A full build engagement typically runs 16–24 weeks from discovery to launch, depending on complexity. We also offer support and co-development arrangements for teams that need targeted acceleration.",
+          "question": "How long does a typical studio engagement take?"
+        },
+        {
+          "answer": "Our Selection Framework is a proprietary assessment process that evaluates ideas across four dimensions: Market Scale, Technical Edge, High Conviction, and Founder Fit. Only ventures that meet our Future-Standard criteria are accepted into the studio.",
+          "question": "What is the Selection Framework?"
+        },
+        {
+          "answer": "Our engagement models vary. We offer equity-based partnerships for full studio builds, as well as retainer and co-development arrangements for teams with capital. We'll find a structure that aligns incentives for both sides.",
+          "question": "Do you take equity in exchange for your services?"
+        }
+      ],
+      "title": "Frequently Asked Questions"
+    },
+    "foundersInvestors": {
+      "founders": {
+        "benefits": [
+          "Fractional C-Suite Support",
+          "Elite Dev & Design Squads",
+          "Seed Stage Fundraising Prep"
+        ],
+        "buttonText": "Get Started",
+        "description": "Turn your vision into a venture-backable reality. We provide the infrastructure and talent to build 10x faster while you focus on the market.",
+        "title": "For Founders"
+      },
+      "investors": {
+        "benefits": [
+          "Technical Due Diligence",
+          "Portfolio Scale-Up Services",
+          "Managed Exit Preparation"
+        ],
+        "buttonText": "Partner With Us",
+        "description": "We de-risk technology investments. Partner with Crestcode to build your portfolio companies with professional-grade execution.",
+        "title": "For Investors"
+      },
+      "title": "Built for Founders. Designed for Investors."
+    },
+    "hero": {
+      "badgeLabel": "Aggregate Portfolio Valuation",
+      "badgeTag": "LIVE VENTURES",
+      "badgeValue": "$450M+",
+      "buttonText": "See How We Collaborate →",
+      "eyebrow": "THE STUDIO ADVANTAGE",
+      "image": "/images/studio/hero-right.jpeg",
+      "subheading": "CrestCode Studio partners with founders and business owners to build world-class digital products — from the first spark of an idea to a product in market.",
+      "title": "We are a Technology Product Studio"
+    },
+    "partnership": {
+      "codevelopment": {
+        "bestFor": "Startups and teams ready to build MVPs, platforms, or scalable digital solutions.",
+        "buttonText": "Learn more →",
+        "description": "We transform validated ideas into scalable digital products through agile development, UI/UX design, and execution-focused collaboration.",
+        "title": "Develop"
+      },
+      "fullBuild": {
+        "bestFor": "Growing startups and investors seeking scalable execution and business growth.",
+        "buttonText": "Learn more →",
+        "description": "We support venture growth through product scaling, operational optimization, and long-term technology partnership for sustainable expansion.",
+        "title": "Expand"
+      },
+      "support": {
+        "bestFor": "Early-stage founders exploring product-market fit and venture direction.",
+        "buttonText": "Learn more →",
+        "description": "We help founders validate ideas, define product strategy, and identify market opportunities through structured research and strategic planning.",
+        "title": "Ideate"
+      },
+      "title": "How the Partnership Works"
+    },
+    "selectiveness": {
+      "eyebrow": "OUR THESIS",
+      "thesisLabel": "LET'S START FROM HERE",
+      "thesisDesc": "Independent professionals and small operators — the people doing real, skilled work — are stuck managing their business with spreadsheets, phone calls, and guesswork, while the software built for them is either too generic or too complex.\n\nIt's not for lack of technology. It's cost, habit, and a real fear: that handing the business over to software means losing the judgment that made it succeed in the first place.\n\nWe build the missing layer — simple, plug-and-play products that earn that trust by fitting how these businesses actually work, not the other way around. A click for the customer. Less admin, more craft, for the professional.\n\nThat's our bet: the businesses still under-digitized today are the ones with the most room to grow tomorrow.\"",
+      "thesisTitle": "INVESTMENT THESIS: SMALL BUSINESSES ARE STILL RUNNING ON YESTERDAY'S TOOLS",
+      "title": "We Are Selective\nFor A Reason.",
+      "thesisP1": "Families managing the moving parts of a household. Small business owners running operations with no IT department behind them. Different scale, same problem they're stuck with spreadsheets, phone calls, and guesswork, while the software built for them is either too generic to fit how they actually operate, or too complex to bother adopting.",
+      "thesisP3": "We build for both sides of that gap. For families, that means products like Dockly and CastleGEC tools that hold the everyday logistics and the major decisions of a household in one place, instead of scattered across apps no one fully trusts. For small businesses, that means products like Limelite and NestBloq tools built around how an independent operator actually works, not how an enterprise vendor assumes they should.",
+      "thesisP4": "That's our bet: the families and small operators still under digitized today are the ones with the most room to grow tomorrow and the ones we're building for first.",
+      "axis": {
+        "family": "Family",
+        "business": "Business",
+        "broad": "Broad",
+        "niche": "Niche"
+      },
+      "products": {
+        "limelite": "Limelite",
+        "dockly": "Dockly",
+        "castleGEC": "CastleGEC",
+        "openCap": "OpenCap",
+        "nestBloq": "NestBloq"
+      }
+    },
+    "solving": {
+      "caption": "How Crestcode Resolves It",
+      "eyebrow": "Solving It",
+      "cards": [
+        {
+          "id": 0,
+          "problemDesc": "We identify high-potential opportunities, validate them through strategy and market fit, and build scalable ventures with the right product, team, and capital.",
+          "solutionDesc": "Crestcode validates ideas before development begins, tests demand and feasibility early, aligns the solution with real market needs, and ensures execution starts with confidence, not guesswork.",
+          "title": "1. Building Before Validation"
+        },
+        {
+          "id": 1,
+          "problemDesc": "Startups often suffer from poor technical foundations that prevent scaling and lead to expensive rewrites.",
+          "solutionDesc": "We build on enterprise-grade architecture from day one, ensuring your product is scalable, secure, and ready for massive growth.",
+          "title": "2. Technical Foundation"
+        },
+        {
+          "id": 2,
+          "problemDesc": "Most startups fail because they build products no one wants, misinterpreting market signals.",
+          "solutionDesc": "Our validation process savings crucial runway by preventing premature scaling and ensuring resources are allocated to proven market demands.",
+          "title": "3. Market Misalignment"
+        },
+        {
+          "id": 3,
+          "problemDesc": "Fragmented handoffs between design and engineering slow down development and dilute vision.",
+          "solutionDesc": "Our dedicated pods move 10x faster through total alignment, shared codebases, and repeatable engineering frameworks.",
+          "title": "4. Execution Speed"
+        },
+        {
+          "id": 4,
+          "problemDesc": "Raising too much capital too early leads to dilution and loss of strategic control.",
+          "solutionDesc": "We provide the infrastructure and expertise to reach profitability with minimal burn, giving founders total control.",
+          "title": "5. Capital Efficiency"
+        }
+      ],
+      "title": "How We Are Solving It"
+    },
+    "timeline": {
+      "phases": [
+        {
+          "description": "Defining core goals and user needs for a scalable architecture.",
+          "duration": "1-2 WKS",
+          "phase": "PHASE 01",
+          "title": "Discovery Requirements"
+        },
+        {
+          "description": "Technical planning and resource allocation.",
+          "duration": "1-2 WKS",
+          "phase": "PHASE 02",
+          "title": "Strategy & Setup"
+        },
+        {
+          "description": "High-fidelity UI/UX design and interaction mapping.",
+          "duration": "3-4 WKS",
+          "phase": "PHASE 03",
+          "title": "Design & Prototyping"
+        },
+        {
+          "description": "Building core features with bi-weekly demos.",
+          "duration": "8-12 WKS",
+          "phase": "PHASE 04",
+          "title": "Agile Development"
+        },
+        {
+          "description": "Rigorous testing and production deployment.",
+          "duration": "2 WKS",
+          "phase": "PHASE 05",
+          "title": "QA & Launch"
+        },
+        {
+          "description": "Maintenance, optimization, and scaling.",
+          "duration": "Ongoing",
+          "phase": "PHASE 06",
+          "title": "Growth & Scale"
+        }
+      ],
+      "subtitle": "A high-velocity, structured roadmap from zero to market entry. We engineer digital excellence through 6 rigorous execution phases, optimized for performance and scale.",
+      "title": "The Build Timeline"
+    },
+    "validation": {
+      "buttonText": "Validate Your Idea",
+      "description": "Get an instant \"Build-Ready\" score based on our proprietary venture assessment framework.",
+      "growthBadge": "High Growth Potential Detected",
+      "gtmStrategyLabel": "GTM Strategy",
+      "gtmStrategyValue": "81%",
+      "marketFitLabel": "Market Fit",
+      "marketFitValue": "92%",
+      "scoreLabel": "VENTURE READINESS SCORE",
+      "scoreValue": "84/100",
+      "techFeasibilityLabel": "Tech Feasibility",
+      "techFeasibilityValue": "78%",
+      "title": "Idea Validation"
+    },
+    "vision": {
+      "title": "Not an agency. Not an accelerator. A venture partner."
+    },
+    "whatWeLookFor": {
+      "criteria": [
+        {
+          "description": "We look for ideas targeting massive TAM ($1B+) with clear, underserved niches or significant market inefficiencies.",
+          "title": "Market Scale"
+        },
+        {
+          "description": "Opportunities where AI, intelligent automation, or proprietary technology creates a sustainable competitive advantage.",
+          "title": "Technical Edge"
+        },
+        {
+          "description": "Ideas that solve critical, recurring pain points with a clear path to product-market fit and scalability.",
+          "title": "High Conviction"
+        },
+        {
+          "description": "Partners who possess deep domain expertise, relentless drive, and a commitment to professional-grade execution.",
+          "title": "Founder Fit"
+        }
+      ],
+      "subtitle": "We are highly selective. Our resources are finite, which is why we only partner with ventures that meet our \"Future-Standard\" criteria.",
+      "title": "What We Look For"
+    },
+    "whyIdeasFail": {
+      "description": "Strategy, technology, and execution brought together to help ventures scale with clarity and speed. Built to support every stage, from idea validation to operational growth and market expansion. Focused on delivering innovation, efficiency, and sustainable long-term impact.",
+      "image": "/images/core_capabilities_new.png",
+      "problems": [
+        {
+          "description": "Building intelligent, scalable digital products powered by AI and modern engineering.",
+          "title": "AI-Led Product Development"
+        },
+        {
+          "description": "Collaborating with ambitious founders to build and scale high-potential ventures.",
+          "title": "Venture Partnerships"
+        }
+      ],
+      "title": "Our Core Capabilities."
+    },
+    "values": {
+      "subtitle": "We aren't here to build commodities. We partner with founders to construct enduring, high performance tech enterprises."
+    },
+    "selection_process": {
+      "tabs": [
+        {
+          "title": "SELECT"
+        },
+        {
+          "title": "SUBMIT"
+        },
+        {
+          "title": "VALIDATE"
+        },
+        {
+          "title": "BUILD"
+        },
+        {
+          "title": "LAUNCH"
+        },
+        {
+          "title": "PMF"
+        },
+        {
+          "title": "SCALE"
+        }
+      ],
+      "items": [
+        {
+          "title": "We choose ideas worth building",
+          "description": "Submit your idea — not the how, just the what and why, in one page or less. Every submission gets reviewed by our partners directly.",
+          "bullets": [
+            {
+              "title": "Submit your idea",
+              "desc": "One page max. We're evaluating the problem and your fit — not asking for a business plan yet."
+            },
+            {
+              "title": "Meet with partners",
+              "desc": "You'll learn what CrestCode does, what support looks like, and the full process ahead."
+            }
+          ],
+          "metricHeader": null,
+          "metrics": [
+            {
+              "num": "01",
+              "label": "Typical duration",
+              "value": "1-2 weeks",
+              "valueColor": "#0F172A"
+            },
+            {
+              "num": "",
+              "label": "What you need",
+              "value": "Just the idea",
+              "valueColor": "#0F172A"
+            }
+          ]
+        },
+        {
+          "title": "Submit your idea",
+          "description": "Share your concept with our team. We review every submission within 24–48 hours and assess fit across market potential, technical feasibility, and founder conviction.",
+          "bullets": [
+            {
+              "title": "Initial assessment",
+              "desc": "We review every submission within 24–48 hours to assess market potential, technical feasibility, and founder conviction."
+            },
+            {
+              "title": "Partner meeting",
+              "desc": "Get invited to learn what Crestcode does, the support we provide, and the overall process."
+            }
+          ],
+          "metricHeader": null,
+          "metrics": [
+            {
+              "num": "01",
+              "label": "Typical duration",
+              "value": "24-48 hours",
+              "valueColor": "#0F172A"
+            },
+            {
+              "num": "",
+              "label": "What you need",
+              "value": "1 page max",
+              "valueColor": "#0F172A"
+            }
+          ]
+        },
+        {
+          "title": "We pressure-test before we build",
+          "description": "If there's mutual fit, you submit the full proposal — business model, strategic alignment, and technical scope — before any code gets written.",
+          "bullets": [
+            {
+              "title": "Full proposal",
+              "desc": "Business model, target customer, and technical specifications get detailed and stress-tested together."
+            },
+            {
+              "title": "Team assigned",
+              "desc": "Senior engineers and product leads are allocated — the people you meet are the people who build."
+            }
+          ],
+          "metricHeader": null,
+          "metrics": [
+            {
+              "num": "01",
+              "label": "Typical duration",
+              "value": "1-2 weeks",
+              "sub": "Proposal review through team allocation",
+              "valueColor": "#0F172A"
+            },
+            {
+              "num": "02",
+              "label": "Output",
+              "value": "Signed scope + team",
+              "sub": "Clear deliverables before build begins",
+              "valueColor": "#0F172A"
+            }
+          ]
+        },
+        {
+          "title": "Design and engineering, in lockstep",
+          "description": "A high-velocity, structured roadmap from zero to market entry — six execution stages optimized for speed without sacrificing quality.",
+          "bullets": [
+            {
+              "title": "Discovery & requirements",
+              "duration": "1-2 weeks",
+              "desc": "Defining core goals and user needs for a scalable architecture."
+            },
+            {
+              "title": "Strategy & setup",
+              "duration": "1-2 weeks",
+              "desc": "Technical planning and resource allocation."
+            },
+            {
+              "title": "Design & prototyping",
+              "duration": "3-4 weeks",
+              "desc": "High-fidelity UI/UX design and interaction mapping."
+            },
+            {
+              "title": "Agile development",
+              "duration": "8-12 weeks",
+              "desc": "Building core features with bi-weekly demos."
+            },
+            {
+              "title": "QA & launch prep",
+              "duration": "2 weeks",
+              "desc": "Rigorous testing and production deployment."
+            }
+          ],
+          "metricHeader": "HOW WE MEASURE THIS PHASE",
+          "metrics": [
+            {
+              "num": "01",
+              "label": "Sprint velocity",
+              "value": "Bi-weekly demos",
+              "sub": "Working software shown every cycle",
+              "valueColor": "#005AE2"
+            },
+            {
+              "num": "02",
+              "label": "Scope stability",
+              "value": "85%+ on-spec",
+              "sub": "Features matching original scope",
+              "valueColor": "#10B981"
+            },
+            {
+              "num": "03",
+              "label": "Code quality gate",
+              "value": "80%+ test coverage",
+              "sub": "Minimum before a feature is done",
+              "valueColor": "#005AE2"
+            },
+            {
+              "num": "04",
+              "label": "Time to MLP",
+              "value": "15-22 weeks",
+              "sub": "Discovery through QA, idea-dependent",
+              "valueColor": "#B45309"
+            }
+          ]
+        },
+        {
+          "title": "Precision over noise",
+          "description": "Founder-led, community-first, metrics-gated. Growth is earned before it's amplified — we deploy strategically to a beachhead market first.",
+          "bullets": [
+            {
+              "title": "Beachhead deployment",
+              "desc": "Controlled release, rapid feedback gathering, and early community seeding."
+            }
+          ],
+          "metricHeader": "HOW WE MEASURE THIS PHASE",
+          "metrics": [
+            {
+              "num": "01",
+              "label": "User retention (Day 30)",
+              "value": "Target 20-40%",
+              "sub": "Early product-market signal",
+              "valueColor": "#B45309"
+            },
+            {
+              "num": "02",
+              "label": "CAC : LTV ratio",
+              "value": "Target 1 : 4-5",
+              "sub": "Threshold before recommending paid growth",
+              "valueColor": "#B45309"
+            },
+            {
+              "num": "03",
+              "label": "Platform stability",
+              "value": "99.5%+ uptime",
+              "sub": "Monitored from first public release",
+              "valueColor": "#10B981"
+            },
+            {
+              "num": "04",
+              "label": "Time to first 100 users",
+              "value": "2-4 weeks",
+              "sub": "From beachhead release to adoption",
+              "valueColor": "#005AE2"
+            }
+          ]
+        },
+        {
+          "title": "Achieving Product-Market Fit",
+          "description": "We measure, iterate, and refine until your product earns genuine retention. PMF is not declared — it is proven through real user behavior and engagement signals.",
+          "bullets": [
+            {
+              "title": "Retention signals",
+              "desc": "Track repeat usage, engagement depth, and organic referral patterns that indicate real product value."
+            },
+            {
+              "title": "User feedback loops",
+              "desc": "Structured interviews and behavioral data to identify what resonates and what needs refinement."
+            },
+            {
+              "title": "Iteration cycles",
+              "desc": "Rapid product adjustments based on validated learnings — not assumptions."
+            }
+          ],
+          "metricHeader": "HOW WE MEASURE THIS PHASE",
+          "metrics": [
+            {
+              "num": "01",
+              "label": "Target PMF timeline",
+              "value": "3-6 months",
+              "sub": "Structured iteration cycles",
+              "valueColor": "#B45309"
+            },
+            {
+              "num": "02",
+              "label": "Retention metric",
+              "value": "Sustained active usage",
+              "sub": "Product-market confirmation",
+              "valueColor": "#005AE2"
+            }
+          ]
+        },
+        {
+          "title": "We stay past the finish line",
+          "description": "This is where most studios disappear. We don't — refining distribution, optimizing the acquisition funnel, and supporting fundraising as the venture grows.",
+          "bullets": [
+            {
+              "title": "Distribution & growth",
+              "desc": "Refining channels and optimizing the acquisition funnel for sustained impact."
+            },
+            {
+              "title": "Ongoing partnership",
+              "desc": "Continued access to the CrestCode network, engineering support, and strategic guidance."
+            }
+          ],
+          "metricHeader": "HOW WE MEASURE THIS PHASE",
+          "metrics": [
+            {
+              "num": "01",
+              "label": "Month-over-month growth",
+              "value": "Target 10-20%",
+              "sub": "Sustainable compounding growth",
+              "valueColor": "#10B981"
+            },
+            {
+              "num": "02",
+              "label": "Channel diversification",
+              "value": "2+ active channels",
+              "sub": "Reduces single-source dependency",
+              "valueColor": "#005AE2"
+            },
+            {
+              "num": "03",
+              "label": "Net revenue retention",
+              "value": "Target 100%+",
+              "sub": "Expansion outpacing churn",
+              "valueColor": "#B45309"
+            },
+            {
+              "num": "04",
+              "label": "Continued engagement",
+              "value": "Ongoing partnership",
+              "sub": "Engaged through fundraising & beyond",
+              "valueColor": "#005AE2"
+            }
+          ]
+        }
+      ]
+    },
+    "phases": {
+      "eyebrow": "Selection Process",
+      "title": "Seven Steps. One Mission.",
+      "subtitle": "Our structured blueprint for transforming bold concepts into venture-scale realities."
+    }
+  },
+  "terms": {
+    "lastUpdated": "October 26, 2023",
+    "sections": [
+      {
+        "content": [
+          "By accessing or using the Crestcode USA website and services, you agree to be bound by these Terms of Use and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using or accessing this site.",
+          "We reserve the right to review and amend any of these terms at our sole discretion. Any change will take effect from the date of publication."
+        ],
+        "number": "01",
+        "title": "Agreement to Terms"
+      },
+      {
+        "content": [
+          "Our services are provided on an \"as is\" and \"as available\" basis. We make no warranties, expressed or implied, regarding the accuracy, reliability, or availability of the website or its content."
+        ],
+        "number": "02",
+        "title": "Service Limitations"
+      }
+    ],
+    "title": "Terms of Use"
+  },
+  "methodology": {
+    "subtitle": "Our collaborative venture-building methodology designed to de-risk startups and scale high growth products from day one.",
+    "cards": {
+      "0": {
+        "description": "We've taken products from zero to market across industries. We know the exact traps and how to avoid them."
+      },
+      "1": {
+        "description": "We invest real engineering capacity  not just hours. Our success is tied to yours, not to the invoice."
+      },
+      "2": {
+        "description": "We define success from your customer's perspective first then engineer the product to deliver exactly that outcome."
+      },
+      "3": {
+        "description": "Minimum lovable, not minimum viable. Every first release earns real users not just a demo-ready prototype."
+      },
+      "4": {
+        "description": "We sit at the intersection of product, engineering, and business  and we'll push back when something won't work."
+      }
+    }
+  }
+}
