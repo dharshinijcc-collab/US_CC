@@ -1,10 +1,13 @@
 import axios from 'axios';
 import { supabase } from '../lib/supabase';
 
-export const LOCAL_API_URL = "http://localhost:4000/api";
-export const RENDER_API_URL = "http://localhost:4000/api";
+export const LOCAL_API_URL = "http://localhost:8000/api";
+export const RENDER_API_URL = "http://localhost:8000/api";
 
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+export const API_URL = 
+  (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_API_URL) ||
+  ((import.meta as any).env && (import.meta as any).env.VITE_API_URL) ||
+  "http://localhost:8000/api";
 
 console.log('🚀 ~ API_URL:', API_URL);
 declare module 'axios' {

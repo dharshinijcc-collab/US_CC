@@ -4,8 +4,8 @@ export const dynamic = 'force-dynamic';
 
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import { 
   Lightbulb, Compass, Zap, Users, ShieldAlert, Sparkles, Check, 
   AlertTriangle, RefreshCw, ChevronRight, ExternalLink, ArrowLeft, BarChart3, MessageSquare, AlertCircle,

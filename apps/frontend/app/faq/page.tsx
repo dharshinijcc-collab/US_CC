@@ -5,8 +5,8 @@ export const dynamic = 'force-dynamic';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import useScrollReveal from '@/hooks/useScrollReveal';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import GrainOverlay from '@/components/effects/GrainOverlay';
 import { useContent } from '@/context/ContentContext';
 import useMagneticHover from '@/hooks/useMagneticHover';
@@ -416,15 +416,6 @@ export default function FaqPage() {
         .cta-desc { font-size: clamp(0.95rem, 2vw, 1.05rem); font-weight: 500; color: var(--text-muted); margin-bottom: 32px; line-height: 1.6; }
         .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
-        /* Footer */
-        .footer { background-color: var(--bg-dark); color: #9CA3AF; padding: 24px 0 24px; font-size: clamp(0.875rem, 1.5vw, 1rem); font-weight: 500;}
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 48px; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        .footer-logo { color: var(--white); font-weight: 800; font-size: clamp(1.125rem, 2.5vw, 1.25rem); margin-bottom: 16px; letter-spacing: -0.02em; }
-        .footer-heading { color: var(--white); font-weight: 700; margin-bottom: 24px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
-        .footer-links ul { list-style: none; padding: 0; margin: 0; }
-        .footer-links li { margin-bottom: 16px; }
-        .footer-links a { color: #9CA3AF; text-decoration: none; transition: color 0.2s; }
-        .footer-links a:hover { color: var(--white); }
 
         @media (max-width: 900px) {
           .tabs-container {

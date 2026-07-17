@@ -19,25 +19,32 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "next/link": [
+        "./src/next-shims/link.tsx"
+      ],
+      "next/navigation": [
+        "./src/next-shims/navigation.tsx"
+      ],
+      "next/image": [
+        "./src/next-shims/image.tsx"
+      ],
+      "next/font/google": [
+        "./src/next-shims/font.tsx"
       ]
     }
   },
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
+    "**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    ".next",
+    "app/layout.tsx",
+    "app/admin/layout.tsx"
   ]
 }

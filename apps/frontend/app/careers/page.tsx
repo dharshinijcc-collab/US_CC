@@ -25,8 +25,8 @@ import {
   FileText,
   X
 } from 'lucide-react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
 import { API_URL, api } from '@/services/api';
@@ -197,14 +197,14 @@ export default function CareersPage() {
 
         body, html {
           margin: 0; padding: 0;
-          font-family: var(--font-inter), sans-serif;
+          font-family: 'Inter', sans-serif;
           background-color: #F8FAFC; 
           color: var(--text-black);
           scroll-behavior: smooth;
         }
 
         h1, h2, h3, h4, h5, h6, .font-manrope { 
-          font-family: var(--font-manrope), sans-serif; 
+          font-family: 'Manrope', sans-serif; 
           letter-spacing: -0.02em;
         }
 

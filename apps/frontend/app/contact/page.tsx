@@ -4,8 +4,8 @@ export const dynamic = 'force-dynamic';
 
 import React, { useState } from 'react';
 import useScrollReveal from '@/hooks/useScrollReveal';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import GrainOverlay from '@/components/effects/GrainOverlay';
 import { useContent } from '@/context/ContentContext';
 import BorderBeam from '@/components/effects/BorderBeam';
