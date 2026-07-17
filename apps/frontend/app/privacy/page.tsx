@@ -2,8 +2,8 @@
 
 import React from 'react';
 import useScrollReveal from '@/hooks/useScrollReveal';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
 

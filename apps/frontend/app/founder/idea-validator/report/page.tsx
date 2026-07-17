@@ -5,8 +5,8 @@ export const dynamic = 'force-dynamic';
 import React, { Suspense, useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import { 
   User, Building, Lightbulb, Compass, Zap, Users, TrendingUp, Cpu, Globe, Brain, 
   ArrowLeft, ArrowRight, Sparkles, Check, X, AlertTriangle, Info, RefreshCw, ChevronRight,

@@ -3,8 +3,8 @@
 export const dynamic = 'force-dynamic';
 
 import React, { useState, useEffect } from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import EditableText from '@/components/admin/EditableText';
 import { useContent } from '@/context/ContentContext';
 import Link from 'next/link';
@@ -14,6 +14,81 @@ import type { TeamMember } from '@/types/team.types';
 function getInitials(name: string) {
   return name.split(' ').map((w: string) => w[0]).join('').slice(0, 2).toUpperCase();
 }
+
+const defaultTeam: TeamMember[] = [
+  {
+    id: 'f1',
+    name: 'Asfarul Huda',
+    role: 'CEO & Founder',
+    bio: 'Former Amazon Product Manager with a decade of experience building digital products at scale. Founded CrestCode in 2025 with a mission to give every founder access to world-class execution.',
+    category: 'Founder',
+    display_order: 1,
+    is_active: true,
+    image_url: null,
+    created_at: '',
+    updated_at: ''
+  },
+  {
+    id: 'p1',
+    name: 'Adam Braasch',
+    role: 'Partner',
+    bio: 'A strategic and operational partner at CrestCode, Adam brings deep expertise in building and scaling early-stage ventures from idea to market.',
+    category: 'Partner',
+    display_order: 2,
+    is_active: true,
+    image_url: null,
+    created_at: '',
+    updated_at: ''
+  },
+  {
+    id: 'p2',
+    name: 'Pranali Choubal',
+    role: 'Partner',
+    bio: 'Pranali brings a sharp product and design sensibility to CrestCode, ensuring that every venture we build is not just functional — but genuinely lovable.',
+    category: 'Partner',
+    display_order: 3,
+    is_active: true,
+    image_url: null,
+    created_at: '',
+    updated_at: ''
+  },
+  {
+    id: 'p3',
+    name: 'Amir Hoda',
+    role: 'Partner',
+    bio: 'A technical and business partner at CrestCode, Amir focuses on engineering strategy, delivery excellence, and helping ventures scale with confidence.',
+    category: 'Partner',
+    display_order: 4,
+    is_active: true,
+    image_url: null,
+    created_at: '',
+    updated_at: ''
+  },
+  {
+    id: 'a1',
+    name: 'Fahad Siddiqui',
+    role: 'Finance Advisor',
+    bio: 'Advises CrestCode and its ventures on financial strategy, investment structuring, and capital planning.',
+    category: 'Advisor',
+    display_order: 5,
+    is_active: true,
+    image_url: null,
+    created_at: '',
+    updated_at: ''
+  },
+  {
+    id: 'a2',
+    name: 'Dr. Faria Ali',
+    role: 'Healthcare Advisor',
+    bio: 'Brings deep domain expertise in healthcare, guiding CrestCode ventures in health-adjacent product strategy and compliance.',
+    category: 'Advisor',
+    display_order: 6,
+    is_active: true,
+    image_url: null,
+    created_at: '',
+    updated_at: ''
+  }
+];
 
 export default function AboutPage() {
   const { content, loading, error } = useContent();
@@ -42,8 +117,9 @@ export default function AboutPage() {
       .catch(() => { /* keep empty */ });
   }, []);
 
-  const coreTeam   = teamData.filter((m) => m.category !== 'Advisor').sort((a, b) => a.display_order - b.display_order);
-  const advisors   = teamData.filter((m) => m.category === 'Advisor').sort((a, b) => a.display_order - b.display_order);
+  const activeTeam   = teamData.length > 0 ? teamData : defaultTeam;
+  const coreTeam     = activeTeam.filter((m) => m.category !== 'Advisor').sort((a, b) => a.display_order - b.display_order);
+  const advisors     = activeTeam.filter((m) => m.category === 'Advisor').sort((a, b) => a.display_order - b.display_order);
 
   // Helper function to safely get content values
   const getContent = (path: string, defaultValue: string) => {

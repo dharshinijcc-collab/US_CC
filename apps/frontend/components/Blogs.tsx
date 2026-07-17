@@ -7,6 +7,7 @@ import { Search, Calendar, Clock, ArrowRight } from "lucide-react";
 import EditableText from "@/components/admin/EditableText";
 import { useAdmin } from "@/context/AdminContext";
 import { useContent } from "@/context/ContentContext";
+import { STATIC_BLOG_POSTS } from "@/lib/blog_data";
 
 // --- DATA & CONFIGURATION ---
 const BLOG_CONFIG = {
@@ -52,23 +53,8 @@ export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
   const { content } = useContent();
 
   useEffect(() => {
-    const loadBlogs = async () => {
-      try {
-        const res = await fetch('/api/blogs');
-        const json = await res.json();
-        if (json.status === 'success') {
-          setPosts(json.payload || []);
-        } else {
-          setPosts(BLOG_CONFIG.posts);
-        }
-      } catch (err) {
-        console.error('Failed to fetch blogs from API:', err);
-        setPosts(BLOG_CONFIG.posts);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadBlogs();
+    setPosts(STATIC_BLOG_POSTS);
+    setLoading(false);
   }, []);
 
   // Read saved values from ContentContext (set by admin edits), fall back to hardcoded defaults

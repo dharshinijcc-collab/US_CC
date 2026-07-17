@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ChevronLeft, Clock, Calendar, User, BookOpen } from 'lucide-react';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import { STATIC_BLOG_POSTS } from '@/lib/blog_data';
 
 
 export default function DynamicBlogArticlePage() {
@@ -16,19 +19,9 @@ export default function DynamicBlogArticlePage() {
   useEffect(() => {
     if (!slug) return;
 
-    fetch(`/api/blogs?slug=${slug}`)
-      .then(res => res.json())
-      .then(json => {
-        if (json.status === 'success') {
-          setBlog(json.payload || null);
-        }
-      })
-      .catch(err => {
-        console.error('Error fetching blog details:', err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    const found = STATIC_BLOG_POSTS.find(p => p.slug === slug);
+    setBlog(found || null);
+    setLoading(false);
   }, [slug]);
 
   if (loading) {
@@ -59,7 +52,9 @@ export default function DynamicBlogArticlePage() {
   const paragraphs = blog.content ? blog.content.split('\n\n').filter(Boolean) : [];
 
   return (
-    <div style={{ backgroundColor: '#F8FAFC', color: '#0F172A', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
+    <>
+      <Header currentPage="blogs" />
+      <div style={{ backgroundColor: '#F8FAFC', color: '#0F172A', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
       
       {/* Hero Section */}
       <div style={{ background: 'linear-gradient(135deg, #EEF2F6 0%, #E2E8F0 100%)', padding: '120px 24px 60px' }}>
@@ -142,6 +137,8 @@ export default function DynamicBlogArticlePage() {
           </div>
         )}
       </div>
-    </div>
+      </div>
+      <Footer />
+    </>
   );
 }

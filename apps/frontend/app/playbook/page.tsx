@@ -4,8 +4,8 @@ export const dynamic = 'force-dynamic';
 
 import React from 'react';
 import Link from 'next/link';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import { useContent } from '@/context/ContentContext';
 import EditableText from '@/components/admin/EditableText';
 import { Cpu, Layers, TrendingUp, Sparkles, ShieldCheck, ChevronRight, Check, X, Code, Search, Zap, Server, Edit3, ArrowRight, Play, Globe, Rocket, Shield, Clock } from 'lucide-react';
