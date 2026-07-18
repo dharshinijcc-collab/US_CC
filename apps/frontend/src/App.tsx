@@ -33,7 +33,7 @@ import OurModelPage from '../app/playbook/page';
 import PrivacyPolicyPage from '../app/privacy/page';
 import ProgressPage from '../app/progress/page';
 import ResourcesPage from '../app/resources/page';
-import SocialValidationPage from '../app/resources/social-validation/page';
+// import SocialValidationPage from '../app/resources/social-validation/page'; // DISABLED
 import StudioPage from '../app/studio/page';
 import TermsOfUsePage from '../app/terms/page';
 
@@ -64,7 +64,7 @@ export default function App() {
           <Route path="/blogs/:slug" element={<DynamicBlogArticlePage />} />
 
           {/* Resource & Validation Tools */}
-          <Route path="/resources/social-validation" element={<SocialValidationPage />} />
+          {/* <Route path="/resources/social-validation" element={<SocialValidationPage />} /> DISABLED */}
           <Route path="/build-time-estimator" element={<BuildTimeEstimatorPage />} />
           
           {/* Idea Validator & Account Actions */}

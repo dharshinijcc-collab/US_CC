@@ -322,19 +322,6 @@
         {
           "links": [
             {
-              "href": "/investors",
-              "name": ""
-            },
-            {
-              "href": "/studio#methodology",
-              "name": ""
-            }
-          ],
-          "title": ""
-        },
-        {
-          "links": [
-            {
               "href": "/#about",
               "name": "About Us"
             },

@@ -50,7 +50,7 @@ def get_faqs():
     if not supabase_admin:
         raise HTTPException(status_code=503, detail="Database not configured")
     try:
-        response = supabase_admin.table("faqs").select("*").order("display_order", ascending=True).execute()
+        response = supabase_admin.table("faqs").select("*").order("display_order", desc=False).execute()
         return {"status": "success", "payload": response.data or []}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -62,7 +62,7 @@ def get_milestones():
     if not supabase_admin:
         raise HTTPException(status_code=503, detail="Database not configured")
     try:
-        response = supabase_admin.table("milestones").select("*").order("display_order", ascending=True).execute()
+        response = supabase_admin.table("milestones").select("*").order("display_order", desc=False).execute()
         return {"status": "success", "payload": response.data or []}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -74,7 +74,7 @@ def get_open_positions():
     if not supabase_admin:
         raise HTTPException(status_code=503, detail="Database not configured")
     try:
-        response = supabase_admin.table("open_positions").select("*").order("display_order", ascending=True).execute()
+        response = supabase_admin.table("open_positions").select("*").order("display_order", desc=False).execute()
         return {"status": "success", "payload": response.data or []}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -86,7 +86,7 @@ def get_partner_products():
     if not supabase_admin:
         raise HTTPException(status_code=503, detail="Database not configured")
     try:
-        response = supabase_admin.table("partner_products").select("*").order("display_order", ascending=True).execute()
+        response = supabase_admin.table("partner_products").select("*").order("display_order", desc=False).execute()
         return {"status": "success", "payload": response.data or []}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -98,7 +98,7 @@ def get_team_members():
     if not supabase_admin:
         raise HTTPException(status_code=503, detail="Database not configured")
     try:
-        response = supabase_admin.table("team_members").select("*").order("display_order", ascending=True).execute()
+        response = supabase_admin.table("team_members").select("*").order("display_order", desc=False).execute()
         return {"status": "success", "payload": response.data or []}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

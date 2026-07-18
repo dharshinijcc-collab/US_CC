@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useContent } from '@/context/ContentContext';
-import EditableText from '@/components/admin/EditableText';
+import EditableText from '@/components/pages/admin/EditableText';
 import localConfig from '@/shared/config.json';
 
 export default function Header(props: any) {
@@ -185,7 +185,7 @@ export default function Header(props: any) {
           transition: color 0.3s ease;
           background: none;
           border: none;
-          font-family: inherit;
+          font-family: var(--font-inter), 'Inter', sans-serif;
           font-size: 1.05rem; /* increased from 0.95rem to make menus larger */
           font-weight: 700;
           text-transform: uppercase;
@@ -332,7 +332,7 @@ export default function Header(props: any) {
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           box-shadow: 0 4px 12px rgba(0,90,226,0.2);
           white-space: nowrap;
-          font-family: inherit;
+          font-family: var(--font-manrope), 'Manrope', sans-serif;
         }
 
         .btn-nav:hover {

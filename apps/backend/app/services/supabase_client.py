@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-supabase_url = os.getenv("SUPABASE_URL")
+supabase_url = os.getenv("SUPABASE_URL") or os.getenv("NEXT_PUBLIC_SUPABASE_URL")
 supabase_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
 
 supabase_admin: Client = None
@@ -16,4 +16,4 @@ if supabase_url and supabase_key:
     except Exception as e:
         print(f"⚠️ Failed to initialize Supabase client: {e}")
 else:
-    print("⚠️ SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY is not configured in .env")
+    print("⚠️ SUPABASE_URL (or NEXT_PUBLIC_SUPABASE_URL) or SUPABASE_SERVICE_ROLE_KEY is not configured")

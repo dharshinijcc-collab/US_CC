@@ -7,7 +7,5 @@ import '../styles/global-styles.css';
 import '../styles/responsive.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <App />
 );

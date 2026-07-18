@@ -23,5 +23,6 @@ export default defineConfig({
         secure: false,
       }
     }
-  }
+  },
+  envPrefix: ['VITE_', 'NEXT_PUBLIC_']
 });
