@@ -9,7 +9,7 @@ sender_email = os.getenv("SENDER_EMAIL", "CrestCode <onboarding@resend.dev>")
 
 def send_email(to_email: str, subject: str, html_content: str):
     if not resend.api_key:
-        print(f"⚠️ Resend is not configured. Email to {to_email} skipped. Subject: {subject}")
+        print(f"Resend is not configured. Email to {to_email} skipped. Subject: {subject}")
         return None
     try:
         response = resend.Emails.send({
@@ -20,5 +20,5 @@ def send_email(to_email: str, subject: str, html_content: str):
         })
         return response
     except Exception as e:
-        print(f"⚠️ Failed to send email via Resend: {e}")
+        print(f"Failed to send email via Resend: {e}")
         return None

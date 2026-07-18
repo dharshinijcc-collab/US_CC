@@ -48,32 +48,34 @@ async def submit_contact(payload: ContactRequest):
 
     # 1. Insert into contact_inquiries table
     try:
-        supabase_admin.table("contact_inquiries").insert({
-            "full_name": first_name,
-            "work_email": email,
-            "company_name": company,
-            "service_interest": service,
-            "project_stage": stage,
-            "message": message
-        }).execute()
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Supabase error inserting contact: {str(e)}")
-
-    # 2. Insert into unified submissions table
-    try:
-        supabase_admin.table("submissions").insert({
-            "form_type": "contact",
-            "name": first_name,
-            "email": email,
-            "company": company or None,
-            "payload": {
+        if supabase_admin:
+            supabase_admin.table("contact_inquiries").insert({
+                "full_name": first_name,
+                "work_email": email,
+                "company_name": company,
                 "service_interest": service,
                 "project_stage": stage,
                 "message": message
-            }
-        }).execute()
-    except Exception:
-        pass
+            }).execute()
+    except Exception as e:
+        print(f"[Supabase Error] contact_inquiries insert failed: {str(e)}")
+
+    # 2. Insert into unified submissions table
+    try:
+        if supabase_admin:
+            supabase_admin.table("submissions").insert({
+                "form_type": "contact",
+                "name": first_name,
+                "email": email,
+                "company": company or None,
+                "payload": {
+                    "service_interest": service,
+                    "project_stage": stage,
+                    "message": message
+                }
+            }).execute()
+    except Exception as e:
+        print(f"[Supabase Error] submissions insert failed: {str(e)}")
 
     # 3. Send email to user
     email_html = f"""
@@ -95,7 +97,7 @@ async def submit_contact(payload: ContactRequest):
       <p style="font-size: 12px; color: #64748b; text-align: center;">This is an automated message, please do not reply directly to this email.</p>
     </div>
     """
-    await send_email(to=email, subject="Thank you for reaching out", html=email_html)
+    send_email(to_email=email, subject="Thank you for reaching out", html_content=email_html)
 
     return {"success": True, "message": "Contact form submitted!"}
 
@@ -116,13 +118,14 @@ async def submit_idea(payload: IdeaRequest):
         raise HTTPException(status_code=400, detail="Idea must be at least 10 characters.")
 
     try:
-        supabase_admin.table("idea_submissions").insert({
-            "name": name,
-            "email": email,
-            "idea": idea
-        }).execute()
+        if supabase_admin:
+            supabase_admin.table("idea_submissions").insert({
+                "name": name,
+                "email": email,
+                "idea": idea
+            }).execute()
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Supabase error inserting idea: {str(e)}")
+        print(f"[Supabase Error] idea_submissions insert failed: {str(e)}")
 
     # Send confirmation email
     email_html = f"""
@@ -144,7 +147,7 @@ async def submit_idea(payload: IdeaRequest):
       </p>
     </div>
     """
-    await send_email(to=email, subject="Idea Submission Received", html=email_html)
+    send_email(to_email=email, subject="Idea Submission Received", html_content=email_html)
 
     return {"success": True, "message": "Idea submitted successfully!"}
 
@@ -163,29 +166,31 @@ async def submit_investor(payload: InvestorRequest):
     background = payload.background.strip() if payload.background else ""
 
     try:
-        supabase_admin.table("investor_submissions").insert({
-            "full_name": full_name,
-            "email": email,
-            "expertise": expertise,
-            "preferred_roles": payload.preferredRoles,
-            "background": background
-        }).execute()
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Supabase error inserting investor: {str(e)}")
-
-    try:
-        supabase_admin.table("submissions").insert({
-            "form_type": "investor",
-            "name": full_name,
-            "email": email,
-            "payload": {
+        if supabase_admin:
+            supabase_admin.table("investor_submissions").insert({
+                "full_name": full_name,
+                "email": email,
                 "expertise": expertise,
                 "preferred_roles": payload.preferredRoles,
                 "background": background
-            }
-        }).execute()
-    except Exception:
-        pass
+            }).execute()
+    except Exception as e:
+        print(f"[Supabase Error] investor_submissions insert failed: {str(e)}")
+
+    try:
+        if supabase_admin:
+            supabase_admin.table("submissions").insert({
+                "form_type": "investor",
+                "name": full_name,
+                "email": email,
+                "payload": {
+                    "expertise": expertise,
+                    "preferred_roles": payload.preferredRoles,
+                    "background": background
+                }
+            }).execute()
+    except Exception as e:
+        print(f"[Supabase Error] submissions (investor) insert failed: {str(e)}")
 
     email_html = f"""
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff;">
@@ -197,7 +202,7 @@ async def submit_investor(payload: InvestorRequest):
       <p style="font-size: 12px; color: #64748b; text-align: center;">This is an automated message, please do not reply directly to this email.</p>
     </div>
     """
-    await send_email(to=email, subject="Application Received - CrestCode Investor Circle", html=email_html)
+    send_email(to_email=email, subject="Application Received - CrestCode Investor Circle", html_content=email_html)
 
     return {"success": True, "message": "Investor application submitted!"}
 
@@ -250,29 +255,31 @@ async def submit_talent(
         interest_area = "engineer"
 
     try:
-        supabase_admin.table("talent_pool").insert({
-            "full_name": first_name,
-            "email": email_val,
-            "interest_area": interest_area,
-            "linkedin_url": linkedin_val,
-            "resume_url": resume_url
-        }).execute()
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Supabase error inserting talent: {str(e)}")
-
-    try:
-        supabase_admin.table("submissions").insert({
-            "form_type": "talent",
-            "name": first_name,
-            "email": email_val,
-            "payload": {
+        if supabase_admin:
+            supabase_admin.table("talent_pool").insert({
+                "full_name": first_name,
+                "email": email_val,
                 "interest_area": interest_area,
                 "linkedin_url": linkedin_val,
                 "resume_url": resume_url
-            }
-        }).execute()
-    except Exception:
-        pass
+            }).execute()
+    except Exception as e:
+        print(f"[Supabase Error] talent_pool insert failed: {str(e)}")
+
+    try:
+        if supabase_admin:
+            supabase_admin.table("submissions").insert({
+                "form_type": "talent",
+                "name": first_name,
+                "email": email_val,
+                "payload": {
+                    "interest_area": interest_area,
+                    "linkedin_url": linkedin_val,
+                    "resume_url": resume_url
+                }
+            }).execute()
+    except Exception as e:
+        print(f"[Supabase Error] submissions (talent) insert failed: {str(e)}")
 
     email_html = f"""
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff;">
@@ -284,6 +291,6 @@ async def submit_talent(
       <p style="font-size: 12px; color: #64748b; text-align: center;">This is an automated message, please do not reply directly to this email.</p>
     </div>
     """
-    await send_email(to=email_val, subject="Application Received - CrestCode Talent Pool", html=email_html)
+    send_email(to_email=email_val, subject="Application Received - CrestCode Talent Pool", html_content=email_html)
 
     return {"success": True, "message": "Talent application submitted!"}

@@ -86,3 +86,64 @@ def auth_check(current_user: dict = Depends(get_current_admin)):
 @router.post("/logout")
 def auth_logout():
     return {"status": "success", "payload": "Logged out successfully"}
+
+
+class SetupAdminRequest(BaseModel):
+    email: EmailStr
+    password: str
+    setup_key: str  # Must match SETUP_KEY env var as a one-time guard
+
+
+@router.post("/setup-admin")
+def setup_first_admin(payload: SetupAdminRequest):
+    """
+    One-time bootstrap endpoint to create the first admin user.
+    Only works if NO admin users exist yet in the database.
+    Requires SETUP_KEY env var to match payload.setup_key.
+    """
+    if not supabase_admin:
+        raise HTTPException(status_code=503, detail="Database client not configured.")
+
+    # Guard: require SETUP_KEY from env
+    setup_key = os.getenv("SETUP_KEY", "")
+    if not setup_key or payload.setup_key != setup_key:
+        raise HTTPException(status_code=403, detail="Invalid setup key.")
+
+    try:
+        # Only allow if no admin users exist yet
+        existing = supabase_admin.table("admin_users").select("id", count="exact").limit(1).execute()
+        if existing.data and len(existing.data) > 0:
+            raise HTTPException(
+                status_code=409,
+                detail="Admin user already exists. Use the login endpoint instead."
+            )
+
+        # Hash password with bcrypt
+        password_hash = bcrypt.hashpw(payload.password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+
+        result = supabase_admin.table("admin_users").insert({
+            "email": payload.email,
+            "password_hash": password_hash
+        }).execute()
+
+        return {
+            "status": "success",
+            "payload": f"Admin user '{payload.email}' created successfully. You can now log in."
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/admin-status")
+def admin_status():
+    """Check if any admin user has been set up (no credentials exposed)."""
+    if not supabase_admin:
+        raise HTTPException(status_code=503, detail="Database client not configured.")
+    try:
+        existing = supabase_admin.table("admin_users").select("id", count="exact").limit(1).execute()
+        has_admin = bool(existing.data and len(existing.data) > 0)
+        return {"status": "success", "has_admin": has_admin}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

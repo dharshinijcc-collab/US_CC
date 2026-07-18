@@ -3,9 +3,9 @@
 import React from 'react';
 import { ContentProvider, useContent } from '@/context/ContentContext';
 import { AdminProvider } from '@/context/AdminContext';
-import AdminLoginModal from '@/components/admin/AdminLoginModal';
-import AdminSaveBar from '@/components/admin/AdminSaveBar';
-import ScrollReveal from '@/components/ScrollReveal';
+import AdminLoginModal from '@/components/pages/admin/AdminLoginModal';
+import AdminSaveBar from '@/components/pages/admin/AdminSaveBar';
+import ScrollReveal from '@/components/effects/ScrollReveal';
 import GlobalCursorGlow from '@/components/effects/GlobalCursorGlow';
 import { usePathname } from 'next/navigation';
 

@@ -1,0 +1,7 @@
+{
+  "name": "crestcode-backend",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "venv\\Scripts\\python main.py"
+  }
+}

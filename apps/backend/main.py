@@ -6,7 +6,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Import all API Routers
-from app.routes.social_validation import router as social_val_router
+# SOCIAL VALIDATION ENGINE — TEMPORARILY DISABLED
+# from app.routes.social_validation import router as social_val_router
 from app.routes.auth import router as auth_router
 from app.routes.submit import router as submit_router
 from app.routes.submissions import router as submissions_router
@@ -34,7 +35,7 @@ app.include_router(submit_router, prefix="/api")
 app.include_router(submissions_router, prefix="/api")
 app.include_router(auxiliary_router, prefix="/api")
 app.include_router(idea_val_router, prefix="/api")
-app.include_router(social_val_router) # already has /api/social-validation prefix internally
+# app.include_router(social_val_router) # DISABLED — social validation engine off
 
 @app.get("/")
 def root():
