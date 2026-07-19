@@ -31,7 +31,7 @@
   },
   "scripts": {
     "dev": "npx -y concurrently \"npm --prefix apps/frontend run dev\" \"npm --prefix apps/backend run dev\"",
-    "build": "npm --prefix apps/frontend run build",
+    "build": "npm install --prefix apps/frontend && npm --prefix apps/frontend run build",
     "start": "npm --prefix apps/frontend run start",
     "lint": "npm --prefix apps/frontend run lint",
     "dev:api": "npm --prefix apps/backend run dev",
