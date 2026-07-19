@@ -11,7 +11,6 @@
     "strict": true,
     "noImplicitAny": false,
     "allowArbitraryExtensions": true,
-    "types": ["node"],
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -47,6 +46,7 @@
     "node_modules",
     ".next",
     "app/layout.tsx",
-    "app/admin/layout.tsx"
+    "app/admin/layout.tsx",
+    "vite.config.ts"
   ]
 }
