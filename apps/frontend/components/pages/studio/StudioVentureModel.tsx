@@ -17,7 +17,8 @@ export default function StudioVentureModel({ studioContent, renderCellText }: an
     <section style={{
           background: 'linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%)',
           position: 'relative',
-          padding: '6rem 0',
+          paddingTop: '6rem',
+          paddingBottom: '2.5rem',
           boxShadow: 'inset 0 20px 20px -20px rgba(0, 0, 0, 0.08), inset 0 -20px 20px -20px rgba(0, 0, 0, 0.05), 0 20px 40px -20px rgba(0, 0, 0, 0.05)'
         }}>
           <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
