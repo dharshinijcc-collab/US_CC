@@ -24,5 +24,8 @@ export default defineConfig({
       }
     }
   },
+  preview: {
+    allowedHosts: ['www.cctps.com', 'cctps.com', '.onrender.com']
+  },
   envPrefix: ['VITE_', 'NEXT_PUBLIC_']
 });
