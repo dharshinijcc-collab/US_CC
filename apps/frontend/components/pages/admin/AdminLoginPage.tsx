@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { api } from '@/services/api';
+import MatrixBackground from '@/components/effects/MatrixBackground';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -54,8 +55,9 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div style={s.page}>
-      <div style={s.container}>
+    <div style={{ ...s.page, position: 'relative', overflow: 'hidden' }}>
+      <MatrixBackground />
+      <div style={{ ...s.container, position: 'relative', zIndex: 1 }}>
         {/* Logo */}
         <div style={s.logoContainer}>
           <div style={s.logoBadge}>CC</div>

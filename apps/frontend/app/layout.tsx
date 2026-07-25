@@ -5,6 +5,7 @@ import '../styles/animations.css'
 import '../styles/global-styles.css'
 import '../styles/responsive.css'
 import { Providers } from '@/components/Providers'
+import ClickBurstEffect from '@/components/effects/ClickBurstEffect'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const manrope = Manrope({ subsets: ['latin'], variable: '--font-manrope' })
@@ -42,6 +43,7 @@ export default function RootLayout({
           overflowX: 'hidden',
         }}>
         <Providers>
+          <ClickBurstEffect />
           {children}
         </Providers>
       </body>

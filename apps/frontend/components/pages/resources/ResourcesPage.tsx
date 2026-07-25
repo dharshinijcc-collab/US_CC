@@ -87,17 +87,6 @@ export default function ResourcesPage() {
       title: 'Product Roadmap Builder', status: 'COMING SOON', statusColor: '#F59E0B', statusBg: 'rgba(245, 158, 11, 0.1)',
       desc: "A lightweight tool to map your product from MLP to V2 — prioritizing features by impact, effort, and user value so you always know what to build next.",
       tags: ['Founders', 'Post-launch', 'Free']
-    },
-    {
-      icon: (
-        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M3 21h18M3 10h18M5 6l7-3 7 3" />
-          <path d="M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3" />
-        </svg>
-      ),
-      title: 'Studio Investment Calculator', status: 'COMING SOON', statusColor: '#F59E0B', statusBg: 'rgba(245, 158, 11, 0.1)',
-      desc: "Model different investment scenarios across Crestcode's two investment paths — visualize projected returns, timelines, and exposure across the portfolio.",
-      tags: ['Investors', 'Free']
     }
   ];
 
@@ -173,7 +162,10 @@ export default function ResourcesPage() {
 
             <div className="cards-grid">
               {(() => {
-                const cards = resourcesContent.tools?.cards || toolsCards;
+                const rawCards = resourcesContent.tools?.cards || toolsCards;
+                const cards = rawCards
+                  .filter((c: any) => !c.title?.toLowerCase().includes('studio investment calculator'))
+                  .slice(0, 6);
                 
                 const sortedCards = [...cards].sort((a, b) => {
                   const statusA = (a.status || '').toUpperCase();

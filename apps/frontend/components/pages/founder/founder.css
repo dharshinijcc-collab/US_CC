@@ -655,21 +655,20 @@
 
         /* Dedicated Testimonial Card Aesthetic */
         .testimonial-card {
-          background-color: #F5F9FF; /* Lite Blue Tint */
-          border: 1px solid rgba(0, 90, 226, 0.05);
-          padding: 48px 40px;
-          border-radius: 32px;
+          background-color: #FFFFFF !important;
+          border: 1px solid rgba(15, 23, 42, 0.08) !important;
+          padding: 48px 40px !important;
+          border-radius: 24px !important;
           display: flex;
           flex-direction: column;
-          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+          box-shadow: 0 4px 20px rgba(15, 23, 42, 0.02) !important;
         }
         .testimonial-card:hover {
-          background-color: var(--white);
-          transform: translateY(-12px);
-          box-shadow: 0 30px 60px -12px rgba(0, 90, 226, 0.12);
-          border-color: rgba(0, 90, 226, 0.15);
+          transform: translateY(-8px) !important;
+          box-shadow: 0 20px 40px rgba(15, 23, 42, 0.06) !important;
+          border-color: rgba(0, 90, 226, 0.15) !important;
         }
 
         /* Target Audience Elements */
@@ -983,38 +982,113 @@
         /* Testimonials */
         /* Testimonials Aesthetic Refinement */
         .t-quote {
-          font-style: normal;
-          color: var(--text-black);
-          font-size: 1.1rem;
-          line-height: 1.7;
-          font-weight: 500;
-          margin-bottom: 40px;
-          flex-grow: 1;
+          font-style: italic !important;
+          color: #000000 !important;
+          font-size: 0.95rem !important;
+          line-height: 1.65 !important;
+          font-weight: 500 !important;
+          margin-top: 16px !important;
+          margin-bottom: 28px !important;
+          flex-grow: 1 !important;
           transition: color 0.3s ease;
+        }
+        
+        .t-quote-circle {
+          position: absolute;
+          top: -24px;
+          left: 40px;
+          width: 48px;
+          height: 48px;
+          background-color: var(--primary-blue, #005AE2) !important;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 12px rgba(0, 90, 226, 0.2);
+          z-index: 2;
+        }
+        
+        .t-quote-symbol {
+          color: #ffffff;
+          font-family: Georgia, serif;
+          font-size: 2.2rem;
+          line-height: 1;
+          margin-top: 12px;
+        }
+
+        .t-stars {
+          display: flex;
+          align-items: center;
+          margin-top: 10px;
+          margin-bottom: 8px;
+        }
+
+        .t-star {
+          flex-shrink: 0;
+        }
+
+        .t-divider {
+          width: 100%;
+          height: 1px;
+          background-color: rgba(15, 23, 42, 0.08);
+          margin-bottom: 24px;
         }
         
         .t-box-author {
           display: flex;
           align-items: center;
-          gap: 16px;
-          padding-top: 24px;
-          border-top: 1px solid rgba(0, 90, 226, 0.05);
+          gap: 14px;
         }
-        .t-avatar-light {
+
+        .t-avatar-wrap {
           width: 44px;
           height: 44px;
-          background: linear-gradient(135deg, rgba(0, 90, 226, 0.1), rgba(0, 90, 226, 0.05));
           border-radius: 50%;
-          border: 1px solid rgba(0, 90, 226, 0.1);
+          overflow: hidden;
+          background-color: #F1F5F9;
+          border: 1px solid rgba(15, 23, 42, 0.08);
+          flex-shrink: 0;
+        }
+
+        .t-avatar-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .t-avatar-placeholder {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #E2E8F0;
+          color: #475569;
+          font-weight: 700;
+          font-size: 0.9rem;
+        }
+
+        .t-author-info {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
         }
         
-        .t-name-light { font-weight: 800; font-size: 1rem; color: var(--text-black); transition: color 0.3s; display: block; }
-        .t-role-light { color: var(--text-muted); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-top: 6px; transition: color 0.3s; display: block; }
-        
-        /* Remove the dark theme hover for testimonials to keep it minimalist and light */
-        .testimonial-card:hover .t-quote, 
-        .testimonial-card:hover .t-name-light,
-        .testimonial-card:hover .t-role-light { color: inherit; }
+        .t-name-light { 
+          font-weight: 700 !important; 
+          font-size: 0.925rem !important; 
+          color: #0F172A !important; 
+          display: block; 
+        }
+
+        .t-role-light { 
+          color: #64748B !important; 
+          font-size: 0.775rem !important; 
+          font-weight: 500 !important; 
+          letter-spacing: normal !important; 
+          text-transform: none !important; 
+          display: block; 
+        }
 
         /* Founder Quote Box Aesthetic Refinement */
         .founder-quote-card {
@@ -1643,6 +1717,10 @@
           transform-style: preserve-3d;
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .audience-card-wrap:hover {
+          transform: translateY(-10px);
         }
         .flip-card-inner {
           position: relative;
@@ -1671,9 +1749,11 @@
           justify-content: space-between;
           background-color: var(--bg-light);
           border: 1px solid var(--border-light);
+          box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08), 0 2px 8px rgba(15, 23, 42, 0.04);
           overflow: hidden;
           transform: translate3d(0,0,0);
           -webkit-transform: translate3d(0,0,0);
+          transition: border-color 0.35s ease, box-shadow 0.35s ease;
         }
         .flip-card-front-body {
           display: flex;
@@ -1685,8 +1765,17 @@
           -webkit-transform: rotateY(180deg) translate3d(0,0,0);
           background: linear-gradient(135deg, #0A0F1C 0%, #1a2744 100%);
           border-color: rgba(0,90,226,0.3);
+          box-shadow: 0 14px 36px rgba(10, 15, 28, 0.3);
           color: #ffffff;
           justify-content: space-between;
+        }
+        .audience-card-wrap:hover .flip-card-front {
+          box-shadow: 0 22px 48px rgba(0, 90, 226, 0.15), 0 8px 24px rgba(15, 23, 42, 0.08);
+          border-color: rgba(0, 90, 226, 0.35);
+        }
+        .audience-card-wrap:hover .flip-card-back {
+          box-shadow: 0 28px 56px rgba(0, 0, 0, 0.45), 0 0 24px rgba(0, 230, 160, 0.2);
+          border-color: rgba(0, 230, 160, 0.5);
         }
         .flip-back-title {
           font-family: 'Manrope', sans-serif;
@@ -1814,9 +1903,9 @@
 
         .radial-hub-container {
           width: 100%;
-          max-width: 1000px;
-          height: 700px;
-          margin: 40px auto 0;
+          max-width: 1050px;
+          height: 875px;
+          margin: 20px auto 0;
           position: relative;
         }
 
@@ -1827,7 +1916,6 @@
           width: 100%;
           height: 100%;
           z-index: 1;
-          pointer-events: none;
         }
 
         .hub-center-circle {
@@ -1835,23 +1923,27 @@
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 160px;
-          height: 160px;
+          width: 220px;
+          height: 220px;
           border-radius: 50%;
-          background: #EBF5FF;
-          border: 3px solid #005AE2;
+          background: #FFFFFF !important;
+          border: 1px solid rgba(15, 23, 42, 0.08);
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 12px 36px rgba(0, 90, 226, 0.12), 0 0 0 10px rgba(0, 90, 226, 0.04);
+          box-shadow: 0 8px 32px rgba(15, 23, 42, 0.06);
           z-index: 10;
-          padding: 16px;
-          transition: transform 0.3s ease;
+          padding: 24px;
+          text-align: center !important;
         }
 
-        .hub-center-circle:hover {
-          transform: translate(-50%, -50%) scale(1.05);
+        .hub-center-circle h4,
+        .hub-center-circle p {
+          text-align: center !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+          width: 100% !important;
         }
 
         .brain-pulsing-icon {
@@ -1879,41 +1971,35 @@
 
         .spoke-card {
           position: absolute;
-          width: 250px;
-          background: linear-gradient(135deg, #EBF2FF 0%, #F0F5FF 100%);
-          border: 1.5px solid rgba(0, 90, 226, 0.18);
-          border-radius: 14px;
-          padding: 16px 20px;
-          box-shadow: 0 8px 24px rgba(0, 90, 226, 0.06);
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          width: 240px;
+          background: transparent !important;
+          border: none !important;
+          padding: 0 !important;
+          box-shadow: none !important;
+          transition: all 0.3s ease;
           z-index: 5;
         }
 
         .spoke-card:hover {
-          transform: translateY(-5px);
-          border-color: #005AE2;
-          background: linear-gradient(135deg, #DDEAFF 0%, #E6EFFF 100%);
-          box-shadow: 0 15px 35px -10px rgba(0, 90, 226, 0.18);
+          transform: translateY(-2px);
         }
 
         .spoke-card-title {
-          font-family: 'Manrope', sans-serif;
-          font-size: 0.92rem;
-          font-weight: 800;
-          color: #002D72;
-          margin: 0 0 6px 0;
-          text-align: center;
-          letter-spacing: -0.01em;
+          font-family: 'Manrope', sans-serif !important;
+          font-size: 0.82rem !important;
+          font-weight: 800 !important;
+          margin: 0 0 4px 0 !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.03em !important;
         }
 
         .spoke-card-desc {
-          font-family: 'Inter', sans-serif;
-          font-size: 0.75rem;
-          line-height: 1.45;
-          color: #1E40AF;
-          margin: 0;
-          text-align: center;
-          font-weight: 500;
+          font-family: 'Inter', sans-serif !important;
+          font-size: 0.68rem !important;
+          line-height: 1.45 !important;
+          color: #0F172A !important;
+          margin: 0 !important;
+          font-weight: 600 !important;
         }
 
         @media (max-width: 1024px) {

@@ -46,6 +46,7 @@ function ValidatorPageContent() {
 
   // Authenticated user session
   const [session, setSession] = useState<UserSession | null>(null);
+  const [showAuthPopup, setShowAuthPopup] = useState<boolean>(false);
 
   // Form responses state
   const [idea, setIdea] = useState<string>(initialIdea);
@@ -156,7 +157,7 @@ function ValidatorPageContent() {
       } else {
         // Pre-fill auth email with contact email
         setAuthEmail(answers.contact_email);
-        setCurrentStep(3);
+        setShowAuthPopup(true);
       }
     }
   };
@@ -168,8 +169,43 @@ function ValidatorPageContent() {
     }
   };
 
-  // Handle Mock Registration & Login
-  const handleAuthSubmit = (e: React.FormEvent) => {
+  // Handle Google OAuth Success
+  const handleGoogleAuthSuccess = async (idToken: string) => {
+    setIsLoading(true);
+    setFormError(null);
+    try {
+      const res = await api.post('idea-validator/auth/google', { id_token: idToken });
+      const data = res.data;
+      if (data && data.access_token) {
+        localStorage.setItem('Dtoken', data.access_token);
+        const name = data.user?.name || data.user?.email.split('@')[0];
+        const userSession: UserSession = { name, email: data.user.email, isLoggedIn: true };
+        localStorage.setItem('cc_user_session', JSON.stringify(userSession));
+        setSession(userSession);
+
+        // Align answers contact details
+        setAnswers(prev => ({
+          ...prev,
+          contact_name: name,
+          contact_email: data.user.email
+        }));
+
+        // Proceed to generate report
+        setShowAuthPopup(false);
+        triggerAnalysis();
+      } else {
+        throw new Error('Failed to retrieve authentication tokens from Google login');
+      }
+    } catch (err: any) {
+      console.error('Google Auth Error:', err);
+      const msg = err.response?.data?.detail || err.message || 'Google Login failed. Please try again.';
+      setFormError(msg);
+      setIsLoading(false);
+    }
+  };
+
+  // Handle Backend Registration & Login
+  const handleAuthSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError(null);
 
@@ -183,81 +219,67 @@ function ValidatorPageContent() {
       return;
     }
 
-    // Get current mock users list
-    const usersListRaw = localStorage.getItem('cc_mock_users');
-    let usersList = usersListRaw ? JSON.parse(usersListRaw) : [];
-
-    if (authTab === 'signup') {
-      if (!authName || authName.trim().length < 2) {
-        setFormError('Please enter your full name.');
-        return;
-      }
-
-      // Check if user already exists
-      const existingUser = usersList.find((u: any) => u.email.toLowerCase() === authEmail.toLowerCase());
-      if (existingUser) {
-        setFormError('An account with this email already exists. Please log in.');
-        setAuthTab('login');
-        return;
-      }
-
-      // Create new user
-      const newUser = { name: authName, email: authEmail, password: authPassword };
-      usersList.push(newUser);
-      localStorage.setItem('cc_mock_users', JSON.stringify(usersList));
-
-      // Save user session
-      const userSession: UserSession = { name: authName, email: authEmail, isLoggedIn: true };
-      localStorage.setItem('cc_user_session', JSON.stringify(userSession));
-      setSession(userSession);
-
-      // Align answers contact details
-      setAnswers(prev => ({
-        ...prev,
-        contact_name: authName,
-        contact_email: authEmail
-      }));
-
-      // Proceed to generate report
-      triggerAnalysis();
-    } else {
-      // Login check
-      const user = usersList.find(
-        (u: any) => u.email.toLowerCase() === authEmail.toLowerCase() && u.password === authPassword
-      );
-
-      if (!user) {
-        // Dynamic fallback: if it's a first run and no users exist in localStorage, let them log in anyway
-        if (usersList.length === 0) {
-          const userSession: UserSession = { name: authEmail.split('@')[0], email: authEmail, isLoggedIn: true };
-          localStorage.setItem('cc_user_session', JSON.stringify(userSession));
-          setSession(userSession);
-          setAnswers(prev => ({
-            ...prev,
-            contact_name: userSession.name,
-            contact_email: userSession.email
-          }));
-          triggerAnalysis();
+    setIsLoading(true);
+    try {
+      if (authTab === 'signup') {
+        if (!authName || authName.trim().length < 2) {
+          setFormError('Please enter your full name.');
+          setIsLoading(false);
           return;
         }
-        setFormError('Invalid email or password. Please try again or create a new account.');
-        return;
+
+        const res = await api.post('idea-validator/auth?action=signup', {
+          name: authName,
+          email: authEmail,
+          password: authPassword
+        });
+        
+        const data = res.data;
+        localStorage.setItem('Dtoken', data.access_token);
+        const userSession: UserSession = { name: authName, email: authEmail, isLoggedIn: true };
+        localStorage.setItem('cc_user_session', JSON.stringify(userSession));
+        setSession(userSession);
+
+        setAnswers(prev => ({
+          ...prev,
+          contact_name: authName,
+          contact_email: authEmail
+        }));
+
+        setShowAuthPopup(false);
+        triggerAnalysis();
+      } else {
+        const res = await api.post('idea-validator/auth?action=login', {
+          email: authEmail,
+          password: authPassword
+        });
+
+        const data = res.data;
+        localStorage.setItem('Dtoken', data.access_token);
+        const name = data.user?.name || authEmail.split('@')[0];
+        const userSession: UserSession = { name, email: authEmail, isLoggedIn: true };
+        localStorage.setItem('cc_user_session', JSON.stringify(userSession));
+        setSession(userSession);
+
+        setAnswers(prev => ({
+          ...prev,
+          contact_name: name,
+          contact_email: authEmail
+        }));
+
+        setShowAuthPopup(false);
+        triggerAnalysis();
       }
-
-      // Login success
-      const userSession: UserSession = { name: user.name, email: user.email, isLoggedIn: true };
-      localStorage.setItem('cc_user_session', JSON.stringify(userSession));
-      setSession(userSession);
-
-      // Align answers contact details
-      setAnswers(prev => ({
-        ...prev,
-        contact_name: user.name,
-        contact_email: user.email
-      }));
-
-      // Proceed to generate report
-      triggerAnalysis();
+    } catch (err: any) {
+      console.error('Auth submit error:', err);
+      const msg = err.response?.data?.detail 
+        || err.response?.data?.payload 
+        || (err.response?.status === 409 ? 'An account with this email already exists.' : null)
+        || (err.response?.status === 401 ? 'Invalid email or password.' : null)
+        || err.message 
+        || 'Authentication failed. Please check your credentials and try again.';
+      setFormError(msg);
+      setIsLoading(false);
     }
   };
 
@@ -353,7 +375,7 @@ Moat: ${answers.moat}`;
         <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 24px' }}>
           
           {/* Progress Indicator Header */}
-          {currentStep <= 3 && (
+          {currentStep <= 2 && !showAuthPopup && (
             <div style={{ marginBottom: '40px', textAlign: 'center' }}>
               <EditableText
                 contentKey="validator.hero.eyebrow"
@@ -364,12 +386,10 @@ Moat: ${answers.moat}`;
               <h1 style={{ fontSize: 'clamp(2.1rem, 5vw, 2.75rem)', fontWeight: 800, color: '#0F172A', marginTop: '8px', marginBottom: '8px', letterSpacing: '-0.03em', fontFamily: "'Manrope', sans-serif" }}>
                 {currentStep === 1 && 'Core Concept'}
                 {currentStep === 2 && 'Founder Capabilities'}
-                {currentStep === 3 && 'Signup / Login'}
               </h1>
               <p style={{ color: '#64748B', fontSize: '1.05rem', maxWidth: '550px', margin: '0 auto 24px', lineHeight: '1.6' }}>
                 {currentStep === 1 && <EditableText contentKey="validator.hero.step1desc" value="Refine your core value proposition, targeted consumer base, and market defensibility." />}
                 {currentStep === 2 && <EditableText contentKey="validator.hero.step2desc" value="Help us evaluate execution capabilities, launch models, and timeline projections." />}
-                {currentStep === 3 && <EditableText contentKey="validator.hero.step3desc" value="Save your progress and create a free account to unlock your comprehensive VC-grade report." />}
               </p>
 
               {/* Progress Stepper Bullets & Labels */}
@@ -378,7 +398,7 @@ Moat: ${answers.moat}`;
                 <div className="step-progress-bar" style={{ left: '40px', right: '40px', top: '19px', transform: 'none', margin: 0 }}>
                   <div 
                     className="step-progress-fill" 
-                    style={{ width: `${currentStep === 1 ? 0 : currentStep === 2 ? 50 : 100}%` }}
+                    style={{ width: `${currentStep === 1 ? 0 : 100}%` }}
                   ></div>
                 </div>
 
@@ -409,7 +429,7 @@ Moat: ${answers.moat}`;
                   {/* Step 2 */}
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '160px' }}>
                     <div 
-                      className={`step-bubble ${currentStep === 2 ? 'active' : currentStep > 2 ? 'completed' : ''}`} 
+                      className={`step-bubble ${currentStep === 2 ? 'active' : ''}`} 
                       onClick={() => currentStep > 2 && setCurrentStep(2)}
                       style={{ cursor: currentStep > 2 ? 'pointer' : 'default', margin: 0 }}
                     >
@@ -418,7 +438,7 @@ Moat: ${answers.moat}`;
                     <span style={{ 
                       fontSize: '0.85rem', 
                       fontWeight: 800, 
-                      color: currentStep === 2 ? 'var(--primary-blue)' : currentStep > 2 ? '#10B981' : '#64748B',
+                      color: currentStep === 2 ? 'var(--primary-blue)' : '#64748B',
                       textAlign: 'center',
                       marginTop: '8px',
                       transition: 'color 0.3s ease',
@@ -426,25 +446,6 @@ Moat: ${answers.moat}`;
                       whiteSpace: 'nowrap'
                     }}>
                       Founder Capabilities
-                    </span>
-                  </div>
-
-                  {/* Step 3 */}
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '80px' }}>
-                    <div className={`step-bubble ${currentStep === 3 ? 'active' : ''}`} style={{ margin: 0 }}>
-                      3
-                    </div>
-                    <span style={{ 
-                      fontSize: '0.85rem', 
-                      fontWeight: 800, 
-                      color: currentStep === 3 ? 'var(--primary-blue)' : '#64748B',
-                      textAlign: 'center',
-                      marginTop: '8px',
-                      transition: 'color 0.3s ease',
-                      fontFamily: "'Manrope', sans-serif",
-                      whiteSpace: 'nowrap'
-                    }}>
-                      Signup / Login
                     </span>
                   </div>
                 </div>
@@ -478,7 +479,11 @@ Moat: ${answers.moat}`;
             />
           )}
 
-          {currentStep === 3 && (
+          {currentStep === 4 && (
+            <LoadingStep loadingStepText={loadingStepText} />
+          )}
+
+          {showAuthPopup && (
             <AuthStep
               authTab={authTab}
               setAuthTab={setAuthTab}
@@ -491,7 +496,8 @@ Moat: ${answers.moat}`;
               showPassword={showPassword}
               setShowPassword={setShowPassword}
               onSubmit={handleAuthSubmit}
-              onPrev={handlePrevStep}
+              onPrev={() => setShowAuthPopup(false)}
+              onGoogleAuthSuccess={handleGoogleAuthSuccess}
             />
           )}
 

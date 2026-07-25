@@ -39,17 +39,15 @@ export default function Footer() {
           max-width: 1200px; 
           margin: 0 auto; 
           padding: 0 24px; 
-          display: flex; 
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 48px; 
+          display: grid; 
+          grid-template-columns: 1.4fr 1fr 1fr;
+          gap: clamp(36px, 5vw, 72px); 
           position: relative;
           z-index: 1;
         }
         .cc-footer-wrapper .footer-brand-column {
-          flex: 2;
-          min-width: 260px;
-          max-width: 340px;
+          width: 100%;
+          max-width: 360px;
         }
         .cc-footer-wrapper .footer-logo { 
           color: #FFFFFF; 
@@ -72,8 +70,7 @@ export default function Footer() {
           font-family: var(--font-manrope), 'Manrope', sans-serif;
         }
         .cc-footer-wrapper .footer-links-group { 
-          flex: 1;
-          min-width: 180px;
+          width: 100%;
         }
         .cc-footer-wrapper .footer-links-group ul { 
           list-style: none; 

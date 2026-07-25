@@ -175,6 +175,45 @@ function ReportContent() {
     }
   };
 
+  const handleGateGoogleAuthSuccess = async (idToken: string) => {
+    setLoading(true);
+    setGateError(null);
+    try {
+      const res = await fetch('/api/idea-validator/auth/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id_token: idToken })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || 'Google Login failed');
+      
+      if (data && data.access_token) {
+        localStorage.setItem('Dtoken', data.access_token);
+        const name = data.user?.name || data.user?.email.split('@')[0];
+        const userSession = { name, email: data.user.email, isLoggedIn: true };
+        localStorage.setItem('cc_user_session', JSON.stringify(userSession));
+        setIsAuthenticated(true);
+
+        // Put user ID into report/updates
+        await fetch('/api/idea-validator', {
+          method: 'PUT',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${data.access_token}`
+          },
+          body: JSON.stringify({ reportId: id, userId: data.user.id }),
+        });
+      } else {
+        throw new Error('Failed to retrieve authentication tokens from Google login');
+      }
+    } catch (err: any) {
+      console.error('Google Auth Error:', err);
+      setGateError(err.message || 'Google Login failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleGateAuthSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setGateError(null);
@@ -189,11 +228,6 @@ function ReportContent() {
       return;
     }
 
-    if (!supabase) {
-      setGateError('Supabase authentication is not configured. Please define NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.');
-      return;
-    }
-
     setLoading(true);
 
     if (authTab === 'signup') {
@@ -204,27 +238,32 @@ function ReportContent() {
       }
 
       try {
-        const { data, error } = await supabase.auth.signUp({
-          email: authEmail,
-          password: authPassword,
-          options: {
-            data: {
-              full_name: authName,
-            },
-            emailRedirectTo: `${window.location.origin}/founder/idea-validator/report?id=${id}`,
-          },
+        const res = await fetch('/api/idea-validator/auth?action=signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: authName, email: authEmail, password: authPassword }),
         });
 
-        if (error) throw error;
+        const data = await res.json();
+        if (!res.ok) {
+          if (data.detail === 'already_exists') {
+            throw new Error('An account with this email already exists.');
+          }
+          throw new Error(data.detail || 'Signup failed');
+        }
 
-        if (data.user && !data.session) {
-          setGateSuccess('Registration successful! A verification link has been sent to your email. Please verify your email to unlock your due diligence report.');
-          setGateError(null);
-        } else if (data.session && data.user) {
+        if (data.access_token) {
+          localStorage.setItem('Dtoken', data.access_token);
+          const userSession = { name: authName, email: authEmail, isLoggedIn: true };
+          localStorage.setItem('cc_user_session', JSON.stringify(userSession));
           setIsAuthenticated(true);
+          
           await fetch('/api/idea-validator', {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${data.access_token}`
+            },
             body: JSON.stringify({ reportId: id, userId: data.user.id }),
           });
         }
@@ -236,23 +275,33 @@ function ReportContent() {
       }
     } else {
       try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: authEmail,
-          password: authPassword,
+        const res = await fetch('/api/idea-validator/auth?action=login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: authEmail, password: authPassword }),
         });
 
-        if (error) {
-          if (error.message.toLowerCase().includes('email not confirmed')) {
-            throw new Error('Your email address is not verified. Please check your inbox and verify your email.');
+        const data = await res.json();
+        if (!res.ok) {
+          if (data.detail === 'invalid_credentials') {
+            throw new Error('Incorrect email or password.');
           }
-          throw error;
+          throw new Error(data.detail || 'Login failed');
         }
 
-        if (data.session && data.user) {
+        if (data.access_token) {
+          localStorage.setItem('Dtoken', data.access_token);
+          const name = data.user?.name || authEmail.split('@')[0];
+          const userSession = { name, email: authEmail, isLoggedIn: true };
+          localStorage.setItem('cc_user_session', JSON.stringify(userSession));
           setIsAuthenticated(true);
+          
           await fetch('/api/idea-validator', {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${data.access_token}`
+            },
             body: JSON.stringify({ reportId: id, userId: data.user.id }),
           });
         }
@@ -449,6 +498,7 @@ function ReportContent() {
         gateError={gateError}
         gateSuccess={gateSuccess}
         onSubmit={handleGateAuthSubmit}
+        onGoogleAuthSuccess={handleGateGoogleAuthSuccess}
       />
     </div>
   );
