@@ -289,6 +289,92 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
 }
 
+.investor-cta-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.6fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.form-input-light {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid #E2E8F0;
+  background: #F8FAFC;
+  font-size: 0.9rem;
+  color: #0F172A;
+  transition: all 0.2s ease;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+}
+.form-input-light::placeholder {
+  color: #9CA3AF;
+}
+.form-input-light:focus {
+  border-color: #0047AB;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(0, 71, 171, 0.12);
+}
+.form-input-light.has-error {
+  border-color: #EF4444 !important;
+  background-color: #FEF2F2 !important;
+}
+
+.custom-checkbox-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.82rem;
+  color: #374151;
+  font-family: 'Inter', sans-serif;
+  user-select: none;
+}
+.custom-checkbox-light:hover {
+  border-color: #CBD5E1;
+  background: #F1F5F9;
+}
+.custom-checkbox-light input {
+  accent-color: #0047AB;
+  cursor: pointer;
+}
+.custom-checkbox-light:has(input:checked) {
+  border-color: #0047AB;
+  background: #0047AB;
+  color: #FFFFFF;
+}
+
+.btn-navy-pill {
+  width: 100%;
+  background-color: #0047AB !important;
+  color: #FFFFFF !important;
+  padding: 14px 24px !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+  border: none !important;
+  cursor: pointer;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  transition: all 0.25s ease !important;
+  font-family: 'Inter', sans-serif !important;
+  box-shadow: 0 4px 14px rgba(0, 71, 171, 0.22) !important;
+}
+.btn-navy-pill:hover {
+  background-color: #003584 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(0, 71, 171, 0.35) !important;
+}
+
 .form-input {
   width: 100%;
   padding: 14px 18px;
@@ -383,6 +469,10 @@ h1, h2, h3, h4, h5, h6 {
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
 
 @media (max-width: 900px) {
+  .investor-cta-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
   .grid-2, .grid-3, .grid-4 {
     grid-template-columns: 1fr !important;
     gap: 32px !important;

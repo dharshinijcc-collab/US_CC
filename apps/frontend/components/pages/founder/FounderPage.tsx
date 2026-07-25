@@ -88,6 +88,14 @@ export default function LandingPage() {
       "A Minimum Lovable Product your users will actually love",
       "Operational workflows and automation built in",
       "A long-term partner who grows with your business"
+    ],
+    // Card 2: Existing Startups & Enterprises
+    [
+      "CTO-as-a-Service and technical leadership",
+      "Architecture design and system modernization",
+      "Scalable digital infrastructure built for volume",
+      "Integration of AI and automated workflows",
+      "Long-term strategic partnership and scaling"
     ]
   ];
 

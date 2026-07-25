@@ -631,11 +631,13 @@
       "items": [
         {
           "author": "Elena Rodriguez",
+          "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80",
           "quote": "\"Crestcode transformed our vague concept into a market ready platform in under 4 months. Their strategic clarity and technical speed are unmatched.\"",
           "role": "CEO, FLUX SYSTEMS"
         },
         {
           "author": "David Chen",
+          "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80",
           "quote": "\"They don't just build what you ask for; they build what you actually need to scale. A true partner in every sense of the word.\"",
           "role": "PRODUCT HEAD, VANTAGE AI"
         }
@@ -1397,15 +1399,6 @@
           "tags": [
             "Founders",
             "Post-launch",
-            "Free"
-          ]
-        },
-        {
-          "title": "Studio Investment Calculator",
-          "status": "COMING SOON",
-          "desc": "Model different investment scenarios across Crestcode's two investment paths — visualize projected returns, timelines, and exposure across the portfolio.",
-          "tags": [
-            "Investors",
             "Free"
           ]
         }

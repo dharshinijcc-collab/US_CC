@@ -53,11 +53,14 @@ export default function StudioProcess({ studioContent, heroCarouselIndex, handle
           />
         </div>
 
-        {/* Stepper Navigation */}
+        {/* Stepper Navigation — redesigned to match reference image style */}
         <div style={{
           position: 'sticky', top: 0, zIndex: 100,
           background: '#FFFFFF',
           marginBottom: '40px',
+          paddingTop: '16px',
+          paddingBottom: '16px',
+          borderBottom: '1px solid #F1F5F9',
         }}>
           <div className="section-container section-container--flush-y">
             <div className="selection-stepper-container" style={{
@@ -75,54 +78,88 @@ export default function StudioProcess({ studioContent, heroCarouselIndex, handle
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                        gap: '8px',
+                        gap: '7px',
                         cursor: 'pointer',
                         background: 'transparent',
                         border: 'none',
                         padding: 0,
-                        minWidth: '72px',
+                        minWidth: '64px',
                         outline: 'none',
                       }}
                     >
+                      {/* Step bubble — rounded square like reference image */}
                       <div style={{
-                        width: '36px',
-                        height: '36px',
-                        borderRadius: '50%',
+                        width: '38px',
+                        height: '38px',
+                        borderRadius: '10px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '13px',
+                        fontSize: '14px',
                         fontWeight: 700,
                         fontFamily: "'Manrope', sans-serif",
-                        background: isActive ? '#005AE2' : (isCompleted ? '#E6F4EA' : '#ffffff'),
-                        color: isActive ? '#ffffff' : (isCompleted ? '#137333' : '#64748B'),
-                        border: isActive ? '2px solid #005AE2' : (isCompleted ? '2px solid #10B981' : '2px solid #D1D5DB'),
+                        background: isActive
+                          ? '#005AE2'
+                          : isCompleted
+                            ? '#E8F0FE'
+                            : '#F8FAFC',
+                        color: isActive
+                          ? '#FFFFFF'
+                          : isCompleted
+                            ? '#005AE2'
+                            : '#94A3B8',
+                        border: isActive
+                          ? '2px solid #005AE2'
+                          : isCompleted
+                            ? '2px solid #005AE2'
+                            : '2px solid #E2E8F0',
+                        boxShadow: isActive
+                          ? '0 4px 12px rgba(0, 90, 226, 0.25)'
+                          : 'none',
                         transition: 'all 0.3s ease',
                       }}>
                         {isCompleted ? '✓' : (idx + 1)}
                       </div>
+                      {/* Step label */}
                       <span style={{
-                        fontSize: '11px',
-                        fontWeight: 700,
-                        fontFamily: "'Manrope', sans-serif",
-                        letterSpacing: '0.08em',
+                        fontSize: '10px',
+                        fontWeight: isActive ? 700 : 500,
+                        fontFamily: "'Inter', sans-serif",
+                        letterSpacing: '0.04em',
                         textAlign: 'center',
-                        color: isActive ? '#005AE2' : '#64748B',
+                        color: isActive ? '#005AE2' : isCompleted ? '#334155' : '#94A3B8',
                         transition: 'all 0.3s ease',
+                        whiteSpace: 'nowrap',
                       }}>
                         <EditableText contentKey={`studio.selection_process.tabs.${idx}.title`} value={tab.title} />
                       </span>
                     </button>
+
+                    {/* Dashed connector line between steps */}
                     {idx < getPhaseTabs(studioContent).length - 1 && (
                       <div style={{
                         flex: 1,
                         height: '2px',
-                        background: heroCarouselIndex > idx ? '#10B981' : '#E5E7EB',
-                        margin: '0 4px',
-                        transition: 'all 0.3s ease',
-                        maxWidth: '80px',
-                        minWidth: '20px',
-                      }} />
+                        marginBottom: '18px',
+                        margin: '0 6px 18px',
+                        minWidth: '12px',
+                        maxWidth: '72px',
+                        position: 'relative',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}>
+                        <div style={{
+                          width: '100%',
+                          height: '2px',
+                          background: isCompleted
+                            ? '#005AE2'
+                            : 'transparent',
+                          backgroundImage: isCompleted
+                            ? 'none'
+                            : 'repeating-linear-gradient(90deg, #CBD5E1 0px, #CBD5E1 5px, transparent 5px, transparent 10px)',
+                          transition: 'all 0.3s ease',
+                        }} />
+                      </div>
                     )}
                   </React.Fragment>
                 );

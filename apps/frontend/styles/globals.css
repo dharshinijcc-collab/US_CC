@@ -35,22 +35,22 @@ body {
 
 /* Typography */
 h1, .hero-title { 
-  font-size: clamp(2rem, 6vw, 3.5rem); 
+  font-size: clamp(1.75rem, 4.5vw, 2.65rem); 
   font-weight: 800; 
   letter-spacing: -0.03em; 
   line-height: 1.1; 
 }
 
 h2, .section-title { 
-  font-size: clamp(1.5rem, 5vw, 2.75rem); 
+  font-size: clamp(1.25rem, 3.5vw, 2rem); 
   font-weight: 800; 
   letter-spacing: -0.02em; 
   line-height: 1.2; 
 }
 
 p, .body-text {
-  font-size: clamp(1rem, 2.2vw, 1.15rem);
-  line-height: 1.65;
+  font-size: clamp(0.82rem, 1.6vw, 0.9rem);
+  line-height: 1.6;
   color: var(--text-muted);
 }
 
@@ -78,22 +78,22 @@ p, .body-text {
 .section-container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: clamp(40px, 6vw, 80px) clamp(16px, 3vw, 32px);
+  padding: clamp(28px, 4vw, 56px) clamp(14px, 2.5vw, 28px);
   width: 100%;
 }
 
 .btn-primary { 
   background-color: var(--primary-blue); 
   color: var(--white); 
-  padding: 16px 40px; 
-  border-radius: 100px; 
+  padding: 12px 28px; 
+  border-radius: 8px; 
   font-weight: 700; 
-  font-size: 16px; 
+  font-size: 14px; 
   border: none; 
   cursor: pointer; 
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
   display: inline-block;
-  box-shadow: 0 10px 20px -5px rgba(0, 90, 226, 0.3);
+  box-shadow: 0 8px 16px -5px rgba(0, 90, 226, 0.28);
 }
 
 .btn-primary:hover { 

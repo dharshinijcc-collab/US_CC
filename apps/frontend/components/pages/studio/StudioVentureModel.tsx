@@ -22,16 +22,18 @@ export default function StudioVentureModel({ studioContent, renderCellText }: an
           boxShadow: 'inset 0 20px 20px -20px rgba(0, 0, 0, 0.08), inset 0 -20px 20px -20px rgba(0, 0, 0, 0.05), 0 20px 40px -20px rgba(0, 0, 0, 0.05)'
         }}>
           <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            
+            {/* ── TOP: Eyebrow Pill ── */}
+            <div style={{ marginBottom: '2rem', textAlign: 'left' }}>
+              <span className="hero-eyebrow-pill" style={{ display: 'inline-block', marginBottom: 0 }}>
+                <EditableText contentKey="studio.selectiveness.thesisLabel" value={studioContent.selectiveness?.thesisLabel || "LET'S START FROM HERE"} />
+              </span>
+            </div>
+
             <div className="thesis-grid">
 
               {/* ── LEFT: Quadrant Chart + caption ── */}
               <div>
-                {/* Eyebrow + Title */}
-                <div style={{ marginBottom: '1.25rem' }}>
-                  <span className="hero-eyebrow-pill" style={{ display: 'inline-block', marginBottom: 0 }}>
-                    <EditableText contentKey="studio.selectiveness.thesisLabel" value={studioContent.selectiveness?.thesisLabel || "LET'S START FROM HERE"} />
-                  </span>
-                </div>
                 <h3 style={{
                   fontSize: 'clamp(1.5rem, 2.5vw, 2.1rem)',
                   fontWeight: 800,
@@ -40,7 +42,8 @@ export default function StudioVentureModel({ studioContent, renderCellText }: an
                   letterSpacing: '-0.02em',
                   fontFamily: "'Manrope', sans-serif",
                   marginBottom: '1.75rem',
-                  textTransform: 'uppercase'
+                  textTransform: 'uppercase',
+                  marginTop: 0
                 }}>
                   <EditableText contentKey="studio.selectiveness.thesisTitle" value={studioContent.selectiveness?.thesisTitle || "INVESTMENT THESIS: SMALL BUSINESSES ARE STILL RUNNING ON YESTERDAY'S TOOLS"} />
                 </h3>
@@ -282,37 +285,33 @@ export default function StudioVentureModel({ studioContent, renderCellText }: an
                 </p>
               </div>
 
-              {/* ── RIGHT: Editorial text ── */}
-              <div style={{ paddingTop: '0.5rem' }}>
-                <div style={{ fontSize: '0.92rem', color: '#334155', lineHeight: 1.85, fontFamily: "'Inter', sans-serif", fontWeight: 450, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                  <p style={{ margin: 0 }}>
-                    <EditableText
-                      as="span"
-                      contentKey="studio.selectiveness.thesisP1"
-                      value={studioContent.selectiveness?.thesisP1 || "Families managing the moving parts of a household. Small business owners running operations with no IT department behind them. Different scale, same problem — they're stuck with spreadsheets, phone calls, and guesswork, while the software built for them is either too generic to fit how they actually operate, or too complex to bother adopting."}
-                    />
-                  </p>
-                  <p style={{ margin: 0 }}>
-                    <EditableText
-                      as="span"
-                      contentKey="studio.selectiveness.thesisP2"
-                      value={studioContent.selectiveness?.thesisP2 || "It's not for lack of technology. It's cost, habit, and a real fear: that handing the work over to software means losing the judgment that made it succeed in the first place."}
-                    />
-                  </p>
-                  <p style={{ margin: 0 }}>
-                    <EditableText
-                      as="span"
-                      contentKey="studio.selectiveness.thesisP3"
-                      value={studioContent.selectiveness?.thesisP3 || "We build for both sides of that gap. For families, that means products like Dockly and CastleGEC — tools that hold the everyday logistics and the major decisions of a household in one place, instead of scattered across apps no one fully trusts. For small businesses, that means products like Limelite and NestBloq — tools built around how an independent operator actually works, not how an enterprise vendor assumes they should."}
-                    />
-                  </p>
-                  <p style={{ margin: 0 }}>
-                    <EditableText
-                      as="span"
-                      contentKey="studio.selectiveness.thesisP4"
-                      value={studioContent.selectiveness?.thesisP4 || "That's our bet: the families and small operators still under-digitized today are the ones with the most room to grow tomorrow — and the ones we're building for first."}
-                    />
-                  </p>
+              {/* ── RIGHT: Editorial text (Explicit inline font size on <p> elements to override global p rules) ── */}
+              <div style={{ paddingTop: '0px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.35rem' }}>
+                  {[
+                    { key: 'thesisP1', defaultVal: "Families managing the moving parts of a household. Small business owners running operations with no IT department behind them. Different scale, same problem — they're stuck with spreadsheets, phone calls, and guesswork, while the software built for them is either too generic to fit how they actually operate, or too complex to bother adopting." },
+                    { key: 'thesisP2', defaultVal: "It's not for lack of technology. It's cost, habit, and a real fear: that handing the work over to software means losing the judgment that made it succeed in the first place." },
+                    { key: 'thesisP3', defaultVal: "We build for both sides of that gap. For families, that means products like Dockly and CastleGEC — tools that hold the everyday logistics and the major decisions of a household in one place, instead of scattered across apps no one fully trusts. For small businesses, that means products like Limelite and NestBloq — tools built around how an independent operator actually works, not how an enterprise vendor assumes they should." },
+                    { key: 'thesisP4', defaultVal: "That's our bet: the families and small operators still under-digitized today are the ones with the most room to grow tomorrow — and the ones we're building for first." }
+                  ].map((item, idx) => (
+                    <p
+                      key={item.key}
+                      style={{
+                        margin: 0,
+                        fontSize: '1.25rem',
+                        lineHeight: 1.72,
+                        color: '#64748B',
+                        fontFamily: "'Inter', sans-serif",
+                        fontWeight: 500,
+                      }}
+                    >
+                      <EditableText
+                        as="span"
+                        contentKey={`studio.selectiveness.${item.key}`}
+                        value={studioContent.selectiveness?.[item.key] || item.defaultVal}
+                      />
+                    </p>
+                  ))}
                 </div>
               </div>
 
