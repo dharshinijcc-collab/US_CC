@@ -13,7 +13,7 @@ import BorderBeam from '@/components/effects/BorderBeam';
 
 export default function FaqHero({ faqContent, handleScroll, magBtn }: any) {
   return (
-    <section className="hero-section" style={{ position: 'relative', overflow: 'hidden' }}>
+    <section className="hero-section" style={{ position: 'relative', overflow: 'hidden', padding: '80px 0' }}>
           {/* Hero Background */}
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }}></div>
           {/* Hero Grid */}
@@ -24,7 +24,7 @@ export default function FaqHero({ faqContent, handleScroll, magBtn }: any) {
           <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.2), transparent 70%)', bottom: '0px', right: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
 
           <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div className="hero-eyebrow-pill">
+            <div className="hero-eyebrow-pill" style={{ marginTop: '0px' }}>
               <EditableText contentKey="faq.hero.eyebrow" value={faqContent.hero.eyebrow || "FREQUENTLY ASKED QUESTIONS"} />
             </div>
             <EditableText

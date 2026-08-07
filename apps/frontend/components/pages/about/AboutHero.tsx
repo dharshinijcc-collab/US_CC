@@ -9,7 +9,7 @@ import type { TeamMember } from '@/types/team.types';
 
 export default function AboutHero({ getContent }: any) {
   return (
-    <section className="hero-section" style={{ position: 'relative', overflow: 'hidden' }}>
+    <section className="hero-section" style={{ position: 'relative', overflow: 'hidden', padding: '80px 0' }}>
           {/* Hero Background */}
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }}></div>
           {/* Hero Grid */}
@@ -22,6 +22,7 @@ export default function AboutHero({ getContent }: any) {
               contentKey="about.hero.eyebrow" 
               value={getContent('about.hero.eyebrow', 'ABOUT THE STUDIO')}
               className="hero-eyebrow-pill"
+              style={{ marginTop: '0px' }}
               as="div"
             />
             <EditableText

@@ -14,7 +14,7 @@ import BorderBeam from '@/components/effects/BorderBeam';
 
 export default function ContactHero({ contactContent, handleScroll }: any) {
   return (
-    <section className="hero-section">
+    <section className="hero-section" style={{ position: 'relative', overflow: 'hidden', padding: '80px 0' }}>
           {/* Ambient glow orbs - Blue only, matching studio page */}
           <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-250px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
           <div style={{ position: 'absolute', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.15), transparent 70%)', bottom: '-150px', left: '-50px', filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }}></div>
@@ -24,7 +24,7 @@ export default function ContactHero({ contactContent, handleScroll }: any) {
           
           <div className="section-container pt-0 pb-0" style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', maxWidth: '960px' }}>
             <div className="cc-reveal" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-              <div className="hero-eyebrow-pill">
+              <div className="hero-eyebrow-pill" style={{ marginTop: '0px' }}>
                 <EditableText contentKey="contact.hero.eyebrow" value={contactContent.hero.eyebrow || "CONTACT OUR EXPERTS"} />
               </div>
               

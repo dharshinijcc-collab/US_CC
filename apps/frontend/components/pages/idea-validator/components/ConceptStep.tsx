@@ -24,12 +24,12 @@ export default function ConceptStep({ idea, setIdea, answers, onChange, onNext }
         </div>
 
         <div className="form-group" style={{ marginBottom: '24px' }}>
-          <label className="form-label" style={{ display: 'block', fontWeight: 800, color: '#0F172A', marginBottom: '8px', fontSize: '1.05rem', fontFamily: "'Manrope', sans-serif" }}>
-            Describe your startup idea *
+          <label className="form-label" style={{ display: 'block', color: '#374151', fontSize: '0.85rem', fontWeight: 600, marginBottom: '6px', fontFamily: "'Inter', sans-serif" }}>
+            Describe your startup idea <span style={{ color: '#EF4444' }}>*</span>
           </label>
           <textarea 
-            className="textarea-box"
-            style={{ width: '100%', minHeight: '100px', padding: '14px', borderRadius: '12px', border: '1.5px solid #E2E8F0', outline: 'none', fontSize: '0.925rem' }}
+            className="form-input-light textarea-box"
+            style={{ width: '100%', minHeight: '100px', resize: 'vertical' }}
             placeholder="Describe what your venture does, the technology, and core innovation..."
             value={idea}
             onChange={(e) => setIdea(e.target.value)}
@@ -37,12 +37,12 @@ export default function ConceptStep({ idea, setIdea, answers, onChange, onNext }
         </div>
 
         <div className="form-group" style={{ marginBottom: '24px' }}>
-          <label className="form-label" style={{ display: 'block', fontWeight: 800, color: '#0F172A', marginBottom: '8px', fontSize: '1.05rem', fontFamily: "'Manrope', sans-serif" }}>
-            Who is the target customer? *
+          <label className="form-label" style={{ display: 'block', color: '#374151', fontSize: '0.85rem', fontWeight: 600, marginBottom: '6px', fontFamily: "'Inter', sans-serif" }}>
+            Who is the target customer? <span style={{ color: '#EF4444' }}>*</span>
           </label>
           <textarea 
-            className="textarea-box"
-            style={{ width: '100%', minHeight: '80px', padding: '14px', borderRadius: '12px', border: '1.5px solid #E2E8F0', outline: 'none', fontSize: '0.925rem' }}
+            className="form-input-light textarea-box"
+            style={{ width: '100%', minHeight: '80px', resize: 'vertical' }}
             placeholder="e.g. Mid-sized retail brands struggling with omnichannel returns..."
             value={answers.customer}
             onChange={(e) => onChange('customer', e.target.value)}
@@ -50,12 +50,12 @@ export default function ConceptStep({ idea, setIdea, answers, onChange, onNext }
         </div>
 
         <div className="form-group" style={{ marginBottom: '24px' }}>
-          <label className="form-label" style={{ display: 'block', fontWeight: 800, color: '#0F172A', marginBottom: '8px', fontSize: '1.05rem', fontFamily: "'Manrope', sans-serif" }}>
-            What specific problem do you solve? *
+          <label className="form-label" style={{ display: 'block', color: '#374151', fontSize: '0.85rem', fontWeight: 600, marginBottom: '6px', fontFamily: "'Inter', sans-serif" }}>
+            What specific problem do you solve? <span style={{ color: '#EF4444' }}>*</span>
           </label>
           <textarea 
-            className="textarea-box"
-            style={{ width: '100%', minHeight: '80px', padding: '14px', borderRadius: '12px', border: '1.5px solid #E2E8F0', outline: 'none', fontSize: '0.925rem' }}
+            className="form-input-light textarea-box"
+            style={{ width: '100%', minHeight: '80px', resize: 'vertical' }}
             placeholder="e.g. Return processing takes 14 days and wastes 18% of product margins due to manual triage..."
             value={answers.problem}
             onChange={(e) => onChange('problem', e.target.value)}
@@ -123,12 +123,12 @@ export default function ConceptStep({ idea, setIdea, answers, onChange, onNext }
         </div>
 
         <div className="form-group" style={{ marginBottom: '24px' }}>
-          <label className="form-label" style={{ display: 'block', fontWeight: 800, color: '#0F172A', marginBottom: '8px', fontSize: '1.05rem', fontFamily: "'Manrope', sans-serif" }}>
-            Competitors *
+          <label className="form-label" style={{ display: 'block', color: '#374151', fontSize: '0.85rem', fontWeight: 600, marginBottom: '6px', fontFamily: "'Inter', sans-serif" }}>
+            Competitors <span style={{ color: '#EF4444' }}>*</span>
           </label>
           <textarea 
-            className="textarea-box"
-            style={{ width: '100%', minHeight: '70px', padding: '14px', borderRadius: '12px', border: '1.5px solid #E2E8F0', outline: 'none', fontSize: '0.925rem' }}
+            className="form-input-light textarea-box"
+            style={{ width: '100%', minHeight: '70px', resize: 'vertical' }}
             placeholder="Who are the existing players? e.g. Shopify Flow, Returnly..."
             value={answers.competitors}
             onChange={(e) => onChange('competitors', e.target.value)}
@@ -136,12 +136,12 @@ export default function ConceptStep({ idea, setIdea, answers, onChange, onNext }
         </div>
 
         <div className="form-group" style={{ marginBottom: '24px' }}>
-          <label className="form-label" style={{ display: 'block', fontWeight: 800, color: '#0F172A', marginBottom: '8px', fontSize: '1.05rem', fontFamily: "'Manrope', sans-serif" }}>
-            What is your unfair advantage (MOAT)? *
+          <label className="form-label" style={{ display: 'block', color: '#374151', fontSize: '0.85rem', fontWeight: 600, marginBottom: '6px', fontFamily: "'Inter', sans-serif" }}>
+            What is your unfair advantage (MOAT)? <span style={{ color: '#EF4444' }}>*</span>
           </label>
           <textarea 
-            className="textarea-box"
-            style={{ width: '100%', minHeight: '70px', padding: '14px', borderRadius: '12px', border: '1.5px solid #E2E8F0', outline: 'none', fontSize: '0.925rem' }}
+            className="form-input-light textarea-box"
+            style={{ width: '100%', minHeight: '70px', resize: 'vertical' }}
             placeholder="e.g. Proprietary returns logic API, exclusive distributor partnerships..."
             value={answers.moat}
             onChange={(e) => onChange('moat', e.target.value)}

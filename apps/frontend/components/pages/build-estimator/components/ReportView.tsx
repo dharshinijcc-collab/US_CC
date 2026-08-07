@@ -95,10 +95,20 @@ export default function ReportView({ estimate, answers, onBack, customConfig }: 
 
         {/* Sidebar */}
         <div className="rpt-sidebar">
-          <button onClick={onBack} className="bte-btn" style={{ width: '100%', marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '10px 14px', borderRadius: '8px', border: `1.5px solid ${BORDER}`, background: 'transparent', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 700, color: MUTED }}>
+          <button onClick={onBack} className="bte-btn" style={{ width: '100%', marginBottom: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '10px 14px', borderRadius: '8px', border: `1.5px solid ${BORDER}`, background: 'transparent', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 700, color: MUTED }}>
             <ArrowLeft size={12} />
             <EditableText contentKey="estimator.report.editAnswers" value="Edit Answers" />
           </button>
+
+          <a
+            href="/CrestCode_Build_Time_Estimator_Documentation.docx"
+            download="CrestCode_Build_Time_Estimator_Documentation.docx"
+            className="bte-btn"
+            style={{ width: '100%', marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '10px 14px', borderRadius: '8px', border: 'none', background: '#005AE2', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 800, color: '#FFFFFF', textDecoration: 'none', boxSizing: 'border-box' }}
+          >
+            <ClipboardList size={14} />
+            Download CEO Word Doc (.docx)
+          </a>
 
           {/* Mobile toggle */}
           <button className="rpt-sidebar-toggle" onClick={() => setSidebarOpen(o => !o)}>

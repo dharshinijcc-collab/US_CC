@@ -71,7 +71,8 @@ export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
           backgroundColor: '#F1F5F9',
           position: 'relative',
           overflow: 'hidden',
-          textAlign: 'center'
+          textAlign: 'center',
+          padding: '80px 0',
         }}>
           {/* Hero Background */}
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }}></div>
@@ -95,6 +96,7 @@ export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
                 marginBottom: '24px',
+                marginTop: '0px',
                 fontFamily: FONT_HEADING
               }}
             >

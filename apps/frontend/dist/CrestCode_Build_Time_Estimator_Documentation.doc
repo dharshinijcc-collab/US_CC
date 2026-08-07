@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset='utf-8'>
+<title>CrestCode Build Time Estimator Documentation</title>
+<!--[if gte mso 9]>
+<xml>
+ <w:WordDocument>
+  <w:View>Print</w:View>
+  <w:Zoom>100</w:Zoom>
+  <w:DoNotOptimizeForBrowser/>
+ </w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.5;
+    color: #1E293B;
+    margin: 40px;
+  }
+  h1 {
+    font-family: 'Segoe UI Semibold', Arial, sans-serif;
+    color: #005AE2;
+    font-size: 22pt;
+    border-bottom: 2px solid #005AE2;
+    padding-bottom: 8px;
+    margin-top: 0;
+  }
+  h2 {
+    font-family: 'Segoe UI Semibold', Arial, sans-serif;
+    color: #0F172A;
+    font-size: 15pt;
+    margin-top: 24px;
+    margin-bottom: 10px;
+    border-left: 4px solid #005AE2;
+    padding-left: 10px;
+  }
+  h3 {
+    font-family: 'Segoe UI Semibold', Arial, sans-serif;
+    color: #334155;
+    font-size: 12pt;
+    margin-top: 16px;
+    margin-bottom: 6px;
+  }
+  p {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  .callout {
+    background-color: #F0F5FF;
+    border: 1px solid #BFDBFE;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 10.5pt;
+    color: #1E40AF;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 12px;
+    margin-bottom: 16px;
+    font-size: 10pt;
+  }
+  th {
+    background-color: #005AE2;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-align: left;
+    padding: 8px 12px;
+    border: 1px solid #005AE2;
+  }
+  td {
+    padding: 8px 12px;
+    border: 1px solid #CBD5E1;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td {
+    background-color: #F8FAFC;
+  }
+  ul, ol {
+    margin-top: 0;
+    margin-bottom: 12px;
+    padding-left: 24px;
+  }
+  li {
+    margin-bottom: 4px;
+  }
+  .badge {
+    display: inline-block;
+    background-color: #EFF6FF;
+    color: #005AE2;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 9pt;
+  }
+</style>
+</head>
+<body>
+
+<h1>CrestCode Build Time Estimator — Executive & Operational Documentation</h1>
+
+<div class="callout">
+  <strong>Prepared for:</strong> CEO, Product Leadership, and Client Success Teams<br/>
+  <strong>Product Module:</strong> CrestCode Build Time Estimator<br/>
+  <strong>Document Type:</strong> End-to-End Functional, Logical & Operational Guide<br/>
+  <strong>Date:</strong> July 2026
+</div>
+
+<h2>1. High-Level Purpose & Strategic Value</h2>
+<p>The <strong>CrestCode Build Time Estimator</strong> is an interactive, data-driven product scoping engine designed to help founders, product managers, and enterprise clients project accurate software development timelines, team requirements, technical risk profiles, and phased rollout roadmaps.</p>
+
+<h3>Key Objectives</h3>
+<ul>
+  <li><strong>Eliminate Guesswork:</strong> Replaces arbitrary duration quotes with a standardized, mathematical estimation model based on empirical screen counts and feature complexities.</li>
+  <li><strong>Align Expectations Early:</strong> Provides clients and stakeholders with instant transparency on how feature choices directly impact delivery schedules and engineering resource needs.</li>
+  <li><strong>Encourage Lean Discipline:</strong> Automatically recommends a Minimum Viable Product (MVP) scope by highlighting high-impact core features versus non-essential capabilities that can be deferred to Version 2.</li>
+  <li><strong>Support Dynamic Configuration:</strong> Allows internal administrators to calibrate screen weights, complexity thresholds, and team velocity multipliers through a live central dashboard without requiring engineering deployments.</li>
+</ul>
+
+<h2>2. Step-by-Step User Scoping Workflow</h2>
+<p>The estimation process guides the user through seven intuitive, logical steps. Each step captures critical scope inputs that compound to produce the final estimate:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Step Number</th>
+      <th>Step Name</th>
+      <th>Primary Scoping Input</th>
+      <th>Impact on Estimate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Step 1</strong></td>
+      <td>Product Type</td>
+      <td>Select Base Archetype (SaaS, Marketplace, Mobile App, etc.)</td>
+      <td>Establishes the initial baseline screen count and core user flow structure.</td>
+    </tr>
+    <tr>
+      <td><strong>Step 2</strong></td>
+      <td>Existing Assets</td>
+      <td>Pre-existing UI designs, wireframes, codebase, or APIs</td>
+      <td>Reduces early design and architecture phase durations when assets exist.</td>
+    </tr>
+    <tr>
+      <td><strong>Step 3</strong></td>
+      <td>Target Platforms</td>
+      <td>Web Application, iOS Native, Android Native, Admin Portal</td>
+      <td>Adds platform-specific navigation, HIG adaptation, and QA requirements.</td>
+    </tr>
+    <tr>
+      <td><strong>Step 4</strong></td>
+      <td>Functional Features</td>
+      <td>Auth, Payments, Analytics, Booking, Messaging, Roles, etc.</td>
+      <td>Adds dedicated feature screens and underlying backend logic layers.</td>
+    </tr>
+    <tr>
+      <td><strong>Step 5</strong></td>
+      <td>AI Integration Level</td>
+      <td>No AI, AI Assistant, Report Generator, OCR, AI Core Product</td>
+      <td>Adds prompt UIs, processing loaders, model training, and evaluation views.</td>
+    </tr>
+    <tr>
+      <td><strong>Step 6</strong></td>
+      <td>Third-Party Integrations</td>
+      <td>Stripe, Email, Slack/Teams, Microsoft 365, CRMs, Custom APIs</td>
+      <td>Adds integration setup views, API authentication, and data transformation.</td>
+    </tr>
+    <tr>
+      <td><strong>Step 7</strong></td>
+      <td>Team Structure</td>
+      <td>Solo Developer, Small Team (2-4), Dedicated Squad</td>
+      <td>Adjusts delivery velocity multiplier (Solo takes longer; Dedicated squad is fastest).</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>3. Underlying Estimation Logic & Principles</h2>
+
+<h3>The Golden Estimation Rule</h3>
+<p>The entire engine operates on a fundamental UI and logic equivalence principle:</p>
+<div class="callout" style="text-align: center; font-size: 12pt;">
+  <strong>1 Equivalent Screen / Page = 1 Day (Minimum) to 2 Days (Maximum)</strong>
+</div>
+<p>A "screen" encompasses the user interface layout, underlying database schemas, state management, validation logic, and API endpoints associated with that specific view or interaction flow.</p>
+
+<h3>Velocity & Team Multipliers</h3>
+<ul>
+  <li><strong>Solo Developer (1.50x to 1.75x):</strong> Takes longer due to single-engineer context switching between frontend, backend, database design, and testing.</li>
+  <li><strong>Small Team (1.00x):</strong> Represents standard, balanced execution velocity with clear separation of concerns (Baseline Standard).</li>
+  <li><strong>Dedicated Product Team (0.60x to 0.75x):</strong> Delivers significantly faster because specialists (UI designers, frontend engineers, backend engineers, QA testers) build components simultaneously.</li>
+</ul>
+
+<h3>Realistic Buffer Clamping Rule</h3>
+<p>To prevent delivery estimates from having unrealistic gaps between optimistic and conservative dates, the calculation engine applies a safety clamp locking maximum duration between <strong>30% and 35% above minimum duration</strong>.</p>
+
+<h2>4. Parameter Weighting & Reference Tables</h2>
+
+<h3>4.1 Product Type Base Screen Allocation</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Product Category</th>
+      <th>Base Screens Included</th>
+      <th>Standard Flow Scope</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Landing Page</td><td>1</td><td>Single-page conversion & lead capture form</td></tr>
+    <tr><td>Marketing Website</td><td>5</td><td>Home, About, Services, Blog, Contact Us</td></tr>
+    <tr><td>Internal Tool</td><td>8</td><td>Internal ops dashboard, data management tables</td></tr>
+    <tr><td>SaaS Platform</td><td>18</td><td>Auth, Dashboard, User Management, Billing, Settings, Core Workflows</td></tr>
+    <tr><td>Mobile App</td><td>18</td><td>Onboarding, Feed/Home, Profile, Navigation, Settings</td></tr>
+    <tr><td>AI Product</td><td>16</td><td>Prompt Interface, Model Controls, History, Results Viewer</td></tr>
+    <tr><td>Marketplace</td><td>22</td><td>Buyer Portal, Seller Portal, Product Catalog, Checkout, Orders, Reviews, Admin</td></tr>
+    <tr><td>Enterprise Platform</td><td>30</td><td>Multi-Tenant Portals, Access Matrix, Audit Trail, Enterprise Admin</td></tr>
+  </tbody>
+</table>
+
+<h3>4.2 Feature & AI Screen Additions</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Feature Name</th>
+      <th>Added Screens</th>
+      <th>Included Workflows</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>AI Capability</td><td>AI Assistant</td><td>+3</td><td>Chat widget, prompt settings, conversation history</td></tr>
+    <tr><td>AI Capability</td><td>AI Report Generator</td><td>+5</td><td>Input form, processing loader, document viewer, PDF export</td></tr>
+    <tr><td>AI Capability</td><td>OCR Document Processing</td><td>+4</td><td>Uploader, OCR processing, field extraction correction, export</td></tr>
+    <tr><td>AI Capability</td><td>AI Core Product</td><td>+8</td><td>Model selection, training dashboard, evaluation UI, batch processing</td></tr>
+    <tr><td>Feature</td><td>User Profiles</td><td>+2</td><td>Profile View, Profile Edit Form</td></tr>
+    <tr><td>Feature</td><td>Dashboard</td><td>+3</td><td>Overview Cards, Widgets Grid, Filter Controls</td></tr>
+    <tr><td>Feature</td><td>Analytics</td><td>+4</td><td>Performance Overview, Custom Charts, Date Filters, Export</td></tr>
+    <tr><td>Feature</td><td>Payments</td><td>+4</td><td>Checkout Form, Subscription Manager, Invoices List, Billing Settings</td></tr>
+    <tr><td>Feature</td><td>Booking System</td><td>+4</td><td>Interactive Calendar, Slot Picker, Confirmation, Admin</td></tr>
+    <tr><td>Feature</td><td>Messaging</td><td>+5</td><td>Inbox List, Chat Thread, Compose View, Contacts, Settings</td></tr>
+    <tr><td>Feature</td><td>Team Collaboration</td><td>+5</td><td>Shared Workspace, Members List, Activity Feed, Shared Views</td></tr>
+  </tbody>
+</table>
+
+<h2>5. Complexity Rating & Risk Framework</h2>
+
+<h3>Complexity Classification System</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Estimated Duration</th>
+      <th>Complexity Rating</th>
+      <th>Operational Guidance & Management</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1 to 4 Weeks (<= 20 Days)</td><td>LOW</td><td>Straightforward scope, minimal custom logic. Standard dev.</td></tr>
+    <tr><td>5 to 12 Weeks (21–60 Days)</td><td>MEDIUM</td><td>Moderate scope. Requires structured sprint planning.</td></tr>
+    <tr><td>13 to 24 Weeks (61–120 Days)</td><td>HIGH</td><td>Significant scope. Requires senior architects & QA squad.</td></tr>
+    <tr><td>Over 24 Weeks (> 120 Days)</td><td>VERY HIGH</td><td>Enterprise multi-phase initiative. Needs PM governance.</td></tr>
+  </tbody>
+</table>
+
+<h2>6. Phased Delivery Roadmap</h2>
+<ul>
+  <li><strong>Phase 1: Planning & Architecture (15% of Duration):</strong> Wireframes, technical architecture, database schemas, API specs.</li>
+  <li><strong>Phase 2: Core Development (45% of Duration):</strong> Primary user flows, core pages, database models, business logic.</li>
+  <li><strong>Phase 3: Integrations & AI (25% of Duration):</strong> Connecting payment gateways, AI models, third-party APIs, security hardening.</li>
+  <li><strong>Phase 4: Testing & Launch (15% of Duration):</strong> Quality assurance, performance tuning, cross-browser testing, production deployment.</li>
+</ul>
+
+<h2>7. Summary for Executive Leadership</h2>
+<ol>
+  <li><strong>Standardized Method:</strong> Converts complex software requests into clear screen equivalents and verifiable days.</li>
+  <li><strong>Transparent Trade-Offs:</strong> Shows stakeholders immediately how adding features or platforms extends timeframes.</li>
+  <li><strong>Risk Reduction:</strong> Identifies technical integration risks and team bottlenecks upfront.</li>
+  <li><strong>Actionable Roadmap:</strong> Delivers a clear 4-phase rollout plan and realistic MVP recommendation ready for executive approval.</li>
+</ol>
+
+</body>
+</html>

@@ -12,7 +12,7 @@ import {
 
 export default function CareersHero({ careersContent, handleScroll }: any) {
   return (
-    <section className="hero-section" style={{ backgroundColor: '#F1F5F9', position: 'relative', overflow: 'hidden' }}>
+    <section className="hero-section" style={{ backgroundColor: '#F1F5F9', position: 'relative', overflow: 'hidden', padding: '80px 0' }}>
           {/* Hero Background */}
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }}></div>
           {/* Hero Grid */}
@@ -23,7 +23,7 @@ export default function CareersHero({ careersContent, handleScroll }: any) {
           <div style={{ position: 'absolute', width: '520px', height: '520px', background: 'radial-gradient(circle, rgba(0, 82, 255, 0.22), transparent 70%)', bottom: '0px', right: '0px', filter: 'blur(90px)', pointerEvents: 'none', zIndex: 0 }}></div>
 
           <div className="section-container pt-0 pb-0" style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', width: '100%', maxWidth: '960px' }}>
-            <span className="hero-eyebrow-pill" style={{ marginBottom: '32px' }}>
+            <span className="hero-eyebrow-pill" style={{ marginBottom: '32px', marginTop: '0px' }}>
               <EditableText contentKey="careers.hero.eyebrow" value={careersContent.hero.eyebrow} />
             </span>
             <EditableText
