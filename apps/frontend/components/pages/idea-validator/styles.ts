@@ -147,32 +147,38 @@ h1, h2, h3, h4, h5, h6, .manrope-font {
   font-size: 0.8rem;
 }
 
-.input-text, .select-box, .textarea-box {
+.form-input-light, .input-text, .select-box, .textarea-box {
   width: 100%;
-  padding: 14px 18px;
-  border-radius: 12px;
-  border: 1px solid var(--border-light);
-  font-size: 0.95rem;
-  font-family: inherit;
-  color: var(--text-black);
-  outline: none;
-  transition: all 0.2s;
-  background-color: #FAFAFA;
-  box-sizing: border-box;
+  padding: 14px 18px !important;
+  border-radius: 12px !important;
+  border: 1.5px solid #CBD5E1 !important;
+  background: #FFFFFF !important; /* Pure white color inside */
+  font-size: 0.95rem !important;
+  color: #0F172A !important;
+  box-shadow: inset 0 4px 8px rgba(15, 23, 42, 0.08), inset 0 -2px 5px rgba(15, 23, 42, 0.04), inset 3px 0 6px rgba(15, 23, 42, 0.05), inset -3px 0 6px rgba(15, 23, 42, 0.05) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  outline: none !important;
+  font-family: 'Inter', sans-serif !important;
+  box-sizing: border-box !important;
 }
 
-.input-text:focus, .select-box:focus, .textarea-box:focus {
-  border-color: var(--primary-blue);
-  background-color: var(--white);
-  box-shadow: 0 0 0 4px rgba(0, 90, 226, 0.05);
+.form-input-light::placeholder, .input-text::placeholder, .select-box::placeholder, .textarea-box::placeholder {
+  color: #9CA3AF !important;
+  font-weight: 400 !important;
+}
+
+.form-input-light:focus, .input-text:focus, .select-box:focus, .textarea-box:focus {
+  border-color: #005AE2 !important;
+  background-color: #FFFFFF !important;
+  box-shadow: inset 0 3px 6px rgba(15, 23, 42, 0.06), inset 0 -2px 4px rgba(15, 23, 42, 0.03), 0 0 0 4px rgba(0, 90, 226, 0.12) !important;
 }
 
 .textarea-box {
-  resize: vertical;
-  min-height: 110px;
+  resize: none !important;
+  min-height: 100px;
 }
 
-/* Clean, professional radio pills grid */
+/* Clean, professional radio pills grid with Inner Depth (White inside + 4-side inner shadow) */
 .radio-pills-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -183,7 +189,7 @@ h1, h2, h3, h4, h5, h6, .manrope-font {
 .radio-pill-card {
   padding: 16px;
   border-radius: 12px;
-  border: 1px solid #E2E8F0;
+  border: 1.5px solid #CBD5E1;
   background: #FFFFFF;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -191,19 +197,20 @@ h1, h2, h3, h4, h5, h6, .manrope-font {
   display: flex;
   flex-direction: column;
   height: 100%;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  box-shadow: inset 0 4px 8px rgba(15, 23, 42, 0.08), inset 0 -2px 5px rgba(15, 23, 42, 0.04), inset 3px 0 6px rgba(15, 23, 42, 0.05), inset -3px 0 6px rgba(15, 23, 42, 0.05);
 }
 
 .radio-pill-card:hover {
-  border-color: #CBD5E1;
+  border-color: #005AE2;
+  background: #FFFFFF;
   transform: translateY(-1px);
 }
 
 .radio-pill-card.active {
-  border-color: #005AE2;
-  border-width: 2px;
-  background-color: rgba(0, 90, 226, 0.02);
-  box-shadow: 0 4px 12px rgba(0, 90, 226, 0.06);
+  border-color: #005AE2 !important;
+  border-width: 2px !important;
+  background-color: #FFFFFF !important;
+  box-shadow: inset 0 3px 6px rgba(15, 23, 42, 0.06), inset 0 -2px 4px rgba(15, 23, 42, 0.03), 0 0 0 3.5px rgba(0, 90, 226, 0.12) !important;
 }
 
 .radio-pill-title {
@@ -224,7 +231,7 @@ h1, h2, h3, h4, h5, h6, .manrope-font {
   line-height: 1.3;
 }
 
-/* Toggle Button Group & Grid */
+/* Toggle Button Group & Grid with Inner Depth (White inside + 4-side inner shadow) */
 .toggle-btn-group {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -236,7 +243,7 @@ h1, h2, h3, h4, h5, h6, .manrope-font {
 .toggle-btn {
   padding: 14px 20px;
   border-radius: 12px;
-  border: 1px solid #E2E8F0;
+  border: 1.5px solid #CBD5E1;
   background: #FFFFFF;
   font-weight: 700;
   font-size: 0.875rem;
@@ -247,23 +254,23 @@ h1, h2, h3, h4, h5, h6, .manrope-font {
   justify-content: center;
   gap: 8px;
   color: #334155;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  box-shadow: inset 0 4px 8px rgba(15, 23, 42, 0.08), inset 0 -2px 5px rgba(15, 23, 42, 0.04), inset 3px 0 6px rgba(15, 23, 42, 0.05), inset -3px 0 6px rgba(15, 23, 42, 0.05);
   height: 100%;
   min-height: 50px;
   outline: none;
 }
 
 .toggle-btn:hover {
-  border-color: #CBD5E1;
-  background: #FAFAFA;
+  border-color: #005AE2;
+  background: #FFFFFF;
 }
 
 .toggle-btn.active {
-  background-color: rgba(0, 90, 226, 0.04) !important;
+  background-color: #FFFFFF !important;
   border-color: #005AE2 !important;
   border-width: 2px !important;
   color: #005AE2 !important;
-  box-shadow: 0 4px 12px rgba(0, 90, 226, 0.08);
+  box-shadow: inset 0 3px 6px rgba(15, 23, 42, 0.06), inset 0 -2px 4px rgba(15, 23, 42, 0.03), 0 0 0 3.5px rgba(0, 90, 226, 0.12) !important;
 }
 
 .toggle-btn svg {

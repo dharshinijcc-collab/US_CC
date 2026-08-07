@@ -215,7 +215,7 @@ export default function FounderAudiences({ homeContent, flippedCards, setFlipped
                       <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '13px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#0D93F2', marginBottom: '10px' }}>
                         What you walk away with:
                       </p>
-                      <h4 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: '20px', color: '#000000', marginBottom: '20px' }}>
+                      <h4 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: '20px', color: '#FFFFFF', marginBottom: '20px' }}>
                         {item.title}
                       </h4>
                       <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 20px', display: 'flex', flexDirection: 'column', gap: '14px', flexGrow: 1 }}>
@@ -234,7 +234,7 @@ export default function FounderAudiences({ homeContent, flippedCards, setFlipped
                                   fontWeight: 500,
                                   fontSize: '15px',
                                   lineHeight: '22px',
-                                  color: '#000000'
+                                  color: '#E2E8F0'
                                 }}
                               />
                             </li>

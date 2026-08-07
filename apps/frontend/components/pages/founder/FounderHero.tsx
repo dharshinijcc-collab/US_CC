@@ -24,11 +24,11 @@ export default function FounderHero({ heroRef, homeContent, ideaExamples, idea, 
   };
 
   return (
-    <header ref={heroRef} className="hero-section" style={{ position: 'relative', overflow: 'hidden', minHeight: '700px' }}>
+    <header ref={heroRef} className="hero-section" style={{ position: 'relative', overflow: 'hidden', minHeight: '700px', padding: '136px 0 60px 0' }}>
           {/* Top Light Effect */}
           <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '1200px', width: '100%' }}>
-            <div className="hero-eyebrow-pill">
+          <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '1200px', width: '100%', margin: '0 auto', padding: '0 24px' }}>
+            <div className="hero-eyebrow-pill" style={{ marginTop: '0px' }}>
               <EditableText contentKey="home.hero.eyebrow" value={homeContent.hero.eyebrow} />
             </div>
             <EditableText
@@ -66,36 +66,39 @@ export default function FounderHero({ heroRef, homeContent, ideaExamples, idea, 
             />
           </div>
 
-          <form id="idea-section" onSubmit={handleIdeaSubmit} method="POST" style={{ width: '100%', maxWidth: '500px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 10 }}>
-            <div style={{
-              width: '100%',
-              maxWidth: '500px',
-              backgroundColor: '#FFFFFF',
-              background: 'linear-gradient(180deg, #FFFFFF 0%, #FCFCFD 100%)', // Layered background
-              borderRadius: '24px', // Premium radius
-              border: isFocused 
-                ? '1.5px solid rgba(0, 90, 226, 0.35)' 
-                : '1.5px solid rgba(0, 90, 226, 0.18)', // Blue inner border
-              boxShadow: isFocused 
-                ? '0 0 0 4px rgba(0, 90, 226, 0.10), 0 0 0 5.5px rgba(0, 90, 226, 0.25), 0 12px 40px rgba(0, 90, 226, 0.15)' 
-                : '0 0 0 4px rgba(0, 90, 226, 0.05), 0 0 0 5.5px rgba(0, 90, 226, 0.15), 0 2px 6px rgba(15, 23, 42, 0.04), 0 10px 25px rgba(15, 23, 42, 0.05)', // Dual-border with faint blue-lit spacer gap in between
-              padding: '24px 24px 18px 24px', // Sleeker, more compact padding
-              boxSizing: 'border-box',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '14px',
-              transition: 'border-color 250ms ease, box-shadow 250ms ease, transform 250ms ease'
-            }}
+          <form id="idea-section" onSubmit={handleIdeaSubmit} method="POST" style={{ width: '100%', maxWidth: '520px', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', zIndex: 10 }}>
+            <div 
+              style={{
+                width: '100%',
+                maxWidth: '520px',
+                backgroundColor: '#FFFFFF', // Pure white inside
+                background: '#FFFFFF',
+                borderRadius: '24px',
+                border: isFocused 
+                  ? '1.5px solid #005AE2' 
+                  : '1.5px solid #CBD5E1',
+                boxShadow: isFocused 
+                  ? 'inset 0 4px 10px rgba(15, 23, 42, 0.08), inset 0 -3px 6px rgba(15, 23, 42, 0.04), inset 4px 0 8px rgba(15, 23, 42, 0.05), inset -4px 0 8px rgba(15, 23, 42, 0.05), 0 0 0 4px rgba(0, 90, 226, 0.14), 0 16px 40px -10px rgba(0, 90, 226, 0.18)' 
+                  : 'inset 0 5px 12px rgba(15, 23, 42, 0.10), inset 0 -3px 6px rgba(15, 23, 42, 0.05), inset 4px 0 8px rgba(15, 23, 42, 0.06), inset -4px 0 8px rgba(15, 23, 42, 0.06), 0 10px 30px -5px rgba(15, 23, 42, 0.06)', // Deep 4-side inner shadow within form
+                padding: '24px 26px 18px 26px',
+                boxSizing: 'border-box',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '14px',
+                transition: 'border-color 250ms ease, box-shadow 250ms ease, transform 250ms ease'
+              }}
               onMouseOver={e => {
                 if (!isFocused) {
-                  e.currentTarget.style.border = '1.5px solid rgba(0, 90, 226, 0.28)';
-                  e.currentTarget.style.boxShadow = '0 0 0 4px rgba(0, 90, 226, 0.08), 0 0 0 5.5px rgba(0, 90, 226, 0.22), 0 4px 10px rgba(15, 23, 42, 0.04), 0 14px 30px rgba(15, 23, 42, 0.06)';
+                  e.currentTarget.style.border = '1.5px solid #005AE2';
+                  e.currentTarget.style.boxShadow = 'inset 0 5px 12px rgba(15, 23, 42, 0.10), inset 0 -3px 6px rgba(15, 23, 42, 0.05), inset 4px 0 8px rgba(15, 23, 42, 0.06), inset -4px 0 8px rgba(15, 23, 42, 0.06), 0 12px 32px -8px rgba(0, 90, 226, 0.12)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
                 }
               }}
               onMouseOut={e => {
                 if (!isFocused) {
-                  e.currentTarget.style.border = '1.5px solid rgba(0, 90, 226, 0.18)';
-                  e.currentTarget.style.boxShadow = '0 0 0 4px rgba(0, 90, 226, 0.05), 0 0 0 5.5px rgba(0, 90, 226, 0.15), 0 2px 6px rgba(15, 23, 42, 0.04), 0 10px 25px rgba(15, 23, 42, 0.05)';
+                  e.currentTarget.style.border = '1.5px solid #CBD5E1';
+                  e.currentTarget.style.boxShadow = 'inset 0 5px 12px rgba(15, 23, 42, 0.10), inset 0 -3px 6px rgba(15, 23, 42, 0.05), inset 4px 0 8px rgba(15, 23, 42, 0.06), inset -4px 0 8px rgba(15, 23, 42, 0.06), 0 10px 30px -5px rgba(15, 23, 42, 0.06)';
+                  e.currentTarget.style.transform = 'translateY(0)';
                 }
               }}
             >
@@ -112,10 +115,10 @@ export default function FounderHero({ heroRef, homeContent, ideaExamples, idea, 
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
                 <span style={{ 
-                  fontSize: '0.72rem', 
+                  fontSize: '0.75rem', 
                   color: '#94A3B8', 
                   fontWeight: 600,
-                  fontFamily: "'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace", // Good sharp monospace font family
+                  fontFamily: "'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace",
                   letterSpacing: '0.05em'
                 }}>
                   {idea.trim().split(/\s+/).filter(word => word.length > 0).length}/100 words
@@ -124,39 +127,41 @@ export default function FounderHero({ heroRef, homeContent, ideaExamples, idea, 
                   type="submit" 
                   disabled={isLoading} 
                   style={{
-                    backgroundColor: '#005AE2', // theme blue (never black)
+                    background: 'linear-gradient(135deg, #0066FF 0%, #0052D6 100%)', // Vibrant blue circular button (Image 1)
                     color: '#FFFFFF',
                     border: 'none',
                     borderRadius: '50%',
-                    width: '56px', // 56x56 circular button
-                    height: '56px',
+                    width: '52px',
+                    height: '52px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     cursor: 'pointer',
-                    transition: 'background-color 220ms ease, transform 220ms ease, box-shadow 220ms ease',
-                    boxShadow: '0 12px 30px rgba(0, 90, 226, 0.25)',
-                    padding: 0
+                    position: 'relative',
+                    transition: 'all 200ms cubic-bezier(0.16, 1, 0.3, 1)',
+                    boxShadow: '0 10px 24px rgba(0, 90, 226, 0.42)', // Elevated vibrant blue drop shadow (Image 1)
+                    padding: 0,
+                    outline: 'none'
                   }}
                   onMouseOver={(e: any) => {
-                    e.currentTarget.style.backgroundColor = '#004ac2';
-                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.05)';
-                    e.currentTarget.style.boxShadow = '0 18px 40px rgba(0, 90, 226, 0.35)';
+                    e.currentTarget.style.transform = 'scale(1.06)';
+                    e.currentTarget.style.boxShadow = '0 14px 28px rgba(0, 90, 226, 0.55)';
                   }}
                   onMouseOut={(e: any) => {
-                    e.currentTarget.style.backgroundColor = '#005AE2';
-                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                    e.currentTarget.style.boxShadow = '0 12px 30px rgba(0, 90, 226, 0.25)';
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.boxShadow = '0 10px 24px rgba(0, 90, 226, 0.42)';
                   }}
                   onMouseDown={(e: any) => {
-                    e.currentTarget.style.transform = 'scale(0.97)';
+                    e.currentTarget.style.transform = 'scale(0.95)';
+                    e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 90, 226, 0.35)';
                   }}
                   onMouseUp={(e: any) => {
-                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.05)';
+                    e.currentTarget.style.transform = 'scale(1.06)';
+                    e.currentTarget.style.boxShadow = '0 14px 28px rgba(0, 90, 226, 0.55)';
                   }}
                   title="Submit Idea"
                 >
-                  <ArrowUp size={20} strokeWidth={2.5} style={{ color: '#FFFFFF' }} />
+                  <ArrowUp size={22} strokeWidth={2.8} style={{ color: '#FFFFFF' }} />
                 </button>
               </div>
             </div>

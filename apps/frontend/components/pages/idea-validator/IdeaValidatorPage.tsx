@@ -371,18 +371,18 @@ Moat: ${answers.moat}`;
       <Header />
       <style dangerouslySetInnerHTML={{ __html: validatorStyles }} />
       
-      <main className="validator-page-root" style={{ background: '#F8FAFC', minHeight: '100vh', paddingTop: '180px', paddingBottom: '80px' }}>
+      <main className="validator-page-root" style={{ background: '#F8FAFC', minHeight: '100vh', paddingTop: '120px', paddingBottom: '80px' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 24px' }}>
           
           {/* Progress Indicator Header */}
           {currentStep <= 2 && !showAuthPopup && (
             <div style={{ marginBottom: '40px', textAlign: 'center' }}>
-              <EditableText
-                contentKey="validator.hero.eyebrow"
-                value="Venture Accelerator"
-                as="span"
-                style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--primary-blue)', letterSpacing: '0.15em', textTransform: 'uppercase' }}
-              />
+              <div className="hero-eyebrow-pill" style={{ display: 'inline-block', background: '#E6EFFF', color: '#005AE2', fontFamily: "'Manrope', sans-serif", fontWeight: 800, fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', padding: '6px 18px', borderRadius: '100px', marginBottom: '16px', marginTop: '24px' }}>
+                <EditableText
+                  contentKey="validator.hero.eyebrow"
+                  value="Venture Accelerator"
+                />
+              </div>
               <h1 style={{ fontSize: 'clamp(2.1rem, 5vw, 2.75rem)', fontWeight: 800, color: '#0F172A', marginTop: '8px', marginBottom: '8px', letterSpacing: '-0.03em', fontFamily: "'Manrope', sans-serif" }}>
                 {currentStep === 1 && 'Core Concept'}
                 {currentStep === 2 && 'Founder Capabilities'}

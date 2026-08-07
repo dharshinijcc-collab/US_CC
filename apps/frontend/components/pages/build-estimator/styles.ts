@@ -5,13 +5,13 @@ export const estimatorStyles = `
         .bte-btn:hover { opacity: 0.88; transform: translateY(-1px); }
         .bte-btn { transition: all 0.15s; }
 
-        /* Option buttons (Single & Multi Select Cards) */
+        /* Option buttons (Single & Multi Select Cards) with Inner Depth (White inside + 4-side inner shadow) */
         .bte-option-btn {
           padding: 16px 20px;
           border-radius: 12px;
           text-align: left;
           cursor: pointer;
-          border: 1.5px solid #E2E8F0;
+          border: 1.5px solid #CBD5E1;
           background: #FFFFFF;
           transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
           outline: none;
@@ -19,19 +19,21 @@ export const estimatorStyles = `
           flex-direction: column;
           height: 100%;
           min-height: 125px;
-          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+          box-shadow: inset 0 4px 8px rgba(15, 23, 42, 0.08), inset 0 -2px 5px rgba(15, 23, 42, 0.04), inset 3px 0 6px rgba(15, 23, 42, 0.05), inset -3px 0 6px rgba(15, 23, 42, 0.05);
           position: relative;
           box-sizing: border-box;
         }
         .bte-option-btn:hover {
-          border-color: #CBD5E1;
-          transform: translateY(-2px);
-          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+          border-color: #005AE2;
+          background: #FFFFFF;
+          box-shadow: inset 0 4px 8px rgba(15, 23, 42, 0.08), inset 0 -2px 5px rgba(15, 23, 42, 0.04), inset 3px 0 6px rgba(15, 23, 42, 0.05), inset -3px 0 6px rgba(15, 23, 42, 0.05), 0 4px 12px rgba(0, 90, 226, 0.08);
+          transform: translateY(-1px);
         }
         .bte-option-btn.selected {
           border-color: #005AE2 !important;
-          background: #F0F6FF !important;
-          box-shadow: 0 4px 12px rgba(0, 90, 226, 0.08) !important;
+          border-width: 2px !important;
+          background: #FFFFFF !important;
+          box-shadow: inset 0 3px 6px rgba(15, 23, 42, 0.06), inset 0 -2px 4px rgba(15, 23, 42, 0.03), 0 0 0 3.5px rgba(0, 90, 226, 0.15) !important;
         }
         .bte-option-icon {
           margin-bottom: 10px;
@@ -61,14 +63,14 @@ export const estimatorStyles = `
           line-height: 1.4;
         }
 
-        /* Multi-select pills (horizontal style) */
+        /* Multi-select pills (horizontal style) with Inner Depth (White inside + 4-side inner shadow) */
         .bte-multi-btn {
           padding: 14px 18px;
           border-radius: 12px;
           cursor: pointer;
           text-align: left;
           outline: none;
-          border: 1.5px solid #E2E8F0;
+          border: 1.5px solid #CBD5E1;
           background: #FFFFFF;
           transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
           display: flex;
@@ -76,18 +78,20 @@ export const estimatorStyles = `
           gap: 14px;
           height: 100%;
           min-height: 58px;
-          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+          box-shadow: inset 0 4px 8px rgba(15, 23, 42, 0.08), inset 0 -2px 5px rgba(15, 23, 42, 0.04), inset 3px 0 6px rgba(15, 23, 42, 0.05), inset -3px 0 6px rgba(15, 23, 42, 0.05);
           box-sizing: border-box;
         }
         .bte-multi-btn:hover {
-          border-color: #CBD5E1;
-          transform: translateY(-2px);
-          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+          border-color: #005AE2;
+          background: #FFFFFF;
+          box-shadow: inset 0 4px 8px rgba(15, 23, 42, 0.08), inset 0 -2px 5px rgba(15, 23, 42, 0.04), inset 3px 0 6px rgba(15, 23, 42, 0.05), inset -3px 0 6px rgba(15, 23, 42, 0.05), 0 4px 12px rgba(0, 90, 226, 0.08);
+          transform: translateY(-1px);
         }
         .bte-multi-btn.selected {
           border-color: #005AE2 !important;
-          background: #F0F6FF !important;
-          box-shadow: 0 4px 12px rgba(0, 90, 226, 0.08) !important;
+          border-width: 2px !important;
+          background: #FFFFFF !important;
+          box-shadow: inset 0 3px 6px rgba(15, 23, 42, 0.06), inset 0 -2px 4px rgba(15, 23, 42, 0.03), 0 0 0 3.5px rgba(0, 90, 226, 0.15) !important;
         }
         .bte-checkbox {
           width: 18px;
@@ -177,7 +181,7 @@ export const estimatorStyles = `
         .bte-main {
           min-height: 100vh;
           background: linear-gradient(135deg, #F8FAFF 0%, #EFF6FF 100%);
-          padding: 170px 16px 80px;
+          padding: 130px 16px 80px;
         }
         .bte-container { max-width: 780px; margin: 0 auto; }
         .bte-card {

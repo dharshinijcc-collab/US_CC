@@ -98,10 +98,10 @@ export default function ResourcesPage() {
 
       <main className="resources-page">
         {/* ===== SECTION 1: HERO ===== */}
-        <section className="hero-section">
+        <section className="hero-section" style={{ position: 'relative', overflow: 'hidden', padding: '80px 0' }}>
           <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
           <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-            <div className="hero-eyebrow-pill">
+            <div className="hero-eyebrow-pill" style={{ marginTop: '36px' }}>
               <EditableText contentKey="resources.hero.eyebrow" value={resourcesContent.hero?.eyebrow || 'RESOURCES'} />
             </div>
             <EditableText
