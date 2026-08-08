@@ -87,10 +87,10 @@ export default function Header(props: any) {
 
   // Progressive scroll interpolation metrics (0.0 at top -> 1.0 at 100px)
   const p = scrollProgress;
-  const currentTop = p * 8;
+  const currentTop = p * 7;
   const currentRadius = p * 12;
-  const currentPaddingY = 10 - (p * 4);
-  const currentLogoHeight = 68 - (p * 14);
+  const currentPaddingY = 8 - (p * 3);
+  const currentLogoHeight = 58 - (p * 10);
   const widthVal = p === 0 ? '100%' : `calc(100% - ${p * 48}px)`;
   const shadowAlpha1 = p * 0.05;
   const shadowAlpha2 = p * 0.03;
@@ -170,14 +170,9 @@ export default function Header(props: any) {
 
         .navbar-links a,
         .dropdown-toggle {
-          color: #64748B;
           text-decoration: none;
-          padding: 8px 0;
-          transition: color 0.3s ease;
-          background: none;
-          border: none;
-          font-family: var(--font-inter), 'Inter', sans-serif;
-          font-size: 0.95rem; /* comfortable executive font size */
+          color: #64748B;
+          font-size: 0.92rem;
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.08em;
@@ -306,14 +301,14 @@ export default function Header(props: any) {
         }
 
         .nav-divider {
-          height: 26px;
+          height: 24px;
           width: 1px;
           background-color: rgba(0,0,0,0.1);
         }
 
         .btn-nav {
-          padding: 11px 26px;
-          font-size: 15px;
+          padding: 10px 24px;
+          font-size: 14.5px;
           border-radius: 100px;
           background: #005AE2;
           border: none;

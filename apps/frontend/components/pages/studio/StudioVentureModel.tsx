@@ -14,12 +14,11 @@ import ScrollStack, { ScrollStackItem } from '@/components/effects/ScrollStack';
 
 export default function StudioVentureModel({ studioContent, renderCellText }: any) {
   return (
-    <section style={{
+    <section className="page-section" style={{
           background: 'linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%)',
           position: 'relative',
-          paddingTop: '6rem',
-          paddingBottom: '2.5rem',
-          boxShadow: 'inset 0 20px 20px -20px rgba(0, 0, 0, 0.08), inset 0 -20px 20px -20px rgba(0, 0, 0, 0.05), 0 20px 40px -20px rgba(0, 0, 0, 0.05)'
+          paddingTop: '48px',
+          paddingBottom: '48px',
         }}>
           <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
             

@@ -9,7 +9,7 @@ export default function FounderAudiences({ homeContent, flippedCards, setFlipped
   const audiencesData = homeContent?.audiences || (localConfig as any).home.audiences;
 
   return (
-    <section id="audiences-section" className="section-light" style={{ backgroundColor: '#FFFFFF', padding: '80px 0' }}>
+    <section id="audiences-section" className="section-light" style={{ backgroundColor: '#FFFFFF' }}>
       <div className="section-container">
         <div className="text-center">
           <EditableText

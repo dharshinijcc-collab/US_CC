@@ -5,7 +5,7 @@ import { Building, Briefcase } from 'lucide-react';
 
 export default function InvestorsPortfolio({ content, getContent }: any) {
   return (
-    <section style={{ backgroundColor: '#F8FAFC', padding: '88px 0', position: 'relative' }}>
+    <section className="page-section" style={{ backgroundColor: '#F8FAFC', paddingTop: '24px', paddingBottom: '24px', position: 'relative' }}>
       <div className="section-container" style={{ maxWidth: '1180px', margin: '0 auto' }}>
         
         {/* Centered Heading */}

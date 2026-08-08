@@ -674,7 +674,8 @@
           "stack": [
             "Next.js",
             "Node.js",
-            "Tailwind CSS"
+            "Tailwind CSS",
+            "Supabase"
           ]
         },
         {
@@ -700,9 +701,10 @@
           "duration": "3 months",
           "team": "2 members",
           "stack": [
-            "Next.js",
             "React",
-            "Tailwind CSS"
+            "Python",
+            "FastAPI",
+            "PostgreSQL"
           ]
         },
         {
@@ -730,7 +732,8 @@
           "stack": [
             "React.js",
             "Node.js",
-            "PostgreSQL"
+            "PostgreSQL",
+            "TensorFlow"
           ]
         },
         {
@@ -757,8 +760,9 @@
           "team": "3 members",
           "stack": [
             "Next.js",
-            "Node.js",
-            "PostgreSQL"
+            "GraphQL",
+            "AWS",
+            "Docker"
           ]
         }
       ]

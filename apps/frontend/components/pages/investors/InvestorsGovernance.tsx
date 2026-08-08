@@ -37,7 +37,7 @@ export default function InvestorsGovernance({ content, getContent }: any) {
   ];
 
   return (
-    <section style={{ backgroundColor: '#FAFAFC', padding: '88px 0', position: 'relative' }}>
+    <section className="page-section" style={{ backgroundColor: '#FAFAFC', paddingTop: '24px', paddingBottom: '24px', position: 'relative' }}>
       <div className="section-container" style={{ maxWidth: '1180px', margin: '0 auto' }}>
         
         {/* Centered Heading */}

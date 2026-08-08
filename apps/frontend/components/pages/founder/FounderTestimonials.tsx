@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 export default function FounderTestimonials({ homeContent }: any) {
   return (
-    <section id="testimonials-section" className="section-light" style={{ backgroundColor: '#F8FAFC', paddingTop: '100px', paddingBottom: '100px' }}>
+    <section id="testimonials-section" className="testimonials-page-section" style={{ backgroundColor: '#F8FAFC' }}>
       <div className="section-container">
         <div className="text-center">
           <EditableText
@@ -21,10 +21,10 @@ export default function FounderTestimonials({ homeContent }: any) {
           contentKey="home.testimonials.title"
           value={homeContent.testimonials.title}
           className="section-title text-center cc-reveal"
-          style={{ marginBottom: 'clamp(60px, 8vw, 100px)' }}
+          style={{ marginBottom: '24px' }}
         />
 
-        <div className="cards-grid-2" style={{ gap: '48px 32px', marginTop: '40px' }}>
+        <div className="cards-grid-2" style={{ gap: '32px 32px', marginTop: '0px' }}>
           {(homeContent.testimonials.items || [])
             .filter((item: any) => item.author && !item.author.toLowerCase().includes('abdul') && !item.author.toLowerCase().includes('adbul'))
             .map((item: any, idx: number) => (

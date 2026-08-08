@@ -14,7 +14,7 @@ import CountUp from '@/components/effects/CountUp';
 
 export default function InvestorsHero({ content, getContent, handleScroll }: any) {
   return (
-    <section className="hero-section" style={{ position: 'relative', overflow: 'hidden', padding: '80px 0' }}>
+    <section className="hero-section" style={{ position: 'relative', overflow: 'hidden', padding: '128px 0 48px 0' }}>
           {/* Top Light Effect */}
           <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
           <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

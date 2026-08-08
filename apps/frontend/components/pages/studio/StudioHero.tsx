@@ -14,7 +14,7 @@ import ScrollStack, { ScrollStackItem } from '@/components/effects/ScrollStack';
 
 export default function StudioHero({ studioContent, handleManualPhaseChange, heroCarouselIndex }: any) {
   return (
-    <section className="hero-section" style={{ position: 'relative', overflow: 'hidden', padding: '80px 0' }}>
+    <section className="hero-section" style={{ position: 'relative', overflow: 'hidden', padding: '128px 0 48px 0' }}>
           {/* Hero Background */}
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }}></div>
           {/* Hero Grid */}

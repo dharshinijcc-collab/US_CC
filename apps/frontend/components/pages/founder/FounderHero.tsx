@@ -24,7 +24,7 @@ export default function FounderHero({ heroRef, homeContent, ideaExamples, idea, 
   };
 
   return (
-    <header ref={heroRef} className="hero-section" style={{ position: 'relative', overflow: 'hidden', minHeight: '700px', padding: '136px 0 60px 0' }}>
+    <header ref={heroRef} className="hero-section" style={{ position: 'relative', overflow: 'hidden', minHeight: 'auto', padding: '128px 0 48px 0' }}>
           {/* Top Light Effect */}
           <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
           <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '1200px', width: '100%', margin: '0 auto', padding: '0 24px' }}>

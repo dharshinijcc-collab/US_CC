@@ -1048,7 +1048,7 @@ p, span, div, button, input, textarea, a, li, .navbar-links, .nav-dropdown-conte
 
 .diff-table-wrap {
   max-width: 1200px;
-  margin: 0 auto 4rem;
+  margin: 0 auto 0px !important;
   background: #F8FAFC;
   border: 1px solid #E2E8F0;
   border-radius: 20px;

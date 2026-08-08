@@ -72,7 +72,7 @@ export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
           position: 'relative',
           overflow: 'hidden',
           textAlign: 'center',
-          padding: '80px 0',
+          padding: '128px 0 48px 0',
         }}>
           {/* Hero Background */}
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }}></div>
@@ -150,17 +150,8 @@ export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
 
       {/* 2. FILTER & SEARCH BAR */}
       <main style={{ maxWidth: '1200px', margin: showHero ? '48px auto 80px auto' : '10px auto 80px auto', padding: '0 20px', position: 'relative', zIndex: 20 }}>
-        <div style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(20px)', borderRadius: '20px', padding: '20px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.05)', border: `1px solid ${COLORS.white}`, marginBottom: '36px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '20px' }}>
-          <div style={{ position: 'relative', flex: '1 1 300px' }}>
-            <Search style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: COLORS.textMuted }} size={20} />
-            <input 
-              type="text" 
-              placeholder="Search articles or authors..." 
-              value={searchTerm} 
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ width: '100%', padding: '12px 12px 12px 40px', borderRadius: '16px', border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.white, fontSize: '14px', fontWeight: 500, outline: 'none' }} 
-            />
-          </div>
+        <div style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(20px)', borderRadius: '20px', padding: '20px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.05)', border: `1px solid ${COLORS.white}`, marginBottom: '36px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '20px' }}>
+          {/* Left: Category Filter Pills */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
             {BLOG_CONFIG.categories.map(cat => (
               <button 
@@ -174,6 +165,19 @@ export default function BlogsPage({ showHero = true }: { showHero?: boolean }) {
                 {cat}
               </button>
             ))}
+          </div>
+
+          {/* Right: Search Input Box */}
+          <div style={{ position: 'relative', flex: '0 1 320px', marginLeft: 'auto' }}>
+            <Search style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: COLORS.textMuted, zIndex: 5, pointerEvents: 'none' }} size={18} />
+            <input 
+              type="text" 
+              className="blog-search-input"
+              placeholder="Search articles or authors..." 
+              value={searchTerm} 
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{ width: '100%', padding: '12px 18px 12px 46px', borderRadius: '100px', border: `1.5px solid ${COLORS.border}`, backgroundColor: COLORS.white, fontSize: '14px', fontWeight: 500, outline: 'none' }} 
+            />
           </div>
         </div>
 

@@ -113,11 +113,12 @@ export default function StudioCta({ studioContent }: any) {
 
       <section
         id="studio-cta-section"
-        className="page-section"
+        className="studio-cta-section"
         style={{
           backgroundColor: '#FFFFFF',
           position: 'relative',
-          padding: '80px 24px 100px',
+          paddingTop: '48px',
+          paddingBottom: '48px'
         }}
       >
         <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative' }}>

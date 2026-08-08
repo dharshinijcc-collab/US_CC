@@ -14,7 +14,7 @@ import ScrollStack, { ScrollStackItem } from '@/components/effects/ScrollStack';
 
 export default function StudioDifference({ studioContent, openFaqIdx, setOpenFaqIdx, renderCellText }: any) {
   return (
-    <section id="diff" className="page-section" style={{ backgroundColor: '#EFF6FF' }}>
+    <section id="diff" className="studio-difference-section" style={{ backgroundColor: '#EFF6FF' }}>
           <div className="diff-header">
             <div style={{ textAlign: 'center', marginBottom: '40px' }}>
               <EditableText
@@ -48,8 +48,8 @@ export default function StudioDifference({ studioContent, openFaqIdx, setOpenFaq
           </div>
 
           {/* Diff table: outer scroll wrapper for mobile, inner wrap for styling */}
-          <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', paddingBottom: '4px' }}>
-          <div className="diff-table-wrap">
+          <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', paddingBottom: '0px' }}>
+          <div className="diff-table-wrap" style={{ marginBottom: 0 }}>
             <table className="diff-table">
               <thead>
                 {(() => {

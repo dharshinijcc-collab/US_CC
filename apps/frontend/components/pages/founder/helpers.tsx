@@ -63,7 +63,7 @@ export const PARTNER_PRODUCTS = [
     industry: 'Family Tech / SaaS',
     duration: '4 months',
     team: '3 members',
-    stack: ['Next.js', 'Node.js', 'Tailwind CSS'],
+    stack: ['Next.js', 'Node.js', 'Tailwind CSS', 'Supabase'],
     liveUrl: 'https://dockly.me/',
     statTheme: {
       bg: '#E6F4EA',
@@ -127,7 +127,7 @@ export const PARTNER_PRODUCTS = [
     industry: 'EdTech / Consulting',
     duration: '3 months',
     team: '2 members',
-    stack: ['Next.js', 'React', 'Tailwind CSS'],
+    stack: ['React', 'Python', 'FastAPI', 'PostgreSQL'],
     liveUrl: 'https://castlegec.com/',
     statTheme: {
       bg: '#E6F4EA',
@@ -189,7 +189,7 @@ export const PARTNER_PRODUCTS = [
     industry: 'Fintech / Trading',
     duration: '5 months',
     team: '4 members',
-    stack: ['React.js', 'Node.js', 'PostgreSQL'],
+    stack: ['React.js', 'Node.js', 'PostgreSQL', 'TensorFlow'],
     liveUrl: '#',
     statTheme: {
       bg: '#E6F4EA',
@@ -250,7 +250,7 @@ export const PARTNER_PRODUCTS = [
     industry: 'B2B / Operations',
     duration: '5 months',
     team: '3 members',
-    stack: ['Next.js', 'Node.js', 'PostgreSQL'],
+    stack: ['Next.js', 'GraphQL', 'AWS', 'Docker'],
     liveUrl: '#',
     statTheme: {
       bg: '#E6F4EA',
