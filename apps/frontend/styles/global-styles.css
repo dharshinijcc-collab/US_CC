@@ -26,32 +26,33 @@ textarea,
 
 /* ===== TYPOGRAPHY STANDARDS ===== */
 
-/* Eyebrow Text */
+/* Eyebrow Badges */
+.section-eyebrow,
 .hero-eyebrow-pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #F0F5FF;
-  color: #005AE2;
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  padding: 6px 16px;
-  border-radius: 100px;
-  margin-bottom: 12px;
-  text-transform: uppercase;
-  font-family: 'Manrope', sans-serif;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.15em !important;
+  text-transform: uppercase !important;
+  color: #005AE2 !important;
+  background-color: #E6EFFF !important;
+  padding: 6px 18px !important;
+  border-radius: 100px !important;
+  margin-bottom: 12px !important;
 }
 
 /* Section Headings (h2) */
 .section-title {
-  font-size: clamp(1.45rem, 2.6vw, 1.85rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  color: #0F172A;
-  margin-bottom: 8px;
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: clamp(1.45rem, 2.6vw, 1.85rem) !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.02em !important;
+  color: #0F172A !important;
+  margin-bottom: 8px !important;
 }
 
 /* Section Subheadings (h3) */
@@ -265,19 +266,19 @@ section.studio-cta-section,
 /* Hero Title */
 .hero-title {
   font-family: 'Manrope', sans-serif !important;
-  font-size: 34px !important;
-  font-weight: 800 !important;
-  letter-spacing: -0.04em !important;
+  font-size: clamp(1.75rem, 3.2vw, 2.375rem) !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.02em !important;
   line-height: 1.2 !important;
-  color: #020617 !important;
+  color: #0F172A !important;
   margin: 0 auto 16px !important;
   text-align: center !important;
-  max-width: 840px !important;
+  max-width: 960px !important;
 }
 
 @media(max-width: 768px) {
   .hero-title {
-    font-size: 26px !important;
+    font-size: clamp(1.3rem, 2.4vw, 1.6rem) !important;
     line-height: 1.25 !important;
   }
 }

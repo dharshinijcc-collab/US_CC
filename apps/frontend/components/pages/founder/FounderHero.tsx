@@ -36,33 +36,72 @@ export default function FounderHero({ heroRef, homeContent, ideaExamples, idea, 
               contentKey="home.hero.heading"
               value={homeContent.hero.heading || "Where BOLD IDEAS\nbecome REAL products"}
               className="hero-title"
-              style={{ color: '#0A0F1C', whiteSpace: 'pre-wrap' }}
+              style={{
+                fontFamily: "'Manrope', sans-serif",
+                fontSize: 'clamp(1.75rem, 3.2vw, 2.375rem)',
+                fontWeight: 900,
+                letterSpacing: '-0.02em',
+                lineHeight: 1.2,
+                color: '#0F172A',
+              }}
             >
               {(() => {
                 const headingText = homeContent.hero.heading || "Where BOLD IDEAS\nbecome REAL products";
-                const lines = headingText.split('\n');
-                return lines.map((line, lineIdx) => (
-                  <span key={lineIdx} className="hero-title-line" style={{ display: 'block' }}>
-                    {line.split(/[\s\u00a0]+/).map((word: string, index: number) => {
-                      if (!word) return null;
-                      const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "");
-                      const cleanWordUpper = cleanWord.toUpperCase();
-                      const isBlue = ['BOLD', 'IDEAS', 'REAL', 'IDEA', 'CUSTOMER', 'CUSTOMERS', 'PRODUCTS', 'PRODUCT', 'VENTURES', 'VENTURE'].includes(cleanWordUpper);
-                      return (
-                        <span key={index} style={isBlue ? { color: '#005AE2' } : {}}>
-                          {word}{' '}
-                        </span>
-                      );
-                    })}
-                  </span>
-                ));
+                
+                const formatLine = (lineStr: string) => {
+                  return lineStr.split(/[\s\u00a0]+/).map((word: string, index: number) => {
+                    if (!word) return null;
+                    const cleanWordUpper = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").toUpperCase();
+                    const isBlue = ['IDEA', 'IDEAS', 'CUSTOMER', 'CUSTOMERS', 'BOLD', 'REAL'].includes(cleanWordUpper);
+                    return (
+                      <span key={index} style={isBlue ? { color: '#005AE2', fontWeight: 900, WebkitTextStroke: 'none' } : {}}>
+                        {word}{' '}
+                      </span>
+                    );
+                  });
+                };
+
+                let line1 = "";
+                let line2 = "";
+
+                if (headingText.includes('\n')) {
+                  const parts = headingText.split('\n');
+                  line1 = parts[0] || "";
+                  line2 = parts.slice(1).join(" ") || "";
+                } else {
+                  const words = headingText.split(' ');
+                  const mid = Math.ceil(words.length / 2);
+                  line1 = words.slice(0, mid).join(' ');
+                  line2 = words.slice(mid).join(' ');
+                }
+
+                return (
+                  <>
+                    <span className="hero-title-line" style={{ display: 'block' }}>
+                      {formatLine(line1)}
+                    </span>
+                    <span className="hero-title-line" style={{ display: 'block' }}>
+                      {formatLine(line2)}
+                    </span>
+                  </>
+                );
               })()}
             </EditableText>
             <EditableText
               as="p"
               contentKey="home.hero.subheading"
               value={homeContent.hero.subheading}
-              style={{ textAlign: 'center', color: '#475569', fontSize: 'clamp(1rem, 2vw, 1.125rem)', maxWidth: '720px', margin: '0 auto 40px', lineHeight: 1.8, fontWeight: 500, textWrap: 'balance' }}
+              className="hero-description"
+              style={{
+                textAlign: 'center',
+                color: '#64748B',
+                fontSize: 'clamp(0.9rem, 2vw, 0.95rem)',
+                fontFamily: "'Inter', sans-serif",
+                fontWeight: 500,
+                lineHeight: 1.65,
+                maxWidth: '720px',
+                margin: '0 auto 40px',
+              }}
             />
           </div>
 

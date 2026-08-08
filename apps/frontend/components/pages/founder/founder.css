@@ -324,14 +324,15 @@
         .text-accent { color: var(--accent-cyan); }
 
         /* Typography */
+        h1.hero-title,
         .hero-title { 
           font-family: 'Manrope', sans-serif !important;
-          font-size: 44px !important; /* reduced to fit the full first line on one row (2-line heading) */
-          font-weight: 800 !important;
-          letter-spacing: -0.04em !important;
-          line-height: 1.42 !important; /* increased for more whitespace between the two heading lines */
-          color: #020617 !important;
-          margin: 0 auto 36px !important; /* more space below heading */
+          font-size: clamp(1.75rem, 3.2vw, 2.375rem) !important;
+          font-weight: 900 !important;
+          letter-spacing: -0.02em !important;
+          line-height: 1.2 !important;
+          color: #0F172A !important;
+          margin: 0 auto 16px !important;
           text-align: center !important;
           max-width: 960px !important;
         }
@@ -350,19 +351,19 @@
         }
         @media(max-width: 768px) {
           .hero-title {
-            font-size: 30px !important;
-            line-height: 1.38 !important; /* slightly more open on mobile too */
+            font-size: clamp(1.3rem, 2.4vw, 1.6rem) !important;
+            line-height: 1.25 !important;
           }
         }
         .section-title { 
           font-family: 'Manrope', sans-serif !important;
-          font-size: 36px !important;
+          font-size: clamp(1.45rem, 2.6vw, 1.85rem) !important;
           font-weight: 800 !important;
           letter-spacing: -0.02em !important;
+          line-height: 1.2 !important;
+          color: #0F172A !important;
           margin-bottom: 12px !important;
-          line-height: 1.25 !important;
           text-align: center !important;
-          color: var(--text-black) !important;
         }
         @media(max-width: 768px) {
           .section-title {
@@ -464,12 +465,12 @@
         }
         .hero-description {
           font-family: 'Inter', sans-serif !important;
-          font-size: clamp(0.925rem, 2vw, 0.975rem) !important;
+          font-size: clamp(0.9rem, 2vw, 0.95rem) !important;
           font-weight: 500 !important;
           color: #64748B !important;
           line-height: 1.65 !important;
-          max-width: 650px !important;
-          margin: 0 auto 24px !important;
+          max-width: 720px !important;
+          margin: 0 auto 40px !important;
           text-align: center !important;
         }
         .email-form { max-width: 500px; margin: 0 auto; position: relative; }
@@ -1938,12 +1939,21 @@
           text-align: center !important;
         }
 
-        .hub-center-circle h4,
+        .hub-center-circle h4 {
+          text-align: center !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+          width: 100% !important;
+          font-size: 1.05rem !important;
+        }
+
         .hub-center-circle p {
           text-align: center !important;
           margin-left: auto !important;
           margin-right: auto !important;
           width: 100% !important;
+          font-size: 0.88rem !important;
+          line-height: 1.5 !important;
         }
 
         .brain-pulsing-icon {
@@ -1986,20 +1996,22 @@
 
         .spoke-card-title {
           font-family: 'Manrope', sans-serif !important;
-          font-size: 0.82rem !important;
+          font-size: 0.75rem !important;
           font-weight: 800 !important;
           margin: 0 0 4px 0 !important;
           text-transform: uppercase !important;
           letter-spacing: 0.03em !important;
+          text-align: center !important;
         }
 
         .spoke-card-desc {
           font-family: 'Inter', sans-serif !important;
-          font-size: 0.68rem !important;
-          line-height: 1.45 !important;
+          font-size: 0.73rem !important;
+          line-height: 1.5 !important;
           color: #0F172A !important;
           margin: 0 !important;
           font-weight: 600 !important;
+          text-align: center !important;
         }
 
         @media (max-width: 1024px) {

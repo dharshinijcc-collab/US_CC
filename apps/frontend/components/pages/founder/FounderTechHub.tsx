@@ -83,7 +83,7 @@ export default function FounderTechHub({ homeContent, partnerProductsData, PARTN
             contentKey="methodology.subtitle"
             value={content?.methodology?.subtitle || "Our collaborative venture-building methodology designed to de-risk startups and scale high-growth products from day one."}
             className="section-subtitle"
-            style={{ maxWidth: '700px', margin: '0 auto', fontSize: '1.05rem', color: '#64748B' }}
+            style={{ maxWidth: '700px', margin: '0 auto', fontSize: '1.15rem', color: '#64748B' }}
           />
         </div>
 
@@ -165,7 +165,7 @@ export default function FounderTechHub({ homeContent, partnerProductsData, PARTN
           <div className="hub-center-circle" style={{ width: '200px', height: '200px' }}>
             <h4 style={{
               fontFamily: "'Outfit', 'Manrope', sans-serif",
-              fontSize: '0.85rem',
+              fontSize: '1.05rem',
               fontWeight: 800,
               color: '#0F172A',
               letterSpacing: '0.06em',
@@ -177,7 +177,7 @@ export default function FounderTechHub({ homeContent, partnerProductsData, PARTN
             </h4>
             <p style={{
               fontFamily: "'Inter', sans-serif",
-              fontSize: '0.72rem',
+              fontSize: '0.88rem',
               color: '#64748B',
               lineHeight: '1.5',
               margin: '0 auto',
@@ -206,13 +206,13 @@ export default function FounderTechHub({ homeContent, partnerProductsData, PARTN
             >
               <h4 className="spoke-card-title" style={{
                 color: '#00A3E0',
-                fontSize: '0.82rem',
+                fontSize: '0.92rem',
                 fontWeight: 800,
                 marginBottom: '3px'
               }}>
                 <EditableText contentKey="home.methodology.cards.0.title" value={methodologyCards[0].title} />
               </h4>
-              <p className="spoke-card-desc" style={{ fontSize: '0.68rem', color: '#0F172A', lineHeight: '1.4', margin: 0, fontWeight: 600 }}>
+              <p className="spoke-card-desc" style={{ fontSize: '0.73rem', color: '#0F172A', lineHeight: '1.5', margin: 0, fontWeight: 600, textAlign: 'center' }}>
                 <EditableText contentKey="home.methodology.cards.0.description" value={methodologyCards[0].description} />
               </p>
             </div>
@@ -233,13 +233,13 @@ export default function FounderTechHub({ homeContent, partnerProductsData, PARTN
             >
               <h4 className="spoke-card-title" style={{
                 color: '#00A3E0',
-                fontSize: '0.82rem',
+                fontSize: '0.92rem',
                 fontWeight: 800,
                 marginBottom: '3px'
               }}>
                 <EditableText contentKey="home.methodology.cards.1.title" value={methodologyCards[1].title} />
               </h4>
-              <p className="spoke-card-desc" style={{ fontSize: '0.68rem', color: '#0F172A', lineHeight: '1.4', margin: 0, fontWeight: 600 }}>
+              <p className="spoke-card-desc" style={{ fontSize: '0.73rem', color: '#0F172A', lineHeight: '1.5', margin: 0, fontWeight: 600, textAlign: 'center' }}>
                 <EditableText contentKey="home.methodology.cards.1.description" value={methodologyCards[1].description} />
               </p>
             </div>
@@ -251,7 +251,7 @@ export default function FounderTechHub({ homeContent, partnerProductsData, PARTN
               className="spoke-card spoke-bottom-right"
               style={{
                 position: 'absolute',
-                left: '780px',
+                left: '810px',
                 top: '595px',
                 transform: 'translate(-50%, -50%)',
                 width: '210px',
@@ -260,13 +260,13 @@ export default function FounderTechHub({ homeContent, partnerProductsData, PARTN
             >
               <h4 className="spoke-card-title" style={{
                 color: '#00A3E0',
-                fontSize: '0.82rem',
+                fontSize: '0.92rem',
                 fontWeight: 800,
                 marginBottom: '3px'
               }}>
                 <EditableText contentKey="home.methodology.cards.2.title" value={methodologyCards[2].title} />
               </h4>
-              <p className="spoke-card-desc" style={{ fontSize: '0.68rem', color: '#0F172A', lineHeight: '1.4', margin: 0, fontWeight: 600 }}>
+              <p className="spoke-card-desc" style={{ fontSize: '0.73rem', color: '#0F172A', lineHeight: '1.5', margin: 0, fontWeight: 600, textAlign: 'center' }}>
                 <EditableText contentKey="home.methodology.cards.2.description" value={methodologyCards[2].description} />
               </p>
             </div>
@@ -287,13 +287,13 @@ export default function FounderTechHub({ homeContent, partnerProductsData, PARTN
             >
               <h4 className="spoke-card-title" style={{
                 color: '#00A3E0',
-                fontSize: '0.82rem',
+                fontSize: '0.92rem',
                 fontWeight: 800,
                 marginBottom: '3px'
               }}>
                 <EditableText contentKey="home.methodology.cards.3.title" value={methodologyCards[3].title} />
               </h4>
-              <p className="spoke-card-desc" style={{ fontSize: '0.68rem', color: '#0F172A', lineHeight: '1.4', margin: 0, fontWeight: 600 }}>
+              <p className="spoke-card-desc" style={{ fontSize: '0.73rem', color: '#0F172A', lineHeight: '1.5', margin: 0, fontWeight: 600, textAlign: 'center' }}>
                 <EditableText contentKey="home.methodology.cards.3.description" value={methodologyCards[3].description} />
               </p>
             </div>
@@ -314,13 +314,13 @@ export default function FounderTechHub({ homeContent, partnerProductsData, PARTN
             >
               <h4 className="spoke-card-title" style={{
                 color: '#00A3E0',
-                fontSize: '0.82rem',
+                fontSize: '0.92rem',
                 fontWeight: 800,
                 marginBottom: '3px'
               }}>
                 <EditableText contentKey="home.methodology.cards.4.title" value={methodologyCards[4].title} />
               </h4>
-              <p className="spoke-card-desc" style={{ fontSize: '0.68rem', color: '#0F172A', lineHeight: '1.4', margin: 0, fontWeight: 600 }}>
+              <p className="spoke-card-desc" style={{ fontSize: '0.73rem', color: '#0F172A', lineHeight: '1.5', margin: 0, fontWeight: 600, textAlign: 'center' }}>
                 <EditableText contentKey="home.methodology.cards.4.description" value={methodologyCards[4].description} />
               </p>
             </div>
@@ -341,13 +341,13 @@ export default function FounderTechHub({ homeContent, partnerProductsData, PARTN
             >
               <h4 className="spoke-card-title" style={{
                 color: '#00A3E0',
-                fontSize: '0.82rem',
+                fontSize: '0.92rem',
                 fontWeight: 800,
                 marginBottom: '3px'
               }}>
                 <EditableText contentKey="home.methodology.cards.5.title" value={methodologyCards[5].title} />
               </h4>
-              <p className="spoke-card-desc" style={{ fontSize: '0.68rem', color: '#0F172A', lineHeight: '1.4', margin: 0, fontWeight: 600 }}>
+              <p className="spoke-card-desc" style={{ fontSize: '0.73rem', color: '#0F172A', lineHeight: '1.5', margin: 0, fontWeight: 600, textAlign: 'center' }}>
                 <EditableText contentKey="home.methodology.cards.5.description" value={methodologyCards[5].description} />
               </p>
             </div>

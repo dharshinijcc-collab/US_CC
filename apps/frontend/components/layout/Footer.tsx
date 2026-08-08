@@ -18,7 +18,7 @@ export default function Footer() {
         __html: `
         .cc-footer-wrapper .footer { 
           background-color: #0B1019; 
-          color: #94A3B8; 
+          color: #FFFFFF !important; 
           padding: 40px 0 20px 0; 
           font-size: clamp(0.875rem, 1.5vw, 1rem); 
           font-weight: 500;
@@ -50,7 +50,7 @@ export default function Footer() {
           max-width: 360px;
         }
         .cc-footer-wrapper .footer-logo { 
-          color: #FFFFFF; 
+          color: #FFFFFF !important; 
           font-weight: 800; 
           font-size: clamp(1.125rem, 2.5vw, 1.25rem); 
           margin-bottom: 12px; 
@@ -58,12 +58,14 @@ export default function Footer() {
         }
         .cc-footer-wrapper .footer-tagline { 
           line-height: 1.6; 
-          max-width: 280px; 
+          max-width: 320px; 
           margin: 0;
-          color: #64748B;
+          color: #FFFFFF !important;
+          font-size: 1.05rem !important;
+          font-weight: 500;
         }
         .cc-footer-wrapper .footer-heading { 
-          color: #005AE2; 
+          color: #60A5FA; 
           font-weight: 700; 
           margin-bottom: 16px; 
           font-size: 1rem; 
@@ -81,13 +83,13 @@ export default function Footer() {
           margin-bottom: 12px; 
         }
         .cc-footer-wrapper .footer-links-group a { 
-          color: #64748B; 
+          color: #FFFFFF !important; 
           text-decoration: none; 
           transition: all 0.3s ease; 
           font-weight: 500;
         }
         .cc-footer-wrapper .footer-links-group a:hover { 
-          color: #FFFFFF; 
+          color: #60A5FA !important; 
         }
         .cc-footer-wrapper .footer-links-group a.btn-primary {
           color: #FFFFFF !important;
@@ -137,7 +139,7 @@ export default function Footer() {
         }
         .cc-footer-wrapper .copyright-text {
           margin: 0;
-          color: #64748B;
+          color: #FFFFFF !important;
           font-size: 0.875rem;
           font-weight: 500;
         }
@@ -147,14 +149,14 @@ export default function Footer() {
           gap: 16px;
         }
         .cc-footer-wrapper .footer-bottom-links a {
-          color: #64748B;
+          color: #FFFFFF !important;
           text-decoration: none;
           font-size: 0.875rem;
           font-weight: 500;
           transition: color 0.3s ease;
         }
         .cc-footer-wrapper .footer-bottom-links a:hover {
-          color: #FFFFFF;
+          color: #60A5FA !important;
         }
         .cc-footer-wrapper .footer-bottom-links .divider {
           color: rgba(255, 255, 255, 0.15);
@@ -348,7 +350,7 @@ export default function Footer() {
                               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 .7 2.81A2 2 0 0 1 22 16.92z" /></svg>
                             )}
                           </span>
-                          <Link href={link.href} style={{ color: '#64748B', textDecoration: 'none', transition: 'color 0.3s' }}>
+                          <Link href={link.href} style={{ color: '#FFFFFF', textDecoration: 'none', transition: 'color 0.3s' }}>
                             <EditableText contentKey={`global.footer.sections.${idx}.contactLinks.${lIdx}.name`} value={link.name} />
                           </Link>
                         </li>
