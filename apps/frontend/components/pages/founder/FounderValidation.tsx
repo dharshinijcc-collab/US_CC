@@ -212,44 +212,26 @@ export default function FounderValidation({
 
         {/* Section Header */}
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-          <span style={{
-            display: 'inline-block',
-            background: '#E6EFFF',
-            color: '#005AE2',
-            fontFamily: "'Manrope', sans-serif",
-            fontWeight: 800,
-            fontSize: '0.72rem',
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase',
-            padding: '5px 14px',
-            borderRadius: '8px',
-            marginBottom: '12px',
-          }}>
+          <div className="hero-eyebrow-pill">
             <EditableText
               contentKey="home.partnerProducts.eyebrow"
               value={homeContent.partnerProducts?.eyebrow || "Partners' Products"}
             />
-          </span>
-          <h2 style={{
-            fontFamily: "'Manrope', sans-serif",
-            fontSize: 'clamp(1.75rem, 3.2vw, 2.2rem)',
-            fontWeight: 800,
-            color: '#0F172A',
-            letterSpacing: '-0.02em',
-            margin: '0 auto 8px',
-            lineHeight: 1.25,
-          }}>
-            <EditableText
-              contentKey="home.partnerProducts.title"
-              value={homeContent.partnerProducts?.title || "What we've built together"}
-            />
-          </h2>
-          <p style={{ color: '#64748B', fontSize: '0.94rem', maxWidth: '480px', margin: '0 auto 22px', lineHeight: 1.55, fontWeight: 500 }}>
-            <EditableText
-              contentKey="home.partnerProducts.description"
-              value={homeContent.partnerProducts?.description || "Real ventures built in partnership with founders who chose to build, not just plan."}
-            />
-          </p>
+          </div>
+          <EditableText
+            as="h2"
+            contentKey="home.partnerProducts.title"
+            value={homeContent.partnerProducts?.title || "What we've built together"}
+            className="section-title text-center"
+            style={{ margin: '0 auto 8px' }}
+          />
+          <EditableText
+            as="p"
+            contentKey="home.partnerProducts.description"
+            value={homeContent.partnerProducts?.description || "Real ventures built in partnership with founders who chose to build, not just plan."}
+            className="section-subtitle text-center"
+            style={{ color: '#64748B', fontSize: '0.94rem', maxWidth: '480px', margin: '0 auto 22px', lineHeight: 1.55, fontWeight: 500 }}
+          />
 
           {/* Dot Indicators — 4 products strictly */}
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
@@ -517,30 +499,31 @@ export default function FounderValidation({
           </div>
 
           {/* ── RIGHT: Product Details — horizontal slide on product change ── */}
-          <AnimatePresence custom={direction} mode="wait">
-            <motion.div
-              key={activeProd}
-              custom={direction}
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.75, ease: [0.4, 0, 0.2, 1] }}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-              }}
-            >
+          <div style={{ minHeight: '540px', display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative' }}>
+            <AnimatePresence custom={direction} mode="wait">
+              <motion.div
+                key={activeProd}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.75, ease: [0.4, 0, 0.2, 1] }}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                }}
+              >
 
             {/* Product Title */}
             <h3 style={{
               fontFamily: "'Inter', sans-serif",
-              fontSize: 'clamp(2.2rem, 4vw, 2.8rem)',
+              fontSize: 'clamp(1.4rem, 2.4vw, 1.75rem)',
               fontWeight: 800,
               color: '#0F172A',
               letterSpacing: '-0.03em',
-              lineHeight: 1.1,
+              lineHeight: 1.15,
               margin: '0 0 6px 0',
             }}>
               <EditableText
@@ -634,7 +617,7 @@ export default function FounderValidation({
             <div style={{ marginBottom: '28px' }}>
               <h4 style={{
                 fontFamily: "'Inter', sans-serif",
-                fontSize: '1.3rem',
+                fontSize: '1.15rem',
                 fontWeight: 800,
                 color: '#0F172A',
                 letterSpacing: '-0.02em',
@@ -662,7 +645,7 @@ export default function FounderValidation({
             <div style={{ marginBottom: '32px' }}>
               <h4 style={{
                 fontFamily: "'Inter', sans-serif",
-                fontSize: '1.3rem',
+                fontSize: '1.15rem',
                 fontWeight: 800,
                 color: '#0F172A',
                 letterSpacing: '-0.02em',
@@ -806,6 +789,7 @@ export default function FounderValidation({
             </div>
           </motion.div>
         </AnimatePresence>
+        </div>
       </div>
     </div>
 

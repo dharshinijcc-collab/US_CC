@@ -123,7 +123,7 @@ export default function RotatingIdeaPlaceholder({
           lineHeight: '1.55',
           letterSpacing: '-0.02em',
         }}>
-          {examples[exampleIndex]}
+          eg. {examples[exampleIndex]}
         </div>
       )}
     </div>

@@ -24,7 +24,7 @@ export default function FounderTestimonials({ homeContent }: any) {
           style={{ marginBottom: '24px' }}
         />
 
-        <div className="cards-grid-2" style={{ gap: '32px 32px', marginTop: '0px' }}>
+        <div className="cards-grid-2" style={{ gap: '32px 32px', marginTop: '40px' }}>
           {(homeContent.testimonials.items || [])
             .filter((item: any) => item.author && !item.author.toLowerCase().includes('abdul') && !item.author.toLowerCase().includes('adbul'))
             .map((item: any, idx: number) => (
