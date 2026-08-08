@@ -9,19 +9,19 @@ textarea,
   resize: none !important;
 }
 
-/* ===== SPACING TOKENS ===== */
+/* ===== SPACING TOKENS (Exact 48px Inter-Section Rhythm) ===== */
 :root {
-  --section-padding-top: 36px;
-  --section-padding-bottom: 56px;
-  --section-padding-x: 24px;
+  --section-padding-top: 24px;
+  --section-padding-bottom: 24px;
+  --section-padding-x: 20px;
   
-  --section-padding-top-tablet: 28px;
-  --section-padding-bottom-tablet: 44px;
-  --section-padding-x-tablet: 20px;
+  --section-padding-top-tablet: 18px;
+  --section-padding-bottom-tablet: 18px;
+  --section-padding-x-tablet: 16px;
   
-  --section-padding-top-mobile: 22px;
-  --section-padding-bottom-mobile: 36px;
-  --section-padding-x-mobile: 16px;
+  --section-padding-top-mobile: 14px;
+  --section-padding-bottom-mobile: 14px;
+  --section-padding-x-mobile: 14px;
 }
 
 /* ===== TYPOGRAPHY STANDARDS ===== */
@@ -45,12 +45,12 @@ textarea,
 
 /* Section Headings (h2) */
 .section-title {
-  font-size: clamp(1.65rem, 3.2vw, 2.1rem);
+  font-size: clamp(1.45rem, 2.6vw, 1.85rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.2;
   color: #0F172A;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   font-family: 'Manrope', sans-serif;
 }
 
@@ -77,31 +77,56 @@ textarea,
 
 /* ===== SECTION SPACING STANDARDS ===== */
 
-/* Primary content wrapper — uniform vertical rhythm sitewide */
+/* Section Spacing — 24px top & bottom padding per section */
+section:not(.hero-section):not(.company-hero):not(.partner-products-section):not(.testimonials-page-section):not(.studio-portfolio-section):not(.studio-difference-section):not(.studio-cta-section),
+header:not(.hero-section):not(.company-hero),
+.page-section:not(.partner-products-section):not(.testimonials-page-section):not(.studio-portfolio-section):not(.studio-difference-section):not(.studio-cta-section),
+.section-container:not(.partner-products-section):not(.testimonials-page-section):not(.studio-portfolio-section):not(.studio-difference-section):not(.studio-cta-section) {
+  padding-top: 24px !important;
+  padding-bottom: 24px !important;
+}
+
+/* Partner Products section explicit 48px top and bottom padding */
+section.partner-products-section,
+.partner-products-section {
+  padding-top: 48px !important;
+  padding-bottom: 48px !important;
+}
+
+/* Testimonials section explicit 48px bottom padding */
+section.testimonials-page-section,
+.testimonials-page-section {
+  padding-top: 24px !important;
+  padding-bottom: 48px !important;
+}
+
+/* Studio Portfolio / Core Values section explicit 48px top and bottom padding */
+section.studio-portfolio-section,
+.studio-portfolio-section {
+  padding-top: 48px !important;
+  padding-bottom: 48px !important;
+}
+
+/* Studio Difference / Why CrestCode section explicit 48px top and bottom padding */
+section.studio-difference-section,
+.studio-difference-section {
+  padding-top: 48px !important;
+  padding-bottom: 48px !important;
+}
+
+/* Studio CTA section explicit 48px top and bottom padding */
+section.studio-cta-section,
+.studio-cta-section {
+  padding-top: 48px !important;
+  padding-bottom: 48px !important;
+}
+
 .section-container {
-  max-width: 1280px;
+  max-width: 1140px;
   margin: 0 auto;
-  padding-top: var(--section-padding-top);
-  padding-bottom: var(--section-padding-bottom);
   padding-left: var(--section-padding-x);
   padding-right: var(--section-padding-x);
   box-sizing: border-box;
-}
-
-/* Standalone sections without an inner .section-container */
-.page-section {
-  padding-top: var(--section-padding-top);
-  padding-bottom: var(--section-padding-bottom);
-  padding-left: var(--section-padding-x);
-  padding-right: var(--section-padding-x);
-  box-sizing: border-box;
-}
-
-/* Outer section wrappers defer spacing to .section-container */
-section:not(.hero-section):not(.company-hero):has(> .section-container),
-header:not(.hero-section):not(.company-hero):has(> .section-container) {
-  padding-block: 0 !important;
-  padding-inline: 0 !important;
 }
 
 /* Inner containers that share one padded section (e.g. carousels, steppers) */
@@ -211,10 +236,10 @@ header:not(.hero-section):not(.company-hero):has(> .section-container) {
   background-color: var(--white, #FFFFFF);
   box-sizing: border-box;
 
-  /* Desktop dimensions: 96px fixed header + 40px clean clearance = 136px padding-top */
+  /* Desktop dimensions: header clearance (128px gives 48px net space above eyebrow) & 48px bottom padding */
   min-height: auto;
-  padding-top: 136px !important;
-  padding-bottom: var(--section-padding-bottom) !important;
+  padding-top: 128px !important;
+  padding-bottom: 48px !important;
   padding-left: var(--section-padding-x) !important;
   padding-right: var(--section-padding-x) !important;
 }
@@ -226,13 +251,13 @@ header:not(.hero-section):not(.company-hero):has(> .section-container) {
   justify-content: center !important;
   background-color: #E6EFFF !important;
   color: #005AE2 !important;
-  font-size: 0.7rem !important;
+  font-size: 0.68rem !important;
   font-weight: 800 !important;
-  letter-spacing: 0.15em !important;
-  padding: 5px 14px !important;
+  letter-spacing: 0.14em !important;
+  padding: 4px 12px !important;
   border-radius: 100px !important;
   margin-top: 0 !important;
-  margin-bottom: 20px !important;
+  margin-bottom: 14px !important;
   text-transform: uppercase !important;
   font-family: 'Manrope', sans-serif !important;
 }
@@ -240,14 +265,14 @@ header:not(.hero-section):not(.company-hero):has(> .section-container) {
 /* Hero Title */
 .hero-title {
   font-family: 'Manrope', sans-serif !important;
-  font-size: 38px !important;
+  font-size: 34px !important;
   font-weight: 800 !important;
   letter-spacing: -0.04em !important;
-  line-height: 1.22 !important;
+  line-height: 1.2 !important;
   color: #020617 !important;
-  margin: 0 auto 20px !important;
+  margin: 0 auto 16px !important;
   text-align: center !important;
-  max-width: 900px !important;
+  max-width: 840px !important;
 }
 
 @media(max-width: 768px) {
@@ -358,4 +383,18 @@ textarea:not(.idea-textarea):focus {
   color: #0F172A !important;
   margin-bottom: 6px !important;
   display: block !important;
+}
+
+/* Blog Page Search Input */
+input.blog-search-input {
+  padding: 12px 18px 12px 46px !important;
+  border-radius: 100px !important;
+  background: #FFFFFF !important;
+  border: 1.5px solid #CBD5E1 !important;
+  box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.04) !important;
+}
+
+input.blog-search-input:focus {
+  border-color: #005AE2 !important;
+  box-shadow: 0 0 0 4px rgba(0, 90, 226, 0.12) !important;
 }

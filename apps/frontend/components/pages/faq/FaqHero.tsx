@@ -13,7 +13,7 @@ import BorderBeam from '@/components/effects/BorderBeam';
 
 export default function FaqHero({ faqContent, handleScroll, magBtn }: any) {
   return (
-    <section className="hero-section" style={{ position: 'relative', overflow: 'hidden', padding: '80px 0' }}>
+    <section className="hero-section" style={{ position: 'relative', overflow: 'hidden', padding: '142px 0 64px 0' }}>
           {/* Hero Background */}
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%)', pointerEvents: 'none', zIndex: 0 }}></div>
           {/* Hero Grid */}

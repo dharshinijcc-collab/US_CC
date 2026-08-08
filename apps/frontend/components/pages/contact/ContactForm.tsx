@@ -23,10 +23,12 @@ export default function ContactForm({ contactContent, formData, setFormData, han
   ];
 
   return (
-    <section id="form-section" style={{ 
+    <section id="form-section" className="page-section" style={{ 
           backgroundColor: '#FFFFFF', 
           position: 'relative', 
           overflow: 'hidden',
+          paddingTop: '24px',
+          paddingBottom: '48px',
         }}>
           {/* Grid Background */}
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundImage: 'linear-gradient(rgba(0, 90, 226, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 90, 226, 0.03) 1px, transparent 1px)', backgroundSize: '50px 50px', opacity: 0.5, pointerEvents: 'none', zIndex: 0 }}></div>

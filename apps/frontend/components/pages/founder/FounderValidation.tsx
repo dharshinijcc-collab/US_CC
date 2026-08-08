@@ -127,15 +127,17 @@ export default function FounderValidation({
   // All screenshots for the current product
   const screenshotSrc = PRODUCT_SCREENSHOTS[rawProd?.name] || PRODUCT_SCREENSHOTS[prod?.name] || '/images/dockly_showcase.png';
 
-  // Auto-slide every 4 seconds
+  // Auto-slide every 8 seconds (slow, smooth auto-advance)
+  const displayItems = (items && items.length > 0 ? items : PARTNER_PRODUCTS).slice(0, 4);
+
   useEffect(() => {
-    if (!items || items.length === 0) return;
+    if (!displayItems || displayItems.length === 0) return;
     autoSlideRef.current = setInterval(() => {
       setDirection(1);
-      setActiveProd((prev: number) => (prev + 1) % items.length);
-    }, 4000);
+      setActiveProd((prev: number) => (prev + 1) % displayItems.length);
+    }, 8000);
     return () => clearInterval(autoSlideRef.current);
-  }, [items, setActiveProd]);
+  }, [displayItems.length, setActiveProd]);
 
   // Reset screenshot slide when product changes
   useEffect(() => {
@@ -182,9 +184,10 @@ export default function FounderValidation({
     }
   ];
 
-  const techStack = (prod.stack && prod.stack.length > 0)
-    ? prod.stack
-    : ['Next.js', 'Node.js', 'TailwindCSS', 'Supabase', 'TypeScript'];
+  const currentItem = (items && items[activeProd]) || prod;
+  const techStack = (currentItem?.stack && currentItem.stack.length > 0)
+    ? currentItem.stack
+    : (PARTNER_PRODUCTS[activeProd % PARTNER_PRODUCTS.length]?.stack || ['Next.js', 'Node.js', 'Tailwind CSS']);
 
   const handlePrev = () => {
     if (!items || items.length === 0) return;
@@ -199,9 +202,10 @@ export default function FounderValidation({
   };
 
   return (
-    <section style={{
+    <section className="partner-products-section" style={{
       background: 'linear-gradient(180deg, #EDF4FF 0%, #F4F8FF 50%, #EDF4FF 100%)',
-      padding: '44px 24px',
+      paddingTop: '48px',
+      paddingBottom: '48px',
       fontFamily: "'Inter', sans-serif",
     }}>
       <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
@@ -247,9 +251,9 @@ export default function FounderValidation({
             />
           </p>
 
-          {/* Dot Indicators — click to jump, auto-slides every 4s */}
+          {/* Dot Indicators — 4 products strictly */}
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
-            {items.map((_: any, idx: number) => {
+            {displayItems.map((_: any, idx: number) => {
               const isActive = activeProd === idx;
               return (
                 <button
@@ -259,8 +263,8 @@ export default function FounderValidation({
                     setActiveProd(idx);
                     // restart auto-slide after manual click
                     autoSlideRef.current = setInterval(() => {
-                      setActiveProd((prev: number) => (prev + 1) % items.length);
-                    }, 4000);
+                      setActiveProd((prev: number) => (prev + 1) % displayItems.length);
+                    }, 8000);
                   }}
                   aria-label={`Go to product ${idx + 1}`}
                   style={{
@@ -271,7 +275,7 @@ export default function FounderValidation({
                     border: 'none',
                     padding: 0,
                     cursor: 'pointer',
-                    transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)',
+                    transition: 'all 0.45s cubic-bezier(0.4,0,0.2,1)',
                     flexShrink: 0,
                   }}
                 />
@@ -484,23 +488,32 @@ export default function FounderValidation({
               </AnimatePresence>
             </div>
 
-            {/* Technologies Used (CENTERED DIRECTLY BELOW LAPTOP) */}
-            <div style={{ textAlign: 'center' }}>
-              <h4 style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: '1rem',
-                fontWeight: 800,
-                color: '#0F172A',
-                marginBottom: '14px',
-                marginTop: 0,
-                textAlign: 'center',
-              }}>
-                Technologies Used
-              </h4>
-              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px' }}>
-                {techStack.map((tech: string, i: number) => renderTechBadge(tech, i))}
-              </div>
-            </div>
+            {/* Technologies Used (CENTERED & ANIMATES ON PRODUCT CHANGE) */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeProd}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+                style={{ textAlign: 'center', width: '100%' }}
+              >
+                <h4 style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: '0.95rem',
+                  fontWeight: 800,
+                  color: '#0F172A',
+                  marginBottom: '12px',
+                  marginTop: 0,
+                  textAlign: 'center',
+                }}>
+                  Technologies Used
+                </h4>
+                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px' }}>
+                  {techStack.map((tech: string, i: number) => renderTechBadge(tech, i))}
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {/* ── RIGHT: Product Details — horizontal slide on product change ── */}
@@ -512,7 +525,7 @@ export default function FounderValidation({
               initial="enter"
               animate="center"
               exit="exit"
-              transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
+              transition={{ duration: 0.75, ease: [0.4, 0, 0.2, 1] }}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -547,7 +560,7 @@ export default function FounderValidation({
               }}>
                 <EditableText
                   contentKey={`home.partnerProducts.items.${activeProd}.category`}
-                  value={prod.category || 'Venture Studio Product'}
+                  value={prod.category || "Partners' Product"}
                 />
               </p>
 
@@ -747,36 +760,16 @@ export default function FounderValidation({
               </div>
             </div>
 
-            {/* 3. Duration & Team Metrics */}
-            <div style={{ marginBottom: '28px' }}>
-              <div style={{
-                display: 'flex',
-                gap: '36px',
-                alignItems: 'center',
-                borderLeft: '3.5px solid #2563EB',
-                paddingLeft: '16px',
-                paddingTop: '2px',
-                paddingBottom: '2px',
-              }}>
-                <div>
-                  <div style={{ fontSize: '0.8rem', color: '#64748B', fontWeight: 600, marginBottom: '3px' }}>Duration</div>
-                  <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0F172A' }}>
-                    <EditableText contentKey={`home.partnerProducts.items.${activeProd}.duration`} value={prod.duration || '5 months'} />
-                  </div>
-                </div>
-                <div>
-                  <div style={{ fontSize: '0.8rem', color: '#64748B', fontWeight: 600, marginBottom: '3px' }}>Team</div>
-                  <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0F172A' }}>
-                    <EditableText contentKey={`home.partnerProducts.items.${activeProd}.team`} value={prod.team || '3 members'} />
-                  </div>
-                </div>
-              </div>
-            </div>
-
             {/* Action Buttons — Theme Primary Blue Gradient Pill matching CrestCode Theme */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
               <a
-                href={prod.liveUrl || '#'}
+                href={(() => {
+                  const nameLower = (rawProd?.name || prod?.name || '').toLowerCase();
+                  if (nameLower.includes('dockly')) return 'https://dockly.me/';
+                  if (nameLower.includes('castlegc') || nameLower.includes('castlegec')) return 'https://castlegec.com/';
+                  if (prod?.liveUrl && prod.liveUrl !== '#') return prod.liveUrl;
+                  return '#';
+                })()}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -810,40 +803,6 @@ export default function FounderValidation({
                 <span>Visit Live Website</span>
                 <span style={{ fontSize: '0.95rem' }}>→</span>
               </a>
-
-              <button
-                type="button"
-                onClick={() => handleScroll('idea')}
-                style={{
-                  backgroundColor: '#FFFFFF',
-                  border: '2px solid #2563EB',
-                  color: '#005AE2',
-                  padding: '11px 28px',
-                  borderRadius: '100px',
-                  fontWeight: 700,
-                  fontSize: '0.92rem',
-                  cursor: 'pointer',
-                  transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                  fontFamily: "'Inter', sans-serif",
-                  letterSpacing: '0.01em',
-                  boxShadow: '0 4px 14px rgba(0, 90, 226, 0.12)',
-                  userSelect: 'none' as const,
-                }}
-                onMouseOver={(e: any) => {
-                  e.currentTarget.style.backgroundColor = '#EFF6FF';
-                  e.currentTarget.style.borderColor = '#005AE2';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 90, 226, 0.22)';
-                }}
-                onMouseOut={(e: any) => {
-                  e.currentTarget.style.backgroundColor = '#FFFFFF';
-                  e.currentTarget.style.borderColor = '#2563EB';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 90, 226, 0.12)';
-                }}
-              >
-                View Case Study
-              </button>
             </div>
           </motion.div>
         </AnimatePresence>

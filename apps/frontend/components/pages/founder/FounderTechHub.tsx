@@ -67,7 +67,7 @@ export default function FounderTechHub({ homeContent, partnerProductsData, PARTN
   const sectorColors = ["#00A3E0", "#005AE2", "#0B2545", "#134074", "#3D5A80", "#1F2937"];
 
   return (
-    <section className="tech-hub-section" style={{ backgroundColor: '#F8FAFC', paddingTop: '100px', paddingBottom: '100px' }}>
+    <section className="tech-hub-section" style={{ backgroundColor: '#F8FAFC' }}>
       <div className="section-container" style={{ maxWidth: '1140px', position: 'relative' }}>
         <div className="text-center" style={{ marginBottom: '48px' }}>
           <h3 className="section-eyebrow text-center cc-reveal" style={{ marginBottom: '12px' }}>OUR METHODOLOGY</h3>

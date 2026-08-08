@@ -16,50 +16,64 @@ export default function StudioProcess({ studioContent, heroCarouselIndex, handle
       style={{
         position: 'relative',
         backgroundColor: '#FFFFFF',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        paddingTop: '48px',
+        paddingBottom: '48px'
       }}
     >
       <div style={{ position: 'relative', zIndex: 1 }}>
         {/* Unified Header */}
-        <div className="section-container section-container--flush-y" style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <div style={{ display: 'inline-block' }}>
+        <div className="section-container section-container--flush-y" style={{ textAlign: 'center', marginBottom: '0px' }}>
+          <div style={{ display: 'inline-block', marginBottom: '4px' }}>
             <EditableText
               contentKey="studio.phases.eyebrow"
               value={studioContent.phases?.eyebrow || "Selection Process"}
               className="hero-eyebrow-pill"
+              style={{ marginBottom: '0px' }}
             />
           </div>
-          <EditableText
-            as="h2"
-            contentKey="studio.phases.title"
-            value={studioContent.phases?.title || "Seven Steps. One Mission."}
-            className="section-title"
+          <h2
             style={{
+              fontFamily: "'Manrope', sans-serif",
+              fontSize: 'clamp(1.75rem, 3.2vw, 2.2rem)',
+              fontWeight: 800,
+              letterSpacing: '-0.02em',
               color: '#0F172A',
               maxWidth: '800px',
-              margin: '0 auto 16px',
+              margin: '0 auto 2px',
+              lineHeight: 1.2,
             }}
-          />
-          <EditableText
-            as="p"
-            contentKey="studio.phases.subtitle"
-            value={studioContent.phases?.subtitle || "Our structured blueprint for transforming bold concepts into venture-scale realities."}
-            className="section-subtitle"
+          >
+            <EditableText
+              contentKey="studio.phases.title"
+              value={studioContent.phases?.title || "Seven Steps. One Mission."}
+            />
+          </h2>
+          <p
             style={{
               maxWidth: '640px',
-              margin: '0 auto',
-              color: '#64748B'
+              margin: '0 auto 0px',
+              color: '#64748B',
+              fontSize: '0.95rem',
+              fontWeight: 500,
+              fontFamily: "'Inter', sans-serif",
+              lineHeight: 1.35
             }}
-          />
+          >
+            <EditableText
+              contentKey="studio.phases.subtitle"
+              value={studioContent.phases?.subtitle || "Our structured blueprint for transforming bold concepts into venture-scale realities."}
+            />
+          </p>
         </div>
 
         {/* Stepper Navigation — redesigned to match reference image style */}
         <div style={{
           position: 'sticky', top: 0, zIndex: 100,
           background: '#FFFFFF',
-          marginBottom: '40px',
-          paddingTop: '16px',
-          paddingBottom: '16px',
+          paddingTop: '0px',
+          paddingBottom: '0px',
+          marginBottom: '12px',
           borderBottom: '1px solid #F1F5F9',
         }}>
           <div className="section-container section-container--flush-y">

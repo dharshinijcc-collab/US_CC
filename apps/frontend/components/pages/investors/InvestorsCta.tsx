@@ -126,7 +126,7 @@ export default function InvestorsCta({
   };
 
   return (
-    <section id="apply-form" style={{ background: '#F8FAFC', padding: '60px 24px' }}>
+    <section id="apply-form" className="page-section" style={{ background: '#F8FAFC', paddingTop: '24px', paddingBottom: '24px' }}>
       <div className="section-container" style={{ maxWidth: '1160px', margin: '0 auto' }}>
         
         {/* Eyebrow & Title */}
