@@ -1,39 +1,39 @@
 'use client';
 import React from 'react';
 import EditableText from '@/components/pages/admin/EditableText';
-import { Target, Clock, Users, Cpu, ShieldCheck, TrendingUp } from 'lucide-react';
+import { Target, Clock, Users, Wrench, ShieldCheck, TrendingUp } from 'lucide-react';
 
 export default function InvestorsCoCircle({ content, getContent }: any) {
   const traits = [
     {
       title: getContent('investors.selective.0.title', 'Domain-aligned operators'),
       desc: getContent('investors.selective.0.desc', 'you understand the market the venture is targeting and can help open doors.'),
-      icon: <Target size={22} strokeWidth={2.2} />
+      icon: <Target size={24} strokeWidth={2} />
     },
     {
       title: getContent('investors.selective.1.title', 'Long-term thinkers'),
       desc: getContent('investors.selective.1.desc', "you're patient, believe in building real businesses, and aren't looking for a quick exit."),
-      icon: <Clock size={22} strokeWidth={2.2} />
+      icon: <Clock size={24} strokeWidth={2} />
     },
     {
       title: getContent('investors.selective.2.title', 'Strategic connectors'),
       desc: getContent('investors.selective.2.desc', 'you have a network that can accelerate customer acquisition, partnerships, or hiring.'),
-      icon: <Users size={22} strokeWidth={2.2} />
+      icon: <Users size={24} strokeWidth={2} />
     },
     {
       title: getContent('investors.selective.3.title', 'Hands-on contributors'),
       desc: getContent('investors.selective.3.desc', "you're willing to roll up your sleeves and support a venture in its early stages of operations or adoption."),
-      icon: <Cpu size={22} strokeWidth={2.2} />
+      icon: <Wrench size={24} strokeWidth={2} />
     },
     {
       title: getContent('investors.selective.4.title', 'Transparent communicators'),
       desc: getContent('investors.selective.4.desc', 'you engage honestly, ask hard questions, and hold us accountable the same way we hold ourselves.'),
-      icon: <ShieldCheck size={22} strokeWidth={2.2} />
+      icon: <ShieldCheck size={24} strokeWidth={2} />
     },
     {
       title: getContent('investors.selective.5.title', 'Active growth partners'),
       desc: getContent('investors.selective.5.desc', 'you actively advocate for the portfolio, assist with follow-on capital, and help scale venture distribution.'),
-      icon: <TrendingUp size={22} strokeWidth={2.2} />
+      icon: <TrendingUp size={24} strokeWidth={2} />
     }
   ];
 
@@ -152,21 +152,14 @@ export default function InvestorsCoCircle({ content, getContent }: any) {
                 </p>
               </div>
 
-              {/* Sharp, Clear, Mild Blue Icon Badge */}
+              {/* Clean Standalone Icon without Square Box */}
               <div style={{
-                marginRight: '20px',
-                width: '42px',
-                height: '42px',
-                minWidth: '42px',
-                borderRadius: '10px',
-                backgroundColor: '#F0F7FF',
-                border: '1px solid rgba(13, 147, 242, 0.2)',
+                marginRight: '24px',
                 color: '#0D93F2',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                flexShrink: 0,
-                boxShadow: '0 2px 6px rgba(13, 147, 242, 0.08)'
+                flexShrink: 0
               }}>
                 {item.icon}
               </div>

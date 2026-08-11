@@ -29,13 +29,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include API Routers under standard /api prefix
+# Include API Routers under standard /api prefix AND root prefix for 100% route compatibility
 app.include_router(auth_router, prefix="/api")
 app.include_router(submit_router, prefix="/api")
 app.include_router(submissions_router, prefix="/api")
 app.include_router(auxiliary_router, prefix="/api")
 app.include_router(idea_val_router, prefix="/api")
-# app.include_router(social_val_router) # DISABLED — social validation engine off
+
+# Also include without prefix to catch requests directly hitting /submit-investor, /submit-contact, /content
+app.include_router(auth_router)
+app.include_router(submit_router)
+app.include_router(submissions_router)
+app.include_router(auxiliary_router)
+app.include_router(idea_val_router)
 
 @app.get("/")
 def root():

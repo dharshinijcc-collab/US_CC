@@ -2,7 +2,7 @@
 
 export const dynamic = 'force-dynamic';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useScrollReveal from '@/hooks/useScrollReveal';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -38,6 +38,20 @@ export default function ContactPage() {
     setFormData({ ...formData, serviceInterest: service });
   };
   useScrollReveal();
+
+  useEffect(() => {
+    if (!loading && content) {
+      if (window.location.hash === '#form-section' || window.location.hash === '#contact-form') {
+        const timer = setTimeout(() => {
+          const el = document.getElementById('form-section');
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 150);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [loading, content]);
   
   if (loading) return <div className="flex items-center justify-center min-h-screen bg-[#FFFFFF] font-manrope">Loading contact...</div>;
   if (error) return <div className="flex items-center justify-center min-h-screen bg-[#FFFFFF] font-manrope text-red-500">Error: {error}</div>;

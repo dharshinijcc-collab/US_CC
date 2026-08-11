@@ -42,29 +42,30 @@ h1, h2, h3, h4, h5, h6, .manrope-font {
   justify-content: center !important;
   background-color: #E6EFFF !important;
   color: #005AE2 !important;
-  font-size: 0.8rem !important;
+  font-size: 0.72rem !important;
   font-weight: 800 !important;
   letter-spacing: 0.15em !important;
-  padding: 8px 18px !important; /* increased padding */
+  padding: 6px 18px !important;
   border-radius: 100px !important;
-  margin-bottom: 32px !important; /* increased spacing */
+  margin-top: 0 !important;
+  margin-bottom: 16px !important;
   text-transform: uppercase !important;
   font-family: 'Manrope', sans-serif !important;
 }
 .hero-title {
   font-family: 'Manrope', sans-serif !important;
-  font-size: 52px !important; /* beautifully sized to feel elegant and full without being too large */
-  font-weight: 800 !important;
-  letter-spacing: -0.04em !important;
-  line-height: 1.22 !important; /* increased line-height for elite aesthetic */
+  font-size: clamp(1.75rem, 3.2vw, 2.375rem) !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.2 !important;
   color: #020617 !important;
-  margin: 0 auto 28px !important; /* increased spacing below heading */
+  margin: 0 auto 16px !important;
   text-align: center !important;
-  max-width: 960px !important; /* wider boundaries for magnificent scale */
+  max-width: 960px !important;
 }
 .hero-title span {
   font-family: 'Manrope', sans-serif !important;
-  font-weight: 800 !important;
+  font-weight: 900 !important;
 }
 .btn-primary {
   display: inline-block !important;
@@ -88,18 +89,18 @@ h1, h2, h3, h4, h5, h6, .manrope-font {
 }
 @media(max-width: 768px) {
   .hero-title {
-    font-size: 32px !important;
+    font-size: clamp(1.3rem, 2.4vw, 1.6rem) !important;
     line-height: 1.25 !important;
   }
 }
 .hero-description, .hero-subtitle {
   font-family: 'Inter', sans-serif !important;
-  font-size: clamp(0.925rem, 2vw, 0.975rem) !important;
+  font-size: clamp(1rem, 2vw, 1.125rem) !important;
   font-weight: 500 !important;
   color: #64748B !important;
-  line-height: 1.8 !important; /* wider line height for premium readability */
-  max-width: 720px !important; /* expanded to follow modern web layouts */
-  margin: 0 auto 32px !important;
+  line-height: 1.8 !important;
+  max-width: 720px !important;
+  margin: 0 auto 40px !important;
   text-align: center !important;
 }
 
