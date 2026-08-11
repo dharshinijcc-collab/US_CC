@@ -744,49 +744,61 @@ export default function FounderValidation({
             </div>
 
             {/* Action Buttons — Theme Primary Blue Gradient Pill matching CrestCode Theme */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
-              <a
-                href={(() => {
-                  const nameLower = (rawProd?.name || prod?.name || '').toLowerCase();
-                  if (nameLower.includes('dockly')) return 'https://dockly.me/';
-                  if (nameLower.includes('castlegc') || nameLower.includes('castlegec')) return 'https://castlegec.com/';
-                  if (prod?.liveUrl && prod.liveUrl !== '#') return prod.liveUrl;
-                  return '#';
-                })()}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  background: 'linear-gradient(135deg, #005AE2 0%, #2563EB 50%, #1D4ED8 100%)',
-                  color: '#FFFFFF',
-                  padding: '12px 32px',
-                  borderRadius: '100px',
-                  fontWeight: 700,
-                  fontSize: '0.95rem',
-                  textDecoration: 'none',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  boxShadow: '0 8px 24px -4px rgba(0, 90, 226, 0.42)',
-                  border: 'none',
-                  transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                  fontFamily: "'Inter', sans-serif",
-                  letterSpacing: '0.01em',
-                  cursor: 'pointer',
-                  userSelect: 'none' as const,
-                }}
-                onMouseOver={(e: any) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 12px 28px -4px rgba(0, 90, 226, 0.55)';
-                }}
-                onMouseOut={(e: any) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 8px 24px -4px rgba(0, 90, 226, 0.42)';
-                }}
-              >
-                <span>Visit Live Website</span>
-                <span style={{ fontSize: '0.95rem' }}>→</span>
-              </a>
-            </div>
+            {(() => {
+              const nameLower = (rawProd?.name || prod?.name || '').toLowerCase();
+              
+              // OpenCap and NestBloq do not have live websites
+              if (nameLower.includes('opencap') || nameLower.includes('nestbloq')) {
+                return null;
+              }
+
+              let liveUrl = '';
+              if (nameLower.includes('dockly')) liveUrl = 'https://dockly.me/';
+              else if (nameLower.includes('castlegc') || nameLower.includes('castlegec')) liveUrl = 'https://castlegec.com/';
+              else if (prod?.liveUrl && prod.liveUrl !== '#' && prod.liveUrl !== '') liveUrl = prod.liveUrl;
+
+              if (!liveUrl) return null;
+
+              return (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+                  <a
+                    href={liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      background: 'linear-gradient(135deg, #005AE2 0%, #2563EB 50%, #1D4ED8 100%)',
+                      color: '#FFFFFF',
+                      padding: '12px 32px',
+                      borderRadius: '100px',
+                      fontWeight: 700,
+                      fontSize: '0.95rem',
+                      textDecoration: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      boxShadow: '0 8px 24px -4px rgba(0, 90, 226, 0.42)',
+                      border: 'none',
+                      transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                      fontFamily: "'Inter', sans-serif",
+                      letterSpacing: '0.01em',
+                      cursor: 'pointer',
+                      userSelect: 'none' as const,
+                    }}
+                    onMouseOver={(e: any) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 12px 28px -4px rgba(0, 90, 226, 0.55)';
+                    }}
+                    onMouseOut={(e: any) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 8px 24px -4px rgba(0, 90, 226, 0.42)';
+                    }}
+                  >
+                    <span>Visit Live Website</span>
+                    <span style={{ fontSize: '0.95rem' }}>→</span>
+                  </a>
+                </div>
+              );
+            })()}
           </motion.div>
         </AnimatePresence>
         </div>

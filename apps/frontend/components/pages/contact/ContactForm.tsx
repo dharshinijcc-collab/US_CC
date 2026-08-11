@@ -102,25 +102,49 @@ export default function ContactForm({ contactContent, formData, setFormData, han
             </div>
 
             {/* Right Column: Form */}
-            <BorderBeam className={clsx('form-card', 'cc-slide-right')} style={{padding: 0}}>
+            <BorderBeam className="form-card" style={{ padding: 0 }}>
               {submitted ? (
-                <div className={clsx('text-center', 'py-20', 'px-10', 'animate-fade-in')} style={{minHeight: '600px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                  <div className={clsx('w-20', 'h-20', 'bg-blue-50', 'text-blue-500', 'rounded-full', 'flex', 'items-center', 'justify-center', 'mb-6')}>
-                    <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                <div style={{
+                  padding: '56px 36px',
+                  minHeight: '520px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  width: '100%',
+                  backgroundColor: '#FFFFFF',
+                  borderRadius: '24px',
+                  boxSizing: 'border-box'
+                }}>
+                  <div style={{
+                    width: '64px',
+                    height: '64px',
+                    borderRadius: '50%',
+                    backgroundColor: '#EFF6FF',
+                    color: '#005AE2',
+                    border: '1px solid #BFDBFE',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '20px'
+                  }}>
+                    <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <h3 className={clsx('text-3xl', 'font-bold', 'mb-4')}>
-                    <EditableText contentKey="contact.form.success.title" value={contactContent.form.success.title} />
+                  <h3 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0F172A', marginBottom: '12px', fontFamily: "'Manrope', sans-serif" }}>
+                    <EditableText contentKey="contact.form.success.title" value={contactContent.form?.success?.title || "Message Sent!"} />
                   </h3>
-                  <p className={clsx('text-gray-600', 'mb-8', 'max-w-sm')}>
-                    <EditableText contentKey="contact.form.success.message" value={contactContent.form.success.message} />
+                  <p style={{ color: '#64748B', fontSize: '0.95rem', lineHeight: 1.6, maxWidth: '380px', marginBottom: '32px', fontFamily: "'Inter', sans-serif", fontWeight: 500 }}>
+                    <EditableText contentKey="contact.form.success.message" value={contactContent.form?.success?.message || "Thank you for reaching out. Our team will review your inquiry and get back to you within 24 hours."} />
                   </p>
                   <button 
                     onClick={() => setSubmitted(false)}
-                    className="btn-bright"
+                    className="btn-primary"
+                    style={{ padding: '14px 32px', fontSize: '0.92rem', borderRadius: '100px' }}
                   >
-                    <EditableText contentKey="contact.form.success.buttonText" value={contactContent.form.success.buttonText} />
+                    <EditableText contentKey="contact.form.success.buttonText" value={contactContent.form?.success?.buttonText || "Send Another Message"} />
                   </button>
                 </div>
               ) : (

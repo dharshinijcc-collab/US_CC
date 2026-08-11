@@ -276,31 +276,61 @@ export default function StudioVentureModel({ studioContent, renderCellText }: an
               </div>
 
               {/* ── RIGHT: Editorial text ── */}
-              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', paddingTop: '4px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', justifyContent: 'flex-start', paddingTop: '4px' }}>
                 {[
                   { key: 'thesisP1', defaultVal: "Families managing the moving parts of a household. Small business owners running operations with no IT department behind them. Different scale, same problem — they're stuck with spreadsheets, phone calls, and guesswork, while the software built for them is either too generic to fit how they actually operate, or too complex to bother adopting." },
                   { key: 'thesisP2', defaultVal: "It's not for lack of technology. It's cost, habit, and a real fear: that handing the work over to software means losing the judgment that made it succeed in the first place." },
                   { key: 'thesisP3', defaultVal: "We build for both sides of that gap. For families, that means products like Dockly and CastleGEC — tools that hold the everyday logistics and the major decisions of a household in one place, instead of scattered across apps no one fully trusts. For small businesses, that means products like Limelite and NestBloq — tools built around how an independent operator actually works, not how an enterprise vendor assumes they should." },
                   { key: 'thesisP4', defaultVal: "That's our bet: the families and small operators still under-digitized today are the ones with the most room to grow tomorrow — and the ones we're building for first." }
-                ].map((item, idx) => (
-                  <p
-                    key={item.key}
-                    style={{
-                      margin: 0,
-                      fontSize: 'clamp(0.9rem, 2vw, 0.95rem)',
-                      lineHeight: 1.68,
-                      color: '#64748B',
-                      fontFamily: "'Inter', sans-serif",
-                      fontWeight: 500,
-                    }}
-                  >
-                    <EditableText
-                      as="span"
-                      contentKey={`studio.selectiveness.${item.key}`}
-                      value={studioContent.selectiveness?.[item.key] || item.defaultVal}
-                    />
-                  </p>
-                ))}
+                ].map((item, idx) => {
+                  const rawValue = studioContent.selectiveness?.[item.key] || item.defaultVal;
+                  
+                  const formatThesisText = (text: string) => {
+                    if (!text) return text;
+                    const parts = text.split(/(Dockly|CastleGEC|Limelite|NestBloq|That's our bet)/g);
+                    return parts.map((part, i) => {
+                      if (['Dockly', 'CastleGEC', 'Limelite', 'NestBloq'].includes(part)) {
+                        return (
+                          <strong key={i} style={{ color: '#0F172A', fontWeight: 800 }}>
+                            {part}
+                          </strong>
+                        );
+                      }
+                      if (part === "That's our bet") {
+                        return (
+                          <strong key={i} style={{ color: '#005AE2', fontWeight: 800 }}>
+                            {part}
+                          </strong>
+                        );
+                      }
+                      return part;
+                    });
+                  };
+
+                  return (
+                    <p
+                      key={item.key}
+                      style={{
+                        margin: 0,
+                        fontSize: 'clamp(0.9rem, 2vw, 0.95rem)',
+                        lineHeight: 1.68,
+                        color: '#64748B',
+                        fontFamily: "'Inter', sans-serif",
+                        fontWeight: 500,
+                        textAlign: 'justify',
+                        textJustify: 'inter-word',
+                      }}
+                    >
+                      <EditableText
+                        as="span"
+                        contentKey={`studio.selectiveness.${item.key}`}
+                        value={rawValue}
+                      >
+                        {formatThesisText(rawValue)}
+                      </EditableText>
+                    </p>
+                  );
+                })}
               </div>
 
             </div>

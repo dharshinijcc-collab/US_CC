@@ -155,7 +155,7 @@ export default function ResourcesPage() {
 
             {/* Primary CTA Button */}
             <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-              <Link href="/contact" className="btn-primary">
+              <Link href="/contact#form-section" className="btn-primary">
                 <EditableText contentKey="resources.hero.buttonText" value={resourcesContent.hero?.buttonText || 'Ask Us Anything'} />
               </Link>
             </div>

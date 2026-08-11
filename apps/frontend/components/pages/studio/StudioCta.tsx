@@ -147,7 +147,7 @@ export default function StudioCta({ studioContent }: any) {
 
               {/* Centered Primary CTA Button */}
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Link href="/contact" className="studio-cta-btn-primary">
+                <Link href="/contact#form-section" className="studio-cta-btn-primary">
                   <EditableText
                     contentKey="studio.cta.buttonText"
                     value={studioContent.cta?.buttonText || "Start Your Venture"}
