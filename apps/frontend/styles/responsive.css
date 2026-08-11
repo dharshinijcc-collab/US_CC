@@ -34,6 +34,77 @@ img, video, svg, iframe {
   --section-padding-x-mobile: 16px;
 }
 
+/* ── 2.1 UNIVERSAL GUTTER & EDGE PROTECTION ── */
+.section-container,
+.page-section,
+.hero-section,
+.company-hero,
+.main-content,
+main > section,
+main > div,
+header > div,
+footer > div,
+.thesis-grid,
+.grid-2,
+.grid-3,
+.grid-4,
+.responsive-grid-2,
+.responsive-grid-3,
+.solving-two-col-grid,
+.vm-inner-grid,
+.selection-two-col-grid,
+.phase-two-col-grid,
+.paths-two-col-grid,
+.why-invest-grid,
+.core-values-grid,
+.look-for-grid,
+.why-fail-grid {
+  box-sizing: border-box !important;
+}
+
+/* Enforce Universal Safe Side Padding Across All Responsive Breakpoints */
+@media (max-width: 1400px) {
+  .section-container,
+  .page-section > div,
+  .hero-section > div,
+  .thesis-grid,
+  #form-section .section-container {
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .section-container,
+  .page-section > div,
+  .hero-section > div,
+  .thesis-grid,
+  #form-section .section-container {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+  .thesis-grid {
+    gap: 2rem !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .section-container,
+  .page-section,
+  .page-section > div,
+  .hero-section,
+  .hero-section > div,
+  .thesis-grid,
+  #form-section .section-container {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  .thesis-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+}
+
 /* ── 3. UTILITY GRID CLASSES (desktop defaults) ── */
 .responsive-grid-2,
 .solving-two-col-grid,

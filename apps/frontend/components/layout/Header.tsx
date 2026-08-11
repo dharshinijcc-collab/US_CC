@@ -452,50 +452,45 @@ export default function Header(props: any) {
 
         /* ─── RESPONSIVE BREAKPOINTS ───────────────────────── */
 
-        /* Large tablets / small laptops */
-        @media (max-width: 1024px) {
-          .navbar-wrapper { padding: 8px 0; }
-          .navbar-wrapper.scrolled { width: calc(100% - 32px); top: 8px; border-radius: 12px; padding: 5px 0; }
-          .navbar { padding: 8px 20px; gap: 16px; }
-          .navbar-links { gap: 24px; }
-          .navbar-links a, .dropdown-toggle { font-size: 0.9rem; }
-          .btn-nav { padding: 10px 22px; font-size: 14.5px; }
-          .header-logo { height: 56px !important; }
-          .navbar-wrapper.scrolled .header-logo { height: 46px !important; }
-          .brand-title-text { font-size: 1.02rem !important; }
+        /* Mid-size laptops & tablets in landscape */
+        @media (max-width: 1080px) {
+          .navbar { padding: 8px 16px; gap: 12px; }
+          .navbar-links { gap: 18px; }
+          .navbar-links a { font-size: 0.88rem; }
+          .btn-nav { padding: 8px 18px; font-size: 13.5px; }
         }
 
-        /* Tablets – hide desktop nav, show hamburger */
-        @media (max-width: 768px) {
+        /* Tablets & Mobile – hide desktop nav, show crisp hamburger */
+        @media (max-width: 960px) {
           .navbar-wrapper { padding: 6px 0; }
-          .navbar-wrapper.scrolled { width: calc(100% - 24px); top: 6px; border-radius: 10px; padding: 5px 0; }
+          .navbar-wrapper.scrolled { width: calc(100% - 24px); top: 6px; border-radius: 12px; padding: 5px 0; }
           .navbar { padding: 6px 16px; }
           .navbar-links { display: none !important; }
-          .nav-divider { display: none; }
-          .btn-nav { display: none; }
+          .nav-divider { display: none !important; }
+          .btn-nav-wrapper { display: none !important; }
           .hamburger { display: flex !important; }
-          .header-logo { height: 50px !important; }
-          .navbar-wrapper.scrolled .header-logo { height: 42px !important; }
-          .brand-title-text { font-size: 0.95rem !important; }
+          .header-logo { height: 48px !important; }
+          .navbar-wrapper.scrolled .header-logo { height: 40px !important; }
+          .brand-title-text { font-size: 0.92rem !important; }
         }
 
         /* Mobile phones */
         @media (max-width: 480px) {
-          .navbar-wrapper { padding: 5px 0; }
-          .navbar-wrapper.scrolled { width: calc(100% - 16px); top: 4px; border-radius: 8px; padding: 4px 0; }
+          .navbar-wrapper { padding: 4px 0; }
+          .navbar-wrapper.scrolled { width: calc(100% - 16px); top: 4px; border-radius: 10px; padding: 4px 0; }
           .navbar { padding: 4px 12px; }
           .mobile-menu { padding: 80px 20px 32px; }
           .mobile-menu-header { padding: 14px 16px; }
           .menu-section { margin-bottom: 28px; }
-          .header-logo { height: 44px !important; }
-          .navbar-wrapper.scrolled .header-logo { height: 38px !important; }
-          .brand-title-text { font-size: 0.9rem !important; }
+          .header-logo { height: 42px !important; }
+          .navbar-wrapper.scrolled .header-logo { height: 36px !important; }
+          .brand-title-text { font-size: 0.85rem !important; }
         }
 
         /* Small phones */
         @media (max-width: 360px) {
           .mobile-menu { padding: 80px 16px 28px; }
-          .brand-title-text { font-size: 0.84rem !important; }
+          .brand-title-text { font-size: 0.8rem !important; }
         }
 
         /* Ensure dropdown-menu is also responsive on mid-size screens */
@@ -587,6 +582,9 @@ export default function Header(props: any) {
         <div className="mobile-menu-header">
           <Link href="/" className="navbar-brand" onClick={toggleMenu}>
             <img src="/CC_US_Logo_-_Black_Patch-removebg-preview.png" alt="Logo" className="mobile-menu-logo" />
+            <span style={{ fontWeight: 800, fontSize: '0.95rem', color: '#0A0F1C', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              CrestCode
+            </span>
           </Link>
           <div className={`hamburger open`} onClick={toggleMenu}>
             <span />
@@ -596,26 +594,30 @@ export default function Header(props: any) {
         </div>
 
         <div className="menu-section">
-          <span className="menu-label">Menu</span>
+          <span className="menu-label">Navigation</span>
           <div className="menu-links">
-            {navItems.map((item, idx) => (
-              <Link
-                key={idx}
-                href={item.href}
-                className={`menu-link ${pathname === item.href ? 'active' : ''}`}
-                onClick={toggleMenu}
-              >
-                {item.label}
-              </Link>
-            ))}
+            <Link href="/founder" className={`menu-link ${pathname === '/founder' ? 'active' : ''}`} onClick={toggleMenu}>Founder</Link>
+            <Link href="/studio" className={`menu-link ${pathname === '/studio' ? 'active' : ''}`} onClick={toggleMenu}>Studio</Link>
+            <Link href="/investors" className={`menu-link ${pathname === '/investors' ? 'active' : ''}`} onClick={toggleMenu}>Investors</Link>
+            <Link href="/resources" className={`menu-link ${pathname === '/resources' ? 'active' : ''}`} onClick={toggleMenu}>Resources</Link>
+          </div>
+        </div>
+
+        <div className="menu-section">
+          <span className="menu-label">Company</span>
+          <div className="menu-links">
+            <Link href="/about" className={`menu-link ${pathname === '/about' ? 'active' : ''}`} onClick={toggleMenu}>About Us</Link>
+            <Link href="/blogs" className={`menu-link ${pathname === '/blogs' ? 'active' : ''}`} onClick={toggleMenu}>Blogs</Link>
+            <Link href="/faq" className={`menu-link ${pathname === '/faq' ? 'active' : ''}`} onClick={toggleMenu}>FAQ</Link>
+            <Link href="/careers" className={`menu-link ${pathname === '/careers' ? 'active' : ''}`} onClick={toggleMenu}>Careers</Link>
           </div>
         </div>
 
         <div className="menu-section" style={{ marginBottom: 0 }}>
-          <span className="menu-label">Contact</span>
+          <span className="menu-label">Get in Touch</span>
           <div className="menu-contact-grid">
-            <Link href="/contact" className="menu-contact-link" onClick={toggleMenu}>Email</Link>
-            <Link href="https://www.linkedin.com/search/results/all/?keywords=crestcode%20technologies&origin=RICH_QUERY_SUGGESTION&spellCorrectionEnabled=false&heroEntityKey=urn%3Ali%3Aorganization%3A108093169&position=0" className="menu-contact-link" target="_blank">LinkedIn</Link>
+            <Link href="/contact" className="menu-contact-link" onClick={toggleMenu}>Contact Us</Link>
+            <Link href="https://www.linkedin.com/search/results/all/?keywords=crestcode%20technologies&origin=RICH_QUERY_SUGGESTION&spellCorrectionEnabled=false&heroEntityKey=urn%3Ali%3Aorganization%3A108093169&position=0" className="menu-contact-link" target="_blank" rel="noopener noreferrer">LinkedIn</Link>
           </div>
         </div>
       </div>

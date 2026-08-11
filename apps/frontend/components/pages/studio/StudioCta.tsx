@@ -80,6 +80,18 @@ export default function StudioCta({ studioContent }: any) {
           transform: translateY(-2px) !important;
           box-shadow: 0 8px 20px rgba(0, 90, 226, 0.35) !important;
         }
+        @media (max-width: 768px) {
+          .studio-cta-section {
+            padding-top: 40px !important;
+            padding-bottom: 40px !important;
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+          }
+          .studio-cta-card {
+            border-radius: 24px !important;
+            padding: 36px 20px !important;
+          }
+        }
       `}} />
 
       <section
@@ -92,7 +104,7 @@ export default function StudioCta({ studioContent }: any) {
           paddingBottom: '64px'
         }}
       >
-        <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', padding: '0 24px', boxSizing: 'border-box' }}>
 
           {/* Floating Card Container */}
           <div className="studio-cta-card">
