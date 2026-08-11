@@ -69,7 +69,7 @@ export default function AboutHero({ getContent }: any) {
               style={{ marginBottom: '32px', lineHeight: '1.8', maxWidth: '720px' }}
             />
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Link href="/contact" className="btn-pill btn-primary">
+              <Link href="/contact#form-section" className="btn-pill btn-primary">
                 <EditableText 
                   contentKey="about.hero.cta" 
                   value={getContent('about.hero.cta', "Let's Build Together")}

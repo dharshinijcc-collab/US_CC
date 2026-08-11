@@ -100,48 +100,66 @@ export default function ResourcesPage() {
         {/* ===== SECTION 1: HERO ===== */}
         <section className="hero-section" style={{ position: 'relative', overflow: 'hidden', padding: '128px 0 48px 0' }}>
           <div style={{ position: 'absolute', width: '700px', height: '700px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.25), transparent 70%)', top: '-200px', left: '50%', transform: 'translateX(-50%)', filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0 }}></div>
-          <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+          
+          <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '1200px', width: '100%', margin: '0 auto', padding: '0 24px', textAlign: 'center' }}>
+            
+            {/* Eyebrow Pill */}
             <div className="hero-eyebrow-pill" style={{ marginTop: '0px' }}>
               <EditableText contentKey="resources.hero.eyebrow" value={resourcesContent.hero?.eyebrow || 'RESOURCES'} />
             </div>
-            <EditableText
-              as="h1"
-              contentKey="resources.hero.title"
-              value={resourcesContent.hero?.title || 'Everything you need to build\nWith Confidence'}
-              className="hero-title"
-              style={{ color: '#020617' }}
-            >
-              {(() => {
-                const titleText = resourcesContent.hero?.title || 'Everything you need to build\nWith Confidence';
-                const lines = titleText.split('\n');
-                return lines.map((line, lineIdx) => {
-                  const words = line.split(/[\s\u00a0]+/);
-                  return (
-                    <React.Fragment key={lineIdx}>
-                      {words.map((word: string, index: number) => {
-                        if (!word) return null;
-                        const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").toUpperCase();
-                        const isBlue = ['BUILD', 'CONFIDENCE'].includes(cleanWord);
-                        return (
-                          <span key={index} style={isBlue ? { color: '#005AE2' } : {}}>
-                            {word}{' '}
-                          </span>
-                        );
-                      })}
-                      {lineIdx < lines.length - 1 && <br />}
-                    </React.Fragment>
-                  );
-                });
-              })()}
-            </EditableText>
-            <p className="hero-description" style={{ marginBottom: '32px', lineHeight: '1.8', maxWidth: '720px' }}>
-              <EditableText contentKey="resources.hero.description" value={resourcesContent.hero?.description || 'Guides, tools, and insights for founders and investors — covering how CrestCode works, how the industry is moving, and what it takes to build a product that lasts.'} />
-            </p>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Link href="/contact" className="btn-primary">
+
+            {/* Title */}
+            <div style={{ width: '100%', textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
+              <EditableText
+                as="h1"
+                contentKey="resources.hero.title"
+                value={resourcesContent.hero?.title || 'Everything you need to build\nWith Confidence'}
+                className="hero-title"
+                style={{ color: '#020617', textAlign: 'center', margin: '0 auto 16px', display: 'inline-block' }}
+              >
+                {(() => {
+                  const titleText = resourcesContent.hero?.title || 'Everything you need to build\nWith Confidence';
+                  const lines = titleText.split('\n');
+                  return lines.map((line, lineIdx) => {
+                    const words = line.split(/[\s\u00a0]+/);
+                    return (
+                      <React.Fragment key={lineIdx}>
+                        {words.map((word: string, index: number) => {
+                          if (!word) return null;
+                          const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()]/g, "").toUpperCase();
+                          const isBlue = ['BUILD', 'CONFIDENCE'].includes(cleanWord);
+                          return (
+                            <span key={index} style={isBlue ? { color: '#005AE2' } : {}}>
+                              {word}{' '}
+                            </span>
+                          );
+                        })}
+                        {lineIdx < lines.length - 1 && <br />}
+                      </React.Fragment>
+                    );
+                  });
+                })()}
+              </EditableText>
+            </div>
+
+            {/* Description Paragraph */}
+            <div style={{ width: '100%', textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
+              <EditableText
+                as="p"
+                contentKey="resources.hero.description"
+                value={resourcesContent.hero?.description || 'Guides, tools, and insights for founders and investors — covering how CrestCode works, how the industry is moving, and what it takes to build a product that lasts.'}
+                className="hero-description"
+                style={{ maxWidth: '720px', margin: '0 auto 40px', textAlign: 'center', lineHeight: 1.8, fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}
+              />
+            </div>
+
+            {/* Primary CTA Button */}
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+              <Link href="/contact#form-section" className="btn-primary">
                 <EditableText contentKey="resources.hero.buttonText" value={resourcesContent.hero?.buttonText || 'Ask Us Anything'} />
               </Link>
             </div>
+
           </div>
         </section>
 

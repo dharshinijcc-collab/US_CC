@@ -207,8 +207,93 @@ export default function FounderValidation({
       paddingTop: '48px',
       paddingBottom: '48px',
       fontFamily: "'Inter', sans-serif",
+      overflow: 'hidden',
     }}>
-      <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
+      <style dangerouslySetInnerHTML={{ __html: `
+        button.fv-dot-indicator {
+          padding: 0 !important;
+          min-height: 8px !important;
+          max-height: 8px !important;
+          height: 8px !important;
+          width: 8px !important;
+          border-radius: 100px !important;
+          background-color: #CBD5E1 !important;
+          border: none !important;
+          cursor: pointer !important;
+          box-shadow: none !important;
+          margin: 0 !important;
+        }
+        button.fv-dot-indicator.active {
+          width: 28px !important;
+          background-color: #005AE2 !important;
+        }
+        .fv-features-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 14px;
+          width: 100%;
+        }
+        button.fv-nav-arrow-left,
+        button.fv-nav-arrow-right {
+          position: absolute !important;
+          top: 50% !important;
+          transform: translateY(-50%) !important;
+          z-index: 25 !important;
+          width: 44px !important;
+          height: 44px !important;
+          min-height: 44px !important;
+          border-radius: 50% !important;
+          background: #FFFFFF !important;
+          border: 1px solid #E2E8F0 !important;
+          color: #005AE2 !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          cursor: pointer !important;
+          box-shadow: 0 4px 16px rgba(0, 90, 226, 0.12) !important;
+          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+          padding: 0 !important;
+        }
+        button.fv-nav-arrow-left:hover,
+        button.fv-nav-arrow-right:hover {
+          background: #005AE2 !important;
+          color: #FFFFFF !important;
+          border-color: #005AE2 !important;
+          transform: translateY(-50%) scale(1.08) !important;
+          box-shadow: 0 8px 24px rgba(0, 90, 226, 0.3) !important;
+        }
+        button.fv-nav-arrow-left {
+          left: -12px !important;
+        }
+        button.fv-nav-arrow-right {
+          right: -12px !important;
+        }
+        @media (max-width: 768px) {
+          .fv-showcase-grid {
+            grid-template-columns: 1fr !important;
+            gap: 28px !important;
+          }
+          .fv-left-col {
+            position: relative !important;
+            top: 0 !important;
+            padding-top: 0 !important;
+          }
+          .fv-features-grid {
+            grid-template-columns: 1fr !important;
+          }
+          button.fv-nav-arrow-left {
+            left: 4px !important;
+          }
+          button.fv-nav-arrow-right {
+            right: 4px !important;
+          }
+          .fv-mockup-wrapper {
+            padding: 0 24px !important;
+          }
+        }
+      `}} />
+
+      <div style={{ maxWidth: '1120px', margin: '0 auto', padding: '0 24px', boxSizing: 'border-box' }}>
 
         {/* Section Header */}
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>
@@ -240,26 +325,15 @@ export default function FounderValidation({
               return (
                 <button
                   key={idx}
+                  className={`fv-dot-indicator ${isActive ? 'active' : ''}`}
                   onClick={() => {
                     clearInterval(autoSlideRef.current);
                     setActiveProd(idx);
-                    // restart auto-slide after manual click
                     autoSlideRef.current = setInterval(() => {
                       setActiveProd((prev: number) => (prev + 1) % displayItems.length);
                     }, 8000);
                   }}
                   aria-label={`Go to product ${idx + 1}`}
-                  style={{
-                    width: isActive ? '28px' : '8px',
-                    height: '8px',
-                    borderRadius: '100px',
-                    backgroundColor: isActive ? '#2563EB' : '#CBD5E1',
-                    border: 'none',
-                    padding: 0,
-                    cursor: 'pointer',
-                    transition: 'all 0.45s cubic-bezier(0.4,0,0.2,1)',
-                    flexShrink: 0,
-                  }}
                 />
               );
             })}
@@ -267,13 +341,13 @@ export default function FounderValidation({
         </div>
 
         {/* ── Main 2-Column Showcase Grid ── */}
-        <div className="fv-showcase-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '40px', alignItems: 'flex-start' }}>
+        <div className="fv-showcase-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: '40px', alignItems: 'flex-start' }}>
 
           {/* ── LEFT: Multi-Device Laptop & Mobile Mockups + Centered Tech Stack Below ── */}
-          <div style={{ position: 'sticky', top: '100px', display: 'flex', flexDirection: 'column', gap: '32px', alignItems: 'center', paddingTop: '20px' }}>
+          <div className="fv-left-col" style={{ position: 'sticky', top: '100px', display: 'flex', flexDirection: 'column', gap: '32px', alignItems: 'center', paddingTop: '20px' }}>
 
             {/* Fixed-height wrapper prevents layout shift across all product slides */}
-            <div style={{
+            <div className="fv-mockup-wrapper" style={{
               position: 'relative',
               width: '100%',
               height: '300px',
@@ -281,88 +355,29 @@ export default function FounderValidation({
               alignItems: 'center',
               justifyContent: 'center',
               padding: '0 40px',
+              boxSizing: 'border-box',
             }}>
-              {/* Transparent Glass Left Carousel Arrow */}
+              {/* White Circle Left Carousel Arrow */}
               <button
                 type="button"
+                className="fv-nav-arrow-left"
                 onClick={handlePrev}
                 aria-label="Previous Product"
-                style={{
-                  position: 'absolute',
-                  left: '-20px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  zIndex: 25,
-                  width: '44px',
-                  height: '44px',
-                  borderRadius: '50%',
-                  backgroundColor: 'rgba(255, 255, 255, 0.45)',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(255, 255, 255, 0.7)',
-                  color: '#0F172A',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 16px rgba(15, 23, 42, 0.08)',
-                  transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                }}
-                onMouseOver={(e: any) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.85)';
-                  e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
-                  e.currentTarget.style.boxShadow = '0 8px 22px rgba(15, 23, 42, 0.15)';
-                }}
-                onMouseOut={(e: any) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.45)';
-                  e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
-                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(15, 23, 42, 0.08)';
-                }}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F172A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="15 18 9 12 15 6" />
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M15 18l-6-6 6-6" />
                 </svg>
               </button>
 
-              {/* Transparent Glass Right Carousel Arrow */}
+              {/* White Circle Right Carousel Arrow */}
               <button
                 type="button"
+                className="fv-nav-arrow-right"
                 onClick={handleNext}
                 aria-label="Next Product"
-                style={{
-                  position: 'absolute',
-                  right: '-20px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  zIndex: 25,
-                  width: '44px',
-                  height: '44px',
-                  borderRadius: '50%',
-                  backgroundColor: 'rgba(255, 255, 255, 0.45)',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(255, 255, 255, 0.7)',
-                  color: '#0F172A',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 16px rgba(15, 23, 42, 0.08)',
-                  transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                }}
-                onMouseOver={(e: any) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.85)';
-                  e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)';
-                  e.currentTarget.style.boxShadow = '0 8px 22px rgba(15, 23, 42, 0.15)';
-                }}
-                onMouseOut={(e: any) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.45)';
-                  e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
-                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(15, 23, 42, 0.08)';
-                }}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F172A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="9 18 15 12 9 6" />
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M9 18l6-6-6-6" />
                 </svg>
               </button>
 
@@ -744,49 +759,61 @@ export default function FounderValidation({
             </div>
 
             {/* Action Buttons — Theme Primary Blue Gradient Pill matching CrestCode Theme */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
-              <a
-                href={(() => {
-                  const nameLower = (rawProd?.name || prod?.name || '').toLowerCase();
-                  if (nameLower.includes('dockly')) return 'https://dockly.me/';
-                  if (nameLower.includes('castlegc') || nameLower.includes('castlegec')) return 'https://castlegec.com/';
-                  if (prod?.liveUrl && prod.liveUrl !== '#') return prod.liveUrl;
-                  return '#';
-                })()}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  background: 'linear-gradient(135deg, #005AE2 0%, #2563EB 50%, #1D4ED8 100%)',
-                  color: '#FFFFFF',
-                  padding: '12px 32px',
-                  borderRadius: '100px',
-                  fontWeight: 700,
-                  fontSize: '0.95rem',
-                  textDecoration: 'none',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  boxShadow: '0 8px 24px -4px rgba(0, 90, 226, 0.42)',
-                  border: 'none',
-                  transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                  fontFamily: "'Inter', sans-serif",
-                  letterSpacing: '0.01em',
-                  cursor: 'pointer',
-                  userSelect: 'none' as const,
-                }}
-                onMouseOver={(e: any) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 12px 28px -4px rgba(0, 90, 226, 0.55)';
-                }}
-                onMouseOut={(e: any) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 8px 24px -4px rgba(0, 90, 226, 0.42)';
-                }}
-              >
-                <span>Visit Live Website</span>
-                <span style={{ fontSize: '0.95rem' }}>→</span>
-              </a>
-            </div>
+            {(() => {
+              const nameLower = (rawProd?.name || prod?.name || '').toLowerCase();
+              
+              // OpenCap and NestBloq do not have live websites
+              if (nameLower.includes('opencap') || nameLower.includes('nestbloq')) {
+                return null;
+              }
+
+              let liveUrl = '';
+              if (nameLower.includes('dockly')) liveUrl = 'https://dockly.me/';
+              else if (nameLower.includes('castlegc') || nameLower.includes('castlegec')) liveUrl = 'https://castlegec.com/';
+              else if (prod?.liveUrl && prod.liveUrl !== '#' && prod.liveUrl !== '') liveUrl = prod.liveUrl;
+
+              if (!liveUrl) return null;
+
+              return (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+                  <a
+                    href={liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      background: 'linear-gradient(135deg, #005AE2 0%, #2563EB 50%, #1D4ED8 100%)',
+                      color: '#FFFFFF',
+                      padding: '12px 32px',
+                      borderRadius: '100px',
+                      fontWeight: 700,
+                      fontSize: '0.95rem',
+                      textDecoration: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      boxShadow: '0 8px 24px -4px rgba(0, 90, 226, 0.42)',
+                      border: 'none',
+                      transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                      fontFamily: "'Inter', sans-serif",
+                      letterSpacing: '0.01em',
+                      cursor: 'pointer',
+                      userSelect: 'none' as const,
+                    }}
+                    onMouseOver={(e: any) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 12px 28px -4px rgba(0, 90, 226, 0.55)';
+                    }}
+                    onMouseOut={(e: any) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 8px 24px -4px rgba(0, 90, 226, 0.42)';
+                    }}
+                  >
+                    <span>Visit Live Website</span>
+                    <span style={{ fontSize: '0.95rem' }}>→</span>
+                  </a>
+                </div>
+              );
+            })()}
           </motion.div>
         </AnimatePresence>
         </div>

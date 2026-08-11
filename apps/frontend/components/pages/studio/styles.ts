@@ -164,7 +164,7 @@ p, span, div, button, input, textarea, a, li, .navbar-links, .nav-dropdown-conte
   display: grid;
   grid-template-columns: 1fr 1.3fr;
   gap: 4rem;
-  align-items: start;
+  align-items: stretch;
 }
 @media(max-width: 991px) {
   .thesis-grid {

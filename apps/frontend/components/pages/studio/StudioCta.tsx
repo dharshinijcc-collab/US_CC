@@ -13,13 +13,11 @@ export default function StudioCta({ studioContent }: any) {
 
         .studio-cta-card {
           position: relative;
-          background: linear-gradient(145deg, #FAFCFF 0%, #F0F6FF 100%);
+          background: #FFFFFF !important;
           border-radius: 32px;
           padding: clamp(48px, 6vw, 76px) clamp(24px, 4vw, 48px);
-          box-shadow: 
-            0 32px 64px -16px rgba(0, 90, 226, 0.12),
-            0 16px 32px -8px rgba(15, 23, 42, 0.05);
-          border: none !important;
+          box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04) !important;
+          border: 1px solid #E2E8F0 !important;
           overflow: hidden;
           text-align: center;
         }
@@ -28,8 +26,8 @@ export default function StudioCta({ studioContent }: any) {
           position: absolute;
           inset: 0;
           background-image: 
-            linear-gradient(rgba(0, 90, 226, 0.07) 1px, transparent 1px), 
-            linear-gradient(90deg, rgba(0, 90, 226, 0.07) 1px, transparent 1px);
+            linear-gradient(rgba(0, 90, 226, 0.04) 1px, transparent 1px), 
+            linear-gradient(90deg, rgba(0, 90, 226, 0.04) 1px, transparent 1px);
           background-size: 44px 44px;
           mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 40%, transparent 100%);
           -webkit-mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 40%, transparent 100%);
@@ -72,7 +70,7 @@ export default function StudioCta({ studioContent }: any) {
           display: inline-flex !important;
           align-items: center !important;
           gap: 8px !important;
-          box-shadow: 0 10px 24px -4px rgba(0, 90, 226, 0.35) !important;
+          box-shadow: 0 4px 14px rgba(0, 90, 226, 0.25) !important;
           transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
           cursor: pointer !important;
         }
@@ -80,34 +78,19 @@ export default function StudioCta({ studioContent }: any) {
         .studio-cta-btn-primary:hover {
           background-color: #004ac2 !important;
           transform: translateY(-2px) !important;
-          box-shadow: 0 14px 28px -4px rgba(0, 90, 226, 0.45) !important;
+          box-shadow: 0 8px 20px rgba(0, 90, 226, 0.35) !important;
         }
-
-        .studio-cta-btn-secondary {
-          background-color: rgba(255, 255, 255, 0.9) !important;
-          color: #005AE2 !important;
-          border: 1.5px solid rgba(0, 90, 226, 0.3) !important;
-          border-radius: 100px !important;
-          padding: 14px 34px !important;
-          font-family: 'Inter', sans-serif !important;
-          font-weight: 700 !important;
-          font-size: 0.92rem !important;
-          letter-spacing: -0.01em !important;
-          text-decoration: none !important;
-          display: inline-flex !important;
-          align-items: center !important;
-          gap: 8px !important;
-          box-shadow: 0 4px 14px rgba(0, 90, 226, 0.06) !important;
-          backdrop-filter: blur(12px) !important;
-          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-          cursor: pointer !important;
-        }
-
-        .studio-cta-btn-secondary:hover {
-          background-color: #FFFFFF !important;
-          border-color: #005AE2 !important;
-          transform: translateY(-2px) !important;
-          box-shadow: 0 8px 20px rgba(0, 90, 226, 0.12) !important;
+        @media (max-width: 768px) {
+          .studio-cta-section {
+            padding-top: 40px !important;
+            padding-bottom: 40px !important;
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+          }
+          .studio-cta-card {
+            border-radius: 24px !important;
+            padding: 36px 20px !important;
+          }
         }
       `}} />
 
@@ -115,27 +98,13 @@ export default function StudioCta({ studioContent }: any) {
         id="studio-cta-section"
         className="studio-cta-section"
         style={{
-          backgroundColor: '#FFFFFF',
+          backgroundColor: '#F8FAFC',
           position: 'relative',
-          paddingTop: '48px',
-          paddingBottom: '48px'
+          paddingTop: '64px',
+          paddingBottom: '64px'
         }}
       >
-        <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative' }}>
-          
-          {/* Ambient Glow Orb under Card */}
-          <div style={{
-            position: 'absolute',
-            bottom: '-40px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '80%',
-            height: '160px',
-            background: 'radial-gradient(ellipse 70% 50% at 50% 100%, rgba(0, 90, 226, 0.18) 0%, transparent 70%)',
-            filter: 'blur(30px)',
-            pointerEvents: 'none',
-            zIndex: 0,
-          }} />
+        <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', padding: '0 24px', boxSizing: 'border-box' }}>
 
           {/* Floating Card Container */}
           <div className="studio-cta-card">
@@ -164,17 +133,17 @@ export default function StudioCta({ studioContent }: any) {
                 >
                   <EditableText
                     contentKey="studio.cta.eyebrow"
-                    value={studioContent.cta?.eyebrow || "JOIN THE STUDIO"}
+                    value={studioContent.cta?.eyebrow || "GET STARTED"}
                     style={{ fontFamily: FONT_INTER, fontWeight: 700 }}
                   />
                 </span>
               </div>
 
-              {/* Big Bold Headline matching the image UX */}
+              {/* Big Bold Headline */}
               <h2 className="studio-cta-title-text">
                 <EditableText
                   contentKey="studio.cta.title"
-                  value={studioContent.cta?.title || "We're just getting started.\nAre you in?"}
+                  value={studioContent.cta?.title || "Have A Venture Ready Idea?"}
                   style={{ fontFamily: FONT_INTER, fontWeight: 800 }}
                 />
               </h2>
@@ -183,25 +152,17 @@ export default function StudioCta({ studioContent }: any) {
               <p className="studio-cta-sub-text">
                 <EditableText
                   contentKey="studio.cta.subtitle"
-                  value={studioContent.cta?.subtitle || "Build high-impact venture products with conviction, validation, and engineering excellence."}
+                  value={studioContent.cta?.subtitle || "Built to transform high potential ideas into scalable, venture ready products with real market relevance. Focused on validation, execution, and sustainable growth to create long-term value for founders and investors alike."}
                   style={{ fontFamily: FONT_INTER, fontWeight: 500 }}
                 />
               </p>
 
-              {/* Side-by-Side Pill CTA Buttons */}
-              <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
-                <Link href="/careers" className="studio-cta-btn-primary">
+              {/* Centered Primary CTA Button */}
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Link href="/contact#form-section" className="studio-cta-btn-primary">
                   <EditableText
                     contentKey="studio.cta.buttonText"
-                    value={studioContent.cta?.buttonText || "Explore Open Roles"}
-                    style={{ fontFamily: FONT_INTER, fontWeight: 700 }}
-                  />
-                </Link>
-
-                <Link href="/about" className="studio-cta-btn-secondary">
-                  <EditableText
-                    contentKey="studio.cta.secondaryButtonText"
-                    value={studioContent.cta?.secondaryButtonText || "Our Values"}
+                    value={studioContent.cta?.buttonText || "Start Your Venture"}
                     style={{ fontFamily: FONT_INTER, fontWeight: 700 }}
                   />
                 </Link>

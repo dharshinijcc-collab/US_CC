@@ -12,12 +12,12 @@ export default function StudioPortfolio({ studioContent }: any) {
       <style dangerouslySetInnerHTML={{ __html: `
         .value-card-item {
           position: relative;
-          background: linear-gradient(145deg, #FAFCFF 0%, #F0F6FF 100%) !important;
-          border: none !important;
-          border-radius: 24px !important;
+          background: #FFFFFF !important;
+          border: 1px solid #E2E8F0 !important;
+          border-radius: 20px !important;
           padding: 32px 28px !important;
-          transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
-          box-shadow: 0 20px 40px -12px rgba(0, 90, 226, 0.1), 0 8px 20px -6px rgba(15, 23, 42, 0.04) !important;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+          box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03), 0 1px 2px rgba(15, 23, 42, 0.04) !important;
           display: flex;
           flex-direction: column;
           height: 100%;
@@ -26,33 +26,35 @@ export default function StudioPortfolio({ studioContent }: any) {
         }
 
         .value-card-item:hover {
-          background: linear-gradient(145deg, #F5F8FF 0%, #EBF3FF 100%) !important;
-          transform: translateY(-8px) scale(1.02) !important;
-          box-shadow: 0 32px 64px -16px rgba(0, 90, 226, 0.18), 0 16px 32px -8px rgba(15, 23, 42, 0.06) !important;
-          border: none !important;
+          background: #FFFFFF !important;
+          transform: translateY(-4px) !important;
+          box-shadow: 0 12px 24px -6px rgba(0, 90, 226, 0.12), 0 4px 12px rgba(15, 23, 42, 0.04) !important;
+          border: 1px solid rgba(0, 90, 226, 0.3) !important;
         }
 
         .value-card-icon-box {
           width: 44px;
           height: 44px;
-          border-radius: 14px;
+          border-radius: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
           margin-bottom: 20px;
           flex-shrink: 0;
-          background: #FFFFFF !important;
+          background: #F8FAFC !important;
+          border: 1px solid #E2E8F0 !important;
           transition: all 0.3s ease;
-          box-shadow: 0 4px 12px rgba(0, 90, 226, 0.1);
+          box-shadow: none !important;
         }
 
         .value-card-item:hover .value-card-icon-box {
-          transform: scale(1.1);
-          box-shadow: 0 8px 18px rgba(0, 90, 226, 0.2);
+          transform: scale(1.05);
+          background: #EFF6FF !important;
+          border-color: #BFDBFE !important;
         }
       `}} />
 
-      <section className="studio-portfolio-section" style={{ backgroundColor: '#FFFFFF', fontFamily: 'Manrope, sans-serif', position: 'relative', overflow: 'hidden' }}>
+      <section className="studio-portfolio-section" style={{ backgroundColor: '#F8FAFC', fontFamily: 'Manrope, sans-serif', position: 'relative', overflow: 'hidden', padding: '80px 0' }}>
         {/* Subtle background */}
         <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(0, 90, 226, 0.03), transparent 70%)', top: '-100px', left: '-100px', pointerEvents: 'none' }}></div>
         <div style={{ position: 'absolute', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(13, 148, 136, 0.02), transparent 70%)', bottom: '-100px', right: '-100px', pointerEvents: 'none' }}></div>
